@@ -4,10 +4,10 @@
 const puppeteer = require("/usr/src/app/node_modules/puppeteer");
 const spec = JSON.parse(process.argv[2]);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+const errors = [];
 (async () => {
   const browser = await puppeteer.launch({ executablePath: "/usr/bin/chromium-browser", args: ["--no-sandbox", "--disable-gpu", "--hide-scrollbars"] });
   const page = await browser.newPage();
-  const errors = [];
   page.on("pageerror", e => errors.push(String(e)));
   page.on("console", m => { if (m.type() === "error") errors.push(m.text()); });
   await page.setViewport({ width: spec.width, height: spec.height, deviceScaleFactor: spec.phone ? 2 : 1, isMobile: !!spec.phone, hasTouch: !!spec.phone });
@@ -24,11 +24,14 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     await page.evaluate((action, value) => {
       const g = window.graphmed;
       if (action === "toggle") g.toggle(g.cy.getElementById("j:" + value));
+      else if (action === "fold") g.fold(g.cy.getElementById(value));
+      else if (action === "reset") g.reset();
       else if (action === "open") g.open(value, false);
       else if (action === "section") g.section(value);
       else if (action === "search") g.search(value);
       else if (action === "facet") g.search(document.getElementById("search").value, value);
       else if (action === "chapters") document.getElementById("chapters-toggle").click();
+      else if (action === "chapters-scroll") document.querySelector("#chapters .list").scrollTop = Number(value) || 0;
       else if (action === "fit") document.getElementById("fit").click();
       else throw new Error("unknown action " + action);
     }, action, value);
@@ -85,4 +88,4 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   console.log(`${shown} elements shown, ${overlaps.length} overlapping pairs` + (errors.length ? `; page errors: ${errors.join(" | ")}` : ""));
   overlaps.slice(0, 40).forEach(p => console.log("  " + p));
   await browser.close();
-})().catch(e => { console.error("screenshot failed: " + e.message); process.exit(1); });
+})().catch(e => { console.error("screenshot failed: " + e.message + (errors.length ? "; page errors: " + errors.join(" | ") : "")); process.exit(1); });

@@ -45,10 +45,14 @@ and removes the container. Actions run in order before the capture and map onto
 the hooks `tools/site/static/graph.js` exposes as `window.graphmed`:
 `toggle=<concept id>` folds or unfolds a patient group, `open=<entity id>` is a
 deep link (unfold and select), `section=<number>` sets the chapter filter,
+`fold=<question node id>` folds or unfolds everything below a question,
 `search=<text>` and `facet=<kind>` set the search, `chapters` opens the chapter
-panel, `all` opens every patient group one tap at a time (the physician's
-extreme state), `fit` fits what is open, `wait=<ms>` waits. The runner prints how
-many graph elements were shown, any page error, and **what overlaps**: every pair
+panel and `chapters-scroll=<px>` scrolls its list, `all` opens every patient
+group one tap at a time (the physician's extreme state), `fit` fits what is
+open, `reset` returns the page to its opening state, `wait=<ms>` waits. The
+runner prints how many graph elements were shown, any page error — also when
+the graph never appears, which is a script error, not a slow run — and **what
+overlaps**: every pair
 of nodes and answers whose boxes intersect, and every edge drawn across a node or
 an answer it does not touch — the mechanical half of "nothing overlaps"
 (`docs/publication.md` §3). It cannot see what a hand does on a phone, such as a
