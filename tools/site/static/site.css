@@ -103,6 +103,20 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .banner.dir-abwägen { background: var(--gB); color: #111; }
 .banner.dir-Lücke { background: var(--line); }
 ul.body li p { margin: .2rem 0; }
+
+/* a statement's details, organised by the reader's six questions (docs/publication.md §3): each question a
+   heading in sentence case, read as a question, not as a label; the grade of every claim its own highlight */
+.q { margin: 0 0 .4rem; }
+.q + .q { border-top: 1px solid var(--line); padding-top: .2rem; }
+.q h3 { text-transform: none; letter-spacing: 0; font-size: 1rem; color: var(--fg); margin: .8rem 0 .4rem; }
+.q .sub { margin: .6rem 0 .1rem; font-size: .8rem; color: var(--mute); text-transform: uppercase; letter-spacing: .04em; }
+.q .none { margin: .3rem 0; color: var(--mute); font-size: .9rem; }
+.q .tag.grade { font-size: .9rem; padding: .1rem .6rem; border-width: 2px; }
+.q .tag.grade.ek::after { content: " expert consensus"; font-weight: 400; font-size: .75rem; }
+.q dl.slots dd .families { display: block; color: var(--mute); font-size: .85rem; }
+.q dl.slots dd .families .node-link { min-height: 32px; }
+.q ol.claims li .cite { margin: 0 0 .2rem; }
+.q ul.neighbours li .tag { margin-right: .3rem; }
 .tools select { height: 44px; padding: 0 .6rem; border: 1px solid var(--line); border-radius: 22px; background: var(--bg); color: var(--fg); font: inherit; font-size: .9rem; max-width: 9rem; }
 
 /* narrow screens: the controls share one row and the counter wraps under them */
