@@ -8,4 +8,5 @@ slots:
   population: concepts/minimalinvasive-gastrointestinale-tumoroperation
   action: concepts/epiduralanalgesie
   condition: concepts/risikokonstellation-lange-op-hoher-opioidbedarf
+  phase: concepts/postoperativ
 source: modelling

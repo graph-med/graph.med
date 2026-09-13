@@ -8,4 +8,5 @@ slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/haarentfernung-clipper-einwegkopf
   condition: concepts/operationsbedingte-notwendigkeit-haarentfernung
+  phase: concepts/praeoperativ
 source: modelling

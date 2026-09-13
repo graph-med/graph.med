@@ -7,4 +7,5 @@ short_label: "ICG-Angiographie des Magenschlauchs erwägbar"
 slots:
   population: concepts/magenschlauch-rekonstruktion
   action: concepts/fluoreszenzangiographie-icg
+  phase: concepts/intraoperativ
 source: modelling

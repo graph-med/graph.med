@@ -7,4 +7,5 @@ short_label: "Epiduralanalgesie peripherer Regionalanalgesie überlegen"
 slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/epiduralanalgesie
+  phase: concepts/postoperativ
 source: modelling

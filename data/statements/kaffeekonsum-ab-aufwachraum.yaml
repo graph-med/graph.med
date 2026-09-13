@@ -6,4 +6,5 @@ short_label: "Kaffee schon im Aufwachraum möglich"
 slots:
   population: concepts/elektiver-abdominalchirurgischer-tumoreingriff
   action: concepts/kaffeekonsum-ab-aufwachraum
+  phase: concepts/postoperativ
 source: modelling

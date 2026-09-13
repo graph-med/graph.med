@@ -6,4 +6,5 @@ short_label: "Kolorektale Resektion im mPOM"
 slots:
   population: concepts/kolorektale-resektion
   action: concepts/mpom
+  phase: concepts/perioperativ
 source: modelling

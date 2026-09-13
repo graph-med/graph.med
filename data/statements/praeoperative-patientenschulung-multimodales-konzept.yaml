@@ -7,4 +7,5 @@ short_label: "Präoperative Schulung zum multimodalen Konzept"
 slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/patientenschulung-multimodales-konzept
+  phase: concepts/praeoperativ
 source: modelling

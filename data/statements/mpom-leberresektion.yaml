@@ -6,4 +6,5 @@ short_label: "Leberresektion im mPOM"
 slots:
   population: concepts/elektive-leberresektion
   action: concepts/mpom
+  phase: concepts/perioperativ
 source: modelling

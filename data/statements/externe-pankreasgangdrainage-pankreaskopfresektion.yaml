@@ -8,4 +8,5 @@ slots:
   population: concepts/pankreaskopfresektion
   action: concepts/pankreasgangdrainage-extern
   outcome: concepts/postoperative-pankreasfistel
+  phase: concepts/intraoperativ
 source: modelling

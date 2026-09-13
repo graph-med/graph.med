@@ -7,4 +7,5 @@ short_label: "Aktivität, Ernährung, kein Nikotin/Alkohol: Standard"
 slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/praeoperative-lebensstilmassnahmen
+  phase: concepts/praeoperativ
 source: modelling

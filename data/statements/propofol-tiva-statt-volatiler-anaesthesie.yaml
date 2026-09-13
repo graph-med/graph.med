@@ -9,4 +9,5 @@ slots:
   action: concepts/propofol-tiva
   condition: concepts/keine-zusaetzlichen-antiemetika
   outcome: concepts/ponv-risiko
+  phase: concepts/praeoperativ
 source: modelling

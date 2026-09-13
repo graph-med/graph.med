@@ -6,4 +6,5 @@ short_label: "Hautdesinfektion: Chlorhexidin, alkoholisch"
 slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/hautdesinfektion-chlorhexidin-alkoholisch
+  phase: concepts/praeoperativ
 source: modelling

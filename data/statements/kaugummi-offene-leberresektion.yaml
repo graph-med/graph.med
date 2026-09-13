@@ -7,4 +7,5 @@ slots:
   population: concepts/offene-leberresektion
   action: concepts/kaugummikauen-postoperativ
   outcome: concepts/postoperativer-paralytischer-ileus
+  phase: concepts/postoperativ
 source: modelling

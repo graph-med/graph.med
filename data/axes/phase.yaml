@@ -1,0 +1,30 @@
+# The perioperative phase as a statement dimension (spec §4.1), proposed by the physician for
+# views/pomgat-lv-1.0 and applied by WP-0009. The slot `phase` holds one of the four values.
+id: axes/phase
+type: axis
+lang: de
+label: Perioperative Phase
+short_label: Phase
+carrier: dimension
+slot: phase
+values: [concepts/praeoperativ, concepts/intraoperativ, concepts/postoperativ, concepts/perioperativ]
+rule: >-
+  Der Wert ist die Phase, die der Satz der Empfehlung der empfohlenen Maßnahme zuordnet: als
+  Adverb („intraoperativ wiederholt“, „perioperativ fortgesetzt“), als Adjektiv des Substantivs
+  der Maßnahme („präoperative Rasur“, „perioperative Glukokortikoidgabe“, auch als deren Zweck:
+  „zur perioperativen Analgesie“) oder als Zeitpunkt im Operationsablauf — vor der Operation,
+  vor dem Hautschnitt, am Morgen der Operation, vor Narkoseeinleitung: präoperativ; während der
+  Operation, am Ende der Operation, vor Narkoseausleitung: intraoperativ; im Aufwachraum, in den
+  ersten Stunden oder Tagen, am n. postoperativen Tag: postoperativ. Adverb und Zeitpunkt gehen
+  dem Adjektiv vor („präoperativ … perioperative Antibiotikaprophylaxe“: präoperativ). Ein
+  Phasenwort, das eine Komplikation („postoperativer Ileus“) oder den Fall bestimmt
+  („intraoperativ eingelegte Magensonde“, „präoperativ begonnene Statintherapie“, „nach
+  Gastrektomie“), nennt keine Phase. Nennt der Satz keine Phase, gilt die Phase, die der Titel
+  des obersten Kapitels nennt, in dem die stützende Aussage steht (POMGAT: Kapitel 4 und 5
+  präoperativ, 6 intraoperativ, 7 postoperativ, 8 perioperativ). Nennt der Satz der Maßnahme
+  mehrere Phasen („prä-, peri- und postoperativ“, „präoperativ begonnen und postoperativ
+  fortgesetzt“), führen die Platzierungen sie alle auf, und bei der Zusicherung gilt
+  perioperativ; die Aussage wird nicht geteilt.
+proposed_by: physician
+views:
+  - {view: views/pomgat-lv-1.0, status: asserted, since: "2026-09-13"}

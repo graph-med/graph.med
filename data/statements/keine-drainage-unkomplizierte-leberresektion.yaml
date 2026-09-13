@@ -6,4 +6,5 @@ short_label: "Keine prophylaktische Drainage (Leber, unkompliziert)"
 slots:
   population: concepts/leberresektion-unkompliziert
   action: concepts/abdominelle-drainage
+  phase: concepts/intraoperativ
 source: modelling

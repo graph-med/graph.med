@@ -8,4 +8,5 @@ slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/erythromycin
   outcome: concepts/postoperativer-paralytischer-ileus
+  phase: concepts/postoperativ
 source: modelling

@@ -4,6 +4,21 @@ One entry per session, newest first. Past about 200 lines, move the oldest
 entries to `docs/LOG-ARCHIVE.md`, newest first there too; never delete.
 
 ## 2026-09-13 — agent
+Packages touched: WP-0009 (open → claimed → review)
+Branch: agent/2026-09-13-link-grouping-axes
+Notable: the first axes went through the mechanism. Four qualifier concepts
+(präoperativ, intraoperativ, postoperativ, perioperativ), two definitions
+under `data/axes/` with the rule written out and the placements applied,
+both reports printed. The phase is asserted: `phase` on all 90 statements,
+90 of 90 placed (28 · 20 · 26 · 16), the four sentences naming several
+phases take perioperativ, no statement split. The region stays proposed:
+19 of 36 concepts, 41 of 90 statements, its five families the plain
+hierarchy's five organ families — it would show less than the view already
+does, not something else. Nothing in the schema, the validator or the tool
+changed; the rationale of a slot value lives in the commit message because
+the statement has no per-property provenance (open question added).
+
+## 2026-09-13 — agent
 Packages touched: WP-0008 (open → claimed → review)
 Branch: agent/2026-09-13-schema-grouping-axes
 Notable: schema 0.5.0 carries the mechanism of spec §4.1 — `axes/` entities,

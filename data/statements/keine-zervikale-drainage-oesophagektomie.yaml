@@ -6,4 +6,5 @@ short_label: "Keine zervikale Drainage (zervikale Rekonstruktion)"
 slots:
   population: concepts/oesophagektomie-zervikale-rekonstruktion
   action: concepts/zervikale-drainage
+  phase: concepts/intraoperativ
 source: modelling

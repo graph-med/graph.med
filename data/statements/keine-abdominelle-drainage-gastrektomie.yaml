@@ -6,4 +6,5 @@ short_label: "Keine abdominelle Drainage (Gastrektomie)"
 slots:
   population: concepts/gastrektomie
   action: concepts/abdominelle-drainage
+  phase: concepts/intraoperativ
 source: modelling

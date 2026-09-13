@@ -6,4 +6,5 @@ short_label: "Dauerkatheter binnen 24 h entfernen (kolorektal)"
 slots:
   population: concepts/kolorektale-resektion
   action: concepts/dauerkatheterentfernung-24h
+  phase: concepts/postoperativ
 source: modelling

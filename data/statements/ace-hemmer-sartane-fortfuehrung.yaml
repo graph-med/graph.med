@@ -6,4 +6,5 @@ short_label: "ACE-Hemmer/Sartane perioperativ fortführen"
 slots:
   population: concepts/dauertherapie-ace-hemmer-sartane
   action: concepts/perioperative-fortfuehrung-dauertherapie
+  phase: concepts/perioperativ
 source: modelling

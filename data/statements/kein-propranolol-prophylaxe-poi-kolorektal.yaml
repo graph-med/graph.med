@@ -8,4 +8,5 @@ slots:
   population: concepts/kolorektale-resektion
   action: concepts/propranolol
   outcome: concepts/postoperativer-paralytischer-ileus
+  phase: concepts/postoperativ
 source: modelling

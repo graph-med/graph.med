@@ -8,4 +8,5 @@ slots:
   population: concepts/nicht-kolorektale-viszeralonkologische-resektion
   action: concepts/begleitung-spezialisierte-fachkraft
   condition: concepts/mpom
+  phase: concepts/perioperativ
 source: modelling
