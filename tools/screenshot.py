@@ -3,6 +3,7 @@
 
     uv run tools/screenshot.py pomgat-lv-1.0                       # the folded start, 1280×900
     uv run tools/screenshot.py pomgat-lv-1.0 --phone               # 390×844 at device scale 2
+    uv run tools/screenshot.py pomgat-lv-1.0 --dark                # the dark theme (prefers-color-scheme: dark)
     uv run tools/screenshot.py pomgat-lv-1.0 --do toggle=concepts/leberresektion \\
         --do open=statements/drainage-komplexe-leberresektion-optional --out /tmp/graph.med/screenshots/liver.png
 
@@ -20,7 +21,9 @@ fold=<question node id> (fold or unfold everything below that question, e.g.
 q:j:concepts/leberresektion:population), open=<entity id> (deep link: unfold and select),
 section=<number> (chapter filter), search=<text>, facet=<kind>, chapters (open the chapter
 panel), chapters-scroll=<px> (scroll its list), all (every patient group open), fit (fit what is
-open), reset (the opening state), wait=<ms>. The runner prints how many elements are shown and
+open), reset (the opening state), wait=<ms>. --dark renders the page in the dark theme: the graph
+reads its colours from the stylesheet once, when drawn, so the theme is emulated before the
+page loads rather than switched by an action. The runner prints how many elements are shown and
 how many pairs of nodes and answers overlap — the mechanical half of "nothing overlaps".
 The container name and the output directory default to the current branch, so that
 sessions working in parallel (one git worktree each, docs/work/README.md "Parallel
@@ -62,6 +65,7 @@ def main(argv=None) -> int:
     ap.add_argument("--out", type=Path, default=None, help="PNG to write (default /tmp/graph.med/screenshots/<branch>/<view>.png)")
     ap.add_argument("--size", default="1280x900", help="viewport WxH (default 1280x900)")
     ap.add_argument("--phone", action="store_true", help="390x844 at device scale 2, touch")
+    ap.add_argument("--dark", action="store_true", help="the dark theme (emulates prefers-color-scheme: dark before the page loads)")
     ap.add_argument("--do", action="append", default=[], metavar="ACTION", help="an action before the capture; repeatable, in order")
     ap.add_argument("--name", default=None, help="container name (default shot-<branch>)")
     ap.add_argument("--preview", type=int, default=None, metavar="N", help="build as the preview of pull request N (the strip above the header)")
@@ -71,11 +75,11 @@ def main(argv=None) -> int:
         print("error: docker is not available; the screenshot skill needs the sandbox's Docker daemon", file=sys.stderr)
         return 1
     branch = branch_slug()
-    out = args.out or Path("/tmp/graph.med/screenshots") / branch / f"{args.view}{'-phone' if args.phone else ''}.png"
+    out = args.out or Path("/tmp/graph.med/screenshots") / branch / f"{args.view}{'-phone' if args.phone else ''}{'-dark' if args.dark else ''}.png"
     out.parent.mkdir(parents=True, exist_ok=True)
     args.name = args.name or f"shot-{branch}"
     width, height = (390, 844) if args.phone else map(int, args.size.lower().split("x"))
-    spec = {"view": args.view, "width": width, "height": height, "phone": args.phone,
+    spec = {"view": args.view, "width": width, "height": height, "phone": args.phone, "dark": args.dark,
             "actions": [a.split("=", 1) if "=" in a else [a, ""] for a in args.do]}
 
     if not run("docker", "images", "-q", IMAGE).stdout.strip():
