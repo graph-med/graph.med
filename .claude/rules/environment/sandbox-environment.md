@@ -38,3 +38,9 @@ Consequences of the above that come up when actually running something:
 - **Services you start are not reachable from the host** until the user publishes the
   port from the host side. Bind to `0.0.0.0` or `::`, never `127.0.0.1`, or
   publishing cannot reach them.
+- **Parallel sessions share this one sandbox.** The workspace is the host's
+  checkout, mounted; a second sandbox on the same directory would share its
+  branch and index. Parallel work is therefore several sessions here, each in a
+  git worktree under `.claude/worktrees/` (inside the mount, so it reaches the
+  main `.git`), and they share the Docker daemon — name containers and output
+  paths after your branch (`docs/work/README.md`, "Parallel work").

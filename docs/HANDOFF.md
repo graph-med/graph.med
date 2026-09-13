@@ -12,10 +12,11 @@ still colours boxes by grade until WP-0006 lands.
 
 **Claimed.** Nothing.
 
-**Next agent's first move.** Claim WP-0004 (fold at every question, a reset
-button, a fixed "all" row) or WP-0005 (the detail section organised by the
-reader's six questions); both are open with their dependencies done. Stay in
-`ui`. Check `git ls-remote --heads origin 'agent/*'` first.
+**Next agent's first move.** The maintainer runs WP-0004 and WP-0005 in
+parallel, one session per git worktree, each told its package by id
+(`docs/work/README.md`, "Parallel work"); WP-0006 follows on WP-0005's branch.
+A session not told a package claims the lowest open id in `ui`. Check
+`git ls-remote --heads origin 'agent/*'` first.
 
 **Blocked, and why.**
 - WP-0014 — waits on `docs/open-questions.md` → structural-recommendations.

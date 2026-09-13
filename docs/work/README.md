@@ -86,7 +86,7 @@ Anything with no other home. Not progress.
   `updated`, in its own commit, before writing code — on a branch
   `agent/YYYY-MM-DD-<slug>` pushed at once, so the claim is visible to others.
 - At most one claimed package per agent at a time. Two agents may hold two
-  packages if neither depends on the other.
+  packages if neither depends on the other (see "Parallel work").
 - Progress is **not** written into the package. Git has it. Only decisions,
   constraints and open questions go there — what a diff cannot recover.
 - A session ends with the package at `status: review` and a pull request. A
@@ -105,11 +105,39 @@ Anything with no other home. Not progress.
   draft one. A session that finds work it cannot do writes it into `LATER.md`.
 - No personal names anywhere (`.claude/rules/conventions/no-personal-information.md`).
 
+## Parallel work
+
+Sessions may run at once, one package each, when the packages do not depend on
+each other (ADR-0002). They run **in one sandbox**, each in its own git worktree
+under `.claude/worktrees/` (gitignored) on its own `agent/YYYY-MM-DD-<slug>`
+branch — `claude --worktree <name>` starts a session there, and a subagent can be
+given one — never in a second sandbox on the same directory, which would share
+the one checkout. The session is told its package by id
+(`/next-work-package WP-0005`); a session left to choose takes the lowest open
+id, and two sessions started at once would take the same one.
+
+What every session then owes the others:
+
+- **Rebase before the pull request.** `git fetch origin` and rebase on
+  `origin/main` after the last commit, since a sibling may have merged. A
+  conflict in `docs/LOG.md` keeps both entries, newest first; one in
+  `docs/HANDOFF.md` is resolved by rewriting it for the union; the checks run
+  again after the rebase.
+- **The handoff lists every claimed package** — every package with an open
+  `agent/*` branch on `origin` — not only the session's own.
+- **Nothing shared by name.** The Docker daemon is one per sandbox; the
+  screenshot runner names its container and output directory after the branch
+  by default, and anything else a session starts follows the same rule.
+- **A package that depends on one still in review** waits for the merge, or its
+  branch starts from the dependency's branch and its pull request targets that
+  branch until it merges.
+
 ## The handoff
 
 `docs/HANDOFF.md` is rewritten, not appended, at the end of every session. One
-screen at most. It answers only: where are we, what is claimed, what is the next
-agent's first move, what is blocked and why. It references packages by id and
+screen at most. It answers only: where are we, what is claimed (every package
+with an open `agent/*` branch), what is the next agent's first move, what is
+blocked and why. It references packages by id and
 never duplicates their content. Its `updated:` date must not be older than the
 newest log entry — a stale handoff is worse than none.
 

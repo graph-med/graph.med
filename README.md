@@ -293,6 +293,12 @@ What that means in practice for a contributor:
   sbx ports <sandbox-name> --publish 8080:8080/tcp
   ```
 
+- **Parallel sessions run in one sandbox**, each in a git worktree under
+  `.claude/worktrees/` on its own branch (`claude --worktree <name>` inside the
+  sandbox). Do not start a second sandbox on the same directory: it mounts the
+  same checkout. The convention for what parallel sessions owe each other is
+  [`docs/work/README.md`](docs/work/README.md), "Parallel work".
+
 Agent-specific rules — bot identity, credentials, what an agent may and may not
 do — are in [`.claude/`](.claude/README.md); [`CLAUDE.md`](CLAUDE.md) describes the
 project itself.

@@ -1,6 +1,6 @@
 ---
 name: next-work-package
-description: Pick up the next open work package from docs/work/ — one per session — claim it, do it, and hand over (LOG entry, HANDOFF rewritten, status review, pull request). Invoke at the start of a session; it reports "nothing open" when no package can be claimed.
+description: Pick up the next open work package from docs/work/ — one per session — claim it, do it, and hand over (LOG entry, HANDOFF rewritten, status review, pull request). Invoke at the start of a session, optionally with a package id (`/next-work-package WP-0005`) when sessions run in parallel; it reports "nothing open" when no package can be claimed.
 ---
 
 # Do the next work package
@@ -28,10 +28,15 @@ form); this file is the procedure.
    someone claimed it and the claim has not merged yet. **If nothing qualifies,
    report "nothing open" — which packages are claimed, blocked or waiting on
    dependencies — and stop.** Never take work from `docs/work/LATER.md`; a human
-   registers a package from it.
-4. **Claim.** On `agent/YYYY-MM-DD-<slug>` from `main` (created in step 2 if a package was closed). In the
-   package: `status: claimed`, `owner: agent`, `updated: <today>`. Commit that
-   alone ("claim WP-NNNN"), push with `-u` at once. Only then write code.
+   registers a package from it. **Invoked with a package id** (parallel
+   sessions, `docs/work/README.md` "Parallel work"): take that package if it
+   qualifies by the same rules; if it does not, say why and stop — never take
+   the next one instead.
+4. **Claim.** On `agent/YYYY-MM-DD-<slug>` from `main` (created in step 2 if a
+   package was closed). A session started in a git worktree already on that
+   branch stays on it. In the package: `status: claimed`, `owner: agent`,
+   `updated: <today>`. Commit that alone ("claim WP-NNNN"), push with `-u` at
+   once. Only then write code.
 5. **Read the package** in full and its initiative
    (`docs/work/initiatives/<initiative>.md`), then what it points at: the spec
    (`docs/graph-representation.md`), `schema/schema.yaml`, `docs/publication.md`
@@ -108,15 +113,21 @@ package; a decision you had to make goes under its Decisions, appended.
    packages touched with their status change, the branch, one notable thing.
    Rotate to `docs/LOG-ARCHIVE.md` if the file passes 200 lines.
 3. **The handoff:** rewrite `docs/HANDOFF.md` (its `updated:` today): where we
-   are, what is claimed, the next agent's first move, what is blocked and why.
-   Ids only; no package content.
+   are, what is claimed — every package with an open `agent/*` branch on
+   `origin`, not only yours — the next agent's first move, what is blocked and
+   why. Ids only; no package content.
 4. If a design question surfaced, add it to `docs/open-questions.md`; if the
    package settled one, apply the decision, delete the entry, and record the
    why — a memory under `.claude/memory/design/` for the knowledge model, an
    ADR under `docs/adr/` for the repository (the `handover` skill describes the
    former). Work you found and could not do goes into `docs/work/LATER.md`.
 5. Run `uv run tools/validate.py` (it runs `scripts/check-work.py`); for a build
-   package also the build. Commit, push, open a PR — every PR, of every kind,
+   package also the build. Commit. Then `git fetch origin` and rebase on
+   `origin/main` — a parallel session may have merged meanwhile. A conflict in
+   `docs/LOG.md` keeps both entries, newest first; one in `docs/HANDOFF.md` is
+   resolved by rewriting it for the union (what is claimed, what is next, what is
+   blocked); one in a package file keeps both changes. Run the checks again.
+   Push, open a PR — every PR, of every kind,
    links its preview as a complete clickable URL
    (`https://graph.med/preview/pr<N>/<view-id>/`, see **build**). The PR description: what was
    done, what you were unsure of, what went to `LATER.md`, and any change to the

@@ -98,6 +98,8 @@ claim the next open package in `docs/work/`, end with a log entry, a rewritten
 handoff and a pull request. The convention is `docs/work/README.md`; the
 `next-work-package` skill is the procedure; the `handover` skill maintains
 `docs/open-questions.md`; decisions about the repository are `docs/adr/`.
+Sessions run in parallel, one per git worktree in the one sandbox, when their
+packages are independent (`docs/work/README.md`, "Parallel work"; ADR-0002).
 `uv run scripts/check-work.py` checks all of it (ids, statuses, dependencies,
 `done/`, stale claims, the handoff against the log); the validator runs it too.
 
