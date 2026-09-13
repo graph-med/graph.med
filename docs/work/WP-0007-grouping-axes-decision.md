@@ -1,12 +1,12 @@
 ---
 id: WP-0007
 title: Design the grouping-axes mechanism — proposed, tested, asserted, shown
-status: open
+status: claimed
 created: 2026-09-12
 updated: 2026-09-13
 depends_on: []
 blocks: [WP-0008]
-owner: unassigned
+owner: agent
 initiative: groupings
 kind: docs
 slug: grouping-axes-decision
