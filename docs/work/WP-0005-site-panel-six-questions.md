@@ -1,7 +1,7 @@
 ---
 id: WP-0005
 title: The detail section organised by the reader's six questions
-status: claimed
+status: review
 created: 2026-09-12
 updated: 2026-09-13
 depends_on: []
@@ -38,7 +38,33 @@ in its source language with `lang` set.
 
 ## Decisions
 
-None yet. Append only; architectural ones go to `docs/adr/`, knowledge-model ones to `.claude/memory/design/`.
+Append only; architectural ones go to `docs/adr/`, knowledge-model ones to `.claude/memory/design/`.
+
+- 2026-09-13, agent: every one of the six headings is rendered on every statement,
+  with one English line under it when the pool has nothing there (no condition, no
+  body text, no neighbour), so that "every statement page renders all six headings"
+  is checked mechanically and the reader sees an absence rather than a gap.
+- 2026-09-13, agent: the action and the aim, which §3 does not name under any
+  question, sit under the first — they are what the recommendation does and to
+  what end — so that no slot concept becomes unreachable from the section.
+- 2026-09-13, agent: "the statements under the same group and condition" is read as
+  every other statement of the same patient group, those sharing the condition
+  first, each with its condition named as a tag — the neighbouring condition is the
+  most useful neighbour, and hiding it would answer the sixth question with less.
+  "The same action for other groups" names each neighbour's group (and condition).
+  `specializes`/`complements`/`conflicts` are listed in both directions, an
+  incoming edge marked with an arrow; no such edge exists in the pool yet, so this
+  list is untested against data.
+- 2026-09-13, agent: neighbour links show the short label (the box they move the
+  graph to) with the full label as the tooltip; the selected statement itself keeps
+  its full label under the first question, as §3 says.
+- 2026-09-13, agent: an EK claim reads "EK expert consensus" in the grade tag
+  (stylesheet text, no data change) and is otherwise a claim like any other; the
+  consensus value is shown with its underscore as a space, still in the source
+  language. No colour was added or changed: WP-0006 does that.
+- 2026-09-13, agent: `tools/site/static/graph.js` is untouched — the sheet is
+  filled from the same `html[ref]` and the same `a.node-link` hook moves the
+  graph; the concept, claim and source sections are unchanged.
 
 ## Open questions
 
