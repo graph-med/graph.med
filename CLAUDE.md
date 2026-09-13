@@ -12,9 +12,10 @@ file, the design documentation under `docs/`, the one schema for the data pool
 (`schema/schema.yaml`), the validator that enforces it (`tools/validate.py`) with the
 CI workflow that runs it (`.github/workflows/validate.yml`), the pool itself under
 `data/` (layout in `data/README.md`), the site build (`tools/build.py`, see "Build"),
-the work packages, handoff and log under `docs/` with the script that checks them
+the feasibility test of a grouping axis (`tools/axes.py`, see "Checks"), the
+work packages, handoff and log under `docs/` with the script that checks them
 (`scripts/check-work.py`, see "Work"), `AGENTS.md`, and the `.claude/` directory
-described below. There is no source tree beyond these three scripts.
+described below. There is no source tree beyond these scripts.
 Project-specific guidance — data sources and their licenses, setup and test
 instructions — belongs in this file once it exists. Do not document tooling that does
 not exist.

@@ -1,16 +1,19 @@
 # Graph Representation — how knowledge is stored in this repository
 
 > **Status: design intent, partly enforced.** The schema (`schema/schema.yaml`,
-> currently 0.4.0) exists and `tools/validate.py` enforces it, locally and in CI
+> currently 0.5.0) exists and `tools/validate.py` enforces it, locally and in CI
 > (`CLAUDE.md`, "Checks"): ids, enums, provenance requirements, claim hashes, slots,
 > edges, a claim's `section` against its source's `outline`, `broader` without
 > cycles, and with `--verify-quotes` every quote against its source. The pool uses
 > all of it: one source with its outline, its claims with sections, statements and
-> concepts with short labels, every concept with a facet, and a `broader`
-> hierarchy over the patient groups. Everything else described as checked or
+> concepts with short labels, every concept with a facet, a `broader`
+> hierarchy over the patient groups, and grouping axes (§4.1): the `axes/`
+> entity, the validator's axis rules, the feasibility report (`tools/axes.py`),
+> one dimension axis asserted on the first source and offered by its view, and
+> the chapters as the built-in grouping. Everything else described as checked or
 > computed — the canonical form and content hashes (§2), staleness (§5, §8),
-> attestations and review state (§8), view cuts (§4), grouping axes (§4.1), the
-> derived statement properties (§3.3) — is not implemented yet. Statements about those describe the
+> attestations and review state (§8), view cuts (§4), the derived statement
+> properties (§3.3) — is not implemented yet. Statements about those describe the
 > model this repository is being built to, not behaviour anyone can rely on today.
 
 This file explains the approach behind the knowledge in this repository. It is
