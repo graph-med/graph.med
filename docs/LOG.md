@@ -4,6 +4,18 @@ One entry per session, newest first. Past about 200 lines, move the oldest
 entries to `docs/LOG-ARCHIVE.md`, newest first there too; never delete.
 
 ## 2026-09-13 — agent
+Packages touched: none
+Branch: conventions/parallel-work
+Notable: the maintainer asked for WP-0004 to WP-0006 in parallel. Tested in
+this sandbox: two git worktrees under `.claude/worktrees/`, validate, build and
+two screenshots at once — fine, once the containers had distinct names. The
+repository is now prepared (ADR-0002): worktrees ignored, screenshot defaults
+per branch, and one command, `process-work-package`, replaces
+`next-work-package` — it takes the packages to process, the session
+coordinates workers and stacks their pull requests, and nothing unlisted is
+processed.
+
+## 2026-09-13 — agent
 Packages touched: WP-0003 (review → done), WP-0006 (blocked → open)
 Branch: docs/settle-box-colour
 Notable: the maintainer settled box-colour — colour by direction, the grade as a

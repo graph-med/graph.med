@@ -26,7 +26,7 @@ brief for the two relinking packages.
 ## Scope
 
 In: `docs/graph-representation.md` §5 (and §3.1 if the claim kinds need a word),
-the `next-work-package` skill's extraction section if it must say more.
+the `process-work-package` skill's extraction section if it must say more.
 Out: any change under `data/` — that is `relink-body-text-a` and `-b`.
 
 ## Constraints

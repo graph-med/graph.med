@@ -94,10 +94,13 @@ session did; `docs/adr/` what was decided about the repository itself.
 ## Work
 
 `AGENTS.md` at the root says how a session picks up work: read `docs/HANDOFF.md`,
-claim the next open package in `docs/work/`, end with a log entry, a rewritten
-handoff and a pull request. The convention is `docs/work/README.md`; the
-`next-work-package` skill is the procedure; the `handover` skill maintains
-`docs/open-questions.md`; decisions about the repository are `docs/adr/`.
+process exactly the packages the command names — in sequence or in parallel,
+one worker per package in its own git worktree, branch and pull request, the
+session coordinating and stacking — and end when each has a log entry, a
+rewritten handoff and a pull request. The convention is `docs/work/README.md`
+("Processing packages"; ADR-0002); the `process-work-package` skill is the
+procedure; the `handover` skill maintains `docs/open-questions.md`; decisions
+about the repository are `docs/adr/`.
 `uv run scripts/check-work.py` checks all of it (ids, statuses, dependencies,
 `done/`, stale claims, the handoff against the log); the validator runs it too.
 
@@ -125,7 +128,7 @@ each piece loads when it is relevant rather than all of it, always:
 ├── agents/                      subagent definitions — empty; add one .md per agent
 └── skills/
     ├── handover/                end a session: open questions, log entry, handoff
-    ├── next-work-package/       do the next registered work package: one, then hand over
+    ├── process-work-package/    process the listed work packages: coordinate, one worker each
     └── screenshot/              look at a view page in a real browser before proposing it
 ```
 
@@ -141,10 +144,10 @@ it is reviewed and shared rather than private to one machine.
 or skill that automates nothing would be guidance pretending to be capability — the
 validator is a check, not a task to automate — and each exception earned its place
 as a real, repeated task. `handover` ends a session by maintaining
-`docs/open-questions.md`. `next-work-package` claims and does the next open
-package in `docs/work/` — an extraction, a linking pass, a schema change, a build
-feature, a docs change, tooling — one per session, ending with a log entry, a
-rewritten handoff and a pull request.
+`docs/open-questions.md`. `process-work-package` does the packages named with
+it — an extraction, a linking pass, a schema change, a build feature, a docs
+change, tooling — one worker, branch and pull request each, the session
+coordinating; each ends with a log entry and a rewritten handoff.
 `screenshot` renders a view page in a browser container so a build change is looked
 at, not only built. Add another only for another such task — then say in the pull request what it
 does and what it is allowed to touch.

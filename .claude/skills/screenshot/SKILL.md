@@ -54,8 +54,12 @@ an answer it does not touch — the mechanical half of "nothing overlaps"
 (`docs/publication.md` §3). It cannot see what a hand does on a phone, such as a
 pan that pushes nodes under the floating controls; look for that yourself.
 
-Output goes under `/tmp/graph.med/screenshots/` by default — a neutral path,
-never one derived from a home directory (`conventions/no-personal-information.md`).
+Output goes under `/tmp/graph.med/screenshots/<branch>/` by default — a neutral
+path, never one derived from a home directory
+(`conventions/no-personal-information.md`) — and the container is named
+`shot-<branch>`, so that sessions running in parallel on the one Docker daemon
+(`docs/work/README.md`, "Processing packages") do not remove each other's container
+or overwrite each other's PNG. `--name` and `--out` override both.
 Read the PNG to look at it. To show it to the maintainer, put it on a page they
 can open; it does not belong in the repository.
 
