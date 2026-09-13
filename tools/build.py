@@ -43,6 +43,7 @@ EVIDENCE = ("supports", "contests")
 STATEMENT_EDGES = ("specializes", "complements", "conflicts")
 BODY_TEXT = ("refines", "supplements", "limits")
 DIRECTION_GLYPH = {"für": "✓", "gegen": "✗", "abwägen": "⚖", "Lücke": "∅"}
+GRADES = ("A", "B", "0", "EK")   # the guideline's own scale, in order: the letter a box carries after its glyph; a new scale is a new letter
 # The only words the build adds inside the graph, in the view's source language (docs/publication.md §3):
 # the two questions whose answers are the population and condition slots, the question a dimension axis
 # adds (its short label filled in), the chapter question and the switch's entries for the plain hierarchy
@@ -363,10 +364,14 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
         cond, outc = sl.get("condition"), sl.get("outcome")
         d = direction_of(claims)
         again = st["id"] in seen   # under two answers (two chapters): one node, hung from both, its aim and relations once
+        # the box reads "✓ A · <short label>": the direction's glyph, the grade as a letter (every grade when the
+        # claims differ — shown, never composed), then the short form (docs/publication.md §3)
+        letters = "/".join(sorted(grades, key=lambda g: (GRADES.index(g) if g in GRADES else len(GRADES), g)))
+        head = " ".join(filter(None, [d["glyph"] if d else "", letters]))
         sid = add(st["id"], ref=st["id"], type="statement", lang=st["lang"],
-                  label=(d["glyph"] + " " if d else "") + (st.get("short_label") or st["label"]), full=st["label"],
+                  label=(head + (" · " if letters else " ") if head else "") + (st.get("short_label") or st["label"]), full=st["label"],
                   direction=d["word"] if d else None, facets=sorted({f for f in (facet(c) for c in sl.values()) if f}),
-                  grade=grades.pop() if len(grades) == 1 else ("mixed" if grades else None),
+                  grade=next(iter(grades)) if len(grades) == 1 else ("mixed" if grades else None),
                   against={c["direction"] for c in claims if c["edge"] == "supports" and c.get("direction")} == {"against"},
                   contested=any(c["edge"] == "contests" for c in claims),
                   no=min((c["recommendation_no"] for c in claims if c.get("recommendation_no")), default=None),
