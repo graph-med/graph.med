@@ -191,8 +191,10 @@ Three kinds of entity, kept apart because different edges attach to them:
   defines the case: *leberresektion-komplex*), `patient_state` (a risk profile or
   pre-existing condition), `medication` (a drug or long-term therapy),
   `intervention` (the measure a recommendation judges: *epiduralanalgesie*,
-  *abdominelle-drainage*), `outcome` (an endpoint or complication) or `finding`
-  (a result that triggers a decision). It describes the concept's nature, which
+  *abdominelle-drainage*), `outcome` (an endpoint or complication), `finding`
+  (a result that triggers a decision) or `qualifier` (a value of a statement
+  dimension, §4.1 — a phase, a setting, a line of therapy — which qualifies a
+  recommendation and is nothing in the case itself). It describes the concept's nature, which
   is fixed; the slots a statement puts it in describe its role there, which
   varies (`mpom` is the action of one statement and the condition of another).
   Where the two seem to collide, ask whether the concept describes the case or
@@ -201,8 +203,8 @@ Three kinds of entity, kept apart because different edges attach to them:
   resection, the drain can be removed early when the drain amylase indicates a
   low fistula risk." Statements are what claims *support* or *contest*. A
   statement has a **slot shape** declared by the schema (population, action,
-  condition, outcome — filled with concept URLs; a further slot exists only as
-  the carrier of a declared grouping axis, §4.1), which makes "is this the same
+  condition, outcome — filled with concept URLs; a further slot exists only
+  where a dimension axis declares it, §4.1), which makes "is this the same
   statement?" an almost-computable question and keeps granularity honest: **a
   statement is the smallest unit that can be independently supported or
   contested.** Its `label` is the full proposition; an optional **`short_label`**
@@ -286,55 +288,213 @@ guideline breaks. The pool therefore fixes the **mechanism** by which an axis
 comes to exist, and leaves the axes themselves to the people who read each
 guideline. An axis is guideline-specific in what it proposes and generic in
 how; a second and a third guideline pass through the same four steps unchanged.
+Nothing in this section names an organ, a phase or a source; the worked example
+at its end does.
 
-1. **Proposed.** A person — usually a physician — proposes an axis *for a view*
-   as data: a name, which of the two carriers below it uses, a written rule a
-   linking session can apply without judgment calls, who proposed it, and its
-   status (proposed, asserted, withdrawn). Proposing is cheap and commits the
-   pool to nothing.
-2. **Tested.** A tool applies the rule's consequences to the view and prints a
-   **feasibility report**: *coverage* (the share of the view's statements or
-   population concepts the rule places), *disjointness* (what the rule places in
-   more than one family on the same axis), the *unplaced remainder* by name, and
-   *depth* (whether a proposed hierarchy is in fact flat, or a proposed
-   dimension is in fact a subsumption). The report is a measurement, not a
-   verdict, and the tool writes nothing: a person reads the report and decides,
-   and the report goes into the pull request that asserts the axis. An axis
-   feasible on one guideline and infeasible on another is a fact the report
-   states, not a defect of either.
-3. **Asserted.** What the person accepts is written into the pool the way
-   everything that groups the graph is written: as `broader` edges naming the
-   axis, or as slot values on statements — each `modelling`, with a rationale,
-   by a linking pass, reviewed in a pull request. **Nothing groups a view that
-   is not asserted this way.** The feasibility test is post-processing; the
-   grouping never is — otherwise a grouping would appear on the site that nobody
-   can cite, attest, date or dispute.
-4. **Shown.** A view declares which asserted axes it groups by, and in which
-   order its questions are asked (`group_by`, a fixed filter form, §13). The
-   site offers the axes the view's data carries, labels them from a per-language
-   table keyed by the axis, and puts a concept without a place on the chosen
-   axis into one generic "not placed" bucket at every depth. The build knows no
-   axis by name.
+#### The two carriers
 
-**Two carriers.** An axis is carried by one of two things the schema already
-has, and the rule that decides which is the same for every guideline:
+An axis groups the answers to one question of the tree, and it is carried by
+one of two things the schema already has. The rule that decides which is the
+same for every guideline:
 
-- A **statement dimension** — a slot on the statement (§3.2). The value
-  qualifies the *recommendation* and holds independently of who the patient is:
-  the perioperative phase, the care setting, the profession addressed. The same
-  patient group carries recommendations across all values of such an axis.
-- A **hierarchy respect** — a `broader` edge with an `axis` property (§5). The
-  value is a true "is a special case of" of a *concept* in one respect: the
-  anatomical region, the tumour entity, the stage, the access modality. A concept
-  may have several broader concepts on different axes and one is-a on each;
-  an edge without `axis` is plain subsumption as before.
+- A **statement dimension** — a slot on the statement (§3.2) that the axis
+  adds. Its value qualifies the *recommendation* and holds whoever the patient
+  is: the same patient group carries recommendations across all values of such
+  an axis. In the tree, a dimension is a question of its own, asked **before**
+  the population question, because it partitions the whole guideline the way
+  its chapters do — and it is exactly what a chapter *meant* (§6.7), lifted
+  from the outline into data. Its values are concepts of facet `qualifier`
+  (§3.2), listed in the axis definition; the slot holds one of them.
+- A **hierarchy respect** — a `broader` edge with an `axis` property (§5) over
+  the concepts that answer a question the tree already asks (today the
+  population and the condition). Its value is a true "is a special case of" of
+  a *concept* in one respect. A concept may have several broader concepts on
+  different axes and, unless the definition says otherwise, one on each; an
+  edge without `axis` is plain subsumption as before. In the tree, a hierarchy
+  changes which concepts are the families of that question and how it folds —
+  never which question is asked.
 
-If the value would stay true whatever were recommended, it is subsumption; if it
-varies with the recommendation, it is a dimension. The document outline is
-neither: it is provenance and a filter (§6.7), never an axis. The `broader`
-hierarchy over the first source's patient groups and the population question
-the site asks today are the first axis, asserted before this mechanism existed;
-the mechanism reads them as one hierarchy respect and adds nothing to them.
+If the value would stay true whatever were recommended, it is subsumption; if
+it varies with the recommendation, it is a dimension. Edge cases, decided once:
+a value that names the patient's *situation* after an intervention ("the state
+after X") is a population concept and is placed by hierarchies like any other,
+while *when* the recommendation applies stays a dimension; a dimension value
+that covers the whole guideline ("throughout") is a legitimate declared value,
+not a missing one; a concept defined by exclusion or spanning several families
+is placed by a hierarchy only where the definition allows several parents, and
+is otherwise unplaced — the pool never mints a "several" family, because that
+is not a subsumption. The document outline is neither carrier: it is provenance
+and a filter (§6.7), never an axis, though its headings are the extractor's
+hint when a rule is applied. The `broader` hierarchy over the first source's
+patient groups and the population question the site asks today are the
+**plain hierarchy**: the axis every view has without declaring it, read as one
+hierarchy respect over the population slot; the mechanism adds nothing to it.
+
+#### 1. Proposed — the axis definition
+
+A person — usually a physician — proposes an axis as data: one entity
+`axes/<axis-id>` in the `axes/` namespace (§2), with
+
+| field | content |
+|---|---|
+| `id`, `type: axis`, `lang`, `label`, `short_label` | as for every entity; the label is what the site's switch shows |
+| `carrier` | `dimension` or `hierarchy` |
+| `slot` | for a dimension: the slot key the axis adds to statements (English, like every structural key); for a hierarchy: the existing slot whose concepts it folds (`population`, `condition`) |
+| `values` | dimension only: the concepts (facet `qualifier`) the slot may hold, in the order the tree shows them |
+| `several` | hierarchy only, default `false`: whether a concept may have more than one parent on this axis |
+| `rule` | the written rule a linking session applies without judgment calls: what earns which value or which family, in the source language, `lang`-tagged |
+| `proposed_by` | a role — `physician`, `maintainer`, `agent` — never a name (`.claude/rules/conventions/no-personal-information.md`) |
+| `views` | one entry per view the axis is proposed for: `{view, status, since}`, status one of `proposed`, `asserted`, `withdrawn` |
+| `placements` | the rule *applied*, before assertion: for a dimension, `{statement: value}` pairs; for a hierarchy, `{concept: parent}` pairs; removed from the definition when the axis is asserted, because edges and slot values then carry them with provenance |
+
+The rule is for people; the placements are what the tool measures. An axis
+whose rule holds for a second guideline is proposed for its view by adding an
+entry under `views`, not by a second definition; a status is per view, because
+an axis can be feasible on one source and not on another. Proposing is cheap
+and commits the pool to nothing: a proposed axis groups no view.
+
+#### 2. Tested — the feasibility report
+
+A tool (`tools/axes.py <axis> <view>`, registered as WP-0008) applies one axis
+to one view and prints a report. It reads the placements from the definition
+while the axis is proposed, and from the asserted edges and slot values once it
+is asserted, so that the same numbers can be printed before and after. It
+writes nothing. The **universe** *U* is, for a dimension, the view's member
+statements; for a hierarchy, the concepts that fill the axis's slot on the
+view's member statements. Four measures:
+
+- **Coverage** — the share of *U* with a place: a statement with a value, a
+  concept from which axis edges lead to a root on this axis. Reported twice for
+  a hierarchy — by concept and by statement (a concept weighs the statements it
+  answers for) — because ten placed concepts carrying two statements each are
+  not the same as one unplaced concept carrying twenty-four.
+- **Disjointness** — what has more than one place: a statement whose rule
+  yields two values (the slot holds one), a concept reaching two roots on this
+  axis. Listed by name with the places. For a hierarchy with `several: true`
+  this is information; otherwise it is a defect of the placements.
+- **The unplaced remainder** — every member of *U* without a place, by name,
+  each with the number of statements it carries, heaviest first. This list is
+  where the proposer's next decision lies.
+- **Depth** — for a hierarchy: the number of roots (the families the switch
+  will offer), the longest chain, and every root with a single member (memory
+  `concept-hierarchy-depth`: no family for one member); for a dimension: the
+  values used with their statement counts, every declared value used by no
+  statement, and whether one value takes all of *U* (then the axis partitions
+  nothing).
+
+The report is a measurement, not a verdict: no threshold is fixed here. A
+person reads it and decides, and the report goes verbatim into the pull request
+that asserts the axis. An axis feasible on one guideline and infeasible on
+another is a fact the report states, not a defect of either.
+
+#### 3. Asserted — with provenance
+
+What the person accepts is written into the pool the way everything that groups
+the graph is written — by a linking pass, reviewed in a pull request:
+
+- a dimension: the value as a slot on each statement, an edit with history
+  (§7), `modelling` with a rationale that cites the rule and, where the sentence
+  does not name the value, the heading or passage that does;
+- a hierarchy: `broader` edges naming the axis, each `modelling` with a
+  rationale; a family concept minted where the axis needs one, with facet and
+  label, never for a single member;
+- the definition's `views` entry set to `asserted`, its `placements` removed.
+
+**Nothing groups a view that is not asserted this way.** The feasibility test
+is post-processing; the grouping never is — otherwise a grouping would appear
+on the site that nobody can cite, attest, date or dispute. A rejected proposal
+stays `proposed` or becomes `withdrawn`, with the report in the pull request
+that decided it, so the next session does not re-run the same experiment.
+
+#### 4. Shown — `group_by` on the view
+
+A view declares which asserted axes it offers, in the order its switch lists
+them:
+
+```yaml
+group_by: [axes/<axis-id>, axes/<axis-id>]   # each asserted for this view
+```
+
+It is a property of the view beside `filter`, not a filter form: it selects
+nothing and never changes the view's members (§13). The plain hierarchy is
+always the first entry of the switch and needs no declaration; a view without
+`group_by` has only it. Choosing an axis changes what the tree asks first (a
+dimension) or which concepts are the families of a question (a hierarchy), and
+nothing else — not the shape, not the folding, not where a recommendation
+hangs. Whatever the chosen axis cannot place is one answer, **"not placed"**,
+last among the answers of the question the axis groups, at every depth where
+that question is asked; it is never dropped. The build knows no axis by name:
+the switch's words and "not placed" come from the per-language table like the
+questions, keyed by the axis's `label` and the language.
+
+The validator (WP-0008) holds this together: an `axis` on a `broader` edge and
+a `group_by` entry name an existing axis of the right carrier; a `group_by`
+entry is asserted for that view; a slot key on a statement is one a dimension
+axis declares, and its value is one of that axis's `values`; no cycle within
+one axis; a placement references entities that exist.
+
+#### Worked example — the first source, and two imagined ones
+
+*The first source* (`views/pomgat-lv-1.0`: 90 statements over 36 population
+concepts, chapters titled by perioperative phase and subsections by organ and
+modality). A physician proposes two axes.
+
+- **Perioperative phase**, a dimension: `slot: phase`, values *präoperativ*,
+  *intraoperativ*, *postoperativ*, *perioperativ* (the last for what holds
+  throughout, such as a management concept); the rule: the phase the
+  recommendation's sentence names; where it names none, the phase of the
+  chapter its supporting claim sits in, as the hint §6.7 allows. Applied: 58
+  of 90 sentences name a phase word, 32 do not and are placed by the chapter;
+  by chapter the values would carry 35 · 15 · 33 · 7 statements, so the axis
+  partitions and no declared value is empty. The two hardest to place: the
+  single-dose corticosteroid recommendation, whose section is titled
+  "präoperative und intraoperative" — the rule takes the sentence, which says
+  "vor Narkoseeinleitung", *präoperativ*; and the early drain-removal
+  recommendations, whose chapter is intraoperative (the drain is placed there)
+  while the sentence says "bis 4. postoperativer Tag" — the sentence wins,
+  *postoperativ*, which is precisely why the sentence is the rule and the
+  chapter only the fallback. Two sentences name two phases ("präoperativ … und
+  postoperativ …"): disjointness, listed; the proposer either splits the
+  statement (memory `box-granularity-per-sentence`) or accepts
+  *perioperativ*.
+- **Anatomical region**, a hierarchy: `slot: population`, `several: false`,
+  families Ösophagus, Magen, Pankreas, Leber, Kolorektum; the rule: a
+  population concept is placed under the organ its procedure resects or
+  anastomoses; a population that is not a procedure has no region. Applied to
+  the 36 concepts: 20 placed, carrying 42 statements; 2 in several regions
+  ("Pankreas- und Leberchirurgie", and the resection defined by exclusion,
+  "nicht-kolorektal", which names four); 14 unplaced, carrying 46 statements —
+  among them the generic "Operation eines gastrointestinalen Tumors" with 24
+  and the elective abdominal tumour operation with 7, the four cardiac
+  medication groups and the three risk profiles. Coverage by concept 56 %, by
+  statement 47 %. The two hardest: the exclusion-defined group, which the rule
+  cannot place without `several: true` and which is then under four of five
+  families — the report shows the proposer exactly that; and "Magenschlauch
+  nach Ösophagektomie", a situation after the operation, which is a population
+  concept and is placed under Ösophagus by the rule, its timing being the
+  phase axis's business. The report says what a physician suspected: half the
+  guideline speaks of gastrointestinal tumour surgery as such, and a region
+  axis leaves that half in "not placed". Whether that is useful is the
+  proposer's call, not the tool's.
+
+*A guideline organised by stage* (an oncological entity, chapters by UICC
+stage). Its physician proposes a hierarchy "Stadium" over the condition slot
+(`slot: condition`), families the stages, rule: the stage a condition concept
+names; and a dimension "Therapielinie" (first-line, second-line, …). Nothing
+in the mechanism, the schema or the build changes; its view declares both in
+`group_by`, and its switch shows "Stadium" and "Therapielinie" where the
+first source's shows "Phase" and "Region".
+
+*A guideline organised by leading symptom* (an emergency guideline, chapters
+"Brustschmerz", "Dyspnoe", …). The symptom is the population's *presentation*,
+not a phase and not a subsumption of a procedure: a dimension `slot:
+leitsymptom` whose values are the symptoms — or, if the populations are
+minted as "patient with X", a hierarchy over the population slot. The
+carrier rule decides: a symptom stays true whatever is recommended, so it is
+subsumption where the population concept carries it, and a dimension only
+where the same population is addressed under several presentations. The
+feasibility report of each variant tells the proposer which one the data
+carries.
 
 ---
 
@@ -491,8 +651,8 @@ A chapter reaches the reader as a **filter** (§4) and as a tree beside the grap
 (`docs/publication.md`), never as a vertex in it. What a chapter *means* —
 POMGAT's headings encode an organ or procedure family and a perioperative phase —
 is knowledge, and it goes where knowledge goes: the family into `broader` edges
-between concepts, the phase into the statement's slots or a vocabulary of its own
-(`docs/open-questions.md` → phase-vocabulary). The heading is the extractor's hint
+between concepts, the phase into a statement dimension a person proposes and a
+linking pass asserts (§4.1). The heading is the extractor's hint
 for assigning those; the section number is never the key. That is what lets a
 second guideline with a different outline land in the same graph: "colorectal,
 postoperative" survives the change of document, "7.4" does not.
@@ -797,8 +957,9 @@ No inference semantics are assumed: relations are asserted, not entailed.
   diff-ergonomics choice, not a rule.
 - **The view-filter language.** The schema starts with a minimal set of filter
   forms, extended one proven need at a time (the section filter, §4, is the
-  first; a view's `group_by` over its asserted axes, §4.1, the second); how far
-  it grows toward a query language is undecided (`docs/open-questions.md`).
+  first); how far it grows toward a query language is undecided
+  (`docs/open-questions.md`). A view's `group_by` (§4.1) is not a filter form:
+  it selects nothing and only says how the members are grouped.
 - **Statement slot vocabularies and grade derivation.** Which slot shape each
   statement type needs, and how supporting claims' grades compose, are open —
   they are medically sensitive and will be settled against real content.

@@ -147,18 +147,22 @@ it. Three choices keep the tree readable at ninety recommendations:
   for, never from a family — the edge only groups and folds, it never moves a
   recommendation from a family to a member, and a group with two parents appears
   under both.
-- **The axis is the reader's choice.** What the first question groups by is an
-  **axis** (`graph-representation.md` §4.1): the families above the patient
-  groups are one, the perioperative phase or the anatomical region may be others
-  once a person has proposed them for the view and a linking pass has asserted
-  them. The page offers a switch listing the axes the view declares in
-  `group_by` and no other; choosing one changes what the first question asks
-  and which concepts are its families — never the shape of the tree, its
-  folding, or where a recommendation hangs. Whatever the chosen axis cannot
-  place sits in one "not placed" answer at every depth, so nothing disappears.
-  The switch's words come from the per-language table like the questions; the
-  build knows no axis by name. Where the switch sits, and how it looks on a
-  phone, is decided with the package that builds it.
+- **The axis is the reader's choice.** What the tree groups by is an **axis**
+  (`graph-representation.md` §4.1). The families above the patient groups are
+  the plain hierarchy every view has; other axes exist once a person has
+  proposed them for the view and a linking pass has asserted them. The page
+  offers a switch whose first entry is the plain hierarchy and whose others are
+  the axes the view declares in `group_by`, in that order, and no other. A
+  *dimension* axis (a slot on the statement — a phase, a setting) adds its own
+  question before "Welche Population?", its answers the axis's values in the
+  order declared; a *hierarchy* axis changes which concepts are the families of
+  the question it folds and how it unfolds. Neither changes the shape of the
+  tree, its folding, or where a recommendation hangs. Whatever the chosen axis
+  cannot place is one answer, "not placed", last among that question's answers
+  at every depth where it is asked, so nothing disappears. The switch's words,
+  the axis labels and "not placed" come from the per-language table like the
+  questions; the build knows no axis by name. Where the switch sits, and how it
+  looks on a phone, is decided with the package that builds it.
 
 **Boxes show the short form.** A box shows a statement's `short_label` when it
 has one and its `label` otherwise; the section always shows the full label. The

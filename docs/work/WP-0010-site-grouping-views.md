@@ -44,6 +44,8 @@ code path for every axis and every level. Views are data (memory
 
 None yet. Append only; architectural ones go to `docs/adr/`, knowledge-model ones to `.claude/memory/design/`.
 
+- 2026-09-13, WP-0007: a dimension axis adds its question before "Welche Population?"; a hierarchy axis changes the families of the question it folds; the plain hierarchy is the switch's first entry; "not placed" is one answer, last, from the per-language table (spec §4.1 "4. Shown", `docs/publication.md` §3).
+
 ## Open questions
 
 None.

@@ -1,19 +1,25 @@
 ---
 name: grouping-axes-proposed-and-tested
-description: A grouping axis is never a fixed vocabulary of the pool or the build — a person proposes one for a guideline, a tool tests its feasibility and reports, a linking pass asserts it with provenance, then a view offers it; two carriers, a slot or `axis` on `broader`.
+description: A grouping axis is never a fixed vocabulary of the pool or the build — a person proposes one per guideline as an `axes/` entity, a tool tests its feasibility and reports, a linking pass asserts it with provenance, then a view offers it in `group_by`; two carriers, a slot (dimension) or `axis` on `broader` (hierarchy), decided by one rule.
 metadata:
   type: project
 ---
 
 By what a view's tree groups its answers — an organ, a perioperative phase, a
 stage, a symptom — is an **axis**, and axes are not fixed in the pool, the
-schema or the build. Each guideline gets the axes a person proposes for it;
-a tool tests whether the data can carry a proposal and prints a report; a
-linking pass asserts what holds as `broader` edges naming the axis or as slot
-values on statements, with provenance and a rationale; a view then declares
-which asserted axes it groups by, and the site offers exactly those. Decided
-2026-09-13 by the maintainer; applied in `docs/graph-representation.md` §4.1,
-`docs/publication.md` §3 and the `groupings` initiative.
+schema or the build. Each guideline gets the axes a person proposes for it as
+an entity `axes/<id>` (carrier, slot, values or `several`, the written rule,
+the proposer as a role, a status per view, and the rule's placements until
+assertion); a tool tests whether the data can carry a proposal and prints a
+report (coverage by concept and by statement, disjointness, the unplaced by
+name heaviest first, depth) and writes nothing; a linking pass asserts what a
+person accepts as `broader` edges naming the axis or as slot values on
+statements, with provenance and a rationale; a view then declares which
+asserted axes it groups by (`group_by`, a view property, not a filter), and
+the site offers exactly those after the plain hierarchy every view has.
+Decided 2026-09-13 by the maintainer; the mechanism completed by WP-0007;
+applied in `docs/graph-representation.md` §4.1, `docs/publication.md` §3 and
+the `groupings` initiative.
 
 **Why:** The first design named anatomy, phase and access modality as *the*
 axes — the principles POMGAT's chapters happen to follow. The maintainer
@@ -27,18 +33,25 @@ rest of the model: the *grouping* is never post-processed, only the test is —
 what groups the graph is always an edge or a slot value with provenance
 ([[relations-are-edges-not-fields]]), because the physician's original
 complaint was that `broader` might have emerged in post-processing; and
-"feasible" is a measurement (coverage, disjointness, the unplaced by name,
-depth), not an opinion, so the pull request that asserts an axis carries a
-report a reviewer can check.
+"feasible" is a measurement, not an opinion, so the pull request that asserts
+an axis carries a report a reviewer can check. The worked example on the first
+source showed why the measures are what they are: a region axis places 20 of
+36 population concepts but only 42 of 90 statements, because the generic
+"gastrointestinal tumour operation" carries 24 — coverage by concept alone
+would have hidden that.
 
 **How to apply:** Never add an axis name to the schema, the validator or
 `tools/` ([[generic-over-guidelines]] applies to the data model too); the
 schema's `structure_kind` on a source describes the document and is not the
 axis vocabulary. Decide the carrier by one rule: a value that varies with the
-recommendation is a statement dimension (a slot), a value that is a true "is
-a" of a concept is a hierarchy respect (`axis` on `broader`). Treat the
-feasibility tool as a check like the validator — it reports, it never writes
-to `data/`. Put an axis's report in the pull request that asserts it; leave
-an axis whose report falls short as proposed, not asserted. The outline is
-never an axis ([[document-structure-is-provenance]]); the existing family
-hierarchy is the first axis, read as one hierarchy respect.
+recommendation is a statement dimension (a slot, values are concepts of facet
+`qualifier`, the dimension's question is asked before the population's), a
+value that is a true "is a" of a concept is a hierarchy respect (`axis` on
+`broader`, one parent per axis unless the definition says `several`). Never
+mint a "several" family: what spans families is unplaced and shows as "not
+placed". Treat the feasibility tool as a check like the validator — it
+reports, it never writes to `data/`. Put an axis's report in the pull request
+that asserts it; leave an axis whose report falls short as proposed or
+withdrawn, not asserted. The outline is never an axis
+([[document-structure-is-provenance]]), but its headings are the fallback a
+rule may use where the sentence names no value; the sentence wins.
