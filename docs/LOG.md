@@ -89,6 +89,19 @@ whose contents changed while their ids and slugs stayed. Found that WP-0006 is
 not on `main`: #56 was cut before #55 merged.
 
 ## 2026-09-13 — agent
+Packages touched: WP-0006 (open → claimed → review)
+Branch: agent/2026-09-13-site-colour-by-direction (on agent/2026-09-13-site-panel-six-questions)
+Notable: a box is coloured by its direction and reads "✓ A · <short label>";
+box and banner share four colour variables, gegen now a tint of the contested
+red with dark text, and the solid red "against" border went with it. The
+screenshot driver gained `--dark` (the theme emulated before the load, since
+the graph reads its colours once). Captured a family with a member open on
+desktop and phone, light and dark, a gegen box and a fact box selected, the
+phone start for the legend, and everything open: 0 overlapping pairs in every
+state, 333 elements. Noted in `LATER.md`: the graph does not follow a theme
+switch while the page is open.
+
+## 2026-09-13 — agent
 Packages touched: WP-0005 (open → claimed → review)
 Branch: agent/2026-09-13-site-panel-six-questions
 Notable: a statement's details are now the six questions, in order, on the
