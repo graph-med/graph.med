@@ -1,7 +1,7 @@
 ---
 id: WP-0004
 title: Fold at every question, a reset button, a fixed "all" row
-status: review
+status: done
 created: 2026-09-12
 updated: 2026-09-13
 depends_on: [WP-0003]

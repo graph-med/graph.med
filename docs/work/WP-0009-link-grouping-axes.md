@@ -1,9 +1,9 @@
 ---
 id: WP-0009
-title: Assert the second grouping axis on POMGAT
+title: Test and assert the first proposed axes on POMGAT
 status: open
 created: 2026-09-12
-updated: 2026-09-12
+updated: 2026-09-13
 depends_on: [WP-0008]
 blocks: [WP-0010]
 owner: unassigned
@@ -14,24 +14,36 @@ slug: link-grouping-axes
 
 ## Outcome
 
-The second axis decided in `grouping-axes-decision` is asserted on every patient
-group of `pomgat-lv-1.0` that the rule places: edges with a `modelling` rationale
-in `data/edges/pomgat-lv-1.0/grouping-axes.yaml`, family concepts minted where the
-axis needs them (with facet and label, source language), no statement moved. A
-group the rule cannot place is listed in the PR, not forced.
+The axes the physician proposed for `pomgat-lv-1.0` — the perioperative phase
+as a statement dimension, the anatomical region as a hierarchy respect, in the
+form `grouping-axes-decision` gives them — exist as axis definitions in the
+pool, each has been run through `tools/axes.py` against the view, and each
+whose report the pull request judges feasible is asserted: slot values on the
+statements and `broader` edges with `axis`, every one `modelling` with a
+rationale, in `data/edges/pomgat-lv-1.0/grouping-axes.yaml` and on the
+statement files; family concepts minted where an axis needs them (facet,
+label, source language). The existing `broader` edges are read as the region
+axis where the rule confirms them and left as plain subsumption where it does
+not. What the rule cannot place is listed in the pull request with the
+reason, not forced; an axis whose report falls short is left proposed, with
+the report in the pull request, not asserted.
 
 ## Scope
 
-In: `data/edges/pomgat-lv-1.0/`, new files under `data/concepts/` for families.
-Out: the first axis (already asserted as `broader`) except where the decision
-re-reads it; the site.
+In: `data/axes/` (or the namespace `schema-grouping-axes` names),
+`data/edges/pomgat-lv-1.0/`, `data/statements/`, new files under
+`data/concepts/` for families.
+Out: the site; any axis nobody proposed; a change to the mechanism.
 
 ## Constraints
 
 Spec §11 (search before minting, nothing inherited, no review status written);
+spec §4.1 (the report decides nothing — the pull request does, and says why);
 memory `concept-hierarchy-depth` (as deep as subsumption goes; families are
 concepts without a parent on that axis); short labels above ~45 characters
-(memory `short-label-limit`).
+(memory `short-label-limit`); everything in the source language with `lang`.
+Statements are edited, not replaced: a slot value added is an edit with
+history (spec §7), never a new statement.
 
 ## Decisions
 
@@ -43,5 +55,7 @@ None.
 
 ## Verification
 
-Validator passes; the PR lists every group with its family per axis as a table,
-and the groups left unplaced with the reason.
+Validator passes; the PR contains the feasibility report of every proposed
+axis before and after assertion, lists every population concept with its
+family per hierarchy axis and every statement with its value per dimension
+axis as tables, and the unplaced with the reason.

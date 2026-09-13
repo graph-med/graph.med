@@ -1,7 +1,7 @@
 ---
 id: WP-0005
 title: The detail section organised by the reader's six questions
-status: review
+status: done
 created: 2026-09-12
 updated: 2026-09-13
 depends_on: []
