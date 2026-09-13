@@ -39,6 +39,18 @@ every pull request and on every push to `main` (`.github/workflows/validate.yml`
 Run the first form before proposing a change (the contribution workflow’s "run the
 checks locally").
 
+`tools/axes.py` is the feasibility test of a grouping axis (`docs/graph-representation.md`
+§4.1): it applies one axis definition to one view and prints the report — coverage,
+disjointness, the unplaced remainder by name, depth — reading the places from the
+definition's `placements` while the axis is proposed and from the data once it is
+asserted. It writes nothing; the report goes verbatim into the pull request that
+asserts or withdraws the axis.
+
+```bash
+uv run tools/axes.py <axis> <view>                          # an axis in the pool: axes/<id> or <id>
+uv run tools/axes.py /tmp/graph.med/<axis>.yaml <view>      # a definition not yet committed
+```
+
 ## Build
 
 `tools/build.py` renders the site described in `docs/publication.md` from `data/`

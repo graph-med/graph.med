@@ -11,7 +11,8 @@ data/
 ├── statements/<id>.yaml     one entity per file
 ├── pathways/                structural nodes, when pathways are authored
 ├── edges/<source-id>/<package>.yaml   edges minted while doing that package
-└── views/<id>.yaml          view definitions and their cuts — each one a page on the site
+├── views/<id>.yaml          view definitions and their cuts — each one a page on the site
+└── axes/<id>.yaml           grouping axes (spec §4.1): proposed as data, tested, asserted, offered by a view
 ```
 
 Claims and the edges minted alongside them are grouped per work package for diff
@@ -47,3 +48,10 @@ Rules that bind everything here:
 - **Document structure is provenance.** A claim's `section` and a source's
   `outline` say where in the document something was found; nothing in
   `concepts/` or `statements/` carries a chapter (spec §6.7).
+- **No axis is built in.** By what a view groups its answers is an axis a person
+  proposes as an entity under `axes/` — a hierarchy (`axis` on `broader` edges over
+  one statement slot) or a dimension (a slot the axis adds to statements, its
+  values concepts of facet `qualifier`). `uv run tools/axes.py <axis> <view>` prints
+  its feasibility report and writes nothing; what a person accepts is asserted by a
+  linking pass with provenance, and only then may the view name it in `group_by`
+  (spec §4.1).
