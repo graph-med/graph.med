@@ -9,6 +9,8 @@ log. Remove an entry when its package is registered.
 
 
 
+- the chapter panel's bottom edge runs under the legend on a phone: its `max-height` leaves room for the legend's two desktop lines, and on a 390 px screen the legend wraps to four; the panel should stop above the legend at every width (`tools/site/static/site.css`, `.chapters` and `.hint`)
+
 - codes_as: no terminology namespace is imported yet. Rule once one is, by facet — procedure → OPS, patient_state → ICD-10-GM, outcome and finding → SNOMED CT where available; first candidates concepts/pankreasresektion → ops-2026/5-52 and the codes C18/C20 in QI 1's denominator (p. 122). A concept without a code must be shown as uncoded, not as unchecked.
 
 - evidence profiles (the per-outcome GRADE tables in evidence-based boxes) — no shape in the schema; open-questions → evidence-profiles

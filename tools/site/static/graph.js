@@ -2,9 +2,11 @@
    recommendation → aim — drawn left to right by Cytoscape.js with the dagre layout
    (self-hosted, see assets/vendor/LICENSES.md). Folded by default: tap an answer to
    unfold that patient group. Tap a box for its details in the section beside or below
-   the graph. A chapter tree (from the source's outline and the claims' sections) is a
-   hard filter: only what that section supports is shown. The search is a soft
-   highlight: matches keep their colour, the rest fades (docs/publication.md §3).
+   the graph. Tap a question to fold everything below it; tap it again to restore what
+   was open there. A chapter tree (from the source's outline and the claims' sections) is
+   a hard filter: only what that section supports is shown. The search is a soft
+   highlight: matches keep their colour, the rest fades. The reset button returns the
+   page to its opening state (docs/publication.md §3).
    Data: the #graph-data JSON written by tools/build.py. */
 (function () {
   "use strict";
@@ -56,6 +58,7 @@
       { selector: "node[type = 'junction']", style: { "shape": "ellipse", "width": 30, "height": 30, "padding": 0, "font-size": 11, "font-weight": 700,
           "background-color": css("--bg"), "border-color": css("--fg"), "border-width": 2, "text-max-width": 30 } },
       { selector: "node[type = 'junction'].open", style: { "background-color": css("--fg"), "color": css("--bg") } },
+      { selector: "node[type = 'question'].closed", style: { "background-color": css("--line"), "border-style": "dashed" } },   /* folded: there is more below */
       { selector: "node[type = 'statement']", style: { "color": "#111", "border-color": "rgba(0,0,0,0)", "text-halign": "center" } },
       { selector: "node[type = 'statement'][against = 1]", style: { "border-width": 3, "border-color": css("--contested") } },
       { selector: "node[type = 'statement'][contested = 1]", style: { "border-width": 3, "border-color": css("--contested"), "border-style": "dashed" } },
@@ -120,11 +123,11 @@
 
   /* fit what is open into the part of the canvas the controls do not cover: the search row floats
      over its top and the legend over its bottom, so a plain fit would put nodes under them */
-  var tools = document.querySelector(".tools.left");
+  var tools = document.querySelectorAll(".tools");
   function fit(eles, padding) {
     var bb = eles.boundingBox({ includeLabels: true }), w = cy.width(), h = cy.height();
     if (!bb.w || !bb.h) return;
-    var top = tools.getBoundingClientRect().height + 16, bottom = hint.hidden ? 0 : hint.getBoundingClientRect().height + 4;
+    var top = Math.max.apply(null, Array.prototype.map.call(tools, function (t) { return t.getBoundingClientRect().height; })) + 16, bottom = hint.hidden ? 0 : hint.getBoundingClientRect().height + 4;
     var zoom = Math.max(cy.minZoom(), Math.min((w - 2 * padding) / bb.w, (h - top - bottom - 2 * padding) / bb.h, cy.maxZoom()));
     cy.animate({ zoom: zoom, pan: { x: (w - bb.w * zoom) / 2 - bb.x1 * zoom, y: top + (h - top - bottom - bb.h * zoom) / 2 - bb.y1 * zoom } }, { duration: 250 });
   }
@@ -132,12 +135,15 @@
   /* folding: the root, the first question and its answers — the families — are always
      shown; an open junction shows what hangs directly from it: its own recommendations
      (with their conditions and aims) and, behind a "Welche Population?" of its own, the
-     junctions of its member groups, each folded until opened in turn */
-  var root = cy.nodes("[type = 'root']"), frame = root.union(root.outgoers("node[type = 'question']"));
+     junctions of its member groups, each folded until opened in turn. Every question
+     folds too: a closed question is shown and nothing below it is — the first question
+     folds the tree to the root and itself — while what was open below it stays open in
+     `open`, so that opening the question again restores it */
+  var root = cy.nodes("[type = 'root']"), q0 = root.outgoers("node[type = 'question']"), frame = root.union(q0);
   var families = junctions.filter(function (j) { return j.incomers("node").intersection(frame).nonempty(); });
-  var always = frame.union(cy.nodes("[type = 'root']").connectedEdges()).union(families).union(families.incomers("edge"));
+  var always = frame.union(root.connectedEdges()), fan = families.union(families.incomers("edge")), closed = {};
   function relayout(fitTo) {
-    var shown = always, inScope = scope();
+    var shown = closed[q0.id()] ? always : always.union(fan), inScope = scope();
     var done = {}, grew = true;
     while (grew) {   /* an open junction unfolds only while it is itself shown, so closing a family folds its members too */
       grew = false;
@@ -147,6 +153,7 @@
         var out = j.outgoers();
         shown = shown.union(out);
         out.nodes().not("[type = 'junction']").forEach(function (n) {
+          if (closed[n.id()]) return;   /* a folded question: shown, nothing below it */
           var members = n.outgoers("node[type = 'junction']");   /* the family's own question: its answers are groups, shown folded */
           shown = shown.union(members.nonempty() ? n.outgoers() : n.successors());
         });
@@ -156,6 +163,7 @@
     cy.elements().addClass("folded"); shown.removeClass("folded");
     cy.edges(".dup").removeClass("dup");
     junctions.forEach(function (j) { j.incomers("edge[kind = 'answer']").not(".folded").slice(1).addClass("dup"); });
+    cy.nodes("[type = 'question']").forEach(function (q) { q.toggleClass("closed", !!closed[q.id()]); });
     junctions.forEach(function (j) {
       j.toggleClass("open", !!open[j.id()]);
       j.data("label", section ? String(j.successors("node[type = 'statement']").intersection(inScope).length) : counts[j.id()]);
@@ -172,6 +180,15 @@
   function toggle(j, force) {
     open[j.id()] = force === undefined ? !open[j.id()] : force;
     relayout(open[j.id()] ? j.union(j.successors()) : j.closedNeighborhood());
+  }
+  function foldQuestion(q, force) {
+    closed[q.id()] = force === undefined ? !closed[q.id()] : force;
+    relayout(closed[q.id()] ? q.closedNeighborhood() : q.union(q.successors()));
+  }
+  function unfoldTo(eles) {   /* a deep link or a search reaches its target through every folded question on the way */
+    var changed = false;
+    eles.union(eles.predecessors()).filter("node[type = 'question']").forEach(function (q) { if (closed[q.id()]) { delete closed[q.id()]; changed = true; } });
+    return changed;
   }
 
   /* selection: what leads to the element and what follows it stays; the rest fades; the sheet fills */
@@ -191,6 +208,7 @@
   }
   cy.on("tap", "node, edge", function (evt) {
     var t = evt.target, ref = t.data("ref");
+    if (t.isNode() && t.data("type") === "question") { foldQuestion(t); return; }
     var j = t.isNode() && t.data("type") === "junction" ? t : (t.isEdge() && t.data("kind") === "answer" && t.target().data("type") === "junction" ? t.target() : null);
     if (j) { toggle(j); }
     if (!ref) return;
@@ -207,6 +225,7 @@
     if (eles.empty()) { relayout(cy.elements()); return; }
     var groups = eles.union(eles.predecessors()).filter("[type = 'junction']");
     groups.forEach(function (j) { open[j.id()] = true; });
+    unfoldTo(eles);
     relayout(eles.closedNeighborhood());
     select(eles, ref, push);
   }
@@ -221,7 +240,7 @@
   var outline = data.outline || [];
   function setSection(sec) {
     section = sec;
-    open = {};
+    open = {}; closed = {};
     if (sec) statementsIn(sec).predecessors("node[type = 'junction']").forEach(function (j) { open[j.id()] = true; });   /* a chapter opens unfolded */
     chapters.querySelectorAll("button").forEach(function (b) { b.classList.toggle("active", (b.dataset.section || "") === sec); });
     chaptersToggle.textContent = sec ? "§ " + sec : "§";
@@ -241,7 +260,8 @@
     var lists = { "": document.createElement("ul") };
     var all = document.createElement("button"); all.type = "button"; all.className = "all active"; all.dataset.section = "";
     all.innerHTML = '<span class="sec">all</span><span>' + statements.length + " recommendations</span>";
-    var li0 = document.createElement("li"); li0.appendChild(all); lists[""].appendChild(li0);
+    chapters.appendChild(all);   /* fixed at the top of the panel; the sections scroll below it */
+    var list = document.createElement("div"); list.className = "list"; list.appendChild(lists[""]); chapters.appendChild(list);
     outline.forEach(function (e) {
       var parent = e.section.indexOf(".") >= 0 ? e.section.slice(0, e.section.lastIndexOf(".")) : "";
       if (!(parent in lists)) parent = "";
@@ -249,7 +269,6 @@
       lists[parent].appendChild(li);
       var ul = document.createElement("ul"); lists[e.section] = ul; li.appendChild(ul);
     });
-    chapters.appendChild(lists[""]);
     chapters.querySelectorAll("ul:empty").forEach(function (ul) { ul.remove(); });
     chapters.addEventListener("click", function (e) {
       var b = e.target.closest("button"); if (!b || b.disabled) return;
@@ -286,15 +305,25 @@
   }
   function research() {
     query = fold(search.value.trim()); facet = facetSel.value;
-    var m = matches(), changed = false;
+    var m = matches(), changed = unfoldTo(m);
     m.predecessors("node[type = 'junction']").forEach(function (j) { if (!open[j.id()]) { open[j.id()] = true; changed = true; } });
     if (changed) relayout(m.union(m.predecessors())); else highlight();
   }
   search.addEventListener("input", research);
   facetSel.addEventListener("change", research);
 
+  /* the reset button: the page's opening state — folded, no search, no facet, no chapter,
+     nothing selected — so the way back from any search or filter is one tap */
+  function reset() {
+    search.value = ""; facetSel.value = ""; query = ""; facet = "";
+    chapters.hidden = true; chaptersToggle.setAttribute("aria-expanded", "false");
+    setSection("");   /* clears the fold and the selection, then lays out and fits */
+  }
+  document.getElementById("reset").addEventListener("click", reset);
+
   window.addEventListener("hashchange", function () { open_(decodeURIComponent(location.hash.slice(1)), false); });
   cy.ready(function () { open_(decodeURIComponent(location.hash.slice(1)), false); });
-  window.graphmed = { cy: cy, open: open_, toggle: toggle, isOpen: function (id) { return !!open[id]; }, section: setSection, search: function (q, f) { search.value = q; if (f !== undefined) facetSel.value = f; search.dispatchEvent(new Event("input")); } };   /* for the console and tests */
+  window.graphmed = { cy: cy, open: open_, toggle: toggle, fold: foldQuestion, reset: reset, isOpen: function (id) { return !!open[id]; }, isClosed: function (id) { return !!closed[id]; },
+    section: setSection, search: function (q, f) { search.value = q; if (f !== undefined) facetSel.value = f; search.dispatchEvent(new Event("input")); } };   /* for the console and tests */
   }
 })();
