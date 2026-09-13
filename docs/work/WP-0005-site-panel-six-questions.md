@@ -1,12 +1,12 @@
 ---
 id: WP-0005
 title: The detail section organised by the reader's six questions
-status: open
+status: claimed
 created: 2026-09-12
-updated: 2026-09-12
+updated: 2026-09-13
 depends_on: []
 blocks: [WP-0006, WP-0015]
-owner: unassigned
+owner: agent
 initiative: ui
 kind: build
 slug: site-panel-six-questions
