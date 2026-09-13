@@ -7,4 +7,5 @@ short_label: "Magensonde binnen 48 h entfernbar (Ösophagektomie)"
 slots:
   population: concepts/transthorakale-oesophagektomie
   action: concepts/fruehe-magensondenentfernung-48h
+  phase: concepts/postoperativ
 source: modelling

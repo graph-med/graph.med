@@ -6,4 +6,5 @@ short_label: "Magensonde vor Narkoseausleitung ziehen (kolorektal)"
 slots:
   population: concepts/kolorektale-resektion
   action: concepts/magensondenentfernung-vor-narkoseausleitung
+  phase: concepts/intraoperativ
 source: modelling

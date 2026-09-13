@@ -8,4 +8,5 @@ slots:
   population: concepts/kolorektale-resektion
   action: concepts/nsar-perioperativ
   outcome: concepts/postoperativer-paralytischer-ileus
+  phase: concepts/perioperativ
 source: modelling

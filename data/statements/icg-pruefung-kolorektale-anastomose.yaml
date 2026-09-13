@@ -7,4 +7,5 @@ short_label: "ICG-Angiographie der Anastomose erwägbar"
 slots:
   population: concepts/kolorektale-anastomose
   action: concepts/fluoreszenzangiographie-icg
+  phase: concepts/intraoperativ
 source: modelling

@@ -6,4 +6,5 @@ short_label: "Kein generelles Betablocker-Neuansetzen"
 slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/praeoperatives-neuansetzen-betablocker
+  phase: concepts/praeoperativ
 source: modelling

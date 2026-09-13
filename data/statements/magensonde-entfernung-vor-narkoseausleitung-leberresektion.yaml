@@ -6,4 +6,5 @@ short_label: "Magensonde vor Narkoseausleitung ziehen (Leber)"
 slots:
   population: concepts/elektive-leberresektion
   action: concepts/magensondenentfernung-vor-narkoseausleitung
+  phase: concepts/intraoperativ
 source: modelling

@@ -6,4 +6,5 @@ short_label: "Postoperative Frühmobilisation"
 slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/fruehmobilisation
+  phase: concepts/postoperativ
 source: modelling

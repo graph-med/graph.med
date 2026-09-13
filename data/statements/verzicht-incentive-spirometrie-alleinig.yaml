@@ -8,4 +8,5 @@ slots:
   population: concepts/abdomineller-oder-thorakaler-eingriff
   action: concepts/incentive-spirometrie-alleinig
   outcome: concepts/postoperative-pulmonale-komplikationen
+  phase: concepts/postoperativ
 source: modelling

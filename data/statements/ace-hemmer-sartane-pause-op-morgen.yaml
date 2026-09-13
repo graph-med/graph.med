@@ -8,4 +8,5 @@ slots:
   population: concepts/dauertherapie-ace-hemmer-sartane
   action: concepts/pausieren-am-op-morgen
   outcome: concepts/intraoperative-hypotension
+  phase: concepts/praeoperativ
 source: modelling

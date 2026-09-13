@@ -8,4 +8,5 @@ slots:
   population: concepts/antianginoese-nitrattherapie
   action: concepts/perioperative-fortfuehrung-dauertherapie
   outcome: concepts/myokardischaemie
+  phase: concepts/perioperativ
 source: modelling

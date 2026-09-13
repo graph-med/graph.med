@@ -7,4 +7,5 @@ short_label: "OP ≥1 Woche verschieben: ACE-Hemmer/Sartane eindosieren"
 slots:
   population: concepts/neu-diagnostizierte-linksventrikulaere-herzinsuffizienz
   action: concepts/op-verschiebung-eindosierung-ace-hemmer-sartane
+  phase: concepts/praeoperativ
 source: modelling

@@ -7,4 +7,5 @@ short_label: "PONV-Prophylaxe als Kombinationstherapie"
 slots:
   population: concepts/ponv-risikofaktoren
   action: concepts/antiemetische-kombinationstherapie
+  phase: concepts/praeoperativ
 source: modelling

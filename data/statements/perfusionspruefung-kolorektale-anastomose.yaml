@@ -6,4 +6,5 @@ short_label: "Perfusion der Anastomose prüfen"
 slots:
   population: concepts/kolorektale-anastomose
   action: concepts/perfusionspruefung-anastomose
+  phase: concepts/intraoperativ
 source: modelling

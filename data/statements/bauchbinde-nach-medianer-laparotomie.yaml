@@ -7,4 +7,5 @@ slots:
   population: concepts/mediane-laparotomie
   action: concepts/bauchbinde
   outcome: concepts/postoperativer-schmerz
+  phase: concepts/postoperativ
 source: modelling

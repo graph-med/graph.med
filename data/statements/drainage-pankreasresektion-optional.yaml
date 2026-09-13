@@ -6,4 +6,5 @@ short_label: "Drainage nach Pankreasresektion erwägbar"
 slots:
   population: concepts/pankreasresektion
   action: concepts/abdominelle-drainage
+  phase: concepts/intraoperativ
 source: modelling
