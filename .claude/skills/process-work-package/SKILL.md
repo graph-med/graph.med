@@ -74,9 +74,11 @@ form); this file is the procedure.
    `uv run tools/validate.py` (and the build, for a build package) on every
    branch after the rebase. Push with `--force-with-lease`; these are your own
    `agent/*` branches.
-8. **Open the pull requests** in order: the first targets `main`, each next one
-   targets its predecessor's branch (GitHub retargets it to `main` when that
-   branch is deleted after merge). Every PR, of every kind, links its preview
+8. **Open the pull requests** in order, every one with `--base main` — never
+   the predecessor's branch: a pull request merged into another branch does not
+   reach `main`. Until its predecessor merges, a stacked PR's diff shows the
+   predecessor's commits too; merged in order, each lands on `main`. Every PR,
+   of every kind, links its preview
    as a complete clickable URL on its own line
    (`https://graph.med/preview/pr<N>/<view-id>/`, a markdown link). The number
    exists only after `gh pr create`: create with a placeholder, then patch the

@@ -136,9 +136,10 @@ What the coordinator owes the workers, and they it:
 - **The coordinator stacks.** It rebases the first branch on `main` and each
   next one on its predecessor, resolving `docs/LOG.md` by keeping every entry
   newest first and `docs/HANDOFF.md` by rewriting it for the union; it runs the
-  checks on every branch, opens the pull requests in order — the first against
-  `main`, each next against its predecessor's branch — and names the merge
-  order in each.
+  checks on every branch, opens the pull requests in order — every one
+  against `main`, never against its predecessor's branch — and names the
+  merge order in each. Until its predecessor merges, a stacked pull request
+  shows the predecessor's commits too; merged in order, each lands on `main`.
 - **The handoff lists every claimed package** — every package with an open
   `agent/*` branch on `origin` — not only one worker's own.
 - **Nothing shared by name.** The Docker daemon is one per sandbox; the

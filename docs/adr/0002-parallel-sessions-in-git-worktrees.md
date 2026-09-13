@@ -26,13 +26,17 @@ of that name was running.
 - A worker stops after pushing its handover. The coordinator rebases the first
   branch on `main` and each next on its predecessor, resolving the log by
   keeping every entry and the handoff by rewriting it for the union, and opens
-  the pull requests in order, each stacked on the one before; the handoff lists
+  the pull requests in order, each stacked on the one before and every one
+  targeting `main`; the handoff lists
   every package with an open `agent/*` branch. The run ends when every listed
   package has a pull request.
 - Anything a session starts on shared infrastructure is named after its branch;
   the screenshot runner does so by default.
 - A package that depends on one still in review either waits or branches from
-  the dependency's branch, with its pull request targeting that branch.
+  the dependency's branch. Its pull request still targets `main`: a pull
+  request merged into another branch does not land on `main` (the branch is
+  not retargeted unless the dependency's branch is deleted on merge), and the
+  merge order named in the description is what keeps the stack in sequence.
 
 ## Consequences
 
