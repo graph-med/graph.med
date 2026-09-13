@@ -11,6 +11,14 @@ log. Remove an entry when its package is registered.
 
 - the chapter panel's bottom edge runs under the legend on a phone: its `max-height` leaves room for the legend's two desktop lines, and on a 390 px screen the legend wraps to four; the panel should stop above the legend at every width (`tools/site/static/site.css`, `.chapters` and `.hint`)
 
+- the question a dimension axis adds is a per-language form, "Welche {label}?", filled with the axis's short label (`WORDS` in `tools/build.py`); it cannot inflect, so a neuter axis ("Stadium") would read "Welche Stadium?" — either a `question` the axis declares in its own language, or a gender beside the label, would fix it; decide with the first axis the form gets wrong
+
+- a hierarchy axis over `condition` (spec §4.1 allows `population` and `condition`) is not built: the tree has junctions for patient groups only, a condition is an answer straight into its box, so there is nothing for such an axis to fold; the build stops with a message. Needs condition junctions, or the answer becoming a node, when the first such axis is asserted (`tools/build.py`, `hierarchy()`)
+
+- the switch redraws the graph from the chosen grouping's tree (the page holds one tree per grouping, `groupings` in the view's JSON), so a view with several axes ships every tree in its JSON; fine at ninety recommendations, worth one shared node table if a view ever grows to thousands
+
+- a `broader` edge that holds both plainly and on a hierarchy axis (the same concept under the same parent, once without `axis` and once with it) is refused by the validator as a duplicate — `axis` is not an edge discriminator — although spec §4.1 lets a concept have a parent per respect; met on a throwaway assertion of `axes/region`, whose five families are the plain hierarchy's. The linking pass that asserts a hierarchy axis needs either `axis` in the edge's identity (`tools/validate.py`) or the rule that a coinciding plain edge is the axis's edge too
+
 - codes_as: no terminology namespace is imported yet. Rule once one is, by facet — procedure → OPS, patient_state → ICD-10-GM, outcome and finding → SNOMED CT where available; first candidates concepts/pankreasresektion → ops-2026/5-52 and the codes C18/C20 in QI 1's denominator (p. 122). A concept without a code must be shown as uncoded, not as unchecked.
 
 - evidence profiles (the per-outcome GRADE tables in evidence-based boxes) — no shape in the schema; open-questions → evidence-profiles

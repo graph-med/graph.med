@@ -161,8 +161,20 @@ it. Three choices keep the tree readable at ninety recommendations:
   cannot place is one answer, "not placed", last among that question's answers
   at every depth where it is asked, so nothing disappears. The switch's words,
   the axis labels and "not placed" come from the per-language table like the
-  questions; the build knows no axis by name. Where the switch sits, and how it
-  looks on a phone, is decided with the package that builds it.
+  questions; the build knows no axis by name. **How it looks.** The switch is a
+  select in the row of controls over the graph, after the search box: it shows the
+  name of the chosen grouping — "Population" for the plain hierarchy, then each
+  axis's `label`, in the view's language — and opens the list on a tap; a view
+  that offers only the plain hierarchy shows no switch. On a phone the row wraps
+  and the switch takes the second line beside the facet filter, wide enough for
+  an axis's label. A dimension axis's question is its short label in the
+  per-language question form ("Welche Phase?"). The choice is part of the URL,
+  `?by=<axis id>` before the `#<entity id>` deep link (absent for the plain
+  hierarchy; an unknown axis falls back to it), so a link to a grouped view is
+  shareable and a deep link unfolds to its target under the chosen axis.
+  Switching keeps the chapter, the search, the facet and the selected entity;
+  the reset button keeps the axis, because it undoes narrowing and the axis
+  narrows nothing.
 
 **Boxes show the short form.** A box shows a statement's `short_label` when it
 has one and its `label` otherwise; the section always shows the full label. The
@@ -189,7 +201,8 @@ follows it stay, everything else fades, and its details open in the **section
 below the graph** — on a wide screen, in a **column beside it**, the graph taking
 the full height; the graph stays where it is either way, so the reader keeps their
 place. Tapping the background clears. Tapping a neighbour listed in the section
-moves there. Deep links carry `#<entity id>`. There are no modal dialogs and no page
+moves there. Deep links carry `#<entity id>`, and `?by=<axis id>` when the tree is
+grouped by an axis. There are no modal dialogs and no page
 loads needed to read a view; the entity pages (§4) exist for linking, not for reading.
 
 **Chapters and search.** Two ways to narrow the tree, deliberately different in
