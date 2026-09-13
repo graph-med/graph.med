@@ -1,12 +1,12 @@
 ---
 id: WP-0006
 title: Boxes coloured by direction, grade as a letter
-status: open
+status: claimed
 created: 2026-09-12
 updated: 2026-09-13
 depends_on: [WP-0005]
 blocks: []
-owner: unassigned
+owner: agent
 initiative: ui
 kind: build
 slug: site-colour-by-direction
