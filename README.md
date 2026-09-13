@@ -199,8 +199,13 @@ real section, and so the site can count which sections nobody has extracted yet.
 
 On the site, a chapter is a **filter**: the `§` panel narrows the tree to what one
 section supports. It is never a node in the graph. What a chapter *means*
-clinically — an organ, a phase — goes onto concepts, as facets and families, where
-the next guideline with a different outline can meet it.
+clinically — an organ, a phase — is a grouping **axis**, and an axis is never built
+in: a physician proposes one for a guideline, a tool tests whether the pool can
+carry it and reports, a linking pass asserts what holds as edges and slot values
+with provenance, and only then does a view offer it as a way to fold the tree
+(`docs/graph-representation.md` §4.1). The next guideline, organised by stage or
+by symptom, proposes its own axes through the same steps; the families the site
+folds by today are the first axis.
 
 ### Views: the pool is one, the graphs are many
 
@@ -251,6 +256,7 @@ current leaning, so that nobody re-derives it. What was decided, and why, lives 
 | **claim** | one passage of one source and what it states: verbatim quote, page, grade, verb |
 | **statement** | a proposition in the pool's words, with slots; what claims support or contest |
 | **concept** | a thing statements talk about; has a facet; can be a special case of another (`broader`) |
+| **axis** | what a view's first question groups by — proposed by a person for a guideline, tested by a tool, asserted with provenance, then offered by the view; carried by a slot on statements or by `broader` edges naming it |
 | **slot** | a statement's population, action, condition or outcome, filled with a concept |
 | **edge** | a typed link: `supports`/`contests` (claim → statement), `refines`/`supplements`/`limits` (claim → claim), `broader`, `codes_as` (concept), `specializes`/`complements`/`conflicts` (statement → statement) |
 | **section** | where in its document a claim was found; on the claim only |

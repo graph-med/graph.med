@@ -9,8 +9,8 @@
 > concepts with short labels, every concept with a facet, and a `broader`
 > hierarchy over the patient groups. Everything else described as checked or
 > computed — the canonical form and content hashes (§2), staleness (§5, §8),
-> attestations and review state (§8), view cuts (§4), the derived statement
-> properties (§3.3) — is not implemented yet. Statements about those describe the
+> attestations and review state (§8), view cuts (§4), grouping axes (§4.1), the
+> derived statement properties (§3.3) — is not implemented yet. Statements about those describe the
 > model this repository is being built to, not behaviour anyone can rely on today.
 
 This file explains the approach behind the knowledge in this repository. It is
@@ -201,7 +201,8 @@ Three kinds of entity, kept apart because different edges attach to them:
   resection, the drain can be removed early when the drain amylase indicates a
   low fistula risk." Statements are what claims *support* or *contest*. A
   statement has a **slot shape** declared by the schema (population, action,
-  condition, outcome — filled with concept URLs), which makes "is this the same
+  condition, outcome — filled with concept URLs; a further slot exists only as
+  the carrier of a declared grouping axis, §4.1), which makes "is this the same
   statement?" an almost-computable question and keeps granularity honest: **a
   statement is the smallest unit that can be independently supported or
   contested.** Its `label` is the full proposition; an optional **`short_label`**
@@ -273,6 +274,68 @@ outcomes, every referenced statement is a member, nothing dangles. A filter that
 amputates a branch fails validation and the cut is not made. "A graph is complete
 and valid on its own" is a guarantee only a cut can honour, so it lives there.
 
+### 4.1 Grouping axes: proposed, tested, asserted, shown
+
+A view is read as a tree of questions whose answers are grouped
+(`docs/publication.md` §3). *By what* they are grouped is an **axis**, and an
+axis is never built into the pool or the site. Guidelines are organised by
+different principles — chronologically by perioperative phase, by organ, by
+tumour entity, by stage, by leading symptom, by setting (a source's `structure`
+says which, §6.7) — and any closed list of axes is exactly what the next
+guideline breaks. The pool therefore fixes the **mechanism** by which an axis
+comes to exist, and leaves the axes themselves to the people who read each
+guideline. An axis is guideline-specific in what it proposes and generic in
+how; a second and a third guideline pass through the same four steps unchanged.
+
+1. **Proposed.** A person — usually a physician — proposes an axis *for a view*
+   as data: a name, which of the two carriers below it uses, a written rule a
+   linking session can apply without judgment calls, who proposed it, and its
+   status (proposed, asserted, withdrawn). Proposing is cheap and commits the
+   pool to nothing.
+2. **Tested.** A tool applies the rule's consequences to the view and prints a
+   **feasibility report**: *coverage* (the share of the view's statements or
+   population concepts the rule places), *disjointness* (what the rule places in
+   more than one family on the same axis), the *unplaced remainder* by name, and
+   *depth* (whether a proposed hierarchy is in fact flat, or a proposed
+   dimension is in fact a subsumption). The report is a measurement, not a
+   verdict, and the tool writes nothing: a person reads the report and decides,
+   and the report goes into the pull request that asserts the axis. An axis
+   feasible on one guideline and infeasible on another is a fact the report
+   states, not a defect of either.
+3. **Asserted.** What the person accepts is written into the pool the way
+   everything that groups the graph is written: as `broader` edges naming the
+   axis, or as slot values on statements — each `modelling`, with a rationale,
+   by a linking pass, reviewed in a pull request. **Nothing groups a view that
+   is not asserted this way.** The feasibility test is post-processing; the
+   grouping never is — otherwise a grouping would appear on the site that nobody
+   can cite, attest, date or dispute.
+4. **Shown.** A view declares which asserted axes it groups by, and in which
+   order its questions are asked (`group_by`, a fixed filter form, §13). The
+   site offers the axes the view's data carries, labels them from a per-language
+   table keyed by the axis, and puts a concept without a place on the chosen
+   axis into one generic "not placed" bucket at every depth. The build knows no
+   axis by name.
+
+**Two carriers.** An axis is carried by one of two things the schema already
+has, and the rule that decides which is the same for every guideline:
+
+- A **statement dimension** — a slot on the statement (§3.2). The value
+  qualifies the *recommendation* and holds independently of who the patient is:
+  the perioperative phase, the care setting, the profession addressed. The same
+  patient group carries recommendations across all values of such an axis.
+- A **hierarchy respect** — a `broader` edge with an `axis` property (§5). The
+  value is a true "is a special case of" of a *concept* in one respect: the
+  anatomical region, the tumour entity, the stage, the access modality. A concept
+  may have several broader concepts on different axes and one is-a on each;
+  an edge without `axis` is plain subsumption as before.
+
+If the value would stay true whatever were recommended, it is subsumption; if it
+varies with the recommendation, it is a dimension. The document outline is
+neither: it is provenance and a filter (§6.7), never an axis. The `broader`
+hierarchy over the first source's patient groups and the population question
+the site asks today are the first axis, asserted before this mechanism existed;
+the mechanism reads them as one hierarchy respect and adds nothing to them.
+
 ---
 
 ## 5. Edges are typed tuples
@@ -298,8 +361,9 @@ the different jobs of edges apart:
   Leberresektion* is a *Leberresektion*; a concept may have several broader
   concepts (a minimally invasive colorectal resection is both a colorectal
   resection and a minimally invasive procedure) and a concept with none is a
-  root. Always `modelling`, with a rationale. The edge carries **no evidence and
-  no inheritance**: whether a recommendation about the broader concept holds for
+  root. Always `modelling`, with a rationale; it may carry an **`axis`** naming
+  the respect in which the subsumption holds, once that axis is asserted for
+  the view (§4.1). The edge carries **no evidence and no inheritance**: whether a recommendation about the broader concept holds for
   the narrower one is a clinical question the source either answers explicitly,
   in which case a statement says so, or leaves open, in which case the gap stays
   visible. A build that propagates recommendations down a `broader` edge would
@@ -733,8 +797,8 @@ No inference semantics are assumed: relations are asserted, not entailed.
   diff-ergonomics choice, not a rule.
 - **The view-filter language.** The schema starts with a minimal set of filter
   forms, extended one proven need at a time (the section filter, §4, is the
-  first); how far it grows toward a query language is undecided
-  (`docs/open-questions.md`).
+  first; a view's `group_by` over its asserted axes, §4.1, the second); how far
+  it grows toward a query language is undecided (`docs/open-questions.md`).
 - **Statement slot vocabularies and grade derivation.** Which slot shape each
   statement type needs, and how supporting claims' grades compose, are open —
   they are medically sensitive and will be settled against real content.

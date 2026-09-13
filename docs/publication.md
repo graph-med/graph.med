@@ -5,8 +5,10 @@
 > graph-and-sheet page with patient groups folded by family, the chapter tree and
 > the search with facet filters, short labels, direction glyphs, legend and banner,
 > the order of the detail section (§3), entity pages and JSON (§4), source links
-> (§5), and the deploy workflow with one preview per open pull request (§6). Not
-> built and not registered: cuts (§7), pathway views, and everything under §8. The
+> (§5), and the deploy workflow with one preview per open pull request (§6).
+> Registered and not built: the axis switch (§3, "The axis is the reader's
+> choice"; `docs/work/initiatives/groupings.md`). Not built and not registered:
+> cuts (§7), pathway views, and everything under §8. The
 > domain `graph.med` points at GitHub Pages. This document fixes what the site is *meant*
 > to be so that the build is written to it, not the other way round. It is the
 > design-level counterpart of `graph-representation.md`: that file says how
@@ -145,6 +147,18 @@ it. Three choices keep the tree readable at ninety recommendations:
   for, never from a family — the edge only groups and folds, it never moves a
   recommendation from a family to a member, and a group with two parents appears
   under both.
+- **The axis is the reader's choice.** What the first question groups by is an
+  **axis** (`graph-representation.md` §4.1): the families above the patient
+  groups are one, the perioperative phase or the anatomical region may be others
+  once a person has proposed them for the view and a linking pass has asserted
+  them. The page offers a switch listing the axes the view declares in
+  `group_by` and no other; choosing one changes what the first question asks
+  and which concepts are its families — never the shape of the tree, its
+  folding, or where a recommendation hangs. Whatever the chosen axis cannot
+  place sits in one "not placed" answer at every depth, so nothing disappears.
+  The switch's words come from the per-language table like the questions; the
+  build knows no axis by name. Where the switch sits, and how it looks on a
+  phone, is decided with the package that builds it.
 
 **Boxes show the short form.** A box shows a statement's `short_label` when it
 has one and its `label` otherwise; the section always shows the full label. The
