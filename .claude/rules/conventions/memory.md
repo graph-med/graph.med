@@ -42,6 +42,7 @@ pre-emptively.
 | `design/direction-legend.md` | The four-word direction (für, gegen, abwägen, Lücke) is derived from claims; kann → abwägen with a lean; facts have none. |
 | `design/box-granularity-per-sentence.md` | A claim is one recommendation sentence, not a box; a box with several sentences is several claims sharing its `recommendation_no`. |
 | `design/concept-hierarchy-depth.md` | `broader` goes as deep as subsumption does (three levels in POMGAT); families are concepts without a parent; the site folds recursively. |
+| `design/box-colour-by-direction.md` | A box is coloured by its direction (the banner's four colours) and carries its grade as a letter after the glyph; EK is coloured like any other and marked "EK". Not by grade, not by verb. |
 
 ## Writing one
 
