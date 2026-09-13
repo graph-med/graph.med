@@ -118,6 +118,9 @@ ul.body li p { margin: .2rem 0; }
 .q ol.claims li .cite { margin: 0 0 .2rem; }
 .q ul.neighbours li .tag { margin-right: .3rem; }
 .tools select { height: 44px; padding: 0 .6rem; border: 1px solid var(--line); border-radius: 22px; background: var(--bg); color: var(--fg); font: inherit; font-size: .9rem; max-width: 9rem; }
+/* the axis switch (docs/publication.md §3 "The axis is the reader's choice"): in the row with the search,
+   an axis's label being longer than a facet's word; shown only when the view offers more than the plain hierarchy */
+.tools select#axis { max-width: 12rem; font-weight: 600; }
 
 /* narrow screens: the controls share one row and the counter wraps under them */
 @media (max-width: 520px) {
@@ -125,5 +128,6 @@ ul.body li p { margin: .2rem 0; }
   .tools.right { flex-direction: column; }   /* fit and reset stack, so the search row keeps its width */
   .tools input[type=search] { max-width: 34vw; }
   .tools select { max-width: 6.6rem; }
+  .tools select#axis { max-width: calc(100% - 7.2rem); }   /* the row it wraps to holds it beside the facet select */
   .chapters button { min-height: 44px; align-items: center; }   /* touch targets */
 }
