@@ -1,12 +1,12 @@
 ---
 id: WP-0004
 title: Fold at every question, a reset button, a fixed "all" row
-status: open
+status: claimed
 created: 2026-09-12
-updated: 2026-09-12
+updated: 2026-09-13
 depends_on: [WP-0003]
 blocks: [WP-0010]
-owner: unassigned
+owner: agent
 initiative: ui
 kind: build
 slug: site-fold-and-reset
