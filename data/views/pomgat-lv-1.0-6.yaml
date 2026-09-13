@@ -1,0 +1,10 @@
+# A specialised view (docs/work/initiatives/groupings.md): chapter 6 of the POMGAT guideline,
+# the intraoperative management, as a fixed `section` filter form (schema x-view-filters,
+# spec §4, §6.7) — the statements supported from that chapter and what they need, nothing
+# added. Published at graph.med/pomgat-lv-1.0-6.
+id: views/pomgat-lv-1.0-6
+type: view
+view_kind: selection
+filter:
+  sources: [sources/pomgat-lv-1.0]
+  section: {source: sources/pomgat-lv-1.0, under: "6"}
