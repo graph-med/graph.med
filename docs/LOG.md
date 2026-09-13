@@ -3,6 +3,15 @@
 One entry per session, newest first. Past about 200 lines, move the oldest
 entries to `docs/LOG-ARCHIVE.md`, newest first there too; never delete.
 
+## 2026-09-13 — agent
+Packages touched: WP-0003 (review → done), WP-0006 (blocked → open)
+Branch: docs/settle-box-colour
+Notable: the maintainer settled box-colour — colour by direction, the grade as a
+letter — after asking which option the agent preferred and why. Applied in
+`docs/publication.md` §3 and the memory `box-colour-by-direction`; the entry
+left `docs/open-questions.md`. No site change: WP-0006 builds it once WP-0005 is
+done. The maintainer asked to concentrate on the `ui` initiative first.
+
 ## 2026-09-12 — agent
 Packages touched: WP-0002 (review → done), WP-0003 (open → claimed → review)
 Branch: agent/2026-09-12-site-question-at-every-branch

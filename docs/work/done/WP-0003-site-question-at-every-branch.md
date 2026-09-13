@@ -1,9 +1,9 @@
 ---
 id: WP-0003
 title: A question diamond at every branching of the tree
-status: review
+status: done
 created: 2026-09-12
-updated: 2026-09-12
+updated: 2026-09-13
 depends_on: [WP-0002]
 blocks: [WP-0004]
 owner: agent

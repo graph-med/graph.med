@@ -1,6 +1,6 @@
 ---
 name: view-page-is-a-decision-tree
-description: The view page is one decision tree — which patient group? (families, then members, a question at every fork) → which condition? → recommendation (coloured by grade, a direction glyph) → aim, answers on the edges — drawn left to right by Cytoscape.js + dagre, folded by default, nothing overlapping; not chapters as the shape, not an outline, not an all-at-once drawing.
+description: The view page is one decision tree — which patient group? (families, then members, a question at every fork) → which condition? → recommendation (coloured by direction, the grade a letter) → aim, answers on the edges — drawn left to right by Cytoscape.js + dagre, folded by default, nothing overlapping; not chapters as the shape, not an outline, not an all-at-once drawing.
 metadata:
   type: project
 ---
@@ -8,7 +8,7 @@ metadata:
 A view page on the site is **one decision tree**: a root, a question "Which patient
 group?" whose answers sit on the edges, a junction per group, an optional "Which
 condition?" with its answers on the edges, the recommendations as boxes coloured
-by the guideline's grade, aims as tags. Drawn top-down by Cytoscape.js with the
+by their direction with the grade as a letter, aims as tags. Drawn top-down by Cytoscape.js with the
 dagre layout, self-hosted; a node's details in the section below the graph.
 Decided 2026-09-06 after three rejected forms; applied in `docs/publication.md`
 §3 and `tools/build.py`.
@@ -43,7 +43,7 @@ answers on the edges and the questions as the only text the build adds, in the
 view's source language ("Welche Population?", "Welche Bedingung?" — the
 maintainer saw "Which patient group?" live and asked for it to be corrected,
 content and language); boxes
-show the short label behind the direction glyph; keep the grade colours and the
+show the short label behind the direction glyph; keep the direction colours, the grade letter and the
 node forms; keep Cytoscape.js + dagre vendored and pinned. Do not split
 the page by chapter, reintroduce an outline, or hand-write layout again. The tree
 is *derived* from slots until pathways are authored (`docs/open-questions.md` →

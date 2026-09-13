@@ -25,5 +25,6 @@ werden" without inventing a fifth word.
 **How to apply:** Never store a direction on a statement; derive it. Keep the
 four words and glyphs (✓ ✗ ⚖ ∅); timing stays in the label. When gap notices
 are linked to statements (open question gap-notices), *Lücke* starts to appear
-without a build change. Related: [[grade-derivation]] is still open and
-unaffected: strength stays in the grade colour.
+without a build change. Related: [[box-colour-by-direction]] — the box takes
+the direction's colour, strength is the grade letter beside the glyph;
+[[grade-derivation]] is still open and unaffected.

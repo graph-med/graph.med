@@ -1,30 +1,27 @@
 ---
-updated: 2026-09-12
+updated: 2026-09-13
 ---
 # Handoff
 
 **Where we are.** Sixteen packages, WP-0001 to WP-0016, in four initiatives
-(`ui`, `groupings`, `extraction-quality`, `review`). WP-0001 and WP-0002 are in
-`done/`; WP-0003 is merged (#49) and still reads `review` — the next session
-closes it. The live site has a question at every fork, answers beside what they
-lead to, and every edge routed in the gap between columns; the physician's
-review of a build change is done on a phone.
+(`ui`, `groupings`, `extraction-quality`, `review`). WP-0001 to WP-0003 are in
+`done/`. The maintainer wants the `ui` initiative done first: WP-0004, WP-0005,
+then WP-0006, whose box-colour question is settled (memory
+`box-colour-by-direction`) and which now only waits on WP-0005. The live site
+still colours boxes by grade until WP-0006 lands.
 
 **Claimed.** Nothing.
 
-**Next agent's first move.** Close WP-0003 (`AGENTS.md` step 2), then claim
-WP-0004 (fold at every question, a reset button, a fixed "all" row) on the same
-branch. WP-0005, WP-0007 and WP-0011 are also open with no dependencies. Check
-`git ls-remote --heads origin 'agent/*'` first.
+**Next agent's first move.** Claim WP-0004 (fold at every question, a reset
+button, a fixed "all" row) or WP-0005 (the detail section organised by the
+reader's six questions); both are open with their dependencies done. Stay in
+`ui`. Check `git ls-remote --heads origin 'agent/*'` first.
 
 **Blocked, and why.**
-- WP-0006 — waits on `docs/open-questions.md` → box-colour (the maintainer's call).
 - WP-0014 — waits on `docs/open-questions.md` → structural-recommendations.
 
 **Watch out.** `uv run tools/screenshot.py <view> --do all --do fit` prints the
 overlapping pairs — nodes and answers on each other, edges across either; a
 build package ends with 0. It cannot see a pan that pushes nodes under the
-floating controls on a phone; look for that yourself. Deploys to `main` without
-an open pull request were silently skipped until the deploy job got its own
-condition on 2026-09-12 (`docs/publication.md` §6). Every pull request links
+floating controls on a phone; look for that yourself. Every pull request links
 its preview as a complete clickable URL (`https://graph.med/preview/pr<N>/<view-id>/`).

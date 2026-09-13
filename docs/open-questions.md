@@ -75,12 +75,6 @@ and which package is next, is not a question and lives in `docs/work/` and `docs
 **Leaning:** on the statement: "postoperativ" qualifies the recommendation, not the patient, and a small controlled vocabulary makes "colorectal, postoperative" a cross-guideline query the way "7.4" never can be. Not part of the current pass; decide when the second source arrives or when the site wants a phase filter. (2026-09-10)
 **Settled by:** the first cross-source query or view that needs the phase.
 
-## box-colour  (publication.md §3; memory view-page-is-a-decision-tree; tools/site/static/site.css)
-**Question:** What should a box's colour say? Today it says the grade (A · B · 0 · EK, the guideline's own scale). The physician finds this unintuitive: the colours track the soll/sollte/kann gradation and expert consensus at once, and the reader confuses strength with answer.
-**Options:** colour by direction — für, gegen, abwägen, Lücke — with the grade written in the box after the glyph · colour by verb (soll, sollte, kann) with the evidence grade written in · keep colour by grade and make the direction glyph larger
-**Leaning:** by direction. The direction is what the reader asks first ("what should I do?"), it already has the glyph and the banner, and the four colours are the banner's, so colour and section would agree. The second option is the first in disguise: under the AWMF scheme A↔soll, B↔sollte, 0↔kann, so colouring by verb is colouring by grade with EK as the odd one out. Colour by direction also settles EK: an EK box is coloured by its direction like every other recommendation — the physician argues it is a clear recommendation with a clear direction — and carries "EK" as its grade text, so it is marked and not demoted. The cost is that strength moves from colour to a letter; the box has room for one. (2026-09-11)
-**Settled by:** the maintainer's decision on this entry; WP-0006 in `docs/work/` implements what is decided.
-
 ## structural-recommendations  (graph-representation.md §3.2; schema `concept.facet`, `statement`)
 **Question:** How are recommendations of a structural or organisational kind — those a physician on the ward cannot act on, such as the specialised nurse in mPOM (box 8.7) — told apart from the rest, and shown? The physician's point is that they play no part in a ward decision.
 **Options:** shown in the tree like every other recommendation · in the tree with a marker · not in the main tree, in a view of their own · a facet value on the action concept (`organisation`) that the site can mark on and a view can exclude

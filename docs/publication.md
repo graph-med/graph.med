@@ -83,8 +83,9 @@ decision-graph-derivation):
       │                │       ╲ Amylase < …     answer on the edge (condition slot)
    ┌──┴────────┐   ┌───┴───────┐ ┌───┴───────┐
    │ recommend.│   │ recommend.│ │ recommend.│    the statements — boxes coloured by
-   └─────┬─────┘   └───────────┘ └───────────┘    grade (A · B · 0 · EK), red border
-         ┆ (dashed)                               when *against*, dashed red when contested
+   └─────┬─────┘   └───────────┘ └───────────┘    direction (für · gegen · abwägen · Lücke),
+         ┆ (dashed)                               the grade a letter (A · B · 0 · EK);
+         ┆                                        dashed red border when contested
          ▷ aim                                    outcome slot
 ```
 
@@ -99,13 +100,16 @@ decision-graph-derivation):
 - **Patient groups converge.** Statements sharing a population hang from one
   junction, so the tree shows at a glance what the guideline says for, say,
   colorectal resection. A condition is asked within its group.
-- **Forms tell the types apart, colour tells the grade.** Diamond, box, tag for
-  question, recommendation, aim; the answers are bold edge labels written at the end
-  of their edge, beside the group or box they lead to, so that many answers from one
-  question do not pile up mid-edge; the aim a dashed edge; the grade colours are the
-  guideline's own scale. Legend under the graph. Whether colour should say the
-  grade or the direction is open again after the physician's review
-  (`open-questions.md` → box-colour).
+- **Forms tell the types apart, colour tells the direction, a letter the grade.**
+  Diamond, box, tag for question, recommendation, aim; the answers are bold edge
+  labels written at the end of their edge, beside the group or box they lead to, so
+  that many answers from one question do not pile up mid-edge; the aim a dashed
+  edge. A box takes the colour of its direction — the four colours of the banner
+  in the details, so that box and section agree — and carries its grade as a
+  letter after the direction glyph (A · B · 0 · EK, the guideline's own scale). An
+  EK box is coloured by its direction like every other recommendation and marked
+  "EK", not demoted. Legend under the graph: the colours are directions, the
+  letters grades.
   Claims are not nodes; they are the evidence and appear in the section.
 
 **Drawn by a library, left to right, folded.** The page uses Cytoscape.js with the
@@ -204,7 +208,7 @@ because in the AWMF scheme "kann" *is* the open recommendation, the guideline's 
 third category (the banner adds the lean, "eher für" or "eher gegen"); `kind:
 gap_notice` → Lücke; claims that disagree in direction → abwägen; a fact has no
 direction. A glyph before the box label (✓ ✗ ⚖ ∅) and a banner at the top of the
-details carry it; the legend lists the four words next to the grade colours. Timing
+details carry it; the legend lists the four words with their colours. Timing
 ("innerhalb von 24 Stunden") is not a direction; it stays in the label.
 
 **What the section shows.**
@@ -279,7 +283,7 @@ recorded on the source entity, is shown on its page and on every view drawn from
 stylesheet, the templates, the drawing — works with the `frontend-design` plugin,
 enabled for every session in this repository by `.claude/settings.json`. It informs
 choices *within* what this document and the decision-tree memory fix (the one
-tree, the node forms, the grade colours, folding by family, answers on the edges);
+tree, the node forms, the direction colours, folding by family, answers on the edges);
 it never licenses a restyle of those. Before a build change is proposed, the page
 is looked at in a browser (the `screenshot` skill), on a desktop and on a phone.
 
