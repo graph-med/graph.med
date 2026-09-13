@@ -12,7 +12,14 @@ rules a document schema cannot state because they span files:
   - edges are unique per (from, kind, to, discriminator);
   - a view id is not a namespace name (views are served at the site root);
   - a claim's `section` names an entry of its source's `outline` (spec §6.7);
-  - `broader` edges form no cycle (spec §5);
+  - `broader` edges form no cycle (spec §5), within one axis or across them;
+  - the grouping axes hold together (spec §4.1): a dimension axis declares a slot
+    no statement has of its own and no other axis declares, a hierarchy axis
+    folds one the statements have; an axis's `values` are concepts of facet
+    `qualifier`; a statement's extra slot is declared by a dimension axis and
+    holds one of its `values`; `axis` on a `broader` edge names a hierarchy
+    axis, and a concept has one parent per axis unless the axis says `several`;
+    a view's `group_by` names axes asserted for that view; placements resolve;
   - the work-package convention holds (scripts/check-work.py: ids, statuses,
     dependencies, done/, stale claims, HANDOFF.md against LOG.md).
 
@@ -85,6 +92,7 @@ def main(argv=None) -> int:
 
     # 2. cross-file rules -------------------------------------------------------
     ids: dict[str, str] = {}
+    entities: dict[str, dict] = {}
     for rel, doc, one_per_file in docs:
         for ent in (doc if isinstance(doc, list) else [doc]):
             if not (isinstance(ent, dict) and isinstance(ent.get("id"), str)):
@@ -93,6 +101,7 @@ def main(argv=None) -> int:
             if eid in ids:
                 errors.append(f"{rel}: duplicate id {eid} (also in {ids[eid]})")
             ids[eid] = rel
+            entities[eid] = ent
             if one_per_file and eid != f"{Path(rel).parent.name}/{Path(rel).stem}":
                 errors.append(f"{rel}: id {eid} does not match the file name")
             if ent.get("type") == "view" and eid.split("/", 1)[-1] in reserved:
@@ -120,7 +129,7 @@ def main(argv=None) -> int:
 
     ref_pattern = re.compile(rf"^({'|'.join(map(re.escape, namespaces))})/")
     seen_edges: set[tuple] = set()
-    broader: dict[str, list[str]] = {}
+    broader: list[tuple[str, int, str, str, dict]] = []   # (file, index, from, to, props)
     for rel, doc, _ in docs:
         for path, value in walk(doc):
             if isinstance(value, str) and ref_pattern.match(value) and value.split("#")[0] not in ids:
@@ -133,12 +142,9 @@ def main(argv=None) -> int:
                         errors.append(f"{rel} at {i}: duplicate edge; parallel edges need a discriminator")
                     seen_edges.add(key)
                     if edge[1] == "broader":
-                        broader.setdefault(edge[0], []).append(edge[2])
+                        broader.append((rel, i, edge[0], edge[2], edge[3]))
 
-    # broader is a hierarchy: no concept may be a special case of itself (spec §5)
-    for cycle in cycles(broader):
-        errors.append(f"broader edges form a cycle: {' -> '.join(cycle)}")
-
+    errors += check_axes(schema, ids, entities, broader)
     errors += check_work(set(ids))
 
     n_entities, n_edges = len(ids), len(seen_edges)
@@ -156,6 +162,94 @@ def main(argv=None) -> int:
         print(f"error: {line}")
     print(f"{len(errors)} error(s)" if errors else "ok")
     return 1 if errors else 0
+
+
+def check_axes(schema: dict, ids: dict[str, str], entities: dict[str, dict],
+               broader: list[tuple[str, int, str, str, dict]]) -> list[str]:
+    """Grouping axes (spec §4.1) and the `broader` hierarchy (spec §5): what the axis
+    definitions, the edges, the statements and the views owe each other. The
+    statement's own slots are read from the schema, so no slot is named here."""
+    errs: list[str] = []
+    core = list(schema["$defs"]["statement"]["properties"]["slots"]["properties"])
+    axes = {eid: e for eid, e in entities.items() if e.get("type") == "axis"}
+    by_slot: dict[str, str] = {}   # a dimension's slot key → the one axis declaring it
+
+    for aid, ax in sorted(axes.items()):
+        rel, carrier, slot = ids[aid], ax.get("carrier"), ax.get("slot")
+        if carrier == "dimension":
+            if slot in core:
+                errs.append(f"{rel}: dimension axis {aid} declares slot {slot!r}, which every statement has of its own")
+            elif slot in by_slot:
+                errs.append(f"{rel}: slot {slot!r} is declared by both {by_slot[slot]} and {aid}; one dimension axis per slot")
+            else:
+                by_slot[slot] = aid
+            for value in ax.get("values") or []:
+                if value in entities and entities[value].get("facet") != "qualifier":
+                    errs.append(f"{rel}: value {value} of {aid} has facet {entities[value].get('facet')!r}, not qualifier")
+        elif carrier == "hierarchy" and slot not in core:
+            errs.append(f"{rel}: hierarchy axis {aid} folds slot {slot!r}, which no statement has (one of {', '.join(core)})")
+        seen: set[str] = set()
+        for entry in ax.get("views") or []:
+            if isinstance(entry, dict):
+                if entry.get("view") in seen:
+                    errs.append(f"{rel}: {aid} lists {entry.get('view')} twice under views; one entry per view")
+                seen.add(entry.get("view"))
+        for key, val in (ax.get("placements") or {}).items():   # keys are not walked as references
+            if key not in ids:
+                errs.append(f"{rel}: placement {key} of {aid} does not resolve")
+            if carrier == "dimension":
+                for place in (val if isinstance(val, list) else [val]):
+                    if place not in (ax.get("values") or []):
+                        errs.append(f"{rel}: placement of {key} in {aid} is {place}, not one of its values")
+
+    # a statement's extra slot is one a dimension axis declares, holding one of its values
+    for sid, st in sorted(entities.items()):
+        if st.get("type") != "statement" or not isinstance(st.get("slots"), dict):
+            continue
+        for key, value in st["slots"].items():
+            if key in core:
+                continue
+            if key not in by_slot:
+                errs.append(f"{ids[sid]}: statement {sid} has slot {key!r}, which no dimension axis declares")
+            elif value not in (axes[by_slot[key]].get("values") or []):
+                errs.append(f"{ids[sid]}: slot {key!r} of {sid} holds {value}, not a value of {by_slot[key]}")
+
+    # broader is a hierarchy (spec §5): no cycle, within one axis or across them; `axis`
+    # names a hierarchy axis, and one parent per axis unless the axis says `several`
+    per_axis: dict[str | None, dict[str, list[str]]] = {}
+    for rel, i, frm, to, props in broader:
+        axis = props.get("axis")
+        if axis in axes and axes[axis].get("carrier") != "hierarchy":
+            errs.append(f"{rel} at {i}: axis {axis} is a dimension; only a hierarchy axis is a respect of broader")
+        per_axis.setdefault(axis, {}).setdefault(frm, []).append(to)
+    within: set[frozenset] = set()
+    for axis, graph in sorted(per_axis.items(), key=lambda kv: (kv[0] is not None, kv[0] or "")):
+        for cycle in cycles(graph):
+            within.add(frozenset(cycle))
+            errs.append(f"broader edges{f' on {axis}' if axis else ''} form a cycle: {' -> '.join(cycle)}")
+        if axis is not None and not axes.get(axis, {}).get("several"):
+            for frm, tos in sorted(graph.items()):
+                if len(tos) > 1:
+                    errs.append(f"{frm} has {len(tos)} broader concepts on {axis} ({', '.join(sorted(tos))}); the axis does not allow several")
+    everything: dict[str, list[str]] = {}
+    for graph in per_axis.values():
+        for frm, tos in graph.items():
+            everything.setdefault(frm, []).extend(tos)
+    for cycle in cycles(everything):
+        if frozenset(cycle) not in within:
+            errs.append(f"broader edges form a cycle across axes: {' -> '.join(cycle)}")
+
+    # a view offers only axes asserted for it
+    for vid, view in sorted(entities.items()):
+        if view.get("type") != "view":
+            continue
+        for axis in view.get("group_by") or []:
+            if axis not in axes:
+                continue   # an unresolved reference is reported as such
+            status = {e.get("view"): e.get("status") for e in axes[axis].get("views") or [] if isinstance(e, dict)}.get(vid)
+            if status != "asserted":
+                errs.append(f"{ids[vid]}: group_by names {axis}, which is {status or 'not proposed'} for {vid}; only an asserted axis groups a view")
+    return errs
 
 
 def check_work(ids: set[str]) -> list[str]:
