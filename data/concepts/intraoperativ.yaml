@@ -1,0 +1,7 @@
+id: concepts/intraoperativ
+type: concept
+lang: de
+label: intraoperativ
+facet: qualifier   # a value of the phase dimension (axes/phase, spec §4.1): it qualifies the recommendation, not the case
+definition: Die Phase der Operation selbst, von der Narkoseeinleitung bis zur Narkoseausleitung.
+source: modelling

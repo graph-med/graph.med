@@ -1,0 +1,7 @@
+id: concepts/perioperativ
+type: concept
+lang: de
+label: perioperativ
+facet: qualifier   # a value of the phase dimension (axes/phase, spec §4.1): it qualifies the recommendation, not the case
+definition: Über die Phasen hinweg, durchgehend von der Vorbereitung bis zur Entlassung — der Wert für das, was die ganze Operation begleitet.
+source: modelling
