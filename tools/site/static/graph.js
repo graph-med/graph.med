@@ -7,8 +7,9 @@
    a hard filter: only what that section supports is shown. The search is a soft
    highlight: matches keep their colour, the rest fades. The reset button returns the
    page to its opening state (docs/publication.md §3). The axis switch chooses which of
-   the view's groupings is drawn — the plain hierarchy or an axis of its `group_by`
-   (spec §4.1) — as `?by=<axis id>` in the URL, so a grouped view is a shareable link.
+   the view's groupings is drawn — the plain hierarchy, the chapters of its sources, or an
+   axis of its `group_by` (spec §4.1) — as `?by=<grouping>` in the URL (`section` for the
+   chapters, else the axis id), so a grouped view is a shareable link.
    Data: the #graph-data JSON written by tools/build.py, one tree per grouping. */
 (function () {
   "use strict";

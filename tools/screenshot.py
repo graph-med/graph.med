@@ -12,7 +12,8 @@ image pulls pass the proxy: the page is rendered by Chromium inside a container
 tools/screenshot.js so that the layout can settle before the capture. The site is
 built into a temporary directory with base path /site/ and copied into the container;
 nothing is installed in the sandbox and nothing is mounted. Actions run in order
-before the capture: by=<axis id> (choose the grouping, "" for the plain hierarchy),
+before the capture: by=<grouping> (choose the grouping: "" for the plain hierarchy, section for the
+chapters, or an axis id),
 toggle=<concept id> (fold or unfold that patient group; under an axis the junction id in full,
 j:<value>:<concept id>),
 fold=<question node id> (fold or unfold everything below that question, e.g.

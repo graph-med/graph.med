@@ -8,8 +8,9 @@
 
 Every view becomes <view-id>/index.html — one decision tree (which patient group? →
 which condition? → recommendation → aim; answers on the edges; laid out left to right
-in the browser by dagre) per grouping the view offers — the plain hierarchy and each
-axis of its `group_by` (spec §4.1), chosen by a switch on the page —, a chapter tree
+in the browser by dagre) per grouping the view offers — the plain hierarchy, the
+chapters of its sources, and each axis of its `group_by` (spec §4.1), chosen by a
+switch on the page —, a chapter tree
 that filters it and a search that fades it (both from the sources' outline and the
 claims' sections, docs/publication.md §3), with a detail section beside or below it
 — plus <view-id>.json; every entity becomes
@@ -44,12 +45,13 @@ BODY_TEXT = ("refines", "supplements", "limits")
 DIRECTION_GLYPH = {"für": "✓", "gegen": "✗", "abwägen": "⚖", "Lücke": "∅"}
 # The only words the build adds inside the graph, in the view's source language (docs/publication.md §3):
 # the two questions whose answers are the population and condition slots, the question a dimension axis
-# adds (its short label filled in), the switch's entry for the plain hierarchy, and the one answer for
-# what an axis cannot place (spec §4.1 "4. Shown"). Keyed by structural key, never by an axis: the build
-# knows no axis by name. Add a row per language; a view in a language without one fails the build rather
-# than falling back to another language.
-WORDS = {"de": {"population": "Welche Population?", "condition": "Welche Bedingung?",
-                "axis": "Welche {label}?", "plain": "Population", "unplaced": "nicht zugeordnet"}}
+# adds (its short label filled in), the chapter question and the switch's entries for the plain hierarchy
+# and the chapters, and the one answer for what a grouping cannot place (spec §4.1 "4. Shown"). Keyed by
+# structural key, never by an axis: the build knows no axis by name. Add a row per language; a view in a
+# language without one fails the build rather than falling back to another language.
+WORDS = {"de": {"population": "Welche Population?", "condition": "Welche Bedingung?", "section": "Welches Kapitel?",
+                "axis": "Welche {label}?", "plain": "Population", "chapter": "Kapitel", "unplaced": "nicht zugeordnet"}}
+CHAPTERS = "section"   # the URL token and grouping id of the built-in chapter grouping (`?by=section`)
 
 
 def direction_of(claims: list[dict]) -> dict | None:
@@ -249,21 +251,67 @@ def title_of(view: dict, members: dict[str, dict], root: bool = False) -> str:
     return title
 
 
+def clip(text: str, limit: int = 60) -> str:
+    """A label the box rule allows (schema short_text: 60 characters): cut at a word boundary with an
+    ellipsis only when the text is longer — a title from an outline has no short form of its own."""
+    if len(text) <= limit:
+        return text
+    cut = text[:limit - 1].rsplit(" ", 1)[0].rstrip(" ,;:–-")
+    return cut + "…"
+
+
 def groupings_of(view: dict, members: dict[str, dict], pool: Pool) -> list[dict]:
     """One decision tree per grouping the view offers, in the order of its switch (spec §4.1 "4. Shown",
-    docs/publication.md §3): the plain hierarchy first, needing no declaration, then each axis of
-    `group_by` by its label — the validator has checked that each is asserted for this view."""
+    docs/publication.md §3): the plain hierarchy first, needing no declaration; then the chapters of the
+    view's sources — built in for every view, derived from the claims' sections and the sources' outline
+    (spec §6.7), no axis entity behind it; then each axis of `group_by` by its label — the validator has
+    checked that each is asserted for this view. Every grouping is one description the one derivation
+    reads: a question and a partition of the statements into its answers (chapters, a dimension axis),
+    or the `broader` respect the families come from (a hierarchy axis), or neither (the plain hierarchy)."""
     lang = members[view["filter"]["sources"][0]]["lang"]
     if lang not in WORDS:
         raise SystemExit(f"{view['id']}: no words for language {lang!r} — add a row to WORDS in tools/build.py")
-    rows = [{"axis": "", "label": WORDS[lang]["plain"], "lang": lang, **decision_tree_of(view, members, pool)}]
+    words = WORDS[lang]
+    statements = [m for m in members.values() if m["type"] == "statement"]
+    short = lambda cid: members[cid].get("short_label") or members[cid]["label"] if cid in members else cid
+    text_of = lambda cid: " ".join(filter(None, [members[cid]["label"], members[cid].get("short_label")])) if cid in members else cid
+
+    def by_section() -> list[dict]:
+        """The top-level sections of every source of the view, in outline order; a statement is behind each
+        chapter one of its claims' `section` lies in, so one supported from two chapters is under both."""
+        rows = []
+        for sid in view["filter"]["sources"]:
+            src = members[sid]
+            for e in src.get("outline") or []:
+                sec = str(e.get("section"))
+                if "." in sec:
+                    continue
+                sts = [st for st in statements if any(under(sec, c.get("section")) for c in pool.claims_for(st["id"]))]
+                rows.append({"id": f"{CHAPTERS}:{sid}:{sec}", "ref": "", "label": clip(f"{sec} {e['title']}"), "text": f"{sec} {e['title']}",
+                             "lang": src["lang"], "facets": [], "statements": sts})
+        return rows
+
+    def by_slot(axis: dict) -> list[dict]:
+        """A dimension axis's values in the declared order; a statement is behind the value its slot holds."""
+        slot = axis["slot"]
+        return [{"id": v, "ref": v, "label": short(v), "text": text_of(v), "lang": members[v]["lang"] if v in members else lang,
+                 "facets": [members[v]["facet"]] if members.get(v, {}).get("facet") else [],
+                 "statements": [st for st in statements if (st.get("slots") or {}).get(slot) == v]} for v in axis["values"]]
+
+    rows = [{"axis": "", "label": words["plain"], "lang": lang, **decision_tree_of(view, members, pool)},
+            {"axis": CHAPTERS, "label": words["chapter"], "lang": lang,
+             **decision_tree_of(view, members, pool, question=(f"q:{view['id']}:{CHAPTERS}", words["section"]), partition=by_section())}]
     for aid in view.get("group_by") or []:
         axis = pool.entities[aid]
-        rows.append({"axis": aid, "label": axis["label"], "lang": axis["lang"], **decision_tree_of(view, members, pool, axis)})
+        tree = (decision_tree_of(view, members, pool, question=(f"q:{view['id']}:{axis['slot']}", words["axis"].format(label=axis.get("short_label") or axis["label"])),
+                                 partition=by_slot(axis)) if axis["carrier"] == "dimension"
+                else decision_tree_of(view, members, pool, hierarchy_axis=axis))
+        rows.append({"axis": aid, "label": axis["label"], "lang": axis["lang"], **tree})
     return rows
 
 
-def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, axis: dict | None = None) -> dict:
+def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question: tuple[str, str] | None = None,
+                     partition: list[dict] | None = None, hierarchy_axis: dict | None = None) -> dict:
     """One decision tree for the whole view, derived from the statements' slots
     (docs/publication.md §3). The question nodes are ours; every answer on an edge and
     every box is a slot value or a claim's grade. Patient groups are the population
@@ -271,12 +319,13 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, axis: dic
     recommendations they lead to; a recommendation hangs from the group it was made for,
     never from a family. Layout and folding happen in the browser (dagre).
 
-    `axis` is the grouping chosen (spec §4.1 "4. Shown"): none for the plain hierarchy; a
-    dimension axis asks its own question first, its values the answers in the declared order,
-    and the population question below each; a hierarchy axis replaces the families of the
-    population question by the `broader` edges that name it. Whatever the axis cannot place
-    is one answer, "not placed", last, at every depth where its question is asked; the shape,
-    the folding and where a recommendation hangs stay the same, by one code path."""
+    The grouping chosen (spec §4.1 "4. Shown", groupings_of): nothing for the plain hierarchy; a
+    `question` (node id, text) with a `partition` of the statements into its answers — the chapters,
+    or a dimension axis's values — asked first, the population question below each answer; or a
+    `hierarchy_axis` whose `broader` edges replace the plain hierarchy's as the families of the
+    population question. Whatever the grouping cannot place is one answer, "not placed", last, at
+    every depth where its question is asked; the shape, the folding and where a recommendation hangs
+    stay the same, by one code path."""
     nodes: list[dict] = []
     edges: list[dict] = []
     seen: set = set()
@@ -313,6 +362,7 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, axis: dic
         grades = {c["grade"] for c in claims if c["edge"] == "supports" and c.get("grade")}
         cond, outc = sl.get("condition"), sl.get("outcome")
         d = direction_of(claims)
+        again = st["id"] in seen   # under two answers (two chapters): one node, hung from both, its aim and relations once
         sid = add(st["id"], ref=st["id"], type="statement", lang=st["lang"],
                   label=(d["glyph"] + " " if d else "") + (st.get("short_label") or st["label"]), full=st["label"],
                   direction=d["word"] if d else None, facets=sorted({f for f in (facet(c) for c in sl.values()) if f}),
@@ -333,6 +383,8 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, axis: dic
             edge(q, sid, "answer", short(cond), ref=cond)
         else:
             edge(at, sid, "flow")
+        if again:
+            return
         if outc in members:
             add(outc, ref=outc, type="aim", lang=members[outc]["lang"], label=short(outc), full=label(outc), facets=[facet(outc)] if facet(outc) else [], text=text_of(outc))
             edge(sid, outc, "aim")
@@ -404,25 +456,25 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, axis: dic
             hang(st, f"j:{prefix}{pop}" if pop in members else q)   # its own group's junction, never a family's
         return q
 
-    if axis and axis["carrier"] == "dimension":
-        slot = axis["slot"]
-        q = add(f"q:{root}:{slot}", type="question", lang=lang, label=words["axis"].format(label=axis.get("short_label") or axis["label"]))
+    if partition is not None:
+        qid, text = question
+        q = add(qid, type="question", lang=lang, label=text)
         edge(root, q, "flow")
-        for v in axis["values"]:   # the declared order; a value no statement of the view holds is no answer
-            sts = [st for st in statements if slots(st).get(slot) == v]
-            if not sts:
+        placed: set = set()
+        for a in partition:   # the given order; an answer with no statement of the view behind it is not offered
+            if not a["statements"]:
                 continue
-            j = add(f"j:{v}", ref=v, type="junction", label=str(len(sts)), lang=members[v]["lang"] if v in members else lang,
-                    group=short(v), facets=[facet(v)] if facet(v) else [], text=text_of(v))
-            edge(q, j, "answer", short(v), ref=v)
-            hierarchy(j, sts, f"{v}:", None)
-        rest = [st for st in statements if slots(st).get(slot) not in axis["values"]]
+            j = add(f"j:{a['id']}", ref=a["ref"], type="junction", label=str(len(a["statements"])), lang=a["lang"], group=a["label"], facets=a["facets"], text=a["text"])
+            edge(q, j, "answer", a["label"], ref=a["ref"] or None)
+            hierarchy(j, a["statements"], f"{a['id']}:", None)
+            placed.update(st["id"] for st in a["statements"])
+        rest = [st for st in statements if st["id"] not in placed]
         if rest:
-            hierarchy(unplaced(q, f"{slot}:", rest), rest, f"{slot}:unplaced:", None)
-    elif axis:
-        if axis["slot"] != "population":
-            raise SystemExit(f"{view['id']}: {axis['id']} folds `{axis['slot']}`; only a hierarchy over `population` is built yet")
-        hierarchy(root, statements, "", axis["id"])
+            hierarchy(unplaced(q, f"{qid}:", rest), rest, f"{qid}:unplaced:", None)
+    elif hierarchy_axis:
+        if hierarchy_axis["slot"] != "population":
+            raise SystemExit(f"{view['id']}: {hierarchy_axis['id']} folds `{hierarchy_axis['slot']}`; only a hierarchy over `population` is built yet")
+        hierarchy(root, statements, "", hierarchy_axis["id"])
     else:
         hierarchy(root, statements, "", None)
     return {"nodes": nodes, "edges": edges}
