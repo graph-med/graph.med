@@ -4,6 +4,30 @@ One entry per session, newest first. Past about 200 lines, move the oldest
 entries to `docs/LOG-ARCHIVE.md`, newest first there too; never delete.
 
 ## 2026-09-13 — agent
+Packages touched: WP-0005 (open → claimed → review)
+Branch: agent/2026-09-13-site-panel-six-questions
+Notable: a statement's details are now the six questions, in order, on the
+sheet and the entity page alike; `details()` gained the population's families,
+the condition and the neighbours (same group, same action elsewhere, linked
+statements). Captured on desktop, phone and a tall phone-width viewport: 0
+overlapping pairs in every state, 333 elements with everything open. The
+screenshot driver cannot open an entity page (it waits for the graph), so the
+entity page was checked in the built HTML; noted in `LATER.md`.
+
+## 2026-09-13 — agent
+Packages touched: WP-0004 (open → claimed → review)
+Branch: agent/2026-09-13-site-fold-and-reset
+Notable: the first package run as a worker in a worktree, in parallel with
+WP-0005. Every question folds by one rule (a closed question keeps what was open
+below it, so a second tap restores it); a reset button beside the fit button;
+the chapter panel's "all" row a fixed header over the scrolling list. The
+screenshot driver gained `fold=`, `reset` and `chapters-scroll=` so the
+verification could be driven, and now prints page errors when the graph does
+not appear — the first run found a function name shadowing the search's text
+folding, which the driver had been swallowing. Twelve captures, 0 overlapping
+pairs in every state, 333 elements with everything open.
+
+## 2026-09-13 — agent
 Packages touched: none
 Branch: conventions/parallel-work
 Notable: the maintainer asked for WP-0004 to WP-0006 in parallel. Tested in

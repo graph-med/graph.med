@@ -9,6 +9,8 @@ log. Remove an entry when its package is registered.
 
 
 
+- the chapter panel's bottom edge runs under the legend on a phone: its `max-height` leaves room for the legend's two desktop lines, and on a 390 px screen the legend wraps to four; the panel should stop above the legend at every width (`tools/site/static/site.css`, `.chapters` and `.hint`)
+
 - codes_as: no terminology namespace is imported yet. Rule once one is, by facet — procedure → OPS, patient_state → ICD-10-GM, outcome and finding → SNOMED CT where available; first candidates concepts/pankreasresektion → ops-2026/5-52 and the codes C18/C20 in QI 1's denominator (p. 122). A concept without a code must be shown as uncoded, not as unchecked.
 
 - evidence profiles (the per-outcome GRADE tables in evidence-based boxes) — no shape in the schema; open-questions → evidence-profiles
@@ -22,3 +24,5 @@ log. Remove an entry when its package is registered.
 - cross-statement edges (specializes/complements) not yet asserted; first candidates 7.12 (TAP block, minimally invasive colorectal) and 7.13 (peripheral regional analgesia) against 7.9/7.10 (epidural)
 
 - no pathway authored; chapter 6 is a recommendation list, not a decision algorithm; open-questions → decision-graph-derivation
+
+- screenshot driver: `tools/screenshot.js` opens only a view page and captures only the viewport — it waits for `window.graphmed`, so an entity page (`statements/<id>/`) cannot be captured, and a sheet longer than the screen is seen only through a tall `--size`. An action or flag for an entity page and a full-page capture would let a build package show the entity page it claims to render

@@ -78,8 +78,10 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .tools.left { right: auto; left: .6rem; align-items: center; }
 .tools input[type=search] { height: 44px; width: 11rem; max-width: 40vw; padding: 0 .8rem; border: 1px solid var(--line); border-radius: 22px; background: var(--bg); color: var(--fg); font: inherit; font-size: .95rem; }
 .tools .count { font-size: .78rem; color: var(--mute); background: var(--bg); padding: .1rem .5rem; border-radius: 1rem; white-space: nowrap; }
-.chapters { position: absolute; left: .6rem; top: 3.9rem; z-index: 2; max-width: min(24rem, calc(100% - 1.2rem)); max-height: calc(100% - 6rem); overflow: auto;
-  background: var(--bg); border: 1px solid var(--line); border-radius: .6rem; padding: .4rem .6rem; font-size: .85rem; line-height: 1.35; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+.chapters { position: absolute; left: .6rem; top: 3.9rem; z-index: 2; max-width: min(24rem, calc(100% - 1.2rem)); max-height: calc(100% - 6rem); display: flex; flex-direction: column; overflow: hidden;
+  background: var(--bg); border: 1px solid var(--line); border-radius: .6rem; font-size: .85rem; line-height: 1.35; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+.chapters[hidden] { display: none; }
+.chapters .list { overflow: auto; min-height: 0; padding: .2rem .6rem .4rem; }   /* the sections scroll; the "all" row above them stays */
 .chapters ul { list-style: none; margin: 0; padding: 0 0 0 .9rem; }
 .chapters > ul { padding-left: 0; }
 .chapters button { display: flex; gap: .5rem; width: 100%; text-align: left; background: none; border: 0; color: var(--fg); font: inherit; padding: .3rem .2rem; border-radius: .3rem; cursor: pointer; }
@@ -88,7 +90,7 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .chapters button.empty { color: var(--mute); cursor: default; }
 .chapters button.empty:hover { background: none; }
 .chapters button.active { font-weight: 700; }
-.chapters button.all { border-bottom: 1px solid var(--line); border-radius: 0; margin-bottom: .2rem; }
+.chapters button.all { flex: none; min-height: 44px; align-items: center; padding: .3rem .8rem; border-bottom: 1px solid var(--line); border-radius: .6rem .6rem 0 0; }
 .chapters .sec { color: var(--mute); min-width: 3.2rem; font-variant-numeric: tabular-nums; }
 
 /* the direction banner at the top of a statement's details, and the facet select */
@@ -101,11 +103,27 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .banner.dir-abwägen { background: var(--gB); color: #111; }
 .banner.dir-Lücke { background: var(--line); }
 ul.body li p { margin: .2rem 0; }
+
+/* a statement's details, organised by the reader's six questions (docs/publication.md §3): each question a
+   heading in sentence case, read as a question, not as a label; the grade of every claim its own highlight */
+.q { margin: 0 0 .4rem; }
+.q + .q { border-top: 1px solid var(--line); padding-top: .2rem; }
+.q h3 { text-transform: none; letter-spacing: 0; font-size: 1rem; color: var(--fg); margin: .8rem 0 .4rem; }
+.q .sub { margin: .6rem 0 .1rem; font-size: .8rem; color: var(--mute); text-transform: uppercase; letter-spacing: .04em; }
+.q .none { margin: .3rem 0; color: var(--mute); font-size: .9rem; }
+.q .tag.grade { font-size: .9rem; padding: .1rem .6rem; border-width: 2px; }
+.q .tag.grade.ek::after { content: " expert consensus"; font-weight: 400; font-size: .75rem; }
+.q dl.slots dd .families { display: block; color: var(--mute); font-size: .85rem; }
+.q dl.slots dd .families .node-link { min-height: 32px; }
+.q ol.claims li .cite { margin: 0 0 .2rem; }
+.q ul.neighbours li .tag { margin-right: .3rem; }
 .tools select { height: 44px; padding: 0 .6rem; border: 1px solid var(--line); border-radius: 22px; background: var(--bg); color: var(--fg); font: inherit; font-size: .9rem; max-width: 9rem; }
 
 /* narrow screens: the controls share one row and the counter wraps under them */
 @media (max-width: 520px) {
   .tools.left { flex-wrap: wrap; max-width: calc(100% - 4.6rem); }
+  .tools.right { flex-direction: column; }   /* fit and reset stack, so the search row keeps its width */
   .tools input[type=search] { max-width: 34vw; }
   .tools select { max-width: 6.6rem; }
+  .chapters button { min-height: 44px; align-items: center; }   /* touch targets */
 }

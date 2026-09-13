@@ -5,18 +5,24 @@ updated: 2026-09-13
 
 **Where we are.** Sixteen packages, WP-0001 to WP-0016, in four initiatives
 (`ui`, `groupings`, `extraction-quality`, `review`). WP-0001 to WP-0003 are in
-`done/`. The maintainer wants the `ui` initiative done first: WP-0004, WP-0005,
-then WP-0006, whose box-colour question is settled (memory
-`box-colour-by-direction`) and which now only waits on WP-0005. The live site
-still colours boxes by grade until WP-0006 lands.
+`done/`. The `ui` initiative is being processed first, as the maintainer asked:
+WP-0004 and WP-0005 ran in parallel as workers in worktrees and are in review,
+stacked WP-0004 → WP-0005; WP-0006 follows, stacked on WP-0005's branch. The
+live site still colours boxes by grade until WP-0006 lands.
 
-**Claimed.** Nothing.
+**Claimed.**
+- WP-0004 — `agent/2026-09-13-site-fold-and-reset`, in review.
+- WP-0005 — `agent/2026-09-13-site-panel-six-questions`, in review, stacked on
+  WP-0004.
+- WP-0006 — `agent/2026-09-13-site-colour-by-direction`, stacked on WP-0005.
 
-**Next agent's first move.** Wait for the command:
-`/process-work-package WP-0004 WP-0005 WP-0006` is the maintainer's plan for
-the `ui` initiative — WP-0004 and WP-0005 in parallel, WP-0006 stacked on
-WP-0005 (`docs/work/README.md`, "Processing packages"). Process nothing that
-is not listed. Check `git ls-remote --heads origin 'agent/*'` first.
+**Next agent's first move.** The coordinator of the current run stacks the
+branches, runs the checks on each, and opens the pull requests in order
+(WP-0004 first, WP-0005 on it, WP-0006 on WP-0005). A later session:
+`git fetch origin`, close what has merged (`status: review` on `origin/main`
+→ `done/`), then process only what the command lists
+(`docs/work/README.md`, "Processing packages"). Check
+`git ls-remote --heads origin 'agent/*'` first.
 
 **Blocked, and why.**
 - WP-0014 — waits on `docs/open-questions.md` → structural-recommendations.
@@ -24,5 +30,9 @@ is not listed. Check `git ls-remote --heads origin 'agent/*'` first.
 **Watch out.** `uv run tools/screenshot.py <view> --do all --do fit` prints the
 overlapping pairs — nodes and answers on each other, edges across either; a
 build package ends with 0. It cannot see a pan that pushes nodes under the
-floating controls on a phone; look for that yourself. Every pull request links
-its preview as a complete clickable URL (`https://graph.med/preview/pr<N>/<view-id>/`).
+floating controls on a phone; look for that yourself. It captures the viewport
+only and opens view pages only: to see the whole sheet at phone width use
+`--size 390x2700`; an entity page is checked in the built HTML. The driver
+prints page errors when the graph never appears; a silent 20 s timeout before
+this meant a script error. Every pull request links its preview as a complete
+clickable URL (`https://graph.med/preview/pr<N>/<view-id>/`).
