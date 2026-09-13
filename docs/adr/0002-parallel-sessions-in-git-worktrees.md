@@ -18,11 +18,17 @@ of that name was running.
 - Parallel sessions run **in one sandbox**, each in its own git worktree under
   `.claude/worktrees/` (gitignored) on its own `agent/YYYY-MM-DD-<slug>` branch;
   a second sandbox on the same directory is not used.
-- Each session is told its package by id; the `next-work-package` skill accepts
-  one and refuses a package that does not qualify rather than taking another.
-- A session rebases on `origin/main` before its pull request, resolving the
-  log by keeping both entries and the handoff by rewriting it for the union;
-  the handoff lists every package with an open `agent/*` branch.
+- One command, `/process-work-package WP-… WP-…`, names the packages. The
+  session that receives it coordinates: it processes exactly those — never one
+  not listed, never a substitute, and with none listed it reports and stops —
+  and decides whether they run in sequence or in parallel, one worker subagent
+  per package in its worktree. A single package the session does itself.
+- A worker stops after pushing its handover. The coordinator rebases the first
+  branch on `main` and each next on its predecessor, resolving the log by
+  keeping every entry and the handoff by rewriting it for the union, and opens
+  the pull requests in order, each stacked on the one before; the handoff lists
+  every package with an open `agent/*` branch. The run ends when every listed
+  package has a pull request.
 - Anything a session starts on shared infrastructure is named after its branch;
   the screenshot runner does so by default.
 - A package that depends on one still in review either waits or branches from
@@ -31,8 +37,10 @@ of that name was running.
 ## Consequences
 
 Two or three packages of one initiative can be in flight at once, each still
-one session, one branch, one pull request, one human approval. The cost is one
-rebase per pull request and a merge of two small files by hand when siblings
-finish close together. The checker needs no change: several claimed packages
+one worker, one branch, one pull request, one human approval, and a person
+still knows when a run is over: when what they listed has its pull requests.
+The former "one package per session" rule goes; its purpose — a known end — is
+kept by the list. The cost is one rebase per pull request and a merge of two
+small files by the coordinator when siblings finish close together. The checker needs no change: several claimed packages
 pass, and the stale-claim rule is per package. What remains serial is the
 review: pull requests are still approved and merged one at a time by a person.

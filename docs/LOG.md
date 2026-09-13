@@ -10,8 +10,10 @@ Notable: the maintainer asked for WP-0004 to WP-0006 in parallel. Tested in
 this sandbox: two git worktrees under `.claude/worktrees/`, validate, build and
 two screenshots at once — fine, once the containers had distinct names. The
 repository is now prepared (ADR-0002): worktrees ignored, screenshot defaults
-per branch, the skill takes a package id and rebases before the PR, the
-handoff lists every claimed package.
+per branch, and one command, `process-work-package`, replaces
+`next-work-package` — it takes the packages to process, the session
+coordinates workers and stacks their pull requests, and nothing unlisted is
+processed.
 
 ## 2026-09-13 — agent
 Packages touched: WP-0003 (review → done), WP-0006 (blocked → open)

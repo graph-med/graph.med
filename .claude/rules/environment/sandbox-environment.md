@@ -40,7 +40,7 @@ Consequences of the above that come up when actually running something:
   publishing cannot reach them.
 - **Parallel sessions share this one sandbox.** The workspace is the host's
   checkout, mounted; a second sandbox on the same directory would share its
-  branch and index. Parallel work is therefore several sessions here, each in a
+  branch and index. Parallel work is therefore several workers here, each in a
   git worktree under `.claude/worktrees/` (inside the mount, so it reaches the
   main `.git`), and they share the Docker daemon — name containers and output
-  paths after your branch (`docs/work/README.md`, "Parallel work").
+  paths after your branch (`docs/work/README.md`, "Processing packages").

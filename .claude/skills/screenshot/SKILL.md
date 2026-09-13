@@ -58,7 +58,7 @@ Output goes under `/tmp/graph.med/screenshots/<branch>/` by default — a neutra
 path, never one derived from a home directory
 (`conventions/no-personal-information.md`) — and the container is named
 `shot-<branch>`, so that sessions running in parallel on the one Docker daemon
-(`docs/work/README.md`, "Parallel work") do not remove each other's container
+(`docs/work/README.md`, "Processing packages") do not remove each other's container
 or overwrite each other's PNG. `--name` and `--out` override both.
 Read the PNG to look at it. To show it to the maintainer, put it on a page they
 can open; it does not belong in the repository.

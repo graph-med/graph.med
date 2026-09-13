@@ -3,7 +3,7 @@
 How work is registered, picked up, handed over and finished in this repository.
 Written for a person joining cold. The short version every agent reads is
 `AGENTS.md` at the root; the agent's step-by-step procedure is
-`.claude/skills/next-work-package/SKILL.md`.
+`.claude/skills/process-work-package/SKILL.md`.
 
 ## Three layers, kept apart
 
@@ -85,11 +85,11 @@ Anything with no other home. Not progress.
 - An agent claims a package by setting `status: claimed`, `owner: agent` and
   `updated`, in its own commit, before writing code — on a branch
   `agent/YYYY-MM-DD-<slug>` pushed at once, so the claim is visible to others.
-- At most one claimed package per agent at a time. Two agents may hold two
-  packages if neither depends on the other (see "Parallel work").
+- At most one claimed package per worker at a time. A run processes several
+  packages through several workers (see "Processing packages").
 - Progress is **not** written into the package. Git has it. Only decisions,
   constraints and open questions go there — what a diff cannot recover.
-- A session ends with the package at `status: review` and a pull request. A
+- A package's work ends with it at `status: review` and a pull request. A
   person reviews and merges it as it is.
 - A package whose file on `main` says `status: review` has been reviewed and
   merged — nothing reaches `main` otherwise. **The next agent that sees one
@@ -105,32 +105,45 @@ Anything with no other home. Not progress.
   draft one. A session that finds work it cannot do writes it into `LATER.md`.
 - No personal names anywhere (`.claude/rules/conventions/no-personal-information.md`).
 
-## Parallel work
+## Processing packages
 
-Sessions may run at once, one package each, when the packages do not depend on
-each other (ADR-0002). They run **in one sandbox**, each in its own git worktree
-under `.claude/worktrees/` (gitignored) on its own `agent/YYYY-MM-DD-<slug>`
-branch — `claude --worktree <name>` starts a session there, and a subagent can be
-given one — never in a second sandbox on the same directory, which would share
-the one checkout. The session is told its package by id
-(`/next-work-package WP-0005`); a session left to choose takes the lowest open
-id, and two sessions started at once would take the same one.
+One command processes packages, and it names them:
 
-What every session then owes the others:
+```
+/process-work-package WP-0004 WP-0005 WP-0006
+```
 
-- **Rebase before the pull request.** `git fetch origin` and rebase on
-  `origin/main` after the last commit, since a sibling may have merged. A
-  conflict in `docs/LOG.md` keeps both entries, newest first; one in
-  `docs/HANDOFF.md` is resolved by rewriting it for the union; the checks run
-  again after the rebase.
+The session that receives it is the **coordinator** (ADR-0002). It processes
+exactly the listed packages — never one that was not listed, never the next
+open id in place of one it cannot process, never work from `LATER.md` — and
+the run is over when every listed package has a pull request. With no package
+listed it reports what could be processed and stops. That is how a person
+knows when the work is done.
+
+The coordinator decides, and says, whether the listed packages run **in
+sequence or in parallel**: packages independent of each other run at once
+unless their Scopes overlap heavily; a package that depends on a listed one
+waits for it and starts from its branch. Each package gets one **worker** — a
+subagent in its own git worktree under `.claude/worktrees/` (gitignored) on its
+own `agent/YYYY-MM-DD-<slug>` branch — and one pull request. A single listed
+package the session does itself. Workers run **in one sandbox**, never in a
+second sandbox on the same directory, which would share the one checkout.
+
+What the coordinator owes the workers, and they it:
+
+- **A worker stops after pushing** its claim, its work and its handover; it
+  does not rebase and does not open the pull request.
+- **The coordinator stacks.** It rebases the first branch on `main` and each
+  next one on its predecessor, resolving `docs/LOG.md` by keeping every entry
+  newest first and `docs/HANDOFF.md` by rewriting it for the union; it runs the
+  checks on every branch, opens the pull requests in order — the first against
+  `main`, each next against its predecessor's branch — and names the merge
+  order in each.
 - **The handoff lists every claimed package** — every package with an open
-  `agent/*` branch on `origin` — not only the session's own.
+  `agent/*` branch on `origin` — not only one worker's own.
 - **Nothing shared by name.** The Docker daemon is one per sandbox; the
   screenshot runner names its container and output directory after the branch
-  by default, and anything else a session starts follows the same rule.
-- **A package that depends on one still in review** waits for the merge, or its
-  branch starts from the dependency's branch and its pull request targets that
-  branch until it merges.
+  by default, and anything else a worker starts follows the same rule.
 
 ## The handoff
 
