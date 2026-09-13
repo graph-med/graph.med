@@ -1,12 +1,12 @@
 ---
 id: WP-0009
 title: Test and assert the first proposed axes on POMGAT
-status: open
+status: claimed
 created: 2026-09-12
 updated: 2026-09-13
 depends_on: [WP-0008]
 blocks: [WP-0010]
-owner: unassigned
+owner: agent
 initiative: groupings
 kind: linking
 slug: link-grouping-axes
