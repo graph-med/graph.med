@@ -1,7 +1,7 @@
 ---
 id: WP-0009
 title: Test and assert the first proposed axes on POMGAT
-status: review
+status: done
 created: 2026-09-12
 updated: 2026-09-13
 depends_on: [WP-0008]

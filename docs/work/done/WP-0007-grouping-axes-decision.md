@@ -1,7 +1,7 @@
 ---
 id: WP-0007
 title: Design the grouping-axes mechanism — proposed, tested, asserted, shown
-status: review
+status: done
 created: 2026-09-12
 updated: 2026-09-13
 depends_on: []

@@ -231,6 +231,13 @@ action, condition and **source** on one footing, then the evidence, claim by cla
 with the quote and a link into the PDF at the cited page. The **copy** button
 beside a quote is for viewers that cannot highlight the search from the link.
 
+The dropdown after the search box changes what the first question asks. **Population**
+is the tree above; **Kapitel** asks for the chapter of the guideline first, then the
+population within it; a further entry appears for every grouping axis a person has
+proposed for the view, a tool has tested and a linking pass has asserted — for
+POMGAT the **perioperative Phase** (`docs/graph-representation.md` §4.1). A link can
+carry the choice (`?by=section`, `?by=axes/phase`).
+
 ### How the pool grows
 
 Work is registered as **work packages**, one file each under `docs/work/`,

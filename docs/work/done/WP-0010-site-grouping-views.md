@@ -1,7 +1,7 @@
 ---
 id: WP-0010
 title: The axis switch and the first specialised views on the site
-status: review
+status: done
 created: 2026-09-12
 updated: 2026-09-13
 depends_on: [WP-0009, WP-0004]

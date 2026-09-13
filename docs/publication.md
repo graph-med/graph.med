@@ -5,10 +5,10 @@
 > graph-and-sheet page with patient groups folded by family, the chapter tree and
 > the search with facet filters, short labels, direction glyphs, legend and banner,
 > the order of the detail section (§3), entity pages and JSON (§4), source links
-> (§5), and the deploy workflow with one preview per open pull request (§6).
-> Registered and not built: the axis switch (§3, "The axis is the reader's
-> choice"; `docs/work/initiatives/groupings.md`). Not built and not registered:
-> cuts (§7), pathway views, and everything under §8. The
+> (§5), the grouping switch — Population · Kapitel · each axis the view declares
+> (§3, "The axis is the reader's choice") — and the deploy workflow with one
+> preview per open pull request (§6). Not built and not registered: cuts (§7),
+> pathway views, and everything under §8. The
 > domain `graph.med` points at GitHub Pages. This document fixes what the site is *meant*
 > to be so that the build is written to it, not the other way round. It is the
 > design-level counterpart of `graph-representation.md`: that file says how

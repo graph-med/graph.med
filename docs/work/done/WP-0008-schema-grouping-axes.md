@@ -1,7 +1,7 @@
 ---
 id: WP-0008
 title: Schema for axis definitions, and the feasibility report
-status: review
+status: done
 created: 2026-09-12
 updated: 2026-09-13
 depends_on: [WP-0007]

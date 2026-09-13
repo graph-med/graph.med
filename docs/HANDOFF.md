@@ -4,48 +4,43 @@ updated: 2026-09-13
 # Handoff
 
 **Where we are.** Sixteen packages, WP-0001 to WP-0016, in four initiatives
-(`ui`, `groupings`, `extraction-quality`, `review`). WP-0001 to WP-0005 are in
-`done/`. WP-0006 is built and reviewed (#55) but **not on `main`**: #56 was cut
-before #55 merged, so `agent/2026-09-13-site-colour-by-direction` still holds
-its four commits; a pull request from that branch with base `main` carries it
-over. The `groupings` initiative is four branches deep, each stacked on the
-one before: the mechanism (spec §4.1) on WP-0007's, schema 0.5.0 with the
-validator rules and `tools/axes.py` on WP-0008's, the first axes on WP-0009's
-(the phase asserted on all 90 statements, the region proposed), and on
-WP-0010's the site: the switch — Population · Kapitel · Perioperative Phase —
-with `group_by: [axes/phase]` on the first view; the chapters are built in for
-every view, no axis entity behind them.
+(`ui`, `groupings`, `extraction-quality`, `review`). WP-0001 to WP-0005 and
+WP-0007 to WP-0010 are in `done/`: the `groupings` initiative is on `main` —
+the axis mechanism (spec §4.1), schema 0.5.0 with `tools/axes.py`, the phase
+asserted on the first source, and the switch on the site (Population · Kapitel
+· Perioperative Phase). WP-0006 is built and reviewed (#55) but **not on
+`main`**: #56 was cut before #55 merged, so
+`agent/2026-09-13-site-colour-by-direction` still holds its four commits; a
+pull request from that branch with base `main` carries it over, and the live
+site colours boxes by grade until then.
 
-**Claimed.**
-- WP-0007 — `agent/2026-09-13-grouping-axes-decision`, in review.
-- WP-0008 — `agent/2026-09-13-schema-grouping-axes`, in review, stacked on
-  WP-0007's branch.
-- WP-0009 — `agent/2026-09-13-link-grouping-axes`, in review, stacked on
-  WP-0008's branch.
-- WP-0010 — `agent/2026-09-13-site-grouping-views`, in review, stacked on
-  WP-0009's branch.
+**Claimed.** Nothing.
 
-**Next agent's first move.** The coordinator of the current run stacks the
-four branches and opens their pull requests, every one with base `main`. A
-later session: `git fetch origin`, close what has merged (`status: review` on
-`origin/main` → `done/`), then process only what the command lists. Check
-`git ls-remote --heads origin 'agent/*'` first.
+**Next agent's first move.** Wait for the command. Processable now, each with
+its dependencies in `done/`: WP-0011 (the body-text rule, opens WP-0012 →
+WP-0013 and WP-0016), WP-0015 (the "suggest a change" link). Process nothing
+that is not listed. Check `git ls-remote --heads origin 'agent/*'` first.
 
 **Blocked, and why.**
 - WP-0014 — waits on `docs/open-questions.md` → structural-recommendations.
+- The region axis (`axes/region`) stays proposed: its report reproduces the
+  organ families and leaves 13 concepts carrying 45 statements unplaced; the
+  proposer decides `several: true` or withdrawal. `docs/open-questions.md` →
+  statement-slot-provenance waits for a decision on where a slot value's
+  rationale lives.
 
 **Watch out.** Every pull request links its preview as a complete clickable
 URL (`https://graph.med/preview/pr<N>/<view-id>/`). A stacked pull request
-targets `main`, never the branch it is stacked on. `uv run tools/screenshot.py
-<view> --do all --do fit` prints the overlapping pairs; a build package ends
-with 0; `--do by=section` or `--do by=<axis id>` chooses the grouping first,
-and under one a junction is named in full (`toggle=j:<value>:<concept>`,
-`toggle=j:section:<source id>:<chapter>:<concept>`); `--size 390x2700`
-shows the whole sheet at phone width. An axis is tested with `uv run
-tools/axes.py <axis-id or file> <view>` before it is asserted, and the report
-goes verbatim into the asserting pull request; the tool never writes under
-`data/`. The only asserted axis is `axes/phase`; `axes/region` is proposed, and
-`group_by` may name only what is asserted (validator); the chapters need no
+targets `main`, never the branch it is stacked on; under the ruleset an
+approval is dismissed whenever the merge base changes, so a stack is approved
+and merged one pull request at a time, `main` merged into the next before its
+approval. `uv run tools/screenshot.py <view> --do all --do fit` prints the
+overlapping pairs; a build package ends with 0; `--do by=section` or `--do
+by=<axis id>` chooses the grouping first; `--size 390x2700` shows the whole
+sheet at phone width. An axis is tested with `uv run tools/axes.py <axis-id or
+file> <view>` before it is asserted, and the report goes verbatim into the
+asserting pull request; the tool never writes under `data/`. `group_by` may
+name only what is asserted for that view (validator); the chapters need no
 axis. The build's per-language table is `WORDS` in `tools/build.py`; a
 hierarchy axis is built over `population` only; the `section` filter form is
 implemented in `members_of` and used by no view.

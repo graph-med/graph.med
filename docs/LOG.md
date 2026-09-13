@@ -4,6 +4,17 @@ One entry per session, newest first. Past about 200 lines, move the oldest
 entries to `docs/LOG-ARCHIVE.md`, newest first there too; never delete.
 
 ## 2026-09-13 — agent
+Packages touched: WP-0007 to WP-0010 (review → done)
+Branch: docs/close-groupings
+Notable: the `groupings` initiative merged as a stack of five pull requests,
+approved and merged one at a time because the ruleset dismisses an approval
+whenever the merge base changes. The maintainer, reviewing the switch, put
+the chapters into it beside the phase ("these are all the broader concepts,
+why are they not part of the one drop down") and dropped the two section
+views the build package had added; the status headers of the spec and the
+publication design, `CLAUDE.md` and `README.md` now describe what is built.
+
+## 2026-09-13 — agent
 Packages touched: WP-0010 (open → claimed → review)
 Branch: agent/2026-09-13-site-grouping-views
 Notable: the switch is on the site. The build emits one decision tree per
