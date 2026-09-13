@@ -12,8 +12,9 @@ over. The `groupings` initiative is four branches deep, each stacked on the
 one before: the mechanism (spec §4.1) on WP-0007's, schema 0.5.0 with the
 validator rules and `tools/axes.py` on WP-0008's, the first axes on WP-0009's
 (the phase asserted on all 90 statements, the region proposed), and on
-WP-0010's the site: the axis switch, `group_by: [axes/phase]` on the first
-view, and two `section` views (`pomgat-lv-1.0-6`, `pomgat-lv-1.0-7.4`).
+WP-0010's the site: the switch — Population · Kapitel · Perioperative Phase —
+with `group_by: [axes/phase]` on the first view; the chapters are built in for
+every view, no axis entity behind them.
 
 **Claimed.**
 - WP-0007 — `agent/2026-09-13-grouping-axes-decision`, in review.
@@ -37,13 +38,14 @@ later session: `git fetch origin`, close what has merged (`status: review` on
 URL (`https://graph.med/preview/pr<N>/<view-id>/`). A stacked pull request
 targets `main`, never the branch it is stacked on. `uv run tools/screenshot.py
 <view> --do all --do fit` prints the overlapping pairs; a build package ends
-with 0; `--do by=<axis id>` chooses the grouping first, and under an axis a
-junction is named in full (`toggle=j:<value>:<concept>`); `--size 390x2700`
+with 0; `--do by=section` or `--do by=<axis id>` chooses the grouping first,
+and under one a junction is named in full (`toggle=j:<value>:<concept>`,
+`toggle=j:section:<source id>:<chapter>:<concept>`); `--size 390x2700`
 shows the whole sheet at phone width. An axis is tested with `uv run
 tools/axes.py <axis-id or file> <view>` before it is asserted, and the report
 goes verbatim into the asserting pull request; the tool never writes under
 `data/`. The only asserted axis is `axes/phase`; `axes/region` is proposed, and
-`group_by` may name only what is asserted (validator) — a `section` view gets
-an axis only once a person proposes it for that view under the axis's `views`.
-The build's per-language table is `WORDS` in `tools/build.py`; a hierarchy
-axis is built over `population` only.
+`group_by` may name only what is asserted (validator); the chapters need no
+axis. The build's per-language table is `WORDS` in `tools/build.py`; a
+hierarchy axis is built over `population` only; the `section` filter form is
+implemented in `members_of` and used by no view.

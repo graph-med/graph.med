@@ -323,9 +323,11 @@ that covers the whole guideline ("throughout") is a legitimate declared value,
 not a missing one; a concept defined by exclusion or spanning several families
 is placed by a hierarchy only where the definition allows several parents, and
 is otherwise unplaced — the pool never mints a "several" family, because that
-is not a subsumption. The document outline is neither carrier: it is provenance
-and a filter (§6.7), never an axis, though its headings are the extractor's
-hint when a rule is applied. The `broader` hierarchy over the first source's
+is not a subsumption. The document outline is neither carrier and needs no axis
+entity, because it is provenance, not modelling (§6.7): every view offers it as
+the built-in chapter grouping of its switch, derived from the claims' sections
+and the sources' outline, with the plain hierarchy as the default — and its
+headings are the extractor's hint when a rule is applied. The `broader` hierarchy over the first source's
 patient groups and the population question the site asks today are the
 **plain hierarchy**: the axis every view has without declaring it, read as one
 hierarchy respect over the population slot; the mechanism adds nothing to it.
@@ -416,16 +418,19 @@ group_by: [axes/<axis-id>, axes/<axis-id>]   # each asserted for this view
 ```
 
 It is a property of the view beside `filter`, not a filter form: it selects
-nothing and never changes the view's members (§13). The plain hierarchy is
-always the first entry of the switch and needs no declaration; a view without
-`group_by` has only it. Choosing an axis changes what the tree asks first (a
-dimension) or which concepts are the families of a question (a hierarchy), and
-nothing else — not the shape, not the folding, not where a recommendation
-hangs. Whatever the chosen axis cannot place is one answer, **"not placed"**,
-last among the answers of the question the axis groups, at every depth where
-that question is asked; it is never dropped. The build knows no axis by name:
-the switch's words and "not placed" come from the per-language table like the
-questions, keyed by the axis's `label` and the language.
+nothing and never changes the view's members (§13). The switch lists the plain
+hierarchy first, then the chapters of the view's sources (§6.7: the top-level
+sections in outline order, a statement behind every chapter one of its claims
+sits in), then the declared axes; the first two are built in and need no
+declaration, so a view without `group_by` has those two. Choosing a grouping
+changes what the tree asks first (the chapters, a dimension) or which concepts
+are the families of a question (a hierarchy), and nothing else — not the
+shape, not the folding, not where a recommendation hangs. Whatever the chosen
+grouping cannot place is one answer, **"not placed"**, last among the answers
+of the question it groups, at every depth where that question is asked; it is
+never dropped. The build knows no axis by name: the switch's words, the chapter
+question and "not placed" come from the per-language table like the questions,
+keyed by the axis's `label` and the language.
 
 The validator (WP-0008) holds this together: an `axis` on a `broader` edge and
 a `group_by` entry name an existing axis of the right carrier; a `group_by`

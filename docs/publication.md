@@ -151,27 +151,38 @@ it. Three choices keep the tree readable at ninety recommendations:
   (`graph-representation.md` §4.1). The families above the patient groups are
   the plain hierarchy every view has; other axes exist once a person has
   proposed them for the view and a linking pass has asserted them. The page
-  offers a switch whose first entry is the plain hierarchy and whose others are
-  the axes the view declares in `group_by`, in that order, and no other. A
+  offers a switch whose first entry is the plain hierarchy, whose second is the
+  **chapters** of the view's sources — built in for every view, derived from the
+  claims' `section` and the sources' `outline` (`graph-representation.md` §6.7),
+  no axis entity behind it — and whose others are the axes the view declares in
+  `group_by`, in that order, and no other. Under the chapters the first
+  question is "Welches Kapitel?", its answers the top-level sections in outline
+  order, each with the number of recommendations supported from it or beneath
+  it, a recommendation supported from two chapters under both; below each
+  chapter the population question with the families that chapter touches. A
   *dimension* axis (a slot on the statement — a phase, a setting) adds its own
-  question before "Welche Population?", its answers the axis's values in the
-  order declared; a *hierarchy* axis changes which concepts are the families of
-  the question it folds and how it unfolds. Neither changes the shape of the
-  tree, its folding, or where a recommendation hangs. Whatever the chosen axis
-  cannot place is one answer, "not placed", last among that question's answers
-  at every depth where it is asked, so nothing disappears. The switch's words,
-  the axis labels and "not placed" come from the per-language table like the
-  questions; the build knows no axis by name. **How it looks.** The switch is a
-  select in the row of controls over the graph, after the search box: it shows the
-  name of the chosen grouping — "Population" for the plain hierarchy, then each
-  axis's `label`, in the view's language — and opens the list on a tap; a view
-  that offers only the plain hierarchy shows no switch. On a phone the row wraps
-  and the switch takes the second line beside the facet filter, wide enough for
-  an axis's label. A dimension axis's question is its short label in the
-  per-language question form ("Welche Phase?"). The choice is part of the URL,
-  `?by=<axis id>` before the `#<entity id>` deep link (absent for the plain
-  hierarchy; an unknown axis falls back to it), so a link to a grouped view is
-  shareable and a deep link unfolds to its target under the chosen axis.
+  question the same way, its answers the axis's values in the order declared;
+  a *hierarchy* axis changes which concepts are the families of the question
+  it folds and how it unfolds. None of them changes the shape of the tree, its
+  folding, or where a recommendation hangs — the chapters are answers of a
+  question the reader chose, never nodes in the pool and never the default
+  shape. Whatever the chosen grouping cannot place is one answer, "not placed",
+  last among that question's answers at every depth where it is asked, so
+  nothing disappears. The switch's words, the chapter question, the axis labels
+  and "not placed" come from the per-language table like the questions; the
+  build knows no axis by name. **How it looks.** The switch is a select in the
+  row of controls over the graph, after the search box: it shows the name of
+  the chosen grouping — "Population" for the plain hierarchy, "Kapitel" for the
+  chapters, then each axis's `label`, in the view's language — and opens the
+  list on a tap. On a phone the row wraps and the switch takes the second line
+  beside the facet filter, wide enough for an axis's label. A chapter's answer
+  is its number and title, cut to the box rule's sixty characters with an
+  ellipsis only when longer; a dimension axis's question is its short label in
+  the per-language question form ("Welche Phase?"). The choice is part of the
+  URL, `?by=<grouping>` before the `#<entity id>` deep link — `section` for the
+  chapters, else the axis id; absent for the plain hierarchy, and an unknown
+  value falls back to it — so a link to a grouped view is shareable and a deep
+  link unfolds to its target under the chosen grouping.
   Switching keeps the chapter, the search, the facet and the selected entity;
   the reset button keeps the axis, because it undoes narrowing and the axis
   narrows nothing.
@@ -201,8 +212,8 @@ follows it stay, everything else fades, and its details open in the **section
 below the graph** — on a wide screen, in a **column beside it**, the graph taking
 the full height; the graph stays where it is either way, so the reader keeps their
 place. Tapping the background clears. Tapping a neighbour listed in the section
-moves there. Deep links carry `#<entity id>`, and `?by=<axis id>` when the tree is
-grouped by an axis. There are no modal dialogs and no page
+moves there. Deep links carry `#<entity id>`, and `?by=<grouping>` when the tree is
+grouped by the chapters or an axis. There are no modal dialogs and no page
 loads needed to read a view; the entity pages (§4) exist for linking, not for reading.
 
 **Chapters and search.** Two ways to narrow the tree, deliberately different in

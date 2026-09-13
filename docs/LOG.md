@@ -12,8 +12,11 @@ one derivation that takes the axis: a dimension asks "Welche {short label}?"
 first, its values the answers, the population hierarchy below each; a
 hierarchy axis swaps the `broader` edges the families come from; the not-placed
 answer is last where it is needed. `views/pomgat-lv-1.0` offers the phase;
-`?by=axes/phase` in the URL keeps the choice. Two `section` views built from
-the form the schema already declared. The hierarchy path was proved on a
+`?by=axes/phase` in the URL keeps the choice. After the maintainer's review of
+the first pull request the chapters became an entry of the one switch
+("Kapitel", `?by=section`, built in for every view from the claims' sections
+and the outline, no axis entity) instead of two `section` views, which were
+deleted; the form stays implemented in the build. The hierarchy path was proved on a
 throwaway region assertion in a scratch copy and found a statement hung twice
 behind "nicht zugeordnet" — fixed before anything was committed. Nothing in
 `tools/` names an axis, a slot or a concept.
