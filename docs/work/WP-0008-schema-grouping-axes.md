@@ -1,7 +1,7 @@
 ---
 id: WP-0008
 title: Schema for axis definitions, and the feasibility report
-status: claimed
+status: review
 created: 2026-09-12
 updated: 2026-09-13
 depends_on: [WP-0007]
@@ -51,6 +51,27 @@ Out: asserting any edge or slot value; proposing an axis; the site.
 None yet. Append only; architectural ones go to `docs/adr/`, knowledge-model ones to `.claude/memory/design/`.
 
 - 2026-09-13, WP-0007: the shape to implement is spec §4.1 as completed — an `axes/` namespace and entity type with the fields of its table, facet `qualifier`, `axis` on `broader`, slots declared by dimension axes, `group_by` on the view, the validator rules listed under "4. Shown", and `tools/axes.py` reading placements while proposed and data once asserted.
+- 2026-09-13, WP-0008: the statement's own slots are read by the validator and
+  the tool from the schema's statement definition, so they are named in one
+  place; a hierarchy axis may fold any of them, a dimension axis none of them.
+- 2026-09-13, WP-0008: a slot key is declared by exactly one dimension axis, so
+  "one of that axis's `values`" is never ambiguous; a second guideline's axis
+  on a like principle takes its own key. An axis has no `source`: it is a
+  definition, like a view. `views` is required with at least one entry, and
+  `placements` may hold a list where the rule yields more than one place
+  (the report's disjointness).
+- 2026-09-13, WP-0008: the validator also rejects a second parent on an axis
+  without `several` — §4.1's carrier rule, not in its list under "4. Shown",
+  but a document schema cannot say it and asserted data must not contradict its
+  definition. `group_by` is checked against the axis's status for that view;
+  that the data carries at least one place is the report's business, not the
+  validator's. That `placements` is removed once asserted is not enforced: it
+  is one map while a status is per view.
+- 2026-09-13, WP-0008: the tool accepts a file path as `<axis>` so a proposal
+  is measured before anything is committed; it imports `Pool` and
+  `members_of` from `tools/build.py` so view membership is computed once. A
+  concept in more than one place counts as covered only where the axis says
+  `several`; a root's members are the universe concepts that reach it.
 
 ## Open questions
 
