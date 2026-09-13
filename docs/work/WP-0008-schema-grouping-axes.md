@@ -50,6 +50,8 @@ Out: asserting any edge or slot value; proposing an axis; the site.
 
 None yet. Append only; architectural ones go to `docs/adr/`, knowledge-model ones to `.claude/memory/design/`.
 
+- 2026-09-13, WP-0007: the shape to implement is spec §4.1 as completed — an `axes/` namespace and entity type with the fields of its table, facet `qualifier`, `axis` on `broader`, slots declared by dimension axes, `group_by` on the view, the validator rules listed under "4. Shown", and `tools/axes.py` reading placements while proposed and data once asserted.
+
 ## Open questions
 
 None.

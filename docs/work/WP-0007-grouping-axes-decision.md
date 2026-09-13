@@ -1,7 +1,7 @@
 ---
 id: WP-0007
 title: Design the grouping-axes mechanism — proposed, tested, asserted, shown
-status: claimed
+status: review
 created: 2026-09-12
 updated: 2026-09-13
 depends_on: []
@@ -71,6 +71,16 @@ of it); → phase-vocabulary (settled with it); → view-filter-language
   linking pass; a view then offers it. Guideline-specific in what is proposed,
   generic in how. Recorded in `docs/graph-representation.md` §4.1 and the
   memory `grouping-axes-proposed-and-tested`.
+- 2026-09-13, worker: an axis is an entity `axes/<id>` with `carrier`, `slot`,
+  `values` (dimension) or `several` (hierarchy), `rule`, `proposed_by` as a
+  role, a status per view under `views`, and `placements` until asserted — the
+  rule is for people, the placements are what the tool measures, so the test
+  is mechanical. A dimension's values are concepts of a new facet `qualifier`;
+  its question is asked before the population's. `group_by` is a view property
+  beside `filter`, not a filter form; the plain hierarchy is always the
+  switch's first entry. Coverage is reported by concept and by statement;
+  "not placed" is one answer, last, at every depth. The sentence wins over the
+  chapter heading where a rule allows the heading as fallback.
 
 ## Verification
 

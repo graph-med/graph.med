@@ -49,6 +49,8 @@ history (spec §7), never a new statement.
 
 None yet. Append only; architectural ones go to `docs/adr/`, knowledge-model ones to `.claude/memory/design/`.
 
+- 2026-09-13, WP-0007: the two proposals and their rules are the worked example of spec §4.1; the phase's fourth value is *perioperativ*; the region axis is proposed with `several: false` first, and the report decides whether it is asserted at all — 46 of 90 statements sit on populations the rule leaves unplaced.
+
 ## Open questions
 
 None.
