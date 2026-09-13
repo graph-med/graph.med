@@ -1,7 +1,9 @@
 # The first view: everything in the pool drawn from the POMGAT guideline —
-# published at graph.med/pomgat-lv-1.0 (docs/publication.md §2).
+# published at graph.med/pomgat-lv-1.0 (docs/publication.md §2). Its switch offers the
+# perioperative phase (spec §4.1 "4. Shown"), asserted for this view by WP-0009.
 id: views/pomgat-lv-1.0
 type: view
 view_kind: selection
 filter:
   sources: [sources/pomgat-lv-1.0]
+group_by: [axes/phase]

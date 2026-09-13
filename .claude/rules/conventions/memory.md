@@ -36,7 +36,7 @@ pre-emptively.
 | `design/two-layer-identity.md` | Claims have deterministic source-anchored identity and never merge; semantic nodes are minted; sameness is an edge. |
 | `design/staleness-and-verification.md` | One content-hash mechanism for review, verification and references; stale downgrades, only invalid blocks. |
 | `design/view-page-is-a-decision-tree.md` | The view page is one decision tree (which patient group? → which condition? → recommendation → aim, answers on the edges, a question at every fork, nothing overlapping), drawn by Cytoscape.js + dagre, self-hosted; not chapters, not an outline. |
-| `design/document-structure-is-provenance.md` | Chapters are provenance (`section` on the claim, `outline` on the source) and filters, never nodes; no `outlines/` namespace. |
+| `design/document-structure-is-provenance.md` | Chapters are provenance (`section` on the claim, `outline` on the source): a filter and a grouping the reader may choose from the switch, never nodes or edges in the pool and never the default shape; no `outlines/` namespace. |
 | `design/relations-are-edges-not-fields.md` | A relation is an edge with provenance (`broader`, `codes_as`), never a field; `broader` inherits nothing. |
 | `design/short-label-limit.md` | `short_label` is at most 60 characters (schema), target 55; concepts get one only above about 45. |
 | `design/direction-legend.md` | The four-word direction (für, gegen, abwägen, Lücke) is derived from claims; kann → abwägen with a lean; facts have none. |

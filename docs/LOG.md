@@ -4,6 +4,24 @@ One entry per session, newest first. Past about 200 lines, move the oldest
 entries to `docs/LOG-ARCHIVE.md`, newest first there too; never delete.
 
 ## 2026-09-13 — agent
+Packages touched: WP-0010 (open → claimed → review)
+Branch: agent/2026-09-13-site-grouping-views
+Notable: the switch is on the site. The build emits one decision tree per
+grouping a view offers — the plain hierarchy and each `group_by` axis — by
+one derivation that takes the axis: a dimension asks "Welche {short label}?"
+first, its values the answers, the population hierarchy below each; a
+hierarchy axis swaps the `broader` edges the families come from; the not-placed
+answer is last where it is needed. `views/pomgat-lv-1.0` offers the phase;
+`?by=axes/phase` in the URL keeps the choice. After the maintainer's review of
+the first pull request the chapters became an entry of the one switch
+("Kapitel", `?by=section`, built in for every view from the claims' sections
+and the outline, no axis entity) instead of two `section` views, which were
+deleted; the form stays implemented in the build. The hierarchy path was proved on a
+throwaway region assertion in a scratch copy and found a statement hung twice
+behind "nicht zugeordnet" — fixed before anything was committed. Nothing in
+`tools/` names an axis, a slot or a concept.
+
+## 2026-09-13 — agent
 Packages touched: WP-0009 (open → claimed → review)
 Branch: agent/2026-09-13-link-grouping-axes
 Notable: the first axes went through the mechanism. Four qualifier concepts

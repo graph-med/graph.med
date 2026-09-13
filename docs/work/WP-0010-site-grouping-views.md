@@ -1,12 +1,12 @@
 ---
 id: WP-0010
 title: The axis switch and the first specialised views on the site
-status: open
+status: review
 created: 2026-09-12
 updated: 2026-09-13
 depends_on: [WP-0009, WP-0004]
 blocks: []
-owner: unassigned
+owner: agent
 initiative: groupings
 kind: build
 slug: site-grouping-views
@@ -45,6 +45,14 @@ code path for every axis and every level. Views are data (memory
 None yet. Append only; architectural ones go to `docs/adr/`, knowledge-model ones to `.claude/memory/design/`.
 
 - 2026-09-13, WP-0007: a dimension axis adds its question before "Welche Population?"; a hierarchy axis changes the families of the question it folds; the plain hierarchy is the switch's first entry; "not placed" is one answer, last, from the per-language table (spec §4.1 "4. Shown", `docs/publication.md` §3).
+- 2026-09-13, WP-0010: the switch is a select in the left row of controls after the search, hidden when the view offers only the plain hierarchy; its entries read "Population" (the plain hierarchy, from the per-language table) and each axis's `label`; on a phone it wraps to the second line beside the facet filter (`docs/publication.md` §3, "How it looks").
+- 2026-09-13, WP-0010: the choice is a URL query parameter, `?by=<axis id>`, beside the `#<entity id>` hash — absent for the plain hierarchy, an unknown axis falls back to it — so the link is shareable and a deep link unfolds under the chosen axis. Switching keeps the chapter, the search, the facet and the selection; reset keeps the axis, because reset undoes narrowing and the axis narrows nothing.
+- 2026-09-13, WP-0010: the per-language table (`WORDS` in `tools/build.py`, formerly `QUESTIONS`) is keyed by structural key only: `axis` is the question form of a dimension axis, "Welche {label}?", filled with the axis's short label (its label when it has none); `plain` the switch's first entry; `unplaced` the not-placed answer. The build emits one tree per grouping into the view's JSON; the page redraws on switch.
+- 2026-09-13, WP-0010: a declared value no statement of the view holds is offered as no answer (a junction with nothing behind it would be noise), and the not-placed answer appears only where something is not placed — an empty "not placed" would say nothing; what the axis cannot place is never dropped.
+- 2026-09-13, WP-0010: a hierarchy axis is built over the slot the tree groups by, `population`, by the same `hierarchy()` code path as the plain hierarchy — the `broader` edges that name the axis instead of those that name none; the families are the axis's roots, a concept with no place goes behind the not-placed answer, and everything below it is built by the same rules. Proved on a throwaway assertion of `axes/region` in a scratch copy (19 of 36 concepts placed, 41 statements, five families, 49 statements behind "nicht zugeordnet", 0 overlapping pairs with everything open); nothing of it committed. A hierarchy over `condition` is not built — the tree has no condition junctions to fold — and the build says so (`docs/work/LATER.md`).
+- 2026-09-13, WP-0010: the specialised views are `views/pomgat-lv-1.0-6` (chapter 6, intraoperative management, 15 recommendations) and `views/pomgat-lv-1.0-7.4` (section 7.4, postoperative gastrointestinal motility, 17), both the existing `section` filter form; the id is the source view's id and the section number. The build implements the form in `members_of` (a claim of that source is a member when its section is the one named or beneath it; a section not in the outline fails the build), the chapter tree shows only that section's subtree, the root box carries the section's number and title and the page the source's title with it. They declare no `group_by`: the phase is asserted for `views/pomgat-lv-1.0` only and a status is per view (spec §4.1); proposing it for them is a person's entry under the axis's `views`.
+- 2026-09-13, WP-0010, after the maintainer's review of the first pull request: the chapters are an entry of the one switch, not separate views. The physician's notes listed the table of contents beside region and phase as groupings to choose by, and the maintainer asked "these are all the broader concepts, why are they not part of the one drop down, instead of different views?" So the switch reads Population · Kapitel · each `group_by` axis; "Kapitel" is built in for every view — derived from the claims' `section` and the sources' `outline` (spec §6.7), no axis entity, no proposal, no `group_by` — and asks "Welches Kapitel?" (a fixed per-language string, since the `Welche {label}?` form cannot inflect), its answers the top-level sections in outline order labelled number and title (cut at sixty characters with an ellipsis only when longer: chapter 8 of the first source), each counting the recommendations whose claims' sections lie in it — the same count as the chapter panel's row — a recommendation with claims in two chapters under both, one node hung twice, its aim and relations once. Its URL token is `?by=section`, the name the claim field and the filter form already use. One derivation serves all three kinds: a grouping is a question with a partition of the statements (chapters, a dimension axis), or the `broader` respect of the families (a hierarchy axis), or nothing (the plain hierarchy). The two section views (`pomgat-lv-1.0-6`, `pomgat-lv-1.0-7.4`) are deleted; the build keeps the `section` filter form (`members_of`), implemented and unused, for a chapter as a citable cut. Recorded in spec §4.1, `docs/publication.md` §3 and the memory `document-structure-is-provenance`.
+- 2026-09-13, WP-0010: `members_of` and `uses_of` follow every slot of a statement, not the four fixed ones, so the concepts a dimension axis's slot holds are members and a qualifier concept's page lists the statements holding it. The sheet's "within" line still lists the plain `broader` families whatever the axis; the tree, not the sheet, is what the axis changes.
 
 ## Open questions
 

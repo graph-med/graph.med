@@ -23,7 +23,8 @@ const errors = [];
     }
     await page.evaluate((action, value) => {
       const g = window.graphmed;
-      if (action === "toggle") g.toggle(g.cy.getElementById("j:" + value));
+      if (action === "toggle") g.toggle(g.cy.getElementById(value.indexOf("j:") === 0 ? value : "j:" + value));   /* a concept id, or a junction id in full (under an axis: j:<value>:<concept>) */
+      else if (action === "by") g.by(value);
       else if (action === "fold") g.fold(g.cy.getElementById(value));
       else if (action === "reset") g.reset();
       else if (action === "open") g.open(value, false);

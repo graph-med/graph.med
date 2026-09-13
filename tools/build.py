@@ -8,9 +8,12 @@
 
 Every view becomes <view-id>/index.html — one decision tree (which patient group? →
 which condition? → recommendation → aim; answers on the edges; laid out left to right
-in the browser by dagre), a chapter tree that filters it and a search that fades it
-(both from the sources' outline and the claims' sections, docs/publication.md §3),
-with a detail section beside or below it — plus <view-id>.json; every entity becomes
+in the browser by dagre) per grouping the view offers — the plain hierarchy, the
+chapters of its sources, and each axis of its `group_by` (spec §4.1), chosen by a
+switch on the page —, a chapter tree
+that filters it and a search that fades it (both from the sources' outline and the
+claims' sections, docs/publication.md §3), with a detail section beside or below it
+— plus <view-id>.json; every entity becomes
 <namespace>/<entity-id>/index.html and <namespace>/<entity-id>.json; the schema is
 copied to schema/schema.yaml. Offline, deterministic, nothing authored.
 """
@@ -36,15 +39,19 @@ SCHEMA = ROOT / "schema" / "schema.yaml"
 SITE_SRC = Path(__file__).resolve().parent / "site"
 REPO = "https://github.com/graph-med/graph.med"
 
-SLOTS = ("population", "action", "condition", "outcome")
 EVIDENCE = ("supports", "contests")
 STATEMENT_EDGES = ("specializes", "complements", "conflicts")
 BODY_TEXT = ("refines", "supplements", "limits")
 DIRECTION_GLYPH = {"für": "✓", "gegen": "✗", "abwägen": "⚖", "Lücke": "∅"}
 # The only words the build adds inside the graph, in the view's source language (docs/publication.md §3):
-# the two questions whose answers are the population and condition slots. Add a row per language;
-# a view in a language without one fails the build rather than falling back to another language.
-QUESTIONS = {"de": {"population": "Welche Population?", "condition": "Welche Bedingung?"}}
+# the two questions whose answers are the population and condition slots, the question a dimension axis
+# adds (its short label filled in), the chapter question and the switch's entries for the plain hierarchy
+# and the chapters, and the one answer for what a grouping cannot place (spec §4.1 "4. Shown"). Keyed by
+# structural key, never by an axis: the build knows no axis by name. Add a row per language; a view in a
+# language without one fails the build rather than falling back to another language.
+WORDS = {"de": {"population": "Welche Population?", "condition": "Welche Bedingung?", "section": "Welches Kapitel?",
+                "axis": "Welche {label}?", "plain": "Population", "chapter": "Kapitel", "unplaced": "nicht zugeordnet"}}
+CHAPTERS = "section"   # the URL token and grouping id of the built-in chapter grouping (`?by=section`)
 
 
 def direction_of(claims: list[dict]) -> dict | None:
@@ -169,8 +176,8 @@ class Pool:
     def uses_of(self, concept_id: str) -> list[dict]:
         rows = []
         for st in self.of_type("statement"):
-            for slot in SLOTS:
-                if (st.get("slots") or {}).get(slot) == concept_id:
+            for slot, cid in (st.get("slots") or {}).items():   # the four slots and any a dimension axis adds (spec §4.1)
+                if cid == concept_id:
                     rows.append({"id": st["id"], "label": st["label"], "slot": slot})
         rows.sort(key=lambda r: r["id"])
         return rows
@@ -192,24 +199,34 @@ def natural(s: str):
 
 # ── views ───────────────────────────────────────────────────────────────────
 
+def under(section: str, s) -> bool:
+    """Whether outline section `s` is `section` or lies beneath it ("7.4" holds "7.4.2.1")."""
+    return s is not None and (str(s) == section or str(s).startswith(section + "."))
+
+
 def members_of(view: dict, pool: Pool) -> dict[str, dict]:
-    """Resolve a view's filter to its member entities (docs/publication.md §2, spec §4)."""
+    """Resolve a view's filter to its member entities (docs/publication.md §2, spec §4): the selection
+    forms `sources` and, narrowing it, `section: {source, under}` — the claims of that source whose
+    section is `under` or beneath it (schema x-view-filters, spec §6.7). A filter selects; it never
+    adds a node or an edge."""
     f = view["filter"]
     if view["view_kind"] != "selection" or "sources" not in f:
         raise SystemExit(f"{view['id']}: only selection views over `sources` are built yet")
+    sec = f.get("section")
+    if sec and not any(under(str(sec["under"]), e.get("section")) for e in pool.entities[sec["source"]].get("outline") or []):
+        raise SystemExit(f"{view['id']}: section {sec['under']!r} is not in the outline of {sec['source']}")
     members: dict[str, dict] = {}
     for src in f["sources"]:
         members[src] = pool.entities[src]
     for claim in pool.of_type("claim"):
-        if pool.source_of(claim) in f["sources"]:
+        if pool.source_of(claim) in f["sources"] and (not sec or pool.source_of(claim) != sec["source"] or under(str(sec["under"]), claim.get("section"))):
             members[claim["id"]] = claim
             for kind, to, _ in pool.out.get(claim["id"], []):
                 if kind in EVIDENCE and to in pool.entities:
                     members[to] = pool.entities[to]
     for ent in list(members.values()):
         if ent.get("type") == "statement":
-            for slot in SLOTS:
-                cid = (ent.get("slots") or {}).get(slot)
+            for cid in (ent.get("slots") or {}).values():   # the four slots and any a dimension axis adds (spec §4.1)
                 if cid in pool.entities:
                     members[cid] = pool.entities[cid]
     queue = [m["id"] for m in members.values() if m.get("type") == "concept"]   # and the families above them (spec §5 broader)
@@ -221,13 +238,94 @@ def members_of(view: dict, pool: Pool) -> dict[str, dict]:
     return members
 
 
-def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool) -> dict:
+def title_of(view: dict, members: dict[str, dict], root: bool = False) -> str:
+    """What a view is called: its one source's title (several sources give the view its id), and for a
+    `section` view the section's number and title after it — alone at the root of the tree (`root`),
+    where the box is small and the sheet beside it names the source."""
+    sources = [members[s] for s in view["filter"]["sources"]]
+    sec = view["filter"].get("section")
+    title = sources[0]["title"] if len(sources) == 1 else view["id"].split("/", 1)[1]
+    if sec:
+        entry = next(e for e in members[sec["source"]].get("outline") or [] if str(e.get("section")) == str(sec["under"]))
+        return f"{entry['section']} {entry['title']}" if root else f"{title} — {entry['section']} {entry['title']}"
+    return title
+
+
+def clip(text: str, limit: int = 60) -> str:
+    """A label the box rule allows (schema short_text: 60 characters): cut at a word boundary with an
+    ellipsis only when the text is longer — a title from an outline has no short form of its own."""
+    if len(text) <= limit:
+        return text
+    cut = text[:limit - 1].rsplit(" ", 1)[0].rstrip(" ,;:–-")
+    return cut + "…"
+
+
+def groupings_of(view: dict, members: dict[str, dict], pool: Pool) -> list[dict]:
+    """One decision tree per grouping the view offers, in the order of its switch (spec §4.1 "4. Shown",
+    docs/publication.md §3): the plain hierarchy first, needing no declaration; then the chapters of the
+    view's sources — built in for every view, derived from the claims' sections and the sources' outline
+    (spec §6.7), no axis entity behind it; then each axis of `group_by` by its label — the validator has
+    checked that each is asserted for this view. Every grouping is one description the one derivation
+    reads: a question and a partition of the statements into its answers (chapters, a dimension axis),
+    or the `broader` respect the families come from (a hierarchy axis), or neither (the plain hierarchy)."""
+    lang = members[view["filter"]["sources"][0]]["lang"]
+    if lang not in WORDS:
+        raise SystemExit(f"{view['id']}: no words for language {lang!r} — add a row to WORDS in tools/build.py")
+    words = WORDS[lang]
+    statements = [m for m in members.values() if m["type"] == "statement"]
+    short = lambda cid: members[cid].get("short_label") or members[cid]["label"] if cid in members else cid
+    text_of = lambda cid: " ".join(filter(None, [members[cid]["label"], members[cid].get("short_label")])) if cid in members else cid
+
+    def by_section() -> list[dict]:
+        """The top-level sections of every source of the view, in outline order; a statement is behind each
+        chapter one of its claims' `section` lies in, so one supported from two chapters is under both."""
+        rows = []
+        for sid in view["filter"]["sources"]:
+            src = members[sid]
+            for e in src.get("outline") or []:
+                sec = str(e.get("section"))
+                if "." in sec:
+                    continue
+                sts = [st for st in statements if any(under(sec, c.get("section")) for c in pool.claims_for(st["id"]))]
+                rows.append({"id": f"{CHAPTERS}:{sid}:{sec}", "ref": "", "label": clip(f"{sec} {e['title']}"), "text": f"{sec} {e['title']}",
+                             "lang": src["lang"], "facets": [], "statements": sts})
+        return rows
+
+    def by_slot(axis: dict) -> list[dict]:
+        """A dimension axis's values in the declared order; a statement is behind the value its slot holds."""
+        slot = axis["slot"]
+        return [{"id": v, "ref": v, "label": short(v), "text": text_of(v), "lang": members[v]["lang"] if v in members else lang,
+                 "facets": [members[v]["facet"]] if members.get(v, {}).get("facet") else [],
+                 "statements": [st for st in statements if (st.get("slots") or {}).get(slot) == v]} for v in axis["values"]]
+
+    rows = [{"axis": "", "label": words["plain"], "lang": lang, **decision_tree_of(view, members, pool)},
+            {"axis": CHAPTERS, "label": words["chapter"], "lang": lang,
+             **decision_tree_of(view, members, pool, question=(f"q:{view['id']}:{CHAPTERS}", words["section"]), partition=by_section())}]
+    for aid in view.get("group_by") or []:
+        axis = pool.entities[aid]
+        tree = (decision_tree_of(view, members, pool, question=(f"q:{view['id']}:{axis['slot']}", words["axis"].format(label=axis.get("short_label") or axis["label"])),
+                                 partition=by_slot(axis)) if axis["carrier"] == "dimension"
+                else decision_tree_of(view, members, pool, hierarchy_axis=axis))
+        rows.append({"axis": aid, "label": axis["label"], "lang": axis["lang"], **tree})
+    return rows
+
+
+def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question: tuple[str, str] | None = None,
+                     partition: list[dict] | None = None, hierarchy_axis: dict | None = None) -> dict:
     """One decision tree for the whole view, derived from the statements' slots
     (docs/publication.md §3). The question nodes are ours; every answer on an edge and
     every box is a slot value or a claim's grade. Patient groups are the population
     concepts and the families above them (`broader`), answers ordered by how many
     recommendations they lead to; a recommendation hangs from the group it was made for,
-    never from a family. Layout and folding happen in the browser (dagre)."""
+    never from a family. Layout and folding happen in the browser (dagre).
+
+    The grouping chosen (spec §4.1 "4. Shown", groupings_of): nothing for the plain hierarchy; a
+    `question` (node id, text) with a `partition` of the statements into its answers — the chapters,
+    or a dimension axis's values — asked first, the population question below each answer; or a
+    `hierarchy_axis` whose `broader` edges replace the plain hierarchy's as the families of the
+    population question. Whatever the grouping cannot place is one answer, "not placed", last, at
+    every depth where its question is asked; the shape, the folding and where a recommendation hangs
+    stay the same, by one code path."""
     nodes: list[dict] = []
     edges: list[dict] = []
     seen: set = set()
@@ -248,63 +346,26 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool) -> dict:
     # what the search matches on a group, an aim, an answer: the concept's label and short label
     # (docs/publication.md §3; the browser folds case and diacritics)
     text_of = lambda cid: " ".join(filter(None, [label(cid), members[cid].get("short_label")])) if cid in members else cid
+    slots = lambda st: st.get("slots") or {}
+    first_no = lambda st: natural(min((c["recommendation_no"] for c in pool.claims_for(st["id"]) if c.get("recommendation_no")), default=""))
     sources = [members[s] for s in view["filter"]["sources"]]
-    root = add(view["id"], ref=sources[0]["id"], type="root", lang=sources[0]["lang"], label=sources[0]["title"])
     lang = sources[0]["lang"]
-    if lang not in QUESTIONS:
-        raise SystemExit(f"{view['id']}: no question words for language {lang!r} — add a row to QUESTIONS in tools/build.py")
-    statements = sorted((m for m in members.values() if m["type"] == "statement"),
-                        key=lambda s: natural(min((c["recommendation_no"] for c in pool.claims_for(s["id"]) if c.get("recommendation_no")), default="")) + [s["id"]])
-    own: dict = defaultdict(list)          # statements whose population is exactly this concept
-    for st in statements:
-        own[(st.get("slots") or {}).get("population")].append(st)
-    # the patient-group hierarchy: every population concept and every family above it (spec §5 broader);
-    # a junction per concept, its count the recommendations anywhere below it, families first by weight
-    concepts = set(own) & set(members)
-    children: dict = defaultdict(list)
-    stack = list(concepts)
-    while stack:
-        c = stack.pop()
-        for kind, to, _ in pool.out.get(c, []):
-            if kind == "broader" and to in members:
-                children[to].append(c)
-                if to not in concepts:
-                    concepts.add(to); stack.append(to)
-    parents = {c for cs in children.values() for c in cs}
-    def below(c, seen=()):
-        if c in seen:
-            return set()
-        return {st["id"] for st in own.get(c, [])} | {sid for k in children.get(c, []) for sid in below(k, seen + (c,))}
-    weight = {c: len(below(c)) for c in concepts}
-    def branch(parent, groups):
-        """Every branching is a question (docs/publication.md §3): whatever forks into patient groups —
-        the root into the families, a family into its members — asks "Welche Population?" first, and
-        each answer leads to a group's junction. One rule for every level of the tree."""
-        q = add(f"q:{parent}:population", type="question", lang=lang, label=QUESTIONS[lang]["population"])
-        edge(parent, q, "flow")
-        for c in sorted(groups, key=lambda c: (-weight[c], short(c))):
-            junction(c, q)
-        return q
-    def junction(c, parent):
-        j = f"j:{c}"
-        edge(parent, j, "answer", short(c), ref=c)
-        if j in seen:   # a group with two parents appears under both, built once
-            return
-        add(j, ref=c, type="junction", label=str(weight[c]), lang=members[c]["lang"], group=short(c), facets=[facet(c)] if facet(c) else [], text=text_of(c))
-        if children.get(c):
-            branch(j, children[c])
-    q0 = branch(root, concepts - parents)
-    statements.sort(key=lambda s: (-weight.get((s.get("slots") or {}).get("population"), 0), label((s.get("slots") or {}).get("population") or ""),
-                                   natural(min((c["recommendation_no"] for c in pool.claims_for(s["id"]) if c.get("recommendation_no")), default="")), s["id"]))
-    for st in statements:
-        slots = st.get("slots") or {}
+    words = WORDS[lang]
+    root = add(view["id"], ref=sources[0]["id"], type="root", lang=lang, label=title_of(view, members, root=True))
+    statements = sorted((m for m in members.values() if m["type"] == "statement"), key=lambda s: first_no(s) + [s["id"]])
+
+    def hang(st, at):
+        """The recommendation itself, under the junction of its group (`at`, or the question when it names
+        no group): through the condition question where it has one, then its aim and its relations."""
+        sl = slots(st)
         claims = pool.claims_for(st["id"])
         grades = {c["grade"] for c in claims if c["edge"] == "supports" and c.get("grade")}
-        pop, cond, outc = slots.get("population"), slots.get("condition"), slots.get("outcome")
+        cond, outc = sl.get("condition"), sl.get("outcome")
         d = direction_of(claims)
+        again = st["id"] in seen   # under two answers (two chapters): one node, hung from both, its aim and relations once
         sid = add(st["id"], ref=st["id"], type="statement", lang=st["lang"],
                   label=(d["glyph"] + " " if d else "") + (st.get("short_label") or st["label"]), full=st["label"],
-                  direction=d["word"] if d else None, facets=sorted({f for f in (facet(c) for c in slots.values()) if f}),
+                  direction=d["word"] if d else None, facets=sorted({f for f in (facet(c) for c in sl.values()) if f}),
                   grade=grades.pop() if len(grades) == 1 else ("mixed" if grades else None),
                   against={c["direction"] for c in claims if c["edge"] == "supports" and c.get("direction")} == {"against"},
                   contested=any(c["edge"] == "contests" for c in claims),
@@ -312,23 +373,110 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool) -> dict:
                   sections=sorted({c["section"] for c in claims if c.get("section")}, key=natural),
                   # what the search matches: the statement, its short form, its slot concepts (label and short
                   # label), its claims' sentences and quotes (docs/publication.md §3)
-                  text=" ".join(filter(None, [st["label"], st.get("short_label")] + [text_of(c) for c in slots.values() if c in members]
+                  text=" ".join(filter(None, [st["label"], st.get("short_label")] + [text_of(c) for c in sl.values() if c in members]
                                               + [c.get("label") for c in claims] + [c.get("quote") for c in claims])))
-        at = f"j:{pop}" if pop in members else q0   # the statement hangs from its own group's junction, never from a family's
         if cond in members:  # a further question, asked within the patient group
             q = f"q:{at}:condition"
             if q not in seen:
-                add(q, type="question", lang=lang, label=QUESTIONS[lang]["condition"])
+                add(q, type="question", lang=lang, label=words["condition"])
                 edge(at, q, "flow")
             edge(q, sid, "answer", short(cond), ref=cond)
         else:
             edge(at, sid, "flow")
+        if again:
+            return
         if outc in members:
             add(outc, ref=outc, type="aim", lang=members[outc]["lang"], label=short(outc), full=label(outc), facets=[facet(outc)] if facet(outc) else [], text=text_of(outc))
             edge(sid, outc, "aim")
         for kind, to, _ in pool.out.get(st["id"], []):
             if kind in STATEMENT_EDGES and to in members:
                 edge(sid, to, "relation", kind)
+
+    def unplaced(q, prefix, sts):
+        """The one answer for what the axis cannot place: last among the answers of `q`, a junction the
+        reader unfolds like any group, counting the statements behind it; what hangs below it is
+        built by the same rules."""
+        j = add(f"j:{prefix}unplaced", ref="", type="junction", label=str(len(sts)), lang=lang, group=words["unplaced"], facets=[], text=words["unplaced"])
+        edge(q, j, "answer", words["unplaced"])
+        return j
+
+    def hierarchy(parent, sts, prefix, axis_id):
+        """The patient-group hierarchy under `parent` for the statements `sts`: every population concept
+        and every family above it along the `broader` edges of one respect — the plain hierarchy's
+        edges carry no `axis`, a hierarchy axis's name it (spec §4.1) — a junction per concept, its
+        count the recommendations anywhere below it, families first by weight. One code path for the
+        root, for every value of a dimension axis and for the not-placed answer."""
+        own: dict = defaultdict(list)          # statements whose population is exactly this concept
+        for st in sts:
+            own[slots(st).get("population")].append(st)
+        concepts = set(own) & set(members)
+        children: dict = defaultdict(list)
+        stack = list(concepts)
+        while stack:
+            c = stack.pop()
+            for kind, to, props in pool.out.get(c, []):
+                if kind == "broader" and to in members and props.get("axis") == axis_id:
+                    children[to].append(c)
+                    if to not in concepts:
+                        concepts.add(to); stack.append(to)
+        parents = {c for cs in children.values() for c in cs}
+        def below(c, trail=()):
+            if c in trail:
+                return set()
+            return {st["id"] for st in own.get(c, [])} | {sid for k in children.get(c, []) for sid in below(k, trail + (c,))}
+        weight = {c: len(below(c)) for c in concepts}
+        def branch(at, groups):
+            """Every branching is a question (docs/publication.md §3): whatever forks into patient groups —
+            the root into the families, a family into its members — asks "Welche Population?" first, and
+            each answer leads to a group's junction. One rule for every level of the tree."""
+            q = add(f"q:{at}:population", type="question", lang=lang, label=words["population"])
+            edge(at, q, "flow")
+            for c in sorted(groups, key=lambda c: (-weight[c], short(c))):
+                junction(c, q)
+            return q
+        def junction(c, q):
+            j = f"j:{prefix}{c}"
+            edge(q, j, "answer", short(c), ref=c)
+            if j in seen:   # a group with two parents appears under both, built once
+                return
+            add(j, ref=c, type="junction", label=str(weight[c]), lang=members[c]["lang"], group=short(c), facets=[facet(c)] if facet(c) else [], text=text_of(c))
+            if children.get(c):
+                branch(j, children[c])
+        top = concepts - parents
+        # under a hierarchy axis a concept without an edge on that axis, and no member below it, has no
+        # place: it is not a family of the axis, so it goes behind the not-placed answer (spec §4.1)
+        rest = {c for c in top if axis_id and c not in children}
+        q = branch(parent, top - rest)
+        if rest:
+            left = [st for c in rest for st in own[c]]
+            hierarchy(unplaced(q, prefix, left), left, prefix + "unplaced:", None)
+        order = lambda st: (-weight.get(slots(st).get("population"), 0), label(slots(st).get("population") or ""), first_no(st), st["id"])
+        for st in sorted((st for st in sts if slots(st).get("population") not in rest), key=order):   # the not-placed subtree hung its own
+            pop = slots(st).get("population")
+            hang(st, f"j:{prefix}{pop}" if pop in members else q)   # its own group's junction, never a family's
+        return q
+
+    if partition is not None:
+        qid, text = question
+        q = add(qid, type="question", lang=lang, label=text)
+        edge(root, q, "flow")
+        placed: set = set()
+        for a in partition:   # the given order; an answer with no statement of the view behind it is not offered
+            if not a["statements"]:
+                continue
+            j = add(f"j:{a['id']}", ref=a["ref"], type="junction", label=str(len(a["statements"])), lang=a["lang"], group=a["label"], facets=a["facets"], text=a["text"])
+            edge(q, j, "answer", a["label"], ref=a["ref"] or None)
+            hierarchy(j, a["statements"], f"{a['id']}:", None)
+            placed.update(st["id"] for st in a["statements"])
+        rest = [st for st in statements if st["id"] not in placed]
+        if rest:
+            hierarchy(unplaced(q, f"{qid}:", rest), rest, f"{qid}:unplaced:", None)
+    elif hierarchy_axis:
+        if hierarchy_axis["slot"] != "population":
+            raise SystemExit(f"{view['id']}: {hierarchy_axis['id']} folds `{hierarchy_axis['slot']}`; only a hierarchy over `population` is built yet")
+        hierarchy(root, statements, "", hierarchy_axis["id"])
+    else:
+        hierarchy(root, statements, "", None)
     return {"nodes": nodes, "edges": edges}
 
 
@@ -411,15 +559,17 @@ def main(argv=None) -> int:
     for view in sorted(pool.of_type("view"), key=lambda v: v["id"]):
         vid = view["id"].split("/", 1)[1]
         members = members_of(view, pool)
-        graph = decision_tree_of(view, members, pool)
-        refs = {n["ref"] for n in graph["nodes"] if n.get("ref")} | {e["ref"] for e in graph["edges"] if e.get("ref")}
-        graph["html"] = {r: detail_tpl.render(**details(pool.entities[r])) for r in sorted(refs) if r in pool.entities}
+        groupings = groupings_of(view, members, pool)
+        refs = {n["ref"] for g in groupings for n in g["nodes"] if n.get("ref")} | {e["ref"] for g in groupings for e in g["edges"] if e.get("ref")}
         sources = [members[s] for s in view["filter"]["sources"]]
-        title = sources[0]["title"] if len(sources) == 1 else vid
+        title = title_of(view, members)
         counts = {t: sum(1 for m in members.values() if m["type"] == t) for t in ("statement", "concept", "claim")}
-        outline = [{"source": s["id"], **e} for s in sources for e in s.get("outline") or []]   # spec §6.7; a chapter is a filter, never a node
+        sec = view["filter"].get("section")   # a section view's chapter tree is that section and what lies beneath it
+        outline = [{"source": s["id"], **e} for s in sources for e in s.get("outline") or []
+                   if not sec or s["id"] != sec["source"] or under(str(sec["under"]), e.get("section"))]   # spec §6.7; a chapter is a filter, never a node
         data = {"id": view["id"], "title": title, "sources": [s["id"] for s in sources], "commit": commit, "outline": outline,
-                "facets": sorted({f for n in graph["nodes"] for f in n.get("facets", [])}), **graph}
+                "facets": sorted({f for g in groupings for n in g["nodes"] for f in n.get("facets", [])}), "groupings": groupings,
+                "html": {r: detail_tpl.render(**details(pool.entities[r])) for r in sorted(refs) if r in pool.entities}}
         (out / vid).mkdir(parents=True, exist_ok=True)
         (out / vid / "index.html").write_text(
             view_tpl.render(view=view, vid=vid, title=title, sources=sources, counts=counts,

@@ -6,17 +6,44 @@
    was open there. A chapter tree (from the source's outline and the claims' sections) is
    a hard filter: only what that section supports is shown. The search is a soft
    highlight: matches keep their colour, the rest fades. The reset button returns the
-   page to its opening state (docs/publication.md §3).
-   Data: the #graph-data JSON written by tools/build.py. */
+   page to its opening state (docs/publication.md §3). The axis switch chooses which of
+   the view's groupings is drawn — the plain hierarchy, the chapters of its sources, or an
+   axis of its `group_by` (spec §4.1) — as `?by=<grouping>` in the URL (`section` for the
+   chapters, else the axis id), so a grouped view is a shareable link.
+   Data: the #graph-data JSON written by tools/build.py, one tree per grouping. */
 (function () {
   "use strict";
   var hint = document.getElementById("hint"), sheet = document.getElementById("sheet");
   var home = sheet.innerHTML;
+  var data = JSON.parse(document.getElementById("graph-data").textContent);
+  var chapters = document.getElementById("chapters"), chaptersToggle = document.getElementById("chapters-toggle");
+  var search = document.getElementById("search"), count = document.getElementById("count"), facetSel = document.getElementById("facet");
+  var axisSel = document.getElementById("axis"), by = new URLSearchParams(location.search).get("by") || "", cy = null;
+  if (!data.groupings.some(function (g) { return g.axis === by; })) by = "";   /* an unknown axis in the link: the plain hierarchy */
+  data.groupings.forEach(function (g) { var o = document.createElement("option"); o.value = g.axis; o.textContent = g.label; o.lang = g.lang; axisSel.appendChild(o); });
+  axisSel.value = by; axisSel.hidden = data.groupings.length < 2;   /* a view without group_by has only the plain hierarchy: no switch */
   function fail(msg) { hint.hidden = false; hint.textContent = "The graph could not be drawn: " + msg; }
   try { draw(); } catch (e) { fail(e && e.message ? e.message : String(e)); throw e; }
 
+  /* switching the grouping redraws the tree from the chosen grouping's nodes and edges and keeps
+     the rest of the page's state — the chapter, the search and the facet, the selected entity —
+     so the reader lands where they were, under the other axis; the URL carries the choice */
+  axisSel.onchange = function () { switchTo(axisSel.value); };
+  function switchTo(axis) {
+    var g = window.graphmed, was = g.state();
+    by = data.groupings.some(function (x) { return x.axis === axis; }) ? axis : "";
+    axisSel.value = by;
+    history.replaceState(null, "", location.pathname + (by ? "?by=" + encodeURIComponent(by) : "") + location.hash);
+    cy.destroy();
+    draw();
+    g = window.graphmed;
+    if (was.section) g.section(was.section);
+    if (was.query || was.facet) g.search(was.query, was.facet);
+    if (was.ref) g.open(was.ref, true);
+  }
+
   function draw() {
-  var data = JSON.parse(document.getElementById("graph-data").textContent);
+  var tree = data.groupings.filter(function (g) { return g.axis === by; })[0];
   var css = function (name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); };
   var GRADE = { A: "--gA", B: "--gB", "0": "--g0", EK: "--gEK", mixed: "--line" };
   if (typeof cytoscape !== "function") throw new Error("library missing");
@@ -25,13 +52,13 @@
   /* the search compares folded text: no case, no diacritics ("osophagus" finds Ösophagus), ß as ss */
   function fold(s) { return (s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ß/g, "ss").toLowerCase(); }
   var elements = [], types = {};
-  data.nodes.forEach(function (n) { types[n.id] = n.type; });
-  data.nodes.forEach(function (n) {
+  tree.nodes.forEach(function (n) { types[n.id] = n.type; });
+  tree.nodes.forEach(function (n) {
     elements.push({ data: { id: n.id, ref: n.ref || "", type: n.type, label: n.label || "", group: n.group || "",
       fill: n.grade ? css(GRADE[n.grade] || "--line") : css("--bg"), against: n.against ? 1 : 0, contested: n.contested ? 1 : 0,
       sections: n.sections || [], text: fold(n.text), facets: n.facets || [] } });
   });
-  data.edges.forEach(function (e, i) {
+  tree.edges.forEach(function (e, i) {
     /* an answer is written at the end of its edge, beside the group or box it leads to, so that
        ten answers fanning out of one question do not pile up at the edges' midpoints. The label is
        anchored where the arrow meets the target's boundary; the margin moves its centre left by half
@@ -42,7 +69,7 @@
       lm: -(width / 2 + 10), turn: -200 } });   /* turn: where the edge's vertical run lies, set by route() after every layout */
   });
 
-  var cy = cytoscape({
+  cy = cytoscape({
     container: document.getElementById("graph"),
     elements: elements,
     minZoom: 0.1, maxZoom: 4,
@@ -196,7 +223,7 @@
     cy.elements().removeClass("dim picked");
     if (!eles || eles.empty()) {
       sheet.innerHTML = home; hint.hidden = false;
-      if (push) history.replaceState(null, "", location.pathname);
+      if (push) history.replaceState(null, "", location.pathname + location.search);
       return;
     }
     var keep = eles.union(eles.predecessors()).union(eles.successors());
@@ -217,8 +244,9 @@
     if (!j) fit(eles.closedNeighborhood().not(".folded"), 40);
   });
   cy.on("tap", function (evt) { if (evt.target === cy) select(null, null, true); });
-  document.getElementById("fit").addEventListener("click", function () { fit(cy.elements().not(".folded"), 20); });
-  window.addEventListener("resize", function () { cy.resize(); });
+  /* the page's own handlers are assigned, not added, so that a redraw under another axis replaces them */
+  document.getElementById("fit").onclick = function () { fit(cy.elements().not(".folded"), 20); };
+  window.onresize = function () { cy.resize(); };
 
   function open_(ref, push) {
     var eles = ref ? cy.elements("[ref = '" + ref + "']") : cy.collection();
@@ -229,15 +257,15 @@
     relayout(eles.closedNeighborhood());
     select(eles, ref, push);
   }
-  sheet.addEventListener("click", function (e) {
+  sheet.onclick = function (e) {
     var a = e.target.closest("a.node-link");
     if (a && cy.elements("[ref = '" + a.dataset.node + "']").nonempty()) { e.preventDefault(); open_(a.dataset.node, true); if (window.innerWidth < 900) window.scrollTo({ top: 0, behavior: "smooth" }); }
-  });
+  };
 
   /* the chapter tree: every section of the outline with the number of recommendations
      under it; sections without one are greyed; tapping one filters, "all" clears */
-  var chapters = document.getElementById("chapters"), chaptersToggle = document.getElementById("chapters-toggle");
   var outline = data.outline || [];
+  chapters.innerHTML = "";
   function setSection(sec) {
     section = sec;
     open = {}; closed = {};
@@ -270,19 +298,20 @@
       var ul = document.createElement("ul"); lists[e.section] = ul; li.appendChild(ul);
     });
     chapters.querySelectorAll("ul:empty").forEach(function (ul) { ul.remove(); });
-    chapters.addEventListener("click", function (e) {
+    chapters.onclick = function (e) {
       var b = e.target.closest("button"); if (!b || b.disabled) return;
       setSection(b.dataset.section || "");
       if (window.innerWidth < 900) { chapters.hidden = true; chaptersToggle.setAttribute("aria-expanded", "false"); }
-    });
-    chaptersToggle.addEventListener("click", function () { chapters.hidden = !chapters.hidden; chaptersToggle.setAttribute("aria-expanded", String(!chapters.hidden)); });
+    };
+    chaptersToggle.onclick = function () { chapters.hidden = !chapters.hidden; chaptersToggle.setAttribute("aria-expanded", String(!chapters.hidden)); };
   } else {
     chaptersToggle.hidden = true;
   }
 
   /* the search: a soft highlight — matches keep their colour, everything else fades but
      stays; groups holding a match unfold; the counter reads "n matches in m sections" */
-  var search = document.getElementById("search"), count = document.getElementById("count"), facetSel = document.getElementById("facet"), query = "", facet = "";
+  var query = "", facet = "";
+  while (facetSel.options.length > 1) facetSel.remove(1);
   (data.facets || []).forEach(function (f) { var o = document.createElement("option"); o.value = f; o.textContent = f.replace("_", " "); facetSel.appendChild(o); });
   facetSel.hidden = !(data.facets || []).length;
   function matches() {   /* the search text and the facet filter compose; either alone is a query */
@@ -309,8 +338,8 @@
     m.predecessors("node[type = 'junction']").forEach(function (j) { if (!open[j.id()]) { open[j.id()] = true; changed = true; } });
     if (changed) relayout(m.union(m.predecessors())); else highlight();
   }
-  search.addEventListener("input", research);
-  facetSel.addEventListener("change", research);
+  search.oninput = research;
+  facetSel.onchange = research;
 
   /* the reset button: the page's opening state — folded, no search, no facet, no chapter,
      nothing selected — so the way back from any search or filter is one tap */
@@ -319,11 +348,12 @@
     chapters.hidden = true; chaptersToggle.setAttribute("aria-expanded", "false");
     setSection("");   /* clears the fold and the selection, then lays out and fits */
   }
-  document.getElementById("reset").addEventListener("click", reset);
+  document.getElementById("reset").onclick = reset;
 
-  window.addEventListener("hashchange", function () { open_(decodeURIComponent(location.hash.slice(1)), false); });
+  window.onhashchange = function () { open_(decodeURIComponent(location.hash.slice(1)), false); };
   cy.ready(function () { open_(decodeURIComponent(location.hash.slice(1)), false); });
   window.graphmed = { cy: cy, open: open_, toggle: toggle, fold: foldQuestion, reset: reset, isOpen: function (id) { return !!open[id]; }, isClosed: function (id) { return !!closed[id]; },
-    section: setSection, search: function (q, f) { search.value = q; if (f !== undefined) facetSel.value = f; search.dispatchEvent(new Event("input")); } };   /* for the console and tests */
+    section: setSection, search: function (q, f) { search.value = q; if (f !== undefined) facetSel.value = f; research(); },
+    by: switchTo, state: function () { return { by: by, section: section, query: search.value, facet: facetSel.value, ref: decodeURIComponent(location.hash.slice(1)) }; } };   /* for the console and tests */
   }
 })();
