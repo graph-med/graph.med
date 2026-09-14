@@ -35,7 +35,7 @@ in order — fills a term → `refines`, takes a case out → `limits`, adds an
 action → `supplements` — kind by the sentence's form, no grade, one claim per
 alternative, and no edge between the sentences of one box. Checked against
 the 101 claims: of the fifteen body-text edges nine link two sentences of one
-box or two boxes and go, six stay; the rule adds about twenty-five claims
+box or two boxes and go, six stay; the rule adds about thirty claims
 across the chapters, six of them in chapter 6 (the amylase criterion's two
 other alternatives among them). The brief per chapter is in the pull request.
 The `process-work-package` skill's extraction section now points at the rule.
