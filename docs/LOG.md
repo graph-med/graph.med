@@ -42,6 +42,21 @@ and key, attestation ids, an edge's URL form, re-judging) and six entries in
 `LATER.md` for the tool, the schema words, the agent, the workflow.
 
 ## 2026-09-14 — agent
+Packages touched: WP-0012 (open → claimed → review)
+Branch: agent/2026-09-14-relink-body-text-a
+Notable: chapters 4–6 follow the body-text rule. Of nine body-text edges five
+linked two sentences of one box and were removed from the edge files (git is
+the history, spec §7), four stay with a rationale; 25 claims were added with
+28 `modelling` edges, each rationale naming the test and the term — the
+amylase criterion of 6.7 now carries all three alternatives, one claim each.
+Chapter 6 was derived blind before the brief was read and matched it, with one
+sentence more (the perfusion-check techniques, "hierfür", under 6.14); two
+further sentences the brief left (statin side effects p. 28, the SDD
+description p. 54) pass the rule and were added, all three flagged for the
+reviewer. No schema, validator or build change; the first ungraded body-text
+recommendations render under their box with no letter and no marker.
+
+## 2026-09-14 — agent
 Packages touched: WP-0011 (open → claimed → review)
 Branch: agent/2026-09-14-body-text-relations-rule
 Notable: the body-text rule is written (spec §5.1): a gate, then three tests
