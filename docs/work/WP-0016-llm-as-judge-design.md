@@ -1,12 +1,12 @@
 ---
 id: WP-0016
 title: Design the automated review that lands as attestations
-status: open
+status: claimed
 created: 2026-09-12
-updated: 2026-09-12
+updated: 2026-09-14
 depends_on: [WP-0011]
 blocks: []
-owner: unassigned
+owner: agent
 initiative: review
 kind: docs
 slug: llm-as-judge-design
