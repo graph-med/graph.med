@@ -1,12 +1,12 @@
 ---
 id: WP-0013
 title: Relink body-text relations, chapters 7–9
-status: open
+status: claimed
 created: 2026-09-12
-updated: 2026-09-12
+updated: 2026-09-14
 depends_on: [WP-0012]
 blocks: []
-owner: unassigned
+owner: agent
 initiative: extraction-quality
 kind: linking
 slug: relink-body-text-b
