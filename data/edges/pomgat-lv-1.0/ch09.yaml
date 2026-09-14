@@ -2,3 +2,7 @@
   - refines
   - claims/pomgat-lv-1.0/1385fc7e
   - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: unkomplizierte Leberresektion — die von der Leitlinie markierte Definition („=“, Qualitätsindikator
+      2) erreicht jede Aussage, die den Begriff verwendet (Empfehlung 6.8)'
