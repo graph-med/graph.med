@@ -3,6 +3,19 @@
 One entry per session, newest first. Past about 200 lines, move the oldest
 entries to `docs/LOG-ARCHIVE.md`, newest first there too; never delete.
 
+## 2026-09-14 — agent
+Packages touched: WP-0006 (review, rebased)
+Branch: agent/2026-09-13-site-colour-by-direction (now on main)
+Notable: WP-0006 was reviewed in #55 but #56 carried WP-0004 and WP-0005 to
+`main` without it, so the branch was rebased onto today's `main` — the
+`groupings` initiative, schema 0.5.0, the axis switch — its four commits
+intact; one conflict in `tools/build.py` (the box label composed beside the
+switch's duplicate guard) and two in the log and handoff. Re-verified: 0
+overlapping pairs in thirteen states, 333 elements with everything open, and
+the direction colours hold under every grouping of the switch (425 elements
+under the phase, 433 under the chapters). The branch awaits its pull request
+with base `main`.
+
 ## 2026-09-13 — agent
 Packages touched: WP-0007 to WP-0010 (review → done)
 Branch: docs/close-groupings
