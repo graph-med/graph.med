@@ -45,7 +45,9 @@
   function draw() {
   var tree = data.groupings.filter(function (g) { return g.axis === by; })[0];
   var css = function (name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); };
-  var GRADE = { A: "--gA", B: "--gB", "0": "--g0", EK: "--gEK", mixed: "--line" };
+  /* a box is coloured by its direction — the banner's four colours, one variable each in site.css — and
+     carries its grade as a letter in the label; a statement without a direction (a fact) stays uncoloured */
+  var DIRECTION = { "für": "--dir-for", "gegen": "--dir-against", "abwägen": "--dir-weigh", "Lücke": "--dir-gap" };
   if (typeof cytoscape !== "function") throw new Error("library missing");
   if (typeof cytoscapeDagre === "function") cytoscape.use(cytoscapeDagre);
 
@@ -55,7 +57,7 @@
   tree.nodes.forEach(function (n) { types[n.id] = n.type; });
   tree.nodes.forEach(function (n) {
     elements.push({ data: { id: n.id, ref: n.ref || "", type: n.type, label: n.label || "", group: n.group || "",
-      fill: n.grade ? css(GRADE[n.grade] || "--line") : css("--bg"), against: n.against ? 1 : 0, contested: n.contested ? 1 : 0,
+      direction: n.direction || "", fill: DIRECTION[n.direction] ? css(DIRECTION[n.direction]) : css("--bg"), contested: n.contested ? 1 : 0,
       sections: n.sections || [], text: fold(n.text), facets: n.facets || [] } });
   });
   tree.edges.forEach(function (e, i) {
@@ -86,8 +88,8 @@
           "background-color": css("--bg"), "border-color": css("--fg"), "border-width": 2, "text-max-width": 30 } },
       { selector: "node[type = 'junction'].open", style: { "background-color": css("--fg"), "color": css("--bg") } },
       { selector: "node[type = 'question'].closed", style: { "background-color": css("--line"), "border-style": "dashed" } },   /* folded: there is more below */
-      { selector: "node[type = 'statement']", style: { "color": "#111", "border-color": "rgba(0,0,0,0)", "text-halign": "center" } },
-      { selector: "node[type = 'statement'][against = 1]", style: { "border-width": 3, "border-color": css("--contested") } },
+      { selector: "node[type = 'statement']", style: { "color": "#111", "border-color": "rgba(0,0,0,0)", "text-halign": "center" } },   /* dark text on the direction's colour, in both themes */
+      { selector: "node[type = 'statement'][!direction]", style: { "color": css("--fg"), "border-color": css("--mute") } },   /* no direction: the page's own colours, with a border */
       { selector: "node[type = 'statement'][contested = 1]", style: { "border-width": 3, "border-color": css("--contested"), "border-style": "dashed" } },
       { selector: "node[type = 'aim']", style: { "width": 180, "text-max-width": 160, "font-size": 11, "color": css("--mute"), "border-style": "dashed" } },
       { selector: "edge", style: {

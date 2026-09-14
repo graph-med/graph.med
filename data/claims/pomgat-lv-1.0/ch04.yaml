@@ -284,3 +284,74 @@
   source:
     at: sources/pomgat-lv-1.0#page=38
     quote: Die Ergebnisse der Risikostratifizierung sollten mit dem Patienten besprochen
+- id: claims/pomgat-lv-1.0/1ba3f25a
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.1"
+  label: Wenn eine Dosistitration nicht gewährleistet ist, wird von einer präoperativen Neueinstellung auf eine Betablockertherapie
+    grundsätzlich abgeraten.
+  direction: against
+  source:
+    at: sources/pomgat-lv-1.0#page=27
+    quote: wird von einer präoperativen Neueinstellung auf eine
+- id: claims/pomgat-lv-1.0/7c31f786
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.1"
+  label: Eine bestehende Dauertherapie sollte bei antianginöser Indikationsstellung fortgeführt werden
+  verb: sollte
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=27
+    quote: bestehende Dauertherapie sollte bei antianginöser Indikationsstellung fortgeführt
+- id: claims/pomgat-lv-1.0/dae4474f
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.1"
+  label: bei antihypertensiver Indikation zur Vermeidung von intraoperativen Hypotensionen am Tag der Operation präoperativ
+    aus pragmatischer Sicht ausgesetzt werden
+  verb: sollte
+  direction: against
+  source:
+    at: sources/pomgat-lv-1.0#page=27
+    quote: bei antihypertensiver Indikation zur Vermeidung von intraoperativen
+- id: claims/pomgat-lv-1.0/a1e6e098
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.1.1"
+  label: Im Sinne von GCP sind diese bei Auftreten klinisch zu beobachten und zu bewerten, häufig ist durch einen Wechsel
+    des Präparats oder der Dosierung Linderung zu erreichen.
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=28
+    quote: sind diese bei Auftreten klinisch zu beobachten und zu bewerten, häufig ist durch
+- id: claims/pomgat-lv-1.0/f79cc472
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.3"
+  label: Aus diesem Standard der Kontrollarme und der moderaten Evidenz für die Verbesserung der 6 Minuten Gehstrecke leitet
+    die Arbeitsgruppe ab, dass Risikopatienten bei der Vorbereitung einer großen Operation partizipativ zu einer ressourcenarmen
+    individualisierten „Prähabilitation“ zu Hause (z.B. Anleitung durch Flyer, einmalige Diät-Beratung, Bewegungs-/Physiotherapie)
+    motiviert werden sollten.
+  verb: sollte
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=35
+    quote: Arbeitsgruppe ab, dass Risikopatienten bei der Vorbereitung einer großen Operation
+- id: claims/pomgat-lv-1.0/c2782c03
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.5"
+  label: Die präoperative Risikostratifizierung sollte zudem das zunehmende Alter der Patienten zur Resektion gastrointestinaler
+    Tumoren berücksichtigen.
+  verb: sollte
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=38
+    quote: Die präoperative Risikostratifizierung sollte zudem das zunehmende Alter der
