@@ -107,6 +107,9 @@
 <p class="none">No neighbouring recommendation: none in this patient group, none with this action for another group, none linked.</p>
 {% endif %}
 </section>
+{# The one feedback affordance (docs/publication.md §3 "Suggesting a change"): a plain GitHub link that opens a new
+   issue prefilled with what identifies this recommendation; nothing is stored on the site. #}
+<p class="cite feedback"><a href="{{ feedback }}" rel="noopener">suggest a change</a> · opens a prefilled issue on GitHub</p>
 {% elif e.type == "concept" %}
 <p class="kind">concept{% if e.facet %} · {{ e.facet }}{% endif %}</p>
 <p class="label" lang="{{ e.lang }}">{{ e.label }}</p>
