@@ -1,12 +1,12 @@
 ---
 id: WP-0015
 title: A "suggest a change" link opening a prefilled issue
-status: open
+status: claimed
 created: 2026-09-12
-updated: 2026-09-12
+updated: 2026-09-14
 depends_on: [WP-0005]
 blocks: []
-owner: unassigned
+owner: agent
 initiative: review
 kind: build
 slug: site-feedback-affordance
