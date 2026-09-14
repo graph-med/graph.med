@@ -92,3 +92,27 @@ and which package is next, is not a question and lives in `docs/work/` and `docs
 **Options:** it enters like any claim and the missing letter is the marker · it enters with an explicit "ungraded" mark (a glyph, a hatched box) · it never supports a statement, only relates to a box, so the tree stays the graded recommendations
 **Leaning:** the first for a `supplements` claim (it hangs under its box, the letter is simply absent) and the third for the boxless recommendations (the calcium antagonists of p. 27, benzodiazepines in 5.7): a tree of graded answers should not gain ungraded boxes by the side door. Decide against the first such claim WP-0012 extracts, on the page. (2026-09-14)
 **Settled by:** the first ungraded body-text claim rendered on the site and read by the physician.
+
+## judge-provider  (graph-representation.md §8.1; README.md "Checks")
+**Question:** Which model reads for the judge, where does its key live, and who pays — the workflow's run and the author's run in the sandbox both need it.
+**Options:** one hosted model behind a repository secret (the workflow) and a sandbox secret (the author), its domain allowlisted like the source's · a model the runner downloads, so no key and no vendor · two different models, one per run, so the second run is independent in kind as well as in time
+**Leaning:** the first; the second run's independence comes from being a second run, and a second vendor is a second bill and a second prompt to keep honest — until a disagreement rate between the two runs says otherwise. The proof records the model either way, so the choice is reversible per finding. Needs the maintainer, before the tool's package is registered. (2026-09-14)
+**Settled by:** the maintainer, when the judge tool is registered as a package.
+
+## attestation-identity  (graph-representation.md §2, §8.1; schema `x-namespaces.attestations: sequential`)
+**Question:** Attestation ids are sequential, and the judge writes them on branches: two pull requests judged in parallel both mint `attestations/0042`, and the coordinator's stack has to renumber one of them.
+**Options:** sequential per agent (`attestations/<agent>-0042`), still colliding on one agent's parallel runs · derived from `(by, subject, subject_hash)` like a claim's id from its anchor, the date inside · sequential, renumbered by whoever stacks
+**Leaning:** derived — identity is deterministic wherever it can be (§2), and two readings by one agent of one subject at one hash are one attestation by construction, which is also what a re-run on a push should overwrite. A person's attestations can take the same form. (2026-09-14)
+**Settled by:** the schema follow-up of the automated review (`docs/work/LATER.md`).
+
+## edge-address  (graph-representation.md §2, §5, §8.1; schema `attestation.subject`, `entity_ref`; publication.md §2)
+**Question:** An edge derives its id from `(from, kind, to, discriminator)` (§2) but has no URL form, so no attestation can name one — and the judge's third question, the body-text edge against §5.1, has no subject to write its finding to.
+**Options:** `edges/<source-id>/<hash8>` over the tuple, mirroring a claim's id, with a page on the site · the attestation names the from-claim and the proof names the edge · the tuple itself as the subject, a list where every other subject is a reference
+**Leaning:** the first — a page per edge is what the property-level address of §2 already promises for provenance and feedback, and the site links what an edge relates; the hash makes two agents' addresses of one edge the same. (2026-09-14)
+**Settled by:** the schema follow-up of the automated review, together with `docs/publication.md` §2.
+
+## judge-rerun  (graph-representation.md §8.1)
+**Question:** When is what already lies on `main` judged again — after a change of model or prompt, a re-fetched source, or a change to a rule the judge applies (§5.1)?
+**Options:** never automatically; a package re-judges a namespace when a person decides · on every push to `main`, the whole pool · whenever a rule of the spec changes, everything that rule governs
+**Leaning:** the first; a changed rule stales nothing mechanically, so re-judging is a decision, and the prompt hash in every proof says which text of the rule a finding was read against. (2026-09-14)
+**Settled by:** the first change to §5.1, or to the model, after the first judged pull request.
