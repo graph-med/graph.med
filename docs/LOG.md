@@ -4,6 +4,24 @@ One entry per session, newest first. Past about 200 lines, move the oldest
 entries to `docs/LOG-ARCHIVE.md`, newest first there too; never delete.
 
 ## 2026-09-14 — agent
+Packages touched: WP-0013 (open → claimed → review)
+Branch: agent/2026-09-14-relink-body-text-b
+Notable: chapters 7–9 follow the body-text rule, so every chapter of
+`pomgat-lv-1.0` now does. Of six body-text edges four linked two boxes or two
+sentences of one box and were removed from the edge files (git is the history,
+spec §7), two stay with a rationale (the p. 88 TAP criterion under 7.12, the
+chapter 9 definition under 6.8); nine claims were added with ten `modelling`
+edges — a secondary gastric tube under 7.5, the balanced analgesia concept
+under 7.9 and 7.10, morbidity and mortality in the EA decision under statement
+7.11, the anastomotic-leak caution under 7.15, and five under 7.28 (the point
+selection, the two point locations, the needles, the sterile technique).
+Chapters 8 and 9 and pp. 104–109 were derived blind before the brief was read
+and matched it; two sentences the brief had not listed pass the rule and were
+added (p. 92–93 NSAR caution, p. 86 EA decision), its "bspw. 50mg Diclophenac"
+fragment was left (an example inside an effect report), all flagged for the
+reviewer. No schema, validator, build or agent-governing file changed.
+
+## 2026-09-14 — agent
 Packages touched: WP-0006 (review, rebased)
 Branch: agent/2026-09-13-site-colour-by-direction (now on main)
 Notable: WP-0006 was reviewed in #55 but #56 carried WP-0004 and WP-0005 to
