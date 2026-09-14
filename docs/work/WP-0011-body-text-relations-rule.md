@@ -1,12 +1,12 @@
 ---
 id: WP-0011
 title: A written rule per body-text relation
-status: open
+status: claimed
 created: 2026-09-12
-updated: 2026-09-12
+updated: 2026-09-14
 depends_on: []
 blocks: [WP-0012, WP-0016]
-owner: unassigned
+owner: agent
 initiative: extraction-quality
 kind: docs
 slug: body-text-relations-rule
