@@ -5,10 +5,6 @@ package (`README.md`) when they decide it is next; a session may add an entry he
 when it finds work it cannot do, stated as the durable shape of the work, not as a
 log. Remove an entry when its package is registered.
 
-
-
-
-
 - the chapter panel's bottom edge runs under the legend on a phone: its `max-height` leaves room for the legend's two desktop lines, and on a 390 px screen the legend wraps to four; the panel should stop above the legend at every width (`tools/site/static/site.css`, `.chapters` and `.hint`)
 
 - the question a dimension axis adds is a per-language form, "Welche {label}?", filled with the axis's short label (`WORDS` in `tools/build.py`); it cannot inflect, so a neuter axis ("Stadium") would read "Welche Stadium?" — either a `question` the axis declares in its own language, or a gender beside the label, would fix it; decide with the first axis the form gets wrong
@@ -36,3 +32,5 @@ log. Remove an entry when its package is registered.
 - screenshot driver: `tools/screenshot.js` opens only a view page and captures only the viewport — it waits for `window.graphmed`, so an entity page (`statements/<id>/`) cannot be captured, and a sheet longer than the screen is seen only through a tall `--size`. An action or flag for an entity page and a full-page capture would let a build package show the entity page it claims to render
 
 - theme switch while a view page is open: `tools/site/static/graph.js` reads the stylesheet's colours once, when the graph is drawn, so a change of `prefers-color-scheme` restyles the page but leaves the graph in the old theme until it is reloaded; a `matchMedia` listener that re-reads the variables and restyles the graph would follow it
+- two claims of box 4.5 hold two sentences in one label (`claims/pomgat-lv-1.0/01ba1a06` carries the exception sentence that `5d24c688` also is; `3e709b29` carries "Dies sollte von Fall zu Fall entschieden werden") against the per-sentence rule (spec §3.1); a correction is one claim per sentence and an edit with history, not a rewrite — noticed while checking the body-text rule (WP-0011), outside its scope
+

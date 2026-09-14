@@ -27,6 +27,19 @@ form's one home, read by the build; nothing is stored on the site and the page
 makes no request. The prefilled issue was not opened by hand from the sandbox
 (`gh` is unauthenticated there); the maintainer opens the decoded URL once.
 
+## 2026-09-14 — agent
+Packages touched: WP-0011 (open → claimed → review)
+Branch: agent/2026-09-14-body-text-relations-rule
+Notable: the body-text rule is written (spec §5.1): a gate, then three tests
+in order — fills a term → `refines`, takes a case out → `limits`, adds an
+action → `supplements` — kind by the sentence's form, no grade, one claim per
+alternative, and no edge between the sentences of one box. Checked against
+the 101 claims: of the fifteen body-text edges nine link two sentences of one
+box or two boxes and go, six stay; the rule adds about twenty-five claims
+across the chapters, six of them in chapter 6 (the amylase criterion's two
+other alternatives among them). The brief per chapter is in the pull request.
+The `process-work-package` skill's extraction section now points at the rule.
+
 ## 2026-09-13 — agent
 Packages touched: WP-0007 to WP-0010 (review → done)
 Branch: docs/close-groupings
