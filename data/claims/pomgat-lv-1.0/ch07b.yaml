@@ -163,3 +163,15 @@
   source:
     at: sources/pomgat-lv-1.0#page=101
     quote: Daikenchuto sollte nicht zur Prophylaxe des postoperativen (paralytischen) Ileus
+- id: claims/pomgat-lv-1.0/0c52e24a
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.4.1.1"
+  label: Zu beachten ist bei der perioperativen Applikation von NSAR, dass diese mit einer erhöhten Inzidenz an Anastomoseninsuffizienzen
+    einherzugehen scheinen, sodass bei dieser Empfehlung ein möglicher Zusammenhang zwischen der Applikation von NSAR und
+    einer erhöhten Inzidenz an Anastomoseninsuffizienzen berücksichtigt werden muss [278], [279], [280], [281], [282].
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=92
+    quote: ist bei der perioperativen Applikation von NSAR, dass diese mit einer erhöhten
