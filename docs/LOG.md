@@ -28,6 +28,20 @@ makes no request. The prefilled issue was not opened by hand from the sandbox
 (`gh` is unauthenticated there); the maintainer opens the decoded URL once.
 
 ## 2026-09-14 — agent
+Packages touched: WP-0016 (open → claimed → review)
+Branch: agent/2026-09-14-llm-as-judge-design
+Notable: the automated review is designed (spec §8.1): three questions — a
+claim against its page, a statement against its supporting claims, a
+body-text edge against §5.1 — answered as attestations by one software agent,
+`consistent` or `disputed`, hashes pinned, never an edit and never a block;
+the author commits them in the pull request on the judge's behalf and a
+read-only, human-committed workflow reads the same diff again into the run's
+summary. Walking the existing box 6.7 through it found the amylase edge
+carries no `rationale`, which §5.1 now asks for. Four open questions (model
+and key, attestation ids, an edge's URL form, re-judging) and six entries in
+`LATER.md` for the tool, the schema words, the agent, the workflow.
+
+## 2026-09-14 — agent
 Packages touched: WP-0011 (open → claimed → review)
 Branch: agent/2026-09-14-body-text-relations-rule
 Notable: the body-text rule is written (spec §5.1): a gate, then three tests
