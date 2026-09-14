@@ -62,3 +62,63 @@
   - refines
   - claims/pomgat-lv-1.0/6b9239a9
   - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: „Drainagesekret … geringes Risiko einer Pankreasfistel“ — welcher Wert; erste von drei Alternativen
+      („entweder“) der Empfehlung 6.7, je eine Aussage pro Alternative'
+- - claims/pomgat-lv-1.0/d582797c
+  - supplements
+  - claims/pomgat-lv-1.0/13417577
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'supplements: „ist … zu rechtfertigen“ — der nächste Schritt zur Drainage der Empfehlung 6.1 (Entfernung bei
+      Fördermenge <250 ml); schwächste Anweisungsform'
+- - claims/pomgat-lv-1.0/778cfc08
+  - refines
+  - claims/pomgat-lv-1.0/4caf2208
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: „kann … erwogen werden“ — welcher Fall innerhalb der Population (weiches Pankreas mit höherer Fistelrate);
+      füllt den Begriff der Empfehlung 6.5; „kann notwendig sein“ regiert keine Handlung, daher Kriterium'
+- - claims/pomgat-lv-1.0/8698e6df
+  - refines
+  - claims/pomgat-lv-1.0/f5c48e4c
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: „insbesondere bei Risikoanastomosen eines weichen Pankreas“ — welche Fälle innerhalb der Population
+      der Empfehlung 6.6; keine bloße Wiederholung, weil der Fall neu ist'
+- - claims/pomgat-lv-1.0/746f5608
+  - refines
+  - claims/pomgat-lv-1.0/6b9239a9
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: „Drainagesekret … geringes Risiko einer Pankreasfistel“ — welcher Wert; zweite von drei Alternativen
+      („oder“) der Empfehlung 6.7, je eine Aussage pro Alternative'
+- - claims/pomgat-lv-1.0/d1e946a1
+  - refines
+  - claims/pomgat-lv-1.0/6b9239a9
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: „Drainagesekret … geringes Risiko einer Pankreasfistel“ — welcher Wert; dritte von drei Alternativen
+      („oder aber“) der Empfehlung 6.7, je eine Aussage pro Alternative'
+- - claims/pomgat-lv-1.0/9b5a4b39
+  - refines
+  - claims/pomgat-lv-1.0/70766ab8
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: elektive kolorektale Resektionen — welche Fälle innerhalb der Population (auch Rektumeingriffe mit
+      extraperitonealen Anastomosen); füllt den Begriff der Empfehlung 6.10'
+- - claims/pomgat-lv-1.0/75590292
+  - refines
+  - claims/pomgat-lv-1.0/10cc4dcb
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: „Hierfür“ — mit welchen Verfahren die Perfusion überprüft wird (cold-steel-test, Zweitmeinung, Photospektrometrie,
+      Gewebsoxygenierung, ICG); füllt den Begriff „überprüft“ der Empfehlung 6.14'
