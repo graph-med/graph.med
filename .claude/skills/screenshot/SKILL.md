@@ -33,6 +33,7 @@ so and stops; report that rather than looking for another browser.
 ```bash
 uv run tools/screenshot.py pomgat-lv-1.0            # the folded start, 1280×900
 uv run tools/screenshot.py pomgat-lv-1.0 --phone    # 390×844 at device scale 2
+uv run tools/screenshot.py pomgat-lv-1.0 --dark     # the dark theme; combines with --phone
 uv run tools/screenshot.py pomgat-lv-1.0 \
     --do toggle=concepts/leberresektion \
     --do open=statements/drainage-komplexe-leberresektion-optional \
@@ -49,9 +50,11 @@ deep link (unfold and select), `section=<number>` sets the chapter filter,
 `search=<text>` and `facet=<kind>` set the search, `chapters` opens the chapter
 panel and `chapters-scroll=<px>` scrolls its list, `all` opens every patient
 group one tap at a time (the physician's extreme state), `fit` fits what is
-open, `reset` returns the page to its opening state, `wait=<ms>` waits. The
-runner prints how many graph elements were shown, any page error — also when
-the graph never appears, which is a script error, not a slow run — and **what
+open, `reset` returns the page to its opening state, `wait=<ms>` waits. `--dark`
+is a flag, not an action: the graph reads its colours from the stylesheet once,
+when it is drawn, so the theme is emulated before the page loads. The runner
+prints how many graph elements were shown, any page error — also when the
+graph never appears, which is a script error, not a slow run — and **what
 overlaps**: every pair
 of nodes and answers whose boxes intersect, and every edge drawn across a node or
 an answer it does not touch — the mechanical half of "nothing overlaps"
@@ -71,7 +74,8 @@ can open; it does not belong in the repository.
 
 Before the pull request: capture the folded start on desktop and on a phone, and
 one state that exercises what the package changed (a family unfolded, a box
-selected, a filter, a search), and run `--do all --do fit`: a build package ends
+selected, a filter, a search) — in both themes when the package touches a
+colour — and run `--do all --do fit`: a build package ends
 with 0 overlapping pairs with everything open. Say in the PR description which captures you
 took and what you saw — including what is wrong, so the reviewer does not have
 to find it. "Not opened in a browser" is no longer an acceptable line in a PR.

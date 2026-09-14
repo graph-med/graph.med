@@ -277,10 +277,26 @@ details carry it; the legend lists the four words with their colours. Timing
      or `conflicts`, each a link that moves the graph there.
   The order goes from the answer to its applicability, its evidence, its limits,
   its source, and its neighbours. The entity page (§4) renders the same section.
+  Under the six questions stands the one feedback affordance, **suggest a
+  change** (below).
 - *concept*: the label and definition, the statements that use it and in which slot,
   and its codes (`codes_as`) once terminology imports exist.
 - *structural node*: its label, its branches or outcomes, and the statements it is
   about.
+
+**Suggesting a change.** An expert reading a recommendation should be able to say
+"this box should be one recommendation, not three" and have it reach the pool as
+a reviewable proposal. The affordance for that is one link under a statement's
+section, on the view page and on the entity page alike: **suggest a change**. It
+is a plain link to a new issue in the repository
+(`<repo>/issues/new?template=…&title=…&body=…`), prefilled by the build with what
+identifies the recommendation — the statement id, its source, the box numbers and
+the pages its claims cite — and the form of the issue template
+(`.github/ISSUE_TEMPLATE/suggest-a-change.md`, the one home of the form): what
+should differ, and why. The page makes no request and stores nothing; the issue
+is the proposal, a person triages it, and a work package acts on it — every change
+to the pool still arrives through a reviewed pull request. No accounts, no
+comments on the site.
 
 **Grades are shown, never composed.** A statement's effective grade is an open
 question (`open-questions.md` → grade-derivation) leaning toward showing the
