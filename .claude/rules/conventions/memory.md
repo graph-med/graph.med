@@ -44,6 +44,7 @@ pre-emptively.
 | `design/concept-hierarchy-depth.md` | `broader` goes as deep as subsumption does (three levels in POMGAT); families are concepts without a parent; the site folds recursively. |
 | `design/generic-over-guidelines.md` | Nothing in the build, schema, validator or design is specific to one guideline: no ids, family names, or vocabularies admitted because the current source needs them; one code path per rule at every level. |
 | `design/grouping-axes-proposed-and-tested.md` | An axis (what a view groups by) is never fixed in the pool or the build: a person proposes one per guideline as an `axes/` entity, a tool tests and reports (coverage, disjointness, unplaced, depth), a linking pass asserts it with provenance, a view offers it in `group_by`; carried by a slot (dimension, facet `qualifier`) or by `axis` on `broader` (hierarchy). |
+| `design/body-text-relations-rule.md` | A body-text sentence earns its edge by three tests in order (fills a term → `refines`, takes a case out → `limits`, adds an action → `supplements`), one claim per alternative, kind by form, never graded; the sentences of one box get no edge between them. |
 | `design/box-colour-by-direction.md` | A box is coloured by its direction (the banner's four colours) and carries its grade as a letter after the glyph; EK is coloured like any other and marked "EK". Not by grade, not by verb. |
 
 ## Writing one

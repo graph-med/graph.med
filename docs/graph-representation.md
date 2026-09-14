@@ -180,7 +180,12 @@ its own about what is true; it asserts what a source states at a location. Its
 unit is the **recommendation sentence**, not the box: a box holding several
 sentences with their own verbs and directions becomes several claims sharing
 the box's `recommendation_no`, each with the one grade its verb maps to under
-the source's grading scheme (memory `box-granularity-per-sentence`).
+the source's grading scheme (memory `box-granularity-per-sentence`). Its `kind`
+names what the passage is, by its form: `recommendation` (a verb that governs
+doing an action), `gap_notice` (it declines to recommend), `fact` (it states
+what is the case), `definition` (the source marks it as one), `criterion` (a
+case, a value, a threshold, a condition). Which sentences of the body text
+become claims, and how they attach to a box, is the rule in §5.1.
 
 ### 3.2 The semantic layer
 
@@ -521,7 +526,7 @@ the different jobs of edges apart:
   carry evidential weight.
 - **body-text relations** — `refines`, `supplements`, `limits`: claim → claim.
   Body text never inherits a recommendation's grade; the edge says how they
-  relate.
+  relate. Which sentence earns which edge is the rule in §5.1.
 - **coding** — `codes_as`: concept → terminology concept. Codes are never bare
   strings inside a property; a code is a node and coding is an edge, so the link
   carries provenance and dangles visibly when a classification changes.
@@ -548,6 +553,74 @@ an endpoint's current hash differs, the edge is **stale**: surfaced for
 re-evaluation, its derived weight downgraded — not silently applied, and not a
 blocker (§8). No version is ever pinned on an edge; the mechanism is the same one
 attestations use.
+
+### 5.1 The body-text rule
+
+A **box** is what the source grades; each of its sentences is a claim sharing
+the box's `recommendation_no` (§3.1). The **body text** is everything else on
+the page. A body-text sentence becomes a claim with one edge to a box claim
+exactly when it passes the gate and one of the three tests, tried in this order,
+the first that holds deciding. Everything else stays on the page.
+
+**The gate.** The sentence (1) is about the box's own action for the box's own
+population (a gap notice: its topic) — about another action, or a population
+beyond the box's, it relates to no box; (2) speaks for the guideline — its
+subject is not a study, a review, an author, the evidence or another guideline
+("zeigt", "konnte … nachweisen", "empfiehlt", an effect size), and it does not
+continue such a report ("dabei", "weist darauf hin"); (3) adds something the
+box lacks — the box's sentence again, behind a "Zusammengefasst", "Somit",
+"Daher" or a reason, is a restatement and nothing; (4) does not decline
+("keine Empfehlung") — that is a `gap_notice`, unlinked until the gap-notices
+question is settled.
+
+**refines** — the sentence fills a term of the box: who counts as its risk
+group, which value, day, dose, agent, technique or point a term stands for,
+which cases within the box's population it means ("Risikofaktoren",
+"ausreichend", "insbesondere bei", "Hierfür"). It puts cases *in* and takes
+none out; another agent for the box's own action is still that action
+(Betalaktamallergie → Fluorchinolon fills "PAP", it limits nothing). Where the
+box's wording needs a value the reader cannot supply ("wenn das Drainagesekret
+… hinweist"), the values count even when the text draws them from the studies
+it cites; a study's protocol otherwise is a report (gate 2).
+
+**limits** — the sentence takes cases *out* of the box or names the condition
+under which its action does not hold or is advised against: an exception, a
+contraindication, "nicht bei", "gilt nicht für", "wenn … nicht gewährleistet
+ist, wird … abgeraten". An instruction against the box's own action under a
+condition is a limit, not a supplement. A case the box never covered (7.12's
+"Ausnahme: Rektumexstirpationen" beside a box naming colon and anterior rectal
+resections) takes nothing out and is no limit.
+
+**supplements** — the sentence instructs a further action for the box's case: a
+next step, what to do when the box's action fails or is refused, a measure
+beside it. Its verb governs doing something (soll, sollte, kann, ist … zu, wird
+empfohlen), not an effect or a mechanism ("soll … herunterreguliert werden"
+describes a drug and instructs nothing).
+
+**Claim and edge.** The kind follows the sentence's form (§3.1); a body-text
+claim carries `verb` and `direction` as printed and **no `grade`, no
+`consensus`** — the body text is not graded, the edge keeps the box's grade off
+it. One claim per alternative and per case: "entweder … oder … oder aber" is
+three claims with three edges, each quoting its alternative alone (6.7's
+amylase criterion); two cases or two directions in one sentence are two claims;
+an exception with what to do instead is one claim, `limits`. The `label` is the
+sentence or the fragment stating the alternative; the `quote` lies inside it.
+The edge goes to the box claim whose wording carries the term filled, the case
+removed or the action added — one per such claim, none to the others of the
+box; a definition the source marks ("=", "nach Definition der Leitlinie")
+reaches every claim of the source using the term. Always `modelling`, with
+`rationale` naming the test and the term ("refines: Risikofaktoren"), `lang`
+and `as_of`. A wrong edge is replaced in place (§7); the claim stays.
+
+**Not a body-text relation.** The sentences of one box among themselves, and
+two boxes: each is graded and supports its own statement, the shared
+`recommendation_no` is their relation, what one says about the other is said
+between their statements (`specializes`, `complements`). The evidence profile
+(→ evidence-profiles), the rationale and study summaries, a "Forschungsfrage",
+a cross-reference ("siehe gesonderte Empfehlung"), a quality indicator (→
+quality-indicators). A recommendation the body text makes with no box near it
+(benzodiazepines in 5.7) is outside this rule: if extracted, it is a claim of
+its own, ungraded, supporting a statement (§3.4).
 
 ---
 

@@ -38,11 +38,13 @@ ROOT = Path(__file__).resolve().parent.parent
 SCHEMA = ROOT / "schema" / "schema.yaml"
 SITE_SRC = Path(__file__).resolve().parent / "site"
 REPO = "https://github.com/graph-med/graph.med"
+ISSUE_TEMPLATE = ROOT / ".github" / "ISSUE_TEMPLATE" / "suggest-a-change.md"   # the form behind "suggest a change"
 
 EVIDENCE = ("supports", "contests")
 STATEMENT_EDGES = ("specializes", "complements", "conflicts")
 BODY_TEXT = ("refines", "supplements", "limits")
 DIRECTION_GLYPH = {"für": "✓", "gegen": "✗", "abwägen": "⚖", "Lücke": "∅"}
+GRADES = ("A", "B", "0", "EK")   # the guideline's own scale, in order: the letter a box carries after its glyph; a new scale is a new letter
 # The only words the build adds inside the graph, in the view's source language (docs/publication.md §3):
 # the two questions whose answers are the population and condition slots, the question a dimension axis
 # adds (its short label filled in), the chapter question and the switch's entries for the plain hierarchy
@@ -191,6 +193,30 @@ def source_link(url: str, page: str | None, quote: str) -> str:
     if not url or not page:
         return url
     return f"{url}#page={page}&search={urlquote(quote, safe='')}&phrase=true"
+
+
+def feedback_url(statement_id: str, claims: list[dict], form: str) -> str:
+    """The "suggest a change" link of a statement (docs/publication.md §3): a new issue in the repository,
+    prefilled from the issue template's form with the statement id, its source, the box numbers and the
+    pages its claims cite. A plain GitHub URL — nothing is stored on the site and nothing is requested from
+    the page; `template` names the form and `body` carries it filled, so the two never disagree."""
+    body = form
+    for name, values in (("statement", [statement_id]), ("source", (c.get("source") for c in claims)),
+                         ("box", (c.get("recommendation_no") for c in claims)), ("page", (c.get("page") for c in claims))):
+        vals = sorted({str(v) for v in values if v}, key=natural)
+        body = re.sub(rf"(?m)^- {name}:.*$", f"- {name}: {', '.join(vals)}", body, count=1)
+    q = {"template": ISSUE_TEMPLATE.name, "title": f"suggest a change: {statement_id}", "body": body}
+    return f"{REPO}/issues/new?" + "&".join(f"{k}={urlquote(v, safe='')}" for k, v in q.items())
+
+
+def issue_form() -> str:
+    """The body of the issue template — the form under its front matter — as a person opening the template
+    sees it. A build without the template stops: the link would open an empty issue."""
+    if not ISSUE_TEMPLATE.exists():
+        raise SystemExit(f"{ISSUE_TEMPLATE.relative_to(ROOT)} is missing — the \"suggest a change\" link needs its form")
+    text = ISSUE_TEMPLATE.read_text(encoding="utf-8")
+    parts = text.split("---\n", 2)
+    return parts[2].strip() + "\n" if len(parts) == 3 else text
 
 
 def natural(s: str):
@@ -363,10 +389,14 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
         cond, outc = sl.get("condition"), sl.get("outcome")
         d = direction_of(claims)
         again = st["id"] in seen   # under two answers (two chapters): one node, hung from both, its aim and relations once
+        # the box reads "✓ A · <short label>": the direction's glyph, the grade as a letter (every grade when the
+        # claims differ — shown, never composed), then the short form (docs/publication.md §3)
+        letters = "/".join(sorted(grades, key=lambda g: (GRADES.index(g) if g in GRADES else len(GRADES), g)))
+        head = " ".join(filter(None, [d["glyph"] if d else "", letters]))
         sid = add(st["id"], ref=st["id"], type="statement", lang=st["lang"],
-                  label=(d["glyph"] + " " if d else "") + (st.get("short_label") or st["label"]), full=st["label"],
+                  label=(head + (" · " if letters else " ") if head else "") + (st.get("short_label") or st["label"]), full=st["label"],
                   direction=d["word"] if d else None, facets=sorted({f for f in (facet(c) for c in sl.values()) if f}),
-                  grade=grades.pop() if len(grades) == 1 else ("mixed" if grades else None),
+                  grade=next(iter(grades)) if len(grades) == 1 else ("mixed" if grades else None),
                   against={c["direction"] for c in claims if c["edge"] == "supports" and c.get("direction")} == {"against"},
                   contested=any(c["edge"] == "contests" for c in claims),
                   no=min((c["recommendation_no"] for c in claims if c.get("recommendation_no")), default=None),
@@ -495,6 +525,7 @@ def main(argv=None) -> int:
     schema = load(SCHEMA)
     pool = Pool(schema)
     commit = git_commit()
+    form = issue_form()
     env = Environment(loader=FileSystemLoader(SITE_SRC / "templates"), autoescape=select_autoescape(["html"]),
                       trim_blocks=True, lstrip_blocks=True)
     env.globals.update(base=base, commit=commit, built=datetime.now(timezone.utc).strftime("%Y-%m-%d"),
@@ -530,6 +561,7 @@ def main(argv=None) -> int:
             d["body"] = {k: [dict(b, claim=c["recommendation_no"]) for c in d["claims"] for b in c.get("body", []) if b["kind"] == k] for k in BODY_TEXT}
             d["body"] = {k: v for k, v in d["body"].items() if v}
             d["neighbours"] = pool.neighbours_of(ent)
+            d["feedback"] = feedback_url(ent["id"], d["claims"], form)
         elif t == "concept":
             d["uses"] = pool.uses_of(ent["id"])
             d["codes"] = [to for k, to, _ in pool.out.get(ent["id"], []) if k == "codes_as"]
