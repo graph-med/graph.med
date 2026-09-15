@@ -42,3 +42,11 @@
   - supports
   - statements/kein-daikenchuto-prophylaxe-poi
   - source: modelling
+- - claims/pomgat-lv-1.0/0c52e24a
+  - supplements
+  - claims/pomgat-lv-1.0/398ee0ce
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'supplements: „zu beachten ist …, sodass … berücksichtigt werden muss“ — eine Maßnahme neben der NSAR-Gabe
+      der Empfehlung 7.15 (den Zusammenhang mit Anastomoseninsuffizienzen abwägen); nimmt keinen Fall heraus'

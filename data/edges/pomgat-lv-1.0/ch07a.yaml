@@ -50,15 +50,44 @@
   - supports
   - statements/periphere-regionalanalgesie-viszeralchirurgie
   - source: modelling
-- - claims/pomgat-lv-1.0/10423e92
-  - supplements
-  - claims/pomgat-lv-1.0/833d22a3
-  - source: modelling
-- - claims/pomgat-lv-1.0/36973ab5
-  - supplements
-  - claims/pomgat-lv-1.0/93a72721
-  - source: modelling
 - - claims/pomgat-lv-1.0/b0e0ee65
   - refines
   - claims/pomgat-lv-1.0/fac02f97
   - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: TAP-Block — mit kontinuierlicher Applikation eines Lokalanästhetikums; füllt den Begriff der Empfehlung
+      7.12; „Ausnahme: Rektumexstirpationen“ nimmt nichts heraus, weil die Box Kolon- und anteriore Rektumresektionen nennt'
+- - claims/pomgat-lv-1.0/c9bd4cc4
+  - supplements
+  - claims/pomgat-lv-1.0/a5a87bd9
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'supplements: „kann sekundär eine Magensonde … eingebracht werden“ — der nächste Schritt, wenn das Ziehen der
+      Magensonde der Empfehlung 7.5 nicht trägt (verzögerte Magendarmpassage mit Übelkeit und Erbrechen)'
+- - claims/pomgat-lv-1.0/a4627f90
+  - supplements
+  - claims/pomgat-lv-1.0/d556cbf1
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'supplements: „soll … entsprechend eines balanzierten Behandlungskonzeptes durchgeführt werden“ — eine Maßnahme
+      neben der Epiduralanalgesie der Empfehlung 7.9; eigene Stimme der Leitlinie vor dem Verweis auf die Schmerz-Leitlinie'
+- - claims/pomgat-lv-1.0/a4627f90
+  - supplements
+  - claims/pomgat-lv-1.0/5871558c
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'supplements: „soll … entsprechend eines balanzierten Behandlungskonzeptes durchgeführt werden“ — eine Maßnahme
+      neben der Epiduralanalgesie der Empfehlung 7.10; eigene Stimme der Leitlinie vor dem Verweis auf die Schmerz-Leitlinie'
+- - claims/pomgat-lv-1.0/4750280e
+  - supplements
+  - claims/pomgat-lv-1.0/51f44d3f
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'supplements: „sollte auch dies bei der Entscheidung für oder gegen eine EA berücksichtigt werden“ — eine Handlung
+      zum Thema des Statements 7.11 (Morbidität und Mortalität in der Entscheidung); eigene Anweisung der Leitlinie, nicht
+      der zitierten Leitlinien'

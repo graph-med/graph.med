@@ -209,3 +209,40 @@
   source:
     at: sources/pomgat-lv-1.0#page=89
     quote: Ein peripheres Regionalanalgesieverfahren kann zur perioperativen Analgesie bei
+- id: claims/pomgat-lv-1.0/c9bd4cc4
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.1.4"
+  label: Sollte sich im Verlauf eine Verzögerung der Magendarmpassage zeigen und der Patient entsprechend unter Übelkeit und
+    Erbrechen leiden, kann sekundär eine Magensonde zur nasogastralen Dekompression eingebracht werden.
+  verb: kann
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=79
+    quote: kann sekundär eine Magensonde zur nasogastralen
+- id: claims/pomgat-lv-1.0/a4627f90
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.3.1"
+  label: Es soll hier nicht unerwähnt bleiben, dass eine perioperative Schmerztherapie entsprechend eines balanzierten Behandlungskonzeptes
+    durchgeführt werden soll.
+  verb: soll
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=84
+    quote: entsprechend eines balanzierten Behandlungskonzeptes durchgeführt werden soll
+- id: claims/pomgat-lv-1.0/4750280e
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.3.2"
+  label: 'Da – bei summarischer Betrachtung vielfältiger Organgebiete - eine thorakale EA Morbidität und Mortalität reduzieren
+    kann [231], sollte auch dies bei der Entscheidung für oder gegen eine EA berücksichtigt werden (vgl hierzu auch 2 weitere
+    S3 Leitlinien: 001-025 und 001-012).'
+  verb: sollte
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=86
+    quote: Morbidität und Mortalität reduzieren kann [231], sollte auch dies bei der

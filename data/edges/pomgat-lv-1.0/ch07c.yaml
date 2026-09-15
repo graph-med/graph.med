@@ -34,11 +34,41 @@
   - supports
   - statements/bauchbinde-nach-medianer-laparotomie
   - source: modelling
-- - claims/pomgat-lv-1.0/c0b8b043
-  - supplements
-  - claims/pomgat-lv-1.0/6fc4b22f
+- - claims/pomgat-lv-1.0/14a461d0
+  - refines
+  - claims/pomgat-lv-1.0/a63da046
   - source: modelling
-- - claims/pomgat-lv-1.0/a63da046
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: Akupunkturpunkte ZuSanLi und ShangJuXu — wie sie genutzt werden (allein oder in Kombination mit weiteren
+      Punkten; „Magen 36“ und „Magen 37“); füllt den Begriff der Empfehlung 7.28, zweiter Satz'
+- - claims/pomgat-lv-1.0/d1dec5e4
+  - refines
+  - claims/pomgat-lv-1.0/a63da046
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: ZuSanLi — wo der Punkt liegt (Appendix); füllt den Begriff der Empfehlung 7.28, zweiter Satz'
+- - claims/pomgat-lv-1.0/a0b7a6a6
+  - refines
+  - claims/pomgat-lv-1.0/a63da046
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: ShangJuXu — wo der Punkt liegt (Appendix); füllt den Begriff der Empfehlung 7.28, zweiter Satz'
+- - claims/pomgat-lv-1.0/1e1c7e78
   - refines
   - claims/pomgat-lv-1.0/90443ad0
   - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: Akupunktur — womit (kommerziell vertriebene Akupunkturnadelprodukte); füllt den Begriff der Empfehlung
+      7.28, erster Satz; erster Teil des Satzes'
+- - claims/pomgat-lv-1.0/ef08d449
+  - supplements
+  - claims/pomgat-lv-1.0/90443ad0
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'supplements: „sollte unter sterilen Kautelen erfolgen“ — eine Maßnahme neben der Akupunktur der Empfehlung
+      7.28, erster Satz; zweiter Teil des Satzes'

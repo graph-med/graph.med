@@ -1,12 +1,12 @@
 ---
 id: WP-0015
 title: A "suggest a change" link opening a prefilled issue
-status: open
+status: review
 created: 2026-09-12
-updated: 2026-09-12
+updated: 2026-09-14
 depends_on: [WP-0005]
 blocks: []
-owner: unassigned
+owner: agent
 initiative: review
 kind: build
 slug: site-feedback-affordance
@@ -37,7 +37,26 @@ no-personal-information.md`).
 
 ## Decisions
 
-None yet. Append only; architectural ones go to `docs/adr/`, knowledge-model ones to `.claude/memory/design/`.
+Append only; architectural ones go to `docs/adr/`, knowledge-model ones to `.claude/memory/design/`.
+
+- 2026-09-14 (agent): the link reads **suggest a change**, English like the rest of
+  the chrome (the headings, "copy", "json"); a trailing "opens a prefilled issue on
+  GitHub" says where it leads before the reader leaves the page. It is one
+  `<p class="cite">` under the sixth question in `details.html`, so the sheet and
+  the entity page carry it from the one template; statements only — the fields
+  are statement-shaped, a concept or claim section has no box to name.
+- 2026-09-14 (agent): the form has one home, the issue template; the build reads
+  it, fills its `- statement:` / `- source:` / `- box:` / `- page:` lines from the
+  statement's claims (several boxes or pages joined with ", "), and passes it as
+  `body` with `template=` naming the file and `title` "suggest a change: <id>". A
+  build without the template stops. The template declares no labels: the
+  repository's labels are not known from the sandbox, and GitHub drops an unknown
+  one silently — add `labels:` to the front matter when one exists.
+- 2026-09-14 (agent): the link opens in the same tab with `rel="noopener"`, as
+  the source links do; the deep link brings the reader back to the box.
+- 2026-09-14 (agent): the Verification's "opened once by hand" is left to the
+  maintainer — `gh` answers 401 in the sandbox; the decoded URL is in the pull
+  request.
 
 ## Open questions
 

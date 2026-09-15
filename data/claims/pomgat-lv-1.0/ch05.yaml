@@ -305,3 +305,133 @@
   source:
     at: sources/pomgat-lv-1.0#page=55
     quote: Aufgrund fehlender Evidenz zur selektiven Darmdekontamination in der hepato-
+- id: claims/pomgat-lv-1.0/9b177317
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.3"
+  label: Bei Kontraindikationen für Chlorhexidin (Allergien, Säuglinge/Kleinkinder) ist eine alkoholische Lösung mit Povidon-Jod
+    die erste Alternative
+  source:
+    at: sources/pomgat-lv-1.0#page=45
+    quote: Säuglinge/Kleinkinder) ist eine alkoholische Lösung mit Povidon-Jod die erste
+- id: claims/pomgat-lv-1.0/64901685
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.3"
+  label: bei einer Kontraindikation für die Anwendung von Alkohol (Mukosa), sollten wässrige Lösungen von Povidon-Jod Anwendung
+    finden.
+  verb: sollte
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=45
+    quote: sollten wässrige Lösungen von Povidon-Jod Anwendung finden
+- id: claims/pomgat-lv-1.0/17e02423
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.3"
+  label: Bei möglichem Kontakt mit Schleimhäuten ist Chlorhexidin in wässriger Lösung die empfohlene Alternative.
+  source:
+    at: sources/pomgat-lv-1.0#page=45
+    quote: möglichem Kontakt mit Schleimhäuten ist Chlorhexidin in wässriger Lösung die
+- id: claims/pomgat-lv-1.0/dcfaab68
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.4"
+  label: Da aber bei der Resektion gastrointestinaler Tumoren generell mit einem polymikrobiellen Erregerspektrum als Verursacher
+    einer SSI zu rechnen ist, sollte dies – unabhängig von dem spezifischen Eingriff und der u.U. unterschiedlichen Häufigkeitsverteilung
+    einzelner Bakterien - bei der Wahl der Substanzen für die PAP berücksichtigt werden.
+  verb: sollte
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=47
+    quote: der Wahl der Substanzen für die PAP berücksichtigt werden
+- id: claims/pomgat-lv-1.0/15c37c65
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.4"
+  label: Die Kombination eines Cephalosporins der Gruppe 2 (z.B. Cefuroxim) mit Metronidazol kann daher als PAP bei der Resektion
+    gastrointestinaler Tumoren eingesetzt werden.
+  verb: kann
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=47
+    quote: Cephalosporins der Gruppe 2 (z.B. Cefuroxim) mit Metronidazol kann daher als PAP
+- id: claims/pomgat-lv-1.0/9a29fec9
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.4"
+  label: Alternativ ist auch die Kombination eines Betalaktamantibiotikums zusammen mit einem Betalaktamaseinhibitor (z.B.
+    Ampicillin/Sulbaktam) adäquat.
+  source:
+    at: sources/pomgat-lv-1.0#page=47
+    quote: die Kombination eines Betalaktamantibiotikums zusammen mit einem
+- id: claims/pomgat-lv-1.0/557e2770
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.4"
+  label: Bei Betalaktamallergie ist der Einsatz eines Fluorchinolons der Gruppe 2 (z.B. Ciprofloxacin) in Kombination mit
+    Metronidazol sinnvoll.
+  source:
+    at: sources/pomgat-lv-1.0#page=47
+    quote: der Einsatz eines Fluorchinolons der Gruppe 2 (z.B. Ciprofloxacin) in Kombination mit
+- id: claims/pomgat-lv-1.0/2d78ae5c
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.4"
+  label: Bei allen Eingriffen, die weniger als 3 h dauern, ist die Einmalgabe des Antibiotikums (sog. single-shot) in der
+    Regel ausreichend.
+  source:
+    at: sources/pomgat-lv-1.0#page=47
+    quote: als 3 h dauern, ist die Einmalgabe des Antibiotikums (sog. single-shot) in der Regel
+- id: claims/pomgat-lv-1.0/4bfc6a38
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.4"
+  label: Eine zweite Gabe sollte abhängig von der Halbwertszeit oder bei größerem Blutverlust (>1,5l) während der Operation
+    gegeben werden.
+  verb: sollte
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=47
+    quote: bei größerem Blutverlust (>1,5l) während der Operation gegeben werden
+- id: claims/pomgat-lv-1.0/adcd459f
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.6.1"
+  label: In Abgrenzung zur Darmvorbereitung mittels präoperativer oraler Antibiotikagabe sollte die SDD drei oder mehr Tage
+    vor der Operation beginnen.
+  verb: sollte
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=53
+    quote: Antibiotikagabe sollte die SDD drei
+- id: claims/pomgat-lv-1.0/8f52f636
+  type: claim
+  lang: de
+  kind: fact
+  section: "5.6.2"
+  label: Die präoperative selektive Darmdekontamination (SDD) mit oralen, nicht resorbierbaren Antibiotika und/oder Antimykotika
+    über 3-7 Tage präoperativ soll postoperative infektiöse Komplikationen durch die Reduktion der Keimbesiedelung reduzieren.
+  source:
+    at: sources/pomgat-lv-1.0#page=54
+    quote: resorbierbaren Antibiotika und/oder Antimykotika über 3-7 Tage präoperativ soll
+- id: claims/pomgat-lv-1.0/77549f8d
+  type: claim
+  lang: de
+  kind: definition
+  section: "5.6.3"
+  label: Die perioperative selektive Darmdekontamination soll nach Definition der Leitlinie für 3-7 Tage präoperativ gegeben
+    und kann postoperativ fortgesetzt werden.
+  source:
+    at: sources/pomgat-lv-1.0#page=55
+    quote: Die perioperative selektive Darmdekontamination soll nach Definition der Leitlinie für

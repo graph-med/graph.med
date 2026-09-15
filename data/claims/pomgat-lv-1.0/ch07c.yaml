@@ -127,3 +127,57 @@
   source:
     at: sources/pomgat-lv-1.0#page=111
     quote: Nach medianer Laparotomie kann eine Bauchbinde zur Schmerzreduktion
+- id: claims/pomgat-lv-1.0/14a461d0
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.4.2.3"
+  label: Bei Einsatz der Akupunktur nach abdominalchirurgischen Eingriffen kann die meridianbezogene Punktauswahl ZuSanLi
+    und ShangJuXu („Magen 36“ und „Magen 37“) allein oder in Kombination mit weiteren Akupunkturpunkten zur Beschleunigung
+    des Auftretens der ersten Darmgeräusche, des ersten Flatus und der ersten Defäkation umfassen.
+  verb: kann
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=106
+    quote: Bei Einsatz der Akupunktur nach abdominalchirurgischen Eingriffen kann die
+- id: claims/pomgat-lv-1.0/d1dec5e4
+  type: claim
+  lang: de
+  kind: fact
+  section: "7.4.2.3"
+  label: ZuSanLi befindet sich ca. 1,5 cm lateral-ventral der Tibiakante ca. 4,5 cm unterhalb der Patella in Höhe der Tuberositas
+    tibiae.
+  source:
+    at: sources/pomgat-lv-1.0#page=107
+    quote: ZuSanLi befindet sich ca. 1,5 cm lateral-ventral der Tibiakante
+- id: claims/pomgat-lv-1.0/a0b7a6a6
+  type: claim
+  lang: de
+  kind: fact
+  section: "7.4.2.3"
+  label: ShangJuXu befindet sich ca. 4,5 cm distal von ZuSanLi ca. 1,5 cm lateral der Tibiavorderkante.
+  source:
+    at: sources/pomgat-lv-1.0#page=107
+    quote: ShangJuXu befindet sich ca. 4,5 cm distal von ZuSanLi
+- id: claims/pomgat-lv-1.0/1e1c7e78
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.4.2.3"
+  label: Zur Anwendung können kommerziell vertriebene Akupunkturnadelprodukte kommen
+  verb: kann
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=107
+    quote: Zur Anwendung können kommerziell vertriebene Akupunkturnadelprodukte kommen
+- id: claims/pomgat-lv-1.0/ef08d449
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.4.2.3"
+  label: die Vorgehensweise sollte unter sterilen Kautelen erfolgen.
+  verb: sollte
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=107
+    quote: die Vorgehensweise sollte unter sterilen Kautelen erfolgen

@@ -62,19 +62,76 @@
   - supports
   - statements/risikostratifizierung-mit-patient-besprechen
   - source: modelling
-- - claims/pomgat-lv-1.0/2c6b9961
-  - refines
-  - claims/pomgat-lv-1.0/8ce3a620
-  - source: modelling
-- - claims/pomgat-lv-1.0/5d24c688
-  - limits
-  - claims/pomgat-lv-1.0/01ba1a06
-  - source: modelling
 - - claims/pomgat-lv-1.0/ed10bff2
   - refines
   - claims/pomgat-lv-1.0/8ce3a620
   - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: kardiovaskuläre Hochrisikopatienten — wer dazu zählt (RCRI-Risikofaktoren, ASA ≥ 3, KHK oder Myokardischämie);
+      füllt den Begriff der Empfehlung 4.1, erster Satz'
 - - claims/pomgat-lv-1.0/1134b4ef
   - refines
   - claims/pomgat-lv-1.0/2c6b9961
   - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: ausreichender Zeitabstand zur Dosistitration — welcher Abstand (idealerweise eine Woche) und welche
+      Ziele (Ruheherzfrequenz 60-70/min, RRsyst > 100 mmHg); füllt die Begriffe der Empfehlung 4.1, zweiter Satz, der sie
+      trägt'
+- - claims/pomgat-lv-1.0/1ba3f25a
+  - limits
+  - claims/pomgat-lv-1.0/8ce3a620
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'limits: „wenn eine Dosistitration nicht gewährleistet ist, wird … abgeraten“ — die Bedingung, unter der das
+      Neuansetzen der Betablockade (Empfehlung 4.1, erster Satz) unterbleibt'
+- - claims/pomgat-lv-1.0/7c31f786
+  - supplements
+  - claims/pomgat-lv-1.0/703e9fb1
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'supplements: eine Handlung zum Thema des Statements 4.3 (Calciumantagonisten) — Fortführen bei antianginöser
+      Indikation; ein Fall von zweien im Satz'
+- - claims/pomgat-lv-1.0/dae4474f
+  - supplements
+  - claims/pomgat-lv-1.0/703e9fb1
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'supplements: eine Handlung zum Thema des Statements 4.3 (Calciumantagonisten) — Aussetzen am OP-Tag bei antihypertensiver
+      Indikation; der zweite Fall des Satzes'
+- - claims/pomgat-lv-1.0/a1e6e098
+  - supplements
+  - claims/pomgat-lv-1.0/d71e071c
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'supplements: „sind … zu beobachten und zu bewerten“ — eine Maßnahme neben der Statin-Therapie (Nebenwirkungen),
+      die Empfehlung 4.4 fortführt'
+- - claims/pomgat-lv-1.0/a1e6e098
+  - supplements
+  - claims/pomgat-lv-1.0/694720f1
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'supplements: „sind … zu beobachten und zu bewerten“ — eine Maßnahme neben der Statin-Therapie (Nebenwirkungen),
+      die Empfehlung 4.4 einleitet'
+- - claims/pomgat-lv-1.0/f79cc472
+  - supplements
+  - claims/pomgat-lv-1.0/8c4dc5c7
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'supplements: „motiviert werden sollten“ — eine weitere Handlung neben dem Standard der Empfehlung 4.8 (ressourcenarme
+      Prähabilitation zu Hause für Risikopatienten); eigene Stimme der Leitlinie („leitet die Arbeitsgruppe ab“)'
+- - claims/pomgat-lv-1.0/c2782c03
+  - supplements
+  - claims/pomgat-lv-1.0/b60a7436
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'supplements: „sollte zudem … berücksichtigen“ — eine weitere Maßnahme zur Risikostratifizierung der Empfehlung
+      4.10 (das Alter)'

@@ -4,6 +4,24 @@ One entry per session, newest first. Past about 200 lines, move the oldest
 entries to `docs/LOG-ARCHIVE.md`, newest first there too; never delete.
 
 ## 2026-09-14 — agent
+Packages touched: WP-0013 (open → claimed → review)
+Branch: agent/2026-09-14-relink-body-text-b
+Notable: chapters 7–9 follow the body-text rule, so every chapter of
+`pomgat-lv-1.0` now does. Of six body-text edges four linked two boxes or two
+sentences of one box and were removed from the edge files (git is the history,
+spec §7), two stay with a rationale (the p. 88 TAP criterion under 7.12, the
+chapter 9 definition under 6.8); nine claims were added with ten `modelling`
+edges — a secondary gastric tube under 7.5, the balanced analgesia concept
+under 7.9 and 7.10, morbidity and mortality in the EA decision under statement
+7.11, the anastomotic-leak caution under 7.15, and five under 7.28 (the point
+selection, the two point locations, the needles, the sterile technique).
+Chapters 8 and 9 and pp. 104–109 were derived blind before the brief was read
+and matched it; two sentences the brief had not listed pass the rule and were
+added (p. 92–93 NSAR caution, p. 86 EA decision), its "bspw. 50mg Diclophenac"
+fragment was left (an example inside an effect report), all flagged for the
+reviewer. No schema, validator, build or agent-governing file changed.
+
+## 2026-09-14 — agent
 Packages touched: WP-0006 (review, rebased)
 Branch: agent/2026-09-13-site-colour-by-direction (now on main)
 Notable: WP-0006 was reviewed in #55 but #56 carried WP-0004 and WP-0005 to
@@ -15,6 +33,59 @@ overlapping pairs in thirteen states, 333 elements with everything open, and
 the direction colours hold under every grouping of the switch (425 elements
 under the phase, 433 under the chapters). The branch awaits its pull request
 with base `main`.
+
+## 2026-09-14 — agent
+Packages touched: WP-0015 (open → claimed → review)
+Branch: agent/2026-09-14-site-feedback-affordance
+Notable: the first feedback affordance. Every statement's section, on the view
+page and the entity page, ends with "suggest a change": a plain GitHub URL to a
+new issue, prefilled by the build with the statement id, source, box and page
+and the form of the new issue template under `.github/ISSUE_TEMPLATE/` — the
+form's one home, read by the build; nothing is stored on the site and the page
+makes no request. The prefilled issue was not opened by hand from the sandbox
+(`gh` is unauthenticated there); the maintainer opens the decoded URL once.
+
+## 2026-09-14 — agent
+Packages touched: WP-0016 (open → claimed → review)
+Branch: agent/2026-09-14-llm-as-judge-design
+Notable: the automated review is designed (spec §8.1): three questions — a
+claim against its page, a statement against its supporting claims, a
+body-text edge against §5.1 — answered as attestations by one software agent,
+`consistent` or `disputed`, hashes pinned, never an edit and never a block;
+the author commits them in the pull request on the judge's behalf and a
+read-only, human-committed workflow reads the same diff again into the run's
+summary. Walking the existing box 6.7 through it found the amylase edge
+carries no `rationale`, which §5.1 now asks for. Four open questions (model
+and key, attestation ids, an edge's URL form, re-judging) and six entries in
+`LATER.md` for the tool, the schema words, the agent, the workflow.
+
+## 2026-09-14 — agent
+Packages touched: WP-0012 (open → claimed → review)
+Branch: agent/2026-09-14-relink-body-text-a
+Notable: chapters 4–6 follow the body-text rule. Of nine body-text edges five
+linked two sentences of one box and were removed from the edge files (git is
+the history, spec §7), four stay with a rationale; 25 claims were added with
+28 `modelling` edges, each rationale naming the test and the term — the
+amylase criterion of 6.7 now carries all three alternatives, one claim each.
+Chapter 6 was derived blind before the brief was read and matched it, with one
+sentence more (the perfusion-check techniques, "hierfür", under 6.14); two
+further sentences the brief left (statin side effects p. 28, the SDD
+description p. 54) pass the rule and were added, all three flagged for the
+reviewer. No schema, validator or build change; the first ungraded body-text
+recommendations render under their box with no letter and no marker.
+
+## 2026-09-14 — agent
+Packages touched: WP-0011 (open → claimed → review)
+Branch: agent/2026-09-14-body-text-relations-rule
+Notable: the body-text rule is written (spec §5.1): a gate, then three tests
+in order — fills a term → `refines`, takes a case out → `limits`, adds an
+action → `supplements` — kind by the sentence's form, no grade, one claim per
+alternative, and no edge between the sentences of one box. Checked against
+the 101 claims: of the fifteen body-text edges nine link two sentences of one
+box or two boxes and go, six stay; the rule adds about thirty claims
+across the chapters, six of them in chapter 6 (the amylase criterion's two
+other alternatives among them). The brief per chapter is in the pull request.
+The `process-work-package` skill's extraction section now points at the rule.
 
 ## 2026-09-13 — agent
 Packages touched: WP-0007 to WP-0010 (review → done)
@@ -113,84 +184,3 @@ desktop and phone, light and dark, a gegen box and a fact box selected, the
 phone start for the legend, and everything open: 0 overlapping pairs in every
 state, 333 elements. Noted in `LATER.md`: the graph does not follow a theme
 switch while the page is open.
-
-## 2026-09-13 — agent
-Packages touched: WP-0005 (open → claimed → review)
-Branch: agent/2026-09-13-site-panel-six-questions
-Notable: a statement's details are now the six questions, in order, on the
-sheet and the entity page alike; `details()` gained the population's families,
-the condition and the neighbours (same group, same action elsewhere, linked
-statements). Captured on desktop, phone and a tall phone-width viewport: 0
-overlapping pairs in every state, 333 elements with everything open. The
-screenshot driver cannot open an entity page (it waits for the graph), so the
-entity page was checked in the built HTML; noted in `LATER.md`.
-
-## 2026-09-13 — agent
-Packages touched: WP-0004 (open → claimed → review)
-Branch: agent/2026-09-13-site-fold-and-reset
-Notable: the first package run as a worker in a worktree, in parallel with
-WP-0005. Every question folds by one rule (a closed question keeps what was open
-below it, so a second tap restores it); a reset button beside the fit button;
-the chapter panel's "all" row a fixed header over the scrolling list. The
-screenshot driver gained `fold=`, `reset` and `chapters-scroll=` so the
-verification could be driven, and now prints page errors when the graph does
-not appear — the first run found a function name shadowing the search's text
-folding, which the driver had been swallowing. Twelve captures, 0 overlapping
-pairs in every state, 333 elements with everything open.
-
-## 2026-09-13 — agent
-Packages touched: none
-Branch: conventions/parallel-work
-Notable: the maintainer asked for WP-0004 to WP-0006 in parallel. Tested in
-this sandbox: two git worktrees under `.claude/worktrees/`, validate, build and
-two screenshots at once — fine, once the containers had distinct names. The
-repository is now prepared (ADR-0002): worktrees ignored, screenshot defaults
-per branch, and one command, `process-work-package`, replaces
-`next-work-package` — it takes the packages to process, the session
-coordinates workers and stacks their pull requests, and nothing unlisted is
-processed.
-
-## 2026-09-13 — agent
-Packages touched: WP-0003 (review → done), WP-0006 (blocked → open)
-Branch: docs/settle-box-colour
-Notable: the maintainer settled box-colour — colour by direction, the grade as a
-letter — after asking which option the agent preferred and why. Applied in
-`docs/publication.md` §3 and the memory `box-colour-by-direction`; the entry
-left `docs/open-questions.md`. No site change: WP-0006 builds it once WP-0005 is
-done. The maintainer asked to concentrate on the `ui` initiative first.
-
-## 2026-09-12 — agent
-Packages touched: WP-0002 (review → done), WP-0003 (open → claimed → review)
-Branch: agent/2026-09-12-site-question-at-every-branch
-Notable: the first session to close a merged package under the new rule. One
-rule now builds every question, root and family alike. The review found edges
-drawn through boxes on a phone — the vertical run of a taxi edge sat inside its
-source's rank; it is now placed after each layout in the gap between columns,
-and the screenshot driver reports edges across nodes and answers. 0 in every
-state checked, 333 elements with everything open.
-
-## 2026-09-12 — agent
-Packages touched: WP-0002 (open → claimed → review)
-Branch: agent/2026-09-12-site-layout-visibility
-Notable: the overlaps had a single cause — the answer's offset assumed the arrow
-ends at the target's centre, not its boundary. Measured with an overlap report
-added to the screenshot driver: 7, 4 and 12 overlapping pairs in the two named
-families and with every group open; 0 after. The maintainer set the rule that
-a merged package is closed by the next agent that sees it (WP-0001 closed).
-
-## 2026-09-12 — agent
-Packages touched: WP-0001 (open → claimed → review)
-Branch: agent/2026-09-12-site-search-recall
-Notable: reproduced 122 search misses out of 673 queries (diacritics, slot
-concepts' short labels, answers on condition edges) before changing anything;
-none after. First package worked under the new convention.
-
-## 2026-09-12 — agent
-Packages touched: WP-0001 … WP-0016 (registered)
-Branch: conventions/work-packages
-Notable: migrated the register from `data/PROGRESS.yaml` (passes and chunks per
-source) via a short-lived `WORK.yaml` to `docs/work/`, one markdown file per
-package with the handoff and history layers kept apart (`docs/HANDOFF.md`,
-`docs/LOG.md`); see ADR-0001. Nothing lost: every deferred item is in
-`docs/work/LATER.md` or a package. The physician's review of 2026-09-11 was
-partitioned into the four initiatives under `docs/work/initiatives/`.

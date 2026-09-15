@@ -119,9 +119,10 @@ its own commit **before** the data commit (spec §7) — and is named in the PR.
 
 ## By kind
 
-**extraction** — phase one, claims, mechanical: for every recommendation box
-(and any criterion the box text depends on), a claim in
-`data/claims/<source-id>/<slug>.yaml`:
+**extraction** — phase one, claims, mechanical: for every sentence of every
+recommendation box, and for every body-text sentence that passes the body-text
+rule (spec §5.1: kind by its form, one claim per alternative, no grade), a
+claim in `data/claims/<source-id>/<slug>.yaml`:
 
 - id `claims/<source-id>/<hash8>` where `hash8` = first 8 hex of
   sha256(`<locator>|<quote>`) — script it, never hand-compute;
@@ -141,8 +142,10 @@ Phase two, linking, judgment, all `modelling`: for each claim, search
 `supports`/`contests` it; mint a statement only when none fits, its slots
 referencing concepts. For each slot, search `data/concepts/` and the
 terminology namespaces before minting a concept; a new concept gets its
-`facet`. Criteria claims attach with `refines` to the claim they qualify. Edges
-go to `data/edges/<source-id>/<slug>.yaml`.
+`facet`. A body-text claim attaches to the box claim the rule names, with the
+edge the rule gives (`refines`, `supplements`, `limits`; spec §5.1), `modelling`
+with a rationale; the sentences of one box get no edge between them. Edges go
+to `data/edges/<source-id>/<slug>.yaml`.
 
 **linking** — edits existing entities or adds edges under spec §11: every change
 `modelling` or sourced, search before minting, nothing inherited, no review

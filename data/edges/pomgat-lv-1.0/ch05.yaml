@@ -74,19 +74,121 @@
   - supports
   - statements/keine-selektive-darmdekontamination-kolorektal
   - source: modelling
-- - claims/pomgat-lv-1.0/392ed64d
-  - refines
-  - claims/pomgat-lv-1.0/cb7c2563
-  - source: modelling
 - - claims/pomgat-lv-1.0/ad0f29aa
   - refines
   - claims/pomgat-lv-1.0/cb7c2563
   - source: modelling
-- - claims/pomgat-lv-1.0/f9eb0050
-  - supplements
-  - claims/pomgat-lv-1.0/57bc2664
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: Risikofaktoren — welche (nach Apfel 1999); füllt den Begriff der Empfehlung 5.1, erster Satz'
+- - claims/pomgat-lv-1.0/9b177317
+  - refines
+  - claims/pomgat-lv-1.0/d766c5a6
   - source: modelling
-- - claims/pomgat-lv-1.0/d766c5a6
-  - supplements
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: Kontraindikationen (Allergien, Säuglinge/Kleinkinder) und Povidon-Iod-haltige Lösungen (alkoholisch)
+      — füllt die Begriffe der Empfehlung 5.4, zweiter Satz; erster Fall des Satzes'
+- - claims/pomgat-lv-1.0/64901685
+  - refines
+  - claims/pomgat-lv-1.0/d766c5a6
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: Povidon-Iod-haltige Lösungen (wässrig bei Kontraindikation für Alkohol) — füllt den Begriff der Empfehlung
+      5.4, zweiter Satz; zweiter Fall des Satzes'
+- - claims/pomgat-lv-1.0/17e02423
+  - limits
   - claims/pomgat-lv-1.0/484d969e
   - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'limits: Schleimhautkontakt — nimmt einen Fall aus der alkoholischen Chlorhexidin-Desinfektion (Empfehlung
+      5.4, erster Satz) heraus und nennt die Alternative (wässrig)'
+- - claims/pomgat-lv-1.0/dcfaab68
+  - supplements
+  - claims/pomgat-lv-1.0/1098f250
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'supplements: „sollte … bei der Wahl der Substanzen berücksichtigt werden“ — eine Handlung zur iv PAP der Empfehlung
+      5.5, erster Satz (das polymikrobielle Spektrum bei der Wahl)'
+- - claims/pomgat-lv-1.0/15c37c65
+  - refines
+  - claims/pomgat-lv-1.0/1098f250
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: iv PAP — welche Substanz (Cephalosporin Gruppe 2 + Metronidazol); füllt den Begriff der Empfehlung
+      5.5, erster Satz'
+- - claims/pomgat-lv-1.0/9a29fec9
+  - refines
+  - claims/pomgat-lv-1.0/1098f250
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: iv PAP — welche Substanz (Betalaktam + Betalaktamaseinhibitor), eine Alternative; füllt den Begriff
+      der Empfehlung 5.5, erster Satz'
+- - claims/pomgat-lv-1.0/557e2770
+  - refines
+  - claims/pomgat-lv-1.0/1098f250
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: iv PAP — welche Substanz bei Betalaktamallergie (Fluorchinolon + Metronidazol); eine andere Substanz
+      für dieselbe Handlung, kein Fall herausgenommen'
+- - claims/pomgat-lv-1.0/2d78ae5c
+  - refines
+  - claims/pomgat-lv-1.0/413dbf62
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: „ggf. nochmals intraoperativ wiederholt“ — wann nicht (Eingriffe unter 3 h: Einmalgabe); füllt den
+      Begriff der Empfehlung 5.5, zweiter Satz'
+- - claims/pomgat-lv-1.0/4bfc6a38
+  - refines
+  - claims/pomgat-lv-1.0/413dbf62
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: starker Blutverlust — welcher Wert (>1,5 l); füllt den Begriff der Empfehlung 5.5, zweiter Satz'
+- - claims/pomgat-lv-1.0/adcd459f
+  - refines
+  - claims/pomgat-lv-1.0/4d76032e
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: selektive Darmdekontamination — wann sie beginnt (drei oder mehr Tage präoperativ); füllt den Begriff
+      der Empfehlung 5.11'
+- - claims/pomgat-lv-1.0/8f52f636
+  - refines
+  - claims/pomgat-lv-1.0/2a119f14
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: selektive Darmdekontamination — welche Substanzen und welche Dauer (orale nicht resorbierbare Antibiotika
+      und/oder Antimykotika, 3-7 Tage); füllt den Begriff der Empfehlung 5.12'
+- - claims/pomgat-lv-1.0/77549f8d
+  - refines
+  - claims/pomgat-lv-1.0/4d76032e
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: selektive Darmdekontamination — die Definition der Leitlinie („nach Definition der Leitlinie“) erreicht
+      jede Aussage, die den Begriff verwendet (Empfehlung 5.11)'
+- - claims/pomgat-lv-1.0/77549f8d
+  - refines
+  - claims/pomgat-lv-1.0/2a119f14
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: selektive Darmdekontamination — die Definition der Leitlinie („nach Definition der Leitlinie“) erreicht
+      jede Aussage, die den Begriff verwendet (Empfehlung 5.12)'
+- - claims/pomgat-lv-1.0/77549f8d
+  - refines
+  - claims/pomgat-lv-1.0/2b5903b8
+  - source: modelling
+    as_of: '2026-09-14'
+    lang: de
+    rationale: 'refines: selektive Darmdekontamination — die Definition der Leitlinie („nach Definition der Leitlinie“) erreicht
+      jede Aussage, die den Begriff verwendet (Statement 5.13)'
