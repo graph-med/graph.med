@@ -3,6 +3,29 @@
 One entry per session, newest first. Past about 200 lines, move the oldest
 entries to `docs/LOG-ARCHIVE.md`, newest first there too; never delete.
 
+## 2026-09-16 — agent
+Packages touched: WP-0006 (review → done), WP-0017 (registered, claimed →
+review)
+Branch: claude/magical-bell-b1dw85
+Notable: closed WP-0006 (merged in #64, file still said review on main).
+Registered WP-0017 (`ui`) for a maintainer-supplied mark
+(`tools/site/static/logo.svg`, its embedded C2PA content-credentials
+manifest stripped as out of place for a site asset here), then claimed and
+implemented it: a favicon `<link>` and the mark beside "graph.med" in
+`.brand`. This session runs under a harness without `sbx`'s own Docker
+daemon, so the `screenshot` skill could not run (`docker info` fails to
+reach the socket; `sudo service docker start` is refused on a `ulimit`
+permission) — recorded as `environment/screenshot-skill-needs-sbx-docker.md`
+so the next session does not re-discover it. Checked instead by building and
+by rasterising the mark at favicon and header sizes on both themes
+(`cairosvg`): legible from 24px, readable but small at 16px, and the dark
+theme's own black tile sits close in value to `--bg`, faint at the edge —
+noted for a human to confirm on the live preview, not treated as blocking.
+Also registered WP-0018 (`ui`, depends on WP-0017): an Open Graph/Twitter
+card using the mark, since the site currently has no social preview at all
+— my own inference of what "a new work package" should cover, flagged as
+such for the maintainer to redirect.
+
 ## 2026-09-14 — agent
 Packages touched: WP-0006 (review, rebased)
 Branch: agent/2026-09-13-site-colour-by-direction (now on main)
@@ -169,28 +192,3 @@ source's rank; it is now placed after each layout in the gap between columns,
 and the screenshot driver reports edges across nodes and answers. 0 in every
 state checked, 333 elements with everything open.
 
-## 2026-09-12 — agent
-Packages touched: WP-0002 (open → claimed → review)
-Branch: agent/2026-09-12-site-layout-visibility
-Notable: the overlaps had a single cause — the answer's offset assumed the arrow
-ends at the target's centre, not its boundary. Measured with an overlap report
-added to the screenshot driver: 7, 4 and 12 overlapping pairs in the two named
-families and with every group open; 0 after. The maintainer set the rule that
-a merged package is closed by the next agent that sees it (WP-0001 closed).
-
-## 2026-09-12 — agent
-Packages touched: WP-0001 (open → claimed → review)
-Branch: agent/2026-09-12-site-search-recall
-Notable: reproduced 122 search misses out of 673 queries (diacritics, slot
-concepts' short labels, answers on condition edges) before changing anything;
-none after. First package worked under the new convention.
-
-## 2026-09-12 — agent
-Packages touched: WP-0001 … WP-0016 (registered)
-Branch: conventions/work-packages
-Notable: migrated the register from `data/PROGRESS.yaml` (passes and chunks per
-source) via a short-lived `WORK.yaml` to `docs/work/`, one markdown file per
-package with the handoff and history layers kept apart (`docs/HANDOFF.md`,
-`docs/LOG.md`); see ADR-0001. Nothing lost: every deferred item is in
-`docs/work/LATER.md` or a package. The physician's review of 2026-09-11 was
-partitioned into the four initiatives under `docs/work/initiatives/`.

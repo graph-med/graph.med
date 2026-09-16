@@ -22,7 +22,8 @@ code { font-size: .9em; }
 .preview { padding: .35rem 1rem; font-size: .8rem; font-weight: 700; background: var(--note); color: #111; }
 .preview a { color: inherit; }
 .top { display: flex; gap: .75rem; align-items: baseline; padding: .6rem 1rem; border-bottom: 1px solid var(--line); }
-.brand { font-weight: 700; text-decoration: none; color: var(--fg); }
+.brand { display: inline-flex; align-items: center; gap: .4rem; font-weight: 700; text-decoration: none; color: var(--fg); }
+.brand-mark { width: 1.3em; height: 1.3em; border-radius: 22%; flex: none; }
 .crumb { color: var(--mute); font-size: .9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 main { padding: 0 1rem 2rem; max-width: 52rem; margin: 0 auto; }
 h1 { font-size: 1.4rem; margin: 1rem 0 .5rem; }

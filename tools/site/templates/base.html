@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{% block title %}graph.med{% endblock %}</title>
 <link rel="stylesheet" href="{{ base }}assets/site.css?v={{ commit }}">
+<link rel="icon" type="image/svg+xml" href="{{ base }}assets/logo.svg">
 {% if preview %}<meta name="robots" content="noindex, nofollow">
 {% endif %}{% block head %}{% endblock %}
 </head>
@@ -13,7 +14,7 @@
 <div class="preview">preview of <a href="{{ preview.url }}" rel="noopener">pull request #{{ preview.number }}</a> · not the published site · <a href="https://graph.med/">graph.med</a></div>
 {% endif %}
 <header class="top">
-  <a class="brand" href="{{ base }}">graph.med</a>
+  <a class="brand" href="{{ base }}"><img class="brand-mark" src="{{ base }}assets/logo.svg" alt="" width="24" height="24">graph.med</a>
   {% block crumbs %}{% endblock %}
 </header>
 <main class="{% block mainclass %}{% endblock %}">

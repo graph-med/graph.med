@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="512" height="512" role="img" aria-label="graph.med">
+  <rect width="100" height="100" rx="26" ry="26" fill="#000000"></rect>
+  <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M62.3 29.7 A23 23 0 1 0 62.3 70.3" stroke-width="10.4"></path>
+    <g stroke-width="6.6">
+      <path d="M43.5 50 H61"></path>
+      <path d="M61 50 L74 40"></path>
+      <path d="M61 50 L74 60"></path>
+    </g>
+    <g stroke="none" fill="#ffffff">
+      <circle cx="74" cy="40" r="5.2"></circle>
+      <circle cx="74" cy="60" r="5.2"></circle>
+    </g>
+  </g>
+</svg>

@@ -31,6 +31,7 @@ pre-emptively.
 | `conventions/editing-your-own-instructions.md` | Editing the files that instruct you is allowed; saying so in the PR is the obligation. |
 | `environment/commit-author-is-not-evidence.md` | A commit's author line is display only, not evidence about the setup. |
 | `environment/push-failure-triage.md` | Which failures are host-side, which are the design working, and why commits are usually safe. |
+| `environment/screenshot-skill-needs-sbx-docker.md` | The `screenshot` skill needs the `sbx` sandbox's own Docker daemon; a session on a different harness has none, and starting one is refused — report it, do not work around it. |
 | `design/sources-referenced-never-rehosted.md` | Sources are never committed or rehosted; the graph links to public URLs, and agents download sources per session. |
 | `design/pool-and-views.md` | The repository is one pool; graphs are versioned views (filter + as-of commit); one schema governs everything. |
 | `design/two-layer-identity.md` | Claims have deterministic source-anchored identity and never merge; semantic nodes are minted; sameness is an edge. |
