@@ -4,6 +4,20 @@ One entry per session, newest first. Past about 200 lines, move the oldest
 entries to `docs/LOG-ARCHIVE.md`, newest first there too; never delete.
 
 ## 2026-09-16 — agent
+Packages touched: WP-0020 (open → claimed → review)
+Branch: agent/2026-09-16-site-search-navigate-matches
+Notable: the search steps from match to match — a ↑↓ pill beside the box and
+the arrow keys in it — in the reading order of the tree (a node before what
+hangs from it, siblings top to bottom), wrapping, each step selecting its match
+as a tap would while the fading stays; the counter leads with the place, "3 of
+12 matches in 4 sections". The screenshot driver gained `step=<n>` so the
+verification could be driven; the `screenshot` skill's action list names it.
+Run as one of four workers in parallel worktrees (WP-0019 to WP-0022); the push
+failed on a host-side credential problem, so the branch left the sandbox
+through the coordinator. The log passed 200 lines; its two oldest entries went
+to the archive.
+
+## 2026-09-16 — agent
 Packages touched: WP-0019 (open → claimed → review)
 Branch: agent/2026-09-16-statement-detail-panel-revision
 Notable: the statement detail panel now has five questions: the neighbouring
@@ -179,16 +193,3 @@ statements). Captured on desktop, phone and a tall phone-width viewport: 0
 overlapping pairs in every state, 333 elements with everything open. The
 screenshot driver cannot open an entity page (it waits for the graph), so the
 entity page was checked in the built HTML; noted in `LATER.md`.
-
-## 2026-09-13 — agent
-Packages touched: WP-0004 (open → claimed → review)
-Branch: agent/2026-09-13-site-fold-and-reset
-Notable: the first package run as a worker in a worktree, in parallel with
-WP-0005. Every question folds by one rule (a closed question keeps what was open
-below it, so a second tap restores it); a reset button beside the fit button;
-the chapter panel's "all" row a fixed header over the scrolling list. The
-screenshot driver gained `fold=`, `reset` and `chapters-scroll=` so the
-verification could be driven, and now prints page errors when the graph does
-not appear — the first run found a function name shadowing the search's text
-folding, which the driver had been swallowing. Twelve captures, 0 overlapping
-pairs in every state, 333 elements with everything open.

@@ -36,3 +36,5 @@ log. Remove an entry when its package is registered.
 - screenshot driver: `tools/screenshot.js` opens only a view page and captures only the viewport — it waits for `window.graphmed`, so an entity page (`statements/<id>/`) cannot be captured, and a sheet longer than the screen is seen only through a tall `--size`. An action or flag for an entity page and a full-page capture would let a build package show the entity page it claims to render
 
 - theme switch while a view page is open: `tools/site/static/graph.js` reads the stylesheet's colours once, when the graph is drawn, so a change of `prefers-color-scheme` restyles the page but leaves the graph in the old theme until it is reloaded; a `matchMedia` listener that re-reads the variables and restyles the graph would follow it
+
+- screenshot driver: `tools/screenshot.js` has no keyboard action — it drives the page only through `window.graphmed` — so what a key does in a control (↓ and ↑ in the search box stepping through the matches) is checked by reading the handler, not in the browser; a `key=<name>` action that focuses the search box and presses the key would close that gap
