@@ -47,7 +47,9 @@
   var tree = data.groupings.filter(function (g) { return g.axis === by; })[0];
   var css = function (name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); };
   /* a box is coloured by its direction — the banner's four colours, one variable each in site.css — and
-     carries its grade as a letter in the label; a statement without a direction (a fact) stays uncoloured */
+     carries its grade as a letter in the label; a statement without a direction (a fact) stays uncoloured.
+     Its verb is its border: a solid border in a strong shade of the direction's colour when the supporting
+     claims all say "soll" (green: soll; red: soll nicht), none for "sollte" or when the claims disagree */
   var DIRECTION = { "für": "--dir-for", "gegen": "--dir-against", "abwägen": "--dir-weigh", "Lücke": "--dir-gap" };
   if (typeof cytoscape !== "function") throw new Error("library missing");
   if (typeof cytoscapeDagre === "function") cytoscape.use(cytoscapeDagre);
@@ -58,7 +60,7 @@
   tree.nodes.forEach(function (n) { types[n.id] = n.type; });
   tree.nodes.forEach(function (n) {
     elements.push({ data: { id: n.id, ref: n.ref || "", type: n.type, label: n.label || "", group: n.group || "",
-      direction: n.direction || "", fill: DIRECTION[n.direction] ? css(DIRECTION[n.direction]) : css("--bg"), contested: n.contested ? 1 : 0,
+      direction: n.direction || "", verb: n.verb || "", fill: DIRECTION[n.direction] ? css(DIRECTION[n.direction]) : css("--bg"), contested: n.contested ? 1 : 0,
       sections: n.sections || [], text: fold(n.text), facets: n.facets || [] } });
   });
   tree.edges.forEach(function (e, i) {
@@ -91,6 +93,11 @@
       { selector: "node[type = 'question'].closed", style: { "background-color": css("--line"), "border-style": "dashed" } },   /* folded: there is more below */
       { selector: "node[type = 'statement']", style: { "color": "#111", "border-color": "rgba(0,0,0,0)", "text-halign": "center" } },   /* dark text on the direction's colour, in both themes */
       { selector: "node[type = 'statement'][!direction]", style: { "color": css("--fg"), "border-color": css("--mute") } },   /* no direction: the page's own colours, with a border */
+      /* the verb as a border: "soll" für gets a solid green rim, "soll nicht" a red one; "sollte" and a mixed verb none.
+         Cytoscape resolves a clash by stylesheet order, not specificity, so the contested rule stays after these two:
+         a contested box keeps its dashed red border and the verb's border is suppressed on it */
+      { selector: "node[type = 'statement'][verb = 'soll'][direction = 'für']", style: { "border-width": 2.5, "border-color": css("--verb-for") } },
+      { selector: "node[type = 'statement'][verb = 'soll'][direction = 'gegen']", style: { "border-width": 2.5, "border-color": css("--verb-against") } },
       { selector: "node[type = 'statement'][contested = 1]", style: { "border-width": 3, "border-color": css("--contested"), "border-style": "dashed" } },
       { selector: "node[type = 'aim']", style: { "width": 180, "text-max-width": 160, "font-size": 11, "color": css("--mute"), "border-style": "dashed" } },
       { selector: "edge", style: {

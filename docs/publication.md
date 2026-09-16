@@ -87,6 +87,7 @@ decision-graph-derivation):
    │ recommend.│   │ recommend.│ │ recommend.│    the statements — boxes coloured by
    └─────┬─────┘   └───────────┘ └───────────┘    direction (für · gegen · abwägen · Lücke),
          ┆ (dashed)                               the grade a letter (A · B · 0 · EK);
+         ┆                                        solid border when the verb is "soll",
          ┆                                        dashed red border when contested
          ▷ aim                                    outcome slot
 ```
@@ -108,10 +109,19 @@ decision-graph-derivation):
   that many answers from one question do not pile up mid-edge; the aim a dashed
   edge. A box takes the colour of its direction — the four colours of the banner
   in the details, so that box and section agree — and carries its grade as a
-  letter after the direction glyph (A · B · 0 · EK, the guideline's own scale). An
+  letter before its label (A · B · 0 · EK, the guideline's own scale). No
+  direction glyph is on the box, in any direction: the colour says it, and the
+  glyph lives in the banner and the legend. An
   EK box is coloured by its direction like every other recommendation and marked
-  "EK", not demoted. Legend under the graph: the colours are directions, the
-  letters grades.
+  "EK", not demoted. **The verb is a border.** A box whose supporting claims all
+  say `soll` gets a solid border in a strong shade of its direction's colour —
+  green for *für*, red for *gegen* ("soll nicht") — so that two recommendations
+  of one grade and direction still show which is the stronger; `sollte` gets no
+  border, and neither does a box whose supporting claims disagree on the verb
+  (the verb, like the grade, is shown and never composed). A contested box
+  keeps its dashed red border and shows no verb border: the rarer, more urgent
+  signal is never the one dropped. Legend under the graph: the colours are
+  directions, the letters grades, the border the verb.
   Claims are not nodes; they are the evidence and appear in the section.
 
 **Drawn by a library, left to right, folded.** The page uses Cytoscape.js with the
@@ -257,8 +267,9 @@ only outcomes). Everything here runs in the browser on the view's JSON.
 because in the AWMF scheme "kann" *is* the open recommendation, the guideline's own
 third category (the banner adds the lean, "eher für" or "eher gegen"); `kind:
 gap_notice` → Lücke; claims that disagree in direction → abwägen; a fact has no
-direction. A glyph before the box label (✓ ✗ ⚖ ∅) and a banner at the top of the
-details carry it; the legend lists the four words with their colours. Timing
+direction. The box's colour and a banner at the top of the details carry it; the
+glyph (✓ ✗ ⚖ ∅) stands in the banner and the legend, never on the box; the legend
+lists the four words with their colours. Timing
 ("innerhalb von 24 Stunden") is not a direction; it stays in the label.
 
 **What the section shows.**
