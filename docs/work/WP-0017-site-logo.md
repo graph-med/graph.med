@@ -1,12 +1,12 @@
 ---
 id: WP-0017
 title: Site logo — favicon and header mark
-status: open
+status: claimed
 created: 2026-09-16
 updated: 2026-09-16
 depends_on: []
 blocks: []
-owner: unassigned
+owner: agent
 initiative: ui
 kind: build
 slug: site-logo
