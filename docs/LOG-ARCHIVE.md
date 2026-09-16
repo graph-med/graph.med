@@ -4,6 +4,16 @@ Entries rotated out of `docs/LOG.md` once it passes about 200 lines, newest
 first here too; never delete.
 
 ## 2026-09-12 — agent
+Packages touched: WP-0002 (review → done), WP-0003 (open → claimed → review)
+Branch: agent/2026-09-12-site-question-at-every-branch
+Notable: the first session to close a merged package under the new rule. One
+rule now builds every question, root and family alike. The review found edges
+drawn through boxes on a phone — the vertical run of a taxi edge sat inside its
+source's rank; it is now placed after each layout in the gap between columns,
+and the screenshot driver reports edges across nodes and answers. 0 in every
+state checked, 333 elements with everything open.
+
+## 2026-09-12 — agent
 Packages touched: WP-0002 (open → claimed → review)
 Branch: agent/2026-09-12-site-layout-visibility
 Notable: the overlaps had a single cause — the answer's offset assumed the arrow

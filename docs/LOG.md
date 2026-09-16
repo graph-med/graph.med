@@ -4,6 +4,21 @@ One entry per session, newest first. Past about 200 lines, move the oldest
 entries to `docs/LOG-ARCHIVE.md`, newest first there too; never delete.
 
 ## 2026-09-16 — agent
+Packages touched: WP-0019 (registered)
+Branch: claude/busy-bohr-exli39
+Notable: registered WP-0019 (`ui`), unclaimed, from the maintainer's own
+review of the live statement detail panel: drop the "would the answer be
+different in a neighbouring situation?" question; fix the banner's small
+verb text to read "soll nicht"/"sollte nicht" for an against-direction
+statement, matching the per-claim tags' own convention; carry each
+supporting claim's grade and consensus into the banner, without composing a
+single statement-level grade (`grade-derivation` stays untouched); make
+"where exactly is it written?" show one link by default and label each
+source when body-text relations add more than one; and remove the
+duplicate fields the current template has (`recommendation_no` shown in
+both question 3 and question 5). No implementation in this session.
+
+## 2026-09-16 — agent
 Packages touched: WP-0006 (review → done), WP-0017 (registered, claimed →
 review)
 Branch: claude/magical-bell-b1dw85
@@ -181,14 +196,4 @@ letter — after asking which option the agent preferred and why. Applied in
 `docs/publication.md` §3 and the memory `box-colour-by-direction`; the entry
 left `docs/open-questions.md`. No site change: WP-0006 builds it once WP-0005 is
 done. The maintainer asked to concentrate on the `ui` initiative first.
-
-## 2026-09-12 — agent
-Packages touched: WP-0002 (review → done), WP-0003 (open → claimed → review)
-Branch: agent/2026-09-12-site-question-at-every-branch
-Notable: the first session to close a merged package under the new rule. One
-rule now builds every question, root and family alike. The review found edges
-drawn through boxes on a phone — the vertical run of a taxi edge sat inside its
-source's rank; it is now placed after each layout in the gap between columns,
-and the screenshot driver reports edges across nodes and answers. 0 in every
-state checked, 333 elements with everything open.
 
