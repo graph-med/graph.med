@@ -104,13 +104,21 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .banner small { font-weight: 400; color: var(--mute); margin-left: .4rem; }
 .banner[class*="dir-"] { color: #111; }
 .banner[class*="dir-"] small { color: #3d3d3d; }
+/* the evidence the banner carries: each supporting claim's own grade and consensus, one group per distinct
+   pair (docs/publication.md §3, question 1); the tags take the banner's ink, not the theme's, since the
+   banner is light in both themes */
+.banner .evidence { display: inline-flex; flex-wrap: wrap; gap: .2rem .5rem; vertical-align: middle; margin-left: .5rem; font-weight: 400; }
+.banner .evidence .of { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .2rem; }
+.banner .evidence .tag { margin: 0; color: #111; border-color: rgba(0, 0, 0, .35); background: rgba(255, 255, 255, .45); }
+.banner .evidence .tag.grade { font-size: .9rem; padding: .1rem .6rem; border-width: 2px; border-color: #111; }
+.banner .evidence .tag.grade.ek::after { content: " expert consensus"; font-weight: 400; font-size: .75rem; }
 .banner.dir-für { background: var(--dir-for); }
 .banner.dir-gegen { background: var(--dir-against); }
 .banner.dir-abwägen { background: var(--dir-weigh); }
 .banner.dir-Lücke { background: var(--dir-gap); }
 ul.body li p { margin: .2rem 0; }
 
-/* a statement's details, organised by the reader's six questions (docs/publication.md §3): each question a
+/* a statement's details, organised by the reader's five questions (docs/publication.md §3): each question a
    heading in sentence case, read as a question, not as a label; the grade of every claim its own highlight */
 .q { margin: 0 0 .4rem; }
 .q + .q { border-top: 1px solid var(--line); padding-top: .2rem; }
@@ -122,7 +130,9 @@ ul.body li p { margin: .2rem 0; }
 .q dl.slots dd .families { display: block; color: var(--mute); font-size: .85rem; }
 .q dl.slots dd .families .node-link { min-height: 32px; }
 .q ol.claims li .cite { margin: 0 0 .2rem; }
-.q ul.neighbours li .tag { margin-right: .3rem; }
+/* the passages the body text adds to a claim, cited under the claim's own, each labelled by its relation */
+.q ol.claims ul.refs { margin: .4rem 0 0 .7rem; padding-left: .5rem; border-left: 1px solid var(--line); }
+.q ol.claims ul.refs li { padding: .3rem 0 0; border: 0; }
 .tools select { height: 44px; padding: 0 .6rem; border: 1px solid var(--line); border-radius: 22px; background: var(--bg); color: var(--fg); font: inherit; font-size: .9rem; max-width: 9rem; }
 /* the axis switch (docs/publication.md §3 "The axis is the reader's choice"): in the row with the search,
    an axis's label being longer than a facet's word; shown only when the view offers more than the plain hierarchy */
