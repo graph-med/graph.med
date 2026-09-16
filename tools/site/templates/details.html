@@ -1,13 +1,15 @@
 {# The detail section for one entity: the sheet under the graph, and the entity page. #}
 {% set e = entity %}
 {% if e.type == "statement" %}
-{# A statement's section is organised by the six questions a physician brings to a recommendation
+{# A statement's section is organised by the five questions a physician brings to a recommendation
    (docs/publication.md §3 "What the section shows"), in this order, each a heading in the chrome
-   language; every heading is rendered, with a line saying so when the pool has nothing under it. #}
+   language; every heading is rendered, with a line saying so when the pool has nothing under it.
+   No fact about a claim is stated twice: its grade and consensus stand in the banner when it supports
+   the recommendation, its recommendation number, page, section, id and quote under the last question. #}
 <p class="kind">statement{% if contested %} · <mark>contested</mark>{% endif %}</p>
 <section class="q">
 <h3>What should I do?</h3>
-{% if direction %}<p class="banner dir-{{ direction.word }}" lang="de"><span class="glyph">{{ direction.glyph }}</span> {{ direction.word }}{% if direction.verbs %} <small>{{ direction.verbs | join(" · ") }}</small>{% endif %}</p>{% endif %}
+{% if direction %}<p class="banner dir-{{ direction.word }}" lang="de"><span class="glyph">{{ direction.glyph }}</span> {{ direction.word }}{% if direction.verbs %} <small>{{ direction.verbs | join(" · ") }}</small>{% endif %}{% if direction.evidence %} <span class="evidence">{% for v in direction.evidence %}<span class="of">{% if v.grade %}<span class="tag grade{% if v.grade == "EK" %} ek{% endif %}" title="{% if v.grade == "EK" %}expert consensus, not graded on the evidence scale{% else %}grade of recommendation{% endif %}">{{ v.grade }}</span>{% endif %}{% if v.consensus %}<span class="tag">{{ v.consensus | replace("_", " ") }}</span>{% endif %}</span>{% endfor %}</span>{% endif %}</p>{% endif %}
 <p class="label" lang="{{ e.lang }}">{{ e.label }}</p>
 {% if action or outcome %}
 <dl class="slots">
@@ -34,12 +36,15 @@
 <ol class="claims">
 {% for c in claims %}
   <li class="claim {{ c.edge }}">
+    {# grade, verb and consensus of a supporting claim stand in the banner; a claim the banner does not
+       carry — one that contests, or any claim when no banner is drawn — shows its own here #}
+    {% if not direction or c.edge != "supports" %}
     {% if c.grade %}<span class="tag grade{% if c.grade == "EK" %} ek{% endif %}" title="{% if c.grade == "EK" %}expert consensus, not graded on the evidence scale{% else %}grade of recommendation{% endif %}">{{ c.grade }}</span>{% endif %}
     {% if c.verb %}<span class="tag" lang="{{ c.lang }}">{{ c.verb }}{% if c.direction == "against" %} nicht{% endif %}</span>{% endif %}
     {% if c.consensus %}<span class="tag" lang="{{ c.lang }}">{{ c.consensus | replace("_", " ") }}</span>{% endif %}
+    {% endif %}
     {% if c.edge == "contests" %}<span class="tag"><mark>contests</mark></span>{% endif %}
     {% if c.kind != "recommendation" %}<span class="tag">{{ c.kind | replace("_", " ") }}</span>{% endif %}
-    {% if c.recommendation_no %}<span class="tag">No. {{ c.recommendation_no }}</span>{% endif %}
     <p lang="{{ c.lang }}">{{ c.label }}</p>
   </li>
 {% endfor %}
@@ -53,9 +58,8 @@
 {% if body %}
 {% for kind, rows in body.items() %}
 <ul class="plain body">
-{% for b in rows %}<li><span class="tag">{{ kind }}</span>{% if b.claim %} <span class="tag">No. {{ b.claim }}</span>{% endif %}
-  <p lang="{{ b.lang }}">{{ b.label }}</p>
-  <p class="cite"><a href="{{ b.link }}" rel="noopener">page {{ b.page }}</a>{% if b.section %} · section {{ b.section }}{% endif %} · <a href="{{ base }}{{ b.id }}/">{{ b.id | short }}</a></p></li>
+{% for b in rows %}<li><span class="tag">{{ kind }}</span>
+  <p lang="{{ b.lang }}">{{ b.label }}</p></li>
 {% endfor %}
 </ul>
 {% endfor %}
@@ -65,46 +69,27 @@
 </section>
 <section class="q">
 <h3>Where exactly is it written?</h3>
+{# one citation per claim; when the body text adds passages to a claim, theirs follow it, each labelled
+   with the relation it carries, so the reader sees which passage belongs to what #}
 {% if claims %}
 <ol class="claims">
 {% for c in claims %}
   <li class="claim {{ c.edge }}">
-    <p class="cite"><a href="{{ c.link }}" rel="noopener"{% if c.source_title %} title="{{ c.source_title }}"{% endif %}>{{ c.source | short }}{% if c.page %}, page {{ c.page }}{% endif %}</a>{% if c.section %} · section {{ c.section }}{% endif %}{% if c.recommendation_no %} · No. {{ c.recommendation_no }}{% endif %} · <a href="{{ base }}{{ c.id }}/">{{ c.id | short }}</a></p>
+    <p class="cite">{% if c.body %}<span class="tag">{{ c.kind | replace("_", " ") }}</span> {% endif %}<a href="{{ c.link }}" rel="noopener"{% if c.source_title %} title="{{ c.source_title }}"{% endif %}>{{ c.source | short }}{% if c.page %}, page {{ c.page }}{% endif %}</a>{% if c.section %} · section {{ c.section }}{% endif %}{% if c.recommendation_no %} · No. {{ c.recommendation_no }}{% endif %} · <a href="{{ base }}{{ c.id }}/">{{ c.id | short }}</a></p>
     <blockquote lang="{{ c.lang }}">„{{ c.quote }}“ <button type="button" class="copy" data-copy="{{ c.quote }}" title="copy the quote, then find it in the document with Ctrl+F">copy</button></blockquote>
+    {% if c.body %}
+    <ul class="plain refs">
+    {% for b in c.body %}<li>
+      <p class="cite"><span class="tag">{{ b.kind }}</span> <a href="{{ b.link }}" rel="noopener"{% if c.source_title %} title="{{ c.source_title }}"{% endif %}>{% if b.page %}page {{ b.page }}{% else %}{{ c.source | short }}{% endif %}</a>{% if b.section %} · section {{ b.section }}{% endif %} · <a href="{{ base }}{{ b.id }}/">{{ b.id | short }}</a></p>
+      <blockquote lang="{{ b.lang }}">„{{ b.quote }}“ <button type="button" class="copy" data-copy="{{ b.quote }}" title="copy the quote, then find it in the document with Ctrl+F">copy</button></blockquote></li>
+    {% endfor %}
+    </ul>
+    {% endif %}
   </li>
 {% endfor %}
 </ol>
 {% else %}
 <p class="none">No passage is cited for this recommendation yet.</p>
-{% endif %}
-</section>
-<section class="q">
-<h3>Would the answer be different in a neighbouring situation?</h3>
-{% set n = neighbours %}
-{% if n.group or n.action or n.linked %}
-{% if n.group %}
-<p class="sub">In the same patient group</p>
-<ul class="plain neighbours">
-{% for r in n.group %}<li>{% if r.condition %}<span class="tag" lang="{{ r.lang }}">{{ r.condition.label }}</span>{% elif condition %}<span class="tag">no condition</span>{% endif %} <a class="node-link" data-node="{{ r.id }}" href="{{ base }}{{ r.id }}/" lang="{{ r.lang }}" title="{{ r.label }}">{{ r.short }}</a></li>
-{% endfor %}
-</ul>
-{% endif %}
-{% if n.action %}
-<p class="sub">The same action for other patient groups</p>
-<ul class="plain neighbours">
-{% for r in n.action %}<li>{% if r.population %}<span class="tag" lang="{{ r.lang }}">{{ r.population.label }}</span>{% endif %}{% if r.condition %} <span class="tag" lang="{{ r.lang }}">{{ r.condition.label }}</span>{% endif %} <a class="node-link" data-node="{{ r.id }}" href="{{ base }}{{ r.id }}/" lang="{{ r.lang }}" title="{{ r.label }}">{{ r.short }}</a></li>
-{% endfor %}
-</ul>
-{% endif %}
-{% if n.linked %}
-<p class="sub">Linked statements</p>
-<ul class="plain neighbours">
-{% for r in n.linked %}<li><span class="tag">{{ r.kind }}{% if r.direction == "in" %} ←{% endif %}</span> <a class="node-link" data-node="{{ r.id }}" href="{{ base }}{{ r.id }}/" lang="{{ r.lang }}" title="{{ r.label }}">{{ r.short }}</a></li>
-{% endfor %}
-</ul>
-{% endif %}
-{% else %}
-<p class="none">No neighbouring recommendation: none in this patient group, none with this action for another group, none linked.</p>
 {% endif %}
 </section>
 {% elif e.type == "concept" %}

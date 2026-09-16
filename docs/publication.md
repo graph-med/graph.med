@@ -211,8 +211,8 @@ way back from any search or filter is one tap. Tapping a node or an answer selec
 follows it stay, everything else fades, and its details open in the **section
 below the graph** — on a wide screen, in a **column beside it**, the graph taking
 the full height; the graph stays where it is either way, so the reader keeps their
-place. Tapping the background clears. Tapping a neighbour listed in the section
-moves there. Deep links carry `#<entity id>`, and `?by=<grouping>` when the tree is
+place. Tapping the background clears. Tapping a concept linked in the section
+moves the graph there. Deep links carry `#<entity id>`, and `?by=<grouping>` when the tree is
 grouped by the chapters or an axis. There are no modal dialogs and no page
 loads needed to read a view; the entity pages (§4) exist for linking, not for reading.
 
@@ -255,28 +255,35 @@ details carry it; the legend lists the four words with their colours. Timing
 
 **What the section shows.**
 
-- *statement*: the section is organised by the six questions a physician brings to
+- *statement*: the section is organised by the five questions a physician brings to
   a recommendation, in this order, each a heading in the chrome language:
   1. **What should I do?** — the direction as a banner, so the clinical answer is
-     read in a second, then the full label in its source language.
+     read in a second: the word, the verb as the claims say it — "soll nicht" for
+     a recommendation against, never the bare verb — and the evidence, **each
+     supporting claim's own grade and consensus**, an EK claim marked as such and
+     otherwise shown like any other; claims that agree share one entry, claims
+     that differ each keep theirs. Grades are shown, never composed (below). Then
+     the full label in its source language.
   2. **Does this apply to my patient?** — the population with the family it
      belongs to, and the condition, each linked to its concept.
   3. **How binding and how well supported is it?** — every claim linked by
-     `supports` or `contests`, each with **its own grade** highlighted, then verb,
-     direction and consensus; an EK claim is marked as such and otherwise shown
-     like any other. Grades are shown, never composed (below).
+     `supports` or `contests`, each its sentence as the guideline prints it, a
+     contesting claim marked and carrying its own grade, verb and consensus; a
+     supporting claim's stand in the banner and are not repeated here.
   4. **What could change the answer?** — what the body text adds, grouped by
-     relation — *refines*, *supplements*, *limits* — each with its page and section.
-  5. **Where exactly is it written?** — for each claim: document, recommendation
-     number, page, section, the verbatim quote with its copy button, and the link
-     into the cited page of the source (§5). Where a recommendation comes from is
-     as much part of the answer as whom it is for.
-  6. **Would the answer be different in a neighbouring situation?** — the
-     statements under the same group and condition, the same action recommended
-     for other groups, and the statements linked by `specializes`, `complements`
-     or `conflicts`, each a link that moves the graph there.
-  The order goes from the answer to its applicability, its evidence, its limits,
-  its source, and its neighbours. The entity page (§4) renders the same section.
+     relation — *refines*, *supplements*, *limits* — each its text; where it is
+     written is under 5.
+  5. **Where exactly is it written?** — one citation when the recommendation
+     rests on a single claim: document, recommendation number, page, section, the
+     verbatim quote with its copy button, and the link into the cited page of the
+     source (§5). When the body text adds passages to a claim, their references
+     follow the claim's, each labelled with the relation it carries — never an
+     undifferentiated list of links. Where a recommendation comes from is as much
+     part of the answer as whom it is for.
+  The order goes from the answer to its applicability, its evidence, its limits
+  and its source. No fact about a claim appears under two questions: its grade
+  and consensus under 1, its number, page, section, id and quote under 5. The
+  entity page (§4) renders the same section.
 - *concept*: the label and definition, the statements that use it and in which slot,
   and its codes (`codes_as`) once terminology imports exist.
 - *structural node*: its label, its branches or outcomes, and the statements it is

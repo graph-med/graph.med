@@ -58,7 +58,10 @@ CHAPTERS = "section"   # the URL token and grouping id of the built-in chapter g
 def direction_of(claims: list[dict]) -> dict | None:
     """The four-word direction of a statement, derived from its supporting claims (docs/publication.md §3):
     soll/sollte for → für, soll/sollte against → gegen, kann → abwägen (the guideline's own open
-    recommendation), a gap notice → Lücke. Facts have no direction; claims that disagree give abwägen."""
+    recommendation), a gap notice → Lücke. Facts have no direction; claims that disagree give abwägen.
+    With the word come the verbs as the claims say them — "soll nicht" for an against claim, as the
+    sentence reads — and the evidence the banner carries: each supporting claim's own grade and
+    consensus, one entry per distinct pair in claim order, shown, never composed into one."""
     sup = [c for c in claims if c["edge"] == "supports"]
     if not sup:
         return None
@@ -71,10 +74,12 @@ def direction_of(claims: list[dict]) -> dict | None:
         if not dirs:
             return None
         word = "abwägen" if len(dirs) > 1 else ("gegen" if dirs == {"against"} else "für")
-    verbs = sorted({c["verb"] for c in sup if c.get("verb")})
+    verbs = sorted({c["verb"] + (" nicht" if c.get("direction") == "against" else "") for c in sup if c.get("verb")})
     if word == "abwägen" and len({c.get("direction") for c in sup if c.get("direction")}) == 1:
         verbs.append("eher gegen" if sup[0].get("direction") == "against" else "eher für")   # the lean of an open recommendation
-    return {"word": word, "glyph": DIRECTION_GLYPH[word], "verbs": verbs}
+    evidence = list(dict.fromkeys((c.get("grade"), c.get("consensus")) for c in sup if c.get("grade") or c.get("consensus")))
+    return {"word": word, "glyph": DIRECTION_GLYPH[word], "verbs": verbs,
+            "evidence": [{"grade": g, "consensus": k} for g, k in evidence]}
 
 
 # ── the pool ────────────────────────────────────────────────────────────────
@@ -150,29 +155,6 @@ class Pool:
                     seen.add(to); queue.append(to)
                     rows.append({"id": to, "label": self.entities[to]["label"]})
         return rows
-
-    def neighbours_of(self, st: dict) -> dict[str, list[dict]]:
-        """The neighbouring situations of a statement (docs/publication.md §3, the sixth question): the other
-        statements under the same patient group — those sharing its condition first —, the same action
-        recommended for other groups, and the statements it is linked to by specializes, complements or
-        conflicts, in either direction. Each row names what differs, so the reader sees the neighbouring
-        situation before following the link."""
-        slots = st.get("slots") or {}
-        concept = lambda cid: {"id": cid, "label": self.entities[cid]["label"]} if cid in self.entities else None
-        def row(other):
-            o = other.get("slots") or {}
-            return {"id": other["id"], "label": other["label"], "short": other.get("short_label") or other["label"], "lang": other["lang"],
-                    "population": concept(o.get("population")), "condition": concept(o.get("condition")),
-                    "same_condition": o.get("condition") == slots.get("condition")}
-        order = lambda r: (natural(min((c["recommendation_no"] for c in self.claims_for(r["id"]) if c.get("recommendation_no")), default="")), r["id"])
-        others = [o for o in self.of_type("statement") if o["id"] != st["id"]]
-        group = sorted((row(o) for o in others if slots.get("population") and (o.get("slots") or {}).get("population") == slots["population"]),
-                       key=lambda r: (not r["same_condition"],) + tuple(order(r)))
-        action = sorted((row(o) for o in others if slots.get("action") and (o.get("slots") or {}).get("action") == slots["action"]
-                         and (o.get("slots") or {}).get("population") != slots.get("population")), key=order)
-        linked = [{"kind": k, "direction": "out", **row(self.entities[to])} for k, to, _ in self.out.get(st["id"], []) if k in STATEMENT_EDGES and to in self.entities]
-        linked += [{"kind": k, "direction": "in", **row(self.entities[frm])} for k, frm, _ in self.inc.get(st["id"], []) if k in STATEMENT_EDGES and frm in self.entities]
-        return {"group": group, "action": action, "linked": linked}
 
     def uses_of(self, concept_id: str) -> list[dict]:
         rows = []
@@ -523,8 +505,8 @@ def main(argv=None) -> int:
         d = {"entity": ent}
         t = ent["type"]
         if t == "statement":
-            # the six questions a physician brings to a recommendation (docs/publication.md §3): the answer,
-            # whom it applies to, its evidence, what could change it, where it is written, its neighbours
+            # the five questions a physician brings to a recommendation (docs/publication.md §3): the answer,
+            # whom it applies to, its evidence, what could change it, where it is written
             slots = ent.get("slots") or {}
             concept = lambda cid: {"id": cid, "label": pool.entities[cid]["label"]} if cid in pool.entities else None
             d["action"], d["outcome"], d["condition"] = concept(slots.get("action")), concept(slots.get("outcome")), concept(slots.get("condition"))
@@ -532,9 +514,8 @@ def main(argv=None) -> int:
             d["claims"] = pool.claims_for(ent["id"])
             d["contested"] = any(c["edge"] == "contests" for c in d["claims"])
             d["direction"] = direction_of(d["claims"])
-            d["body"] = {k: [dict(b, claim=c["recommendation_no"]) for c in d["claims"] for b in c.get("body", []) if b["kind"] == k] for k in BODY_TEXT}
+            d["body"] = {k: [b for c in d["claims"] for b in c.get("body", []) if b["kind"] == k] for k in BODY_TEXT}
             d["body"] = {k: v for k, v in d["body"].items() if v}
-            d["neighbours"] = pool.neighbours_of(ent)
         elif t == "concept":
             d["uses"] = pool.uses_of(ent["id"])
             d["codes"] = [to for k, to, _ in pool.out.get(ent["id"], []) if k == "codes_as"]
