@@ -80,9 +80,15 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 }
 
 /* chapters and search (docs/publication.md §3 "Chapters and search"): a hard filter and a soft highlight */
-.tools.left { right: auto; left: .6rem; align-items: center; }
+.tools.left { right: auto; left: .6rem; align-items: center; flex-wrap: wrap; max-width: calc(100% - 7.6rem); }   /* stops before the fit and reset buttons; what does not fit wraps under, the counter first */
 .tools input[type=search] { height: 44px; width: 11rem; max-width: 40vw; padding: 0 .8rem; border: 1px solid var(--line); border-radius: 22px; background: var(--bg); color: var(--fg); font: inherit; font-size: .95rem; }
 .tools .count { font-size: .78rem; color: var(--mute); background: var(--bg); padding: .1rem .5rem; border-radius: 1rem; white-space: nowrap; }
+/* stepping through the matches: one pill beside the search box, its two halves the arrows of find-in-document */
+.tools .step { display: inline-flex; border: 1px solid var(--line); border-radius: 22px; background: var(--bg); overflow: hidden; }
+.tools .step[hidden] { display: none; }
+.tools .step button { width: 36px; height: 42px; border: 0; border-radius: 0; background: none; color: var(--fg); font-size: 1rem; padding: 0; }
+.tools .step button + button { border-left: 1px solid var(--line); }
+.tools .step button:hover, .tools .step button:focus-visible { background: var(--line); }
 .chapters { position: absolute; left: .6rem; top: 3.9rem; z-index: 2; max-width: min(24rem, calc(100% - 1.2rem)); max-height: calc(100% - 6rem); display: flex; flex-direction: column; overflow: hidden;
   background: var(--bg); border: 1px solid var(--line); border-radius: .6rem; font-size: .85rem; line-height: 1.35; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
 .chapters[hidden] { display: none; }
@@ -140,7 +146,7 @@ ul.body li p { margin: .2rem 0; }
 
 /* narrow screens: the controls share one row and the counter wraps under them */
 @media (max-width: 520px) {
-  .tools.left { flex-wrap: wrap; max-width: calc(100% - 4.6rem); }
+  .tools.left { max-width: calc(100% - 4.6rem); }
   .tools.right { flex-direction: column; }   /* fit and reset stack, so the search row keeps its width */
   .tools input[type=search] { max-width: 34vw; }
   .tools select { max-width: 6.6rem; }

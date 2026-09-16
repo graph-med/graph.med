@@ -5,7 +5,8 @@
    the graph. Tap a question to fold everything below it; tap it again to restore what
    was open there. A chapter tree (from the source's outline and the claims' sections) is
    a hard filter: only what that section supports is shown. The search is a soft
-   highlight: matches keep their colour, the rest fades. The reset button returns the
+   highlight: matches keep their colour, the rest fades; the arrows beside the box, or
+   ↓ and ↑ in it, step from match to match. The reset button returns the
    page to its opening state (docs/publication.md §3). The axis switch chooses which of
    the view's groupings is drawn — the plain hierarchy, the chapters of its sources, or an
    axis of its `group_by` (spec §4.1) — as `?by=<grouping>` in the URL (`section` for the
@@ -202,10 +203,12 @@
     shown.nodes().forEach(function (n) { n.boundingBox({ includeLabels: true }); });
     var lay = shown.layout({ name: "dagre", rankDir: "LR", nodeSep: 18, rankSep: 230, edgeSep: 10, align: "UL", nodeDimensionsIncludeLabels: true,
                              animate: true, animationDuration: 250, fit: false });
-    lay.one("layoutstop", function () { route(shown); if (fitTo) fit(fitTo.not(".folded"), 30); });
+    laying = lay;
+    lay.one("layoutstop", function () { if (laying === lay) laying = null; route(shown); if (fitTo) fit(fitTo.not(".folded"), 30); if (cursor) counter(); });
     lay.run();
     highlight();
   }
+  var laying = null;   /* the layout in flight: a step orders the matches by position, so it waits for this to settle */
   function toggle(j, force) {
     open[j.id()] = force === undefined ? !open[j.id()] : force;
     relayout(open[j.id()] ? j.union(j.successors()) : j.closedNeighborhood());
@@ -311,8 +314,12 @@
   }
 
   /* the search: a soft highlight — matches keep their colour, everything else fades but
-     stays; groups holding a match unfold; the counter reads "n matches in m sections" */
-  var query = "", facet = "";
+     stays; groups holding a match unfold; the counter reads "n matches in m sections".
+     Stepping — the arrows beside the box, ↓ and ↑ while it has focus — walks the visible
+     matches in graph order and selects each as a tap would; the counter then reads
+     "i of n matches in m sections" until the query changes */
+  var query = "", facet = "", cursor = null;   /* cursor: the id of the match the reader stepped to */
+  var stepBox = document.getElementById("step");
   while (facetSel.options.length > 1) facetSel.remove(1);
   (data.facets || []).forEach(function (f) { var o = document.createElement("option"); o.value = f; o.textContent = f.replace("_", " "); facetSel.appendChild(o); });
   facetSel.hidden = !(data.facets || []).length;
@@ -325,17 +332,53 @@
   }
   function highlight() {
     cy.elements().removeClass("faded");
-    if (!query && !facet) { count.hidden = true; return; }
+    count.hidden = stepBox.hidden = !query && !facet;
+    if (count.hidden) return;
     var m = matches().not(".folded");
     cy.elements().not(".folded").not(m).not(m.connectedEdges()).not(frame).addClass("faded");   /* the frame stays for orientation */
+    counter();
+  }
+  function ordered() {   /* the visible matches in graph order: from the root, a node before what hangs from it, siblings top to bottom */
+    var m = matches().not(".folded"), seen = {}, out = [];
+    function byY(a, b) { return a.position("y") - b.position("y") || a.position("x") - b.position("x"); }
+    (function visit(n) {
+      if (seen[n.id()]) return;
+      seen[n.id()] = true;
+      if (m.contains(n)) out.push(n);
+      n.outgoers("edge[kind != 'relation']").targets().not(".folded").sort(byY).forEach(visit);   /* a relation leads sideways, not down */
+    })(root);
+    m.sort(byY).forEach(function (n) { if (!seen[n.id()]) out.push(n); });   /* whatever the root does not reach, last */
+    return out;
+  }
+  function position(list) { for (var i = 0; i < list.length; i++) if (list[i].id() === cursor) return i; return -1; }
+  function counter() {   /* "n matches in m sections" — with the reader's place first, "i of n", once they have stepped */
+    var m = matches().not(".folded");
     var st = m.filter("[type = 'statement']").union(m.not("[type = 'statement']").neighborhood("node[type = 'statement']")), secs = {};
     st.forEach(function (n) { n.data("sections").forEach(function (s) { secs[s] = 1; }); });
-    var n = m.length, k = Object.keys(secs).length;
-    count.textContent = n + (n === 1 ? " match" : " matches") + " in " + k + (k === 1 ? " section" : " sections");
-    count.hidden = false;
+    var n = m.length, k = Object.keys(secs).length, i = cursor ? position(ordered()) : -1;
+    count.textContent = (i >= 0 ? (i + 1) + " of " : "") + n + (n === 1 ? " match" : " matches") + " in " + k + (k === 1 ? " section" : " sections");
   }
+  /* a step selects the next (or previous) visible match as a tap would — the sheet opens, the graph fits to it —
+     and wraps at both ends; the fading stays as it is. Only visible matches are stepped: research() has unfolded
+     the way to every match, and one behind a question the reader closed since is folded, so not in the set */
+  function step(dir) {
+    if (laying) { laying.one("layoutstop", function () { step(dir); }); return; }
+    var list = ordered(), len = list.length;
+    if (!len) return;
+    var i = position(list), n = list[dir < 0 ? (i < 0 ? len - 1 : (i + len - 1) % len) : (i + 1) % len], ref = n.data("ref");   /* from no place: the first, or the last when stepping back */
+    cursor = n.id();
+    if (ref) select(cy.elements("[ref = '" + ref + "']"), ref, true); else { select(null, null, true); n.addClass("picked"); }   /* a chapter node has no entity behind it */
+    fit(n.closedNeighborhood().not(".folded"), 40);
+    counter();
+  }
+  search.onkeydown = function (e) {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); step(e.key === "ArrowDown" ? 1 : -1); }
+  };
+  document.getElementById("step-next").onclick = function () { step(1); };
+  document.getElementById("step-back").onclick = function () { step(-1); };
+  stepBox.onmousedown = function (e) { e.preventDefault(); };   /* the search box keeps its focus, so the arrow keys keep working after a click */
   function research() {
-    query = fold(search.value.trim()); facet = facetSel.value;
+    query = fold(search.value.trim()); facet = facetSel.value; cursor = null;   /* a new query: no place in it yet */
     var m = matches(), changed = unfoldTo(m);
     m.predecessors("node[type = 'junction']").forEach(function (j) { if (!open[j.id()]) { open[j.id()] = true; changed = true; } });
     if (changed) relayout(m.union(m.predecessors())); else highlight();
@@ -346,7 +389,7 @@
   /* the reset button: the page's opening state — folded, no search, no facet, no chapter,
      nothing selected — so the way back from any search or filter is one tap */
   function reset() {
-    search.value = ""; facetSel.value = ""; query = ""; facet = "";
+    search.value = ""; facetSel.value = ""; query = ""; facet = ""; cursor = null;
     chapters.hidden = true; chaptersToggle.setAttribute("aria-expanded", "false");
     setSection("");   /* clears the fold and the selection, then lays out and fits */
   }
@@ -355,7 +398,7 @@
   window.onhashchange = function () { open_(decodeURIComponent(location.hash.slice(1)), false); };
   cy.ready(function () { open_(decodeURIComponent(location.hash.slice(1)), false); });
   window.graphmed = { cy: cy, open: open_, toggle: toggle, fold: foldQuestion, reset: reset, isOpen: function (id) { return !!open[id]; }, isClosed: function (id) { return !!closed[id]; },
-    section: setSection, search: function (q, f) { search.value = q; if (f !== undefined) facetSel.value = f; research(); },
+    section: setSection, search: function (q, f) { search.value = q; if (f !== undefined) facetSel.value = f; research(); }, step: step,
     by: switchTo, state: function () { return { by: by, section: section, query: search.value, facet: facetSel.value, ref: decodeURIComponent(location.hash.slice(1)) }; } };   /* for the console and tests */
   }
 })();

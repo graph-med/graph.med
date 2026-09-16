@@ -1,12 +1,12 @@
 ---
 id: WP-0020
 title: Search steps from match to match, not only highlights
-status: open
+status: review
 created: 2026-09-16
 updated: 2026-09-16
 depends_on: []
 blocks: []
-owner: unassigned
+owner: agent
 initiative: ui
 kind: build
 slug: site-search-navigate-matches
@@ -57,6 +57,32 @@ chapter tree (`docs/open-questions.md` → chapter-search, unrelated).
 - 2026-09-16 (maintainer): both mechanisms are wanted together, not either/or —
   a small icon in the search row and the arrow keys while the search box has
   focus, modelled on find-in-document navigation (Word, browser find).
+- 2026-09-16 (agent): the counter keeps its one phrase and gains the position in
+  front of it — "3 of 12 matches in 4 sections" — rather than a second phrase
+  ("match 3 of 12 · 12 matches in 4 sections"), which would say the number of
+  matches twice and wrap to a second line on a phone; before the first step it
+  reads "12 matches in 4 sections" as before. No tradeoff on a phone to flag.
+- 2026-09-16 (agent): "graph order" is read as the reading order of a
+  left-to-right tree — a depth-first walk from the root, a node before what
+  hangs from it, siblings top to bottom (by their laid-out position), a relation
+  edge not followed — so that a matching group is followed by its own matching
+  recommendations, the way find-in-document follows the document. A column-major
+  order (every junction, then every box) would visit all groups before any
+  recommendation; a plain top-to-bottom sort would interleave a group's label
+  with its boxes. The step waits for a layout still animating before it orders.
+- 2026-09-16 (agent): the icon is one pill with two halves, ↑ and ↓, as browser
+  find has — the maintainer named backward stepping and a single glyph cannot
+  carry both. A click on it keeps the focus in the search box, so the arrow keys
+  keep working after it; it is hidden until there is a query, like the counter.
+- 2026-09-16 (agent): a step never unfolds. `research()` has already unfolded
+  the way to every match, and a match behind a question the reader closed since
+  is `.folded` and so not in the set; the counter's `n` counts that visible set.
+  The `unfoldTo` the package allows for therefore has nothing to do and is not
+  called — the reader reopens the question or retypes. Stepping onto a patient
+  group selects its concept without toggling the group, since a step must not
+  fold what the reader opened; a chapter node (no entity behind it) is fitted
+  and marked, its sheet stays the view's. On a phone a step scrolls to the
+  sheet as a tap does, so the counter is seen again on scrolling back up.
 
 ## Open questions
 

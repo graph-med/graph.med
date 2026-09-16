@@ -238,7 +238,15 @@ kind:
   the liver occurs in and, just as usefully, where it does not. A counter reads "n
   matches in m sections". Hiding would destroy the overview the search exists to
   give; fading keeps the structure. A node the chapter tree can reach and the
-  search cannot is a bug.
+  search cannot is a bug. The search also **steps**, word-processor style: a
+  pair of arrows beside the box, and ↓ and ↑ while the box has focus, move from
+  one match to the next in graph order — a node before what hangs from it,
+  siblings top to bottom — wrapping at both ends. A step selects the match
+  exactly as a tap would: its details open, the graph fits to it, the rest of
+  the fading stays as it is. Only visible matches are stepped, so a match
+  behind a question the reader has closed is not visited. The counter then
+  leads with the reader's place, "3 of 12 matches in 4 sections", until the
+  query changes.
 
 Once concepts carry a `facet`, the search gets facet filters (only procedures,
 only outcomes). Everything here runs in the browser on the view's JSON.
