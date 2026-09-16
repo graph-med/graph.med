@@ -1,7 +1,7 @@
 ---
 id: WP-0019
 title: Statement detail panel — drop neighbours, banner carries the evidence, no duplicate fields
-status: claimed
+status: review
 created: 2026-09-16
 updated: 2026-09-16
 depends_on: []
@@ -81,6 +81,26 @@ are already claim slots).
 - 2026-09-16 — the maintainer, after reading the live detail panel, decided all
   five points above; this registration records them, an implementing session
   carries them out.
+- 2026-09-16 — implementing session. (a) "No fact twice" applied to grade,
+  verb and consensus: they stand in the banner for every claim the banner
+  carries (the supporting claims `direction_of` reads), so question 3 shows
+  them only for a claim the banner does not carry — a contesting claim, or any
+  claim when no banner is drawn; question 3 otherwise shows each claim's
+  sentence, its `contests` mark and its kind. (b) The banner shows one badge
+  group per *distinct* (grade, consensus) pair in claim order, not one per
+  claim: two sentences of one box share both and would read as a repetition.
+  (c) The recommendation number lives in question 5 only; it is gone from
+  question 3's tags and from question 4's body-text items. (d) Page, section
+  and entity link of a body-text item move from question 4 to question 5,
+  where each follows the claim it refines, supplements or limits, labelled by
+  its relation; the claim's own reference is labelled "recommendation" (its
+  kind) only when body-text references follow it, so a single-claim statement
+  keeps one plain citation. Two items of the same relation are told apart by
+  order (the same as in question 4) and by their quotes, not by a number.
+  (e) `neighbours_of` removed from `tools/build.py`; nothing else used it.
+  `STATEMENT_EDGES` stays, the graph uses it. (f) The verb + "nicht" rule
+  applies to every verb, as question 3's tags did, so a `kann` claim against
+  would read "kann nicht · eher gegen"; the pool has no such claim.
 
 ## Open questions
 

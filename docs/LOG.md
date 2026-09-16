@@ -4,6 +4,23 @@ One entry per session, newest first. Past about 200 lines, move the oldest
 entries to `docs/LOG-ARCHIVE.md`, newest first there too; never delete.
 
 ## 2026-09-16 — agent
+Packages touched: WP-0019 (open → claimed → review)
+Branch: agent/2026-09-16-statement-detail-panel-revision
+Notable: the statement detail panel now has five questions: the neighbouring
+situation question, its lists and `neighbours_of` are gone; the banner reads
+"soll nicht"/"sollte nicht" for an against statement and carries each
+supporting claim's grade and consensus (one badge group per distinct pair,
+shown, never composed); question 3 keeps per-claim grade, verb and consensus
+only for claims the banner does not carry; the recommendation number lives
+in question 5 alone; body-text references (page, section, id, quote) moved
+from question 4 to question 5, each following its claim labelled by its
+relation, so a single-claim statement keeps one plain citation.
+`docs/publication.md` §3 rewritten to match. Checked in Chromium on desktop
+and phone, light and dark, one statement each for für, gegen, abwägen; the
+pool has no statement with direction Lücke (gap notices are unlinked), so
+that branch was checked by rendering the template on a synthetic claim.
+
+## 2026-09-16 — agent
 Packages touched: WP-0019 (registered)
 Branch: claude/busy-bohr-exli39
 Notable: registered WP-0019 (`ui`), unclaimed, from the maintainer's own
@@ -175,25 +192,3 @@ verification could be driven, and now prints page errors when the graph does
 not appear — the first run found a function name shadowing the search's text
 folding, which the driver had been swallowing. Twelve captures, 0 overlapping
 pairs in every state, 333 elements with everything open.
-
-## 2026-09-13 — agent
-Packages touched: none
-Branch: conventions/parallel-work
-Notable: the maintainer asked for WP-0004 to WP-0006 in parallel. Tested in
-this sandbox: two git worktrees under `.claude/worktrees/`, validate, build and
-two screenshots at once — fine, once the containers had distinct names. The
-repository is now prepared (ADR-0002): worktrees ignored, screenshot defaults
-per branch, and one command, `process-work-package`, replaces
-`next-work-package` — it takes the packages to process, the session
-coordinates workers and stacks their pull requests, and nothing unlisted is
-processed.
-
-## 2026-09-13 — agent
-Packages touched: WP-0003 (review → done), WP-0006 (blocked → open)
-Branch: docs/settle-box-colour
-Notable: the maintainer settled box-colour — colour by direction, the grade as a
-letter — after asking which option the agent preferred and why. Applied in
-`docs/publication.md` §3 and the memory `box-colour-by-direction`; the entry
-left `docs/open-questions.md`. No site change: WP-0006 builds it once WP-0005 is
-done. The maintainer asked to concentrate on the `ui` initiative first.
-

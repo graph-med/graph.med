@@ -3,22 +3,16 @@ updated: 2026-09-16
 ---
 # Handoff
 
-**Where we are.** Nineteen packages, WP-0001 to WP-0019, in four initiatives
-(`ui`, `groupings`, `extraction-quality`, `review`). WP-0001 to WP-0010 are in
-`done/`. WP-0011, WP-0012, WP-0013, WP-0015 and WP-0016 are implemented and
-stacked in open pull requests (#65–#69), awaiting human review; none has
-merged yet, so their files still read `open` on `main`. WP-0017 (a
-maintainer-supplied mark as the favicon and in the header `.brand`) was
-registered, claimed and implemented in a prior session — PR #70 — and is at
-`status: review`; its browser check could not run (see "Watch out"). WP-0018
-(an Open Graph/Twitter social-preview card using the same mark) is `open`,
-unclaimed — a prior session's own inference of "a new work package" from an
-unspecific request; confirm or redirect its scope before claiming it.
-WP-0019 (the statement detail panel: drop the "neighbouring situation"
-question, fix the banner's "nicht" for against statements, carry grade and
-consensus into the banner, single-vs-multi-source citations in "Where
-exactly is it written?", no field shown twice) was registered this session
-from the maintainer's own review of the live panel — `open`, unclaimed.
+**Where we are.** Twenty-two packages, WP-0001 to WP-0022, in four initiatives
+(`ui`, `groupings`, `extraction-quality`, `review`). WP-0001 to WP-0010 and
+WP-0017 are in `done/`. WP-0011, WP-0012, WP-0013, WP-0015 and WP-0016 are
+implemented and stacked in open pull requests (#65–#69), awaiting human
+review; none has merged yet, so their files still read `open` on `main`.
+WP-0019, WP-0020, WP-0021 and WP-0022 (all `ui`) were claimed and implemented
+in this run, one worker each in its own worktree; their pull requests are
+being opened by the coordinator. WP-0018 is `open`, unclaimed — a prior
+session's own inference of "a new work package" from an unspecific request;
+confirm or redirect its scope before claiming it.
 
 **Claimed.**
 - WP-0011 — `agent/2026-09-14-body-text-relations-rule`, PR #66, in review.
@@ -26,7 +20,14 @@ from the maintainer's own review of the live panel — `open`, unclaimed.
 - WP-0013 — `agent/2026-09-14-relink-body-text-b`, PR #69, in review.
 - WP-0015 — `agent/2026-09-14-site-feedback-affordance`, PR #65, in review.
 - WP-0016 — `agent/2026-09-14-llm-as-judge-design`, PR #67, in review.
-- WP-0017 — `claude/magical-bell-b1dw85`, PR #70, in review.
+- WP-0019 — `agent/2026-09-16-statement-detail-panel-revision`, in review,
+  PR not yet opened.
+- WP-0020 — `agent/2026-09-16-site-search-navigate-matches`, in review, PR
+  not yet opened.
+- WP-0021 — `agent/2026-09-16-site-answer-label-gap-when-faded`, in review,
+  PR not yet opened.
+- WP-0022 — `agent/2026-09-16-site-statement-verb-strength-and-glyph`, in
+  review, PR not yet opened.
 
 **Next agent's first move.** `git fetch origin`, close what has merged
 (`status: review` on `origin/main` → `done/`), then process only what the
@@ -52,4 +53,6 @@ approval. **The `screenshot` skill needs the `sbx` sandbox's own Docker
 daemon** (memory `environment/screenshot-skill-needs-sbx-docker.md`): a
 session on a different harness cannot run it; report that rather than
 working around it, and ask a human to confirm visually on the live preview.
-`group_by` may name only what is asserted for that view (validator).
+Pushing from this run failed host-side (`could not read Username`); if the
+branches are not on `origin`, that is why. `group_by` may name only what is
+asserted for that view (validator).
