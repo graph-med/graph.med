@@ -4,6 +4,22 @@ Entries rotated out of `docs/LOG.md` once it passes about 200 lines, newest
 first here too; never delete.
 
 ## 2026-09-13 — agent
+Packages touched: WP-0004, WP-0005 (review → done); WP-0007 to WP-0010 (reworded)
+Branch: docs/grouping-axes-mechanism
+Notable: the grouping axes were first designed as anatomy, phase and access —
+POMGAT's own organising principles — and the maintainer asked for a design
+that "also works across other leitlinien", then, of a fixed cross-guideline
+vocabulary, "then there is a third Leitlinie. It needs to work for them all",
+and proposed that a physician suggests axes and post-processing tests their
+feasibility. Written into the spec as §4.1 (proposed → tested → asserted →
+shown; two carriers, a slot or `axis` on `broader`; the test reports and never
+writes, the grouping is always an asserted edge or slot value), into
+`docs/publication.md` §3, `README.md`, two memories (`generic-over-guidelines`,
+`grouping-axes-proposed-and-tested`) and the four packages of the initiative,
+whose contents changed while their ids and slugs stayed. Found that WP-0006 is
+not on `main`: #56 was cut before #55 merged.
+
+## 2026-09-13 — agent
 Packages touched: WP-0006 (open → claimed → review)
 Branch: agent/2026-09-13-site-colour-by-direction (on agent/2026-09-13-site-panel-six-questions)
 Notable: a box is coloured by its direction and reads "✓ A · <short label>";

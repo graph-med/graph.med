@@ -1,7 +1,7 @@
 ---
 id: WP-0022
 title: Statement box border shows soll vs sollte, direction glyph moves to the detail panel only
-status: claimed
+status: review
 created: 2026-09-16
 updated: 2026-09-16
 depends_on: []
@@ -94,6 +94,27 @@ co-occur with `kann` on one claim).
   mixed-direction statement gets no single glyph today; a contested statement
   keeps its dashed border and the verb-strength border is suppressed on it, so
   the rarer, more urgent signal is never the one silently dropped.
+- 2026-09-16 (worker): the attribute is `verb` — the one verb of the supporting
+  claims (`soll`, `sollte`, `kann`), none when they disagree or carry no verb —
+  computed by `verb_of()` beside `direction_of()` in `tools/build.py` and passed
+  as `verb` on the node in `graph.js`: a value rather than a boolean "strong",
+  so the two style rules select `[verb = 'soll'][direction = 'für']` and
+  `[verb = 'soll'][direction = 'gegen']`, and another verb scale would add a
+  rule, not a field. Colours `--verb-for: #1f7a3c`, `--verb-against: #b3232c`
+  (light) and `#146b32`, `#9e1c26` (dark), 2.5px solid — under the 3px of
+  `contested` and `picked` — checked by pixel sample against both pastel fills
+  in both themes. Cytoscape resolves clashing rules by stylesheet order, not
+  by specificity, so the `contested` rule is declared after the two verb rules
+  with a comment saying that the order is the mechanism; `node.picked` stays
+  last and overrides both, as it already overrode the contested border. The
+  legend gains a third line, "verb by border: soll · soll nicht · none:
+  sollte", with two swatch classes `.sw.v-for` and `.sw.v-against`.
+- 2026-09-16 (worker): no statement in the pool derives to `Lücke` — the
+  gap-notice claims are extracted but unlinked (`LATER.md`) — so the Lücke
+  capture of Verification 3 could not be taken; the glyph is dropped by the one
+  code path for all four directions, so nothing direction-specific was left
+  untested. The four verb/direction cases were captured at grade `EK` in one
+  group (`concepts/gastrointestinale-tumoroperation`).
 
 ## Open questions
 
