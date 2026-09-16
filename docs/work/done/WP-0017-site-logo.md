@@ -1,7 +1,7 @@
 ---
 id: WP-0017
 title: Site logo — favicon and header mark
-status: review
+status: done
 created: 2026-09-16
 updated: 2026-09-16
 depends_on: []
