@@ -1,11 +1,11 @@
 ---
 id: WP-0017
 title: Site logo — favicon and header mark
-status: claimed
+status: review
 created: 2026-09-16
 updated: 2026-09-16
 depends_on: []
-blocks: []
+blocks: [WP-0018]
 owner: agent
 initiative: ui
 kind: build
@@ -58,9 +58,27 @@ dark theme's background, that is a question for `docs/open-questions.md`,
 not a redesign to make unilaterally.
 
 ## Verification
-- `uv run tools/build.py`, open `site/index.html`, confirm the favicon and
-  header mark render.
-- `uv run tools/screenshot.py <view-id>` and `--dark`, desktop and
-  `--size 390x2700` phone width; 0 overlaps, mark legible in both themes.
-- `uv run tools/validate.py` still passes (no data touched, but it also runs
-  `scripts/check-work.py`).
+- `uv run tools/validate.py` passes (323 entities, 146 edges, schema 0.5.0;
+  `scripts/check-work.py` included).
+- `uv run tools/build.py` emits `site/assets/logo.svg` and both wired
+  references (`<link rel="icon">` in `<head>`, the mark in `.brand`).
+- The `screenshot` skill could not run in this session: `docker info` fails
+  (`failed to connect to the docker API at unix:///var/run/docker.sock`), and
+  `sudo service docker start` fails on a `ulimit` permission the sandbox does
+  not grant here — this session is not the `sbx` environment the skill
+  assumes. Not worked around; reported instead
+  (`.claude/rules/environment/sandbox-environment.md`).
+- In place of the skill: rasterised `logo.svg` at 16/24/32/48/96px on both
+  `--bg` values (`#fff`, `#111`) with `cairosvg`. Legible from 24px up in
+  both themes; at 16px (the smallest a browser tab actually renders) the
+  mark is still an identifiable dark rounded tile with a light glyph, not
+  mush. On the dark theme the mark's own black tile sits close in value to
+  `--bg: #111`, so the tile's edge is faint — the glyph itself stays
+  legible, but this is the one thing worth a human's eye on the live
+  preview before calling it settled.
+- The graph itself is untouched by this package, so the overlap check the
+  skill would otherwise run (`--do all --do fit`) does not apply here.
+- **Still needed before this can be called fully verified**: someone opens
+  the preview in an actual browser, desktop and phone, light and dark, and
+  confirms the header mark and the tab favicon read as intended — the one
+  check this session could not perform itself.
