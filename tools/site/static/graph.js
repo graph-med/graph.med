@@ -112,8 +112,15 @@
           "curve-style": "taxi", "taxi-direction": "rightward", "taxi-turn": "data(turn)", "taxi-turn-min-distance": 8 } },
       { selector: "edge.dup", style: { "target-label": "" } },   /* a group reached from two open parents names its answer once */
       { selector: ".folded", style: { "display": "none" } },
-      { selector: ".dim", style: { "opacity": 0.12 } },
-      { selector: ".faded", style: { "opacity": 0.15 } },
+      /* a node fades as one piece; an edge fades by its line and arrowhead (`line-opacity`) and by the
+         colour of its label's text, never by an opacity on the label: the label is drawn from a texture
+         that `opacity` and `text-opacity` alike blit background and all, which let the line show
+         through the word. The background stays opaque, so a faded answer keeps its clean gap; `--line`
+         is the page's faint neutral, the foreground at about 15% over the background in both themes */
+      { selector: "node.dim", style: { "opacity": 0.12 } },
+      { selector: "node.faded", style: { "opacity": 0.15 } },
+      { selector: "edge.dim", style: { "line-opacity": 0.12, "color": css("--line") } },
+      { selector: "edge.faded", style: { "line-opacity": 0.15, "color": css("--line") } },
       { selector: "node.picked", style: { "border-width": 3, "border-color": css("--fg") } },
       { selector: "edge.picked", style: { "line-color": css("--fg"), "width": 3 } }
     ],

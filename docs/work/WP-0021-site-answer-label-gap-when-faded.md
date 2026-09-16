@@ -1,7 +1,7 @@
 ---
 id: WP-0021
 title: A faded answer's label keeps its clean gap in the line
-status: claimed
+status: review
 created: 2026-09-16
 updated: 2026-09-16
 depends_on: []
@@ -60,6 +60,20 @@ the reported problem); any change to how faded the line itself reads.
   (26), "perioperativ" (15) — the faded siblings' labels show the trunk line
   crossing through the text, the selected one does not. Wanted: the same clean
   gap for faded labels, without raising their overall prominence.
+
+- 2026-09-16 (agent, implementing): the blanket `opacity` is not the only property
+  that fades the label's background. Cytoscape 3.30 draws an edge label from a
+  texture cache and blits it as one image — text and background together — with
+  `text-opacity × opacity` as its alpha, so `text-opacity` on `.dim`/`.faded`
+  let the line through exactly as `opacity` did (verified by capture: the pixels
+  were identical). What fades on a dimmed or faded edge is therefore
+  `line-opacity` (0.12 / 0.15 as before; the line and its arrowhead are drawn
+  directly) and the label text's `color`, set to `--line` — the stylesheet's
+  faint neutral, the foreground at about 15 % over the background in both
+  themes, so the text reads as it did; `opacity` and `text-background-opacity`
+  stay 1 on every edge. Nodes keep the blanket opacity (`node.dim`,
+  `node.faded`), unchanged. One consequence: `.dim` and `.faded` label text now
+  share one shade instead of 12 % against 15 %, a difference nobody could see.
 
 ## Open questions
 

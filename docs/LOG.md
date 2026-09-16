@@ -13,6 +13,19 @@ set) was merged with `main` and renumbered from WP-0023, and WP-0027 was
 registered (#79).
 
 ## 2026-09-16 — agent
+Packages touched: WP-0021 (open → claimed → review)
+Branch: agent/2026-09-16-site-answer-label-gap-when-faded
+Notable: a faded answer's label now breaks its line cleanly. Cytoscape blits
+an edge label from a texture cache as one image, background and all, with
+`text-opacity × opacity` as its alpha, so neither opacity property could keep
+the background opaque while fading the text; a dimmed or faded edge now fades
+by `line-opacity` and the label text's colour (`--line`), and the label
+background stays at 1. Nine states captured in both themes, 0 overlapping
+pairs in every one, 333 elements with everything open. On a phone a deep
+link scrolls to the sheet, so the dimmed fan-out was checked at desktop width
+and the search-faded one on the phone (the driver gap is noted in LATER.md).
+
+## 2026-09-16 — agent
 Packages touched: WP-0020 (open → claimed → review)
 Branch: agent/2026-09-16-site-search-navigate-matches
 Notable: the search steps from match to match — a ↑↓ pill beside the box and

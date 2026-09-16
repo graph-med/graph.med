@@ -31,7 +31,7 @@ log. Remove an entry when its package is registered.
 
 - no pathway authored; chapter 6 is a recommendation list, not a decision algorithm; open-questions → decision-graph-derivation
 
-- screenshot driver: `tools/screenshot.js` opens only a view page and captures only the viewport — it waits for `window.graphmed`, so an entity page (`statements/<id>/`) cannot be captured, and a sheet longer than the screen is seen only through a tall `--size`. An action or flag for an entity page and a full-page capture would let a build package show the entity page it claims to render
+- screenshot driver: `tools/screenshot.js` opens only a view page and captures only the viewport — it waits for `window.graphmed`, so an entity page (`statements/<id>/`) cannot be captured, and a sheet longer than the screen is seen only through a tall `--size`; on a phone a deep link (`open=`) scrolls the sheet into view, so the graph under a selection — dimmed siblings, the picked box — cannot be captured at phone width at all. An action or flag for an entity page, a full-page capture, and a scroll back to the graph after `open=` would let a build package show the entity page it claims to render and the phone graph under a selection
 
 - theme switch while a view page is open: `tools/site/static/graph.js` reads the stylesheet's colours once, when the graph is drawn, so a change of `prefers-color-scheme` restyles the page but leaves the graph in the old theme until it is reloaded; a `matchMedia` listener that re-reads the variables and restyles the graph would follow it
 
