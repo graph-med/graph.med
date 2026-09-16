@@ -19,7 +19,7 @@ to the graph and ends with every word the project uses. The model is specified i
 
 ## Authors
 
-Robert Schwarzenberg (<graph.med@alias.r-schwarzenberg.de>) and Anton Zolkin.
+Robert Schwarzenberg and Anton Zolkin.
 
 ## A walk through graph.med
 
