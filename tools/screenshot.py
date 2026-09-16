@@ -19,9 +19,9 @@ toggle=<concept id> (fold or unfold that patient group; under an axis the juncti
 j:<value>:<concept id>),
 fold=<question node id> (fold or unfold everything below that question, e.g.
 q:j:concepts/leberresektion:population), open=<entity id> (deep link: unfold and select),
-section=<number> (chapter filter), search=<text>, facet=<kind>, chapters (open the chapter
-panel), chapters-scroll=<px> (scroll its list), all (every patient group open), fit (fit what is
-open), reset (the opening state), wait=<ms>. --dark renders the page in the dark theme: the graph
+section=<number> (chapter filter), search=<text>, facet=<kind>, step=<n> (n steps through the
+matches, back when negative), chapters (open the chapter panel), chapters-scroll=<px> (scroll its
+list), all (every patient group open), fit (fit what is open), reset (the opening state), wait=<ms>. --dark renders the page in the dark theme: the graph
 reads its colours from the stylesheet once, when drawn, so the theme is emulated before the
 page loads rather than switched by an action. The runner prints how many elements are shown and
 how many pairs of nodes and answers overlap — the mechanical half of "nothing overlaps".
