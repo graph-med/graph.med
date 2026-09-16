@@ -1,9 +1,9 @@
 ---
 id: WP-0006
 title: Boxes coloured by direction, grade as a letter
-status: review
+status: done
 created: 2026-09-12
-updated: 2026-09-14
+updated: 2026-09-16
 depends_on: [WP-0005]
 blocks: []
 owner: agent
