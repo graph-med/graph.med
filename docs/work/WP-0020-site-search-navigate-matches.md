@@ -1,12 +1,12 @@
 ---
 id: WP-0020
 title: Search steps from match to match, not only highlights
-status: open
+status: claimed
 created: 2026-09-16
 updated: 2026-09-16
 depends_on: []
 blocks: []
-owner: unassigned
+owner: agent
 initiative: ui
 kind: build
 slug: site-search-navigate-matches
