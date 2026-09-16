@@ -1,12 +1,12 @@
 ---
 id: WP-0021
 title: A faded answer's label keeps its clean gap in the line
-status: open
+status: claimed
 created: 2026-09-16
 updated: 2026-09-16
 depends_on: []
 blocks: []
-owner: unassigned
+owner: agent
 initiative: ui
 kind: build
 slug: site-answer-label-gap-when-faded
