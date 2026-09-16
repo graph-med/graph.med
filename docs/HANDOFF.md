@@ -16,9 +16,10 @@ unclaimed — a prior session's own inference of "a new work package" from an
 unspecific request; confirm or redirect its scope before claiming it.
 WP-0019 (the statement detail panel: drop the "neighbouring situation"
 question, fix the banner's "nicht" for against statements, carry grade and
-consensus into the banner, single-vs-multi-source citations in "Where
-exactly is it written?", no field shown twice) was registered this session
-from the maintainer's own review of the live panel — `open`, unclaimed.
+consensus into the banner, drop a redundant citation link in "Where exactly
+is it written?", no field shown twice) was registered and implemented this
+session from the maintainer's own review of the live panel — PR #71 — and is
+at `status: review`; its browser check could not run (see "Watch out").
 
 **Claimed.**
 - WP-0011 — `agent/2026-09-14-body-text-relations-rule`, PR #66, in review.
@@ -27,6 +28,7 @@ from the maintainer's own review of the live panel — `open`, unclaimed.
 - WP-0015 — `agent/2026-09-14-site-feedback-affordance`, PR #65, in review.
 - WP-0016 — `agent/2026-09-14-llm-as-judge-design`, PR #67, in review.
 - WP-0017 — `claude/magical-bell-b1dw85`, PR #70, in review.
+- WP-0019 — `claude/busy-bohr-exli39`, PR #71, in review.
 
 **Next agent's first move.** `git fetch origin`, close what has merged
 (`status: review` on `origin/main` → `done/`), then process only what the

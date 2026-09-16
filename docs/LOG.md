@@ -4,19 +4,33 @@ One entry per session, newest first. Past about 200 lines, move the oldest
 entries to `docs/LOG-ARCHIVE.md`, newest first there too; never delete.
 
 ## 2026-09-16 — agent
-Packages touched: WP-0019 (registered)
+Packages touched: WP-0019 (registered, claimed → review)
 Branch: claude/busy-bohr-exli39
-Notable: registered WP-0019 (`ui`), unclaimed, from the maintainer's own
-review of the live statement detail panel: drop the "would the answer be
-different in a neighbouring situation?" question; fix the banner's small
-verb text to read "soll nicht"/"sollte nicht" for an against-direction
-statement, matching the per-claim tags' own convention; carry each
-supporting claim's grade and consensus into the banner, without composing a
-single statement-level grade (`grade-derivation` stays untouched); make
-"where exactly is it written?" show one link by default and label each
-source when body-text relations add more than one; and remove the
-duplicate fields the current template has (`recommendation_no` shown in
-both question 3 and question 5). No implementation in this session.
+Notable: registered WP-0019 (`ui`) from the maintainer's own review of the
+live statement detail panel, then claimed and implemented it, all in this
+session. `tools/site/templates/details.html`: dropped the sixth question
+("would the answer be different in a neighbouring situation?") and its
+`neighbours` data; the citation entries in "where exactly is it written?"
+lost their redundant second link (into the claim's own entity page,
+alongside the link into the source) — the one duplicate `recommendation_no`
+found was removed from question 3's tags, kept in question 5's citation
+line, which already attributes each of several claims on a multi-sentence
+box to its own recommendation number. `tools/build.py`: `direction_of` now
+appends "nicht" to the verb for a gegen statement ("soll nicht"/"sollte
+nicht", matching the per-claim tags) and returns each supporting claim's
+grade and consensus for the banner, without composing them into one
+derived grade — `grade-derivation` stays untouched, open; dropped
+`neighbours_of`, unused elsewhere. `docs/publication.md` §3 rewritten to
+five questions. Considered folding question 4's body-text citations into
+question 5 too, on a first reading of the maintainer's "several source
+references" exception — rejected, since they already have their own
+citation and label in question 4 and repeating them would itself be the
+duplication asked against; see the package's Decisions. `screenshot` skill
+could not run — `docker info` fails to reach the daemon in this harness,
+same limitation as WP-0017 — checked instead by reading the built HTML for
+one statement per direction present in the pool and reasoning the banner's
+new dark-theme contrast fix from the CSS variables; a human should confirm
+visually on the live preview.
 
 ## 2026-09-16 — agent
 Packages touched: WP-0006 (review → done), WP-0017 (registered, claimed →
@@ -176,24 +190,4 @@ not appear — the first run found a function name shadowing the search's text
 folding, which the driver had been swallowing. Twelve captures, 0 overlapping
 pairs in every state, 333 elements with everything open.
 
-## 2026-09-13 — agent
-Packages touched: none
-Branch: conventions/parallel-work
-Notable: the maintainer asked for WP-0004 to WP-0006 in parallel. Tested in
-this sandbox: two git worktrees under `.claude/worktrees/`, validate, build and
-two screenshots at once — fine, once the containers had distinct names. The
-repository is now prepared (ADR-0002): worktrees ignored, screenshot defaults
-per branch, and one command, `process-work-package`, replaces
-`next-work-package` — it takes the packages to process, the session
-coordinates workers and stacks their pull requests, and nothing unlisted is
-processed.
-
-## 2026-09-13 — agent
-Packages touched: WP-0003 (review → done), WP-0006 (blocked → open)
-Branch: docs/settle-box-colour
-Notable: the maintainer settled box-colour — colour by direction, the grade as a
-letter — after asking which option the agent preferred and why. Applied in
-`docs/publication.md` §3 and the memory `box-colour-by-direction`; the entry
-left `docs/open-questions.md`. No site change: WP-0006 builds it once WP-0005 is
-done. The maintainer asked to concentrate on the `ui` initiative first.
 

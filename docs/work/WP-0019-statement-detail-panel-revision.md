@@ -1,7 +1,7 @@
 ---
 id: WP-0019
 title: Statement detail panel — drop neighbours, banner carries the evidence, no duplicate fields
-status: claimed
+status: review
 created: 2026-09-16
 updated: 2026-09-16
 depends_on: []
@@ -29,11 +29,16 @@ reviewing the live view:
 3. The banner also carries each supporting claim's grade and consensus level —
    "how binding and how well supported" (question 3) answered where the
    physician looks first, not only further down the sheet.
-4. Question 5, "Where exactly is it written?", shows one citation link when the
-   statement rests on a single recommendation claim. When question 4's
-   body-text relations (refines/supplements/limits) contribute further textual
-   sources, question 5 lists each source reference labelled with the claim or
-   body-text item it belongs to — never an undifferentiated list of links.
+4. Question 5, "Where exactly is it written?", drops the redundant second link
+   each entry carried (a link straight into the source *and* a link to the
+   claim's own entity page for the same claim) and keeps the one link into the
+   cited passage; a statement resting on several claims (a box of several
+   sentences, sharing one `recommendation_no`) still shows one entry per claim,
+   each labelled with its recommendation number, so a reader can tell which
+   passage backs which sentence. Question 4's body-text citations
+   (refines/supplements/limits) stay where they already were, in question 4 —
+   folding them into question 5 too would itself be the duplication point 5
+   forbids.
 5. No fact is shown twice anywhere in the panel. `recommendation_no` today
    appears both in question 3's claim tags and question 5's citation line; that
    and any other duplicate this package finds are reduced to the one section
@@ -79,8 +84,26 @@ are already claim slots).
 ## Decisions
 
 - 2026-09-16 — the maintainer, after reading the live detail panel, decided all
-  five points above; this registration records them, an implementing session
-  carries them out.
+  five points above; this registration records them.
+- 2026-09-16 — implementation reading of point 4 ("only a link... unless
+  several references"): the pool already lets one statement rest on several
+  `supports` claims (a multi-sentence box shares one `recommendation_no`
+  across several claims — memory `box-granularity-per-sentence`), and each
+  already got its own citation entry in question 5; what was not "only a
+  link" was the *second* link each entry carried, into the claim's own entity
+  page, next to the citation link into the source. That is what "only a link"
+  fixes; the recommendation-number label that already distinguished several
+  entries stays, since point 4's exception clause requires exactly that
+  attribution. Body-text citations (question 4) were considered for folding
+  into question 5 too, on a first reading of "several source references... by
+  a supplement or limitation" — rejected: they already carry their own
+  citation and `recommendation_no` label in question 4, so repeating them in
+  question 5 would itself be the duplication point 5 rules out.
+- 2026-09-16 — `.q .banner .tag` forces dark text (`#111`) on the grade and
+  consensus badges now in the banner, the same fixed dark text the banner's
+  direction word and lean already use (`site.css` `.banner[class*="dir-"]`):
+  the default `.tag`/`.tag.grade` colours read from `--fg`, which is light in
+  the dark theme and would sit badly on the banner's light pastel background.
 
 ## Open questions
 
@@ -90,11 +113,23 @@ maintainer, not a redesign to make unilaterally.
 
 ## Verification
 
-- `uv run tools/validate.py` passes.
-- `uv run tools/build.py` succeeds.
-- One statement per direction (für, gegen, abwägen, Lücke) checked in a
-  browser: no "neighbouring situation" section; a gegen statement's banner
-  reads "soll nicht" or "sollte nicht"; the banner shows grade and consensus;
-  no field (recommendation number, grade, consensus, claim id link) appears in
-  more than one section; a statement whose body text adds a supplement or
-  limitation shows each source reference labelled with what it belongs to.
+- `uv run tools/validate.py` passes (323 entities, 146 edges, schema 0.5.0).
+- `uv run tools/build.py` succeeds (1 view, 322 entity pages).
+- Checked in the built HTML for one statement per direction present in the
+  pool (für, gegen, abwägen — no statement carries `Lücke` yet, memory
+  `direction-legend`: gap notices are not linked to statements until open
+  question `gap-notices` is settled): no "neighbouring situation" section on
+  any statement page; the gegen example's banner reads glyph, "gegen",
+  "sollte nicht", then its grade and consensus tags; für and abwägen read
+  correctly too, abwägen keeping its "eher für"/"eher gegen" lean beside
+  "kann". `recommendation_no` appears once per claim (question 5 only); the
+  claim-entity second link is gone from question 5. A statement with a
+  `limits` body-text relation (`ace-hemmer-sartane-fortfuehrung`) still shows
+  that citation only in question 4, not repeated in question 5.
+- **Not run in this session**: the `screenshot` skill — `docker info` fails
+  to reach the daemon in this harness (memory
+  `environment/screenshot-skill-needs-sbx-docker.md`), so the banner's actual
+  colours and the panel's layout on a phone were not seen in a real browser.
+  Reasoned about the dark-theme contrast fix from the CSS variables instead
+  (see Decisions); a human should still confirm the banner and the removed
+  section visually on the live preview before merging.
