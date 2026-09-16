@@ -1,12 +1,12 @@
 ---
 id: WP-0019
 title: Statement detail panel — drop neighbours, banner carries the evidence, no duplicate fields
-status: open
+status: claimed
 created: 2026-09-16
 updated: 2026-09-16
 depends_on: []
 blocks: []
-owner: unassigned
+owner: agent
 initiative: ui
 kind: build
 slug: statement-detail-panel-revision
