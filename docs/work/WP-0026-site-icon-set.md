@@ -1,5 +1,5 @@
 ---
-id: WP-0023
+id: WP-0026
 title: Site icon set (updated mark as favicon, touch icon and home-screen icons)
 status: open
 created: 2026-09-18
