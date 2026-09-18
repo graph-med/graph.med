@@ -4,6 +4,30 @@ Entries rotated out of `docs/LOG.md` once it passes about 200 lines, newest
 first here too; never delete.
 
 ## 2026-09-13 — agent
+Packages touched: WP-0006 (open → claimed → review)
+Branch: agent/2026-09-13-site-colour-by-direction (on agent/2026-09-13-site-panel-six-questions)
+Notable: a box is coloured by its direction and reads "✓ A · <short label>";
+box and banner share four colour variables, gegen now a tint of the contested
+red with dark text, and the solid red "against" border went with it. The
+screenshot driver gained `--dark` (the theme emulated before the load, since
+the graph reads its colours once). Captured a family with a member open on
+desktop and phone, light and dark, a gegen box and a fact box selected, the
+phone start for the legend, and everything open: 0 overlapping pairs in every
+state, 333 elements. Noted in `LATER.md`: the graph does not follow a theme
+switch while the page is open.
+
+## 2026-09-13 — agent
+Packages touched: WP-0005 (open → claimed → review)
+Branch: agent/2026-09-13-site-panel-six-questions
+Notable: a statement's details are now the six questions, in order, on the
+sheet and the entity page alike; `details()` gained the population's families,
+the condition and the neighbours (same group, same action elsewhere, linked
+statements). Captured on desktop, phone and a tall phone-width viewport: 0
+overlapping pairs in every state, 333 elements with everything open. The
+screenshot driver cannot open an entity page (it waits for the graph), so the
+entity page was checked in the built HTML; noted in `LATER.md`.
+
+## 2026-09-13 — agent
 Packages touched: WP-0004 (open → claimed → review)
 Branch: agent/2026-09-13-site-fold-and-reset
 Notable: the first package run as a worker in a worktree, in parallel with

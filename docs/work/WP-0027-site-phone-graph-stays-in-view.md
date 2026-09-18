@@ -1,7 +1,7 @@
 ---
 id: WP-0027
 title: The graph stays in view when a node is tapped on a phone
-status: claimed
+status: review
 created: 2026-09-18
 updated: 2026-09-18
 depends_on: []
@@ -80,6 +80,14 @@ Out:
   page to the top on a phone. That moves the reader towards the graph, which is
   the direction this package asks for, and it is an interaction with the sheet,
   not with the graph. It is left unchanged and noted below.
+- **Implemented 2026-09-18 as one deletion.** The `scrollIntoView` line in
+  `select()` is removed; no other line changes. The reverse scroll in
+  `sheet.onclick` and the comment in the file's header ("in the section beside
+  or below the graph") stay true and untouched. Verified with the `screenshot`
+  skill: phone `open=` light and dark, phone `search=Drainage step=1`, desktop
+  `open=`, and `all fit` (0 overlapping pairs); every phone capture shows the
+  header, the controls and the graph with the selected box, the sheet
+  beginning below the graph.
 
 ## Open questions
 None.

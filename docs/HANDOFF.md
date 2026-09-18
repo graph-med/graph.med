@@ -1,24 +1,23 @@
 ---
-updated: 2026-09-17
+updated: 2026-09-18
 ---
 # Handoff
 
-**Where we are.** Twenty-five packages, WP-0001 to WP-0025, in five initiatives
-(`ui`, `groupings`, `extraction-quality`, `review`, `evidence`). WP-0001 to WP-0010, WP-0017
-and WP-0019 are in `done/` (WP-0019 merged in #73 and is closed on the next
-branch of its stack). WP-0011, WP-0012, WP-0013, WP-0015 and WP-0016 are implemented
-and stacked in open pull requests (#65–#69), awaiting human review; none has
-merged yet, so their files still read `open` on `main`. WP-0020, WP-0021 and
-WP-0022 (all `ui`) were implemented in this run alongside WP-0019, four
-workers in parallel worktrees, and are at `status: review` in pull requests
-#74, #75 and #76, stacked in that order, each targeting `main`; `main` is
-merged into the next one after each merge.
-WP-0023, WP-0024 and WP-0025 register the nine-zone statement card: WP-0023
-(schema `claim.evidence`) and WP-0024 (the card) are independent, WP-0025
-(zone 4) depends on both. All three `open`, unclaimed, none implemented.
-WP-0018 (a social preview card using the mark) is `open`, unclaimed — a prior
-session's own inference from an unspecific request; confirm or redirect its
-scope before claiming it.
+**Where we are.** Twenty-seven packages, WP-0001 to WP-0027, in five
+initiatives (`ui`, `groupings`, `extraction-quality`, `review`, `evidence`).
+WP-0001 to WP-0010, WP-0017, WP-0019 and WP-0020 are in `done/`. WP-0011,
+WP-0012, WP-0013, WP-0015 and WP-0016 are implemented and stacked in open pull
+requests (#65–#69), awaiting human review; their files still read `open` on
+`main`. WP-0021 and WP-0022 (`ui`) are at `status: review` in #75 and #76,
+stacked in that order on the merged WP-0020, each targeting `main`; `main` is
+merged into the next one after each merge. WP-0027 (`ui`, the page stays on
+the graph when a node is tapped on a phone) is at `status: review` in #80, one
+deletion, independent of every other branch. WP-0023, WP-0024 and WP-0025
+(the nine-zone statement card; WP-0025 depends on the other two) and WP-0026
+(the site icon set) are `open`, unclaimed, none implemented. WP-0018 (a social
+preview card using the mark) is `open`, unclaimed — a prior session's own
+inference from an unspecific request; confirm or redirect its scope before
+claiming it.
 
 **Claimed.**
 - WP-0011 — `agent/2026-09-14-body-text-relations-rule`, PR #66, in review.
@@ -26,19 +25,19 @@ scope before claiming it.
 - WP-0013 — `agent/2026-09-14-relink-body-text-b`, PR #69, in review.
 - WP-0015 — `agent/2026-09-14-site-feedback-affordance`, PR #65, in review.
 - WP-0016 — `agent/2026-09-14-llm-as-judge-design`, PR #67, in review.
-- WP-0020 — `agent/2026-09-16-site-search-navigate-matches`, PR #74, in
-  review, next to merge.
 - WP-0021 — `agent/2026-09-16-site-answer-label-gap-when-faded`, PR #75, in
-  review, stacked on WP-0020.
+  review, next to merge of the `ui` stack.
 - WP-0022 — `agent/2026-09-16-site-statement-verb-strength-and-glyph`, PR
   #76, in review, stacked on WP-0021.
+- WP-0027 — `agent/2026-09-18-site-phone-graph-stays-in-view`, PR #80, in
+  review, not stacked.
 
 **Next agent's first move.** `git fetch origin`, close what has merged
 (`status: review` on `origin/main` → `done/`), then process only what the
 command lists (`docs/work/README.md`, "Processing packages"). Check
 `git ls-remote --heads origin 'agent/*'` first — several stale branches from
-already-`done/` packages (WP-0001–WP-0005, WP-0007–WP-0010) are still on the
-remote and can be ignored.
+already-`done/` packages (WP-0001–WP-0005, WP-0007–WP-0010, WP-0019,
+WP-0020) are still on the remote and can be ignored.
 
 **Blocked, and why.**
 - WP-0014 — waits on `docs/open-questions.md` → structural-recommendations.
@@ -53,7 +52,8 @@ URL (`https://graph.med/preview/pr<N>/<view-id>/`). A stacked pull request
 targets `main`, never the branch it is stacked on; under the ruleset an
 approval is dismissed whenever the merge base changes, so a stack is approved
 and merged one pull request at a time, `main` merged into the next before its
-approval.
+approval. Ids are taken on `main` and in open registrations alike: check open
+pull requests before numbering a new package (WP-0023 collided once).
 **The `screenshot` skill needs the `sbx` sandbox's own Docker daemon** (memory
 `environment/screenshot-skill-needs-sbx-docker.md`): a session on a
 different harness cannot run it; report that rather than working around it,

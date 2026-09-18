@@ -3,6 +3,15 @@
 One entry per session, newest first. Past about 200 lines, move the oldest
 entries to `docs/LOG-ARCHIVE.md`, newest first there too; never delete.
 
+## 2026-09-18 — agent
+Packages touched: WP-0027 (open → claimed → review)
+Branch: agent/2026-09-18-site-phone-graph-stays-in-view
+Notable: one deletion in `tools/site/static/graph.js` — `select()` no longer
+scrolls the sheet into view below 900 px, so a tap on a phone leaves the graph
+on screen; pull request #80. Earlier the same day, PR #78 (WP-0026, the icon
+set) was merged with `main` and renumbered from WP-0023, and WP-0027 was
+registered (#79).
+
 ## 2026-09-16 — agent
 Packages touched: WP-0020 (open → claimed → review)
 Branch: agent/2026-09-16-site-search-navigate-matches
@@ -169,27 +178,3 @@ writes, the grouping is always an asserted edge or slot value), into
 `grouping-axes-proposed-and-tested`) and the four packages of the initiative,
 whose contents changed while their ids and slugs stayed. Found that WP-0006 is
 not on `main`: #56 was cut before #55 merged.
-
-## 2026-09-13 — agent
-Packages touched: WP-0006 (open → claimed → review)
-Branch: agent/2026-09-13-site-colour-by-direction (on agent/2026-09-13-site-panel-six-questions)
-Notable: a box is coloured by its direction and reads "✓ A · <short label>";
-box and banner share four colour variables, gegen now a tint of the contested
-red with dark text, and the solid red "against" border went with it. The
-screenshot driver gained `--dark` (the theme emulated before the load, since
-the graph reads its colours once). Captured a family with a member open on
-desktop and phone, light and dark, a gegen box and a fact box selected, the
-phone start for the legend, and everything open: 0 overlapping pairs in every
-state, 333 elements. Noted in `LATER.md`: the graph does not follow a theme
-switch while the page is open.
-
-## 2026-09-13 — agent
-Packages touched: WP-0005 (open → claimed → review)
-Branch: agent/2026-09-13-site-panel-six-questions
-Notable: a statement's details are now the six questions, in order, on the
-sheet and the entity page alike; `details()` gained the population's families,
-the condition and the neighbours (same group, same action elsewhere, linked
-statements). Captured on desktop, phone and a tall phone-width viewport: 0
-overlapping pairs in every state, 333 elements with everything open. The
-screenshot driver cannot open an entity page (it waits for the graph), so the
-entity page was checked in the built HTML; noted in `LATER.md`.
