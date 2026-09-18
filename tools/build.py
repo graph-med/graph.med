@@ -39,11 +39,12 @@ SCHEMA = ROOT / "schema" / "schema.yaml"
 SITE_SRC = Path(__file__).resolve().parent / "site"
 REPO = "https://github.com/graph-med/graph.med"
 
-EVIDENCE = ("supports", "contests")
+CLAIM_EDGES = ("supports", "contests")   # how a claim bears on a statement (spec §5)
 STATEMENT_EDGES = ("specializes", "complements", "conflicts")
-BODY_TEXT = ("refines", "supplements", "limits")
+BODY_TEXT = ("limits", "refines", "supplements")   # zone 6 of the statement card, in order of their effect on the decision
 DIRECTION_GLYPH = {"für": "✓", "gegen": "✗", "abwägen": "⚖", "Lücke": "∅"}
 GRADES = ("A", "B", "0", "EK")   # the guideline's own scale, in order: the letter a box carries before its label; a new scale is a new letter
+CARD_SLOTS = ("population", "condition", "action")   # the rows of zone 5 "Gilt für", in order; `outcome` is the dimension the certainty varies along (zone 4), not a row here
 # The only words the build adds inside the graph, in the view's source language (docs/publication.md §3):
 # the two questions whose answers are the population and condition slots, the question a dimension axis
 # adds (its short label filled in), the chapter question and the switch's entries for the plain hierarchy
@@ -54,14 +55,90 @@ WORDS = {"de": {"population": "Welche Population?", "condition": "Welche Bedingu
                 "axis": "Welche {label}?", "plain": "Population", "chapter": "Kapitel", "unplaced": "nicht zugeordnet"}}
 CHAPTERS = "section"   # the URL token and grouping id of the built-in chapter grouping (`?by=section`)
 
+# The words of the statement card (docs/publication.md §3 "What the section shows"): every visible word of
+# its chrome, in the statement's source language, keyed structurally — the zone, the slot, the grade and the
+# consensus by the schema's own enum values, so that a new value is a missing key and never a silent blank.
+# The values are fixed by the maintainer (WP-0024). There is no fallback: a language that lacks any key of
+# CARD_KEYS fails the build, naming the language and the keys (card_words()).
+CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", "zone.contested.one", "zone.contested.many",
+             "zone.citation", "zone.more", "slot.population", "slot.condition", "slot.action", "slot.count",
+             "cite.open", "cite.quote", "cite.review.pending", "cite.no", "cite.page", "cite.section",
+             "grade.A", "grade.B", "grade.0", "grade.EK",
+             "consensus.starker_konsens", "consensus.konsens", "consensus.mehrheitliche_zustimmung", "consensus.kein",
+             "marker.contested", "body.limits", "body.refines", "body.supplements", "body.empty", "evidence.missing")
+CARD_WORDS = {"de": {
+    "zone.wording": "Wortlaut der Empfehlung", "zone.evidence": "Evidenz", "zone.applies": "Gilt für",
+    "zone.body_text": "Aus dem Leitlinientext", "zone.contested.one": "Widersprechende Empfehlung",
+    "zone.contested.many": "Widersprechende Empfehlungen", "zone.citation": "Beleg", "zone.more": "Mehr zu dieser Aussage",
+    "slot.population": "Eingriff", "slot.condition": "Bedingung", "slot.action": "Maßnahme", "slot.count": "({n} Empfehlungen)",
+    "cite.open": "In der Leitlinie öffnen", "cite.quote": "Suchtext kopieren", "cite.review.pending": "Klinische Begutachtung: ausstehend",
+    "cite.no": "Empf. {nr}", "cite.page": "S. {nr}", "cite.section": "Abschnitt {nr}",
+    "grade.A": "Grad A", "grade.B": "Grad B", "grade.0": "Grad 0", "grade.EK": "Expertenkonsens",
+    "consensus.starker_konsens": "starker Konsens", "consensus.konsens": "Konsens",
+    "consensus.mehrheitliche_zustimmung": "mehrheitliche Zustimmung", "consensus.kein": "kein Konsens",
+    "marker.contested": "⚠ umstritten", "body.limits": "Grenzt ein", "body.refines": "Präzisiert", "body.supplements": "Ergänzt",
+    "body.empty": "Für diese Aussage sind keine Textstellen aus dem Leitlinientext erfasst.",
+    "evidence.missing": "Evidenz: nicht erfasst",
+}}
+# The five questions a physician brings to a recommendation, kept as the semantic mapping of the card's keys
+# — what each zone answers, read by an answering layer from the statement's JSON — and never rendered
+# (docs/publication.md §3 "The card").
+CARD_QUESTIONS = {"urteil": "Was soll ich tun, und wie verbindlich ist das?", "wortlaut": "Was steht genau in der Leitlinie?",
+                  "evidenz": "Wie gut ist das belegt?", "geltung": "Gilt das für meine Patientin oder meinen Patienten?",
+                  "leitlinientext": "Was ändert oder ergänzt der umgebende Leitlinientext?", "widerspruch": "Gibt es eine gegenläufige Empfehlung?",
+                  "beleg": "Wo steht es, und wie prüfe ich es nach?"}
+
+
+def card_words(lang: str):
+    """The card's words for one language, or the build stops naming the language and every missing key —
+    nothing falls back to another language. The function returned resolves one key and stops the same
+    way on a key outside CARD_KEYS (an enum value the table does not know), so a template never renders
+    a blank where a word should be."""
+    have = CARD_WORDS.get(lang, {})
+    missing = [k for k in CARD_KEYS if k not in have]
+    if missing:
+        raise SystemExit(f"no card words for language {lang!r}: missing {', '.join(missing)} — add them to CARD_WORDS in tools/build.py")
+    def word(key: str) -> str:
+        if key not in have:
+            raise SystemExit(f"no card word {key!r} for language {lang!r} — add it to CARD_KEYS and CARD_WORDS in tools/build.py")
+        return have[key]
+    return word
+
+
+def badges_of(claims: list[dict]) -> list[dict]:
+    """Line 2 of the judgement (docs/publication.md §3, zone 2): one badge per supporting claim, in the order
+    of the claims — the order zone 8 lists them in, which is the only thing tying a badge to its citation —
+    each its grade and consensus as the claim states them; identical pairs collapse into one badge with a
+    count. Shown, never composed into one value. A claim stating neither has no badge."""
+    rows: list[dict] = []
+    for c in claims:
+        if c["edge"] != "supports" or not (c.get("grade") or c.get("consensus")):
+            continue
+        for r in rows:
+            if (r["grade"], r["consensus"]) == (c.get("grade"), c.get("consensus")):
+                r["count"] += 1
+                break
+        else:
+            rows.append({"grade": c.get("grade"), "consensus": c.get("consensus"), "count": 1})
+    return rows
+
+
+def contests_of(claims: list[dict]) -> list[dict]:
+    """Zone 7 of the card: the claims that contest the statement, each with its own badge by zone 2's rules,
+    its wording and its own citation. Its existence is what the ⚠ marker in the judgement announces."""
+    return [{"id": c["id"], "label": c["label"], "lang": c["lang"], "badge": {"grade": c.get("grade"), "consensus": c.get("consensus")},
+             "recommendation_no": c.get("recommendation_no"), "page": c["page"], "section": c.get("section"), "link": c["link"], "quote": c["quote"]}
+            for c in claims if c["edge"] == "contests"]
+
 
 def direction_of(claims: list[dict]) -> dict | None:
     """The four-word direction of a statement, derived from its supporting claims (docs/publication.md §3):
     soll/sollte for → für, soll/sollte against → gegen, kann → abwägen (the guideline's own open
     recommendation), a gap notice → Lücke. Facts have no direction; claims that disagree give abwägen.
     With the word come the verbs as the claims say them — "soll nicht" for an against claim, as the
-    sentence reads — and the evidence the banner carries: each supporting claim's own grade and
-    consensus, one entry per distinct pair in claim order, shown, never composed into one."""
+    sentence reads —, the badges of the judgement's second line (badges_of), and `umstritten`: whether a
+    contesting claim exists, which the judgement marks so that a reader who stops there does not leave
+    with a one-sided answer."""
     sup = [c for c in claims if c["edge"] == "supports"]
     if not sup:
         return None
@@ -77,9 +154,8 @@ def direction_of(claims: list[dict]) -> dict | None:
     verbs = sorted({c["verb"] + (" nicht" if c.get("direction") == "against" else "") for c in sup if c.get("verb")})
     if word == "abwägen" and len({c.get("direction") for c in sup if c.get("direction")}) == 1:
         verbs.append("eher gegen" if sup[0].get("direction") == "against" else "eher für")   # the lean of an open recommendation
-    evidence = list(dict.fromkeys((c.get("grade"), c.get("consensus")) for c in sup if c.get("grade") or c.get("consensus")))
-    return {"word": word, "glyph": DIRECTION_GLYPH[word], "verbs": verbs,
-            "evidence": [{"grade": g, "consensus": k} for g, k in evidence]}
+    return {"word": word, "glyph": DIRECTION_GLYPH[word], "verbs": verbs, "badges": badges_of(claims),
+            "umstritten": any(c["edge"] == "contests" for c in claims)}
 
 
 def verb_of(claims: list[dict]) -> str | None:
@@ -116,6 +192,12 @@ class Pool:
         for frm, kind, to, props in self.edges:
             self.out[frm].append((kind, to, props))
             self.inc[to].append((kind, frm, props))
+        # how many statements hold a concept in a slot role, (slot, concept) → n: zone 5 of the card links a
+        # concept that carries more than the one statement and names the count (docs/publication.md §3)
+        self.slot_uses: dict[tuple[str, str], int] = defaultdict(int)
+        for st in self.of_type("statement"):
+            for slot, cid in (st.get("slots") or {}).items():
+                self.slot_uses[(slot, cid)] += 1
 
     def of_type(self, t: str):
         return [e for e in self.entities.values() if e.get("type") == t]
@@ -127,7 +209,7 @@ class Pool:
         """Claims linked to a statement by supports/contests, with the edge kind."""
         rows = []
         for kind, frm, _ in self.inc.get(statement_id, []):
-            if kind in EVIDENCE and frm in self.entities:
+            if kind in CLAIM_EDGES and frm in self.entities:
                 rows.append({"edge": kind, **self.claim_view(self.entities[frm])})
         rows.sort(key=lambda r: (r["edge"] != "supports", natural(r.get("recommendation_no") or ""), r["id"]))
         return rows
@@ -141,7 +223,7 @@ class Pool:
         if link and page:
             link = source_link(link, page, claim["source"]["quote"])
         row = {k: claim.get(k) for k in ("id", "kind", "recommendation_no", "section", "label", "grade", "verb", "direction", "consensus", "lang")}
-        row.update({"quote": claim["source"]["quote"], "page": page, "source": src_id, "source_title": src.get("title"), "link": link})
+        row.update({"quote": claim["source"]["quote"], "page": page, "source": src_id, "source_title": src.get("title"), "source_lang": src.get("lang"), "link": link})
         for kind, frm, _ in self.inc.get(claim["id"], []):   # what the body text adds to this claim (spec §5)
             if kind in BODY_TEXT and frm in self.entities:
                 b = self.entities[frm]
@@ -150,7 +232,7 @@ class Pool:
                                                    "page": frag.split("=", 1)[1] if frag.startswith("page=") else None, "section": b.get("section"),
                                                    "link": source_link(src.get("url", ""), frag.split("=", 1)[1] if frag.startswith("page=") else None, b["source"]["quote"])})
         for kind, to, _ in self.out.get(claim["id"], []):
-            if kind in EVIDENCE:
+            if kind in CLAIM_EDGES:
                 row.setdefault("statements", []).append({"edge": kind, "id": to, "label": self.entities.get(to, {}).get("label", to)})
         return row
 
@@ -214,7 +296,7 @@ def members_of(view: dict, pool: Pool) -> dict[str, dict]:
         if pool.source_of(claim) in f["sources"] and (not sec or pool.source_of(claim) != sec["source"] or under(str(sec["under"]), claim.get("section"))):
             members[claim["id"]] = claim
             for kind, to, _ in pool.out.get(claim["id"], []):
-                if kind in EVIDENCE and to in pool.entities:
+                if kind in CLAIM_EDGES and to in pool.entities:
                     members[to] = pool.entities[to]
     for ent in list(members.values()):
         if ent.get("type") == "statement":
@@ -515,17 +597,8 @@ def main(argv=None) -> int:
         d = {"entity": ent}
         t = ent["type"]
         if t == "statement":
-            # the five questions a physician brings to a recommendation (docs/publication.md §3): the answer,
-            # whom it applies to, its evidence, what could change it, where it is written
-            slots = ent.get("slots") or {}
-            concept = lambda cid: {"id": cid, "label": pool.entities[cid]["label"]} if cid in pool.entities else None
-            d["action"], d["outcome"], d["condition"] = concept(slots.get("action")), concept(slots.get("outcome")), concept(slots.get("condition"))
-            d["population"] = dict(concept(slots["population"]), families=pool.families_of(slots["population"])) if slots.get("population") in pool.entities else None
-            d["claims"] = pool.claims_for(ent["id"])
-            d["contested"] = any(c["edge"] == "contests" for c in d["claims"])
-            d["direction"] = direction_of(d["claims"])
-            d["body"] = {k: [b for c in d["claims"] for b in c.get("body", []) if b["kind"] == k] for k in BODY_TEXT}
-            d["body"] = {k: v for k, v in d["body"].items() if v}
+            d["card"] = card_of(ent)
+            d["W"] = card_words(ent["lang"])   # the card's chrome in the statement's source language; no fallback
         elif t == "concept":
             d["uses"] = pool.uses_of(ent["id"])
             d["codes"] = [to for k, to, _ in pool.out.get(ent["id"], []) if k == "codes_as"]
@@ -534,6 +607,50 @@ def main(argv=None) -> int:
         elif t == "source":
             d["claim_count"] = sum(1 for c in pool.of_type("claim") if pool.source_of(c) == ent["id"])
         return d
+
+    def card_of(st: dict) -> dict:
+        """The statement card (docs/publication.md §3 "What the section shows"), assembled once: the template
+        renders it and the statement's JSON carries it, under the keys the five questions map to (CARD_QUESTIONS)
+        — `urteil` (zone 2), `wortlaut` (3), `evidenz` (4), `geltung` (5), `leitlinientext` (6), `widerspruch` (7),
+        `beleg` (8) — with the title (zone 1) and the modelling data of zone 9 (`mehr`). Every value comes from the
+        claims, the slots, the edges and the source; the build adds only the words of CARD_WORDS, at render time."""
+        slots = st.get("slots") or {}
+        claims = pool.claims_for(st["id"])
+        sup = [c for c in claims if c["edge"] == "supports"]
+        d = direction_of(claims)
+        concept = lambda cid: {"id": cid, "label": pool.entities[cid]["label"], "lang": pool.entities[cid]["lang"]}
+
+        def slot_row(role):
+            """A row of zone 5: plain when the concept carries only this statement in that role, linked with the
+            count (this statement included) when it carries more; the population keeps its families below it."""
+            cid = slots.get(role)
+            if cid not in pool.entities:
+                return None
+            n = pool.slot_uses[(role, cid)]
+            row = {**concept(cid), "count": n, "linked": n > 1}
+            if role == "population":
+                row["families"] = [{**f, "lang": pool.entities[f["id"]]["lang"]} for f in pool.families_of(cid)]
+            return row
+
+        passage = lambda b: {k: b.get(k) for k in ("id", "label", "lang", "page", "section", "link", "quote")}
+        geltung = {role: slot_row(role) for role in CARD_SLOTS}
+        related = [{"edge": k, "to": to, "label": pool.entities[to]["label"]} for k, to, _ in pool.out.get(st["id"], []) if k in STATEMENT_EDGES and to in pool.entities] \
+                + [{"edge": k, "from": frm, "label": pool.entities[frm]["label"]} for k, frm, _ in pool.inc.get(st["id"], []) if k in STATEMENT_EDGES and frm in pool.entities]
+        return {
+            "lang": st["lang"], "questions": CARD_QUESTIONS,
+            "title": st.get("short_label") or st["label"], "label": st["label"],
+            "urteil": {"direction": d["word"] if d else None, "glyph": d["glyph"] if d else None, "verbs": d["verbs"] if d else [],
+                       "badges": d["badges"] if d else badges_of(claims), "umstritten": d["umstritten"] if d else any(c["edge"] == "contests" for c in claims)},
+            "wortlaut": [{"id": c["id"], "label": c["label"], "lang": c["lang"]} for c in sup],
+            "evidenz": {"state": "missing"},   # until WP-0025: no claim carries a certainty rating yet
+            "geltung": geltung if any(geltung.values()) else None,
+            "leitlinientext": {k: [passage(b) for c in claims for b in c.get("body", []) if b["kind"] == k] for k in BODY_TEXT},
+            "widerspruch": contests_of(claims),
+            "beleg": {"claims": [{k: c.get(k) for k in ("id", "source", "source_title", "source_lang", "recommendation_no", "page", "section", "link", "quote", "lang")} for c in sup],
+                      "review": "pending"},   # the pool has no attestation yet; what a present one reads is a maintainer decision (WP-0024, open questions)
+            "mehr": {"id": st["id"], "slots": {slot: concept(cid) if cid in pool.entities else {"id": cid, "label": cid, "lang": st["lang"]} for slot, cid in slots.items()},
+                     "related": related, "claims": [{"edge": c["edge"], "id": c["id"]} for c in claims], "source": st.get("source")},
+        }
 
     def edges_json(eid: str) -> dict:
         return {"out": [{"kind": k, "to": to, **p} for k, to, p in pool.out.get(eid, [])],
@@ -548,7 +665,7 @@ def main(argv=None) -> int:
         page = out / eid
         page.mkdir(parents=True, exist_ok=True)
         (page / "index.html").write_text(entity_tpl.render(**d), encoding="utf-8")
-        (out / (eid + ".json")).write_text(dumps({**ent, "edges": edges_json(eid)}), encoding="utf-8")
+        (out / (eid + ".json")).write_text(dumps({**ent, "edges": edges_json(eid), **({"card": d["card"]} if "card" in d else {})}), encoding="utf-8")
 
     views = []
     view_tpl = env.get_template("view.html")
