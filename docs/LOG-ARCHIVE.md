@@ -4,6 +4,18 @@ Entries rotated out of `docs/LOG.md` once it passes about 200 lines, newest
 first here too; never delete.
 
 ## 2026-09-13 — agent
+Packages touched: WP-0007 (open → claimed → review)
+Branch: agent/2026-09-13-grouping-axes-decision
+Notable: spec §4.1 completed into a mechanism: the axis entity and its fields,
+the four report measures defined per carrier, the carrier rule's edge cases,
+`group_by` as a view property, "not placed" as one answer last. The worked
+example was measured, not imagined: a first region placement covers 20 of 36
+population concepts but only 42 of 90 statements, because the generic tumour
+operation carries 24 — which is why coverage is reported by statement too.
+Phase: 58 of 90 sentences name their phase, the rest fall to the chapter.
+grouping-axes and phase-vocabulary left `docs/open-questions.md`.
+
+## 2026-09-13 — agent
 Packages touched: WP-0004, WP-0005 (review → done); WP-0007 to WP-0010 (reworded)
 Branch: docs/grouping-axes-mechanism
 Notable: the grouping axes were first designed as anatomy, phase and access —

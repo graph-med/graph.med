@@ -4,6 +4,20 @@ One entry per session, newest first. Past about 200 lines, move the oldest
 entries to `docs/LOG-ARCHIVE.md`, newest first there too; never delete.
 
 ## 2026-09-18 — agent
+Packages touched: WP-0023 (open → claimed → review); WP-0021, WP-0022 (review → done)
+Branch: agent/2026-09-18-schema-claim-evidence
+Notable: schema 0.6.0 gives the claim `evidence` — a list of the source's own
+certainty ratings, each `value` and `system` open strings and an optional
+`outcome` concept — with required provenance like `grade`; no enum, no
+mapping, and no scalar form, so one certainty for a per-outcome table cannot
+be written. The validator needed no change: its reference check already
+resolves a concept inside the list (shown by fixture). Spec §3.1 carries the
+field and its two rules, `evidence-profiles` left `docs/open-questions.md`
+into memory `design/claim-evidence-per-outcome.md`, no data changed. Run as
+one of two workers in parallel worktrees (WP-0024 beside it); the oldest
+log entry rotated to `docs/LOG-ARCHIVE.md`.
+
+## 2026-09-18 — agent
 Packages touched: WP-0027 (open → claimed → review)
 Branch: agent/2026-09-18-site-phone-graph-stays-in-view
 Notable: one deletion in `tools/site/static/graph.js` — `select()` no longer
@@ -180,15 +194,3 @@ region hierarchy over the first view reproduced the worked example's shape
 (19 of 36 concepts, 41 of 90 statements, two concepts in several places, the
 generic tumour operation heaviest among the unplaced with 24), the numbers
 checked by hand against the data.
-
-## 2026-09-13 — agent
-Packages touched: WP-0007 (open → claimed → review)
-Branch: agent/2026-09-13-grouping-axes-decision
-Notable: spec §4.1 completed into a mechanism: the axis entity and its fields,
-the four report measures defined per carrier, the carrier rule's edge cases,
-`group_by` as a view property, "not placed" as one answer last. The worked
-example was measured, not imagined: a first region placement covers 20 of 36
-population concepts but only 42 of 90 statements, because the generic tumour
-operation carries 24 — which is why coverage is reported by statement too.
-Phase: 58 of 90 sentences name their phase, the rest fall to the chapter.
-grouping-axes and phase-vocabulary left `docs/open-questions.md`.

@@ -103,6 +103,20 @@ and this package does not touch it.
   levels (A/B/C beside recommendation classes I/IIa/IIb/III) do not map onto
   the GRADE words without inventing a correspondence. The renderer never
   translates between systems; an unknown system is a valid state, not an error.
+- 2026-09-18 (worker): `system` is a `slug` (`^[A-Za-z0-9._-]+$`), not free
+  text — it is the key a renderer looks a display order up by (WP-0025's
+  `EVIDENCE_SCALES`), so it takes no spaces; still an open string, no enum.
+  `value` is free text (`sehr niedrig` has a space). The entry is
+  `$defs.evidence_entry` beside `outline_entry`, the schema's pattern for a
+  list item with fields; the list is `uniqueItems: true` like `structure` and
+  `group_by` — the same rating twice is a mistake, not two facts.
+- 2026-09-18 (worker): `tools/validate.py` is unchanged. Its reference check
+  walks every string in a document, so an `outcome` inside the list resolves
+  already; verified by fixture — a non-existent concept is reported at
+  `evidence/0/outcome`, a scalar `evidence:` as "not of type 'array'".
+- 2026-09-18 (worker): the field is described in spec §3.1, beside the claim's
+  grade, and the status header now says 0.6.0; the worked example in §10 was
+  left without an `evidence` entry, since no claim in the pool carries one.
 
 ## Open questions
 

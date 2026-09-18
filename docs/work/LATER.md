@@ -9,6 +9,8 @@ log. Remove an entry when its package is registered.
 
 
 
+- fill `claim.evidence` (schema 0.6.0, WP-0023) from the per-outcome GRADE tables under POMGAT's evidence-based boxes: an `extraction` pass over the source, one entry per outcome row in the guideline's own words, `outcome` where the endpoint has a concept; every statement reads `Evidenz: nicht erfasst` until it runs. Registered once the schema has merged, so its scope can name the real field (WP-0023, Notes)
+
 - a statement box's "no border" is a hairline: `tools/site/static/graph.js` sets `border-color: rgba(0,0,0,0)` on `node[type = 'statement']`, but Cytoscape ignores the alpha and draws the 1.5px base border near-black, so every box without a verb, contested or picked border still shows a thin dark rim (seen by pixel sample on WP-0022's captures, present before it). `border-opacity: 0` or `border-width: 0` on that rule makes "none" mean none; look at every box in both themes afterwards, since the hairline is currently what gives a pastel box its crisp edge
 
 - the chapter panel's bottom edge runs under the legend on a phone: its `max-height` leaves room for the legend's three desktop lines, and on a 390 px screen the legend wraps to five; the panel should stop above the legend at every width (`tools/site/static/site.css`, `.chapters` and `.hint`)
