@@ -1,9 +1,9 @@
 ---
 id: WP-0021
 title: A faded answer's label keeps its clean gap in the line
-status: review
+status: done
 created: 2026-09-16
-updated: 2026-09-16
+updated: 2026-09-18
 depends_on: []
 blocks: []
 owner: agent
