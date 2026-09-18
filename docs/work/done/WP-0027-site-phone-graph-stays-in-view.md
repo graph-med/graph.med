@@ -1,7 +1,7 @@
 ---
 id: WP-0027
 title: The graph stays in view when a node is tapped on a phone
-status: review
+status: done
 created: 2026-09-18
 updated: 2026-09-18
 depends_on: []

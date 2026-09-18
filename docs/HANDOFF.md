@@ -5,14 +5,12 @@ updated: 2026-09-18
 
 **Where we are.** Twenty-seven packages, WP-0001 to WP-0027, in five
 initiatives (`ui`, `groupings`, `extraction-quality`, `review`, `evidence`).
-WP-0001 to WP-0010, WP-0017, WP-0019 and WP-0020 are in `done/`. WP-0011,
+WP-0001 to WP-0010, WP-0017, WP-0019, WP-0020 and WP-0027 are in `done/`. WP-0011,
 WP-0012, WP-0013, WP-0015 and WP-0016 are implemented and stacked in open pull
 requests (#65–#69), awaiting human review; their files still read `open` on
 `main`. WP-0021 and WP-0022 (`ui`) are at `status: review` in #75 and #76,
 stacked in that order on the merged WP-0020, each targeting `main`; `main` is
-merged into the next one after each merge. WP-0027 (`ui`, the page stays on
-the graph when a node is tapped on a phone) is at `status: review` in #80, one
-deletion, independent of every other branch. WP-0023, WP-0024 and WP-0025
+merged into the next one after each merge. WP-0023, WP-0024 and WP-0025
 (the nine-zone statement card; WP-0025 depends on the other two) and WP-0026
 (the site icon set) are `open`, unclaimed, none implemented. WP-0018 (a social
 preview card using the mark) is `open`, unclaimed — a prior session's own
@@ -29,15 +27,13 @@ claiming it.
   review, next to merge of the `ui` stack.
 - WP-0022 — `agent/2026-09-16-site-statement-verb-strength-and-glyph`, PR
   #76, in review, stacked on WP-0021.
-- WP-0027 — `agent/2026-09-18-site-phone-graph-stays-in-view`, PR #80, in
-  review, not stacked.
 
 **Next agent's first move.** `git fetch origin`, close what has merged
 (`status: review` on `origin/main` → `done/`), then process only what the
 command lists (`docs/work/README.md`, "Processing packages"). Check
 `git ls-remote --heads origin 'agent/*'` first — several stale branches from
 already-`done/` packages (WP-0001–WP-0005, WP-0007–WP-0010, WP-0019,
-WP-0020) are still on the remote and can be ignored.
+WP-0020, WP-0027) are still on the remote and can be ignored.
 
 **Blocked, and why.**
 - WP-0014 — waits on `docs/open-questions.md` → structural-recommendations.
