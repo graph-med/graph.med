@@ -1,6 +1,6 @@
 # ADR-0002 — Parallel sessions as git worktrees in one sandbox
 
-Status: accepted, 2026-09-13
+Status: accepted, 2026-09-13; how a stack merges amended by ADR-0003
 
 ## Context
 

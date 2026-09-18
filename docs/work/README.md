@@ -133,13 +133,20 @@ What the coordinator owes the workers, and they it:
 
 - **A worker stops after pushing** its claim, its work and its handover; it
   does not rebase and does not open the pull request.
-- **The coordinator stacks.** It rebases the first branch on `main` and each
-  next one on its predecessor, resolving `docs/LOG.md` by keeping every entry
-  newest first and `docs/HANDOFF.md` by rewriting it for the union; it runs the
-  checks on every branch, opens the pull requests in order — every one
-  against `main`, never against its predecessor's branch — and names the
-  merge order in each. Until its predecessor merges, a stacked pull request
-  shows the predecessor's commits too; merged in order, each lands on `main`.
+- **The coordinator stacks — always,** whether the packages ran in parallel
+  or in sequence. It rebases the first branch on `main` and each next one on
+  its predecessor, so each branch contains every branch below it, resolving
+  `docs/LOG.md` by keeping every entry newest first and `docs/HANDOFF.md` by
+  rewriting it for the union; it runs the checks on every branch, opens the
+  pull requests in order — every one against `main`, never against its
+  predecessor's branch — and says in each where it sits in the stack, with a
+  compare link that shows its own commits alone.
+- **A stack merges once, from the top** (ADR-0003). A person reads the pull
+  requests from the top of the stack down and merges only the top one, with a
+  merge commit: every lower branch is already contained in it, so GitHub marks
+  their pull requests merged, nothing is updated with `main` in between, and
+  no approval is dismissed by a push on the way. A pull request's diff against
+  `main` shows everything below it too; its own change is at the compare link.
 - **The handoff lists every claimed package** — every package with an open
   `agent/*` branch on `origin` — not only one worker's own.
 - **Nothing shared by name.** The Docker daemon is one per sandbox; the

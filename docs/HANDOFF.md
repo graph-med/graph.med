@@ -9,8 +9,8 @@ WP-0001 to WP-0010, WP-0017, WP-0019, WP-0020 and WP-0027 are in `done/`. WP-001
 WP-0012, WP-0013, WP-0015 and WP-0016 are implemented and stacked in open pull
 requests (#65–#69), awaiting human review; their files still read `open` on
 `main`. WP-0021 and WP-0022 (`ui`) are at `status: review` in #75 and #76,
-stacked in that order on the merged WP-0020, each targeting `main`; `main` is
-merged into the next one after each merge. WP-0023, WP-0024 and WP-0025
+stacked in that order on the merged WP-0020, each targeting `main`. WP-0023,
+WP-0024 and WP-0025
 (the nine-zone statement card; WP-0025 depends on the other two) and WP-0026
 (the site icon set) are `open`, unclaimed, none implemented. WP-0018 (a social
 preview card using the mark) is `open`, unclaimed — a prior session's own
@@ -45,11 +45,11 @@ WP-0020, WP-0027) are still on the remote and can be ignored.
 
 **Watch out.** Every pull request links its preview as a complete clickable
 URL (`https://graph.med/preview/pr<N>/<view-id>/`). A stacked pull request
-targets `main`, never the branch it is stacked on; under the ruleset an
-approval is dismissed whenever the merge base changes, so a stack is approved
-and merged one pull request at a time, `main` merged into the next before its
-approval. Ids are taken on `main` and in open registrations alike: check open
-pull requests before numbering a new package (WP-0023 collided once).
+targets `main`, never the branch it is stacked on, and a stack is merged once,
+from the top, with a merge commit (ADR-0003): the lower pull requests are then
+marked merged, and none is updated with `main` on the way. Ids are taken on
+`main` and in open registrations alike: check open pull requests before
+numbering a new package (WP-0023 collided once).
 **The `screenshot` skill needs the `sbx` sandbox's own Docker daemon** (memory
 `environment/screenshot-skill-needs-sbx-docker.md`): a session on a
 different harness cannot run it; report that rather than working around it,

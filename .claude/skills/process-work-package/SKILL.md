@@ -1,6 +1,6 @@
 ---
 name: process-work-package
-description: Process the work packages listed with the command (`/process-work-package WP-0004 WP-0005 …`) — the session coordinates: it decides sequence or parallel, runs one worker per package in its own git worktree, branch and pull request, stacks dependent packages, resolves the handoff and the log, opens the pull requests, and processes nothing that was not listed. With no package listed it reports what could be processed and stops.
+description: Process the work packages listed with the command (`/process-work-package WP-0004 WP-0005 …`) — the session coordinates: it decides sequence or parallel, runs one worker per package in its own git worktree, branch and pull request, stacks every branch of the run on the one before so the pull requests merge once, from the top, resolves the handoff and the log, opens the pull requests, and processes nothing that was not listed. With no package listed it reports what could be processed and stops.
 ---
 
 # Process work packages
@@ -49,7 +49,8 @@ form); this file is the procedure.
    the later stacked on the earlier. A package that depends on a listed one
    waits for that worker and starts from its branch. Prefer parallel when the
    Scopes are apart, sequence when a conflict is certain; either way each
-   package keeps its own branch and pull request.
+   package keeps its own branch and pull request, and either way the branches
+   of the run end as one stack (step 7).
 5. **Start each package** when its turn comes:
 
    ```bash
@@ -66,19 +67,29 @@ form); this file is the procedure.
    is rewritten, screenshots were taken for a build package. Start what waited
    on it. A worker that stopped short is asked to finish on the same branch;
    what it could not do is reported to the maintainer, not done by you.
-7. **Stack.** In order, rebase the first branch onto `origin/main` and each next
-   branch onto its predecessor. A conflict in `docs/LOG.md` keeps every entry,
-   newest first; one in `docs/HANDOFF.md` is resolved by rewriting it for the
-   union — what is claimed (every package with an open `agent/*` branch), the
-   next move, what is blocked; one in a package file keeps both sides. Run
+7. **Stack — always,** whether the packages ran in parallel or in sequence.
+   In order, rebase the first branch onto `origin/main` and each next branch
+   onto its predecessor, so that every branch contains the branches below it
+   and the top branch contains the whole run. A conflict in `docs/LOG.md`
+   keeps every entry, newest first; one in `docs/HANDOFF.md` is resolved by
+   rewriting it for the union — what is claimed (every package with an open
+   `agent/*` branch), the next move, what is blocked; one in a package file
+   keeps both sides. Run
    `uv run tools/validate.py` (and the build, for a build package) on every
    branch after the rebase. Push with `--force-with-lease`; these are your own
    `agent/*` branches.
-8. **Open the pull requests** in order, every one with `--base main` — never
-   the predecessor's branch: a pull request merged into another branch does not
-   reach `main`. Until its predecessor merges, a stacked PR's diff shows the
-   predecessor's commits too; merged in order, each lands on `main`. Every PR,
-   of every kind, links its preview
+8. **Open the pull requests** in order, bottom first, every one with
+   `--base main` — never the predecessor's branch: a pull request merged into
+   another branch does not reach `main`. **The stack merges once, from the
+   top** (ADR-0003): a person reads the pull requests from the top of the
+   stack down — the reverse of the order they were opened in — and merges only
+   the top one, with a merge commit. Every lower branch is contained in it, so
+   GitHub marks their pull requests merged, and no pull request is updated
+   with `main` on the way. A stacked PR's diff against `main` shows everything
+   below it too; its own change is read at the compare link between its
+   predecessor's branch and its own
+   (`https://github.com/<owner>/<repo>/compare/<predecessor>...<branch>`).
+   Every PR, of every kind, links its preview
    as a complete clickable URL on its own line
    (`https://graph.med/preview/pr<N>/<view-id>/`, a markdown link). The number
    exists only after `gh pr create`: create with a placeholder, then patch the
@@ -86,12 +97,15 @@ form); this file is the procedure.
    `gh pr edit` can fail on a deprecated project-cards query). The description
    carries what the worker reported — what was done, what it was unsure of,
    what went to `LATER.md`, any change to the schema, the validator or
-   agent-governing files, named explicitly — and, for a stacked PR, what it is
-   stacked on and the merge order.
+   agent-governing files, named explicitly — and, for a stacked PR, its place
+   in the stack (`2 of 3, stacked on #N`), the compare link showing its own
+   commits alone, which pull request is the top, and that merging the top with
+   a merge commit lands the whole stack.
 9. **Finish.** `git worktree remove` each worktree. The final message lists every
-   pull request with its preview URL, the merge order, and every listed package
-   that was not processed and why. Then stop. A person reviews and merges; the
-   packages reach `done/` through step 2 of the next run that sees them merged.
+   pull request with its preview URL, its place in the stack, which one is the
+   top to merge, and every listed package that was not processed and why. Then
+   stop. A person reviews and merges; the packages reach `done/` through step 2
+   of the next run that sees them merged.
 
 ## The worker
 
