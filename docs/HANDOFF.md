@@ -1,10 +1,10 @@
 ---
-updated: 2026-09-16
+updated: 2026-09-17
 ---
 # Handoff
 
-**Where we are.** Twenty-two packages, WP-0001 to WP-0022, in four initiatives
-(`ui`, `groupings`, `extraction-quality`, `review`). WP-0001 to WP-0010, WP-0017
+**Where we are.** Twenty-five packages, WP-0001 to WP-0025, in five initiatives
+(`ui`, `groupings`, `extraction-quality`, `review`, `evidence`). WP-0001 to WP-0010, WP-0017
 and WP-0019 are in `done/` (WP-0019 merged in #73 and is closed on the next
 branch of its stack). WP-0011, WP-0012, WP-0013, WP-0015 and WP-0016 are implemented
 and stacked in open pull requests (#65–#69), awaiting human review; none has
@@ -13,6 +13,9 @@ WP-0022 (all `ui`) were implemented in this run alongside WP-0019, four
 workers in parallel worktrees, and are at `status: review` in pull requests
 #74, #75 and #76, stacked in that order, each targeting `main`; `main` is
 merged into the next one after each merge.
+WP-0023, WP-0024 and WP-0025 register the nine-zone statement card: WP-0023
+(schema `claim.evidence`) and WP-0024 (the card) are independent, WP-0025
+(zone 4) depends on both. All three `open`, unclaimed, none implemented.
 WP-0018 (a social preview card using the mark) is `open`, unclaimed — a prior
 session's own inference from an unspecific request; confirm or redirect its
 scope before claiming it.

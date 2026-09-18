@@ -21,8 +21,6 @@ log. Remove an entry when its package is registered.
 
 - codes_as: no terminology namespace is imported yet. Rule once one is, by facet — procedure → OPS, patient_state → ICD-10-GM, outcome and finding → SNOMED CT where available; first candidates concepts/pankreasresektion → ops-2026/5-52 and the codes C18/C20 in QI 1's denominator (p. 122). A concept without a code must be shown as uncoded, not as unchecked.
 
-- evidence profiles (the per-outcome GRADE tables in evidence-based boxes) — no shape in the schema; open-questions → evidence-profiles
-
 - gap_notice claims (boxes 4.3, 4.6, 5.10, 5.13, 7.8) are extracted and unlinked — no edge kind fits; open-questions → gap-notices
 
 - quality indicators (chapter 9, Tabelle 7, pp. 122–124): QI 1 → statements/keine-drainage-kolorektale-resektion (box 6.9), QI 2 → keine-drainage-unkomplizierte-leberresektion (6.8), QI 3 → magensonde-entfernung-vor-narkoseausleitung-kolorektal (7.1) with a denominator also covering the -magenresektion and -leberresektion statements, QI 4 → dauerkatheter-entfernung-24h-kolorektal and dauerkatheter-verlaengert-bei-harnverhaltrisiko (7.5/7.6) narrowed to onkologische Kolonresektion; also the chapter's definition of Qualitätsindikatoren (p. 122) and the note that none is in the onkologischer Basisdatensatz; open-questions → quality-indicators
