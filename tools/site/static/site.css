@@ -142,8 +142,9 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card ol.surfaces { margin: 0; padding-left: 1.4rem; }
 .card ol.surfaces li { margin-bottom: .5rem; }
 /* zone 5: a slot is plain text when its concept carries only this statement, a link with the count when more */
+.card dl.slots dd { display: flex; flex-wrap: wrap; align-items: center; column-gap: .4rem; }   /* the count beside the link while it fits, under it when not */
 .card dl.slots dd .count { color: var(--mute); font-size: .85rem; white-space: nowrap; }
-.card dl.slots dd .families { display: block; color: var(--mute); font-size: .85rem; }
+.card dl.slots dd .families { flex-basis: 100%; color: var(--mute); font-size: .85rem; }
 .card dl.slots dd .families .node-link { min-height: 32px; }
 .card ul.body li p { margin: .2rem 0; }
 /* zone 7: the contesting claims, each with the contested colour beside it, its heading in that colour */
