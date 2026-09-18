@@ -2,17 +2,18 @@
 :root {
   --bg: #fff; --fg: #1a1a1a; --mute: #666; --line: #ddd; --accent: #0b5cad;
   --statement: #0b5cad; --concept: #6a994e; --contested: #c1121f; --edge: #bbb;
-  /* the four directions (für · gegen · abwägen · Lücke): one colour each for the box in the graph and the banner in the
-     details, so that the two agree — light enough for dark text in both themes; gegen is a tint of the contested red */
+  /* the four directions (für · gegen · abwägen · Lücke): one colour each for the box in the graph and the bar beside the
+     judgement in the details, so that the two agree — light enough for dark text in both themes; gegen is a tint of the contested red */
   --dir-for: #9ad3a8; --dir-against: #e9a9ad; --dir-weigh: #f2d97a; --dir-gap: #d4d4d4;
   /* the verb as a border on the box: "soll" gets a rim in a strong shade of its direction's colour ("soll nicht" the red one),
      saturated well past the pastel fill so that it reads against it in both themes; "sollte" has no border */
   --verb-for: #1f7a3c; --verb-against: #b3232c;
   --note: #f2d97a;   /* the preview strip */
+  --surface: #f3f3f1;   /* the wording's own surface on the statement card (zone 3) */
   color-scheme: light dark;
 }
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #111; --fg: #eee; --mute: #999; --line: #333; --accent: #7cb7ff;
+  :root { --bg: #111; --fg: #eee; --mute: #999; --line: #333; --accent: #7cb7ff; --surface: #1d1d1b;
           --statement: #7cb7ff; --concept: #9ad17a; --contested: #ff6b6b; --edge: #555;
           --dir-for: #7fc492; --dir-against: #dd8d92; --dir-weigh: #e5c95a; --dir-gap: #b4b4b4;
           --verb-for: #146b32; --verb-against: #9e1c26; }
@@ -60,14 +61,12 @@ ul.cards small, ul.plain small { display: block; color: var(--mute); }
 .sheet { border-top: 2px solid var(--line); padding-top: .6rem; }
 .kind { margin: .2rem 0; color: var(--mute); font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; }
 .label { font-size: 1.15rem; margin: .2rem 0 .6rem; }
-mark { background: var(--contested); color: #fff; padding: 0 .3em; border-radius: .3em; }
 dl.slots { display: grid; grid-template-columns: max-content 1fr; gap: .2rem .8rem; margin: 0 0 .5rem; }
 dl.slots dt { color: var(--mute); font-size: .85rem; }
 dl.slots dd { margin: 0; }
 .tag { display: inline-block; font-size: .75rem; padding: .1rem .45rem; border: 1px solid var(--line); border-radius: 1rem; color: var(--mute); margin: 0 .2rem .2rem 0; }
 .tag.grade { color: var(--fg); border-color: var(--fg); font-weight: 600; }
 ol.claims li { padding: .6rem 0; border-top: 1px solid var(--line); }
-ol.claims li.contests { border-left: 3px solid var(--contested); padding-left: .6rem; }
 ol.claims p { margin: .3rem 0; }
 blockquote { margin: .3rem 0; padding-left: .7rem; border-left: 3px solid var(--line); color: var(--mute); font-style: italic; }
 button.copy { font: inherit; font-style: normal; font-size: .72rem; padding: 0 .5rem; margin-left: .3rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--bg); color: var(--mute); cursor: pointer; vertical-align: middle; min-height: 28px; }
@@ -109,41 +108,71 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .chapters button.all { flex: none; min-height: 44px; align-items: center; padding: .3rem .8rem; border-bottom: 1px solid var(--line); border-radius: .6rem .6rem 0 0; }
 .chapters .sec { color: var(--mute); min-width: 3.2rem; font-variant-numeric: tabular-nums; }
 
-/* the direction banner at the top of a statement's details — the same four colours as the boxes — and the facet select */
-.banner { margin: .4rem 0 .2rem; padding: .35rem .7rem; border-radius: .4rem; font-weight: 700; background: var(--line); }
-.banner .glyph { margin-right: .2rem; }
-.banner small { font-weight: 400; color: var(--mute); margin-left: .4rem; }
-.banner[class*="dir-"] { color: #111; }
-.banner[class*="dir-"] small { color: #3d3d3d; }
-/* the evidence the banner carries: each supporting claim's own grade and consensus, one group per distinct
-   pair (docs/publication.md §3, question 1); the tags take the banner's ink, not the theme's, since the
-   banner is light in both themes */
-.banner .evidence { display: inline-flex; flex-wrap: wrap; gap: .2rem .5rem; vertical-align: middle; margin-left: .5rem; font-weight: 400; }
-.banner .evidence .of { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .2rem; }
-.banner .evidence .tag { margin: 0; color: #111; border-color: rgba(0, 0, 0, .35); background: rgba(255, 255, 255, .45); }
-.banner .evidence .tag.grade { font-size: .9rem; padding: .1rem .6rem; border-width: 2px; border-color: #111; }
-.banner .evidence .tag.grade.ek::after { content: " expert consensus"; font-weight: 400; font-size: .75rem; }
-.banner.dir-für { background: var(--dir-for); }
-.banner.dir-gegen { background: var(--dir-against); }
-.banner.dir-abwägen { background: var(--dir-weigh); }
-.banner.dir-Lücke { background: var(--dir-gap); }
-ul.body li p { margin: .2rem 0; }
-
-/* a statement's details, organised by the reader's five questions (docs/publication.md §3): each question a
-   heading in sentence case, read as a question, not as a label; the grade of every claim its own highlight */
-.q { margin: 0 0 .4rem; }
-.q + .q { border-top: 1px solid var(--line); padding-top: .2rem; }
-.q h3 { text-transform: none; letter-spacing: 0; font-size: 1rem; color: var(--fg); margin: .8rem 0 .4rem; }
-.q .sub { margin: .6rem 0 .1rem; font-size: .8rem; color: var(--mute); text-transform: uppercase; letter-spacing: .04em; }
-.q .none { margin: .3rem 0; color: var(--mute); font-size: .9rem; }
-.q .tag.grade { font-size: .9rem; padding: .1rem .6rem; border-width: 2px; }
-.q .tag.grade.ek::after { content: " expert consensus"; font-weight: 400; font-size: .75rem; }
-.q dl.slots dd .families { display: block; color: var(--mute); font-size: .85rem; }
-.q dl.slots dd .families .node-link { min-height: 32px; }
-.q ol.claims li .cite { margin: 0 0 .2rem; }
-/* the passages the body text adds to a claim, cited under the claim's own, each labelled by its relation */
-.q ol.claims ul.refs { margin: .4rem 0 0 .7rem; padding-left: .5rem; border-left: 1px solid var(--line); }
-.q ol.claims ul.refs li { padding: .3rem 0 0; border: 0; }
+/* the statement card (docs/publication.md §3 "What the section shows"): nine zones in a fixed order, the
+   headings labels in the source language (the page's h3), no written-out questions. The direction colours
+   are the boxes' four (one variable each): here as a bar beside the judgement, never as a fill, so that
+   a fill can mean the grade and nothing else. Also the facet select of the graph's controls. */
+.card .zone { margin: 0 0 .5rem; }
+.card .zone + .zone { border-top: 1px solid var(--line); padding-top: .2rem; }
+.card .zone.title, .card .zone.judgement, .card .zone.wording { border-top: 0; padding-top: 0; }
+.card h2.title { font-size: 1.15rem; font-weight: 600; line-height: 1.3; margin: .3rem 0 .6rem; }
+.card h3 { margin: .8rem 0 .4rem; }
+.card h4 { margin: .6rem 0 .1rem; font-size: .8rem; color: var(--mute); text-transform: uppercase; letter-spacing: .04em; }
+.card .none { margin: .3rem 0; color: var(--mute); font-size: .9rem; }
+/* zone 2, the judgement: a 6 px bar in the direction colour, line 1 in the card's largest type with only the
+   contested marker at its right, line 2 the badges — wrapping under it, never squeezing it */
+.card .judgement { border-left: 6px solid var(--line); padding: .15rem 0 .3rem .7rem; margin-bottom: .8rem; }
+.card .judgement.dir-für { border-color: var(--dir-for); }
+.card .judgement.dir-gegen { border-color: var(--dir-against); }
+.card .judgement.dir-abwägen { border-color: var(--dir-weigh); }
+.card .judgement.dir-Lücke { border-color: var(--dir-gap); }
+.card .line1 { display: flex; align-items: baseline; justify-content: space-between; gap: .6rem; margin: 0 0 .35rem; font-size: 1.35rem; font-weight: 700; line-height: 1.25; }
+.card .line1 .answer { flex: 1 1 auto; min-width: 0; }
+.card .line1 .glyph { margin-right: .1rem; }
+.card .line1 .verbs { font-weight: 400; color: var(--mute); margin-left: .3rem; }
+.card .contested-mark { flex: none; font-size: .85rem; font-weight: 700; color: var(--contested); text-decoration: none; padding: .15rem .5rem; border: 2px solid var(--contested); border-radius: 1rem; white-space: nowrap; }
+.card .contested-mark:hover, .card .contested-mark:focus-visible { background: var(--contested); color: #fff; }
+.card .badges { display: flex; flex-wrap: wrap; gap: .3rem .4rem; margin: 0; }
+/* a badge: the grade as text on the badge's own fill (a fill means grade, never direction), its consensus beside it */
+.card .badge { display: inline-block; padding: .15rem .6rem; border-radius: .4rem; background: var(--line); color: var(--fg); font-size: .85rem; line-height: 1.4; }
+.card .badge b { font-weight: 700; }
+/* zone 3, the wording: the guideline's sentence on its own surface, body-text size, a measure of about 70 characters */
+.card .surface { background: var(--surface); border-radius: .6rem; padding: .9rem 1rem; margin: 0 0 .5rem; max-width: 70ch; }
+.card .surface p { margin: 0; font-size: 1rem; line-height: 1.6; }
+.card ol.surfaces { margin: 0; padding-left: 1.4rem; }
+.card ol.surfaces li { margin-bottom: .5rem; }
+/* zone 4, the evidence: one line, or per outcome a native disclosure — open, no script — whose summary is the
+   counting line and whose table stands in the guideline's order; the system is named once, as the caption */
+.card .evidence .value { margin: .3rem 0; }
+.card .evidence details { margin: .3rem 0 .2rem; }
+.card .evidence summary { cursor: pointer; padding: .2rem 0; min-height: 32px; }
+.card .evidence table { border-collapse: collapse; width: 100%; max-width: 40rem; margin: .2rem 0 0; font-size: .9rem; }
+.card .evidence th, .card .evidence td { text-align: left; vertical-align: top; padding: .3rem .8rem .3rem 0; border-top: 1px solid var(--line); }
+.card .evidence th { border-top: 0; font-size: .75rem; font-weight: 600; color: var(--mute); text-transform: uppercase; letter-spacing: .04em; }
+.card .evidence td.none { font-size: inherit; margin: 0; }
+.card .evidence caption { caption-side: bottom; text-align: left; padding: .25rem 0 0; color: var(--mute); font-size: .8rem; }
+/* zone 5: a slot is plain text when its concept carries only this statement, a link with the count when more */
+.card dl.slots dd { display: flex; flex-wrap: wrap; align-items: center; column-gap: .4rem; }   /* the count beside the link while it fits, under it when not */
+.card dl.slots dd .count { color: var(--mute); font-size: .85rem; white-space: nowrap; }
+.card dl.slots dd .families { flex-basis: 100%; color: var(--mute); font-size: .85rem; }
+.card dl.slots dd .families .node-link { min-height: 32px; }
+.card ul.body li p { margin: .2rem 0; }
+/* zone 7: the contesting claims, each with the contested colour beside it, its heading in that colour */
+.card .contested h3 { color: var(--contested); }
+.card .contested ol.claims li { border-left: 3px solid var(--contested); padding-left: .6rem; }
+.card .contested .badges { margin-bottom: .2rem; }
+/* zone 8: the citation's two actions as one row of buttons, and the review status */
+.card .actions { display: flex; flex-wrap: wrap; gap: .4rem; margin: .3rem 0; }
+.card .actions .btn, .card .actions button.copy { font: inherit; font-size: .8rem; margin: 0; padding: .25rem .7rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--bg); color: var(--fg); text-decoration: none; min-height: 32px; display: inline-flex; align-items: center; }
+.card .actions .btn:hover, .card .actions .btn:focus-visible, .card .actions button.copy:hover, .card .actions button.copy:focus-visible { border-color: var(--fg); }
+.card .review { margin: .5rem 0 0; color: var(--mute); font-size: .85rem; }
+/* zone 9: closed by default; the only zone with ids and edge names */
+.card .more summary { cursor: pointer; }
+.card .more summary h3 { display: inline; }
+.card dl.meta { display: grid; grid-template-columns: max-content 1fr; gap: .2rem .8rem; margin: .4rem 0 0; font-size: .85rem; overflow-wrap: anywhere; }
+.card dl.meta dt { color: var(--mute); }
+.card dl.meta dd { margin: 0; }
+button.copy.done { color: var(--fg); border-color: var(--fg); background: var(--line); }   /* the quote is on the clipboard */
 .tools select { height: 44px; padding: 0 .6rem; border: 1px solid var(--line); border-radius: 22px; background: var(--bg); color: var(--fg); font: inherit; font-size: .9rem; max-width: 9rem; }
 /* the axis switch (docs/publication.md §3 "The axis is the reader's choice"): in the row with the search,
    an axis's label being longer than a facet's word; shown only when the view offers more than the plain hierarchy */
@@ -157,4 +186,11 @@ ul.body li p { margin: .2rem 0; }
   .tools select { max-width: 6.6rem; }
   .tools select#axis { max-width: calc(100% - 7.2rem); }   /* the row it wraps to holds it beside the facet select */
   .chapters button { min-height: 44px; align-items: center; }   /* touch targets */
+}
+
+/* print: the disclosure of zone 4 is open and has no marker to click; a table is not split across pages */
+@media print {
+  .card .evidence summary { list-style: none; }
+  .card .evidence summary::-webkit-details-marker { display: none; }
+  .card .evidence table { break-inside: avoid; }
 }

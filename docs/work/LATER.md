@@ -9,7 +9,15 @@ log. Remove an entry when its package is registered.
 
 
 
+- zone 8 of the statement card names the source by its title once per supporting claim, so a statement with several claims from one source repeats a long title per entry (seen on a throwaway fixture; no such statement is in the pool yet); name the source once per zone, or once per source, when the first such statement exists (`tools/site/templates/details.html`)
+
+- the detail sections of concepts, claims and sources, and the entity page's "json" link, still carry English chrome ("Used in", "Bears on", "codes", "grade", "No.", "copy", "section", "page") and the old `.tag` styling; the card's per-language table (`CARD_WORDS` in `tools/build.py`) could cover them under the same no-fallback rule
+
 - fill `claim.evidence` (schema 0.6.0, WP-0023) from the per-outcome GRADE tables under POMGAT's evidence-based boxes: an `extraction` pass over the source, one entry per outcome row in the guideline's own words, `outcome` where the endpoint has a concept; every statement reads `Evidenz: nicht erfasst` until it runs. Registered once the schema has merged, so its scope can name the real field (WP-0023, Notes)
+
+- an outcome the guideline lists without a certainty rating has no shape in schema 0.6.0: `evidence_entry` requires `value`, so the extraction pass that fills `claim.evidence` cannot record such a row, and the card's mixed state (`Evidenz: endpunktabhängig (3 von 5 Endpunkten erfasst)`, rows `nicht erfasst`; built by WP-0025, reachable only from data) stays unreachable. Either `value` becomes optional (a schema change with a validator rule that an entry states an outcome or a value) or the pass leaves such rows out and the count silently shrinks; decide with the first table that has an empty cell
+
+- the counting lines of zone 4 are fixed strings in the plural (`{n} Endpunkte`), so a per-outcome table with one row reads `1 Endpunkte`; a singular form is a maintainer's string, not one to invent (`CARD_WORDS` in `tools/build.py`)
 
 - a statement box's "no border" is a hairline: `tools/site/static/graph.js` sets `border-color: rgba(0,0,0,0)` on `node[type = 'statement']`, but Cytoscape ignores the alpha and draws the 1.5px base border near-black, so every box without a verb, contested or picked border still shows a thin dark rim (seen by pixel sample on WP-0022's captures, present before it). `border-opacity: 0` or `border-width: 0` on that rule makes "none" mean none; look at every box in both themes afterwards, since the hairline is currently what gives a pastel box its crisp edge
 

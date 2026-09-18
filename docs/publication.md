@@ -3,7 +3,7 @@
 > **Status: design, built in part.** The build (`tools/build.py`, `CLAUDE.md`
 > "Build") renders §2–§5 for `selection` views over sources: the URL layout, the
 > graph-and-sheet page with patient groups folded by family, the chapter tree and
-> the search with facet filters, short labels, direction glyphs, legend and banner,
+> the search with facet filters, short labels, direction glyphs, legend and judgement,
 > the order of the detail section (§3), entity pages and JSON (§4), source links
 > (§5), the grouping switch — Population · Kapitel · each axis the view declares
 > (§3, "The axis is the reader's choice") — and the deploy workflow with one
@@ -107,11 +107,11 @@ decision-graph-derivation):
   Diamond, box, tag for question, recommendation, aim; the answers are bold edge
   labels written at the end of their edge, beside the group or box they lead to, so
   that many answers from one question do not pile up mid-edge; the aim a dashed
-  edge. A box takes the colour of its direction — the four colours of the banner
+  edge. A box takes the colour of its direction — the four colours of the judgement bar
   in the details, so that box and section agree — and carries its grade as a
   letter before its label (A · B · 0 · EK, the guideline's own scale). No
   direction glyph is on the box, in any direction: the colour says it, and the
-  glyph lives in the banner and the legend. An
+  glyph lives in the judgement and the legend. An
   EK box is coloured by its direction like every other recommendation and marked
   "EK", not demoted. **The verb is a border.** A box whose supporting claims all
   say `soll` gets a solid border in a strong shade of its direction's colour —
@@ -265,44 +265,140 @@ only outcomes). Everything here runs in the browser on the view's JSON.
 *gegen*, *abwägen*, *Lücke*, derived at build time from the supporting claims:
 `soll`/`sollte` with `direction: for` → für, with `against` → gegen; `kann` → abwägen,
 because in the AWMF scheme "kann" *is* the open recommendation, the guideline's own
-third category (the banner adds the lean, "eher für" or "eher gegen"); `kind:
+third category (the judgement adds the lean, "eher für" or "eher gegen"); `kind:
 gap_notice` → Lücke; claims that disagree in direction → abwägen; a fact has no
-direction. The box's colour and a banner at the top of the details carry it; the
-glyph (✓ ✗ ⚖ ∅) stands in the banner and the legend, never on the box; the legend
+direction. The box's colour and the judgement at the top of the details carry it; the
+glyph (✓ ✗ ⚖ ∅) stands in the judgement and the legend, never on the box; the legend
 lists the four words with their colours. Timing
 ("innerhalb von 24 Stunden") is not a direction; it stays in the label.
 
 **What the section shows.**
 
-- *statement*: the section is organised by the five questions a physician brings to
-  a recommendation, in this order, each a heading in the chrome language:
-  1. **What should I do?** — the direction as a banner, so the clinical answer is
-     read in a second: the word, the verb as the claims say it — "soll nicht" for
-     a recommendation against, never the bare verb — and the evidence, **each
-     supporting claim's own grade and consensus**, an EK claim marked as such and
-     otherwise shown like any other; claims that agree share one entry, claims
-     that differ each keep theirs. Grades are shown, never composed (below). Then
-     the full label in its source language.
-  2. **Does this apply to my patient?** — the population with the family it
-     belongs to, and the condition, each linked to its concept.
-  3. **How binding and how well supported is it?** — every claim linked by
-     `supports` or `contests`, each its sentence as the guideline prints it, a
-     contesting claim marked and carrying its own grade, verb and consensus; a
-     supporting claim's stand in the banner and are not repeated here.
-  4. **What could change the answer?** — what the body text adds, grouped by
-     relation — *refines*, *supplements*, *limits* — each its text; where it is
-     written is under 5.
-  5. **Where exactly is it written?** — one citation when the recommendation
-     rests on a single claim: document, recommendation number, page, section, the
-     verbatim quote with its copy button, and the link into the cited page of the
-     source (§5). When the body text adds passages to a claim, their references
-     follow the claim's, each labelled with the relation it carries — never an
-     undifferentiated list of links. Where a recommendation comes from is as much
-     part of the answer as whom it is for.
-  The order goes from the answer to its applicability, its evidence, its limits
-  and its source. No fact about a claim appears under two questions: its grade
-  and consensus under 1, its number, page, section, id and quote under 5. The
-  entity page (§4) renders the same section.
+- *statement*: the **statement card** — nine zones in a fixed order, so that a
+  physician reads the judgement, then the wording, then for whom it holds, what
+  limits it, whether anything contradicts it, and where to look it up. A zone
+  with nothing shows its empty state or is absent; it never swaps place. Every
+  heading is a label in the statement's source language, from the build's
+  per-language words table (`CARD_WORDS` in `tools/build.py`), and none is a
+  written-out question:
+
+  | # | Zone | Heading | From | Gone when |
+  |---|---|---|---|---|
+  | 1 | Title | none | `short_label`, else `label` | never |
+  | 2 | Judgement | none | supporting claims; whether a contesting claim exists | never |
+  | 3 | Wording | `Wortlaut der Empfehlung` | `claim.label` per supporting claim | never |
+  | 4 | Evidence | `Evidenz` | the supporting claims' `evidence`, per outcome; else `Evidenz: nicht erfasst` | never |
+  | 5 | Applies to | `Gilt für` | the `population`, `condition`, `action` slots | no slot filled |
+  | 6 | Body text | `Aus dem Leitlinientext` | `limits`, `refines`, `supplements` | never (empty state) |
+  | 7 | Contradiction | `Widersprechende Empfehlung(en)` | `contests` | no contesting claim |
+  | 8 | Citation | `Beleg` | the supporting claims' `source`, the source's title | never |
+  | 9 | More | `Mehr zu dieser Aussage` | `specializes`, `complements`, `conflicts`, the ids, the slots as stored | never (closed) |
+
+  1. **Title.** The short label, exactly once on the card.
+  2. **Judgement.** One block with a 6 px bar in the direction colour at its
+     left, no heading. Line 1, in the card's largest type: the glyph, the
+     direction word and the verb as the claims say it — "soll nicht" for a
+     recommendation against, never the bare verb; at its right, only when a
+     contesting claim exists, `⚠ umstritten`, a link to zone 7, so that a
+     reader who stops after the judgement does not leave with a one-sided
+     answer. Line 2: one badge per supporting claim in claim order, its grade
+     as text on the badge's fill (`Grad A`, `Expertenkonsens`) and its consensus
+     beside it; identical pairs collapse to one badge with a count, `Grad A (2)`.
+     The badges wrap under line 1 and never squeeze it. **Their order is the
+     order of zone 8's entries** — the only thing tying a badge to its citation.
+     A claim without a direction (a fact, a gap notice) draws no direction
+     line; its badges still stand in line 2. Grades are shown, never composed
+     (below). Fill means grade, bar and glyph mean direction; nothing is
+     carried by colour alone.
+  3. **Wording.** The guideline's own sentence on its own surface: body-text
+     size, line height 1.6, a measure of about seventy characters, no indent,
+     no rule, no shrunken type. Several supporting claims: one surface each, in
+     zone 8's order. The number, page and section are in zone 8, not here.
+  4. **Evidence.** How certain the evidence is, separately from how binding
+     the recommendation is (zone 2), from the supporting claims' `evidence`
+     entries, in one of four states and no fifth:
+
+     | State | What it renders |
+     |---|---|
+     | One value | one line, no disclosure: `Evidenz: moderat (grade)` — the value and the system as the claim stores them |
+     | Per outcome | a native `<details>`, open: its `<summary>` reads `Evidenz: endpunktabhängig (4 Endpunkte, hoch bis sehr niedrig)`, under it a table `Endpunkt \| Sicherheit` in the guideline's order, never sorted, the system named once as the table's caption |
+     | Expert consensus only | one line: `Expertenkonsens, keine Evidenzbewertung` — every supporting claim `grade: EK` and none carrying an entry |
+     | Nothing recorded | one line: `Evidenz: nicht erfasst` — what is not recorded, never that the guideline says nothing |
+
+     `endpunktabhängig` comes first in the summary line and the range follows
+     in brackets, so that the sentence's first word denies that a single value
+     exists and the range reads as what it is — a description of a set. The
+     range is the highest and the lowest value present by the system's display
+     order (`EVIDENCE_SCALES` in `tools/build.py`, keyed by system, read for
+     this and nothing else); a system the build has no order for keeps the
+     table and loses the range, `Evidenz: endpunktabhängig (4 Endpunkte)`, and
+     never fails the build. Where some rows carry a value and others do not,
+     those rows read `nicht erfasst` and the line counts only what is
+     recorded: `Evidenz: endpunktabhängig (3 von 5 Endpunkten erfasst)`. Several
+     systems give one disclosure per system, never merged. Nothing is composed
+     — no average, no worst case, no certainty in zone 2 — and the disclosure
+     needs no script and survives printing.
+  5. **Applies to.** The slots as rows: `Eingriff` (population, with the
+     families it belongs to below it), `Bedingung` (condition), `Maßnahme`
+     (action). A slot is plain text when its concept carries only this one
+     statement in that role, and a link with the count when it carries more —
+     `Magensonde ziehen (6 Empfehlungen)`, the current statement included. The
+     `outcome` slot has no row: an endpoint is the dimension the certainty
+     varies along, which is zone 4's business; the slot stays in the schema and
+     the data and is listed under zone 9.
+  6. **Body text.** Three groups in order of their effect on the decision, not
+     by relation name: `Grenzt ein` (`limits`), `Präzisiert` (`refines`),
+     `Ergänzt` (`supplements`) — each passage its wording, then page and section
+     linked into the source. The zone is named after where the passages come
+     from, because the three do not share one promise: `Ergänzt` changes
+     nothing. Empty: `Für diese Aussage sind keine Textstellen aus dem
+     Leitlinientext erfasst.`
+  7. **Contradiction.** One entry per contesting claim: its own badge by zone
+     2's rules, its wording, and its own citation with recommendation number
+     and page. Heading singular or plural by count. Its existence is what the
+     marker in zone 2 announces.
+  8. **Citation.** One entry per supporting claim: the source's title,
+     recommendation number, page, section, the verbatim quote, and two
+     buttons — `In der Leitlinie öffnen` (the link into the cited page, §5)
+     and `Suchtext kopieren` (the quote to the clipboard, for viewers that
+     cannot highlight). Then the review status, `Klinische Begutachtung:
+     ausstehend` (the pool has no attestation yet). Where a recommendation
+     comes from is as much part of the answer as whom it is for.
+  9. **More.** A `<details>`, closed: the related statements over
+     `specializes`, `complements`, `conflicts`, the statement's and its claims'
+     ids, every slot as stored, the modelling source. The only zone where
+     developer vocabulary — edge names, raw values, ids — is allowed.
+
+  Every zone is a `<section>` with an accessible name (zones 1 and 2 by their
+  own first line, the others by their heading), glyphs are `aria-hidden`, and
+  every text carries its `lang`. At 390 × 844 px zones 1 to 3 of a typical
+  statement are visible without scrolling. Nothing is authored: every value
+  comes from claims, slots, edges and the source's outline, and the build adds
+  only the words of its table.
+
+  **The card, one structure.** The build assembles the card once per statement
+  (`card` in the statement's JSON, §4); the template and the JSON render that
+  one structure. Its keys are the five questions a physician brings to a
+  recommendation, kept as a **semantic mapping that is not rendered** — the
+  questions are no longer headings; an answering layer reads them from the
+  JSON (`questions` on the card):
+
+  | Key | The question it answers | Zone |
+  |---|---|---|
+  | `urteil` | Was soll ich tun, und wie verbindlich ist das? | 2 |
+  | `wortlaut` | Was steht genau in der Leitlinie? | 3 |
+  | `evidenz` | Wie gut ist das belegt? | 4 |
+  | `geltung` | Gilt das für meine Patientin oder meinen Patienten? | 5 |
+  | `leitlinientext` | Was ändert oder ergänzt der umgebende Leitlinientext? | 6 |
+  | `widerspruch` | Gibt es eine gegenläufige Empfehlung? | 7 |
+  | `beleg` | Wo steht es, und wie prüfe ich es nach? | 8 |
+
+  Two zones of earlier designs are **removed**, not overwritten: "Andere
+  Situationen, andere Antwort" — the related statements as a zone of their own
+  (WP-0019) — is gone, its content under zone 9; and the binding question,
+  "How binding and how well supported is it?", is gone — its supporting
+  claims' grade and consensus are the badges of zone 2, its contesting claims
+  are zone 7. The entity page (§4) renders the same card.
 - *concept*: the label and definition, the statements that use it and in which slot,
   and its codes (`codes_as`) once terminology imports exist.
 - *structural node*: its label, its branches or outcomes, and the statements it is
@@ -314,8 +410,13 @@ distribution. The page shows each claim's grade next to that claim and nothing o
 the statement. When the question is settled, the page follows the schema.
 
 **Language.** Content is rendered in its source language with the `lang` attribute
-set; nothing is translated. Chrome (navigation words) is English. Translation is a
-build-layer concern and can be added without a data change
+set; nothing is translated. The chrome of the graph (its questions, the switch)
+and of the statement card (its headings, labels and buttons) is in the view's
+source language too, from per-language tables in the build with no fallback: a
+language the tables do not cover fails the build, naming the language and the
+missing keys, so that no English word ever stands on a German card. The page
+chrome outside graph and card — header, footer, legend, counter — is English (§8).
+Translation is a build-layer concern and can be added without a data change
 (`graph-representation.md` §2).
 
 ---
@@ -411,9 +512,10 @@ cut-publication).
   whether a cut has a PDF export.
 - **Branch guards** — yes/no and value-range branches come with authored pathways
   (`branch` edges carry a `guard`); the derived tree has only slot answers.
-- **The build's own words outside the graph** — the legend, the counter, the
-  chapter panel's "all" and the page chrome are English; the questions and the
-  direction words inside the graph are in the source language. The maintainer
-  deferred the rest to a later phase.
+- **The build's own words outside the graph and the card** — the legend, the
+  counter, the chapter panel's "all" and the page chrome are English; the
+  questions and the direction words inside the graph, and every word of the
+  statement card, are in the source language. The maintainer deferred the rest
+  to a later phase.
 - **Translation** — a build-layer projection, not started.
 - **Other projections** — FHIR, RDF, diagram formats (`graph-representation.md` §13).

@@ -1,12 +1,12 @@
 ---
 id: WP-0025
 title: Zone 4 — evidence certainty per outcome, shown without composing a value
-status: open
+status: review
 created: 2026-09-17
-updated: 2026-09-17
+updated: 2026-09-18
 depends_on: [WP-0023, WP-0024]
 blocks: []
-owner: unassigned
+owner: agent
 initiative: evidence
 kind: build
 slug: site-evidence-zone
@@ -126,6 +126,54 @@ anywhere.
   carries an `evidence` entry. An `EK` claim that *does* carry one is rendered
   by whichever of the other states fits; the guideline is then saying more than
   "expert consensus" and the card must not hide it.
+- 2026-09-18 (worker): `evidence_of(claims, concept)` stands beside
+  `direction_of(claims)` and `verb_of(claims)` and reads the same list —
+  `claims_for()`'s rows, which now carry `evidence` — with a resolver for the
+  outcome concept; `card_of` calls it once. Only `supports` claims feed zone 4:
+  a contesting claim's certainty belongs beside the claim in zone 7, which
+  shows no certainty, so it is not shown anywhere — no fifth state.
+- 2026-09-18 (worker): `single` is exactly one entry across the supporting
+  claims, without `outcome`; anything else with entries is `by_outcome`, one
+  group per system in order of first appearance, the rows in claim order then
+  entry order. An entry without `outcome` inside a by-outcome group — the row
+  the memory keeps `outcome` optional for, an endpoint with no concept yet —
+  reads `nicht erfasst` in the `Endpunkt` column and counts as a row. Two
+  whole-recommendation values from two supporting claims therefore render as
+  a two-row table; the pool cannot produce that case, and no string was
+  invented for it.
+- 2026-09-18 (worker): the range is formed only when every row has a value,
+  the system is in `EVIDENCE_SCALES`, every value is on that scale and more
+  than one distinct value occurs; a table whose values are all the same gets
+  the no-range line rather than `hoch bis hoch`. In the JSON, `range` is null
+  in the same cases, so the card and the structure never disagree.
+- 2026-09-18 (worker): the system is printed as the claim stores it —
+  `Evidenz: moderat (grade)`, the caption `grade` — not as `GRADE`. A
+  per-system display name would be a table with no fallback (the card's rule)
+  and would then fail the build on an unknown system, which this package
+  forbids, or fall back silently, which WP-0024 forbids. The by-outcome lines
+  have no `{system}` placeholder, so in that state the system is named once
+  as the table's `<caption>` (data, not chrome). Whether a display name is
+  wanted is noted under Open questions.
+- 2026-09-18 (worker): the mixed state (rule 4) cannot be written under
+  schema 0.6.0 — `evidence_entry` requires `value` (`text`, `minLength: 1`),
+  so an outcome the guideline lists without a rating has no entry. The state
+  is built and was checked by calling `evidence_of` with such a row and
+  rendering the template (`(3 von 5 Endpunkten erfasst)`, rows `nicht
+  erfasst`); the schema was not changed. How the extraction pass records an
+  unrated row is in `docs/work/LATER.md`.
+- 2026-09-18 (worker): on the pool as it stands 40 of 90 statements — those
+  whose supporting claims are all `EK` — read `Expertenkonsens, keine
+  Evidenzbewertung`, the other 50 `Evidenz: nicht erfasst`. The Out paragraph
+  above said every statement would still read `nicht erfasst`; the `ek_only`
+  decision, which reads the claims, wins.
+- 2026-09-18 (worker): the open question below is rendered as it says: one
+  `<details>` per system, each naming its own system, in order of first
+  appearance; checked on a two-system fixture.
+- 2026-09-18 (worker): in print the summary's marker is hidden and the table
+  is kept on one page; the disclosure is `open` in the markup, so it prints
+  unless a reader closed it. The `evidenz` JSON carries `state`, `groups`
+  (`system`, `rows` of `outcome` {id, label, lang} or null, `value` or null,
+  `lang`, and `n`, `k`, `range`); the words stay the build's (WP-0024).
 
 ## Open questions
 
@@ -135,6 +183,11 @@ anywhere.
   per system, each naming its own system, rather than merging them or picking
   one — and if that reads badly on the first real case, it is a maintainer
   decision, entered here.
+- The system is shown as the slug the claim stores (`grade`), where the
+  registration's example reads `GRADE`. A display name per system needs a rule
+  for a system without one that neither fails the build nor falls back
+  silently — a maintainer decision, if the slug reads badly on the first real
+  case.
 
 ## Verification
 

@@ -4,6 +4,40 @@ One entry per session, newest first. Past about 200 lines, move the oldest
 entries to `docs/LOG-ARCHIVE.md`, newest first there too; never delete.
 
 ## 2026-09-18 — agent
+Packages touched: WP-0025 (open → claimed → review)
+Branch: agent/2026-09-18-site-evidence-zone
+Notable: zone 4 of the statement card reads the supporting claims'
+`evidence` (schema 0.6.0) in four states — one value on one line, per
+outcome a native open `<details>` over a table in the guideline's order with
+the range from `EVIDENCE_SCALES` (`tools/build.py`, beside `GRADES`, read for
+the range alone), expert consensus only, nothing recorded — by
+`evidence_of()`; nine words added to `CARD_WORDS`; nothing composed, no
+script, printable; `docs/publication.md` §3 amended. The mixed state
+(`3 von 5 Endpunkten erfasst`) is built but not writable: the schema
+requires `value` (LATER). On the pool 40 EK-only statements now read
+`Expertenkonsens, keine Evidenzbewertung`, 50 `Evidenz: nicht erfasst`.
+Checked on throwaway `evidence` insertions into one claim (not committed) in
+Chromium, desktop and phone, light and dark; 0 overlapping pairs with
+everything open (333 elements). Top of this run's stack, on WP-0024's branch.
+
+## 2026-09-18 — agent
+Packages touched: WP-0024 (open → claimed → review)
+Branch: agent/2026-09-18-site-statement-card-nine-zones
+Notable: the statement card is nine sections in a fixed order with every
+visible word from `CARD_WORDS` in `tools/build.py`, keyed structurally and
+with no fallback (removing `de` fails the build naming the language and all
+32 keys); `direction_of()` returns `badges` and `umstritten`, `badges_of()`
+collapses identical grade/consensus pairs in zone 8's order, `contests_of()`
+feeds zone 7, zone 5 links a slot only when its concept carries more than
+one statement and has no outcome row, `card` is assembled once and carried
+in the statement's JSON. The marker's jump is handled in the sheet script
+(`base.html`), since a hash change is the graph's deep link. Checked in
+Chromium on desktop and phone, light and dark, with a throwaway `contests`
+fixture for the marker and zone 7 (not committed); 0 overlapping pairs with
+everything open (333 elements). `docs/publication.md` §3 rewritten. Processed
+in parallel with WP-0023 (`agent/2026-09-18-schema-claim-evidence`).
+
+## 2026-09-18 — agent
 Packages touched: WP-0023 (open → claimed → review); WP-0021, WP-0022 (review → done)
 Branch: agent/2026-09-18-schema-claim-evidence
 Notable: schema 0.6.0 gives the claim `evidence` — a list of the source's own
@@ -148,49 +182,3 @@ the chapters into it beside the phase ("these are all the broader concepts,
 why are they not part of the one drop down") and dropped the two section
 views the build package had added; the status headers of the spec and the
 publication design, `CLAUDE.md` and `README.md` now describe what is built.
-
-## 2026-09-13 — agent
-Packages touched: WP-0010 (open → claimed → review)
-Branch: agent/2026-09-13-site-grouping-views
-Notable: the switch is on the site. The build emits one decision tree per
-grouping a view offers — the plain hierarchy and each `group_by` axis — by
-one derivation that takes the axis: a dimension asks "Welche {short label}?"
-first, its values the answers, the population hierarchy below each; a
-hierarchy axis swaps the `broader` edges the families come from; the not-placed
-answer is last where it is needed. `views/pomgat-lv-1.0` offers the phase;
-`?by=axes/phase` in the URL keeps the choice. After the maintainer's review of
-the first pull request the chapters became an entry of the one switch
-("Kapitel", `?by=section`, built in for every view from the claims' sections
-and the outline, no axis entity) instead of two `section` views, which were
-deleted; the form stays implemented in the build. The hierarchy path was proved on a
-throwaway region assertion in a scratch copy and found a statement hung twice
-behind "nicht zugeordnet" — fixed before anything was committed. Nothing in
-`tools/` names an axis, a slot or a concept.
-
-## 2026-09-13 — agent
-Packages touched: WP-0009 (open → claimed → review)
-Branch: agent/2026-09-13-link-grouping-axes
-Notable: the first axes went through the mechanism. Four qualifier concepts
-(präoperativ, intraoperativ, postoperativ, perioperativ), two definitions
-under `data/axes/` with the rule written out and the placements applied,
-both reports printed. The phase is asserted: `phase` on all 90 statements,
-90 of 90 placed (28 · 20 · 26 · 16), the four sentences naming several
-phases take perioperativ, no statement split. The region stays proposed:
-19 of 36 concepts, 41 of 90 statements, its five families the plain
-hierarchy's five organ families — it would show less than the view already
-does, not something else. Nothing in the schema, the validator or the tool
-changed; the rationale of a slot value lives in the commit message because
-the statement has no per-property provenance (open question added).
-
-## 2026-09-13 — agent
-Packages touched: WP-0008 (open → claimed → review)
-Branch: agent/2026-09-13-schema-grouping-axes
-Notable: schema 0.5.0 carries the mechanism of spec §4.1 — `axes/` entities,
-facet `qualifier`, `axis` on `broader`, dimension slots, `group_by` — and the
-validator its cross-file rules; the data is valid without change. Nothing in
-the schema, the validator or `tools/axes.py` names an axis, a slot or a
-concept: the statement's own slots are read from the schema. A throwaway
-region hierarchy over the first view reproduced the worked example's shape
-(19 of 36 concepts, 41 of 90 statements, two concepts in several places, the
-generic tumour operation heaviest among the unplaced with 24), the numbers
-checked by hand against the data.
