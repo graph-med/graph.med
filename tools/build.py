@@ -44,6 +44,12 @@ STATEMENT_EDGES = ("specializes", "complements", "conflicts")
 BODY_TEXT = ("limits", "refines", "supplements")   # zone 6 of the statement card, in order of their effect on the decision
 DIRECTION_GLYPH = {"für": "✓", "gegen": "✗", "abwägen": "⚖", "Lücke": "∅"}
 GRADES = ("A", "B", "0", "EK")   # the guideline's own scale, in order: the letter a box carries before its label; a new scale is a new letter
+# An evidence system's values from high to low (docs/publication.md §3, zone 4), keyed by the `system` a claim's
+# `evidence` entry names: read for the range a per-outcome table is summarised by ("hoch bis sehr niedrig") and for
+# nothing else — never for a comparison, a threshold or a derived value, and a value is never mapped onto another
+# system's. A system not in the table is a valid state that costs the range, never the build. A display order,
+# not a fact about the world, which is why it lives here and not in the schema (WP-0025).
+EVIDENCE_SCALES = {"grade": ("hoch", "moderat", "niedrig", "sehr niedrig")}
 CARD_SLOTS = ("population", "condition", "action")   # the rows of zone 5 "Gilt für", in order; `outcome` is the dimension the certainty varies along (zone 4), not a row here
 # The only words the build adds inside the graph, in the view's source language (docs/publication.md §3):
 # the two questions whose answers are the population and condition slots, the question a dimension axis
@@ -65,7 +71,9 @@ CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", 
              "cite.open", "cite.quote", "cite.review.pending", "cite.no", "cite.page", "cite.section",
              "grade.A", "grade.B", "grade.0", "grade.EK",
              "consensus.starker_konsens", "consensus.konsens", "consensus.mehrheitliche_zustimmung", "consensus.kein",
-             "marker.contested", "body.limits", "body.refines", "body.supplements", "body.empty", "evidence.missing")
+             "marker.contested", "body.limits", "body.refines", "body.supplements", "body.empty",
+             "evidence.single", "evidence.by_outcome", "evidence.by_outcome.no_range", "evidence.by_outcome.partial",
+             "evidence.ek_only", "evidence.missing", "evidence.table.outcome", "evidence.table.certainty", "evidence.row.missing")
 CARD_WORDS = {"de": {
     "zone.wording": "Wortlaut der Empfehlung", "zone.evidence": "Evidenz", "zone.applies": "Gilt für",
     "zone.body_text": "Aus dem Leitlinientext", "zone.contested.one": "Widersprechende Empfehlung",
@@ -78,7 +86,11 @@ CARD_WORDS = {"de": {
     "consensus.mehrheitliche_zustimmung": "mehrheitliche Zustimmung", "consensus.kein": "kein Konsens",
     "marker.contested": "⚠ umstritten", "body.limits": "Grenzt ein", "body.refines": "Präzisiert", "body.supplements": "Ergänzt",
     "body.empty": "Für diese Aussage sind keine Textstellen aus dem Leitlinientext erfasst.",
-    "evidence.missing": "Evidenz: nicht erfasst",
+    "evidence.single": "Evidenz: {wert} ({system})", "evidence.by_outcome": "Evidenz: endpunktabhängig ({n} Endpunkte, {von} bis {bis})",
+    "evidence.by_outcome.no_range": "Evidenz: endpunktabhängig ({n} Endpunkte)",
+    "evidence.by_outcome.partial": "Evidenz: endpunktabhängig ({k} von {n} Endpunkten erfasst)",
+    "evidence.ek_only": "Expertenkonsens, keine Evidenzbewertung", "evidence.missing": "Evidenz: nicht erfasst",
+    "evidence.table.outcome": "Endpunkt", "evidence.table.certainty": "Sicherheit", "evidence.row.missing": "nicht erfasst",
 }}
 # The five questions a physician brings to a recommendation, kept as the semantic mapping of the card's keys
 # — what each zone answers, read by an answering layer from the statement's JSON — and never rendered
@@ -158,6 +170,39 @@ def direction_of(claims: list[dict]) -> dict | None:
             "umstritten": any(c["edge"] == "contests" for c in claims)}
 
 
+def evidence_of(claims: list[dict], concept) -> dict:
+    """Zone 4 of the statement card (docs/publication.md §3): how certain the evidence is, from the supporting
+    claims' `evidence` entries (schema 0.6.0), in one of four states and no fifth — `single` (one entry, no
+    outcome: one value for the whole recommendation), `by_outcome` (anything else with entries: one group per
+    system, its rows the entries in the claims' order, never sorted — sorting by certainty would rank what the
+    guideline did not), `ek_only` (no entry, and every supporting claim `grade: EK`), `missing` (no entry).
+    Nothing is composed: no value is derived from several. A group counts its rows (`n`) and those with a value
+    (`k`), and carries a range — the highest and the lowest value present, by EVIDENCE_SCALES' order — only where
+    every row has a value, the system is in that table, every value is on its scale and more than one value
+    occurs; no order is guessed, and a partial table is summarised by its count alone.
+    `concept` resolves an outcome id to {id, label, lang}."""
+    sup = [c for c in claims if c["edge"] == "supports"]
+    entries = [(c, e) for c in sup for e in c.get("evidence") or []]
+    if not entries:
+        return {"state": "ek_only" if sup and all(c.get("grade") == "EK" for c in sup) else "missing", "groups": []}
+    groups: list[dict] = []
+    for c, e in entries:
+        g = next((g for g in groups if g["system"] == e["system"]), None)
+        if g is None:
+            g = {"system": e["system"], "rows": []}
+            groups.append(g)
+        g["rows"].append({"outcome": concept(e["outcome"]) if e.get("outcome") else None, "value": e.get("value") or None, "lang": c["lang"]})
+    for g in groups:
+        values = [r["value"] for r in g["rows"] if r["value"]]
+        g["n"], g["k"], g["range"] = len(g["rows"]), len(values), None
+        scale = EVIDENCE_SCALES.get(g["system"])
+        if scale and g["k"] == g["n"] and all(v in scale for v in values) and len(set(values)) > 1:
+            ranked = sorted(set(values), key=scale.index)
+            g["range"] = {"von": ranked[0], "bis": ranked[-1]}
+    single = len(entries) == 1 and groups[0]["rows"][0]["outcome"] is None
+    return {"state": "single" if single else "by_outcome", "groups": groups}
+
+
 def verb_of(claims: list[dict]) -> str | None:
     """The one verb of a statement's supporting claims (soll, sollte, kann), derived the way direction_of()
     derives the direction: from the `supports` edges only, and never composed — supporting claims that
@@ -222,7 +267,7 @@ class Pool:
         link = src.get("url", "")
         if link and page:
             link = source_link(link, page, claim["source"]["quote"])
-        row = {k: claim.get(k) for k in ("id", "kind", "recommendation_no", "section", "label", "grade", "verb", "direction", "consensus", "lang")}
+        row = {k: claim.get(k) for k in ("id", "kind", "recommendation_no", "section", "label", "grade", "verb", "direction", "consensus", "evidence", "lang")}
         row.update({"quote": claim["source"]["quote"], "page": page, "source": src_id, "source_title": src.get("title"), "source_lang": src.get("lang"), "link": link})
         for kind, frm, _ in self.inc.get(claim["id"], []):   # what the body text adds to this claim (spec §5)
             if kind in BODY_TEXT and frm in self.entities:
@@ -618,7 +663,8 @@ def main(argv=None) -> int:
         claims = pool.claims_for(st["id"])
         sup = [c for c in claims if c["edge"] == "supports"]
         d = direction_of(claims)
-        concept = lambda cid: {"id": cid, "label": pool.entities[cid]["label"], "lang": pool.entities[cid]["lang"]}
+        concept = lambda cid: {"id": cid, "label": pool.entities[cid]["label"], "lang": pool.entities[cid]["lang"]} if cid in pool.entities \
+            else {"id": cid, "label": cid, "lang": st["lang"]}   # a reference outside the pool (a terminology not imported) shows as its id
 
         def slot_row(role):
             """A row of zone 5: plain when the concept carries only this statement in that role, linked with the
@@ -642,13 +688,13 @@ def main(argv=None) -> int:
             "urteil": {"direction": d["word"] if d else None, "glyph": d["glyph"] if d else None, "verbs": d["verbs"] if d else [],
                        "badges": d["badges"] if d else badges_of(claims), "umstritten": d["umstritten"] if d else any(c["edge"] == "contests" for c in claims)},
             "wortlaut": [{"id": c["id"], "label": c["label"], "lang": c["lang"]} for c in sup],
-            "evidenz": {"state": "missing"},   # until WP-0025: no claim carries a certainty rating yet
+            "evidenz": evidence_of(claims, concept),
             "geltung": geltung if any(geltung.values()) else None,
             "leitlinientext": {k: [passage(b) for c in claims for b in c.get("body", []) if b["kind"] == k] for k in BODY_TEXT},
             "widerspruch": contests_of(claims),
             "beleg": {"claims": [{k: c.get(k) for k in ("id", "source", "source_title", "source_lang", "recommendation_no", "page", "section", "link", "quote", "lang")} for c in sup],
                       "review": "pending"},   # the pool has no attestation yet; what a present one reads is a maintainer decision (WP-0024, open questions)
-            "mehr": {"id": st["id"], "slots": {slot: concept(cid) if cid in pool.entities else {"id": cid, "label": cid, "lang": st["lang"]} for slot, cid in slots.items()},
+            "mehr": {"id": st["id"], "slots": {slot: concept(cid) for slot, cid in slots.items()},
                      "related": related, "claims": [{"edge": c["edge"], "id": c["id"]} for c in claims], "source": st.get("source")},
         }
 
