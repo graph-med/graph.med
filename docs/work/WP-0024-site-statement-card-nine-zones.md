@@ -1,12 +1,12 @@
 ---
 id: WP-0024
 title: The statement card — nine fixed zones, headings in the source language, one card structure
-status: open
+status: claimed
 created: 2026-09-17
-updated: 2026-09-17
+updated: 2026-09-18
 depends_on: []
 blocks: [WP-0025]
-owner: unassigned
+owner: agent
 initiative: ui
 kind: build
 slug: site-statement-card-nine-zones
