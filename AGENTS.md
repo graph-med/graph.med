@@ -9,7 +9,8 @@
    WP-0005`), and no other: each must be `status: open` with every `depends_on`
    in `docs/work/done/` or itself listed. Given several, decide whether they run
    in sequence or in parallel — one worker per package, each in a git worktree —
-   and stack their pull requests (`docs/work/README.md`, "Processing packages").
+   and stack their branches, always, so the pull requests merge once, from the
+   top (`docs/work/README.md`, "Processing packages").
    Given none, report what could be processed and stop.
 4. A package is claimed in its own commit before any code: `status: claimed`,
    `owner: agent`, `updated:` today, on branch `agent/YYYY-MM-DD-<slug>`, pushed at
