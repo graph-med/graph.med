@@ -287,7 +287,7 @@ lists the four words with their colours. Timing
   | 1 | Title | none | `short_label`, else `label` | never |
   | 2 | Judgement | none | supporting claims; whether a contesting claim exists | never |
   | 3 | Wording | `Wortlaut der Empfehlung` | `claim.label` per supporting claim | never |
-  | 4 | Evidence | `Evidenz` | `claim.evidence`, once it exists; until then `Evidenz: nicht erfasst` | never |
+  | 4 | Evidence | `Evidenz` | the supporting claims' `evidence`, per outcome; else `Evidenz: nicht erfasst` | never |
   | 5 | Applies to | `Gilt für` | the `population`, `condition`, `action` slots | no slot filled |
   | 6 | Body text | `Aus dem Leitlinientext` | `limits`, `refines`, `supplements` | never (empty state) |
   | 7 | Contradiction | `Widersprechende Empfehlung(en)` | `contests` | no contesting claim |
@@ -315,9 +315,29 @@ lists the four words with their colours. Timing
      no rule, no shrunken type. Several supporting claims: one surface each, in
      zone 8's order. The number, page and section are in zone 8, not here.
   4. **Evidence.** How certain the evidence is, separately from how binding
-     the recommendation is (zone 2). Until claims carry a certainty rating the
-     zone reads `Evidenz: nicht erfasst` — what is not recorded, never that
-     the guideline says nothing.
+     the recommendation is (zone 2), from the supporting claims' `evidence`
+     entries, in one of four states and no fifth:
+
+     | State | What it renders |
+     |---|---|
+     | One value | one line, no disclosure: `Evidenz: moderat (grade)` — the value and the system as the claim stores them |
+     | Per outcome | a native `<details>`, open: its `<summary>` reads `Evidenz: endpunktabhängig (4 Endpunkte, hoch bis sehr niedrig)`, under it a table `Endpunkt \| Sicherheit` in the guideline's order, never sorted, the system named once as the table's caption |
+     | Expert consensus only | one line: `Expertenkonsens, keine Evidenzbewertung` — every supporting claim `grade: EK` and none carrying an entry |
+     | Nothing recorded | one line: `Evidenz: nicht erfasst` — what is not recorded, never that the guideline says nothing |
+
+     `endpunktabhängig` comes first in the summary line and the range follows
+     in brackets, so that the sentence's first word denies that a single value
+     exists and the range reads as what it is — a description of a set. The
+     range is the highest and the lowest value present by the system's display
+     order (`EVIDENCE_SCALES` in `tools/build.py`, keyed by system, read for
+     this and nothing else); a system the build has no order for keeps the
+     table and loses the range, `Evidenz: endpunktabhängig (4 Endpunkte)`, and
+     never fails the build. Where some rows carry a value and others do not,
+     those rows read `nicht erfasst` and the line counts only what is
+     recorded: `Evidenz: endpunktabhängig (3 von 5 Endpunkten erfasst)`. Several
+     systems give one disclosure per system, never merged. Nothing is composed
+     — no average, no worst case, no certainty in zone 2 — and the disclosure
+     needs no script and survives printing.
   5. **Applies to.** The slots as rows: `Eingriff` (population, with the
      families it belongs to below it), `Bedingung` (condition), `Maßnahme`
      (action). A slot is plain text when its concept carries only this one

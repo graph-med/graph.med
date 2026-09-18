@@ -141,6 +141,16 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card .surface p { margin: 0; font-size: 1rem; line-height: 1.6; }
 .card ol.surfaces { margin: 0; padding-left: 1.4rem; }
 .card ol.surfaces li { margin-bottom: .5rem; }
+/* zone 4, the evidence: one line, or per outcome a native disclosure — open, no script — whose summary is the
+   counting line and whose table stands in the guideline's order; the system is named once, as the caption */
+.card .evidence .value { margin: .3rem 0; }
+.card .evidence details { margin: .3rem 0 .2rem; }
+.card .evidence summary { cursor: pointer; padding: .2rem 0; min-height: 32px; }
+.card .evidence table { border-collapse: collapse; width: 100%; max-width: 40rem; margin: .2rem 0 0; font-size: .9rem; }
+.card .evidence th, .card .evidence td { text-align: left; vertical-align: top; padding: .3rem .8rem .3rem 0; border-top: 1px solid var(--line); }
+.card .evidence th { border-top: 0; font-size: .75rem; font-weight: 600; color: var(--mute); text-transform: uppercase; letter-spacing: .04em; }
+.card .evidence td.none { font-size: inherit; margin: 0; }
+.card .evidence caption { caption-side: bottom; text-align: left; padding: .25rem 0 0; color: var(--mute); font-size: .8rem; }
 /* zone 5: a slot is plain text when its concept carries only this statement, a link with the count when more */
 .card dl.slots dd { display: flex; flex-wrap: wrap; align-items: center; column-gap: .4rem; }   /* the count beside the link while it fits, under it when not */
 .card dl.slots dd .count { color: var(--mute); font-size: .85rem; white-space: nowrap; }
@@ -176,4 +186,11 @@ button.copy.done { color: var(--fg); border-color: var(--fg); background: var(--
   .tools select { max-width: 6.6rem; }
   .tools select#axis { max-width: calc(100% - 7.2rem); }   /* the row it wraps to holds it beside the facet select */
   .chapters button { min-height: 44px; align-items: center; }   /* touch targets */
+}
+
+/* print: the disclosure of zone 4 is open and has no marker to click; a table is not split across pages */
+@media print {
+  .card .evidence summary { list-style: none; }
+  .card .evidence summary::-webkit-details-marker { display: none; }
+  .card .evidence table { break-inside: avoid; }
 }

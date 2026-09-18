@@ -30,9 +30,31 @@
 {% for s in c.wortlaut %}<li class="surface"><p lang="{{ s.lang }}">{{ s.label }}</p></li>
 {% endfor %}</ol>
 {% endif %}</section>
+{# zone 4: how certain the evidence is, in one of four states (docs/publication.md §3) — one value on one line; per
+   outcome a native <details>, open, its <summary> the counting line and under it the table in the guideline's order,
+   one per system, the system named once as the table's caption and never per row; expert consensus only; nothing
+   recorded. No value is composed from several, and no JavaScript is needed. #}
 <section class="zone evidence" aria-labelledby="zone-evidence-h">
 <h3 id="zone-evidence-h">{{ W("zone.evidence") }}</h3>
+{% set ev = c.evidenz %}
+{% if ev.state == "single" %}{% set g = ev.groups[0] %}
+<p class="value">{{ W("evidence.single").format(wert=g.rows[0].value, system=g.system) }}</p>
+{% elif ev.state == "by_outcome" %}
+{% for g in ev.groups %}<details class="outcomes" open>
+<summary>{% if g.k < g.n %}{{ W("evidence.by_outcome.partial").format(k=g.k, n=g.n) }}{% elif g.range %}{{ W("evidence.by_outcome").format(n=g.n, von=g.range.von, bis=g.range.bis) }}{% else %}{{ W("evidence.by_outcome.no_range").format(n=g.n) }}{% endif %}</summary>
+<table>
+<caption>{{ g.system }}</caption>
+<thead><tr><th scope="col">{{ W("evidence.table.outcome") }}</th><th scope="col">{{ W("evidence.table.certainty") }}</th></tr></thead>
+<tbody>
+{% for r in g.rows %}<tr>{% if r.outcome %}<td lang="{{ r.outcome.lang }}">{{ r.outcome.label }}</td>{% else %}<td class="none">{{ W("evidence.row.missing") }}</td>{% endif %}{% if r.value %}<td lang="{{ r.lang }}">{{ r.value }}</td>{% else %}<td class="none">{{ W("evidence.row.missing") }}</td>{% endif %}</tr>
+{% endfor %}</tbody>
+</table>
+</details>
+{% endfor %}{% elif ev.state == "ek_only" %}
+<p class="value">{{ W("evidence.ek_only") }}</p>
+{% else %}
 <p class="none">{{ W("evidence.missing") }}</p>
+{% endif %}
 </section>
 {% if c.geltung %}
 <section class="zone applies" aria-labelledby="zone-applies-h">
