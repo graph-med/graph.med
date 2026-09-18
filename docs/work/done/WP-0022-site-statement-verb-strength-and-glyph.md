@@ -1,9 +1,9 @@
 ---
 id: WP-0022
 title: Statement box border shows soll vs sollte, direction glyph moves to the detail panel only
-status: review
+status: done
 created: 2026-09-16
-updated: 2026-09-16
+updated: 2026-09-18
 depends_on: []
 blocks: []
 owner: agent
