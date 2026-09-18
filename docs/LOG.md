@@ -13,6 +13,23 @@ set) was merged with `main` and renumbered from WP-0023, and WP-0027 was
 registered (#79).
 
 ## 2026-09-16 — agent
+Packages touched: WP-0022 (open → claimed → review)
+Branch: agent/2026-09-16-site-statement-verb-strength-and-glyph
+Notable: the statement box now carries its verb as a border — a solid rim in
+a strong shade of the direction's colour when the supporting claims all say
+`soll` (green für, red "soll nicht"), none for `sollte` or a mixed verb —
+derived by `verb_of()` beside `direction_of()` and passed as `verb` on the
+node; the direction glyph (✓ ✗ ⚖ ∅) is off the box entirely, the box reads
+"EK · <short label>", the banner and the legend keep their glyphs; the legend
+gains "verb by border"; `docs/publication.md` §3 amended. Checked in Chromium
+on desktop and phone, light and dark, 0 overlapping pairs with everything
+open (333 elements). Found and left alone, in `LATER.md`: every statement
+box's "no border" (`rgba(0,0,0,0)`) renders as a 1.5px near-black hairline
+because Cytoscape ignores the alpha. Push failed on a host-side credential
+problem the coordinator had already reported. The three oldest log entries
+rotated to `docs/LOG-ARCHIVE.md`.
+
+## 2026-09-16 — agent
 Packages touched: WP-0021 (open → claimed → review)
 Branch: agent/2026-09-16-site-answer-label-gap-when-faded
 Notable: a faded answer's label now breaks its line cleanly. Cytoscape blits
@@ -175,19 +192,3 @@ population concepts but only 42 of 90 statements, because the generic tumour
 operation carries 24 — which is why coverage is reported by statement too.
 Phase: 58 of 90 sentences name their phase, the rest fall to the chapter.
 grouping-axes and phase-vocabulary left `docs/open-questions.md`.
-
-## 2026-09-13 — agent
-Packages touched: WP-0004, WP-0005 (review → done); WP-0007 to WP-0010 (reworded)
-Branch: docs/grouping-axes-mechanism
-Notable: the grouping axes were first designed as anatomy, phase and access —
-POMGAT's own organising principles — and the maintainer asked for a design
-that "also works across other leitlinien", then, of a fixed cross-guideline
-vocabulary, "then there is a third Leitlinie. It needs to work for them all",
-and proposed that a physician suggests axes and post-processing tests their
-feasibility. Written into the spec as §4.1 (proposed → tested → asserted →
-shown; two carriers, a slot or `axis` on `broader`; the test reports and never
-writes, the grouping is always an asserted edge or slot value), into
-`docs/publication.md` §3, `README.md`, two memories (`generic-over-guidelines`,
-`grouping-axes-proposed-and-tested`) and the four packages of the initiative,
-whose contents changed while their ids and slugs stayed. Found that WP-0006 is
-not on `main`: #56 was cut before #55 merged.

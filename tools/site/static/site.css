@@ -5,13 +5,17 @@
   /* the four directions (für · gegen · abwägen · Lücke): one colour each for the box in the graph and the banner in the
      details, so that the two agree — light enough for dark text in both themes; gegen is a tint of the contested red */
   --dir-for: #9ad3a8; --dir-against: #e9a9ad; --dir-weigh: #f2d97a; --dir-gap: #d4d4d4;
+  /* the verb as a border on the box: "soll" gets a rim in a strong shade of its direction's colour ("soll nicht" the red one),
+     saturated well past the pastel fill so that it reads against it in both themes; "sollte" has no border */
+  --verb-for: #1f7a3c; --verb-against: #b3232c;
   --note: #f2d97a;   /* the preview strip */
   color-scheme: light dark;
 }
 @media (prefers-color-scheme: dark) {
   :root { --bg: #111; --fg: #eee; --mute: #999; --line: #333; --accent: #7cb7ff;
           --statement: #7cb7ff; --concept: #9ad17a; --contested: #ff6b6b; --edge: #555;
-          --dir-for: #7fc492; --dir-against: #dd8d92; --dir-weigh: #e5c95a; --dir-gap: #b4b4b4; }
+          --dir-for: #7fc492; --dir-against: #dd8d92; --dir-weigh: #e5c95a; --dir-gap: #b4b4b4;
+          --verb-for: #146b32; --verb-against: #9e1c26; }
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
@@ -48,6 +52,7 @@ ul.cards small, ul.plain small { display: block; color: var(--mute); }
 .sw.aim { clip-path: polygon(0 0, 80% 0, 100% 50%, 80% 100%, 0 100%); background: var(--mute); }
 .sw.d-for { background: var(--dir-for); border: 0; } .sw.d-against { background: var(--dir-against); border: 0; }
 .sw.d-weigh { background: var(--dir-weigh); border: 0; } .sw.d-gap { background: var(--dir-gap); border: 0; }
+.sw.v-for { background: var(--dir-for); border: 2px solid var(--verb-for); } .sw.v-against { background: var(--dir-against); border: 2px solid var(--verb-against); }
 .tools { position: absolute; right: .6rem; top: .6rem; display: flex; gap: .4rem; }
 .tools button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--bg); color: var(--fg); font-size: 1.2rem; }
 

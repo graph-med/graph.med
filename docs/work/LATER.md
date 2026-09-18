@@ -9,7 +9,9 @@ log. Remove an entry when its package is registered.
 
 
 
-- the chapter panel's bottom edge runs under the legend on a phone: its `max-height` leaves room for the legend's two desktop lines, and on a 390 px screen the legend wraps to four; the panel should stop above the legend at every width (`tools/site/static/site.css`, `.chapters` and `.hint`)
+- a statement box's "no border" is a hairline: `tools/site/static/graph.js` sets `border-color: rgba(0,0,0,0)` on `node[type = 'statement']`, but Cytoscape ignores the alpha and draws the 1.5px base border near-black, so every box without a verb, contested or picked border still shows a thin dark rim (seen by pixel sample on WP-0022's captures, present before it). `border-opacity: 0` or `border-width: 0` on that rule makes "none" mean none; look at every box in both themes afterwards, since the hairline is currently what gives a pastel box its crisp edge
+
+- the chapter panel's bottom edge runs under the legend on a phone: its `max-height` leaves room for the legend's three desktop lines, and on a 390 px screen the legend wraps to five; the panel should stop above the legend at every width (`tools/site/static/site.css`, `.chapters` and `.hint`)
 
 - the question a dimension axis adds is a per-language form, "Welche {label}?", filled with the axis's short label (`WORDS` in `tools/build.py`); it cannot inflect, so a neuter axis ("Stadium") would read "Welche Stadium?" — either a `question` the axis declares in its own language, or a gender beside the label, would fix it; decide with the first axis the form gets wrong
 
