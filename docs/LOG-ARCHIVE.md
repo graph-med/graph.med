@@ -4,6 +4,19 @@ Entries rotated out of `docs/LOG.md` once it passes about 200 lines, newest
 first here too; never delete.
 
 ## 2026-09-13 — agent
+Packages touched: WP-0008 (open → claimed → review)
+Branch: agent/2026-09-13-schema-grouping-axes
+Notable: schema 0.5.0 carries the mechanism of spec §4.1 — `axes/` entities,
+facet `qualifier`, `axis` on `broader`, dimension slots, `group_by` — and the
+validator its cross-file rules; the data is valid without change. Nothing in
+the schema, the validator or `tools/axes.py` names an axis, a slot or a
+concept: the statement's own slots are read from the schema. A throwaway
+region hierarchy over the first view reproduced the worked example's shape
+(19 of 36 concepts, 41 of 90 statements, two concepts in several places, the
+generic tumour operation heaviest among the unplaced with 24), the numbers
+checked by hand against the data.
+
+## 2026-09-13 — agent
 Packages touched: WP-0007 (open → claimed → review)
 Branch: agent/2026-09-13-grouping-axes-decision
 Notable: spec §4.1 completed into a mechanism: the axis entity and its fields,

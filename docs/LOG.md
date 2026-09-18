@@ -4,6 +4,23 @@ One entry per session, newest first. Past about 200 lines, move the oldest
 entries to `docs/LOG-ARCHIVE.md`, newest first there too; never delete.
 
 ## 2026-09-18 — agent
+Packages touched: WP-0024 (open → claimed → review)
+Branch: agent/2026-09-18-site-statement-card-nine-zones
+Notable: the statement card is nine sections in a fixed order with every
+visible word from `CARD_WORDS` in `tools/build.py`, keyed structurally and
+with no fallback (removing `de` fails the build naming the language and all
+32 keys); `direction_of()` returns `badges` and `umstritten`, `badges_of()`
+collapses identical grade/consensus pairs in zone 8's order, `contests_of()`
+feeds zone 7, zone 5 links a slot only when its concept carries more than
+one statement and has no outcome row, `card` is assembled once and carried
+in the statement's JSON. The marker's jump is handled in the sheet script
+(`base.html`), since a hash change is the graph's deep link. Checked in
+Chromium on desktop and phone, light and dark, with a throwaway `contests`
+fixture for the marker and zone 7 (not committed); 0 overlapping pairs with
+everything open (333 elements). `docs/publication.md` §3 rewritten. Processed
+in parallel with WP-0023 (`agent/2026-09-18-schema-claim-evidence`).
+
+## 2026-09-18 — agent
 Packages touched: WP-0023 (open → claimed → review); WP-0021, WP-0022 (review → done)
 Branch: agent/2026-09-18-schema-claim-evidence
 Notable: schema 0.6.0 gives the claim `evidence` — a list of the source's own
@@ -181,16 +198,3 @@ hierarchy's five organ families — it would show less than the view already
 does, not something else. Nothing in the schema, the validator or the tool
 changed; the rationale of a slot value lives in the commit message because
 the statement has no per-property provenance (open question added).
-
-## 2026-09-13 — agent
-Packages touched: WP-0008 (open → claimed → review)
-Branch: agent/2026-09-13-schema-grouping-axes
-Notable: schema 0.5.0 carries the mechanism of spec §4.1 — `axes/` entities,
-facet `qualifier`, `axis` on `broader`, dimension slots, `group_by` — and the
-validator its cross-file rules; the data is valid without change. Nothing in
-the schema, the validator or `tools/axes.py` names an axis, a slot or a
-concept: the statement's own slots are read from the schema. A throwaway
-region hierarchy over the first view reproduced the worked example's shape
-(19 of 36 concepts, 41 of 90 statements, two concepts in several places, the
-generic tumour operation heaviest among the unplaced with 24), the numbers
-checked by hand against the data.

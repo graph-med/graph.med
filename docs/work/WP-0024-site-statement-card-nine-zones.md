@@ -1,7 +1,7 @@
 ---
 id: WP-0024
 title: The statement card — nine fixed zones, headings in the source language, one card structure
-status: claimed
+status: review
 created: 2026-09-17
 updated: 2026-09-18
 depends_on: []
@@ -264,6 +264,49 @@ guideline says nothing about it".
   `families_of`). The zone table names three rows and does not mention
   families; dropping a link the panel has today would be a silent loss, so it
   stays until said otherwise.
+- 2026-09-18 (implementing session): the card's table is a table beside `WORDS`
+  (`CARD_WORDS`, with `CARD_KEYS` as the reference key set so that a missing
+  language names every key), not a second key space inside it — the graph's
+  words are resolved per view, the card's per entity, and an entity page has no
+  view: the card's language is the statement's `lang`, which is the source
+  language in practice.
+- 2026-09-18: zone 8 lists the supporting claims only; a contesting claim's
+  citation stands in zone 7 with the claim, so no fact appears twice. The badge
+  order equals zone 8's order by construction: both iterate the claims in the
+  order `claims_for()` returns them.
+- 2026-09-18: the body passages' page and section are in zone 6 with each
+  passage, and no longer nested under the claim's citation in zone 8; no id is
+  shown there — A5 (no ids outside zone 9) wins over the zone table's "and id
+  where present".
+- 2026-09-18: several supporting claims in zone 3 are numbered surfaces
+  without a relation label: the table has no word for "supports" and none was
+  invented; the number is the position, which is the entry's position in zone 8.
+- 2026-09-18: zones 1 and 2 are named by their own first element
+  (`aria-labelledby` on the title and on line 1 of the judgement) rather than
+  by a visually hidden element, because such an element would have to carry a
+  word the table does not have.
+- 2026-09-18: a badge has one neutral fill for every grade, the grade and the
+  consensus as text; no per-grade hue was introduced — the maintainer fixed no
+  palette and the memory `box-colour-by-direction` says never to move the
+  grade back into colour. The direction is the 6 px bar in the boxes' four
+  colour variables, never a fill.
+- 2026-09-18: the marker's jump to zone 7 is handled by the sheet's script in
+  `tools/site/templates/base.html` (scroll and focus, the hash untouched):
+  on a view page a hash change is the deep link the graph follows
+  (`window.onhashchange` relayouts the tree), and the graph script is out of
+  scope. The same script keeps the copy button's label — every word of the
+  card is the table's — and marks the copied state by a class for a moment.
+- 2026-09-18: the family line under `Eingriff` stays (the default above) as
+  the family labels alone, linked, under the population; the English "within"
+  had no word in the table and is gone.
+- 2026-09-18: the `outcome` slot and any dimension slot (`phase`) are listed
+  in zone 9 as stored, so that leaving zone 5 loses nothing from the card.
+- 2026-09-18: zone 8 names the source by its title (data), never by its id;
+  the constant `EVIDENCE` (the edge kinds) became `CLAIM_EDGES` so that
+  "evidence" in the build means zone 4 only.
+- 2026-09-18: the card's JSON carries `questions` (the mapping) and `lang`
+  beside the seven keys, the title and `mehr`; the words themselves are not in
+  the JSON — the chrome is the build's, the JSON is the structure.
 
 ## Open questions
 
