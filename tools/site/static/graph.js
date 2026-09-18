@@ -236,7 +236,6 @@
     eles.addClass("picked");
     sheet.innerHTML = data.html[ref] || home; hint.hidden = !data.html[ref];
     if (push) history.replaceState(null, "", "#" + ref);
-    if (window.innerWidth < 900) sheet.scrollIntoView({ behavior: "smooth", block: "start" });
   }
   cy.on("tap", "node, edge", function (evt) {
     var t = evt.target, ref = t.data("ref");
