@@ -1,12 +1,12 @@
 ---
 id: WP-0025
 title: Zone 4 — evidence certainty per outcome, shown without composing a value
-status: open
+status: claimed
 created: 2026-09-17
-updated: 2026-09-17
+updated: 2026-09-18
 depends_on: [WP-0023, WP-0024]
 blocks: []
-owner: unassigned
+owner: agent
 initiative: evidence
 kind: build
 slug: site-evidence-zone
