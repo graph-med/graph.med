@@ -1,12 +1,12 @@
 ---
 id: WP-0027
 title: The graph stays in view when a node is tapped on a phone
-status: open
+status: claimed
 created: 2026-09-18
 updated: 2026-09-18
 depends_on: []
 blocks: []
-owner: unassigned
+owner: agent
 initiative: ui
 kind: build
 slug: site-phone-graph-stays-in-view
