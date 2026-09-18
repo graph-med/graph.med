@@ -1,12 +1,12 @@
 ---
 id: WP-0023
 title: claim.evidence — evidence certainty per outcome, in an open system vocabulary
-status: open
+status: claimed
 created: 2026-09-17
-updated: 2026-09-17
+updated: 2026-09-18
 depends_on: []
 blocks: [WP-0025]
-owner: unassigned
+owner: agent
 initiative: evidence
 kind: schema
 slug: schema-claim-evidence
