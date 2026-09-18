@@ -21,7 +21,7 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 $id: https://graph.med/schema/schema.yaml
 title: graph.med pool
-x-version: 0.5.0
+x-version: 0.6.0
 
 # ── layout: which definition each data file validates against ────────────────
 # (data/README.md). Globs are relative to the repository root. `one_per_file`
@@ -134,6 +134,17 @@ $defs:
       section: {type: string, minLength: 1}
       title:   {$ref: '#/$defs/text'}
       page:    {type: integer, minimum: 1}
+  # one certainty rating on a claim (spec §3.1): the word of the system that rated it, and the
+  # outcome it rates where the source rates per outcome. No system and no value is enumerated:
+  # a second guideline brings its own, and a value is never mapped onto another system's
+  evidence_entry:
+    type: object
+    required: [value, system]
+    additionalProperties: false
+    properties:
+      outcome: {$ref: '#/$defs/concept_ref'}   # absent where the source rates the whole recommendation
+      value:   {$ref: '#/$defs/text'}          # the system's own word, source language, never translated
+      system:  {$ref: '#/$defs/slug'}          # grade, oxford_loe, esc_loe, … — an open string, never an enum
 
   # ── provenance (spec §6.2–6.4) ────────────────────────────────────────────
   locator:
@@ -213,6 +224,13 @@ $defs:
       verb:      {enum: [soll, sollte, kann],     x-provenance: required}
       direction: {enum: [for, against],           x-provenance: required}
       consensus: {enum: [konsens, starker_konsens, mehrheitliche_zustimmung], x-provenance: required}
+      evidence:  # how certain the evidence is, per outcome, in the words of the system that rated it
+                 # (spec §3.1); absent or [] is "not recorded". A list even where the source states one
+                 # value (one entry, no `outcome`): never a scalar, and never reduced to one value
+        type: array
+        uniqueItems: true
+        items: {$ref: '#/$defs/evidence_entry'}
+        x-provenance: required   # read off the source like grade and consensus, never inferred
       source: {$ref: '#/$defs/reference'}
       provenance:
         description: Per-property overrides. A `required`-provenance property may only be overridden with a passage.
@@ -226,6 +244,7 @@ $defs:
           verb:              {$ref: '#/$defs/references'}
           direction:         {$ref: '#/$defs/references'}
           consensus:         {$ref: '#/$defs/references'}
+          evidence:          {$ref: '#/$defs/references'}
 
   concept:
     type: object

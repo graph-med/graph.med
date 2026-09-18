@@ -26,11 +26,20 @@
   PolyForm Noncommercial 1.0.0
 </footer>
 <script>
-/* the "copy" button beside a quote: for viewers that cannot highlight a search from the link
-   (Chrome, Edge, Safari), the quote goes to the clipboard so that Ctrl+F in the document finds it */
+/* the copy button beside a quote: for viewers that cannot highlight a search from the link
+   (Chrome, Edge, Safari), the quote goes to the clipboard so that Ctrl+F in the document finds it;
+   the button keeps its label — every word of the card comes from the build's table — and shows the
+   state by a class for a moment */
 document.addEventListener("click", function (e) {
   var b = e.target.closest("button.copy"); if (!b || !navigator.clipboard) return;
-  navigator.clipboard.writeText(b.dataset.copy).then(function () { b.textContent = "copied"; setTimeout(function () { b.textContent = "copy"; }, 1500); });
+  navigator.clipboard.writeText(b.dataset.copy).then(function () { b.classList.add("done"); setTimeout(function () { b.classList.remove("done"); }, 1500); });
+});
+/* the contested marker in a statement's judgement jumps to its zone 7 within the sheet; the hash stays,
+   since on a view page it is the deep link the graph follows */
+document.addEventListener("click", function (e) {
+  var a = e.target.closest("a.contested-mark"); if (!a) return;
+  var z = document.getElementById(a.getAttribute("href").slice(1)); if (!z) return;
+  e.preventDefault(); z.scrollIntoView({ behavior: "smooth", block: "start" }); z.focus({ preventScroll: true });
 });
 </script>
 {% block scripts %}{% endblock %}

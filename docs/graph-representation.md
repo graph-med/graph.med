@@ -1,7 +1,7 @@
 # Graph Representation — how knowledge is stored in this repository
 
 > **Status: design intent, partly enforced.** The schema (`schema/schema.yaml`,
-> currently 0.5.0) exists and `tools/validate.py` enforces it, locally and in CI
+> currently 0.6.0) exists and `tools/validate.py` enforces it, locally and in CI
 > (`CLAUDE.md`, "Checks"): ids, enums, provenance requirements, claim hashes, slots,
 > edges, a claim's `section` against its source's `outline`, `broader` without
 > cycles, and with `--verify-quotes` every quote against its source. The pool uses
@@ -181,6 +181,24 @@ unit is the **recommendation sentence**, not the box: a box holding several
 sentences with their own verbs and directions becomes several claims sharing
 the box's `recommendation_no`, each with the one grade its verb maps to under
 the source's grading scheme (memory `box-granularity-per-sentence`).
+
+How binding a recommendation is (`grade`, `verb`) and how certain the evidence
+behind it is are two different facts, and a source may state the second per
+outcome — *hoch* for one endpoint, *sehr niedrig* for another. A claim carries
+it as **`evidence`**: a list of entries, each the rating in the words of the
+system that made it (`value`, `system`: GRADE, Oxford, the ESC levels, whatever
+the source used) and, where the source rates per outcome, the outcome concept
+it applies to. Two rules keep the field honest. **A value is never mapped
+between systems**: GRADE's *hoch* is not an Oxford level, no table in the
+schema, the validator or the build says otherwise, and a system the site does
+not know is a valid state, not an error. **Several entries are never reduced to
+one**: a recommendation whose certainty differs by outcome carries every row,
+and no consumer forms a summary value from them — grades are shown, never
+composed (`docs/publication.md` §3). A source that rates the whole
+recommendation once produces one entry without an outcome; an absent or empty
+list means the certainty was not recorded, not that there is none. Like the
+grade, the rating is read off the source and never inferred: its provenance is
+required (§6.5).
 
 ### 3.2 The semantic layer
 
