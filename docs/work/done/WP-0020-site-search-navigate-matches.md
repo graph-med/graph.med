@@ -1,9 +1,9 @@
 ---
 id: WP-0020
 title: Search steps from match to match, not only highlights
-status: review
+status: done
 created: 2026-09-16
-updated: 2026-09-16
+updated: 2026-09-18
 depends_on: []
 blocks: []
 owner: agent
