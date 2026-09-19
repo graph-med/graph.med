@@ -1,6 +1,6 @@
 ---
 name: handover
-description: End-of-session handover — update docs/open-questions.md with what the session left open, migrate what it settled into the spec and .claude/memory/design/ (or docs/adr/ for the repository itself), leave the handover as a comment on each card worked (docs/LOG.md and docs/HANDOFF.md are frozen), then commit and deliver through a pull request. Use when a working session ends, or when the user asks to hand over, wrap up, or record open questions.
+description: End-of-session handover — update docs/open-questions.md with what the session left open, migrate what it settled into the spec and .claude/memory/design/ (or docs/adr/ for the repository itself), leave the handover as a comment on each card worked (there is no log or handoff file), then commit and deliver through a pull request. Use when a working session ends, or when the user asks to hand over, wrap up, or record open questions.
 ---
 
 # Handover
@@ -33,10 +33,9 @@ one is not part of the project.
    (`uv run tools/board.py comment <n> --body-file <file>`): the branch, the
    pull request, what was decided, what was left open or undone. The command
    that named the card is the permission for that comment (`project-board`
-   skill). `docs/LOG.md`, `docs/HANDOFF.md` and `docs/work/` are frozen
-   history since 2026-09-19 (ADR-0004): read them, never write them.
-   `uv run scripts/check-work.py` must still pass. A settled decision about
-   the repository itself is an ADR under `docs/adr/`, not a memory.
+   skill). The repository holds no log and no handoff file (ADR-0004). A
+   settled decision about the repository itself is an ADR under `docs/adr/`,
+   not a memory.
 5. **Deliver like any other change.** Commit on the working branch, push, and
    open or update the pull request, naming the handover in its description.
    Review is not overhead here; a reviewer seeing what was left open *is* the

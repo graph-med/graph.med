@@ -10,6 +10,7 @@ where work is registered (the `project-board` skill; ADR-0004).
     uv run tools/board.py move 89 "In Progress"             # set the column
     uv run tools/board.py comment 89 "Text"                 # comment on the card's issue
     uv run tools/board.py comment 89 --body-file F
+    uv run tools/board.py set 89 Initiative ui              # any single-select field of the board
     uv run tools/board.py close 89 [--reason not_planned] [--keep-status]   # close the issue, move to Done
     uv run tools/board.py remove 89                         # take the card off the board (the issue stays)
 
@@ -137,6 +138,29 @@ class Board:
                     return
         raise BoardError(f"no project {project!r} readable under {self.owner}; `gh api graphql` lists projectsV2 of the owner")
 
+    def field(self, field_name: str) -> tuple[str, dict[str, str]]:
+        """(field id, {option name: option id}) of a single-select field of the board."""
+        data = graphql(
+            "query($id:ID!,$n:String!){ node(id:$id){ ... on ProjectV2 { field(name:$n){ ... on ProjectV2SingleSelectField { id options { id name } } } } } }",
+            id=self.id, n=field_name,
+        )
+        f = data["node"].get("field") or {}
+        if not f.get("id"):
+            raise BoardError(f"no single-select field {field_name!r} on {self.title}")
+        return f["id"], {o["name"]: o["id"] for o in f["options"]}
+
+    def set_field(self, item_id: str, field_name: str, value: str) -> str:
+        fid, options = self.field(field_name)
+        match = [o for o in options if o.lower() == value.lower()]
+        if not match:
+            raise BoardError(f"no value {value!r} for {field_name}; the board has: {', '.join(options)}")
+        graphql(
+            "mutation($p:ID!,$i:ID!,$f:ID!,$o:String!){ updateProjectV2ItemFieldValue(input:{projectId:$p,itemId:$i,fieldId:$f,"
+            "value:{singleSelectOptionId:$o}}){ projectV2Item{ id } } }",
+            p=self.id, i=item_id, f=fid, o=options[match[0]],
+        )
+        return match[0]
+
     def status_id(self, name: str) -> str:
         for option, oid in self.statuses.items():
             if option.lower() == name.lower():
@@ -152,6 +176,7 @@ class Board:
                 "... on DraftIssue { title body } "
                 "... on Issue { number title url state repository{ nameWithOwner } } "
                 "... on PullRequest { number title url state repository{ nameWithOwner } } } "
+                "fieldValues(first:20){ nodes{ ... on ProjectV2ItemFieldSingleSelectValue { name field{ ... on ProjectV2SingleSelectField { name } } } } } "
                 "status: fieldValueByName(name:\"%s\"){ ... on ProjectV2ItemFieldSingleSelectValue { name } } } } } } }" % STATUS_FIELD,
                 id=self.id, **({"after": cursor} if cursor else {}),
             )
@@ -167,6 +192,7 @@ class Board:
                     "state": (c.get("state") or "").lower() or None,
                     "repository": (c.get("repository") or {}).get("nameWithOwner"),
                     "status": (n.get("status") or {}).get("name"),
+                    "fields": {v["field"]["name"]: v["name"] for v in (n.get("fieldValues") or {}).get("nodes", []) if v.get("field")},
                 })
             if not page["pageInfo"]["hasNextPage"]:
                 return items
@@ -247,6 +273,9 @@ def cmd_list(board: Board, args) -> None:
 def cmd_show(board: Board, args) -> None:
     item = board.find(args.item)
     print(fmt(item))
+    for k, v in item["fields"].items():
+        if k != STATUS_FIELD:
+            print(f"{k}: {v}")
     if item["number"]:
         issue = board.issue(item["number"])
         print(issue["html_url"])
@@ -309,6 +338,12 @@ def cmd_claim(board: Board, args) -> None:
     print(f"{name(item)} → {status}; {c['html_url']}")
 
 
+def cmd_set(board: Board, args) -> None:
+    item = board.find(args.item)
+    value = board.set_field(item["item_id"], args.field, args.value)
+    print(f"{name(item)}: {args.field} = {value}")
+
+
 def cmd_close(board: Board, args) -> None:
     item = board.find(args.item)
     if not item["number"]:
@@ -341,6 +376,7 @@ def main(argv: list[str] | None = None) -> int:
     s = sub.add_parser("move", help="set an item's Status"); s.add_argument("item"); s.add_argument("status"); s.set_defaults(run=cmd_move)
     s = sub.add_parser("comment", help="comment on a card's issue"); s.add_argument("item"); s.add_argument("text", nargs="?", default="")
     s.add_argument("--body-file", metavar="FILE"); s.set_defaults(run=cmd_comment)
+    s = sub.add_parser("set", help="set a single-select field of a card (e.g. Initiative)"); s.add_argument("item"); s.add_argument("field"); s.add_argument("value"); s.set_defaults(run=cmd_set)
     s = sub.add_parser("close", help="close the issue and move it to Done"); s.add_argument("item")
     s.add_argument("--reason", choices=["completed", "not_planned"], default="completed"); s.add_argument("--keep-status", action="store_true"); s.set_defaults(run=cmd_close)
     s = sub.add_parser("remove", help="take an item off the board"); s.add_argument("item"); s.set_defaults(run=cmd_remove)

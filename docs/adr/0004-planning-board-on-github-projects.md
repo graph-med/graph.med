@@ -1,4 +1,4 @@
-# ADR-0004 — The work board on GitHub Projects replaces the package files
+# ADR-0004 — The work board on GitHub Projects is the single point of truth for work
 
 Status: accepted, 2026-09-19. Supersedes ADR-0001.
 
@@ -22,10 +22,12 @@ access to it, and decided to migrate the registry to it entirely.
   the card.
 - **The card's text is the package**: the shape ADR-0001's template gave a
   package (Outcome, Scope, Constraints, Decisions, Open questions,
-  Verification) is the recommended shape of a card's text. The open and
-  blocked packages were migrated as cards carrying their text verbatim, with
-  the file named at the top; the files stay, marked `status: migrated` with
-  the card's number.
+  Verification) is the recommended shape of a card's text and lives in the
+  board's README. Every package — open, blocked and done — was migrated as a
+  card carrying its text verbatim, with the former file named at the top;
+  done packages are closed cards in Done. The **Initiative** field carries
+  what the initiative files carried, and the board's README describes each
+  initiative.
 - **The process keeps its mechanics** and changes its records. The command
   names cards instead of package ids; a worker claims by moving the card to
   In Progress with a comment naming its branch; the pull request says
@@ -37,11 +39,11 @@ access to it, and decided to migrate the registry to it entirely.
   any other write happens because the maintainer asked for it in the
   session. The agent registers no card — work it finds goes into its final
   message.
-- **`docs/work/`, `docs/LOG.md` and `docs/HANDOFF.md` are frozen** as
-  history: readable, never written; `scripts/check-work.py` still checks
-  their shape and refuses a package that is not `migrated` or `done`.
-  The entries of `docs/work/LATER.md` became Todo cards too, each marked
-  with its card number in the frozen file.
+- **`docs/work/`, `docs/LOG.md`, `docs/LOG-ARCHIVE.md`, `docs/HANDOFF.md`
+  and `scripts/check-work.py` are removed.** The board is the single point of
+  truth for what is planned, in progress and done; git history keeps the
+  files as they were. The entries of `docs/work/LATER.md` became Todo cards
+  too. A session leaves no log entry and no handoff file.
 - The App holds organisation Projects and repository Issues, read and write,
   for this (memory `environment/github-app-permissions.md`); "Admin" on
   projects was deliberately not granted.
@@ -57,6 +59,5 @@ convention, not an enforced gate: what enforces it is the organisation's
 audit log, where every board write appears under the bot's name. A session
 no longer leaves a handoff file; the next session reads the board and each
 card's comments instead, so a handover comment that is not written is a
-handover lost. The frozen files keep the history readable in the repository
-at no cost; they can be archived later without losing anything the board
-holds.
+handover lost. The history of work before the migration is on the board
+(the Done cards) and in git; nothing in the repository duplicates it.

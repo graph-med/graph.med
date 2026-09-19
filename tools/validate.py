@@ -20,8 +20,6 @@ rules a document schema cannot state because they span files:
     holds one of its `values`; `axis` on a `broader` edge names a hierarchy
     axis, and a concept has one parent per axis unless the axis says `several`;
     a view's `group_by` names axes asserted for that view; placements resolve;
-  - the work-package convention holds (scripts/check-work.py: ids, statuses,
-    dependencies, done/, HANDOFF.md against LOG.md; the registry is frozen since 2026-09-19).
 
 With --verify-quotes it also downloads each source (hash-checked, cached) and
 verifies every quote is a verbatim substring of `pdftotext -layout` on the cited
@@ -145,7 +143,6 @@ def main(argv=None) -> int:
                         broader.append((rel, i, edge[0], edge[2], edge[3]))
 
     errors += check_axes(schema, ids, entities, broader)
-    errors += check_work(set(ids))
 
     n_entities, n_edges = len(ids), len(seen_edges)
     print(f"checked {n_entities} entities and {n_edges} edges against schema {schema.get('x-version')}")
@@ -250,18 +247,6 @@ def check_axes(schema: dict, ids: dict[str, str], entities: dict[str, dict],
             if status != "asserted":
                 errs.append(f"{ids[vid]}: group_by names {axis}, which is {status or 'not proposed'} for {vid}; only an asserted axis groups a view")
     return errs
-
-
-def check_work(ids: set[str]) -> list[str]:
-    """The frozen work-package registry (docs/work/README.md; ADR-0004) has its own check,
-    scripts/check-work.py; running it here means CI covers it on every pull
-    request without a workflow change."""
-    script = ROOT / "scripts" / "check-work.py"
-    if not script.exists():
-        return []
-    run = subprocess.run([sys.executable, str(script)], capture_output=True, text=True, cwd=ROOT)
-    return [line[len("error: "):] for line in run.stdout.splitlines() if line.startswith("error: ")] + \
-           ([f"scripts/check-work.py failed: {run.stderr.strip()}"] if run.returncode and not run.stdout.startswith("error") and run.stderr else [])
 
 
 def cycles(graph: dict[str, list[str]]) -> list[list[str]]:

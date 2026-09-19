@@ -126,8 +126,8 @@ checkout.
 2. **Read the card** in full (`show <n>`), the cards it depends on, and what
    it points at: the spec (`docs/graph-representation.md`),
    `schema/schema.yaml`, `docs/publication.md` for a build card, and the
-   entries of `docs/open-questions.md` it names. A migrated card names its
-   package file under `docs/work/`; the file is the same text, frozen.
+   entries of `docs/open-questions.md` it names, and its initiative (the
+   board's README describes each).
 3. If the card reads a source (an extraction, with a source entity and pages):
    fetch it — URL and expected sha256 are on the source entity under
    `data/sources/`. **Verify the hash.** On mismatch or an unreachable URL,
@@ -194,17 +194,16 @@ handover comment.
 
 ## The worker's handover
 
-1. **Nothing in `docs/work/`, `docs/LOG.md` or `docs/HANDOFF.md`** — they are
-   frozen history (ADR-0004). The record of the work is the pull request and
-   the handover comment on the card, which the coordinator writes once the
-   pull request exists.
+1. **No log, no handoff file** — the repository holds none (ADR-0004). The
+   record of the work is the pull request and the handover comment on the
+   card, which the coordinator writes once the pull request exists.
 2. If a design question surfaced, add it to `docs/open-questions.md`; if the
    card settled one, apply the decision, delete the entry, and record the why
    — a memory under `.claude/memory/design/` for the knowledge model, an ADR
    under `docs/adr/` for the repository (the `handover` skill describes the
    former). Work you found and could not do goes into your report, for the
    maintainer to register as a card; you register none.
-3. Run `uv run tools/validate.py` (it runs `scripts/check-work.py`); for a
+3. Run `uv run tools/validate.py`; for a
    build card also the build and the screenshots (the `screenshot` skill; its
    container and output directory are named after your branch by default).
    Commit and push.

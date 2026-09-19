@@ -1,6 +1,6 @@
 ---
 name: project-board
-description: The work board — the GitHub project `planning-graph.med` of the graph-med organisation, where work is registered since 2026-09-19 (Todo, In Progress, Done) — read and written through tools/board.py as the bot. Use it whenever the maintainer mentions the board, the project, a card, a column, an item to add, move, comment on or close, or asks what is planned or in progress; and in every session that starts work, to read what is registered. Writes only with the maintainer's permission. Not for docs/work/, which is frozen history.
+description: The work board — the GitHub project `planning-graph.med` of the graph-med organisation, where work is registered since 2026-09-19 (Todo, In Progress, Done) — read and written through tools/board.py as the bot. Use it whenever the maintainer mentions the board, the project, a card, a column, an item to add, move, comment on or close, or asks what is planned or in progress; and in every session that starts work, to read what is registered. Writes only with the maintainer's permission. The repository holds no registry, log or handoff.
 ---
 
 # The work board
@@ -21,11 +21,12 @@ column is its state:
 
 The card's text is the package: what is true when it is done, what is in and
 out of scope, constraints, decisions taken, open questions, how it is
-verified — the shape `docs/work/README.md` describes, and what the migrated
-packages carry verbatim. A card with a bare title is an idea, not a package;
-processing it means asking for its scope, not inventing one.
-`docs/work/`, `docs/LOG.md` and `docs/HANDOFF.md` are frozen: history to
-read, never to write.
+verified — the template is in the board's README on the project page, and
+the migrated packages carry it verbatim. The **Initiative** field names the
+scope a card serves; the README describes each initiative. A card with a
+bare title is an idea, not a package; processing it means asking for its
+scope, not inventing one. The repository holds no registry, log or handoff:
+the board is the single point of truth for work.
 
 ## How
 
@@ -43,6 +44,7 @@ uv run tools/board.py comment 92 --body-file /tmp/graph.med/handover-92.md
 uv run tools/board.py add "Title" --body-file F  # a new card: an issue in graph.med, in Todo
 uv run tools/board.py link 91                    # an existing issue or pull request onto the board
 uv run tools/board.py move 92 "In Progress"      # set the column
+uv run tools/board.py set 92 Initiative ui       # any single-select field of the board
 uv run tools/board.py close 92                   # close the issue as completed and move it to Done
 uv run tools/board.py remove 92                  # take the card off the board; the issue stays
 ```

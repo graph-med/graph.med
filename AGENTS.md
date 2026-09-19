@@ -7,7 +7,8 @@ an agent's branch on it, Done has merged.
 
 1. Read the board first: `uv run tools/board.py list`, then each card the
    command names in full, `uv run tools/board.py show <n>` — its text is the
-   package, its comments the earlier claims and handovers.
+   package, its comments the earlier claims and handovers, its Initiative
+   field the scope it serves.
 2. Process the cards the command lists (`/process-work-package 92 93`), and no
    other: each must be in Todo, with a scope in its text and every card it
    depends on in Done or itself listed. Given several, decide whether they run
@@ -30,8 +31,8 @@ an agent's branch on it, Done has merged.
    else — a new card, a move, an edit — only when the maintainer asks. Work
    you find goes into your final message; the maintainer registers it.
 
-`docs/work/` (packages, `done/`, `LATER.md`), `docs/LOG.md` and
-`docs/HANDOFF.md` are **frozen history** since 2026-09-19: read them, never
-write them; `scripts/check-work.py` refuses a new package. The project
-itself: `CLAUDE.md`. The step-by-step procedure an agent follows:
+There is no registry, log or handoff in the repository: the board is the
+single point of truth for work, and its README (on the project page) carries
+the columns, the card template and the initiatives. The project itself:
+`CLAUDE.md`. The step-by-step procedure an agent follows:
 `.claude/skills/process-work-package/SKILL.md`.

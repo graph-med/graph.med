@@ -13,9 +13,7 @@ file, the design documentation under `docs/`, the one schema for the data pool
 CI workflow that runs it (`.github/workflows/validate.yml`), the pool itself under
 `data/` (layout in `data/README.md`), the site build (`tools/build.py`, see "Build"),
 the feasibility test of a grouping axis (`tools/axes.py`, see "Checks"), the
-work-board tool (`tools/board.py`, see "Work"), the frozen work-package
-registry, handoff and log under `docs/` with the script that checks them
-(`scripts/check-work.py`, see "Work"), `AGENTS.md`, and the `.claude/` directory
+work-board tool (`tools/board.py`, see "Work"), `AGENTS.md`, and the `.claude/` directory
 described below. There is no source tree beyond these scripts.
 Project-specific guidance — data sources and their licenses, setup and test
 instructions — belongs in this file once it exists. Do not document tooling that does
@@ -24,8 +22,7 @@ not exist.
 ## Checks
 
 Python tooling is managed with `uv` (`pyproject.toml`, `uv.lock`); never pip. The one
-check is the validator, which also runs the work-package check (`scripts/check-work.py`,
-see "Work"). `schema/schema.yaml` is a JSON Schema (draft 2020-12); the
+check is the validator. `schema/schema.yaml` is a JSON Schema (draft 2020-12); the
 validator applies it to every file under `data/` with the `jsonschema` library, then
 checks what a document schema cannot say — references resolve, claim ids hash
 correctly, edges are unique:
@@ -101,10 +98,8 @@ provenance, attestations, review — with `schema/schema.yaml` as the authority 
 syntax; `docs/publication.md` is the authority on how the pool is shown — the site
 at `graph.med`, views as pages, a graph-and-sheet page read on a phone first; and
 `docs/open-questions.md`
-carries what is not yet decided; the board (see "Work") what is agreed and not
-yet done; `docs/adr/` what was decided about the repository itself; `docs/work/`,
-`docs/HANDOFF.md` and `docs/LOG.md` are the frozen history of how work was
-registered before 2026-09-19.
+carries what is not yet decided; the board (see "Work") what is agreed, in
+progress and done; `docs/adr/` what was decided about the repository itself.
 
 ## Work
 
@@ -130,10 +125,10 @@ names a card permits its claim and its handover comment, anything else is
 asked for. The `process-work-package` skill is the procedure; the
 `project-board` skill describes the board; the `handover` skill maintains
 `docs/open-questions.md`; decisions about the repository are `docs/adr/`.
-`docs/work/` (packages, `done/`, `LATER.md`), `docs/HANDOFF.md` and
-`docs/LOG.md` are frozen history since 2026-09-19 — read, never written;
-`uv run scripts/check-work.py` checks their shape and refuses a new package;
-the validator runs it too.
+The repository holds no registry, log or handoff: the board is the single
+point of truth for work, and its README on the project page carries the
+columns, the card template and the initiatives (the `Initiative` field groups
+the cards).
 
 How an agent is expected to operate lives in `.claude/`, filed by level, so that
 each piece loads when it is relevant rather than all of it, always:
