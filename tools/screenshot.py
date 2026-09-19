@@ -26,8 +26,8 @@ reads its colours from the stylesheet once, when drawn, so the theme is emulated
 page loads rather than switched by an action. The runner prints how many elements are shown and
 how many pairs of nodes and answers overlap — the mechanical half of "nothing overlaps".
 The container name and the output directory default to the current branch, so that
-sessions working in parallel (one git worktree each, docs/work/README.md "Parallel
-work") on the one Docker daemon do not remove each other's container or PNG.
+sessions working in parallel (one git worktree each, ADR-0002 and the
+process-work-package skill) on the one Docker daemon do not remove each other's container or PNG.
 """
 
 from __future__ import annotations

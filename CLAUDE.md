@@ -158,7 +158,7 @@ each piece loads when it is relevant rather than all of it, always:
 │   └── design/
 ├── agents/                      subagent definitions — empty; add one .md per agent
 └── skills/
-    ├── handover/                end a session: open questions, log entry, handoff
+    ├── handover/                end a session: open questions, the handover comment on each card
     ├── process-work-package/    process the listed cards: coordinate, one worker each
     ├── project-board/           the work board (a GitHub project): read always, write with permission
     └── screenshot/              look at a view page in a real browser before proposing it

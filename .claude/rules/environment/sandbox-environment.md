@@ -43,4 +43,4 @@ Consequences of the above that come up when actually running something:
   branch and index. Parallel work is therefore several workers here, each in a
   git worktree under `.claude/worktrees/` (inside the mount, so it reaches the
   main `.git`), and they share the Docker daemon — name containers and output
-  paths after your branch (`docs/work/README.md`, "Processing packages").
+  paths after your branch (ADR-0002; the `process-work-package` skill).

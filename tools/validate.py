@@ -21,7 +21,7 @@ rules a document schema cannot state because they span files:
     axis, and a concept has one parent per axis unless the axis says `several`;
     a view's `group_by` names axes asserted for that view; placements resolve;
   - the work-package convention holds (scripts/check-work.py: ids, statuses,
-    dependencies, done/, stale claims, HANDOFF.md against LOG.md).
+    dependencies, done/, HANDOFF.md against LOG.md; the registry is frozen since 2026-09-19).
 
 With --verify-quotes it also downloads each source (hash-checked, cached) and
 verifies every quote is a verbatim substring of `pdftotext -layout` on the cited
@@ -253,7 +253,7 @@ def check_axes(schema: dict, ids: dict[str, str], entities: dict[str, dict],
 
 
 def check_work(ids: set[str]) -> list[str]:
-    """The work-package convention (docs/work/README.md) has its own check,
+    """The frozen work-package registry (docs/work/README.md; ADR-0004) has its own check,
     scripts/check-work.py; running it here means CI covers it on every pull
     request without a workflow change."""
     script = ROOT / "scripts" / "check-work.py"
