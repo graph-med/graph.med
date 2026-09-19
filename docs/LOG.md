@@ -3,6 +3,23 @@
 One entry per session, newest first. Past about 200 lines, move the oldest
 entries to `docs/LOG-ARCHIVE.md`, newest first there too; never delete.
 
+## 2026-09-19 — agent
+Packages touched: none (a direct request)
+Branch: agent/2026-09-19-project-board-skill
+Notable: the maintainer's GitHub project `planning-graph.med` (organisation
+project 6; Todo, In Progress, Done) is now reachable by the bot: organisation
+Projects and repository Issues, read and write, were granted on the App and
+accepted on the installation after three refused calls, each naming its
+permission in `X-Accepted-Github-Permissions`; a token minted before an
+acceptance keeps the old set. Confirmed end to end on a test card (issue #89:
+created, moved, commented, edited, closed, Done). Added `tools/board.py`
+(list, show, add, link, move, comment, close, remove; `gh api` only, no
+credential) and the `project-board` skill; ADR-0004 makes the board a
+planning aid, never a control; memory
+`environment/github-app-permissions.md`; open question board-and-packages.
+Also removed two stray files from the working tree and fast-forwarded `main`
+to the merge of #86–#88.
+
 ## 2026-09-18 — agent
 Packages touched: WP-0025 (open → claimed → review)
 Branch: agent/2026-09-18-site-evidence-zone
@@ -172,13 +189,3 @@ the direction colours hold under every grouping of the switch (425 elements
 under the phase, 433 under the chapters). The branch awaits its pull request
 with base `main`.
 
-## 2026-09-13 — agent
-Packages touched: WP-0007 to WP-0010 (review → done)
-Branch: docs/close-groupings
-Notable: the `groupings` initiative merged as a stack of five pull requests,
-approved and merged one at a time because the ruleset dismisses an approval
-whenever the merge base changes. The maintainer, reviewing the switch, put
-the chapters into it beside the phase ("these are all the broader concepts,
-why are they not part of the one drop down") and dropped the two section
-views the build package had added; the status headers of the spec and the
-publication design, `CLAUDE.md` and `README.md` now describe what is built.

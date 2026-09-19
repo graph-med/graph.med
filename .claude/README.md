@@ -17,7 +17,7 @@ do is worse than none, because it gets trusted.
 | `rules/conventions/` | How work is done in this repository. One `.md` per topic. |
 | `memory/` | Durable facts about this project, filed by level. One `.md` per fact. |
 | `agents/` | Subagent definitions, one `.md` each. Currently empty. |
-| `skills/` | Skills, one `<skill-name>/SKILL.md` each: `handover/`, `process-work-package/`, `screenshot/`. |
+| `skills/` | Skills, one `<skill-name>/SKILL.md` each: `handover/`, `process-work-package/`, `project-board/`, `screenshot/`. |
 | `settings.json` | Claude Code project settings: the plugins enabled for every session in this repository. One so far, `frontend-design`, for work on the site's look (`docs/publication.md` §6). |
 
 The levels — environment, conventions, design — and what each owes the reader are

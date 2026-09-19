@@ -13,6 +13,7 @@ file, the design documentation under `docs/`, the one schema for the data pool
 CI workflow that runs it (`.github/workflows/validate.yml`), the pool itself under
 `data/` (layout in `data/README.md`), the site build (`tools/build.py`, see "Build"),
 the feasibility test of a grouping axis (`tools/axes.py`, see "Checks"), the
+planning-board tool (`tools/board.py`, see "Work"), the
 work packages, handoff and log under `docs/` with the script that checks them
 (`scripts/check-work.py`, see "Work"), `AGENTS.md`, and the `.claude/` directory
 described below. There is no source tree beyond these scripts.
@@ -142,6 +143,7 @@ each piece loads when it is relevant rather than all of it, always:
 └── skills/
     ├── handover/                end a session: open questions, log entry, handoff
     ├── process-work-package/    process the listed work packages: coordinate, one worker each
+    ├── project-board/           read and write the planning board (a GitHub project) as the bot
     └── screenshot/              look at a view page in a real browser before proposing it
 ```
 
@@ -153,7 +155,7 @@ record — why a constraint exists, what was decided and rejected. It is checked
 it is reviewed and shared rather than private to one machine.
 `rules/conventions/memory.md` carries its index.
 
-`agents/` is deliberately empty, and `skills/` holds exactly three skills. A subagent
+`agents/` is deliberately empty, and `skills/` holds exactly four skills. A subagent
 or skill that automates nothing would be guidance pretending to be capability — the
 validator is a check, not a task to automate — and each exception earned its place
 as a real, repeated task. `handover` ends a session by maintaining
@@ -162,7 +164,10 @@ it — an extraction, a linking pass, a schema change, a build feature, a docs
 change, tooling — one worker, branch and pull request each, the session
 coordinating; each ends with a log entry and a rewritten handoff.
 `screenshot` renders a view page in a browser container so a build change is looked
-at, not only built. Add another only for another such task — then say in the pull request what it
+at, not only built. `project-board` works the organisation's planning board,
+`planning-graph.med` (Todo, In Progress, Done), through `tools/board.py`: list,
+add, move, comment, close — a planning aid beside `docs/work/`, never the
+record of what is agreed (ADR-0004). Add another only for another such task — then say in the pull request what it
 does and what it is allowed to touch.
 
 One fact, one home: guidance that belongs in a rule is not restated here.
