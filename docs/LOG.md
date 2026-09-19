@@ -17,7 +17,8 @@ after a refused call that named its permission in
 `environment/github-app-permissions.md`). `tools/board.py` reads and writes
 the board through `gh api`; the eight open or blocked packages became cards
 #91 to #98 with their text verbatim (WP-0016 In Progress, its pull request
-#67 now says `Closes #96`); `scripts/check-work.py` treats `docs/work/` as
+#67 now says `Closes #96`), the twenty `LATER.md` entries Todo cards #99 to
+#118; `scripts/check-work.py` treats `docs/work/` as
 frozen; AGENTS.md, the `process-work-package`, `handover` and
 `project-board` skills, CLAUDE.md and README.md describe the new process;
 ADR-0004 records it and supersedes ADR-0001. This file, `docs/HANDOFF.md`

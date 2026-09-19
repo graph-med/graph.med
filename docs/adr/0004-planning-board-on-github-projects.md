@@ -40,7 +40,8 @@ access to it, and decided to migrate the registry to it entirely.
 - **`docs/work/`, `docs/LOG.md` and `docs/HANDOFF.md` are frozen** as
   history: readable, never written; `scripts/check-work.py` still checks
   their shape and refuses a package that is not `migrated` or `done`.
-  `docs/work/LATER.md` was not migrated; the maintainer registers from it.
+  The entries of `docs/work/LATER.md` became Todo cards too, each marked
+  with its card number in the frozen file.
 - The App holds organisation Projects and repository Issues, read and write,
   for this (memory `environment/github-app-permissions.md`); "Admin" on
   projects was deliberately not granted.

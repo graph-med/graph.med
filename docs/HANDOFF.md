@@ -15,7 +15,8 @@ each carrying the package's text. WP-0016 is In Progress with its open pull
 request #67 (`Closes #96`); the others are in Todo; WP-0014 (card #94) waits
 on `docs/open-questions.md` → structural-recommendations; WP-0011, WP-0012,
 WP-0013 and WP-0015 had pull requests closed unmerged, noted on their cards.
-`docs/work/LATER.md` was not migrated; the maintainer registers from it.
+The twenty entries of `docs/work/LATER.md` are Todo cards #99 to #118, each
+marked with its card in the frozen file.
 
 **Next agent's first move.** Read the board; process only the cards the
 command lists; write to the board only as the command permits.
