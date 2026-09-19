@@ -77,6 +77,6 @@ What does **not** belong here: anything the code, the git history, `README.md` o
 already states; a decision about the repository itself — its tooling, conventions or
 process — which is an ADR under `docs/adr/`; anything true only of today's session,
 such as a current outage or a failure you are in the middle of debugging (the
-session's record is a `docs/LOG.md` entry). Record the durable shape of a problem, not
+session's record is its pull request and the handover comment on its card). Record the durable shape of a problem, not
 its current instance. If a fact turns out to be wrong, delete the file rather than
 leaving it to be trusted.

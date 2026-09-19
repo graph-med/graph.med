@@ -1,5 +1,16 @@
 # Work packages
 
+> **Frozen on 2026-09-19.** Work is registered on the board — the GitHub
+> project `planning-graph.med` — not here (ADR-0004; `AGENTS.md`; the
+> `project-board` and `process-work-package` skills). The open packages were
+> migrated to cards (`status: migrated`, `card:` the issue number); the files
+> under `docs/work/`, `docs/LOG.md` and `docs/HANDOFF.md` stay as history
+> and are not written any more; `scripts/check-work.py` refuses a new
+> package. The text below describes the convention as it was. Its package
+> template — Outcome, Scope, Constraints, Decisions, Open questions,
+> Verification — remains the recommended shape of a card's text, and ADR-0002
+> (worktrees) and ADR-0003 (one stack, merged from the top) still apply.
+
 How work is registered, picked up, handed over and finished in this repository.
 Written for a person joining cold. The short version every agent reads is
 `AGENTS.md` at the root; the agent's step-by-step procedure is

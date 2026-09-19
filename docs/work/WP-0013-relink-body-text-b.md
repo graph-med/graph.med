@@ -1,9 +1,10 @@
 ---
 id: WP-0013
 title: Relink body-text relations, chapters 7–9
-status: open
+status: migrated
 created: 2026-09-12
-updated: 2026-09-12
+updated: 2026-09-19
+card: 93
 depends_on: [WP-0012]
 blocks: []
 owner: unassigned

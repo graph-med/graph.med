@@ -1,24 +1,27 @@
 # Log
 
-One entry per session, newest first. Past about 200 lines, move the oldest
-entries to `docs/LOG-ARCHIVE.md`, newest first there too; never delete.
+**Frozen on 2026-09-19.** No entry after the first one below: a session's
+record is the handover comment on its card and its pull request (ADR-0004).
+One entry per session, newest first; older entries in `docs/LOG-ARCHIVE.md`;
+never delete.
 
 ## 2026-09-19 — agent
-Packages touched: none (a direct request)
+Packages touched: WP-0023, WP-0024, WP-0025 (review → done); WP-0011,
+WP-0012, WP-0013, WP-0014, WP-0015, WP-0016, WP-0018, WP-0026 (→ migrated)
 Branch: agent/2026-09-19-project-board-skill
-Notable: the maintainer's GitHub project `planning-graph.med` (organisation
-project 6; Todo, In Progress, Done) is now reachable by the bot: organisation
-Projects and repository Issues, read and write, were granted on the App and
-accepted on the installation after three refused calls, each naming its
-permission in `X-Accepted-Github-Permissions`; a token minted before an
-acceptance keeps the old set. Confirmed end to end on a test card (issue #89:
-created, moved, commented, edited, closed, Done). Added `tools/board.py`
-(list, show, add, link, move, comment, close, remove; `gh api` only, no
-credential) and the `project-board` skill; ADR-0004 makes the board a
-planning aid, never a control; memory
-`environment/github-app-permissions.md`; open question board-and-packages.
-Also removed two stray files from the working tree and fast-forwarded `main`
-to the merge of #86–#88.
+Notable: the work registry moved to the maintainer's GitHub project
+`planning-graph.med` (organisation project 6; Todo, In Progress, Done). The
+App gained organisation Projects and repository Issues, read and write, each
+after a refused call that named its permission in
+`X-Accepted-Github-Permissions` (memory
+`environment/github-app-permissions.md`). `tools/board.py` reads and writes
+the board through `gh api`; the eight open or blocked packages became cards
+#91 to #98 with their text verbatim (WP-0016 In Progress, its pull request
+#67 now says `Closes #96`); `scripts/check-work.py` treats `docs/work/` as
+frozen; AGENTS.md, the `process-work-package`, `handover` and
+`project-board` skills, CLAUDE.md and README.md describe the new process;
+ADR-0004 records it and supersedes ADR-0001. This file, `docs/HANDOFF.md`
+and `docs/work/` are history from here on.
 
 ## 2026-09-18 — agent
 Packages touched: WP-0025 (open → claimed → review)

@@ -1,9 +1,10 @@
 ---
 id: WP-0016
 title: Design the automated review that lands as attestations
-status: open
+status: migrated
 created: 2026-09-12
-updated: 2026-09-12
+updated: 2026-09-19
+card: 96
 depends_on: [WP-0011]
 blocks: []
 owner: unassigned

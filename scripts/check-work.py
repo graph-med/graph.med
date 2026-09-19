@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
-"""Check the work-package convention (docs/work/README.md). Exit 1 on any error.
+"""Check the frozen work-package registry (docs/work/README.md; ADR-0004). Exit 1 on any error.
 
     uv run scripts/check-work.py
 
-Fails loudly on: a duplicate or missing id, an id not matching its file name,
+Since 2026-09-19 work is registered on the board (the `project-board` skill), not under
+docs/work/: every package file outside done/ is `status: migrated` with the number of
+its card, and no new package may be added — a status other than migrated there is an
+error pointing at the board. The files, the log and the handoff stay as history and are
+still checked for shape. Fails loudly on: a duplicate or missing id, an id not matching its file name,
 depends_on / blocks pointing at a package that does not exist or not mirroring
 each other, a package in done/ whose status is not done (or a done package
 outside done/), a claimed package whose `updated` is older than 7 days, a
@@ -26,9 +30,9 @@ import yaml
 ROOT = Path(__file__).resolve().parent.parent
 WORK, DONE = ROOT / "docs" / "work", ROOT / "docs" / "work" / "done"
 HANDOFF, LOG = ROOT / "docs" / "HANDOFF.md", ROOT / "docs" / "LOG.md"
-STATUSES = ("open", "claimed", "blocked", "review", "done")
+STATUSES = ("open", "claimed", "blocked", "review", "done", "migrated")
 KINDS = ("extraction", "linking", "schema", "build", "docs", "tooling")
-KEYS = {"id", "title", "status", "created", "updated", "depends_on", "blocks", "owner", "initiative", "kind", "slug", "source", "pages"}
+KEYS = {"id", "title", "status", "created", "updated", "depends_on", "blocks", "owner", "initiative", "kind", "slug", "source", "pages", "card"}
 SECTIONS = ("Outcome", "Scope", "Constraints", "Decisions", "Open questions", "Verification")
 STALE_CLAIM = timedelta(days=7)
 LOG_LIMIT = 200
@@ -94,6 +98,12 @@ def check(today: date | None = None) -> list[str]:
                 errs.append(f"{rel(path)}: in done/ but status is {st!r}")
             if not archived and st == "done":
                 errs.append(f"{rel(path)}: status done but not in done/ — git mv it")
+            if not archived and st in STATUSES and st not in ("done", "migrated"):
+                errs.append(f"{rel(path)}: status {st!r} — the registry is frozen; work is registered on the board (tools/board.py), not here")
+            if st == "migrated" and not (isinstance(fm.get("card"), int) and fm["card"] > 0):
+                errs.append(f"{rel(path)}: a migrated package names its card (`card: <issue number>`)")
+            if st != "migrated" and fm.get("card") is not None:
+                errs.append(f"{rel(path)}: only a migrated package names a card")
             if fm.get("kind") not in KINDS:
                 errs.append(f"{rel(path)}: kind must be one of {', '.join(KINDS)}")
             if fm.get("initiative") not in initiatives:

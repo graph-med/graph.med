@@ -1,9 +1,10 @@
 ---
 id: WP-0018
 title: Social preview card (Open Graph / Twitter Card) using the mark
-status: open
+status: migrated
 created: 2026-09-16
-updated: 2026-09-16
+updated: 2026-09-19
+card: 97
 depends_on: [WP-0017]
 blocks: []
 owner: unassigned

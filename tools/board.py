@@ -1,28 +1,34 @@
 #!/usr/bin/env python3
-"""Read and write the planning board — the GitHub project of this repository's organisation
-(the `project-board` skill).
+"""Read and write the work board — the GitHub project of this repository's organisation,
+where work is registered (the `project-board` skill; ADR-0004).
 
-    uv run tools/board.py list [--status Todo] [--json]     # every item, with its status
-    uv run tools/board.py show 89                           # an item's text, status and comments
-    uv run tools/board.py add "Title" [--body TEXT] [--status Todo] [--draft]
-    uv run tools/board.py link 91 [--status Todo]           # put an existing issue or pull request on the board
-    uv run tools/board.py move 89 "In Progress"             # set the Status column
-    uv run tools/board.py comment 89 "Text"                 # comment on the item's issue
+    uv run tools/board.py list [--status Todo] [--json]     # every card by column, with its number
+    uv run tools/board.py show 89                           # a card's text, column and comments
+    uv run tools/board.py add "Title" [--body TEXT | --body-file F] [--status Todo] [--draft]
+    uv run tools/board.py link 91 [--status Todo]           # an existing issue or pull request onto the board
+    uv run tools/board.py claim 89 --branch agent/2026-09-19-slug   # In Progress + a comment naming the branch
+    uv run tools/board.py move 89 "In Progress"             # set the column
+    uv run tools/board.py comment 89 "Text"                 # comment on the card's issue
+    uv run tools/board.py comment 89 --body-file F
     uv run tools/board.py close 89 [--reason not_planned] [--keep-status]   # close the issue, move to Done
-    uv run tools/board.py remove 89                         # take the item off the board (the issue stays)
+    uv run tools/board.py remove 89                         # take the card off the board (the issue stays)
 
+A card is an issue of this repository on the board; its column is the project's
+single-select field `Status` (Todo, In Progress, Done; names match case-insensitively).
 Every call goes through `gh api`, which the sandbox host authenticates as the GitHub App
 (`.claude/rules/environment/git-identity.md`); nothing here holds or reads a credential.
 The board is found by title (`--project`, default below) in the organisation that owns
-`origin`. An item is named by its issue or pull request number; a draft item, which has
-no number, by its exact title. Board columns are the options of the project's single-select
-field `Status`; names match case-insensitively.
+`origin`. A card is named by its issue or pull request number; a draft card, which has
+no number, by its exact title. The agent writes to the board only with the maintainer's
+permission — the command that names a card is permission for that card (`claim`, the
+closing comment); everything else is asked for first.
 
 A refusal `Resource not accessible by integration` (403) means the App's installation
 lacks a permission for that call — GitHub names it in the `X-Accepted-Github-Permissions`
 response header, which the tool prints. That is a maintainer setting, not something to
 work around; `Bad credentials` (401) is the host-side token pipeline. Report either and stop.
 """
+
 
 from __future__ import annotations
 
@@ -251,8 +257,14 @@ def cmd_show(board: Board, args) -> None:
             print(f"\n--- {c['user']['login']}, {c['created_at']}\n{c['body']}")
 
 
+def body_of(args) -> str:
+    if getattr(args, "body_file", None):
+        return Path(args.body_file).read_text(encoding="utf-8")
+    return getattr(args, "body", None) or getattr(args, "text", None) or ""
+
+
 def cmd_add(board: Board, args) -> None:
-    body = args.body or ""
+    body = body_of(args)
     if args.draft:
         item_id = board.add_draft(args.title, body)
         ref = "draft"
@@ -281,8 +293,20 @@ def cmd_comment(board: Board, args) -> None:
     item = board.find(args.item)
     if not item["number"]:
         raise BoardError("a draft item has no comment thread; add it as an issue (`add` without --draft) to comment")
-    c = gh(f"repos/{board.owner}/{board.repo}/issues/{item['number']}/comments", "-X", "POST", data={"body": args.text})
+    c = gh(f"repos/{board.owner}/{board.repo}/issues/{item['number']}/comments", "-X", "POST", data={"body": body_of(args)})
     print(c["html_url"])
+
+
+def cmd_claim(board: Board, args) -> None:
+    item = board.find(args.item)
+    if not item["number"]:
+        raise BoardError("a draft card cannot be claimed; the maintainer turns it into an issue first")
+    status = board.set_status(item["item_id"], "In Progress")
+    text = f"Claimed by the agent on branch `{args.branch}`."
+    if args.note:
+        text += f" {args.note}"
+    c = gh(f"repos/{board.owner}/{board.repo}/issues/{item['number']}/comments", "-X", "POST", data={"body": text})
+    print(f"{name(item)} → {status}; {c['html_url']}")
 
 
 def cmd_close(board: Board, args) -> None:
@@ -306,13 +330,17 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description=__doc__.split("\n\n")[0], formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--project", default=DEFAULT_PROJECT, help=f"the project's title or number (default: {DEFAULT_PROJECT})")
     sub = p.add_subparsers(dest="command", required=True)
-    s = sub.add_parser("list", help="every item by column"); s.add_argument("--status"); s.add_argument("--json", action="store_true"); s.set_defaults(run=cmd_list)
-    s = sub.add_parser("show", help="an item's text, status and comments"); s.add_argument("item"); s.set_defaults(run=cmd_show)
-    s = sub.add_parser("add", help="a new issue on the board (or a draft with --draft)"); s.add_argument("title"); s.add_argument("--body", default="")
+    s = sub.add_parser("list", help="every card by column"); s.add_argument("--status"); s.add_argument("--json", action="store_true"); s.set_defaults(run=cmd_list)
+    s = sub.add_parser("show", help="a card's text, column and comments"); s.add_argument("item"); s.set_defaults(run=cmd_show)
+    s = sub.add_parser("add", help="a new issue on the board (or a draft with --draft)"); s.add_argument("title")
+    g = s.add_mutually_exclusive_group(); g.add_argument("--body", default=""); g.add_argument("--body-file", metavar="FILE")
     s.add_argument("--status", default="Todo"); s.add_argument("--draft", action="store_true"); s.set_defaults(run=cmd_add)
+    s = sub.add_parser("claim", help="move a card to In Progress and comment which branch works it"); s.add_argument("item")
+    s.add_argument("--branch", required=True); s.add_argument("--note", default=""); s.set_defaults(run=cmd_claim)
     s = sub.add_parser("link", help="an existing issue or pull request onto the board"); s.add_argument("item"); s.add_argument("--status", default="Todo"); s.set_defaults(run=cmd_link)
     s = sub.add_parser("move", help="set an item's Status"); s.add_argument("item"); s.add_argument("status"); s.set_defaults(run=cmd_move)
-    s = sub.add_parser("comment", help="comment on an item's issue"); s.add_argument("item"); s.add_argument("text"); s.set_defaults(run=cmd_comment)
+    s = sub.add_parser("comment", help="comment on a card's issue"); s.add_argument("item"); s.add_argument("text", nargs="?", default="")
+    s.add_argument("--body-file", metavar="FILE"); s.set_defaults(run=cmd_comment)
     s = sub.add_parser("close", help="close the issue and move it to Done"); s.add_argument("item")
     s.add_argument("--reason", choices=["completed", "not_planned"], default="completed"); s.add_argument("--keep-status", action="store_true"); s.set_defaults(run=cmd_close)
     s = sub.add_parser("remove", help="take an item off the board"); s.add_argument("item"); s.set_defaults(run=cmd_remove)

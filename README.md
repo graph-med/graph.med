@@ -240,11 +240,14 @@ carry the choice (`?by=section`, `?by=axes/phase`).
 
 ### How the pool grows
 
-Work is registered as **work packages**, one file each under `docs/work/`,
-grouped by initiative (`docs/work/README.md`); a session claims the next open one
-in a commit of its own, does it, and ends with a log entry (`docs/LOG.md`), a
-rewritten handoff (`docs/HANDOFF.md`) and a pull request a person reviews;
-finished packages move to `docs/work/done/`. `AGENTS.md` is the short form. A package extracts pages of a source (claims
+Work is registered as **cards** on the organisation's GitHub project
+`planning-graph.med` (Todo, In Progress, Done; `docs/adr/0004-planning-board-on-github-projects.md`):
+a card is an issue of this repository on the board, its text the package. A
+session claims the cards it is given by moving them to In Progress, does them,
+and ends with a pull request a person reviews (`Closes #<card>`) and a
+handover comment on each card; merging moves the card to Done. `AGENTS.md`
+is the short form; `docs/work/`, `docs/LOG.md` and `docs/HANDOFF.md` are the
+frozen history of the earlier file-based registry. A card extracts pages of a source (claims
 first, mechanical; then linking, judgment), or changes the schema, or adds a site
 feature, or changes the documentation or the tooling. The rules an agent follows are short and worth reading
 once: read before writing; extract first, link second; search before minting;
@@ -270,7 +273,7 @@ current leaning, so that nobody re-derives it. What was decided, and why, lives 
 | **view** | a named filter over the pool; a page on the site. A **cut** is a frozen view |
 | **modelling** | provenance meaning "no document says this; we asserted it" |
 | **direction** | für / gegen / abwägen / Lücke, derived from the claims |
-| **work package**, **initiative** | one session's registered unit of work; the scope a set of them serves |
+| **card**, **work package** | one session's registered unit of work — a card on the board, its text the package; before 2026-09-19 a file under `docs/work/` |
 
 ## Development environment (sbx)
 
@@ -310,7 +313,8 @@ What that means in practice for a contributor:
   `.claude/worktrees/` on its own branch (`claude --worktree <name>` inside the
   sandbox). Do not start a second sandbox on the same directory: it mounts the
   same checkout. The convention for what parallel sessions owe each other is
-  [`docs/work/README.md`](docs/work/README.md), "Processing packages".
+  [`docs/work/README.md`](docs/work/README.md), "Processing packages" (frozen
+  as a registry, still the convention for parallel work; ADR-0002).
 
 Agent-specific rules — bot identity, credentials, what an agent may and may not
 do — are in [`.claude/`](.claude/README.md); [`CLAUDE.md`](CLAUDE.md) describes the

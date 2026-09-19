@@ -1,9 +1,10 @@
 ---
 id: WP-0014
 title: A data marker for structural recommendations
-status: blocked
+status: migrated
 created: 2026-09-12
-updated: 2026-09-12
+updated: 2026-09-19
+card: 94
 depends_on: []
 blocks: []
 owner: unassigned

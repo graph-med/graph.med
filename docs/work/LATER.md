@@ -1,5 +1,10 @@
 # Later — named, not registered
 
+> **Frozen on 2026-09-19.** Nothing is added here any more: work an agent
+> finds and cannot do goes into its final message, and the maintainer
+> registers what they want as a Todo card on the board (ADR-0004). The
+> entries below were not migrated; each is still available for a card.
+
 Work that is known and not registered as a package. A human turns an entry into a
 package (`README.md`) when they decide it is next; a session may add an entry here
 when it finds work it cannot do, stated as the durable shape of the work, not as a

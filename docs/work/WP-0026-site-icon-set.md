@@ -1,9 +1,10 @@
 ---
 id: WP-0026
 title: Site icon set (updated mark as favicon, touch icon and home-screen icons)
-status: open
+status: migrated
 created: 2026-09-18
-updated: 2026-09-18
+updated: 2026-09-19
+card: 98
 depends_on: []
 blocks: []
 owner: unassigned

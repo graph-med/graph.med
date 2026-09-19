@@ -1,9 +1,10 @@
 ---
 id: WP-0012
 title: Relink body-text relations, chapters 4–6
-status: open
+status: migrated
 created: 2026-09-12
-updated: 2026-09-12
+updated: 2026-09-19
+card: 92
 depends_on: [WP-0011]
 blocks: [WP-0013]
 owner: unassigned

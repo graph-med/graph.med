@@ -1,9 +1,10 @@
 ---
 id: WP-0011
 title: A written rule per body-text relation
-status: open
+status: migrated
 created: 2026-09-12
-updated: 2026-09-12
+updated: 2026-09-19
+card: 91
 depends_on: []
 blocks: [WP-0012, WP-0016]
 owner: unassigned
