@@ -22,5 +22,5 @@ sinnvoll". The box stays recoverable through the shared `recommendation_no`.
 **How to apply:** extract per sentence; never merge sentences into one claim to
 match the box. Where an expert judges that a particular box should read as one
 recommendation, that is a proposal about that box, made through the review and
-feedback mechanism (`docs/work/LATER.md`), not a change of the rule.
+feedback mechanism (a card on the board, once registered), not a change of the rule.
 Related: [[relations-are-edges-not-fields]].

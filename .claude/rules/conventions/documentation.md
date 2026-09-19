@@ -19,9 +19,9 @@ Each level has a home: Environment in `README.md` (the contributor half) and
 `.claude/rules/environment/` (the agent half); Conventions in
 `.claude/rules/conventions/`; Design in `docs/`. Memory (`.claude/memory/`) is not a
 level — it is a mechanism, and each fact it stores is filed under the level it
-belongs to. Neither is the work-package convention (`docs/work/`, `docs/HANDOFF.md`,
-`docs/LOG.md`, `AGENTS.md`): it records what is to be done, where the last session
-stopped and what each session did, at no level — `docs/work/README.md` defines it.
+belongs to. Neither is the work registry — the board and its cards (`AGENTS.md`, the
+`project-board` skill; ADR-0004): it records what is to be done and what each
+session did, at no level, and it lives on GitHub, not in the repository.
 `docs/adr/` holds decisions about the repository itself and is Conventions-level
 content that lives under `docs/` because a person reads it there.
 

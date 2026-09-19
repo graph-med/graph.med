@@ -6,7 +6,7 @@ The entities and edges of the knowledge pool, laid out by namespace
 ```
 data/
 ├── sources/<source-id>.yaml one entity per source document
-├── claims/<source-id>/<package>.yaml  the claims extracted by one work package
+├── claims/<source-id>/<package>.yaml  the claims extracted by one card (work package)
 ├── concepts/<id>.yaml       one entity per file
 ├── statements/<id>.yaml     one entity per file
 ├── pathways/                structural nodes, when pathways are authored
@@ -15,7 +15,7 @@ data/
 └── axes/<id>.yaml           grouping axes (spec §4.1): proposed as data, tested, asserted, offered by a view
 ```
 
-Claims and the edges minted alongside them are grouped per work package for diff
+Claims and the edges minted alongside them are grouped per card (work package) for diff
 ergonomics; semantic entities are one per file because they accumulate history
 independently. Identity is the URL, never the file (spec §2). The packages that
 extracted `pomgat-lv-1.0` were one per chapter cluster, so its files are:
@@ -40,11 +40,12 @@ Rules that bind everything here:
 - **Only current sources.** An expired guideline (AWMF: renamed with an
   `-abgelaufen` suffix, banner "wird aktuell überarbeitet") is not parsed — its
   successor will be, when published.
-- **One work package per worker**, then a handover: `docs/LOG.md` and
-  `docs/HANDOFF.md` updated, the package at `status: review`, a pull request
-  opened. The `process-work-package` skill runs this for the packages it is
-  given; a package is an extraction, a linking pass, a schema change, a build
-  feature, a docs change or tooling, registered with its instruction.
+- **One card per worker**, then a handover: a pull request that says
+  `Closes #<card>`, and a handover comment on the card. The
+  `process-work-package` skill runs this for the cards it is given; a card is
+  an extraction, a linking pass, a schema change, a build feature, a docs
+  change or tooling, registered on the board with its instruction
+  (`AGENTS.md`; ADR-0004).
 - **Document structure is provenance.** A claim's `section` and a source's
   `outline` say where in the document something was found; nothing in
   `concepts/` or `statements/` carries a chapter (spec §6.7).

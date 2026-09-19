@@ -13,8 +13,7 @@ file, the design documentation under `docs/`, the one schema for the data pool
 CI workflow that runs it (`.github/workflows/validate.yml`), the pool itself under
 `data/` (layout in `data/README.md`), the site build (`tools/build.py`, see "Build"),
 the feasibility test of a grouping axis (`tools/axes.py`, see "Checks"), the
-work packages, handoff and log under `docs/` with the script that checks them
-(`scripts/check-work.py`, see "Work"), `AGENTS.md`, and the `.claude/` directory
+work-board tool (`tools/board.py`, see "Work"), `AGENTS.md`, and the `.claude/` directory
 described below. There is no source tree beyond these scripts.
 Project-specific guidance — data sources and their licenses, setup and test
 instructions — belongs in this file once it exists. Do not document tooling that does
@@ -23,8 +22,7 @@ not exist.
 ## Checks
 
 Python tooling is managed with `uv` (`pyproject.toml`, `uv.lock`); never pip. The one
-check is the validator, which also runs the work-package check (`scripts/check-work.py`,
-see "Work"). `schema/schema.yaml` is a JSON Schema (draft 2020-12); the
+check is the validator. `schema/schema.yaml` is a JSON Schema (draft 2020-12); the
 validator applies it to every file under `data/` with the `jsonschema` library, then
 checks what a document schema cannot say — references resolve, claim ids hash
 correctly, edges are unique:
@@ -100,22 +98,37 @@ provenance, attestations, review — with `schema/schema.yaml` as the authority 
 syntax; `docs/publication.md` is the authority on how the pool is shown — the site
 at `graph.med`, views as pages, a graph-and-sheet page read on a phone first; and
 `docs/open-questions.md`
-carries what is not yet decided; `docs/work/` what is agreed and not yet done;
-`docs/HANDOFF.md` where the last session left things; `docs/LOG.md` what each
-session did; `docs/adr/` what was decided about the repository itself.
+carries what is not yet decided; the board (see "Work") what is agreed, in
+progress and done; `docs/adr/` what was decided about the repository itself.
 
 ## Work
 
-`AGENTS.md` at the root says how a session picks up work: read `docs/HANDOFF.md`,
-process exactly the packages the command names — in sequence or in parallel,
-one worker per package in its own git worktree, branch and pull request, the
-session coordinating and stacking — and end when each has a log entry, a
-rewritten handoff and a pull request. The convention is `docs/work/README.md`
-("Processing packages"; ADR-0002); the `process-work-package` skill is the
-procedure; the `handover` skill maintains `docs/open-questions.md`; decisions
-about the repository are `docs/adr/`.
-`uv run scripts/check-work.py` checks all of it (ids, statuses, dependencies,
-`done/`, stale claims, the handoff against the log); the validator runs it too.
+Work is registered on the **board**: the organisation's GitHub project
+`planning-graph.med` (Todo, In Progress, Done; ADR-0004). A card is an issue
+of this repository on it, its text the package. `tools/board.py` reads and
+writes it as the bot through `gh api`, holding no credential:
+
+```bash
+uv run tools/board.py list          # every card by column
+uv run tools/board.py show 92       # a card's text, column and comments
+uv run tools/board.py claim 92 --branch agent/2026-09-19-<slug>   # In Progress + the branch
+uv run tools/board.py comment 92 --body-file <file>               # the handover
+```
+
+`AGENTS.md` at the root says how a session picks up work: read the board,
+process exactly the cards the command names — in sequence or in parallel, one
+worker per card in its own git worktree, branch and pull request, the session
+coordinating and stacking — claim each on the board, and end when each has a
+pull request that says `Closes #<card>` and a handover comment. The agent
+writes to the board only with the maintainer's permission: the command that
+names a card permits its claim and its handover comment, anything else is
+asked for. The `process-work-package` skill is the procedure; the
+`project-board` skill describes the board; the `handover` skill maintains
+`docs/open-questions.md`; decisions about the repository are `docs/adr/`.
+The repository holds no registry, log or handoff: the board is the single
+point of truth for work, and its README on the project page carries the
+columns, the card template and the initiatives (the `Initiative` field groups
+the cards).
 
 How an agent is expected to operate lives in `.claude/`, filed by level, so that
 each piece loads when it is relevant rather than all of it, always:
@@ -140,8 +153,9 @@ each piece loads when it is relevant rather than all of it, always:
 │   └── design/
 ├── agents/                      subagent definitions — empty; add one .md per agent
 └── skills/
-    ├── handover/                end a session: open questions, log entry, handoff
-    ├── process-work-package/    process the listed work packages: coordinate, one worker each
+    ├── handover/                end a session: open questions, the handover comment on each card
+    ├── process-work-package/    process the listed cards: coordinate, one worker each
+    ├── project-board/           the work board (a GitHub project): read always, write with permission
     └── screenshot/              look at a view page in a real browser before proposing it
 ```
 
@@ -153,16 +167,18 @@ record — why a constraint exists, what was decided and rejected. It is checked
 it is reviewed and shared rather than private to one machine.
 `rules/conventions/memory.md` carries its index.
 
-`agents/` is deliberately empty, and `skills/` holds exactly three skills. A subagent
+`agents/` is deliberately empty, and `skills/` holds exactly four skills. A subagent
 or skill that automates nothing would be guidance pretending to be capability — the
 validator is a check, not a task to automate — and each exception earned its place
 as a real, repeated task. `handover` ends a session by maintaining
-`docs/open-questions.md`. `process-work-package` does the packages named with
+`docs/open-questions.md`. `process-work-package` does the cards named with
 it — an extraction, a linking pass, a schema change, a build feature, a docs
 change, tooling — one worker, branch and pull request each, the session
-coordinating; each ends with a log entry and a rewritten handoff.
+coordinating; each ends with a pull request and a handover comment on the card.
 `screenshot` renders a view page in a browser container so a build change is looked
-at, not only built. Add another only for another such task — then say in the pull request what it
+at, not only built. `project-board` is the work board, `planning-graph.med`
+(Todo, In Progress, Done), through `tools/board.py`: read always, written only
+with the maintainer's permission (ADR-0004). Add another only for another such task — then say in the pull request what it
 does and what it is allowed to touch.
 
 One fact, one home: guidance that belongs in a rule is not restated here.

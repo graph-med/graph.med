@@ -1,6 +1,6 @@
 # ADR-0001 — Work packages as markdown files, with handoff and history apart
 
-Status: accepted, 2026-09-12
+Status: superseded by ADR-0004, 2026-09-19 (the registry moved to the board; the files were removed, git history keeps them)
 
 ## Context
 

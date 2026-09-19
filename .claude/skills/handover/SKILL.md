@@ -1,6 +1,6 @@
 ---
 name: handover
-description: End-of-session handover — update docs/open-questions.md with what the session left open, migrate what it settled into the spec and .claude/memory/design/ (or docs/adr/ for the repository itself), write the docs/LOG.md entry and rewrite docs/HANDOFF.md, then commit and deliver through a pull request. Use when a working session ends, or when the user asks to hand over, wrap up, or record open questions.
+description: End-of-session handover — update docs/open-questions.md with what the session left open, migrate what it settled into the spec and .claude/memory/design/ (or docs/adr/ for the repository itself), leave the handover as a comment on each card worked (there is no log or handoff file), then commit and deliver through a pull request. Use when a working session ends, or when the user asks to hand over, wrap up, or record open questions.
 ---
 
 # Handover
@@ -29,11 +29,11 @@ one is not part of the project.
    apply the decision where it belongs (usually the spec or a rule), delete the
    entry, and record the *why* as a memory in `.claude/memory/design/` — format
    and index in `.claude/rules/conventions/memory.md`.
-4. **Log and handoff.** Add the session's entry at the top of `docs/LOG.md`
-   (date, `agent`, packages touched with their status change, branch, one
-   notable thing) and rewrite `docs/HANDOFF.md` — where we are, what is
-   claimed, the next agent's first move, what is blocked and why; ids only,
-   one screen, `updated:` today. `uv run scripts/check-work.py` must pass. A
+4. **The card.** The session's record is a comment on each card it worked
+   (`uv run tools/board.py comment <n> --body-file <file>`): the branch, the
+   pull request, what was decided, what was left open or undone. The command
+   that named the card is the permission for that comment (`project-board`
+   skill). The repository holds no log and no handoff file (ADR-0004). A
    settled decision about the repository itself is an ADR under `docs/adr/`,
    not a memory.
 5. **Deliver like any other change.** Commit on the working branch, push, and
