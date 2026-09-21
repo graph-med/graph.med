@@ -76,8 +76,12 @@ board and its columns are described in the `project-board` skill (ADR-0004);
    order, rebase the first branch onto `origin/main` and each next branch onto
    its predecessor, so that every branch contains the branches below it and
    the top branch contains the whole run. Run `uv run tools/validate.py` (and
-   the build, for a build card) on every branch after the rebase. Push with
-   `--force-with-lease`; these are your own `agent/*` branches.
+   the build, for a build card) on every branch after the rebase. On every
+   branch whose diff touches `data/`, run the **judge** (`.claude/agents/judge.md`,
+   spec §8.1): a subagent of that definition, told the branch, that reads the
+   diff against its pages and the rules and returns its report; it writes
+   nothing. Push with `--force-with-lease`; these are your own `agent/*`
+   branches.
 8. **Open the pull requests** in order, bottom first, every one with
    `--base main` — never the predecessor's branch: a pull request merged into
    another branch does not reach `main`. **The stack merges once, from the
@@ -96,7 +100,9 @@ board and its columns are described in the `project-board` skill (ADR-0004);
    `gh pr edit` can fail on a deprecated project-cards query); what the
    worker reported — what was done, what it decided and why, what it was
    unsure of, what it found and could not do, any change to the schema, the
-   validator or agent-governing files, named explicitly; and, for a stacked
+   validator or agent-governing files, named explicitly; the judge's report
+   in full under its own heading, when the diff touches `data/` (until the
+   schema carries its words, the report is where its findings live); and, for a stacked
    PR, its place in the stack (`2 of 3, stacked on #N`), the compare link,
    which pull request is the top, and that merging the top with a merge
    commit lands the whole stack.

@@ -14,9 +14,10 @@
 > computed — the canonical form and content hashes (§2), staleness (§5, §8),
 > attestations and review state (§8), view cuts (§4), the derived statement
 > properties (§3.3) — is not implemented yet, and the automated review (§8.1) is
-> designed only: no judge definition, no helper, no agent entity and no attestation
-> exists. Statements about those describe the model this repository is being built
-> to, not behaviour anyone can rely on today.
+> designed and defined only: the judge's definition exists (`.claude/agents/judge.md`)
+> and its report goes into the pull request; no helper, no agent entity and no
+> attestation exists. Statements about those describe the model this repository is
+> being built to, not behaviour anyone can rely on today.
 
 This file explains the approach behind the knowledge in this repository. It is
 written for humans who review changes and for AI agents that read or write graph
@@ -907,8 +908,10 @@ runs have different jobs:
    skill's coordinator runs the judge over the branch's diff against `main`
    as the last step before the pull request, after the validator (§11,
    rule 9), and commits its attestations in the pull request, on the judge's
-   behalf. The findings are then in the diff the reviewer reads, next to what
-   they are about, before the merge; an attestation is data like everything
+   behalf. Until the helper and the schema's words exist, the report alone
+   goes into the pull request description, under a heading of its own. The
+   findings are then in the diff the reviewer reads, next to what they are
+   about, before the merge; an attestation is data like everything
    else and reaches `main` the only way data does, through a pull request a
    person approves.
 2. **A workflow runs it on every pull request** — committed by a person, with

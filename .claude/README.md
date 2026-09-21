@@ -16,7 +16,7 @@ do is worse than none, because it gets trusted.
 | `rules/environment/` | What is true of the world an agent runs in. One `.md` per topic. |
 | `rules/conventions/` | How work is done in this repository. One `.md` per topic. |
 | `memory/` | Durable facts about this project, filed by level. One `.md` per fact. |
-| `agents/` | Subagent definitions, one `.md` each. Currently empty. |
+| `agents/` | Subagent definitions, one `.md` each. One so far, `judge.md`: the automated review of `docs/graph-representation.md` §8.1, read-only. |
 | `skills/` | Skills, one `<skill-name>/SKILL.md` each: `handover/`, `process-work-package/`, `project-board/`, `screenshot/`. |
 | `settings.json` | Claude Code project settings: the plugins enabled for every session in this repository. One so far, `frontend-design`, for work on the site's look (`docs/publication.md` §6). |
 

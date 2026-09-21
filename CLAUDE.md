@@ -151,7 +151,8 @@ each piece loads when it is relevant rather than all of it, always:
 │   ├── environment/
 │   ├── conventions/
 │   └── design/
-├── agents/                      subagent definitions — empty; add one .md per agent
+├── agents/                      subagent definitions, one .md each
+│   └── judge.md                 the automated review (spec §8.1): reads a data diff against its pages, writes nothing
 └── skills/
     ├── handover/                end a session: open questions, the handover comment on each card
     ├── process-work-package/    process the listed cards: coordinate, one worker each
@@ -167,10 +168,16 @@ record — why a constraint exists, what was decided and rejected. It is checked
 it is reviewed and shared rather than private to one machine.
 `rules/conventions/memory.md` carries its index.
 
-`agents/` is deliberately empty, and `skills/` holds exactly four skills. A subagent
+`agents/` holds exactly one subagent and `skills/` exactly four skills. A subagent
 or skill that automates nothing would be guidance pretending to be capability — the
 validator is a check, not a task to automate — and each exception earned its place
-as a real, repeated task. `handover` ends a session by maintaining
+as a real, repeated task. `judge` is the automated review of
+`docs/graph-representation.md` §8.1: run by the coordinator on every branch whose
+diff touches `data/`, it reads each new claim against its page, each statement
+against its claims, each body-text edge against the rule and each cited page
+against the pool, and returns a report the pull request carries; it writes
+nothing, names no guideline, and its attestations wait for the schema.
+`handover` ends a session by maintaining
 `docs/open-questions.md`. `process-work-package` does the cards named with
 it — an extraction, a linking pass, a schema change, a build feature, a docs
 change, tooling — one worker, branch and pull request each, the session
