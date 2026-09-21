@@ -67,8 +67,6 @@ ul.cards small, ul.plain small { display: block; color: var(--mute); }
 dl.slots { display: grid; grid-template-columns: max-content 1fr; gap: .2rem .8rem; margin: 0 0 .5rem; }
 dl.slots dt { color: var(--mute); font-size: .85rem; }
 dl.slots dd { margin: 0; }
-.tag { display: inline-block; font-size: .75rem; padding: .1rem .45rem; border: 1px solid var(--line); border-radius: 1rem; color: var(--mute); margin: 0 .2rem .2rem 0; }
-.tag.grade { color: var(--fg); border-color: var(--fg); font-weight: 600; }
 ol.claims li { padding: .6rem 0; border-top: 1px solid var(--line); }
 ol.claims p { margin: .3rem 0; }
 blockquote { margin: .3rem 0; padding-left: .7rem; border-left: 3px solid var(--line); color: var(--mute); font-style: italic; }
@@ -164,6 +162,12 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card .contested h3 { color: var(--contested); }
 .card .contested ol.claims li { border-left: 3px solid var(--contested); padding-left: .6rem; }
 .card .contested .badges { margin-bottom: .2rem; }
+/* zone 8: a source named once — its title as the group's heading, in the citation's own type, not the card's
+   uppercase group label — with its claims' entries under it; the rule that separated the entries now opens each
+   source, so that one source with one claim looks as before */
+.card .citation .source { border-top: 1px solid var(--line); padding-top: .5rem; }
+.card .citation .source h4 { margin: 0; font-size: .85rem; font-weight: 500; color: var(--mute); text-transform: none; letter-spacing: 0; }
+.card .citation .source ol.claims li:first-child { border-top: 0; padding-top: .1rem; }
 /* zone 8: the citation's two actions as one row of buttons, and the review status */
 .card .actions { display: flex; flex-wrap: wrap; gap: .4rem; margin: .3rem 0; }
 .card .actions .btn, .card .actions button.copy { font: inherit; font-size: .8rem; margin: 0; padding: .25rem .7rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--bg); color: var(--fg); text-decoration: none; min-height: 32px; display: inline-flex; align-items: center; }
