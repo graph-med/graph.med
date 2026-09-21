@@ -80,3 +80,27 @@ and which card is next, is not a question and lives on the board (`uv run tools/
 **Options:** leave it there — git is the history (§7) and `git log -S` finds it · a `provenance.<slot>` entry on the statement, extending `provenance_value` with `{source: modelling, rationale, lang}` like an edge's properties · a rationale map kept on the axis definition after assertion, beside the removed placements
 **Leaning:** the first for now — a per-slot rationale in every statement file is ninety lines a reviewer scrolls past, and the commit is where an edit's reason belongs; the second if a reviewer or the site needs the reason next to the value, or if a second dimension on the same statements makes the commit history hard to read. Decide against the second guideline's first dimension, not before. (2026-09-13)
 **Settled by:** the first consumer that needs a slot value's reason in the file, or the second dimension axis asserted on one view.
+
+## judge-provider  (graph-representation.md §8.1; README.md "Checks")
+**Question:** Which model does the judge's frontmatter pin, where does the workflow's key live, and who pays — the session's run reads with the session's own model, authenticated by the host, but the second run in CI needs a key of its own.
+**Options:** the frontmatter pins one model and the workflow holds its key as a repository secret, the model's domain allowlisted like the source's · the frontmatter names no model, so each run reads with whatever its harness offers and the proof records which · two different models, one per run, so the second run is independent in kind as well as in time
+**Leaning:** the first; a pinned model is what makes the two runs comparable, the second run's independence comes from being a second run, and a second vendor is a second bill and a second prompt to keep honest — until a disagreement rate between the two runs says otherwise. The proof records the model either way, so the choice is reversible per finding. Needs the maintainer, before the judge's package is processed. (2026-09-21)
+**Settled by:** the maintainer, when the judge's card is processed.
+
+## attestation-identity  (graph-representation.md §2, §8.1; schema `x-namespaces.attestations: sequential`)
+**Question:** Attestation ids are sequential, and the judge writes them on branches: two pull requests judged in parallel both mint `attestations/0042`, and the coordinator's stack has to renumber one of them.
+**Options:** sequential per agent (`attestations/<agent>-0042`), still colliding on one agent's parallel runs · derived from `(by, subject, subject_hash)` like a claim's id from its anchor, the date inside · sequential, renumbered by whoever stacks
+**Leaning:** derived — identity is deterministic wherever it can be (§2), and two readings by one agent of one subject at one hash are one attestation by construction, which is also what a re-run on a push should overwrite. A person's attestations can take the same form. (2026-09-14)
+**Settled by:** the schema follow-up of the automated review (a card on the board).
+
+## edge-address  (graph-representation.md §2, §5, §8.1; schema `attestation.subject`, `entity_ref`; publication.md §2)
+**Question:** An edge derives its id from `(from, kind, to, discriminator)` (§2) but has no URL form, so no attestation can name one — and the judge's third question, the body-text edge against the rule of §5, has no subject to write its finding to.
+**Options:** `edges/<source-id>/<hash8>` over the tuple, mirroring a claim's id, with a page on the site · the attestation names the from-claim and the proof names the edge · the tuple itself as the subject, a list where every other subject is a reference
+**Leaning:** the first — a page per edge is what the property-level address of §2 already promises for provenance and feedback, and the site links what an edge relates; the hash makes two agents' addresses of one edge the same. (2026-09-14)
+**Settled by:** the schema follow-up of the automated review, together with `docs/publication.md` §2.
+
+## judge-rerun  (graph-representation.md §8.1)
+**Question:** When is what already lies on `main` judged again — after a change of the judge's definition or its model, a re-fetched source, or a change to a rule the judge applies (the body-text rule of §5)?
+**Options:** never automatically; a package re-judges a namespace when a person decides · on every push to `main`, the whole pool · whenever a rule of the spec changes, everything that rule governs
+**Leaning:** the first; a changed rule stales nothing mechanically, so re-judging is a decision, and the definition hash in every proof says which text of the rule a finding was read against. (2026-09-14)
+**Settled by:** the first change to the body-text rule, or to the definition, after the first judged pull request.

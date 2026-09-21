@@ -13,8 +13,10 @@
 > the chapters as the built-in grouping. Everything else described as checked or
 > computed — the canonical form and content hashes (§2), staleness (§5, §8),
 > attestations and review state (§8), view cuts (§4), the derived statement
-> properties (§3.3) — is not implemented yet. Statements about those describe the
-> model this repository is being built to, not behaviour anyone can rely on today.
+> properties (§3.3) — is not implemented yet, and the automated review (§8.1) is
+> designed only: no judge definition, no helper, no agent entity and no attestation
+> exists. Statements about those describe the model this repository is being built
+> to, not behaviour anyone can rely on today.
 
 This file explains the approach behind the knowledge in this repository. It is
 written for humans who review changes and for AI agents that read or write graph
@@ -769,6 +771,203 @@ Rules that follow:
   human; the human's key signs the attestation, the service's key signs the
   commit. Signed commits protect the changesets; attestations protect the
   statements.
+
+### 8.1 Automated review: the judge
+
+*Designed, not built (status header).* One agent in `agents/` is software that
+reads what a pull request adds to the pool and says whether it matches what it
+is anchored to — the "LLM as a judge" of the review initiative. It is a reader
+with a recorded identity, not a writer: everything it finds lands as
+attestations by it, never as an edit, and everything else about it follows
+from the rules of §8 above.
+
+**What it checks.** Three questions, one per layer a pull request touches,
+each asked of one subject against the ground the pool already holds for it:
+
+- **A claim against its page.** The judge reads the physical page the claim's
+  locator names — the same extracted text the validator's quote check reads
+  (`--verify-quotes`; §14) — and asks whether the claim says what is printed
+  there: the `label` is the sentence at the quote, one sentence and not a box
+  (§3.1); `kind` follows the sentence's form; `grade`, `verb`, `direction`,
+  `consensus`, `recommendation_no` and `section` are as printed at that place,
+  and none is supplied where the page prints none (§11, rule 6; a body-text
+  claim carries no grade, §5); a number in the label — a day, a dose, a value,
+  a threshold — is the number on the page. Whether the quote is on the page it
+  does not ask: the validator has, and the judge runs after it. That is the
+  difference in kind between the two: a substring is mechanical, "as printed"
+  is a reading.
+- **A statement against its supporting claims.** The judge reads the statement
+  with every claim that `supports` or `contests` it and asks whether the
+  proposition is what the claims say: nothing the label asserts is absent from
+  every supporting claim, nothing a supporting claim asserts contradicts it;
+  each slot names what the claims' sentences name in that role — the
+  population operated on, the action, the condition, the outcome, the value of
+  a dimension (§4.1); the `short_label` compresses without changing the
+  meaning (§3.2); a `contests` edge really contradicts. Sameness is what it
+  judges: a wrong `supports` edge is a statement that does not say what its
+  claim says.
+- **A body-text edge against the rule.** For each `refines`, `supplements` and
+  `limits` edge the judge reads both claims and the page and applies the
+  body-text rule of §5 as this document states it when the judge reads. Today
+  §5 says only what the three kinds are and that body text never inherits a
+  grade; the rule that says which passage earns which kind — a gate, then
+  tests in a fixed order, the edge to the box claim whose wording carries the
+  term, a `rationale` naming the test and the term, the from-claim ungraded,
+  never between two sentences of one box — is being written as its own
+  package, and the third question is stated over that shape: the kind the
+  edge carries is the first test that holds, the target is the right box
+  claim, the rationale names what the rule asks for.
+
+The subjects of a run are the entities and edges the branch adds or changes
+against `main`, plus every statement whose evidence the branch changes — a new
+`supports` edge re-opens the second question for its statement. The judge
+reads the source, the pool and the rules of this document, and nothing else:
+no other guideline, no textbook, no medical judgement. It judges the
+extraction against the page, never the guideline against medicine; a claim
+that faithfully carries a recommendation the judge would disagree with is
+consistent. Nothing in it names a guideline, a grading scheme or a concept —
+the three questions are stated over the schema's properties and this
+document's rules, and the same three are asked of every source (memory
+`generic-over-guidelines`).
+
+**What it writes.** One attestation per subject read, by the judge, shaped as
+§8 says: `subject` the claim, the statement or the edge; `subject_hash` its
+canonical hash at the head the judge read, so that a changed subject stales
+the finding; `scope` `content` for a claim and an edge, `with_evidence` for a
+statement, so that a further supporting claim re-opens the question; `date`;
+and `claim` one of two. `disputed` where the reading found a discrepancy. Where
+it found none, a word that says *a software agent read the subject against its
+ground and found it consistent* — `validated` is the quote check and pins a
+source hash, `expert_reviewed` is a person's and may not be signed by software
+(§8), so agreement needs a word of its own, which the schema does not yet
+carry (a follow-up card on the board). Agreement is recorded, not only
+dispute, because review state is derived (§8): a subject nobody has judged and
+a subject judged consistent must be told apart, and a judged subject that then
+changes must show as unjudged again — which only an attestation with a hash
+does. `proof`, free today, carries what makes a finding traceable and
+repeatable: the definition the judge ran as and its hash, the model that read,
+the properties it checked and, for a dispute, the property the finding
+concerns (§2's property address, `claims/<id>/grade`) with one sentence saying
+what the page, the claims or the rule say instead — in the source's language,
+`lang`-tagged, like every text in the pool. For a claim it also pins
+`source_hash`, the content hash of the source it read. There is no signature:
+the judge holds no key (below); the run is what the proof identifies.
+
+**What the judge is.** The judge is a subagent definition, one file under
+`.claude/agents/` — the agent-governing directory `CLAUDE.md` describes — and
+the file is the whole of the judge: its frontmatter pins the model and limits
+its tools to reading (the diff, the pool, the source's extracted text, this
+document), and its body is the three questions above, stated once, over the
+schema's properties. The judging is done by a model, so the definition is
+what a prompt and a tool would otherwise be, and its identity is the file's
+own: the `proof` of every attestation records the definition's git blob hash
+as the prompt hash and the frontmatter's model as the model, so a finding
+stays traceable when either changes. What a model should not do is done by a
+small deterministic helper under `tools/`, run like the validator: it computes
+a subject's canonical hash (§2), mints the attestation's id, checks the
+finding against the schema and writes the file under `data/attestations/`.
+The judge decides; the helper records. Neither holds a credential: in the
+sandbox the session's own model reads, authenticated by the host like every
+call the session makes (`.claude/rules/environment/git-identity.md`).
+
+**Where it runs, and how its findings reach the pool.** Twice, and the two
+runs have different jobs:
+
+1. **The session runs it before proposing.** The `process-work-package`
+   skill's coordinator runs the judge over the branch's diff against `main`
+   as the last step before the pull request, after the validator (§11,
+   rule 9), and commits its attestations in the pull request, on the judge's
+   behalf. The findings are then in the diff the reviewer reads, next to what
+   they are about, before the merge; an attestation is data like everything
+   else and reaches `main` the only way data does, through a pull request a
+   person approves.
+2. **A workflow runs it on every pull request** — committed by a person, with
+   the read-only token, like the validator's (`README.md`, "Checks") — and
+   puts its report in the run's summary: the same definition, run headless
+   against the same diff by the same model behind a repository secret, read
+   again. It writes nothing anywhere: not to the branch, not to `main`, no
+   comment, no review. Its report beside the committed attestations is what
+   tells the reviewer whether the session's run and an independent run agree;
+   where they differ, the reviewer reads the page. The check fails only when
+   the judge could not run; a dispute is a finding, never a failure.
+
+The alternatives, and why not. A follow-up pull request carrying the findings,
+opened after the merge, would keep the judge's word out of the author's commit
+— but it would arrive after the review it exists to inform, and only an actor
+with write access could open it, one per merged pull request. The run's
+findings offered as an artifact for a person to commit would be honest about
+who holds what, and a step nobody takes at thirty claims a pull request. A
+standalone tool with its own prompt, model client and key, run by the session
+and by the workflow, would be a second copy of the three questions to keep
+honest, with a key the sandbox does not hold; one definition, read by the
+session's model here and by the workflow's there, keeps one text of the rule
+and gives the second run its independence by being a second run. Committed by
+the session, an attestation's authenticity rests on the second run and on the
+reviewer, not on a signature — the trade-off this design accepts, because the
+judge's finding is a reading, not a proof: two runs of a model can differ, and
+a disagreement between them is information for the reviewer, never a verdict.
+
+**What it must not do.** The judge never approves, merges or blocks: a dispute
+lowers a derived status and lands in the report, like staleness (§8) — it is
+not *invalid*, and it stops nothing. It never edits: no entity, no edge, no
+label, no supersede (§7); it says what it read, and a person or an agent's
+package acts on it. It never sets a review state, and never writes `validated`
+or `expert_reviewed`: the first is the quote check's, the second a person's —
+which claims a software agent may make is a role on the agent (§8), and the
+schema follow-up gives the validator the rule that `expert_reviewed` is never
+`by` software. It never judges what it was not given: the diff and its ground.
+And it never writes to the board, opens a card or comments on a pull request:
+its only output is the attestation and the report.
+
+**The agent.** One entity, `agents/<judge-id>`, for the role — the automated
+review — not for a model: which model read, as which definition, is in each
+attestation's `proof`, so a finding stays traceable when the model changes and
+the agent does not multiply. Its identity claims name the definition file and
+the workflow that runs it; it has no key.
+
+**Worked example** — the first source, box 6.7 on p. 63, as the pool holds it.
+A branch adds the box claim `claims/pomgat-lv-1.0/6b9239a9` ("Nach
+Pankreasresektion kann die abdominelle Drainage im frühen postoperativen
+Verlauf (bis 4. postoperativer Tag) gezogen werden, wenn …", grade 0, `kann`,
+`for`, starker Konsens, section 6.1.3), its `supports` edge to
+`statements/fruehe-drainageentfernung-pankreasresektion`, and the criterion
+`claims/pomgat-lv-1.0/8349aa77` ("unter 5000 U/L am ersten postop. Tag",
+p. 64) with a `refines` edge to the box claim. The judge asks the first
+question of the box claim on p. 63 — one sentence; `kann`, `for`, "0",
+"Starker Konsens", "6.7", "bis 4. postoperativer Tag", all as printed — and
+the helper writes:
+
+```yaml
+- id: attestations/<n>                        # sequential (§2) — see docs/open-questions.md
+  type: attestation
+  subject: claims/pomgat-lv-1.0/6b9239a9
+  subject_hash: "sha256:…"                    # the claim's canonical form at the head read
+  scope: content
+  claim: consistent                           # the word the schema does not carry yet (§8.1)
+  by: agents/<judge-id>
+  date: 2026-09-21
+  source_hash: "sha256:029c…"                 # the source it read
+  proof: {type: judge_run, definition: ".claude/agents/judge.md", prompt: "sha256:…",
+          model: "<model>",
+          checked: [label, kind, grade, verb, direction, consensus, recommendation_no, section]}
+```
+
+Of the statement it asks the second: the label is the box's sentence, the
+slots name Pankreasresektion, frühe Drainageentfernung, geringes
+Pankreasfistelrisiko and postoperativ, each in the sentence; the short label
+keeps the condition — consistent, `scope: with_evidence`. Of the edge it asks
+the third, on p. 64, against the rule in the shape its package drafts: the
+guideline's own voice, about the box's own action, a value the box's "wenn das
+Drainagesekret … hinweist" needs and the reader cannot supply, nothing taken
+out — `refines`, to the box claim whose wording carries the term, and the
+criterion carries no grade: the kind and the target hold. But the edge carries
+no `rationale`, and the rule asks for one naming the test and the term; the
+finding is `disputed`, its proof naming the property and saying, in German,
+`"Die Kante nennt keinen Test und keinen Begriff (§5: refines, Drainagesekret
+… hinweist)."` Were the box claim's grade "B", the first attestation would
+instead be `disputed` at `claims/pomgat-lv-1.0/6b9239a9/grade`: `"Seite 63
+druckt Empfehlungsgrad 0, nicht B."` Nothing in the pool changes either way:
+the linking pass that reads the finding does.
 
 ---
 
