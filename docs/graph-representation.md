@@ -791,8 +791,8 @@ left out:
 - **A claim against its page.** The judge reads the physical page the claim's
   locator names — the same extracted text the validator's quote check reads
   (`--verify-quotes`; §14) — and asks whether the claim says what is printed
-  there: the `label` is the sentence at the quote, one sentence and not a box
-  (§3.1); `kind` follows the sentence's form; `grade`, `verb`, `direction`,
+  there: the `label` is the sentence at the quote, one sentence and not the
+  whole recommendation the source marks (§3.1); `kind` follows the sentence's form; `grade`, `verb`, `direction`,
   `consensus`, `recommendation_no` and `section` are as printed at that place,
   and none is supplied where the page prints none (§11, rule 6; a body-text
   claim carries no grade, §5); a number in the label — a day, a dose, a value,
@@ -817,23 +817,30 @@ left out:
   body-text rule of §5 as this document states it when the judge reads. Today
   §5 says only what the three kinds are and that body text never inherits a
   grade; the rule that says which passage earns which kind — a gate, then
-  tests in a fixed order, the edge to the box claim whose wording carries the
-  term, a `rationale` naming the test and the term, the from-claim ungraded,
-  never between two sentences of one box — is being written as its own
-  package, and the third question is stated over that shape: the kind the
-  edge carries is the first test that holds, the target is the right box
-  claim, the rationale names what the rule asks for.
+  tests in a fixed order, the edge to the claim of the marked recommendation
+  whose wording carries the term, a `rationale` naming the test and the term,
+  the from-claim ungraded, never between two sentences of one marked
+  recommendation — is being written as its own package, and the third
+  question is stated over that shape: the kind the edge carries is the first
+  test that holds, the target is the right claim, the rationale names what
+  the rule asks for.
 - **A page against the pool.** For every page a claim of the branch cites,
   the judge — already holding that page for the first question — reads it
   the other way round and asks whether everything on it that the pool's
-  rules make a claim is one: every sentence of every box on the page has a
-  claim with that box's `recommendation_no` (§3.1: a box of two sentences
-  is two claims), every body-text sentence that passes the rule's gate is a
-  claim with its edge (§5), every alternative of an "entweder … oder" is a
-  claim of its own, every box claim supports or contests a statement, and
-  every body-text claim has its one edge to its box claim — a body-text
-  claim supports no statement, the rule of §5 gives it the edge instead. The
-  page is the scope, not the chapter: the branch cited it,
+  rules make a claim is one: every sentence of every recommendation the
+  source marks on the page has a claim, sharing its number where the source
+  numbers it (§3.1: a marked recommendation of two sentences is two claims),
+  every body-text sentence that passes the rule's gate is a claim with its
+  edge (§5), every alternative of an "entweder … oder" is a claim of its own,
+  every claim of a marked recommendation supports or contests a statement,
+  and every body-text claim has its one edge — a body-text claim supports no
+  statement, the rule of §5 gives it the edge instead. What "marks" means is
+  read off the source, never assumed: a numbered, shaded box in one
+  guideline, a numbered statement, a bulleted "offer", a sentence with a
+  grade letter in another; the schema's `kind: recommendation` with whatever
+  number, grade and consensus the source prints is the unit, and the judge's
+  questions are stated over that, not over any one layout. The page is the
+  scope, not the chapter: the branch cited it,
   so the branch answers for it, and no declared range is needed. What a
   package promised — a chapter, a section of the source's outline — is the
   package's verification, read from the judge's report, not a finding the
@@ -879,8 +886,8 @@ the properties it checked and, for a dispute, the property the finding
 concerns (§2's property address, `claims/<id>/grade`) with one sentence saying
 what the page, the claims or the rule say instead — in the source's language,
 `lang`-tagged, like every text in the pool. A page finding is a list, not a
-sentence: one entry per sentence without a claim, each with the page, the box
-it belongs to and the test it passes, quoted verbatim. For a claim it also pins
+sentence: one entry per sentence without a claim, each with the page, the
+marked recommendation it belongs to and the test it passes, quoted verbatim. For a claim it also pins
 `source_hash`, the content hash of the source it read. There is no signature:
 the judge holds no key (below); the run is what the proof identifies.
 
@@ -974,7 +981,8 @@ attestation's `proof`, so a finding stays traceable when the model changes and
 the agent does not multiply. Its identity claims name the definition file and
 the workflow that runs it; it has no key.
 
-**Worked example** — the first source, box 6.7 on p. 63, as the pool holds it.
+**Worked example** — the first source, whose form for a marked recommendation
+is a numbered, shaded box: box 6.7 on p. 63, as the pool holds it.
 A branch adds the box claim `claims/pomgat-lv-1.0/6b9239a9` ("Nach
 Pankreasresektion kann die abdominelle Drainage im frühen postoperativen
 Verlauf (bis 4. postoperativer Tag) gezogen werden, wenn …", grade 0, `kann`,

@@ -34,6 +34,18 @@ The subjects of a run are every claim, statement and edge the diff adds or
 changes; every statement whose `supports`/`contests` edges the diff changes;
 and every page a claim of the diff cites (`source.at: sources/<id>#page=N`).
 
+## Marked and unmarked — read the form off the source
+
+A source marks some of its text as recommendations and leaves the rest
+unmarked. The form of the mark is the source's own — a numbered, shaded box
+in one guideline, a numbered statement, a bulleted "offer" or "consider", a
+sentence with a grade letter in another — and you never assume one: you read
+what this source does. The schema names the marked unit `kind: recommendation`
+with whatever `recommendation_no`, `grade`, `consensus` and `evidence` the
+source prints, and none where it prints none. Everything the source does not
+mark is **body text**. "Box" appears nowhere below; "a marked recommendation"
+is the unit, and its sentences are the claims.
+
 ## The ground
 
 - **The pool:** `data/claims/<source-id>/`, `data/statements/`,
@@ -46,8 +58,8 @@ and every page a claim of the diff cites (`source.at: sources/<id>#page=N`).
   in the report and mark every question that needs the page *not read*; do
   not download it yourself.
 - **The rules:** `docs/graph-representation.md` §3.1 (a claim is one
-  sentence; a box of several sentences is several claims sharing
-  `recommendation_no`), §3.2 (statements, slots, `short_label`), §5 (edge
+  sentence; a marked recommendation of several sentences is several claims
+  sharing its number where the source numbers it), §3.2 (statements, slots, `short_label`), §5 (edge
   kinds; the body-text rule as it stands in the document you are reading —
   apply it as written, no earlier draft and no memory of one), §11 rules 6
   and 7, and §8.1 itself. `schema/schema.yaml` for what a property may hold.
@@ -64,7 +76,8 @@ is a reading, and the reading is your job.
 ## The four questions
 
 1. **A claim against its page.** Is the `label` the one sentence at the quote
-   — one sentence, not the box? Does `kind` follow the sentence's form? Are
+   — one sentence, not the whole marked recommendation? Does `kind` follow
+   the sentence's form? Are
    `grade`, `verb`, `direction`, `consensus`, `recommendation_no` and
    `section` as printed at that place, and is none supplied where the page
    prints none? Is every number in the label the number on the page? A
@@ -79,14 +92,17 @@ is a reading, and the reading is your job.
    as written, step by step: its gate, its tests in their order, the kind the
    edge should carry, the target claim, the from-claim ungraded, one
    alternative per claim, the `rationale` the rule asks for, never between two
-   sentences of one box or between two boxes. Report every step.
+   sentences of one marked recommendation or between two of them. Report
+   every step.
 4. **A page against the pool.** For every cited page, read it the other way
-   round: does every sentence of every box on it have a claim with that box's
-   `recommendation_no`? Does every body-text sentence that passes the rule's
-   gate have a claim with its edge? Is every alternative of an enumeration a
-   claim of its own? Does every box claim support or contest a statement, and
-   does every body-text claim carry its edge? List each sentence that should
-   be a claim and is not, verbatim, with page, box and the test it passes.
+   round: does every sentence of every recommendation the source marks on it
+   have a claim, sharing its number where the source numbers it? Does every
+   body-text sentence that passes the rule's gate have a claim with its edge?
+   Is every alternative of an enumeration a claim of its own? Does every
+   claim of a marked recommendation support or contest a statement, and does
+   every body-text claim carry its edge? List each sentence that should be a
+   claim and is not, verbatim, with page, the marked recommendation it
+   belongs to and the test it passes.
    The page is the scope: you do not read pages the diff does not cite.
 
 ## The report
@@ -97,7 +113,8 @@ Four parts, in this order, and nothing else:
    `consistent` / `disputed`, the property a dispute concerns (as
    `<subject>/<property>`), and one sentence in the source's language saying
    what the page, the claims or the rule say instead. A page finding is a
-   list: one entry per missing sentence, with page, box and test. Under each
+   list: one entry per missing sentence, with page, the marked recommendation
+   it belongs to, and test. Under each
    row, the properties you checked.
 2. **Undecidable** — where the rule as written did not let you decide: the
    sentence, the page, the two readings, and which clauses of the rule point
