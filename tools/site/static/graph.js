@@ -184,13 +184,16 @@
     });
   }
 
-  /* fit what is open into the part of the canvas the controls do not cover: the search row floats
-     over its top and the legend over its bottom, so a plain fit would put nodes under them */
-  var tools = document.querySelectorAll(".tools");
+  /* fit what is open into the part of the canvas nothing covers. That part is the free row of the
+     wrapper's grid (site.css, .graph-wrap): the controls make the row above it as tall as they are,
+     the legend the row below, and a legend that is hidden leaves no row at all — so the free row is
+     read once here instead of adding up the controls' height and the legend's with a constant each. */
+  var canvas = document.getElementById("graph"), free = document.getElementById("free");
   function fit(eles, padding) {
     var bb = eles.boundingBox({ includeLabels: true }), w = cy.width(), h = cy.height();
     if (!bb.w || !bb.h) return;
-    var top = Math.max.apply(null, Array.prototype.map.call(tools, function (t) { return t.getBoundingClientRect().height; })) + 16, bottom = hint.hidden ? 0 : hint.getBoundingClientRect().height + 4;
+    var g = canvas.getBoundingClientRect(), f = free.getBoundingClientRect();
+    var top = Math.max(0, f.top - g.top), bottom = Math.max(0, g.bottom - f.bottom);
     var zoom = Math.max(cy.minZoom(), Math.min((w - 2 * padding) / bb.w, (h - top - bottom - 2 * padding) / bb.h, cy.maxZoom()));
     cy.animate({ zoom: zoom, pan: { x: (w - bb.w * zoom) / 2 - bb.x1 * zoom, y: top + (h - top - bottom - bb.h * zoom) / 2 - bb.y1 * zoom } }, { duration: 250 });
   }
