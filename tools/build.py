@@ -71,14 +71,18 @@ CHAPTERS = "section"   # the URL token and grouping id of the built-in chapter g
 # its chrome, in the statement's source language, keyed structurally — the zone, the slot, the grade and the
 # consensus by the schema's own enum values, so that a new value is a missing key and never a silent blank.
 # The values are fixed by the maintainer (WP-0024). There is no fallback: a language that lacks any key of
-# CARD_KEYS fails the build, naming the language and the keys (card_words()).
+# CARD_KEYS fails the build, naming the language and the keys (card_words()). A line that counts something
+# is a pair, `<key>.one` and `<key>.many`, chosen by the count at render time (card_words(): word(key, count));
+# the grammar sits in the pair, never in the code. The range line of zone 4 (`evidence.by_outcome`) has no
+# pair: a range needs two values, so it never counts one (evidence_of()).
 CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", "zone.contested.one", "zone.contested.many",
              "zone.citation", "zone.more", "slot.population", "slot.condition", "slot.action", "slot.count",
              "cite.open", "cite.quote", "cite.review.pending", "cite.no", "cite.page", "cite.section",
              "grade.A", "grade.B", "grade.0", "grade.EK",
              "consensus.starker_konsens", "consensus.konsens", "consensus.mehrheitliche_zustimmung", "consensus.kein",
              "marker.contested", "body.limits", "body.refines", "body.supplements", "body.empty",
-             "evidence.single", "evidence.by_outcome", "evidence.by_outcome.no_range", "evidence.by_outcome.partial",
+             "evidence.single", "evidence.by_outcome", "evidence.by_outcome.no_range.one", "evidence.by_outcome.no_range.many",
+             "evidence.by_outcome.partial.one", "evidence.by_outcome.partial.many",
              "evidence.ek_only", "evidence.missing", "evidence.table.outcome", "evidence.table.certainty", "evidence.row.missing")
 CARD_WORDS = {"de": {
     "zone.wording": "Wortlaut der Empfehlung", "zone.evidence": "Evidenz", "zone.applies": "Gilt für",
@@ -93,8 +97,10 @@ CARD_WORDS = {"de": {
     "marker.contested": "⚠ umstritten", "body.limits": "Grenzt ein", "body.refines": "Präzisiert", "body.supplements": "Ergänzt",
     "body.empty": "Für diese Aussage sind keine Textstellen aus dem Leitlinientext erfasst.",
     "evidence.single": "Evidenz: {wert} ({system})", "evidence.by_outcome": "Evidenz: endpunktabhängig ({n} Endpunkte, {von} bis {bis})",
-    "evidence.by_outcome.no_range": "Evidenz: endpunktabhängig ({n} Endpunkte)",
-    "evidence.by_outcome.partial": "Evidenz: endpunktabhängig ({k} von {n} Endpunkten erfasst)",
+    "evidence.by_outcome.no_range.one": "Evidenz: endpunktabhängig ({n} Endpunkt)",
+    "evidence.by_outcome.no_range.many": "Evidenz: endpunktabhängig ({n} Endpunkte)",
+    "evidence.by_outcome.partial.one": "Evidenz: endpunktabhängig ({k} von {n} Endpunkt erfasst)",
+    "evidence.by_outcome.partial.many": "Evidenz: endpunktabhängig ({k} von {n} Endpunkten erfasst)",
     "evidence.ek_only": "Expertenkonsens, keine Evidenzbewertung", "evidence.missing": "Evidenz: nicht erfasst",
     "evidence.table.outcome": "Endpunkt", "evidence.table.certainty": "Sicherheit", "evidence.row.missing": "nicht erfasst",
 }}
@@ -111,12 +117,16 @@ def card_words(lang: str):
     """The card's words for one language, or the build stops naming the language and every missing key —
     nothing falls back to another language. The function returned resolves one key and stops the same
     way on a key outside CARD_KEYS (an enum value the table does not know), so a template never renders
-    a blank where a word should be."""
+    a blank where a word should be. With `count`, the key names a counting line and resolves to its
+    `<key>.one` form for exactly one and `<key>.many` otherwise — the pair the table holds for it, both keys
+    in CARD_KEYS, so that no language has the plural without the singular."""
     have = CARD_WORDS.get(lang, {})
     missing = [k for k in CARD_KEYS if k not in have]
     if missing:
         raise SystemExit(f"no card words for language {lang!r}: missing {', '.join(missing)} — add them to CARD_WORDS in tools/build.py")
-    def word(key: str) -> str:
+    def word(key: str, count: int | None = None) -> str:
+        if count is not None:
+            key = f"{key}.{'one' if count == 1 else 'many'}"
         if key not in have:
             raise SystemExit(f"no card word {key!r} for language {lang!r} — add it to CARD_KEYS and CARD_WORDS in tools/build.py")
         return have[key]
