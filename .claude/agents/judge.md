@@ -103,22 +103,32 @@ is a reading, and the reading is your job.
    every body-text claim carry its edge? List each sentence that should be a
    claim and is not, verbatim, with page, the marked recommendation it
    belongs to and the test it passes.
-   The page is the scope: you do not read pages the diff does not cite.
+   The page is the scope: you do not read pages the diff does not cite. A
+   sentence that begins on the cited page belongs to it: read on to the end
+   of that sentence, and no further.
 
 ## The report
 
-Four parts, in this order, and nothing else:
+Four parts, in this order, and nothing else. The report is written in
+English, like every document of this repository; what you quote from the
+page or the pool, and the one sentence of a finding, stay in the source's
+language.
 
 1. **Findings** — a table, one row per subject: subject id, question, one of
-   `consistent` / `disputed`, the property a dispute concerns (as
-   `<subject>/<property>`), and one sentence in the source's language saying
-   what the page, the claims or the rule say instead. A page finding is a
+   `consistent` / `disputed` / `unjudged`, the property a dispute concerns
+   (as `<subject>/<property>`), and one sentence in the source's language
+   saying what the page, the claims or the rule say instead. `unjudged` is
+   the row of a subject whose question the rule as written did not let you
+   decide; it points at its entry in part 2 and carries no property and no
+   sentence. Never soften a verdict into a third word of your own: a subject
+   is consistent, disputed, or unjudged. A page finding is a
    list: one entry per missing sentence, with page, the marked recommendation
    it belongs to, and test. Under each
    row, the properties you checked.
 2. **Undecidable** — where the rule as written did not let you decide: the
    sentence, the page, the two readings, and which clauses of the rule point
-   each way. Nothing here is a finding; the subject stays unjudged.
+   each way. Nothing here is a finding; the subject's row in part 1 says
+   `unjudged`.
 3. **Noticed** — what you saw outside the four questions: a property the
    schema carries and the entity lacks, a requirement the specification states
    that the schema cannot express. Never a finding; a person decides what it

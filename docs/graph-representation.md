@@ -968,7 +968,8 @@ instruction whose verb the rule does not list. That is not a finding about the
 subject; it is a finding about the rule, and it goes into the report's second
 part, *undecidable*, with the sentence, the page and the two readings, for the
 package that owns the rule to settle. Nothing under it becomes an attestation:
-an undecided subject is unjudged, not consistent. The third part is *noticed*:
+an undecided subject is unjudged, not consistent, and its row in the report
+says so in that one word. The third part is *noticed*:
 what the judge saw on the page or in the pool outside its four questions — a
 property the schema carries and the claim lacks, a requirement this document
 states and the schema cannot express. It is written down because a reader was
