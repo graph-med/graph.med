@@ -226,6 +226,15 @@ moves the graph there. Deep links carry `#<entity id>`, and `?by=<grouping>` whe
 grouped by the chapters or an axis. There are no modal dialogs and no page
 loads needed to read a view; the entity pages (§4) exist for linking, not for reading.
 
+**The wrapper is three rows.** Everything the page floats over the canvas is placed
+in a row of one grid rather than at a measured distance from an edge: the controls
+in the first, what the reader opens over the graph — the chapter panel — in the
+second, the legend in the third, and the canvas spanning all three. A control row
+that wraps on a phone makes its own row taller, the legend is as tall as its lines
+are at that width, and both the panel's height and the zoom that fits the tree
+follow from the free middle row. No constant states how tall the controls are, and
+a hidden legend leaves no row to subtract.
+
 **Chapters and search.** Two ways to narrow the tree, deliberately different in
 kind:
 

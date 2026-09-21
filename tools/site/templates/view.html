@@ -5,19 +5,22 @@
 {% block main %}
 <section class="graph-wrap">
   <div id="graph" role="img" aria-label="{{ title }}"></div>
-  <div class="tools left">
-    <button type="button" id="chapters-toggle" title="chapters" aria-controls="chapters" aria-expanded="false">§</button>
-    <input type="search" id="search" placeholder="search" aria-label="search the graph" autocomplete="off">
-    <span class="step" id="step" hidden><button type="button" id="step-back" title="previous match (↑ in the search box)" aria-label="previous match">↑</button><button type="button" id="step-next" title="next match (↓ in the search box)" aria-label="next match">↓</button></span>
-    <select id="axis" aria-label="group by" title="group by" hidden></select>
-    <select id="facet" aria-label="only concepts of this kind" hidden><option value="">any kind</option></select>
-    <span class="count" id="count" hidden></span>
+  <div class="controls">
+    <div class="tools left">
+      <button type="button" id="chapters-toggle" title="chapters" aria-controls="chapters" aria-expanded="false">§</button>
+      <input type="search" id="search" placeholder="search" aria-label="search the graph" autocomplete="off">
+      <span class="step" id="step" hidden><button type="button" id="step-back" title="previous match (↑ in the search box)" aria-label="previous match">↑</button><button type="button" id="step-next" title="next match (↓ in the search box)" aria-label="next match">↓</button></span>
+      <select id="axis" aria-label="group by" title="group by" hidden></select>
+      <select id="facet" aria-label="only concepts of this kind" hidden><option value="">any kind</option></select>
+      <span class="count" id="count" hidden></span>
+    </div>
+    <div class="tools right">
+      <button type="button" id="fit" title="fit what is open">⤢</button>
+      <button type="button" id="reset" title="reset: fold everything, clear the search and the chapter">↺</button>
+    </div>
   </div>
+  <div class="free" id="free" aria-hidden="true"></div>
   <nav class="chapters" id="chapters" aria-label="chapters" hidden></nav>
-  <div class="tools right">
-    <button type="button" id="fit" title="fit what is open">⤢</button>
-    <button type="button" id="reset" title="reset: fold everything, clear the search and the chapter">↺</button>
-  </div>
   <p class="hint" id="hint">
     <span class="sw question"></span> question (tap to fold) <span class="sw junction"></span> patient group (tap to unfold) <span class="sw statement"></span> recommendation <span class="sw aim"></span> aim
     <br>direction by colour: <span class="key"><span class="sw d-for"></span> <span lang="de">✓ für</span></span> · <span class="key"><span class="sw d-against"></span> <span lang="de">✗ gegen</span></span> · <span class="key"><span class="sw d-weigh"></span> <span lang="de">⚖ abwägen</span></span> · <span class="key"><span class="sw d-gap"></span> <span lang="de">∅ Lücke</span></span> · <span class="key">grade by letter: A · B · 0 · EK</span>
