@@ -91,8 +91,11 @@
           "background-color": css("--bg"), "border-color": css("--fg"), "border-width": 2, "text-max-width": 30 } },
       { selector: "node[type = 'junction'].open", style: { "background-color": css("--fg"), "color": css("--bg") } },
       { selector: "node[type = 'question'].closed", style: { "background-color": css("--line"), "border-style": "dashed" } },   /* folded: there is more below */
-      { selector: "node[type = 'statement']", style: { "color": "#111", "border-color": "rgba(0,0,0,0)", "text-halign": "center" } },   /* dark text on the direction's colour, in both themes */
-      { selector: "node[type = 'statement'][!direction]", style: { "color": css("--fg"), "border-color": css("--mute") } },   /* no direction: the page's own colours, with a border */
+      /* a box has no border of its own: "none" is a width of 0, not a transparent colour — Cytoscape takes a
+         border's alpha from `border-opacity`, never from the colour, so a transparent colour drew a dark hairline.
+         The verb, contested and picked rules below each set their own width, so they draw as before */
+      { selector: "node[type = 'statement']", style: { "color": "#111", "border-width": 0, "text-halign": "center" } },   /* dark text on the direction's colour, in both themes */
+      { selector: "node[type = 'statement'][!direction]", style: { "color": css("--fg"), "border-width": 1.5, "border-color": css("--mute") } },   /* no direction: the page's own colours, with a border */
       /* the verb as a border: "soll" für gets a solid green rim, "soll nicht" a red one; "sollte" and a mixed verb none.
          Cytoscape resolves a clash by stylesheet order, not specificity, so the contested rule stays after these two:
          a contested box keeps its dashed red border and the verb's border is suppressed on it */
