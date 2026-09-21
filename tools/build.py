@@ -67,11 +67,13 @@ WORDS = {"de": {"population": "Welche Population?", "condition": "Welche Bedingu
                 "axis": "Welche {label}?", "plain": "Population", "chapter": "Kapitel", "unplaced": "nicht zugeordnet"}}
 CHAPTERS = "section"   # the URL token and grouping id of the built-in chapter grouping (`?by=section`)
 
-# The words of the statement card (docs/publication.md §3 "What the section shows"): every visible word of
-# its chrome, in the statement's source language, keyed structurally — the zone, the slot, the grade and the
-# consensus by the schema's own enum values, so that a new value is a missing key and never a silent blank.
-# The values are fixed by the maintainer (WP-0024). There is no fallback: a language that lacks any key of
-# CARD_KEYS fails the build, naming the language and the keys (card_words()). A line that counts something
+# The words of the statement card (docs/publication.md §3 "What the section shows"), and of the detail
+# sections of the other entities and the entity page (§4): every visible word of their chrome, in the
+# entity's source language, keyed structurally — the zone, the slot, the grade and the consensus, the
+# entity type, the concept's facet and the claim's kind by the schema's own enum values, so that a new
+# value is a missing key and never a silent blank. The values are fixed by the maintainer (WP-0024).
+# There is no fallback: a language that lacks any key of CARD_KEYS fails the build, naming the language
+# and the keys (card_words()). A line that counts something
 # is a pair, `<key>.one` and `<key>.many`, chosen by the count at render time (card_words(): word(key, count));
 # the grammar sits in the pair, never in the code. The range line of zone 4 (`evidence.by_outcome`) has no
 # pair: a range needs two values, so it never counts one (evidence_of()).
@@ -83,7 +85,13 @@ CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", 
              "marker.contested", "body.limits", "body.refines", "body.supplements", "body.empty",
              "evidence.single", "evidence.by_outcome", "evidence.by_outcome.no_range.one", "evidence.by_outcome.no_range.many",
              "evidence.by_outcome.partial.one", "evidence.by_outcome.partial.many",
-             "evidence.ek_only", "evidence.missing", "evidence.table.outcome", "evidence.table.certainty", "evidence.row.missing")
+             "evidence.ek_only", "evidence.missing", "evidence.table.outcome", "evidence.table.certainty", "evidence.row.missing",
+             # the detail sections of a concept, a claim and a source, and the entity page (docs/publication.md §3, §4)
+             "type.concept", "type.claim", "type.source", "type.axis",
+             "facet.procedure", "facet.patient_state", "facet.medication", "facet.intervention", "facet.outcome", "facet.finding", "facet.qualifier",
+             "kind.recommendation", "kind.criterion", "kind.definition", "kind.fact", "kind.gap_notice",
+             "slot.outcome", "concept.uses", "concept.codes", "claim.statements", "edge.supports", "edge.contests",
+             "source.claims.one", "source.claims.many", "page.json")
 CARD_WORDS = {"de": {
     "zone.wording": "Wortlaut der Empfehlung", "zone.evidence": "Evidenz", "zone.applies": "Gilt für",
     "zone.body_text": "Aus dem Leitlinientext", "zone.contested.one": "Widersprechende Empfehlung",
@@ -103,6 +111,14 @@ CARD_WORDS = {"de": {
     "evidence.by_outcome.partial.many": "Evidenz: endpunktabhängig ({k} von {n} Endpunkten erfasst)",
     "evidence.ek_only": "Expertenkonsens, keine Evidenzbewertung", "evidence.missing": "Evidenz: nicht erfasst",
     "evidence.table.outcome": "Endpunkt", "evidence.table.certainty": "Sicherheit", "evidence.row.missing": "nicht erfasst",
+    "type.concept": "Begriff", "type.claim": "Textstelle", "type.source": "Quelle", "type.axis": "Achse",
+    "facet.procedure": "Eingriff", "facet.patient_state": "Patientenzustand", "facet.medication": "Medikament",
+    "facet.intervention": "Intervention", "facet.outcome": "Endpunkt", "facet.finding": "Befund", "facet.qualifier": "Qualifikator",
+    "kind.recommendation": "Empfehlung", "kind.criterion": "Kriterium", "kind.definition": "Definition", "kind.fact": "Feststellung",
+    "kind.gap_notice": "Lücke",
+    "slot.outcome": "Endpunkt", "concept.uses": "Verwendet in", "concept.codes": "Kodiert als", "claim.statements": "Bezieht sich auf",
+    "edge.supports": "stützt", "edge.contests": "widerspricht",
+    "source.claims.one": "{n} Textstelle erfasst", "source.claims.many": "{n} Textstellen erfasst", "page.json": "JSON",
 }}
 # The five questions a physician brings to a recommendation, kept as the semantic mapping of the card's keys
 # — what each zone answers, read by an answering layer from the statement's JSON — and never rendered
@@ -313,7 +329,7 @@ class Pool:
         for st in self.of_type("statement"):
             for slot, cid in (st.get("slots") or {}).items():   # the four slots and any a dimension axis adds (spec §4.1)
                 if cid == concept_id:
-                    rows.append({"id": st["id"], "label": st["label"], "slot": slot})
+                    rows.append({"id": st["id"], "label": st["label"], "lang": st["lang"], "slot": slot})
         rows.sort(key=lambda r: r["id"])
         return rows
 
@@ -658,18 +674,32 @@ def main(argv=None) -> int:
     if base == "/":   # the domain root only (docs/publication.md §6): clients that ask /favicon.ico instead of reading <link>
         shutil.copy(SITE_SRC / "static" / "favicon.ico", out / "favicon.ico")
 
+    dimension_axes = {a["slot"]: a for a in pool.of_type("axis") if a.get("carrier") == "dimension"}   # a slot an axis adds, by its key (spec §4.1)
+
     def details(ent: dict) -> dict:
-        """What the sheet and the entity page show for one entity (docs/publication.md §3)."""
+        """What the sheet and the entity page show for one entity (docs/publication.md §3, §4). Every word
+        of the chrome is W(key) from CARD_WORDS in the entity's own language; an entity without `lang`
+        has no language to show its page in, so the build stops there rather than falling back."""
         d = {"entity": ent}
         t = ent["type"]
+        if not ent.get("lang"):
+            raise SystemExit(f"{ent['id']}: no `lang` — the words of its page need one (tools/build.py, CARD_WORDS)")
+        W = d["W"] = card_words(ent["lang"])
         if t == "statement":
             d["card"] = card_of(ent)
-            d["W"] = card_words(ent["lang"])   # the card's chrome in the statement's source language; no fallback
         elif t == "concept":
-            d["uses"] = pool.uses_of(ent["id"])
+            # the statements that hold the concept, each under the name of its slot: the card's own word for
+            # the card's slots, the axis's short label for a slot a dimension axis adds — never a slot key
+            slot_name = lambda slot: (dimension_axes[slot].get("short_label") or dimension_axes[slot]["label"]) \
+                if slot not in CARD_SLOTS + ("outcome",) and slot in dimension_axes else W("slot." + slot)
+            order = list(CARD_SLOTS) + ["outcome"] + sorted(dimension_axes)   # grouped by slot, the card's slots first, ids within
+            d["uses"] = sorted(({**u, "slot_label": slot_name(u["slot"])} for u in pool.uses_of(ent["id"])),
+                               key=lambda u: (order.index(u["slot"]) if u["slot"] in order else len(order), u["id"]))
             d["codes"] = [to for k, to, _ in pool.out.get(ent["id"], []) if k == "codes_as"]
         elif t == "claim":
             d["claim"] = pool.claim_view(ent)
+            j = direction_of([{"edge": "supports", **d["claim"]}])   # the claim's own judgement, in the card's four words (zone 2)
+            d["claim"]["urteil"] = {"direction": j["word"], "glyph": j["glyph"], "verbs": j["verbs"]} if j else None
         elif t == "source":
             d["claim_count"] = sum(1 for c in pool.of_type("claim") if pool.source_of(c) == ent["id"])
         return d
@@ -682,7 +712,14 @@ def main(argv=None) -> int:
         claims, the slots, the edges and the source; the build adds only the words of CARD_WORDS, at render time."""
         slots = st.get("slots") or {}
         claims = pool.claims_for(st["id"])
-        sup = [c for c in claims if c["edge"] == "supports"]
+        # The supporting claims in one order for zones 2, 3 and 8 — the badges' order is zone 8's order (§3):
+        # grouped by source, sources by their first supporting claim, claims as claims_for() sorts them.
+        first = {}
+        for c in claims:
+            if c["edge"] == "supports":
+                first.setdefault(c["source"], len(first))
+        sup = sorted((c for c in claims if c["edge"] == "supports"), key=lambda c: first[c["source"]])
+        claims = sup + [c for c in claims if c["edge"] != "supports"]
         d = direction_of(claims)
         concept = lambda cid: {"id": cid, "label": pool.entities[cid]["label"], "lang": pool.entities[cid]["lang"]} if cid in pool.entities \
             else {"id": cid, "label": cid, "lang": st["lang"]}   # a reference outside the pool (a terminology not imported) shows as its id
@@ -701,6 +738,11 @@ def main(argv=None) -> int:
 
         passage = lambda b: {k: b.get(k) for k in ("id", "label", "lang", "page", "section", "link", "quote")}
         geltung = {role: slot_row(role) for role in CARD_SLOTS}
+        cited = []   # zone 8: each source named once, its supporting claims' entries under it, in `sup`'s order
+        for c in sup:
+            if not cited or cited[-1]["id"] != c["source"]:
+                cited.append({"id": c["source"], "title": c["source_title"], "lang": c["source_lang"], "claims": []})
+            cited[-1]["claims"].append({k: c.get(k) for k in ("id", "recommendation_no", "page", "section", "link", "quote", "lang")})
         related = [{"edge": k, "to": to, "label": pool.entities[to]["label"]} for k, to, _ in pool.out.get(st["id"], []) if k in STATEMENT_EDGES and to in pool.entities] \
                 + [{"edge": k, "from": frm, "label": pool.entities[frm]["label"]} for k, frm, _ in pool.inc.get(st["id"], []) if k in STATEMENT_EDGES and frm in pool.entities]
         return {
@@ -713,8 +755,7 @@ def main(argv=None) -> int:
             "geltung": geltung if any(geltung.values()) else None,
             "leitlinientext": {k: [passage(b) for c in claims for b in c.get("body", []) if b["kind"] == k] for k in BODY_TEXT},
             "widerspruch": contests_of(claims),
-            "beleg": {"claims": [{k: c.get(k) for k in ("id", "source", "source_title", "source_lang", "recommendation_no", "page", "section", "link", "quote", "lang")} for c in sup],
-                      "review": "pending"},   # the pool has no attestation yet; what a present one reads is a maintainer decision (WP-0024, open questions)
+            "beleg": {"sources": cited, "review": "pending"},   # the pool has no attestation yet; what a present one reads is a maintainer decision (WP-0024, open questions)
             "mehr": {"id": st["id"], "slots": {slot: concept(cid) for slot, cid in slots.items()},
                      "related": related, "claims": [{"edge": c["edge"], "id": c["id"]} for c in claims], "source": st.get("source")},
         }
