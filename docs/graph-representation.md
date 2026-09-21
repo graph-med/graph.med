@@ -795,10 +795,12 @@ left out:
   `consensus`, `recommendation_no` and `section` are as printed at that place,
   and none is supplied where the page prints none (§11, rule 6; a body-text
   claim carries no grade, §5); a number in the label — a day, a dose, a value,
-  a threshold — is the number on the page. Whether the quote is on the page it
-  does not ask: the validator has, and the judge runs after it. That is the
-  difference in kind between the two: a substring is mechanical, "as printed"
-  is a reading.
+  a threshold — is the number on the page. Whether the quote is on the page,
+  whether the id hashes from the anchor, whether the file fits the schema, it
+  does not ask: the validator has, and the judge runs after it and repeats
+  none of it — the definition lists what the validator covers so that the
+  judge skips it. That is the difference in kind between the two: a substring
+  is mechanical, "as printed" is a reading.
 - **A statement against its supporting claims.** The judge reads the statement
   with every claim that `supports` or `contests` it and asks whether the
   proposition is what the claims say: nothing the label asserts is absent from
@@ -827,8 +829,10 @@ left out:
   claim with that box's `recommendation_no` (§3.1: a box of two sentences
   is two claims), every body-text sentence that passes the rule's gate is a
   claim with its edge (§5), every alternative of an "entweder … oder" is a
-  claim of its own, and every claim of the page supports or contests a
-  statement. The page is the scope, not the chapter: the branch cited it,
+  claim of its own, every box claim supports or contests a statement, and
+  every body-text claim has its one edge to its box claim — a body-text
+  claim supports no statement, the rule of §5 gives it the edge instead. The
+  page is the scope, not the chapter: the branch cited it,
   so the branch answers for it, and no declared range is needed. What a
   package promised — a chapter, a section of the source's outline — is the
   package's verification, read from the judge's report, not a finding the
@@ -873,7 +877,9 @@ repeatable: the definition the judge ran as and its hash, the model that read,
 the properties it checked and, for a dispute, the property the finding
 concerns (§2's property address, `claims/<id>/grade`) with one sentence saying
 what the page, the claims or the rule say instead — in the source's language,
-`lang`-tagged, like every text in the pool. For a claim it also pins
+`lang`-tagged, like every text in the pool. A page finding is a list, not a
+sentence: one entry per sentence without a claim, each with the page, the box
+it belongs to and the test it passes, quoted verbatim. For a claim it also pins
 `source_hash`, the content hash of the source it read. There is no signature:
 the judge holds no key (below); the run is what the proof identifies.
 
@@ -944,6 +950,21 @@ And it never writes to the board, opens a card or comments on a pull request:
 its only output is the attestation and the report. Of a gap it finds it says
 which sentence on which page has no claim; it never mints the claim.
 
+**The report has three parts, and only the first is attestations.** Consistent
+and disputed are the two words a finding can carry. A run also meets what the
+rule as written does not decide — a sentence the gate excludes that a later
+clause admits, two cues of the rule pointing opposite ways on one sentence, an
+instruction whose verb the rule does not list. That is not a finding about the
+subject; it is a finding about the rule, and it goes into the report's second
+part, *undecidable*, with the sentence, the page and the two readings, for the
+package that owns the rule to settle. Nothing under it becomes an attestation:
+an undecided subject is unjudged, not consistent. The third part is *noticed*:
+what the judge saw on the page or in the pool outside its four questions — a
+property the schema carries and the claim lacks, a requirement this document
+states and the schema cannot express. It is written down because a reader was
+there, and it is never a finding, because the judge judges only what it was
+given (above); a person decides whether it becomes a card.
+
 **The agent.** One entity, `agents/<judge-id>`, for the role — the automated
 review — not for a model: which model read, as which definition, is in each
 attestation's `proof`, so a finding stays traceable when the model changes and
@@ -997,9 +1018,19 @@ eine Amylase-Konzentration … unter 5000 U/L am ersten postop. Tag, oder …
 unter 5000 U/L am postop. Tag 1 und 3 sowie Drainagemenge unter 300 ml/Tag
 oder aber Amylase … kleiner als das Dreifache der Serumkonzentration am
 postop. Tag 3" — and the pool holds a claim for the first alone; the page is
-`disputed` on `sources/pomgat-lv-1.0` at page 64, the proof quoting the two
-sentences without a claim. Nothing in the pool changes either way: the
-linking pass that reads the findings does.
+`disputed` on `sources/pomgat-lv-1.0` at page 64, the proof listing the two
+sentences without a claim, each with its box (6.7) and its test (refines).
+Nothing in the pool changes either way: the linking pass that reads the
+findings does.
+
+This example was run once, on 2026-09-21, as a read-only session subagent
+briefed with the four questions and the rule in its draft form, writing
+nothing. It found what is written above, and one gap more that the example
+had not seen: the summary sentence of p. 63 refines box 6.6 ("insbesondere
+bei Risikoanastomosen eines weichen Pankreas") and is no claim — found because
+the judge reads the page, not the box it was pointed at. Its undecidable part
+held three entries about the draft rule; its noticed part, two. Four subjects
+and two pages took about four minutes.
 
 ---
 
