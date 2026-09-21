@@ -1,5 +1,15 @@
-{# The detail section for one entity: the sheet under the graph, and the entity page. #}
+{# The detail section for one entity: the sheet under the graph, and the entity page. Every visible word of
+   the chrome, whatever the entity, is W(key) from the words table in the entity's own language (no fallback);
+   the content carries its own lang. The elements are the statement card's: a badge for grade and consensus,
+   dl.slots for a labelled list, zone 8's citation for a quote. #}
 {% set e = entity %}
+{% macro badge(grade, consensus, count=1) -%}
+<span class="badge">{% if grade %}<b>{{ W("grade." ~ grade) }}</b>{% endif %}{% if consensus %} <span>{{ W("consensus." ~ consensus) }}</span>{% endif %}{% if count > 1 %} ({{ count }}){% endif %}</span>
+{%- endmacro %}
+{% macro where(x, no=false) -%}
+{% set parts = [] %}{% if no and x.recommendation_no %}{% set _ = parts.append(W("cite.no").format(nr=x.recommendation_no)) %}{% endif %}{% if x.page %}{% set _ = parts.append(W("cite.page").format(nr=x.page)) %}{% endif %}{% if x.section %}{% set _ = parts.append(W("cite.section").format(nr=x.section)) %}{% endif %}
+{%- if parts %}<a href="{{ x.link }}" rel="noopener">{{ parts | join(" · ") }}</a>{% endif %}
+{%- endmacro %}
 {% if e.type == "statement" %}
 {# The statement card (docs/publication.md §3 "What the section shows"): nine zones in a fixed order, whatever the
    statement contains — title, judgement, wording, evidence, applies to, body text, contradiction, citation, more —
@@ -8,13 +18,6 @@
    zone 1 is named by its title, zone 2 by its first line. A zone with nothing shows its empty state or is absent
    (5 and 7); it never swaps place. Developer vocabulary (ids, edge names) only in zone 9. #}
 {% set c = card %}
-{% macro badge(grade, consensus, count=1) -%}
-<span class="badge">{% if grade %}<b>{{ W("grade." ~ grade) }}</b>{% endif %}{% if consensus %} <span>{{ W("consensus." ~ consensus) }}</span>{% endif %}{% if count > 1 %} ({{ count }}){% endif %}</span>
-{%- endmacro %}
-{% macro where(x, no=false) -%}
-{% set parts = [] %}{% if no and x.recommendation_no %}{% set _ = parts.append(W("cite.no").format(nr=x.recommendation_no)) %}{% endif %}{% if x.page %}{% set _ = parts.append(W("cite.page").format(nr=x.page)) %}{% endif %}{% if x.section %}{% set _ = parts.append(W("cite.section").format(nr=x.section)) %}{% endif %}
-{%- if parts %}<a href="{{ x.link }}" rel="noopener">{{ parts | join(" · ") }}</a>{% endif %}
-{%- endmacro %}
 <div class="card" lang="{{ c.lang }}">
 <section class="zone title" aria-labelledby="zone-title-h">
 <h2 class="title" id="zone-title-h">{{ c.title }}</h2>
@@ -117,41 +120,56 @@
 </section>
 </div>
 {% elif e.type == "concept" %}
-<p class="kind">concept{% if e.facet %} · {{ e.facet }}{% endif %}</p>
-<p class="label" lang="{{ e.lang }}">{{ e.label }}</p>
-{% if e.definition %}<p lang="{{ e.lang }}">{{ e.definition }}</p>{% endif %}
-{% if codes %}<p>codes: {% for c in codes %}<code>{{ c }}</code> {% endfor %}</p>{% endif %}
+{# a concept: what it is, the statements that hold it and in which slot (a labelled list like zone 5), its codes #}
+<div class="card" lang="{{ e.lang }}">
+<p class="kind">{{ W("type.concept") }}{% if e.facet %} · {{ W("facet." ~ e.facet) }}{% endif %}</p>
+<p class="label">{{ e.label }}</p>
+{% if e.definition %}<p>{{ e.definition }}</p>{% endif %}
+{% if codes %}<p>{{ W("concept.codes") }} {% for c in codes %}<code>{{ c }}</code> {% endfor %}</p>{% endif %}
 {% if uses %}
-<h3>Used in</h3>
-<ul class="plain">
-{% for u in uses %}<li><span class="tag">{{ u.slot }}</span> <a class="node-link" data-node="{{ u.id }}" href="{{ base }}{{ u.id }}/" lang="{{ e.lang }}">{{ u.label }}</a></li>{% endfor %}
-</ul>
+<section class="zone" aria-labelledby="zone-uses-h">
+<h3 id="zone-uses-h">{{ W("concept.uses") }}</h3>
+<dl class="slots">
+{% for u in uses %}{% if loop.first or u.slot != loop.previtem.slot %}  <dt>{{ u.slot_label }}</dt>
+{% endif %}  <dd><a class="node-link" data-node="{{ u.id }}" href="{{ base }}{{ u.id }}/" lang="{{ u.lang }}">{{ u.label }}</a></dd>
+{% endfor %}</dl>
+</section>
 {% endif %}
+</div>
 {% elif e.type == "claim" %}
+{# a claim: its own judgement in the card's four words with its badge (zone 2), its sentence, its citation
+   with the quote and the two actions (zone 8), and the statements it bears on (a labelled list like zone 5) #}
 {% set c = claim %}
-<p class="kind">claim · {{ c.kind }}</p>
-<p>
-  {% if c.recommendation_no %}<span class="tag">No. {{ c.recommendation_no }}</span>{% endif %}
-  {% if c.grade %}<span class="tag grade">grade {{ c.grade }}</span>{% endif %}
-  {% if c.verb %}<span class="tag">{{ c.verb }}{% if c.direction == "against" %} nicht{% endif %}</span>{% endif %}
-  {% if c.consensus %}<span class="tag">{{ c.consensus }}</span>{% endif %}
-</p>
-<p class="label" lang="{{ c.lang }}">{{ c.label }}</p>
-<blockquote lang="{{ c.lang }}">„{{ c.quote }}“ <button type="button" class="copy" data-copy="{{ c.quote }}" title="copy the quote, then find it in the document with Ctrl+F">copy</button></blockquote>
-<p class="cite"><a href="{{ c.link }}" rel="noopener">{{ c.source | short }}{% if c.page %}, page {{ c.page }}{% endif %}</a>{% if c.section %} · section {{ c.section }}{% endif %}</p>
-{% if c.statements %}
-<h3>Bears on</h3>
-<ul class="plain">
-{% for s in c.statements %}<li><span class="tag">{{ s.edge }}</span> <a href="{{ base }}{{ s.id }}/">{{ s.label }}</a></li>{% endfor %}
-</ul>
+<div class="card" lang="{{ c.lang }}">
+<p class="kind">{{ W("type.claim") }} · {{ W("kind." ~ c.kind) }}</p>
+{% if c.urteil or c.grade or c.consensus %}
+<section class="zone judgement{% if c.urteil %} dir-{{ c.urteil.direction }}{% endif %}">
+{% if c.urteil %}<p class="line1"><span class="answer"><span class="glyph" aria-hidden="true">{{ c.urteil.glyph }}</span> {{ c.urteil.direction }}{% if c.urteil.verbs %} <span class="verbs">{{ c.urteil.verbs | join(" · ") }}</span>{% endif %}</span></p>
+{% endif %}{% if c.grade or c.consensus %}<p class="badges">{{ badge(c.grade, c.consensus) }}</p>
+{% endif %}</section>
 {% endif %}
+<p class="label">{{ c.label }}</p>
+<p class="cite"><span lang="{{ c.source_lang }}">{{ c.source_title }}</span>{% if c.recommendation_no %} · {{ W("cite.no").format(nr=c.recommendation_no) }}{% endif %}{% if c.page %} · {{ W("cite.page").format(nr=c.page) }}{% endif %}{% if c.section %} · {{ W("cite.section").format(nr=c.section) }}{% endif %}</p>
+<blockquote>„{{ c.quote }}“</blockquote>
+<p class="actions"><a class="btn" href="{{ c.link }}" rel="noopener">{{ W("cite.open") }}</a> <button type="button" class="copy" data-copy="{{ c.quote }}">{{ W("cite.quote") }}</button></p>
+{% if c.statements %}
+<section class="zone" aria-labelledby="zone-statements-h">
+<h3 id="zone-statements-h">{{ W("claim.statements") }}</h3>
+<dl class="slots">
+{% for s in c.statements %}  <dt>{{ W("edge." ~ s.edge) }}</dt><dd><a class="node-link" data-node="{{ s.id }}" href="{{ base }}{{ s.id }}/">{{ s.label }}</a></dd>
+{% endfor %}</dl>
+</section>
+{% endif %}
+</div>
 {% elif e.type == "source" %}
-<p class="kind">source</p>
-<p class="label" lang="{{ e.lang }}">{{ e.title }}</p>
+<div class="card" lang="{{ e.lang }}">
+<p class="kind">{{ W("type.source") }}</p>
+<p class="label">{{ e.title }}</p>
 <p><a href="{{ e.url }}" rel="noopener">{{ e.url }}</a></p>
 <p><small>{{ e.license }}</small></p>
-<p><small>{{ e.content_hash }}{% if e.awmf_register %} · AWMF {{ e.awmf_register }}{% endif %} · {{ claim_count }} claims</small></p>
+<p><small>{{ e.content_hash }}{% if e.awmf_register %} · AWMF {{ e.awmf_register }}{% endif %} · {{ W("source.claims", claim_count).format(n=claim_count) }}</small></p>
+</div>
 {% else %}
-<p class="kind">{{ e.type }}</p>
-<p class="label">{{ e.label or e.id }}</p>
+<p class="kind">{{ W("type." ~ e.type) }}</p>
+<p class="label" lang="{{ e.lang }}">{{ e.label or e.id }}</p>
 {% endif %}

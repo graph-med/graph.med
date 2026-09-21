@@ -67,8 +67,6 @@ ul.cards small, ul.plain small { display: block; color: var(--mute); }
 dl.slots { display: grid; grid-template-columns: max-content 1fr; gap: .2rem .8rem; margin: 0 0 .5rem; }
 dl.slots dt { color: var(--mute); font-size: .85rem; }
 dl.slots dd { margin: 0; }
-.tag { display: inline-block; font-size: .75rem; padding: .1rem .45rem; border: 1px solid var(--line); border-radius: 1rem; color: var(--mute); margin: 0 .2rem .2rem 0; }
-.tag.grade { color: var(--fg); border-color: var(--fg); font-weight: 600; }
 ol.claims li { padding: .6rem 0; border-top: 1px solid var(--line); }
 ol.claims p { margin: .3rem 0; }
 blockquote { margin: .3rem 0; padding-left: .7rem; border-left: 3px solid var(--line); color: var(--mute); font-style: italic; }

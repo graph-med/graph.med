@@ -414,8 +414,10 @@ set; nothing is translated. The chrome of the graph (its questions, the switch)
 and of the statement card (its headings, labels and buttons) is in the view's
 source language too, from per-language tables in the build with no fallback: a
 language the tables do not cover fails the build, naming the language and the
-missing keys, so that no English word ever stands on a German card. The page
-chrome outside graph and card — header, footer, legend, counter — is English (§8).
+missing keys, so that no English word ever stands on a German card. The detail
+sections of a concept, a claim and a source, and the entity page's link to its
+JSON (§4), take their words from the same table in the entity's own language. The page
+chrome outside graph and sheet — header, footer, legend, counter — is English (§8).
 Translation is a build-layer concern and can be added without a data change
 (`graph-representation.md` §2).
 
@@ -515,7 +517,8 @@ cut-publication).
 - **The build's own words outside the graph and the card** — the legend, the
   counter, the chapter panel's "all" and the page chrome are English; the
   questions and the direction words inside the graph, and every word of the
-  statement card, are in the source language. The maintainer deferred the rest
+  sheet — the statement card and the other entities' sections — are in the
+  source language. The maintainer deferred the rest
   to a later phase.
 - **Translation** — a build-layer projection, not started.
 - **Other projections** — FHIR, RDF, diagram formats (`graph-representation.md` §13).
