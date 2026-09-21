@@ -47,6 +47,8 @@ pre-emptively.
 | `design/generic-over-guidelines.md` | Nothing in the build, schema, validator or design is specific to one guideline: no ids, family names, or vocabularies admitted because the current source needs them; one code path per rule at every level. |
 | `design/grouping-axes-proposed-and-tested.md` | An axis (what a view groups by) is never fixed in the pool or the build: a person proposes one per guideline as an `axes/` entity, a tool tests and reports (coverage, disjointness, unplaced, depth), a linking pass asserts it with provenance, a view offers it in `group_by`; carried by a slot (dimension, facet `qualifier`) or by `axis` on `broader` (hierarchy). |
 | `design/box-colour-by-direction.md` | A box is coloured by its direction (the banner's four colours) and carries its grade as a letter after the glyph; EK is coloured like any other and marked "EK". Not by grade, not by verb. |
+| `design/anchor-dimension-or-subgroup.md` | Which slot a value takes: four questions per statement — primary index → anchor, "is a" → subgroup, orthogonal from a closed list → dimension, otherwise condition. |
+| `design/access-is-a-dimension.md` | The operative access is the dimension `axes/zugang`, never part of a population concept's name; robotic is minimally invasive; an empty slot means "not distinguished". |
 | `design/claim-evidence-per-outcome.md` | A claim's evidence certainty is `evidence`, a list of {outcome?, value, system} in the rating system's own words: never a scalar, values never mapped between systems, several entries never reduced to one; provenance required like the grade. |
 
 ## Writing one
