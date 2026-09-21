@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 {% set e = entity %}
 {% block title %}{{ e.id }} — graph.med{% endblock %}
+{% block description %}{{ e.type }} · {{ (e.label or e.title or e.id) | truncate(200, True, "…") }}{% endblock %}
+{% block path %}{{ e.id }}/{% endblock %}
 {% block crumbs %}<span class="crumb">{{ e.id }}</span>{% endblock %}
 {% block main %}
 <article class="sheet">
 {% include "details.html" %}
-<p class="cite"><a href="{{ base }}{{ e.id }}.json">json</a></p>
+<p class="cite"><a href="{{ base }}{{ e.id }}.json">{{ W("page.json") }}</a></p>
 </article>
 {% endblock %}

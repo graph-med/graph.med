@@ -24,7 +24,6 @@
   data.groupings.forEach(function (g) { var o = document.createElement("option"); o.value = g.axis; o.textContent = g.label; o.lang = g.lang; axisSel.appendChild(o); });
   axisSel.value = by; axisSel.hidden = data.groupings.length < 2;   /* a view without group_by has only the plain hierarchy: no switch */
   function fail(msg) { hint.hidden = false; hint.textContent = "The graph could not be drawn: " + msg; }
-  try { draw(); } catch (e) { fail(e && e.message ? e.message : String(e)); throw e; }
 
   /* switching the grouping redraws the tree from the chosen grouping's nodes and edges and keeps
      the rest of the page's state — the chapter, the search and the facet, the selected entity —
@@ -43,56 +42,34 @@
     if (was.ref) g.open(was.ref, true);
   }
 
-  function draw() {
-  var tree = data.groupings.filter(function (g) { return g.axis === by; })[0];
-  var css = function (name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); };
+  /* the graph's colours are the page's: the custom properties on :root (site.css), read when the
+     stylesheet is built — at every draw, and again when the theme changes while the page is open */
+  function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
   /* a box is coloured by its direction — the banner's four colours, one variable each in site.css — and
      carries its grade as a letter in the label; a statement without a direction (a fact) stays uncoloured.
      Its verb is its border: a solid border in a strong shade of the direction's colour when the supporting
      claims all say "soll" (green: soll; red: soll nicht), none for "sollte" or when the claims disagree */
   var DIRECTION = { "für": "--dir-for", "gegen": "--dir-against", "abwägen": "--dir-weigh", "Lücke": "--dir-gap" };
-  if (typeof cytoscape !== "function") throw new Error("library missing");
-  if (typeof cytoscapeDagre === "function") cytoscape.use(cytoscapeDagre);
-
-  /* the search compares folded text: no case, no diacritics ("osophagus" finds Ösophagus), ß as ss */
-  function fold(s) { return (s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ß/g, "ss").toLowerCase(); }
-  var elements = [], types = {};
-  tree.nodes.forEach(function (n) { types[n.id] = n.type; });
-  tree.nodes.forEach(function (n) {
-    elements.push({ data: { id: n.id, ref: n.ref || "", type: n.type, label: n.label || "", group: n.group || "",
-      direction: n.direction || "", verb: n.verb || "", fill: DIRECTION[n.direction] ? css(DIRECTION[n.direction]) : css("--bg"), contested: n.contested ? 1 : 0,
-      sections: n.sections || [], text: fold(n.text), facets: n.facets || [] } });
-  });
-  tree.edges.forEach(function (e, i) {
-    /* an answer is written at the end of its edge, beside the group or box it leads to, so that
-       ten answers fanning out of one question do not pile up at the edges' midpoints. The label is
-       anchored where the arrow meets the target's boundary; the margin moves its centre left by half
-       its width (estimated from the text, capped at the wrap width) and a small gap, so it ends just
-       before the arrow and, with the rank separation below, never reaches the rank before */
-    var width = Math.min(170, 6.2 * (e.label || "").length);
-    elements.push({ data: { id: "e" + i, source: e.from, target: e.to, kind: e.kind, label: e.label || "", ref: e.ref || "", text: fold(e.text),
-      lm: -(width / 2 + 10), turn: -200 } });   /* turn: where the edge's vertical run lies, set by route() after every layout */
-  });
-
-  cy = cytoscape({
-    container: document.getElementById("graph"),
-    elements: elements,
-    minZoom: 0.1, maxZoom: 4,
-    boxSelectionEnabled: false, autounselectify: true,
-    style: [
+  function stylesheet() {
+    return [
       { selector: "node", style: {
-          "shape": "round-rectangle", "background-color": "data(fill)", "border-width": 1.5, "border-color": css("--mute"),
+          "shape": "round-rectangle", "background-color": css("--bg"), "border-width": 1.5, "border-color": css("--mute"),
           "label": "data(label)", "color": css("--fg"), "font-family": "system-ui, sans-serif", "font-size": 12,
           "text-wrap": "wrap", "text-max-width": 210, "text-valign": "center", "text-halign": "center",
-          "width": 240, "height": "label", "padding": 10 } },
+          "width": 240, "height": "label", "padding": 10 } } ].concat(
+      /* the fill by direction: one rule per direction word, so that the colour is the stylesheet's and not the node's */
+      Object.keys(DIRECTION).map(function (d) { return { selector: "node[direction = '" + d + "']", style: { "background-color": css(DIRECTION[d]) } }; }), [
       { selector: "node[type = 'root']", style: { "font-weight": 700, "border-color": css("--fg") } },
       { selector: "node[type = 'question']", style: { "shape": "diamond", "width": 200, "height": 120, "padding": 0, "text-max-width": 110, "border-color": css("--fg"), "font-weight": 600 } },
       { selector: "node[type = 'junction']", style: { "shape": "ellipse", "width": 30, "height": 30, "padding": 0, "font-size": 11, "font-weight": 700,
           "background-color": css("--bg"), "border-color": css("--fg"), "border-width": 2, "text-max-width": 30 } },
       { selector: "node[type = 'junction'].open", style: { "background-color": css("--fg"), "color": css("--bg") } },
       { selector: "node[type = 'question'].closed", style: { "background-color": css("--line"), "border-style": "dashed" } },   /* folded: there is more below */
-      { selector: "node[type = 'statement']", style: { "color": "#111", "border-color": "rgba(0,0,0,0)", "text-halign": "center" } },   /* dark text on the direction's colour, in both themes */
-      { selector: "node[type = 'statement'][!direction]", style: { "color": css("--fg"), "border-color": css("--mute") } },   /* no direction: the page's own colours, with a border */
+      /* a box has no border of its own: "none" is a width of 0, not a transparent colour — Cytoscape takes a
+         border's alpha from `border-opacity`, never from the colour, so a transparent colour drew a dark hairline.
+         The verb, contested and picked rules below each set their own width, so they draw as before */
+      { selector: "node[type = 'statement']", style: { "color": "#111", "border-width": 0, "text-halign": "center" } },   /* dark text on the direction's colour, in both themes */
+      { selector: "node[type = 'statement'][!direction]", style: { "color": css("--fg"), "border-width": 1.5, "border-color": css("--mute") } },   /* no direction: the page's own colours, with a border */
       /* the verb as a border: "soll" für gets a solid green rim, "soll nicht" a red one; "sollte" and a mixed verb none.
          Cytoscape resolves a clash by stylesheet order, not specificity, so the contested rule stays after these two:
          a contested box keeps its dashed red border and the verb's border is suppressed on it */
@@ -130,7 +107,49 @@
       { selector: "edge.faded", style: { "line-opacity": 0.15, "color": css("--line") } },
       { selector: "node.picked", style: { "border-width": 3, "border-color": css("--fg") } },
       { selector: "edge.picked", style: { "line-color": css("--fg"), "width": 3 } }
-    ],
+    ]);
+  }
+
+  /* a theme switch while the page is open (prefers-color-scheme): the page restyles itself from the
+     variables, and the graph follows — the stylesheet is rebuilt from the re-read colours and applied
+     in place. What is open, folded and selected, and the layout, stay as they are: nothing is redrawn */
+  function retheme() { if (cy) cy.style().fromJson(stylesheet()).update(); }
+  var scheme = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+  if (scheme) { if (scheme.addEventListener) scheme.addEventListener("change", retheme); else scheme.addListener(retheme); }
+
+  try { draw(); } catch (e) { fail(e && e.message ? e.message : String(e)); throw e; }
+
+  function draw() {
+  var tree = data.groupings.filter(function (g) { return g.axis === by; })[0];
+  if (typeof cytoscape !== "function") throw new Error("library missing");
+  if (typeof cytoscapeDagre === "function") cytoscape.use(cytoscapeDagre);
+
+  /* the search compares folded text: no case, no diacritics ("osophagus" finds Ösophagus), ß as ss */
+  function fold(s) { return (s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ß/g, "ss").toLowerCase(); }
+  var elements = [], types = {};
+  tree.nodes.forEach(function (n) { types[n.id] = n.type; });
+  tree.nodes.forEach(function (n) {
+    elements.push({ data: { id: n.id, ref: n.ref || "", type: n.type, label: n.label || "", group: n.group || "",
+      direction: n.direction || "", verb: n.verb || "", contested: n.contested ? 1 : 0,
+      sections: n.sections || [], text: fold(n.text), facets: n.facets || [] } });
+  });
+  tree.edges.forEach(function (e, i) {
+    /* an answer is written at the end of its edge, beside the group or box it leads to, so that
+       ten answers fanning out of one question do not pile up at the edges' midpoints. The label is
+       anchored where the arrow meets the target's boundary; the margin moves its centre left by half
+       its width (estimated from the text, capped at the wrap width) and a small gap, so it ends just
+       before the arrow and, with the rank separation below, never reaches the rank before */
+    var width = Math.min(170, 6.2 * (e.label || "").length);
+    elements.push({ data: { id: "e" + i, source: e.from, target: e.to, kind: e.kind, label: e.label || "", ref: e.ref || "", text: fold(e.text),
+      lm: -(width / 2 + 10), turn: -200 } });   /* turn: where the edge's vertical run lies, set by route() after every layout */
+  });
+
+  cy = cytoscape({
+    container: document.getElementById("graph"),
+    elements: elements,
+    minZoom: 0.1, maxZoom: 4,
+    boxSelectionEnabled: false, autounselectify: true,
+    style: stylesheet(),
     layout: { name: "preset" }
   });
 
