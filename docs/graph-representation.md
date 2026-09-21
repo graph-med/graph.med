@@ -781,8 +781,11 @@ with a recorded identity, not a writer: everything it finds lands as
 attestations by it, never as an edit, and everything else about it follows
 from the rules of §8 above.
 
-**What it checks.** Three questions, one per layer a pull request touches,
-each asked of one subject against the ground the pool already holds for it:
+**What it checks.** Four questions. Three are asked of one subject the pull
+request adds — a claim, a statement, an edge — against the ground the pool
+already holds for it, and catch what was invented or misread. The fourth is
+asked of the ground itself — the page — against the pool, and catches what was
+left out:
 
 - **A claim against its page.** The judge reads the physical page the claim's
   locator names — the same extracted text the validator's quote check reads
@@ -817,17 +820,31 @@ each asked of one subject against the ground the pool already holds for it:
   package, and the third question is stated over that shape: the kind the
   edge carries is the first test that holds, the target is the right box
   claim, the rationale names what the rule asks for.
+- **A page against the pool.** For every page a claim of the branch cites,
+  the judge — already holding that page for the first question — reads it
+  the other way round and asks whether everything on it that the pool's
+  rules make a claim is one: every sentence of every box on the page has a
+  claim with that box's `recommendation_no` (§3.1: a box of two sentences
+  is two claims), every body-text sentence that passes the rule's gate is a
+  claim with its edge (§5), every alternative of an "entweder … oder" is a
+  claim of its own, and every claim of the page supports or contests a
+  statement. The page is the scope, not the chapter: the branch cited it,
+  so the branch answers for it, and no declared range is needed. What a
+  package promised — a chapter, a section of the source's outline — is the
+  package's verification, read from the judge's report, not a finding the
+  judge attests on its own; a page nobody cited is read by nobody.
 
 The subjects of a run are the entities and edges the branch adds or changes
 against `main`, plus every statement whose evidence the branch changes — a new
-`supports` edge re-opens the second question for its statement. The judge
+`supports` edge re-opens the second question for its statement — plus every
+page those claims cite, for the fourth. The judge
 reads the source, the pool and the rules of this document, and nothing else:
 no other guideline, no textbook, no medical judgement. It judges the
 extraction against the page, never the guideline against medicine; a claim
 that faithfully carries a recommendation the judge would disagree with is
 consistent. Nothing in it names a guideline, a grading scheme or a concept —
-the three questions are stated over the schema's properties and this
-document's rules, and the same three are asked of every source (memory
+the four questions are stated over the schema's properties and this
+document's rules, and the same four are asked of every source (memory
 `generic-over-guidelines`).
 
 **What it writes.** One attestation per subject read, by the judge, shaped as
@@ -835,7 +852,14 @@ document's rules, and the same three are asked of every source (memory
 canonical hash at the head the judge read, so that a changed subject stales
 the finding; `scope` `content` for a claim and an edge, `with_evidence` for a
 statement, so that a further supporting claim re-opens the question; `date`;
-and `claim` one of two. `disputed` where the reading found a discrepancy. Where
+and `claim` one of two. The fourth question has no subject of its own — what
+is missing does not exist to be pointed at — so its finding lands on the
+**source**, at the page the proof names, with a scope that covers the source
+together with its current set of claims and their edges, the way
+`with_evidence` covers a statement with its evidence: the claim that fills
+the gap changes that set, and the finding goes stale by itself. That scope,
+like the agreement word, is a word the schema does not yet carry (the schema
+follow-up). `disputed` where the reading found a discrepancy. Where
 it found none, a word that says *a software agent read the subject against its
 ground and found it consistent* — `validated` is the quote check and pins a
 source hash, `expert_reviewed` is a person's and may not be signed by software
@@ -917,7 +941,8 @@ which claims a software agent may make is a role on the agent (§8), and the
 schema follow-up gives the validator the rule that `expert_reviewed` is never
 `by` software. It never judges what it was not given: the diff and its ground.
 And it never writes to the board, opens a card or comments on a pull request:
-its only output is the attestation and the report.
+its only output is the attestation and the report. Of a gap it finds it says
+which sentence on which page has no claim; it never mints the claim.
 
 **The agent.** One entity, `agents/<judge-id>`, for the role — the automated
 review — not for a model: which model read, as which definition, is in each
@@ -966,8 +991,15 @@ finding is `disputed`, its proof naming the property and saying, in German,
 `"Die Kante nennt keinen Test und keinen Begriff (§5: refines, Drainagesekret
 … hinweist)."` Were the box claim's grade "B", the first attestation would
 instead be `disputed` at `claims/pomgat-lv-1.0/6b9239a9/grade`: `"Seite 63
-druckt Empfehlungsgrad 0, nicht B."` Nothing in the pool changes either way:
-the linking pass that reads the finding does.
+druckt Empfehlungsgrad 0, nicht B."` Of p. 64 it asks the fourth: the
+sentence the criterion is quoted from lists three alternatives — "entweder
+eine Amylase-Konzentration … unter 5000 U/L am ersten postop. Tag, oder …
+unter 5000 U/L am postop. Tag 1 und 3 sowie Drainagemenge unter 300 ml/Tag
+oder aber Amylase … kleiner als das Dreifache der Serumkonzentration am
+postop. Tag 3" — and the pool holds a claim for the first alone; the page is
+`disputed` on `sources/pomgat-lv-1.0` at page 64, the proof quoting the two
+sentences without a claim. Nothing in the pool changes either way: the
+linking pass that reads the findings does.
 
 ---
 

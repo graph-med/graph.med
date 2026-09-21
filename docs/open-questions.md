@@ -104,3 +104,9 @@ and which card is next, is not a question and lives on the board (`uv run tools/
 **Options:** never automatically; a package re-judges a namespace when a person decides · on every push to `main`, the whole pool · whenever a rule of the spec changes, everything that rule governs
 **Leaning:** the first; a changed rule stales nothing mechanically, so re-judging is a decision, and the definition hash in every proof says which text of the rule a finding was read against. (2026-09-14)
 **Settled by:** the first change to the body-text rule, or to the definition, after the first judged pull request.
+
+## completeness-scope  (graph-representation.md §8.1, §3.1, §5; schema `attestation.scope`)
+**Question:** The judge's fourth question reads a page the branch cites and asks whether everything on it that the rules make a claim is one; but a page nobody cited is read by nobody, and what "everything" is on a page depends on rules that are still moving — the body-text rule's gate, the gap-notice and quality-indicator questions.
+**Options:** page-local only, as §8.1 says, and the declared range (a chapter, a section of the outline) is the package's verification read from the report · the run also reads every page of every outline section a cited page belongs to · a section-level completeness attestation on the source with the outline entry as the address
+**Leaning:** the first; a page the branch cited is ground the branch answers for, a section is a promise the card made, and the two should not be confused in one attestation. Revisit when the second guideline shows pages with boxes that no branch ever cited. (2026-09-21)
+**Settled by:** the first extraction card judged end to end, and the schema follow-up that names the source-with-claims scope.
