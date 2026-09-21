@@ -1,8 +1,10 @@
 {% extends "base.html" %}
+{% set lead = "Source-anchored claims, linked into statements and concepts, drawn as graphs. Every identifier on this site resolves; every quote links to the page it was taken from." %}
 {% block title %}graph.med — a collaborative public medical knowledge graph{% endblock %}
+{% block description %}{{ lead }}{% endblock %}
 {% block main %}
 <h1>A collaborative public medical knowledge graph</h1>
-<p class="lead">Source-anchored claims, linked into statements and concepts, drawn as graphs. Every identifier on this site resolves; every quote links to the page it was taken from.</p>
+<p class="lead">{{ lead }}</p>
 <h2>Views</h2>
 <ul class="cards">
 {% for v in views %}
