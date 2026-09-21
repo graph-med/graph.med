@@ -41,10 +41,13 @@ ul.cards li a { display: block; padding: .8rem; border: 1px solid var(--line); b
 ul.cards small, ul.plain small { display: block; color: var(--mute); }
 .foot { padding: 1rem; color: var(--mute); font-size: .8rem; border-top: 1px solid var(--line); }
 
-/* the graph: one decision tree in a fixed viewport, drawn by Cytoscape.js */
-.graph-wrap { margin: 0 -1rem; position: relative; background: var(--bg); border-top: 1px solid var(--line); }
-#graph { display: block; width: 100%; height: 62vh; touch-action: none; }
-.hint { position: absolute; left: 1rem; right: 1rem; bottom: .3rem; margin: 0; color: var(--mute); font-size: .74rem; line-height: 1.5; pointer-events: none; }
+/* the graph: one decision tree in a fixed viewport, drawn by Cytoscape.js. The wrapper is a grid of two rows: the
+   canvas spans both, the legend is the second, in flow, so that it is as tall as its lines are at this width. Whatever
+   floats over the graph and has to stop above the legend (the chapter panel) is placed in the first row: its 100% is
+   the space above the legend as laid out, at every width, and the whole wrapper when the legend is hidden. */
+.graph-wrap { margin: 0 -1rem; position: relative; display: grid; grid-template-rows: minmax(0, 1fr) auto; grid-template-columns: minmax(0, 1fr); background: var(--bg); border-top: 1px solid var(--line); }
+#graph { display: block; width: 100%; height: 62vh; grid-area: 1 / 1 / 3 / 2; touch-action: none; }
+.hint { grid-area: 2 / 1 / 3 / 2; position: relative; z-index: 1; margin: 0 1rem .3rem; color: var(--mute); font-size: .74rem; line-height: 1.5; pointer-events: none; }   /* above the canvas, which Cytoscape positions with a z-index of its own */
 .hint .key { white-space: nowrap; }   /* a swatch stays on the line of its word */
 .sw { display: inline-block; width: .75em; height: .75em; vertical-align: -.05em; margin: 0 .15em 0 .45em; border: 1px solid var(--mute); box-sizing: border-box; }
 .sw.question { transform: rotate(45deg) scale(.8); border-color: var(--fg); }
@@ -64,8 +67,6 @@ ul.cards small, ul.plain small { display: block; color: var(--mute); }
 dl.slots { display: grid; grid-template-columns: max-content 1fr; gap: .2rem .8rem; margin: 0 0 .5rem; }
 dl.slots dt { color: var(--mute); font-size: .85rem; }
 dl.slots dd { margin: 0; }
-.tag { display: inline-block; font-size: .75rem; padding: .1rem .45rem; border: 1px solid var(--line); border-radius: 1rem; color: var(--mute); margin: 0 .2rem .2rem 0; }
-.tag.grade { color: var(--fg); border-color: var(--fg); font-weight: 600; }
 ol.claims li { padding: .6rem 0; border-top: 1px solid var(--line); }
 ol.claims p { margin: .3rem 0; }
 blockquote { margin: .3rem 0; padding-left: .7rem; border-left: 3px solid var(--line); color: var(--mute); font-style: italic; }
@@ -93,7 +94,7 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .tools .step button { width: 36px; height: 42px; border: 0; border-radius: 0; background: none; color: var(--fg); font-size: 1rem; padding: 0; }
 .tools .step button + button { border-left: 1px solid var(--line); }
 .tools .step button:hover, .tools .step button:focus-visible { background: var(--line); }
-.chapters { position: absolute; left: .6rem; top: 3.9rem; z-index: 2; max-width: min(24rem, calc(100% - 1.2rem)); max-height: calc(100% - 6rem); display: flex; flex-direction: column; overflow: hidden;
+.chapters { position: absolute; grid-area: 1 / 1 / 2 / 2; left: .6rem; top: 3.9rem; z-index: 2; max-width: min(24rem, calc(100% - 1.2rem)); max-height: calc(100% - 4.3rem); display: flex; flex-direction: column; overflow: hidden;   /* placed in the row above the legend: 100% ends where the legend begins; .4rem of air between them */
   background: var(--bg); border: 1px solid var(--line); border-radius: .6rem; font-size: .85rem; line-height: 1.35; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
 .chapters[hidden] { display: none; }
 .chapters .list { overflow: auto; min-height: 0; padding: .2rem .6rem .4rem; }   /* the sections scroll; the "all" row above them stays */
@@ -161,6 +162,12 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card .contested h3 { color: var(--contested); }
 .card .contested ol.claims li { border-left: 3px solid var(--contested); padding-left: .6rem; }
 .card .contested .badges { margin-bottom: .2rem; }
+/* zone 8: a source named once — its title as the group's heading, in the citation's own type, not the card's
+   uppercase group label — with its claims' entries under it; the rule that separated the entries now opens each
+   source, so that one source with one claim looks as before */
+.card .citation .source { border-top: 1px solid var(--line); padding-top: .5rem; }
+.card .citation .source h4 { margin: 0; font-size: .85rem; font-weight: 500; color: var(--mute); text-transform: none; letter-spacing: 0; }
+.card .citation .source ol.claims li:first-child { border-top: 0; padding-top: .1rem; }
 /* zone 8: the citation's two actions as one row of buttons, and the review status */
 .card .actions { display: flex; flex-wrap: wrap; gap: .4rem; margin: .3rem 0; }
 .card .actions .btn, .card .actions button.copy { font: inherit; font-size: .8rem; margin: 0; padding: .25rem .7rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--bg); color: var(--fg); text-decoration: none; min-height: 32px; display: inline-flex; align-items: center; }

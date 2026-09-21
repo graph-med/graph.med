@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{{ vid }} — graph.med{% endblock %}
+{% block description %}{{ title }} · {{ counts.statement }} statements · {{ counts.concept }} concepts · {{ counts.claim }} claims{% endblock %}
+{% block path %}{{ vid }}/{% endblock %}
 {% block mainclass %}view{% endblock %}
 {% block crumbs %}<span class="crumb">{{ vid }}</span>{% endblock %}
 {% block main %}
