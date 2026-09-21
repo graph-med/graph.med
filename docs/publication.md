@@ -357,8 +357,9 @@ lists the four words with their colours. Timing
      2's rules, its wording, and its own citation with recommendation number
      and page. Heading singular or plural by count. Its existence is what the
      marker in zone 2 announces.
-  8. **Citation.** One entry per supporting claim: the source's title,
-     recommendation number, page, section, the verbatim quote, and two
+  8. **Citation.** Each source named once, by its title, in the order of its
+     first supporting claim; under it one entry per supporting claim from that
+     source: recommendation number, page, section, the verbatim quote, and two
      buttons — `In der Leitlinie öffnen` (the link into the cited page, §5)
      and `Suchtext kopieren` (the quote to the clipboard, for viewers that
      cannot highlight). Then the review status, `Klinische Begutachtung:

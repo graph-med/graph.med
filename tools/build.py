@@ -712,7 +712,14 @@ def main(argv=None) -> int:
         claims, the slots, the edges and the source; the build adds only the words of CARD_WORDS, at render time."""
         slots = st.get("slots") or {}
         claims = pool.claims_for(st["id"])
-        sup = [c for c in claims if c["edge"] == "supports"]
+        # The supporting claims in one order for zones 2, 3 and 8 — the badges' order is zone 8's order (§3):
+        # grouped by source, sources by their first supporting claim, claims as claims_for() sorts them.
+        first = {}
+        for c in claims:
+            if c["edge"] == "supports":
+                first.setdefault(c["source"], len(first))
+        sup = sorted((c for c in claims if c["edge"] == "supports"), key=lambda c: first[c["source"]])
+        claims = sup + [c for c in claims if c["edge"] != "supports"]
         d = direction_of(claims)
         concept = lambda cid: {"id": cid, "label": pool.entities[cid]["label"], "lang": pool.entities[cid]["lang"]} if cid in pool.entities \
             else {"id": cid, "label": cid, "lang": st["lang"]}   # a reference outside the pool (a terminology not imported) shows as its id
@@ -731,6 +738,11 @@ def main(argv=None) -> int:
 
         passage = lambda b: {k: b.get(k) for k in ("id", "label", "lang", "page", "section", "link", "quote")}
         geltung = {role: slot_row(role) for role in CARD_SLOTS}
+        cited = []   # zone 8: each source named once, its supporting claims' entries under it, in `sup`'s order
+        for c in sup:
+            if not cited or cited[-1]["id"] != c["source"]:
+                cited.append({"id": c["source"], "title": c["source_title"], "lang": c["source_lang"], "claims": []})
+            cited[-1]["claims"].append({k: c.get(k) for k in ("id", "recommendation_no", "page", "section", "link", "quote", "lang")})
         related = [{"edge": k, "to": to, "label": pool.entities[to]["label"]} for k, to, _ in pool.out.get(st["id"], []) if k in STATEMENT_EDGES and to in pool.entities] \
                 + [{"edge": k, "from": frm, "label": pool.entities[frm]["label"]} for k, frm, _ in pool.inc.get(st["id"], []) if k in STATEMENT_EDGES and frm in pool.entities]
         return {
@@ -743,8 +755,7 @@ def main(argv=None) -> int:
             "geltung": geltung if any(geltung.values()) else None,
             "leitlinientext": {k: [passage(b) for c in claims for b in c.get("body", []) if b["kind"] == k] for k in BODY_TEXT},
             "widerspruch": contests_of(claims),
-            "beleg": {"claims": [{k: c.get(k) for k in ("id", "source", "source_title", "source_lang", "recommendation_no", "page", "section", "link", "quote", "lang")} for c in sup],
-                      "review": "pending"},   # the pool has no attestation yet; what a present one reads is a maintainer decision (WP-0024, open questions)
+            "beleg": {"sources": cited, "review": "pending"},   # the pool has no attestation yet; what a present one reads is a maintainer decision (WP-0024, open questions)
             "mehr": {"id": st["id"], "slots": {slot: concept(cid) for slot, cid in slots.items()},
                      "related": related, "claims": [{"edge": c["edge"], "id": c["id"]} for c in claims], "source": st.get("source")},
         }

@@ -6,9 +6,9 @@
 {% macro badge(grade, consensus, count=1) -%}
 <span class="badge">{% if grade %}<b>{{ W("grade." ~ grade) }}</b>{% endif %}{% if consensus %} <span>{{ W("consensus." ~ consensus) }}</span>{% endif %}{% if count > 1 %} ({{ count }}){% endif %}</span>
 {%- endmacro %}
-{% macro where(x, no=false) -%}
+{% macro where(x, no=false, link=true) -%}
 {% set parts = [] %}{% if no and x.recommendation_no %}{% set _ = parts.append(W("cite.no").format(nr=x.recommendation_no)) %}{% endif %}{% if x.page %}{% set _ = parts.append(W("cite.page").format(nr=x.page)) %}{% endif %}{% if x.section %}{% set _ = parts.append(W("cite.section").format(nr=x.section)) %}{% endif %}
-{%- if parts %}<a href="{{ x.link }}" rel="noopener">{{ parts | join(" · ") }}</a>{% endif %}
+{%- if parts and link %}<a href="{{ x.link }}" rel="noopener">{{ parts | join(" · ") }}</a>{% elif parts %}{{ parts | join(" · ") }}{% endif %}
 {%- endmacro %}
 {% if e.type == "statement" %}
 {# The statement card (docs/publication.md §3 "What the section shows"): nine zones in a fixed order, whatever the
@@ -96,15 +96,20 @@
 {% endif %}
 <section class="zone citation" aria-labelledby="zone-citation-h">
 <h3 id="zone-citation-h">{{ W("zone.citation") }}</h3>
-{# one entry per supporting claim, in the order of the badges of zone 2 #}
+{# each source named once, by its title, with one entry per supporting claim under it — sources in the order of
+   their first supporting claim, entries in the order of the badges of zone 2; the entry's line is number, page and
+   section, the link into the source is its button #}
+{% for s in c.beleg.sources %}<div class="source">
+<h4 lang="{{ s.lang }}">{{ s.title }}</h4>
 <ol class="claims">
-{% for x in c.beleg.claims %}  <li>
-    <p class="cite"><span lang="{{ x.source_lang }}">{{ x.source_title }}</span>{% if x.recommendation_no %} · {{ W("cite.no").format(nr=x.recommendation_no) }}{% endif %}{% if x.page %} · {{ W("cite.page").format(nr=x.page) }}{% endif %}{% if x.section %} · {{ W("cite.section").format(nr=x.section) }}{% endif %}</p>
-    <blockquote lang="{{ x.lang }}">„{{ x.quote }}“</blockquote>
+{% for x in s.claims %}  <li>
+{% set at = where(x, no=true, link=false) %}{% if at %}    <p class="cite">{{ at }}</p>
+{% endif %}    <blockquote lang="{{ x.lang }}">„{{ x.quote }}“</blockquote>
     <p class="actions"><a class="btn" href="{{ x.link }}" rel="noopener">{{ W("cite.open") }}</a> <button type="button" class="copy" data-copy="{{ x.quote }}">{{ W("cite.quote") }}</button></p>
   </li>
 {% endfor %}</ol>
-<p class="review">{{ W("cite.review.pending") }}</p>
+</div>
+{% endfor %}<p class="review">{{ W("cite.review.pending") }}</p>
 </section>
 <section class="zone more" aria-labelledby="zone-more-h">
 <details>
