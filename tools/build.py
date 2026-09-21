@@ -636,6 +636,8 @@ def main(argv=None) -> int:
     (out / "schema").mkdir()
     shutil.copy(SCHEMA, out / "schema" / "schema.yaml")
     shutil.copytree(SITE_SRC / "static", out / "assets")
+    if base == "/":   # the domain root only (docs/publication.md §6): clients that ask /favicon.ico instead of reading <link>
+        shutil.copy(SITE_SRC / "static" / "favicon.ico", out / "favicon.ico")
 
     def details(ent: dict) -> dict:
         """What the sheet and the entity page show for one entity (docs/publication.md §3)."""

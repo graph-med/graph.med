@@ -5,7 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{% block title %}graph.med{% endblock %}</title>
 <link rel="stylesheet" href="{{ base }}assets/site.css?v={{ commit }}">
-<link rel="icon" type="image/svg+xml" href="{{ base }}assets/logo.svg">
+<link rel="icon" href="{{ base }}assets/favicon.ico?v={{ commit }}" sizes="32x32">
+<link rel="icon" type="image/svg+xml" href="{{ base }}assets/logo.svg?v={{ commit }}">
+<link rel="apple-touch-icon" href="{{ base }}assets/apple-touch-icon.png?v={{ commit }}">
+<link rel="manifest" href="{{ base }}assets/site.webmanifest">
 {% if preview %}<meta name="robots" content="noindex, nofollow">
 {% endif %}{% block head %}{% endblock %}
 </head>
