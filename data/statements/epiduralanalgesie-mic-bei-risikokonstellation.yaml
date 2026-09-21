@@ -9,4 +9,5 @@ slots:
   action: concepts/epiduralanalgesie
   condition: concepts/risikokonstellation-lange-op-hoher-opioidbedarf
   phase: concepts/postoperativ
+  zugang: concepts/minimalinvasiv
 source: modelling

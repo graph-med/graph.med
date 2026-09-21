@@ -1,0 +1,7 @@
+id: concepts/offen
+type: concept
+lang: de
+label: offen
+facet: qualifier   # a value of the access dimension (axes/zugang, spec §4.1): it qualifies the recommendation, not the case
+definition: Der Eingriff wird über eine Laparotomie oder Thorakotomie durchgeführt, konventionell offen.
+source: modelling

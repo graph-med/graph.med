@@ -1,0 +1,8 @@
+id: concepts/minimalinvasiv
+type: concept
+lang: de
+label: minimalinvasiv
+facet: qualifier   # a value of the access dimension (axes/zugang, spec §4.1): it qualifies the recommendation, not the case
+definition: Der Eingriff wird laparoskopisch oder robotisch-assistiert durchgeführt. POMGAT unterscheidet
+  die beiden nicht; eine Leitlinie, die sie trennt, bekommt einen weiteren Wert, keine Umdeutung dieses.
+source: modelling
