@@ -5,6 +5,7 @@
     uv run tools/build.py --base /graph.med/   # for graph-med.github.io/graph.med/
     uv run tools/build.py --cname graph.med    # also emit the CNAME file for Pages
     uv run tools/build.py --base /preview/pr12/ --preview 12   # the preview of pull request 12
+    uv run tools/build.py --base /graph.med/ --origin https://graph-med.github.io   # a mirror under another host
 
 Every view becomes <view-id>/index.html — one decision tree (which patient group? →
 which condition? → recommendation → aim; answers on the edges; laid out left to right
@@ -15,7 +16,11 @@ that filters it and a search that fades it (both from the sources' outline and t
 claims' sections, docs/publication.md §3), with a detail section beside or below it
 — plus <view-id>.json; every entity becomes
 <namespace>/<entity-id>/index.html and <namespace>/<entity-id>.json; the schema is
-copied to schema/schema.yaml. Offline, deterministic, nothing authored.
+copied to schema/schema.yaml. Every page carries Open Graph and Twitter Card tags with
+absolute URLs — the origin is https://<cname> when --cname is given, else the site's
+domain, and --origin overrides both — and the one committed preview image
+(tools/site/static/social-card.png, rendered from logo.svg). Offline, deterministic,
+nothing authored.
 """
 
 from __future__ import annotations
@@ -38,6 +43,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SCHEMA = ROOT / "schema" / "schema.yaml"
 SITE_SRC = Path(__file__).resolve().parent / "site"
 REPO = "https://github.com/graph-med/graph.med"
+SITE = "https://graph.med"   # the origin of the published site and its previews (docs/publication.md §6)
 
 CLAIM_EDGES = ("supports", "contests")   # how a claim bears on a statement (spec §5)
 STATEMENT_EDGES = ("specializes", "complements", "conflicts")
@@ -613,15 +619,18 @@ def main(argv=None) -> int:
     ap.add_argument("--cname", default=None, help="emit a CNAME file with this domain")
     ap.add_argument("--preview", type=int, default=None, metavar="N",
                     help="build the preview of pull request N: every page says so and asks not to be indexed")
+    ap.add_argument("--origin", default=None, metavar="URL",
+                    help="scheme and host of the absolute URLs in the share tags (default: https://<cname>, else the site's domain)")
     args = ap.parse_args(argv)
     base = args.base if args.base.endswith("/") else args.base + "/"
+    origin = (args.origin or (f"https://{args.cname}" if args.cname else SITE)).rstrip("/")
 
     schema = load(SCHEMA)
     pool = Pool(schema)
     commit = git_commit()
     env = Environment(loader=FileSystemLoader(SITE_SRC / "templates"), autoescape=select_autoescape(["html"]),
                       trim_blocks=True, lstrip_blocks=True)
-    env.globals.update(base=base, commit=commit, built=datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+    env.globals.update(base=base, origin=origin, commit=commit, built=datetime.now(timezone.utc).strftime("%Y-%m-%d"),
                        version=schema.get("x-version"), repo=REPO,
                        preview={"number": args.preview, "url": f"{REPO}/pull/{args.preview}"} if args.preview else None)
     env.filters["short"] = lambda eid: eid.split("/", 1)[-1]

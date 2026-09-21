@@ -9,6 +9,25 @@
 <link rel="icon" type="image/svg+xml" href="{{ base }}assets/logo.svg?v={{ commit }}">
 <link rel="apple-touch-icon" href="{{ base }}assets/apple-touch-icon.png?v={{ commit }}">
 <link rel="manifest" href="{{ base }}assets/site.webmanifest">
+{# the share card (Open Graph, Twitter Card): the page's own title and description, its absolute URL, and the one
+   preview image of the site — 1200×630, the mark and the wordmark, rendered once from logo.svg and committed #}
+{% set _ %}{% block description %}A collaborative public medical knowledge graph.{% endblock %}{% endset %}
+<meta name="description" content="{{ self.description() | trim }}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="graph.med">
+<meta property="og:title" content="{{ self.title() | trim }}">
+<meta property="og:description" content="{{ self.description() | trim }}">
+<meta property="og:url" content="{{ origin }}{{ base }}{% block path %}{% endblock %}">
+<meta property="og:image" content="{{ origin }}{{ base }}assets/social-card.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="graph.med: the three-branch mark on its black tile, beside the wordmark">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ self.title() | trim }}">
+<meta name="twitter:description" content="{{ self.description() | trim }}">
+<meta name="twitter:image" content="{{ origin }}{{ base }}assets/social-card.png">
+<meta name="twitter:image:alt" content="graph.med: the three-branch mark on its black tile, beside the wordmark">
 {% if preview %}<meta name="robots" content="noindex, nofollow">
 {% endif %}{% block head %}{% endblock %}
 </head>
