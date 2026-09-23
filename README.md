@@ -103,7 +103,7 @@ short_label: "Frühe Drainageentfernung bei geringem Fistelrisiko"
 slots:
   population: concepts/pankreasresektion
   action: concepts/fruehe-drainageentfernung
-  condition: concepts/geringes-pankreasfistelrisiko
+  condition: [concepts/geringes-pankreasfistelrisiko]
 source: modelling
 ```
 
@@ -125,7 +125,8 @@ sentences becomes three claims and, usually, three statements.
 
 The **slots** are what make a statement navigable: *whom* it is for (population),
 *what* it recommends (action), *when* (condition), *to what end* (outcome). The
-site's decision tree is nothing but these slots drawn as questions and answers.
+condition is a list: its entries hold at once, and a guideline's "or" is one
+concept that names the alternatives. The site's decision tree is nothing but these slots drawn as questions and answers.
 
 The `short_label` is the same proposition compressed for a box on the drawing — at
 most 60 characters, and it must still tell the statement apart from its siblings.
@@ -267,7 +268,7 @@ current leaning, so that nobody re-derives it. What was decided, and why, lives 
 | **statement** | a proposition in the pool's words, with slots; what claims support or contest |
 | **concept** | a thing statements talk about; has a facet; can be a special case of another (`broader`) |
 | **axis** | what a view's first question groups by — proposed by a person for a guideline, tested by a tool, asserted with provenance, then offered by the view; carried by a slot on statements or by `broader` edges naming it |
-| **slot** | a statement's population, action, condition or outcome, filled with a concept |
+| **slot** | a statement's population, action, condition or outcome, filled with a concept (the condition with a list of them, all holding at once) |
 | **edge** | a typed link: `supports`/`contests` (claim → statement), `refines`/`supplements`/`limits` (claim → claim), `broader`, `codes_as` (concept), `specializes`/`complements`/`conflicts` (statement → statement) |
 | **section** | where in its document a claim was found; on the claim only |
 | **view** | a named filter over the pool; a page on the site. A **cut** is a frozen view |

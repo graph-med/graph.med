@@ -240,7 +240,19 @@ Three kinds of entity, kept apart because different edges attach to them:
   where a dimension axis declares it, §4.1), which makes "is this the same
   statement?" an almost-computable question and keeps granularity honest: **a
   statement is the smallest unit that can be independently supported or
-  contested.** Its `label` is the full proposition; an optional **`short_label`**
+  contested.** Every slot holds one concept except `condition`, which is
+  always a **list** of concepts, one entry or more — one shape, whether a
+  recommendation has one prerequisite or four. **Several conditions are a
+  conjunction; a disjunction is one concept.** The entries hold at once, each
+  on its own, individually checkable and citable ("LVEF ≤ 35 % *and* sinus
+  rhythm *and* …" is several entries); where the source says "or", one concept
+  names the alternatives ("Gastrektomie oder Magenteilresektion", "mittleres
+  oder hohes VTE-Risiko") and stands as a single entry. A list can mean only
+  one of the two, so the other has its own carrier. Nor are independent
+  prerequisites fused into one concept to fit a single value: a concept for a
+  constellation stands only where the source itself names it as one. A
+  hierarchy respect over `condition` (§4.1) places each entry's concept.
+  Its `label` is the full proposition; an optional **`short_label`**
   is the same proposition compressed for a box on a drawing, and it must still
   tell siblings apart — six boxes reading "Magensonde ziehen" hide exactly the
   staging the drawing exists to show, so the short form carries the
@@ -1205,7 +1217,7 @@ POMGAT S3 guideline (AWMF 088-010OL), quotes verified against the document.
   slots:
     population: concepts/pankreasresektion
     action: concepts/fruehe-drainageentfernung
-    condition: concepts/geringes-pankreasfistelrisiko
+    condition: [concepts/geringes-pankreasfistelrisiko]   # always a list; several entries hold at once (§3.2)
   source: modelling
 
 # ── structure (the pathway arranging the statements) ──────────────────────
