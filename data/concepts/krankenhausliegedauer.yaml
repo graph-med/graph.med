@@ -1,0 +1,6 @@
+id: concepts/krankenhausliegedauer
+type: concept
+lang: de
+label: Krankenhausliegedauer
+facet: outcome
+source: modelling
