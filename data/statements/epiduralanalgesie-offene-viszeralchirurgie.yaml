@@ -8,4 +8,5 @@ slots:
   population: concepts/offene-gastrointestinale-tumoroperation
   action: concepts/epiduralanalgesie
   phase: concepts/perioperativ
+  zugang: concepts/offen
 source: modelling

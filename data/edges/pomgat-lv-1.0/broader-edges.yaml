@@ -28,10 +28,8 @@
    rationale: "Die kolorektale Resektion ist der Eingriff der kolorektalen Chirurgie."}]
 - [concepts/kolorektale-anastomose, broader, concepts/kolorektale-chirurgie, {source: modelling, as_of: "2026-09-10", lang: de,
    rationale: "Die Anastomose nach Kolon- oder Rektumresektion ist eine Situation der kolorektalen Chirurgie, keine Resektion; deshalb neben, nicht unter der Resektion."}]
-- [concepts/minimalinvasive-kolorektale-resektion, broader, concepts/kolorektale-resektion, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Die minimalinvasive Kolon- oder Rektumresektion ist eine kolorektale Resektion."}]
-- [concepts/minimalinvasive-kolorektale-resektion, broader, concepts/minimalinvasive-gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Sie ist zugleich eine minimalinvasive Operation eines gastrointestinalen Tumors; Mehrfacheinordnung, wie die Leitlinie in 7.10 und 7.12 die beiden Sichten trennt."}]
+- [concepts/kolonresektion-oder-anteriore-rektumresektion, broader, concepts/kolorektale-resektion, {source: modelling, as_of: "2026-09-23", lang: de,
+   rationale: "Die Kolonresektion und die (tiefe) anteriore Rektumresektion, die Empfehlung 7.12 aufzählt, sind kolorektale Resektionen. Den Zugang, den 7.12 nennt, trägt nicht das Konzept, sondern der Slot `zugang` der Aussage (axes/zugang); deshalb hat das Konzept nur diesen einen Elternknoten."}]
 - [concepts/tiefe-anteriore-rektumresektion, broader, concepts/kolorektale-resektion, {source: modelling, as_of: "2026-09-10", lang: de,
    rationale: "Die tiefe anteriore Rektumresektion ist eine kolorektale Resektion."}]
 - [concepts/rektumanastomose, broader, concepts/kolorektale-anastomose, {source: modelling, as_of: "2026-09-10", lang: de,

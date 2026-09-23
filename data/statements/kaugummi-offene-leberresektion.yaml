@@ -8,4 +8,5 @@ slots:
   action: concepts/kaugummikauen-postoperativ
   outcome: concepts/postoperativer-paralytischer-ileus
   phase: concepts/postoperativ
+  zugang: concepts/offen
 source: modelling

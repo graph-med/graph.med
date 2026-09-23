@@ -44,7 +44,7 @@ placements:
   # Kolorektum
   concepts/kolorektale-resektion: concepts/kolorektale-chirurgie
   concepts/kolorektale-anastomose: concepts/kolorektale-chirurgie
-  concepts/minimalinvasive-kolorektale-resektion: concepts/kolorektale-resektion
+  concepts/kolonresektion-oder-anteriore-rektumresektion: concepts/kolorektale-resektion
   concepts/tiefe-anteriore-rektumresektion: concepts/kolorektale-resektion
   concepts/rektumanastomose: concepts/kolorektale-anastomose
   # several organs named, or defined by exclusion — listed under each, placed under none (several: false)
