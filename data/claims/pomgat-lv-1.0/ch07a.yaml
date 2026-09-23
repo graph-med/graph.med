@@ -361,3 +361,12 @@
   source:
     at: sources/pomgat-lv-1.0#page=87
     quote: Lokalanästhetikum ultraschallgesteuert oder im Rahmen der Laparoskopie zwischen
+- id: claims/pomgat-lv-1.0/cf088c37
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.3.2.1"
+  label: Dies kann als einmalige Injektion oder als kontinuierliche Infusion über das Einführen eines Schmerzkatheters erfolgen.
+  source:
+    at: sources/pomgat-lv-1.0#page=87
+    quote: kann als einmalige Injektion oder als kontinuierliche Infusion über das Einführen

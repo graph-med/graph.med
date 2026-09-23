@@ -66,6 +66,14 @@
     as_of: "2026-09-23"
     rationale: "R: TAP-Block (Transversus abdominis plane block) — der Leitlinientext sagt, für welche Technik das Wort steht:
       Lokalanästhetikum zwischen Musculus obliquus internus und Musculus transversus abdominis, ultraschallgesteuert oder laparoskopisch."
+- - claims/pomgat-lv-1.0/cf088c37
+  - refines
+  - claims/pomgat-lv-1.0/fac02f97
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "R: TAP-Block — der Leitlinientext nennt die Formen der Anwendung: als einmalige Injektion oder als kontinuierliche
+      Infusion über das Einführen eines Schmerzkatheters."
 - - claims/pomgat-lv-1.0/96c2b6b9
   - supplements
   - claims/pomgat-lv-1.0/a5a87bd9
@@ -138,5 +146,7 @@
   - source: modelling
     lang: de
     as_of: "2026-09-23"
-    rationale: "7.13 erlaubt ein peripheres Regionalanalgesieverfahren gegenüber systemischer Schmerztherapie, 7.11 stellt die
-      EA den PRA als überlegen gegenüber; zusammen ordnen sie die drei Verfahren, ohne einander zu widersprechen."
+    rationale: "7.13: ein peripheres Regionalanalgesieverfahren kann zur perioperativen Analgesie bei onkologisch-viszeralchirurgischen
+      Eingriffen eingesetzt werden. 7.11: im Vergleich zu peripheren Regionalanalgesieverfahren ist die Epiduralanalgesie bei
+      viszeralchirurgischen, onkologischen Eingriffen überlegen. Beide betreffen dasselbe Verfahren bei denselben Eingriffen;
+      7.11 sagt, wie es sich zur EA verhält, 7.13 erlaubt es, ohne die EA auszuschließen."
