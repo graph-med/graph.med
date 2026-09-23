@@ -62,3 +62,111 @@
   - refines
   - claims/pomgat-lv-1.0/6b9239a9
   - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "R: „geringes Risiko einer Pankreasfistel“ — der Wert, den der Wortlaut braucht und die Leitlinie nicht gibt, aus den Studien (G2-Ausnahme); K: eine Antwort je Schwellenwert, Alternative 1 von 3."
+- - claims/pomgat-lv-1.0/bfbd6115
+  - supplements
+  - claims/pomgat-lv-1.0/13417577
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "S: „interkostale Drainage“ — der nächste Schritt für den Fall der Empfehlung: Entfernung der thorakalen Drainage bei einer Fördermenge <250 ml."
+- - claims/pomgat-lv-1.0/4f3c1e1a
+  - refines
+  - claims/pomgat-lv-1.0/4caf2208
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "R: „Pankreasresektion“ — der Fall, für den die Drainage notwendig sein kann: weiches Pankreas mit höherer Fistelrate; nimmt keinen Fall heraus."
+- - claims/pomgat-lv-1.0/3b9ae0a6
+  - refines
+  - claims/pomgat-lv-1.0/f5c48e4c
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "R: „Pankreaskopfresektion“ — welche Eingriffe der Begriff umfasst: OP nach Whipple oder Traverso (eine Antwort, zwei Fälle einer Gruppe)."
+- - claims/pomgat-lv-1.0/8698e6df
+  - refines
+  - claims/pomgat-lv-1.0/f5c48e4c
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "R: „Pankreaskopfresektion“ — die Wiederholung nach „zusammenfassend“ zählt für das, was sie hinzufügt: insbesondere bei Risikoanastomosen eines weichen Pankreas; nimmt keinen Fall heraus."
+- - claims/pomgat-lv-1.0/746f5608
+  - refines
+  - claims/pomgat-lv-1.0/6b9239a9
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "R: „geringes Risiko einer Pankreasfistel“ — der Wert, den der Wortlaut braucht und die Leitlinie nicht gibt, aus den Studien (G2-Ausnahme); K: eine Antwort je Schwellenwert, Alternative 2 von 3."
+- - claims/pomgat-lv-1.0/d1e946a1
+  - refines
+  - claims/pomgat-lv-1.0/6b9239a9
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "R: „geringes Risiko einer Pankreasfistel“ — der Wert, den der Wortlaut braucht und die Leitlinie nicht gibt, aus den Studien (G2-Ausnahme); K: eine Antwort je Schwellenwert, Alternative 3 von 3."
+- - claims/pomgat-lv-1.0/9bef0a78
+  - refines
+  - claims/pomgat-lv-1.0/70766ab8
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "R: „elektiven kolorektalen Resektionen“ — welche Fälle der Begriff umfasst: intraperitoneale Anastomosen und Rektumeingriffe mit extraperitonealen Anastomosen (eine Antwort)."
+- - claims/pomgat-lv-1.0/4aa493bc
+  - refines
+  - claims/pomgat-lv-1.0/29b83a17
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "R: „Vaskularisation des Magenschlauches“ — was der Begriff umfasst: extragastrale wie intramurale Vaskularisation (Makro- und Mikrozirkulation)."
+- - claims/pomgat-lv-1.0/f50e5f9f
+  - refines
+  - claims/pomgat-lv-1.0/10cc4dcb
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "R: „Die Perfusion der Anastomose … überprüft“ — Zeitpunkt und Ort: intraoperativ, auf beiden Seiten der Anastomose. Was sie über die Dichtigkeitsprüfung sagt, steht zwischen den Aussagen (N1: complements)."
+- - claims/pomgat-lv-1.0/7bfd46e0
+  - refines
+  - claims/pomgat-lv-1.0/10cc4dcb
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "R: „überprüft“ — ein Verfahren der Perfusionsprüfung; K: eine Antwort je Verfahren, 1 von 4 (die ICG-Fluoreszenz, das fünfte, gibt 6.15 schon: G3)."
+- - claims/pomgat-lv-1.0/69496aa5
+  - refines
+  - claims/pomgat-lv-1.0/10cc4dcb
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "R: „überprüft“ — ein Verfahren der Perfusionsprüfung; K: eine Antwort je Verfahren, 2 von 4."
+- - claims/pomgat-lv-1.0/711b9c91
+  - refines
+  - claims/pomgat-lv-1.0/10cc4dcb
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "R: „überprüft“ — ein apparativ unterstütztes Verfahren der Perfusionsprüfung; K: eine Antwort je Verfahren, 3 von 4."
+- - claims/pomgat-lv-1.0/9ae93111
+  - refines
+  - claims/pomgat-lv-1.0/10cc4dcb
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "R: „überprüft“ — ein apparativ unterstütztes Verfahren der Perfusionsprüfung; K: eine Antwort je Verfahren, 4 von 4."
+- - claims/pomgat-lv-1.0/29b02335
+  - refines
+  - claims/pomgat-lv-1.0/4b7d783e
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "R: „Farbstoff Indocyaningrün (ICG)“ — die Dosis, die der Wortlaut braucht und die Leitlinie nicht gibt, aus den Studien (G2-Ausnahme); K: eine Antwort je Dosis, 1 von 2."
+- - claims/pomgat-lv-1.0/f5acf6ca
+  - refines
+  - claims/pomgat-lv-1.0/4b7d783e
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "R: „Farbstoff Indocyaningrün (ICG)“ — die Dosis, die der Wortlaut braucht und die Leitlinie nicht gibt, aus den Studien (G2-Ausnahme); K: eine Antwort je Dosis, 2 von 2."

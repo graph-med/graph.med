@@ -325,3 +325,144 @@
   source:
     at: sources/pomgat-lv-1.0#page=64
     quote: unter 5000 U/L am ersten postop. Tag
+- id: claims/pomgat-lv-1.0/bfbd6115
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.1.1"
+  label: "Basierend auf diesen Daten und den Ergebnissen einer zweiten retrospektiven Untersuchung ist die Entfernung der thorakalen Drainage bei einer Fördermenge <250 ml zu rechtfertigen."
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=58
+    quote: "Fördermenge <250 ml zu rechtfertigen."
+- id: claims/pomgat-lv-1.0/4f3c1e1a
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.1.3"
+  label: "Bei weichem Pankreas mit höherer Fistelrate kann daher eine abdominelle Drainage notwendig sein, um die Rate postoperativ interventionell eingebrachter Drainagen zu reduzieren."
+  verb: kann
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=62
+    quote: "höherer Fistelrate kann daher eine abdominelle Drainage notwendig sein"
+- id: claims/pomgat-lv-1.0/3b9ae0a6
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.1.3"
+  label: "Die Komplexität einer Pankreaskopfresektion (OP nach Whipple oder Traverso) wird durch die Anlage einer Pankreasgangdrainage mit externer Ableitung erhöht, das postoperative Management durch regelmäßige Kontrollen der Qualität und Quantität des Sekretes erhöht."
+  source:
+    at: sources/pomgat-lv-1.0#page=63
+    quote: "(OP nach Whipple oder Traverso)"
+- id: claims/pomgat-lv-1.0/8698e6df
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.1.3"
+  label: "Im Kontext der vorliegenden Evidenz und den klinisch-praktischen Aspekten ist es zusammenfassend gerechtfertigt, die Anlage einer externen Pankreasgangdrainage insbesondere bei Risikoanastomosen eines weichen Pankreas zur Vermeidung von postoperativen Pankreasfisteln zu empfehlen."
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=63
+    quote: "insbesondere bei Risikoanastomosen eines weichen Pankreas zur Vermeidung von"
+- id: claims/pomgat-lv-1.0/746f5608
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.1.3"
+  label: "Amylase-Konzentration im Drainagesekret unter 5000 U/L am postop. Tag 1 und 3 sowie Drainagemenge unter 300 ml/Tag"
+  source:
+    at: sources/pomgat-lv-1.0#page=64
+    quote: "postop. Tag 1 und 3 sowie Drainagemenge unter 300 ml/Tag"
+- id: claims/pomgat-lv-1.0/d1e946a1
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.1.3"
+  label: "Amylase im Drainagesekret kleiner als das Dreifach der Serumkonzentration am postop. Tag 3"
+  source:
+    at: sources/pomgat-lv-1.0#page=64
+    quote: "Amylase im Drainagesekret kleiner als das Dreifach der Serumkonzentration am"
+- id: claims/pomgat-lv-1.0/9bef0a78
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.1.5"
+  label: "Dies gilt neben intraperitonealen Anastomosen auch für Rektumeingriffe mit extraperitonealen Anastomosen, auch wenn die Evidenzlage bei Letzteren etwas schlechter ist."
+  source:
+    at: sources/pomgat-lv-1.0#page=68
+    quote: "auch für Rektumeingriffe mit extraperitonealen Anastomosen"
+- id: claims/pomgat-lv-1.0/4aa493bc
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.2.1"
+  label: "Mittels fluoreszierender Angiographie (FA) mit dem Farbstoff Indocyaningrün (ICG) kann intraoperativ die extragastrale wie intramurale Vaskularisation (Makro- und Mikrozirkulation) des Magenschlauches visualisiert werden."
+  source:
+    at: sources/pomgat-lv-1.0#page=70
+    quote: "Vaskularisation (Makro- und Mikrozirkulation) des Magenschlauches"
+- id: claims/pomgat-lv-1.0/f50e5f9f
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.2.2.2"
+  label: "Dass neben der Überprüfung der Dichtigkeit einer Anastomose (siehe gesonderte Empfehlung) auch die intraoperative Überprüfung einer guten Perfusion auf beiden Seiten der Anastomose sichergestellt werden soll, kann als breiter chirurgischer Konsens angesehen werden."
+  verb: soll
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=72
+    quote: "auch die intraoperative Überprüfung einer guten Perfusion auf beiden"
+- id: claims/pomgat-lv-1.0/7bfd46e0
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.2.2.2"
+  label: "Visualisierung pulsierender Blutung („cold-steel-test“)"
+  source:
+    at: sources/pomgat-lv-1.0#page=73
+    quote: "Neben der Visualisierung pulsierender Blutung"
+- id: claims/pomgat-lv-1.0/69496aa5
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.2.2.2"
+  label: "Intraoperative Zweitmeinung"
+  source:
+    at: sources/pomgat-lv-1.0#page=73
+    quote: "intraoperativer Zweitmeinung"
+- id: claims/pomgat-lv-1.0/711b9c91
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.2.2.2"
+  label: "Photospektrometrie"
+  source:
+    at: sources/pomgat-lv-1.0#page=73
+    quote: "Verfahren wie Photospektrometrie"
+- id: claims/pomgat-lv-1.0/9ae93111
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.2.2.2"
+  label: "Messung der Gewebsoxygenierung"
+  source:
+    at: sources/pomgat-lv-1.0#page=73
+    quote: "Messung der Gewebsoxygenierung"
+- id: claims/pomgat-lv-1.0/29b02335
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.2.2.2"
+  label: "Dosis von ICG: 0,2 bis 0,25 mg/kg KG"
+  source:
+    at: sources/pomgat-lv-1.0#page=73
+    quote: "0,2 bis 0,25 mg/kg KG"
+- id: claims/pomgat-lv-1.0/f5acf6ca
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.2.2.2"
+  label: "Dosis von ICG: 5 bis 10 mg"
+  source:
+    at: sources/pomgat-lv-1.0#page=73
+    quote: "5 bis 10 mg"
