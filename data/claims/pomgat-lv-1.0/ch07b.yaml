@@ -11,13 +11,13 @@
   direction: against
   consensus: konsens
   evidence:
-    - {outcome: concepts/gesamtkomplikationen, value: "moderat", system: grade}
+    - {outcome: concepts/postoperative-komplikationen, value: "moderat", system: grade}
     - {outcome: concepts/kardiale-komplikationen, value: "hoch", system: grade}
     - {outcome: concepts/postoperative-pulmonale-komplikationen, value: "moderat", system: grade}
     - {outcome: concepts/dauer-bis-gi-2, value: "niedrig", system: grade}
-    - {outcome: concepts/dauer-bis-zur-ersten-defaekation, value: "niedrig", system: grade}
+    - {outcome: concepts/zeit-bis-zum-ersten-stuhlgang, value: "niedrig", system: grade}
     - {outcome: concepts/toleranz-solider-kost, value: "sehr niedrig", system: grade}
-    - {outcome: concepts/krankenhausverweildauer, value: "niedrig", system: grade}
+    - {outcome: concepts/postoperative-krankenhausverweildauer, value: "niedrig", system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=91
     quote: Die unmittelbar postoperative s.c. Gabe von Methylnaltrexon zur Prophylaxe des
@@ -60,9 +60,9 @@
   consensus: starker_konsens
   evidence:
     - {outcome: concepts/kardiale-komplikationen, value: "niedrig", system: grade}
-    - {outcome: concepts/dauer-bis-zur-ersten-defaekation, value: "hoch", system: grade}
+    - {outcome: concepts/zeit-bis-zum-ersten-stuhlgang, value: "hoch", system: grade}
     - {outcome: concepts/toleranz-solider-kost, value: "niedrig", system: grade}
-    - {outcome: concepts/krankenhausverweildauer, value: "niedrig", system: grade}
+    - {outcome: concepts/postoperative-krankenhausverweildauer, value: "niedrig", system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=92
     quote: Die präoperativ begonnene und postoperativ fortgesetzte Gabe von NSAR kann
@@ -117,7 +117,7 @@
   consensus: starker_konsens
   evidence:
     - {outcome: concepts/postoperative-pulmonale-komplikationen, value: "sehr niedrig", system: grade}
-    - {outcome: concepts/dauer-bis-zur-ersten-defaekation, value: "sehr niedrig", system: grade}
+    - {outcome: concepts/zeit-bis-zum-ersten-stuhlgang, value: "sehr niedrig", system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=93
     quote: Propranolol soll nicht zur Prophylaxe des postoperativen (paralytischen) Ileus
@@ -158,7 +158,7 @@
   direction: for
   consensus: starker_konsens
   evidence:
-    - {outcome: concepts/dauer-bis-zur-ersten-defaekation, value: "sehr niedrig", system: grade}
+    - {outcome: concepts/zeit-bis-zum-ersten-stuhlgang, value: "sehr niedrig", system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=96
     quote: Neostigmin kann als Ultima ratio zur Therapie des klinisch manifesten
@@ -179,15 +179,15 @@
   direction: against
   consensus: starker_konsens
   evidence:
-    - {outcome: concepts/gesamtkomplikationen, value: "hoch", system: grade}
+    - {outcome: concepts/postoperative-komplikationen, value: "hoch", system: grade}
     - {outcome: concepts/magensondenreinsertionsrate, value: "hoch", system: grade}
     - {outcome: concepts/chirurgische-komplikationen-ueber-cd-ii, value: "hoch", system: grade}
     - {outcome: concepts/kardiale-komplikationen, value: "moderat", system: grade}
     - {outcome: concepts/postoperative-pulmonale-komplikationen, value: "hoch", system: grade}
     - {outcome: concepts/dauer-bis-gi-2, value: "sehr niedrig", system: grade}
-    - {outcome: concepts/dauer-bis-zur-ersten-defaekation, value: "niedrig", system: grade}
+    - {outcome: concepts/zeit-bis-zum-ersten-stuhlgang, value: "niedrig", system: grade}
     - {outcome: concepts/toleranz-solider-kost, value: "sehr niedrig", system: grade}
-    - {outcome: concepts/krankenhausverweildauer, value: "sehr niedrig", system: grade}
+    - {outcome: concepts/postoperative-krankenhausverweildauer, value: "sehr niedrig", system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=97
     quote: Prucaloprid zur Prophylaxe des postoperativen (paralytischen) Ileus nach
@@ -248,9 +248,9 @@
   direction: against
   consensus: starker_konsens
   evidence:
-    - {outcome: concepts/dauer-bis-zur-ersten-defaekation, value: "moderat", system: grade}
+    - {outcome: concepts/zeit-bis-zum-ersten-stuhlgang, value: "moderat", system: grade}
     - {outcome: concepts/toleranz-solider-kost, value: "moderat", system: grade}
-    - {outcome: concepts/krankenhausverweildauer, value: "moderat", system: grade}
+    - {outcome: concepts/postoperative-krankenhausverweildauer, value: "moderat", system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=99
     quote: Erythromycin soll nicht zur Prophylaxe des postoperativen (paralytischen) Ileus
@@ -275,15 +275,15 @@
   direction: for
   consensus: starker_konsens
   evidence:
-    - {outcome: concepts/gesamtkomplikationen, value: "niedrig", system: grade}
+    - {outcome: concepts/postoperative-komplikationen, value: "niedrig", system: grade}
     - {outcome: concepts/magensondenreinsertionsrate, value: "niedrig", system: grade}
     - {outcome: concepts/chirurgische-komplikationen-ueber-cd-ii, value: "niedrig", system: grade}
     - {outcome: concepts/kardiale-komplikationen, value: "niedrig", system: grade}
     - {outcome: concepts/postoperative-pulmonale-komplikationen, value: "niedrig", system: grade}
     - {outcome: concepts/dauer-bis-gi-2, value: "niedrig", system: grade}
-    - {outcome: concepts/dauer-bis-zur-ersten-defaekation, value: "niedrig", system: grade}
+    - {outcome: concepts/zeit-bis-zum-ersten-stuhlgang, value: "niedrig", system: grade}
     - {outcome: concepts/toleranz-solider-kost, value: "niedrig", system: grade}
-    - {outcome: concepts/krankenhausverweildauer, value: "niedrig", system: grade}
+    - {outcome: concepts/postoperative-krankenhausverweildauer, value: "niedrig", system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=99
     quote: Laxantien sollten frühzeitig in eine multimodale Prophylaxe und / oder Therapie
@@ -329,10 +329,10 @@
   direction: against
   consensus: starker_konsens
   evidence:
-    - {outcome: concepts/gesamtkomplikationen, value: "hoch", system: grade}
+    - {outcome: concepts/postoperative-komplikationen, value: "hoch", system: grade}
     - {outcome: concepts/chirurgische-komplikationen-ueber-cd-ii, value: "hoch", system: grade}
-    - {outcome: concepts/dauer-bis-zur-ersten-defaekation, value: "hoch", system: grade}
-    - {outcome: concepts/krankenhausverweildauer, value: "hoch", system: grade}
+    - {outcome: concepts/zeit-bis-zum-ersten-stuhlgang, value: "hoch", system: grade}
+    - {outcome: concepts/postoperative-krankenhausverweildauer, value: "hoch", system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=100
     quote: Simethicon soll nicht zur Prophylaxe des postoperativen (paralytischen) Ileus
@@ -359,11 +359,11 @@
   direction: against
   consensus: starker_konsens
   evidence:
-    - {outcome: concepts/gesamtkomplikationen, value: "hoch", system: grade}
+    - {outcome: concepts/postoperative-komplikationen, value: "hoch", system: grade}
     - {outcome: concepts/postoperative-pulmonale-komplikationen, value: "hoch", system: grade}
-    - {outcome: concepts/dauer-bis-zur-ersten-defaekation, value: "hoch", system: grade}
+    - {outcome: concepts/zeit-bis-zum-ersten-stuhlgang, value: "hoch", system: grade}
     - {outcome: concepts/toleranz-solider-kost, value: "hoch", system: grade}
-    - {outcome: concepts/krankenhausverweildauer, value: "hoch", system: grade}
+    - {outcome: concepts/postoperative-krankenhausverweildauer, value: "hoch", system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=101
     quote: Osmotisch wirksame Röntgenkontrastmittel (z.B. Gastrografin®) sollen nicht zur
@@ -392,14 +392,14 @@
   direction: against
   consensus: starker_konsens
   evidence:
-    - {outcome: concepts/gesamtkomplikationen, value: "niedrig", system: grade}
+    - {outcome: concepts/postoperative-komplikationen, value: "niedrig", system: grade}
     - {outcome: concepts/magensondenreinsertionsrate, value: "niedrig", system: grade}
     - {outcome: concepts/chirurgische-komplikationen-ueber-cd-ii, value: "sehr niedrig", system: grade}
     - {outcome: concepts/postoperative-pulmonale-komplikationen, value: "niedrig", system: grade}
-    - {outcome: concepts/dauer-bis-zur-ersten-defaekation, value: "sehr niedrig", system: grade}
+    - {outcome: concepts/zeit-bis-zum-ersten-stuhlgang, value: "sehr niedrig", system: grade}
     - {outcome: concepts/toleranz-solider-kost, value: "sehr niedrig", system: grade}
     - {outcome: concepts/patientenzufriedenheit, value: "sehr niedrig", system: grade}
-    - {outcome: concepts/krankenhausverweildauer, value: "sehr niedrig", system: grade}
+    - {outcome: concepts/postoperative-krankenhausverweildauer, value: "sehr niedrig", system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=101
     quote: Daikenchuto sollte nicht zur Prophylaxe des postoperativen (paralytischen) Ileus
