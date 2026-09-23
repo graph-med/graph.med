@@ -180,17 +180,17 @@
   direction: against
   consensus: starker_konsens
   evidence:
-    - {outcome: concepts/postoperative-pulmonale-komplikationen, value: '⊕⊕⊕⊝', system: grade}
-    - {outcome: concepts/postoperative-mortalitaet, value: '⊕⊕⊝⊝', system: grade}
-    - {outcome: concepts/krankenhausliegedauer, value: '⊕⊕⊝⊝', system: grade}
+    - {outcome: concepts/postoperative-pulmonale-komplikationen, value: moderat, system: grade}
+    - {outcome: concepts/mortalitaet, value: niedrig, system: grade}
+    - {outcome: concepts/postoperative-krankenhausverweildauer, value: niedrig, system: grade}
   provenance:
     evidence:
       - at: sources/pomgat-lv-1.0#page=109
-        quote: '⊕⊕⊕⊝: Postoperative pulmonale Komplikationen (26 RCTs)'
+        quote: '⊕⊕⊕⊝: Postoperative pulmonale Komplikationen (26 RCTs): Kein Effekt (RR 1,00; 95% KI'
       - at: sources/pomgat-lv-1.0#page=109
-        quote: '⊕⊕⊝⊝: Postoperative Mortalität (9 RCTs)'
+        quote: '⊕⊕⊝⊝: Postoperative Mortalität (9 RCTs): Kein Effekt (RR 0,73; 95% KI 0,42 bis 1,25)'
       - at: sources/pomgat-lv-1.0#page=109
-        quote: '⊕⊕⊝⊝: Krankenhausliegedauer (15 RCTs)'
+        quote: '⊕⊕⊝⊝: Krankenhausliegedauer (15 RCTs): Kein Effekt (MD -0,17 Tage; 95% KI -0,65 bis'
   source:
     at: sources/pomgat-lv-1.0#page=109
     quote: Nach abdominellen und thorakalen Eingriffen kann auf eine Atemtherapie in Form
@@ -206,14 +206,14 @@
   direction: for
   consensus: konsens
   evidence:
-    - {outcome: concepts/abdomineller-schmerz-pod1, value: '⊕⊕⊕⊕', system: grade}
-    - {outcome: concepts/abdomineller-schmerz-pod5, value: '⊕⊕⊕⊕', system: grade}
+    - {outcome: concepts/abdomineller-schmerz-pod1, value: hoch, system: grade}
+    - {outcome: concepts/abdomineller-schmerz-pod5, value: hoch, system: grade}
   provenance:
     evidence:
       - at: sources/pomgat-lv-1.0#page=111
-        quote: '⊕⊕⊕⊕: Abdomineller Schmerz am 1. Postoperativen Tag (5 RCTs)'
+        quote: '⊕⊕⊕⊕: Abdomineller Schmerz am 1. Postoperativen Tag (5 RCTs): geringer mit'
       - at: sources/pomgat-lv-1.0#page=111
-        quote: '⊕⊕⊕⊕: Abdomineller Schmerz am 5.postoperativen Tag (3 RCTs)'
+        quote: '⊕⊕⊕⊕: Abdomineller Schmerz am 5.postoperativen Tag (3 RCTs): geringer mit'
   source:
     at: sources/pomgat-lv-1.0#page=111
     quote: Nach medianer Laparotomie kann eine Bauchbinde zur Schmerzreduktion
