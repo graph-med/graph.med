@@ -182,3 +182,13 @@
   source:
     at: sources/pomgat-lv-1.0#page=120
     quote: Für Patienten, die sich einer nicht-kolorektalen viszeralonkologischen Resektion
+- id: claims/pomgat-lv-1.0/8271c880
+  type: claim
+  lang: de
+  kind: gap_notice
+  section: "8.2"
+  label: Zu anderen Organ-Entitäten (Ösophagus, Magen, Leber und Pankreas) kann bei fehlender Evidenz keine Empfehlung abgegeben
+    werden.
+  source:
+    at: sources/pomgat-lv-1.0#page=121
+    quote: Zu anderen Organ-Entitäten (Ösophagus, Magen, Leber und Pankreas) kann bei
