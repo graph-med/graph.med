@@ -7,7 +7,8 @@ script only (1) validates each data file against the definition the schema's
 rules a document schema cannot state because they span files:
 
   - every id is unique, and in one-per-file namespaces equals <ns>/<file stem>;
-  - every entity reference in the data resolves (terminology codes excepted);
+  - every entity reference in the data resolves (terminology codes excepted), each entry
+    of a list on its own — a statement's conditions, say;
   - a claim's id is claims/<source-id>/<first 8 hex of sha256("<at>|<quote>")>;
   - edges are unique per (from, kind, to, discriminator);
   - a view id is not a namespace name (views are served at the site root);

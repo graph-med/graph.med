@@ -30,7 +30,7 @@ from pathlib import Path
 from jsonschema import Draft202012Validator
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from build import SCHEMA, Pool, load, members_of   # noqa: E402 — one membership computation for the tool and the site
+from build import SCHEMA, Pool, fillers, load, members_of   # noqa: E402 — one membership computation for the tool and the site
 
 
 def main(argv=None) -> int:
@@ -102,10 +102,10 @@ def hierarchy(axis: dict, statements: list[dict], pool: Pool, asserted: bool) ->
     slot = axis["slot"]
     carries: dict[str, list[str]] = defaultdict(list)          # concept → the member statements it answers for
     for st in statements:
-        if (st.get("slots") or {}).get(slot):
-            carries[st["slots"][slot]].append(st["id"])
+        for c in fillers(st, slot):                              # every entry of a list slot (`condition`)
+            carries[c].append(st["id"])
     universe = sorted(carries)
-    without = sum(1 for st in statements if not (st.get("slots") or {}).get(slot))
+    without = sum(1 for st in statements if not fillers(st, slot))
 
     parents: dict[str, list[str]] = defaultdict(list)          # the places, on this axis only
     if asserted:
@@ -136,7 +136,7 @@ def hierarchy(axis: dict, statements: list[dict], pool: Pool, asserted: bool) ->
     many = [c for c in universe if len(place[c]) > 1]
     none = [c for c in universe if not place[c]]
     covered = sorted(one + many) if several else one            # a second place is a place only where the axis allows it
-    weight = lambda cs: sum(len(carries[c]) for c in cs)        # noqa: E731
+    weight = lambda cs: len({s for c in cs for s in carries[c]})   # noqa: E731 — statements, each once however many of its concepts
     under = {r: [c for c in universe if r in place[c]] for r in roots}
     singles = [r for r in roots if len(under[r]) == 1]
     unknown = sorted(n for n in nodes if n not in pool.entities)
@@ -169,8 +169,8 @@ def dimension(axis: dict, statements: list[dict], pool: Pool, asserted: bool) ->
     outside = 0
     if asserted:
         for st in statements:
-            if (st.get("slots") or {}).get(slot):
-                given[st["id"]] = [st["slots"][slot]]
+            if fillers(st, slot):
+                given[st["id"]] = fillers(st, slot)
     else:
         for sid, place in (axis.get("placements") or {}).items():
             if sid in set(ids):

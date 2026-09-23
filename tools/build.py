@@ -251,6 +251,30 @@ def load(path: Path):
         return yaml.safe_load(fh)
 
 
+def fillers(st: dict, slot: str) -> list[str]:
+    """The concepts a statement holds in one slot, in order: every entry of a slot the schema makes a
+    list (`condition`, the conditions that hold at once, spec §3.2), the one concept of any other, none
+    when the slot is empty. Whatever reads a slot's concepts reads them through this — one code path."""
+    value = (st.get("slots") or {}).get(slot)
+    return list(value) if isinstance(value, list) else [value] if value else []
+
+
+def filled(st: dict) -> list[tuple[str, str]]:
+    """Every (slot, concept) of a statement, a list slot entry by entry: the four slots and any a
+    dimension axis adds (spec §4.1)."""
+    return [(slot, cid) for slot in (st.get("slots") or {}) for cid in fillers(st, slot)]
+
+
+def the_one(st: dict, slot: str) -> str | None:
+    """The one concept of a slot, where the site shows one — the tree's answer to the condition question,
+    a row of the card. How several conditions are shown is not designed yet (docs/publication.md §3
+    draws one answer per statement), so the build stops at a statement with several rather than show one of them and drop the rest."""
+    cids = fillers(st, slot)
+    if len(cids) > 1:
+        raise SystemExit(f"{st['id']}: {len(cids)} concepts in `{slot}`; the card and the tree show one, several are not built yet")
+    return cids[0] if cids else None
+
+
 class Pool:
     def __init__(self, schema: dict):
         self.entities: dict[str, dict] = {}
@@ -273,7 +297,7 @@ class Pool:
         # concept that carries more than the one statement and names the count (docs/publication.md §3)
         self.slot_uses: dict[tuple[str, str], int] = defaultdict(int)
         for st in self.of_type("statement"):
-            for slot, cid in (st.get("slots") or {}).items():
+            for slot, cid in filled(st):
                 self.slot_uses[(slot, cid)] += 1
 
     def of_type(self, t: str):
@@ -327,7 +351,7 @@ class Pool:
     def uses_of(self, concept_id: str) -> list[dict]:
         rows = []
         for st in self.of_type("statement"):
-            for slot, cid in (st.get("slots") or {}).items():   # the four slots and any a dimension axis adds (spec §4.1)
+            for slot, cid in filled(st):
                 if cid == concept_id:
                     rows.append({"id": st["id"], "label": st["label"], "lang": st["lang"], "slot": slot})
         rows.sort(key=lambda r: r["id"])
@@ -377,7 +401,7 @@ def members_of(view: dict, pool: Pool) -> dict[str, dict]:
                     members[to] = pool.entities[to]
     for ent in list(members.values()):
         if ent.get("type") == "statement":
-            for cid in (ent.get("slots") or {}).values():   # the four slots and any a dimension axis adds (spec §4.1)
+            for _, cid in filled(ent):
                 if cid in pool.entities:
                     members[cid] = pool.entities[cid]
     queue = [m["id"] for m in members.values() if m.get("type") == "concept"]   # and the families above them (spec §5 broader)
@@ -447,7 +471,7 @@ def groupings_of(view: dict, members: dict[str, dict], pool: Pool) -> list[dict]
         slot = axis["slot"]
         return [{"id": v, "ref": v, "label": short(v), "text": text_of(v), "lang": members[v]["lang"] if v in members else lang,
                  "facets": [members[v]["facet"]] if members.get(v, {}).get("facet") else [],
-                 "statements": [st for st in statements if (st.get("slots") or {}).get(slot) == v]} for v in axis["values"]]
+                 "statements": [st for st in statements if v in fillers(st, slot)]} for v in axis["values"]]
 
     rows = [{"axis": "", "label": words["plain"], "lang": lang, **decision_tree_of(view, members, pool)},
             {"axis": CHAPTERS, "label": words["chapter"], "lang": lang,
@@ -511,7 +535,7 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
         sl = slots(st)
         claims = pool.claims_for(st["id"])
         grades = {c["grade"] for c in claims if c["edge"] == "supports" and c.get("grade")}
-        cond, outc = sl.get("condition"), sl.get("outcome")
+        cond, outc = the_one(st, "condition"), sl.get("outcome")
         d = direction_of(claims)
         again = st["id"] in seen   # under two answers (two chapters): one node, hung from both, its aim and relations once
         # the box reads "A · <short label>": the grade as a letter (every grade when the claims differ — shown,
@@ -521,7 +545,7 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
         letters = "/".join(sorted(grades, key=lambda g: (GRADES.index(g) if g in GRADES else len(GRADES), g)))
         sid = add(st["id"], ref=st["id"], type="statement", lang=st["lang"],
                   label=(letters + " · " if letters else "") + (st.get("short_label") or st["label"]), full=st["label"],
-                  direction=d["word"] if d else None, verb=verb_of(claims), facets=sorted({f for f in (facet(c) for c in sl.values()) if f}),
+                  direction=d["word"] if d else None, verb=verb_of(claims), facets=sorted({f for f in (facet(c) for _, c in filled(st)) if f}),
                   grade=next(iter(grades)) if len(grades) == 1 else ("mixed" if grades else None),
                   against={c["direction"] for c in claims if c["edge"] == "supports" and c.get("direction")} == {"against"},
                   contested=any(c["edge"] == "contests" for c in claims),
@@ -529,7 +553,7 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
                   sections=sorted({c["section"] for c in claims if c.get("section")}, key=natural),
                   # what the search matches: the statement, its short form, its slot concepts (label and short
                   # label), its claims' sentences and quotes (docs/publication.md §3)
-                  text=" ".join(filter(None, [st["label"], st.get("short_label")] + [text_of(c) for c in sl.values() if c in members]
+                  text=" ".join(filter(None, [st["label"], st.get("short_label")] + [text_of(c) for _, c in filled(st) if c in members]
                                               + [c.get("label") for c in claims] + [c.get("quote") for c in claims])))
         if cond in members:  # a further question, asked within the patient group
             q = f"q:{at}:condition"
@@ -727,7 +751,7 @@ def main(argv=None) -> int:
         def slot_row(role):
             """A row of zone 5: plain when the concept carries only this statement in that role, linked with the
             count (this statement included) when it carries more; the population keeps its families below it."""
-            cid = slots.get(role)
+            cid = the_one(st, role)
             if cid not in pool.entities:
                 return None
             n = pool.slot_uses[(role, cid)]
@@ -756,7 +780,7 @@ def main(argv=None) -> int:
             "leitlinientext": {k: [passage(b) for c in claims for b in c.get("body", []) if b["kind"] == k] for k in BODY_TEXT},
             "widerspruch": contests_of(claims),
             "beleg": {"sources": cited, "review": "pending"},   # the pool has no attestation yet; what a present one reads is a maintainer decision (WP-0024, open questions)
-            "mehr": {"id": st["id"], "slots": {slot: concept(cid) for slot, cid in slots.items()},
+            "mehr": {"id": st["id"], "slots": {slot: concept(the_one(st, slot)) for slot in slots},
                      "related": related, "claims": [{"edge": c["edge"], "id": c["id"]} for c in claims], "source": st.get("source")},
         }
 
