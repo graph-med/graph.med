@@ -17,7 +17,7 @@ names the alternatives, as the pool already did before the list existed
 fused into one concept to fit a single value; a constellation concept stands
 only where the source names the constellation as one. The other slots stay
 single-valued. Decided by the maintainer on 2026-09-23 (card #142, WP-0034);
-applied in `docs/graph-representation.md` §3.2 and schema 0.7.0.
+applied in `docs/graph-representation.md` §3.2 and schema 0.8.0.
 
 **Why:** A single value had forced the extractor to merge independent factors
 into one concept, which then could be neither queried nor cited on its own.

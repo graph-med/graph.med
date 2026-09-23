@@ -50,7 +50,6 @@ pre-emptively.
 | `design/claim-evidence-per-outcome.md` | A claim's evidence certainty is `evidence`, a list of {outcome?, value?, system} in the rating system's own words, each entry stating an outcome or a value: never a scalar, values never mapped between systems, several entries never reduced to one; provenance required like the grade. |
 | `design/access-is-a-dimension.md` | The operative access is the dimension `axes/zugang` (offen, minimalinvasiv), never part of a population's name: robotic is minimalinvasiv, oesophagectomy variants stay procedures, an empty slot means "not distinguished"; asserted, not in `group_by`. |
 | `design/body-text-rule.md` | A body-text sentence earns a claim and an edge only by spec §5.1: gate G1–G4, then `refines` → `limits` → `supplements`, first that holds; kind by form, never graded, one claim per answer; no edge between sentences of marked recommendations; an edge never decides a statement's condition. |
-| `design/claim-evidence-per-outcome.md` | A claim's evidence certainty is `evidence`, a list of {outcome?, value, system} in the rating system's own words: never a scalar, values never mapped between systems, several entries never reduced to one; provenance required like the grade. |
 | `design/conditions-are-a-conjunction-list.md` | A statement's `condition` is always a list of concepts; several entries hold at once (a conjunction), a source's "or" is one concept naming the alternatives; the other slots stay single-valued. |
 
 ## Writing one
