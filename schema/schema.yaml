@@ -21,7 +21,7 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 $id: https://graph.med/schema/schema.yaml
 title: graph.med pool
-x-version: 0.6.0
+x-version: 0.7.0
 
 # ── layout: which definition each data file validates against ────────────────
 # (data/README.md). Globs are relative to the repository root. `one_per_file`
@@ -136,15 +136,21 @@ $defs:
       page:    {type: integer, minimum: 1}
   # one certainty rating on a claim (spec §3.1): the word of the system that rated it, and the
   # outcome it rates where the source rates per outcome. No system and no value is enumerated:
-  # a second guideline brings its own, and a value is never mapped onto another system's
+  # a second guideline brings its own, and a value is never mapped onto another system's.
+  # An entry states its outcome, its value, or both: an outcome the source lists without a
+  # rating is recorded as the outcome alone (the row reads "nicht erfasst"), never left out;
+  # an entry with neither says nothing and is refused
   evidence_entry:
     type: object
-    required: [value, system]
+    required: [system]
+    anyOf:
+      - required: [outcome]
+      - required: [value]
     additionalProperties: false
     properties:
       outcome: {$ref: '#/$defs/concept_ref'}   # absent where the source rates the whole recommendation
-      value:   {$ref: '#/$defs/text'}          # the system's own word, source language, never translated
-      system:  {$ref: '#/$defs/slug'}          # grade, oxford_loe, esc_loe, … — an open string, never an enum
+      value:   {$ref: '#/$defs/text'}          # the system's own word, source language, never translated; absent where the source lists the outcome unrated
+      system:  {$ref: '#/$defs/slug'}          # grade, oxford_loe, esc_loe, … — an open string, never an enum; required with or without a value: the system whose table lists the outcome
 
   # ── provenance (spec §6.2–6.4) ────────────────────────────────────────────
   locator:
