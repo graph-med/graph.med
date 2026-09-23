@@ -548,8 +548,8 @@ the different jobs of edges apart:
   carries provenance and dangles visibly when a classification changes.
 - **subsumption** — `broader`: concept → concept, "is a special case of". *Offene
   Leberresektion* is a *Leberresektion*; a concept may have several broader
-  concepts (a minimally invasive colorectal resection is both a colorectal
-  resection and a minimally invasive procedure) and a concept with none is a
+  concepts (a pancreatoduodenectomy is both a pancreatic resection and a
+  duodenal resection) and a concept with none is a
   root. Always `modelling`, with a rationale; it may carry an **`axis`** naming
   the respect in which the subsumption holds, once that axis is asserted for
   the view (§4.1). The edge carries **no evidence and no inheritance**: whether a recommendation about the broader concept holds for
