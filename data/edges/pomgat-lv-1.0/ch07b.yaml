@@ -42,3 +42,24 @@
   - supports
   - statements/kein-daikenchuto-prophylaxe-poi
   - source: modelling
+- - claims/pomgat-lv-1.0/d3bef9ed
+  - refines
+  - claims/pomgat-lv-1.0/398ee0ce
+  - source: modelling
+    rationale: "R: NSAR"
+    lang: de
+    as_of: '2026-09-23'
+- - claims/pomgat-lv-1.0/6fed3fd9
+  - supplements
+  - claims/pomgat-lv-1.0/398ee0ce
+  - source: modelling
+    rationale: "S: möglicher Zusammenhang zwischen der Applikation von NSAR und einer erhöhten Inzidenz an Anastomoseninsuffizienzen berücksichtigt werden muss"
+    lang: de
+    as_of: '2026-09-23'
+- - claims/pomgat-lv-1.0/0ca4f0f5
+  - refines
+  - claims/pomgat-lv-1.0/f0082ce5
+  - source: modelling
+    rationale: "R: Daikenchuto"
+    lang: de
+    as_of: '2026-09-23'

@@ -10,9 +10,42 @@
   verb: soll
   direction: against
   consensus: konsens
+  evidence:
+    - {outcome: concepts/gesamtkomplikationen, value: "moderat", system: grade}
+    - {outcome: concepts/kardiale-komplikationen, value: "hoch", system: grade}
+    - {outcome: concepts/postoperative-pulmonale-komplikationen, value: "moderat", system: grade}
+    - {outcome: concepts/dauer-bis-gi-2, value: "niedrig", system: grade}
+    - {outcome: concepts/dauer-bis-zur-ersten-defaekation, value: "niedrig", system: grade}
+    - {outcome: concepts/toleranz-solider-kost, value: "sehr niedrig", system: grade}
+    - {outcome: concepts/krankenhausverweildauer, value: "niedrig", system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=91
     quote: Die unmittelbar postoperative s.c. Gabe von Methylnaltrexon zur Prophylaxe des
+  provenance:
+    evidence:
+      - at: sources/pomgat-lv-1.0#page=91
+        quote: "⊕⊕⊕⊝: Gesamtkomplikationen: Kein Effekt (RR 1,00; 95% KI 0,9 bis 1,10)"
+      - at: sources/pomgat-lv-1.0#page=91
+        quote: "⊕⊕⊕⊕: Kardiale Komplikationen: Kein Effekt (RR 1,25; 95% KI 0,90 bis 1,73)"
+      - at: sources/pomgat-lv-1.0#page=91
+        quote: "⊕⊕⊕⊝: Pulmonale Komplikationen: Kein Effekt (RR 0,79; 95% KI 0,21 bis 2,96)"
+      - at: sources/pomgat-lv-1.0#page=91
+        quote: "⊕⊕⊝⊝: Dauer bis GI-2: Kein Effekt (MD -0,79 Tage; 95% KI -2,02 bis 0,45)"
+      - at: sources/pomgat-lv-1.0#page=91
+        quote: "⊕⊕⊝⊝: Dauer bis zur ersten Defäkation: Kein Effekt (MD -0,44 Tage; 95% KI -1,26 bis"
+      - at: sources/pomgat-lv-1.0#page=91
+        quote: "⊕⊝⊝⊝: Toleranz solider Kost: Methylnaltrexon verkürzt möglicherweise die Dauer bis zum"
+      - at: sources/pomgat-lv-1.0#page=91
+        quote: "⊕⊕⊝⊝: Krankenhausverweildauer: Kein Effekt (MD -0,28 Tage; 95% KI -1,99 bis 1,42)"
+- id: claims/pomgat-lv-1.0/1ce49dc8
+  type: claim
+  lang: de
+  kind: gap_notice
+  section: "7.4.1.1"
+  label: "Für andere viszeralonkologische Operationen kann aufgrund der fehlenden Datenlage keine Empfehlung ausgesprochen werden."
+  source:
+    at: sources/pomgat-lv-1.0#page=92
+    quote: "viszeralonkologische Operationen kann aufgrund der fehlenden Datenlage keine"
 - id: claims/pomgat-lv-1.0/398ee0ce
   type: claim
   lang: de
@@ -25,9 +58,51 @@
   verb: kann
   direction: for
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/kardiale-komplikationen, value: "niedrig", system: grade}
+    - {outcome: concepts/dauer-bis-zur-ersten-defaekation, value: "hoch", system: grade}
+    - {outcome: concepts/toleranz-solider-kost, value: "niedrig", system: grade}
+    - {outcome: concepts/krankenhausverweildauer, value: "niedrig", system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=92
     quote: Die präoperativ begonnene und postoperativ fortgesetzte Gabe von NSAR kann
+  provenance:
+    evidence:
+      - at: sources/pomgat-lv-1.0#page=92
+        quote: "⊕⊕⊝⊝: Kardiale Komplikationen: Kein Effekt (RR 0,49; 95% KI 0,05 bis 5,23)"
+      - at: sources/pomgat-lv-1.0#page=92
+        quote: "⊕⊕⊕⊕: Dauer bis zur ersten Defäkation: NSAR verkürzen die Dauer bis zur ersten"
+      - at: sources/pomgat-lv-1.0#page=92
+        quote: "⊕⊕⊝⊝: Toleranz solider Kost: Kein Effekt"
+      - at: sources/pomgat-lv-1.0#page=92
+        quote: "⊕⊕⊝⊝: Krankenhausverweildauer: Kein Effekt"
+- id: claims/pomgat-lv-1.0/d3bef9ed
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.4.1.1"
+  label: "Durch eine bereits präoperativ begonnene Applikation von NSAR, bspw. 50mg Diclophenac, kann die Dauer bis zum ersten postoperativen Stuhlgang nach kolorektalen Resektionen verringert werden [274], [275]."
+  source:
+    at: sources/pomgat-lv-1.0#page=92
+    quote: "bereits präoperativ begonnene Applikation von NSAR, bspw. 50mg Diclophenac, kann"
+- id: claims/pomgat-lv-1.0/6fed3fd9
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.4.1.1"
+  label: "Zu beachten ist bei der perioperativen Applikation von NSAR, dass diese mit einer erhöhten Inzidenz an Anastomoseninsuffizienzen einherzugehen scheinen, sodass bei dieser Empfehlung ein möglicher Zusammenhang zwischen der Applikation von NSAR und einer erhöhten Inzidenz an Anastomoseninsuffizienzen berücksichtigt werden muss [278], [279], [280], [281], [282]."
+  source:
+    at: sources/pomgat-lv-1.0#page=93
+    quote: "einer erhöhten Inzidenz an Anastomoseninsuffizienzen berücksichtigt werden muss"
+- id: claims/pomgat-lv-1.0/6425442d
+  type: claim
+  lang: de
+  kind: gap_notice
+  section: "7.4.1.1"
+  label: "Aufgrund der limitierten Datenlage kann daher (parallel zu der sehr schwachen Empfehlung der AWMF-S3-LL „Behandlung akuter perioperativer und posttraumatischer Schmerzen“ für Lidocain i.v. als „kann“ Empfehlung mit einem Empfehlungsgrad GoR 0) keine Empfehlung für die i.v. oder intra-abdominelle Applikation von Lokalanästhetika im Rahmen viszeralonkologischer Operationen ausgesprochen werden."
+  source:
+    at: sources/pomgat-lv-1.0#page=93
+    quote: "Empfehlung für die i.v. oder intra-abdominelle Applikation von Lokalanästhetika im"
 - id: claims/pomgat-lv-1.0/cea5e680
   type: claim
   lang: de
@@ -40,9 +115,36 @@
   verb: soll
   direction: against
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/postoperative-pulmonale-komplikationen, value: "sehr niedrig", system: grade}
+    - {outcome: concepts/dauer-bis-zur-ersten-defaekation, value: "sehr niedrig", system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=93
     quote: Propranolol soll nicht zur Prophylaxe des postoperativen (paralytischen) Ileus
+  provenance:
+    evidence:
+      - at: sources/pomgat-lv-1.0#page=93
+        quote: "⊕⊝⊝⊝: Pulmonale Komplikationen: Kein Effekt (RR nicht bestimmbar)"
+      - at: sources/pomgat-lv-1.0#page=93
+        quote: "⊕⊝⊝⊝: Dauer bis zur ersten Defäkation: Propranolol verkürzt möglicherweise die Dauer"
+- id: claims/pomgat-lv-1.0/6f5477a7
+  type: claim
+  lang: de
+  kind: gap_notice
+  section: "7.4.1.1"
+  label: "Für andere viszeralonkologische Operationen kann aufgrund der fehlenden Datenlage keine Empfehlung ausgesprochen werden."
+  source:
+    at: sources/pomgat-lv-1.0#page=94
+    quote: "Für andere viszeralonkologische Operationen kann aufgrund der fehlenden"
+- id: claims/pomgat-lv-1.0/981c8697
+  type: claim
+  lang: de
+  kind: gap_notice
+  section: "7.4.1.1"
+  label: "In der Leitlinienkommission wurde nach ausgiebiger Diskussion aufgrund des o.g. Rote Hand Briefes vorerst von einer Empfehlung zur peri- bzw. intraoperativen adjuvanten Anwendung von Dexmedetomidin im Rahmen der Allgemeinnarkose zur Prophylaxe des postoperativen (paralytischen) Ileus abgesehen, jedoch ein erheblicher Forschungsbedarf festgestellt."
+  source:
+    at: sources/pomgat-lv-1.0#page=95
+    quote: "nach ausgiebiger Diskussion aufgrund des o.g. Rote Hand Briefes vorerst von einer"
 - id: claims/pomgat-lv-1.0/12c3812a
   type: claim
   lang: de
@@ -55,9 +157,15 @@
   verb: kann
   direction: for
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/dauer-bis-zur-ersten-defaekation, value: "sehr niedrig", system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=96
     quote: Neostigmin kann als Ultima ratio zur Therapie des klinisch manifesten
+  provenance:
+    evidence:
+      - at: sources/pomgat-lv-1.0#page=96
+        quote: "⊕⊝⊝⊝: Dauer bis zur ersten Defäkation: Neostigmin verkürzt möglicherweise die Dauer"
 - id: claims/pomgat-lv-1.0/9a48c38e
   type: claim
   lang: de
@@ -70,9 +178,39 @@
   verb: sollte
   direction: against
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/gesamtkomplikationen, value: "hoch", system: grade}
+    - {outcome: concepts/magensondenreinsertionsrate, value: "hoch", system: grade}
+    - {outcome: concepts/chirurgische-komplikationen-ueber-cd-ii, value: "hoch", system: grade}
+    - {outcome: concepts/kardiale-komplikationen, value: "moderat", system: grade}
+    - {outcome: concepts/postoperative-pulmonale-komplikationen, value: "hoch", system: grade}
+    - {outcome: concepts/dauer-bis-gi-2, value: "sehr niedrig", system: grade}
+    - {outcome: concepts/dauer-bis-zur-ersten-defaekation, value: "niedrig", system: grade}
+    - {outcome: concepts/toleranz-solider-kost, value: "sehr niedrig", system: grade}
+    - {outcome: concepts/krankenhausverweildauer, value: "sehr niedrig", system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=97
     quote: Prucaloprid zur Prophylaxe des postoperativen (paralytischen) Ileus nach
+  provenance:
+    evidence:
+      - at: sources/pomgat-lv-1.0#page=97
+        quote: "⊕⊕⊕⊕: Gesamtkomplikationen: Kein Effekt (RR 1,15; 95% KI 0,77 bis 1,70)"
+      - at: sources/pomgat-lv-1.0#page=97
+        quote: "⊕⊕⊕⊕: Magensondenreinsertionsrate: Kein Effekt (RR 0,75; 95% KI 0,40 bis 1,39)"
+      - at: sources/pomgat-lv-1.0#page=97
+        quote: "⊕⊕⊕⊕: Chirurgische Komplikationen > CD II°: Kein Effekt (RR 1,05; 95% KI 0,56 bis 1,95)"
+      - at: sources/pomgat-lv-1.0#page=97
+        quote: "⊕⊕⊕⊝: Kardiale Komplikationen: Kein Effekt (RR 0,95; 95% KI 0,33 bis 2,76)"
+      - at: sources/pomgat-lv-1.0#page=97
+        quote: "⊕⊕⊕⊕: Pulmonale Komplikationen: Kein Effekt (RR 2,00; 95% KI 0,19 bis 21,58)"
+      - at: sources/pomgat-lv-1.0#page=97
+        quote: "⊕⊝⊝⊝: Dauer bis GI-2: Die Dauer bis zum Erreichen des Composite-Kriterium GI-2: Kein"
+      - at: sources/pomgat-lv-1.0#page=97
+        quote: "⊕⊕⊝⊝: Dauer bis zur ersten Defäkation: Kein Effekt (MD -0,39 Tage; 95% KI -1,15 bis"
+      - at: sources/pomgat-lv-1.0#page=97
+        quote: "⊕⊝⊝⊝: Toleranz solider Kost: Kein Effekt (MD -3,08 Tage; 95% KI -9,60 bis 3,43)"
+      - at: sources/pomgat-lv-1.0#page=97
+        quote: "⊕⊝⊝⊝: Krankenhausverweildauer: Kein Effekt (MD -3,06 Tage; 95% KI -7,21 bis 1,09)"
 - id: claims/pomgat-lv-1.0/364e5d3f
   type: claim
   lang: de
@@ -85,9 +223,18 @@
   verb: soll
   direction: against
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/magensondenreinsertionsrate, value: "moderat", system: grade}
+    - {outcome: concepts/toleranz-solider-kost, value: "moderat", system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=98
     quote: Metoclopramid soll nicht zur Prophylaxe des postoperativen (paralytischen) Ileus
+  provenance:
+    evidence:
+      - at: sources/pomgat-lv-1.0#page=98
+        quote: "⊕⊕⊕⊝: Magensondenreinsertionsrate: Kein Effekt (RR 0,88; 95% KI 0,27 bis 2,92)"
+      - at: sources/pomgat-lv-1.0#page=98
+        quote: "⊕⊕⊕⊝: Toleranz solider Kost: Kein Effekt (MD -0,20 Tage; 95% KI -1,04 bis 0,64)"
 - id: claims/pomgat-lv-1.0/ee0b0137
   type: claim
   lang: de
@@ -100,9 +247,21 @@
   verb: soll
   direction: against
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/dauer-bis-zur-ersten-defaekation, value: "moderat", system: grade}
+    - {outcome: concepts/toleranz-solider-kost, value: "moderat", system: grade}
+    - {outcome: concepts/krankenhausverweildauer, value: "moderat", system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=99
     quote: Erythromycin soll nicht zur Prophylaxe des postoperativen (paralytischen) Ileus
+  provenance:
+    evidence:
+      - at: sources/pomgat-lv-1.0#page=99
+        quote: "⊕⊕⊕⊝: Dauer bis zur ersten Defäkation: Kein Effekt (MD 0,99 Tage; 95% KI 0,90 bis 1,08)"
+      - at: sources/pomgat-lv-1.0#page=99
+        quote: "⊕⊕⊕⊝: Toleranz solider Kost: Kein Effekt (MD 1,04 Tage; 95% KI 0,93 bis 1,15)"
+      - at: sources/pomgat-lv-1.0#page=99
+        quote: "⊕⊕⊕⊝: Krankenhausverweildauer: Kein Effekt (MD 1,00 Tage; 95% KI 0,90 bis 1,11)"
 - id: claims/pomgat-lv-1.0/11449037
   type: claim
   lang: de
@@ -115,9 +274,48 @@
   verb: sollte
   direction: for
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/gesamtkomplikationen, value: "niedrig", system: grade}
+    - {outcome: concepts/magensondenreinsertionsrate, value: "niedrig", system: grade}
+    - {outcome: concepts/chirurgische-komplikationen-ueber-cd-ii, value: "niedrig", system: grade}
+    - {outcome: concepts/kardiale-komplikationen, value: "niedrig", system: grade}
+    - {outcome: concepts/postoperative-pulmonale-komplikationen, value: "niedrig", system: grade}
+    - {outcome: concepts/dauer-bis-gi-2, value: "niedrig", system: grade}
+    - {outcome: concepts/dauer-bis-zur-ersten-defaekation, value: "niedrig", system: grade}
+    - {outcome: concepts/toleranz-solider-kost, value: "niedrig", system: grade}
+    - {outcome: concepts/krankenhausverweildauer, value: "niedrig", system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=99
     quote: Laxantien sollten frühzeitig in eine multimodale Prophylaxe und / oder Therapie
+  provenance:
+    evidence:
+      - at: sources/pomgat-lv-1.0#page=99
+        quote: "⊕⊕⊝⊝: Gesamtkomplikationen: Kein Effekt (RR 0,86; 95% KI 0,41 bis 1,79)"
+      - at: sources/pomgat-lv-1.0#page=99
+        quote: "⊕⊕⊝⊝: Magensondenreinsertionsrate: Kein Effekt (RR 0,94; 95% KI 0,65 bis 1,36)"
+      - at: sources/pomgat-lv-1.0#page=99
+        quote: "⊕⊕⊝⊝: Chirurgische Komplikationen > CD II°: Kein Effekt (RR 1,65; 95% KI 0,92 bis 2,97)"
+      - at: sources/pomgat-lv-1.0#page=99
+        quote: "⊕⊕⊝⊝: Kardiale Komplikationen: Kein Effekt (RR 1,26; 95% KI 0,35 bis 4,60)"
+      - at: sources/pomgat-lv-1.0#page=99
+        quote: "⊕⊕⊝⊝: Pulmonale Komplikationen: Kein Effekt (RR 2,39; 95% KI 0,85 bis 6,77)"
+      - at: sources/pomgat-lv-1.0#page=99
+        quote: "⊕⊕⊝⊝: Dauer bis GI-2: Die Dauer bis zum Erreichen des Composite-Kriterium GI-2"
+      - at: sources/pomgat-lv-1.0#page=99
+        quote: "⊕⊕⊝⊝: Dauer bis zur ersten Defäkation: Laxantien verkürzen die Dauer bis zur ersten"
+      - at: sources/pomgat-lv-1.0#page=99
+        quote: "⊕⊕⊝⊝: Toleranz solider Kost: Kein Effekt (MD -0,07 Tage; 95% KI -0,38 bis 0,25)"
+      - at: sources/pomgat-lv-1.0#page=99
+        quote: "⊕⊕⊝⊝: Krankenhausverweildauer: Kein Effekt (MD -1,08 Tage; 95% KI -3,01 bis 0,84)"
+- id: claims/pomgat-lv-1.0/7570127b
+  type: claim
+  lang: de
+  kind: gap_notice
+  section: "7.4.1.1"
+  label: "Für andere viszeralonkologische Operationen kann aufgrund der fehlenden Datenlage keine Empfehlung ausgesprochen werden."
+  source:
+    at: sources/pomgat-lv-1.0#page=100
+    quote: "Für andere viszeralonkologische Operationen kann"
 - id: claims/pomgat-lv-1.0/43df010f
   type: claim
   lang: de
@@ -130,9 +328,24 @@
   verb: soll
   direction: against
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/gesamtkomplikationen, value: "hoch", system: grade}
+    - {outcome: concepts/chirurgische-komplikationen-ueber-cd-ii, value: "hoch", system: grade}
+    - {outcome: concepts/dauer-bis-zur-ersten-defaekation, value: "hoch", system: grade}
+    - {outcome: concepts/krankenhausverweildauer, value: "hoch", system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=100
     quote: Simethicon soll nicht zur Prophylaxe des postoperativen (paralytischen) Ileus
+  provenance:
+    evidence:
+      - at: sources/pomgat-lv-1.0#page=100
+        quote: "⊕⊕⊕⊕: Gesamtkomplikationen: Kein Effekt (RR 1,10; 95% KI 0,63 bis 1,91)"
+      - at: sources/pomgat-lv-1.0#page=100
+        quote: "⊕⊕⊕⊕: Chirurgische Komplikationen > CD II°: Kein Effekt (RR 0,52; 95% KI 0,05 bis 5,55)"
+      - at: sources/pomgat-lv-1.0#page=100
+        quote: "⊕⊕⊕⊕: Dauer bis zur ersten Defäkation: Kein Effekt (MD -1,80 Tage; 95% KI -11,02 bis"
+      - at: sources/pomgat-lv-1.0#page=100
+        quote: "⊕⊕⊕⊕: Krankenhausverweildauer (narrativ: Kein Effekt)"
 - id: claims/pomgat-lv-1.0/0d68c66e
   type: claim
   lang: de
@@ -145,9 +358,27 @@
   verb: soll
   direction: against
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/gesamtkomplikationen, value: "hoch", system: grade}
+    - {outcome: concepts/postoperative-pulmonale-komplikationen, value: "hoch", system: grade}
+    - {outcome: concepts/dauer-bis-zur-ersten-defaekation, value: "hoch", system: grade}
+    - {outcome: concepts/toleranz-solider-kost, value: "hoch", system: grade}
+    - {outcome: concepts/krankenhausverweildauer, value: "hoch", system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=101
     quote: Osmotisch wirksame Röntgenkontrastmittel (z.B. Gastrografin®) sollen nicht zur
+  provenance:
+    evidence:
+      - at: sources/pomgat-lv-1.0#page=101
+        quote: "⊕⊕⊕⊕: Gesamtkomplikationen: Kein Effekt (RR 1,21; 95% KI 0,72 bis 2,03)"
+      - at: sources/pomgat-lv-1.0#page=101
+        quote: "⊕⊕⊕⊕: Pulmonale Komplikationen: Kein Effekt (RR 0,56; 95% KI 0,05 bis 5,82)"
+      - at: sources/pomgat-lv-1.0#page=101
+        quote: "⊕⊕⊕⊕: Dauer bis zur ersten Defäkation: Kein Effekt (MD -1,18 Tage; 95% KI -4,03 bis"
+      - at: sources/pomgat-lv-1.0#page=101
+        quote: "⊕⊕⊕⊕: Toleranz solider Kost: Kein Effekt (MD -2,22 Tage; 95% KI -5,42 bis 0,98)"
+      - at: sources/pomgat-lv-1.0#page=101
+        quote: "⊕⊕⊕⊕: Krankenhausverweildauer: Kein Effekt (MD -4,50 Tage; 95% KI -11,17 bis 2,17)"
 - id: claims/pomgat-lv-1.0/f0082ce5
   type: claim
   lang: de
@@ -160,6 +391,42 @@
   verb: sollte
   direction: against
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/gesamtkomplikationen, value: "niedrig", system: grade}
+    - {outcome: concepts/magensondenreinsertionsrate, value: "niedrig", system: grade}
+    - {outcome: concepts/chirurgische-komplikationen-ueber-cd-ii, value: "sehr niedrig", system: grade}
+    - {outcome: concepts/postoperative-pulmonale-komplikationen, value: "niedrig", system: grade}
+    - {outcome: concepts/dauer-bis-zur-ersten-defaekation, value: "sehr niedrig", system: grade}
+    - {outcome: concepts/toleranz-solider-kost, value: "sehr niedrig", system: grade}
+    - {outcome: concepts/patientenzufriedenheit, value: "sehr niedrig", system: grade}
+    - {outcome: concepts/krankenhausverweildauer, value: "sehr niedrig", system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=101
     quote: Daikenchuto sollte nicht zur Prophylaxe des postoperativen (paralytischen) Ileus
+  provenance:
+    evidence:
+      - at: sources/pomgat-lv-1.0#page=101
+        quote: "⊕⊕⊝⊝: Gesamtkomplikationen: Kein Effekt (RR 0,93; 95% KI 0,69 bis 1,24)"
+      - at: sources/pomgat-lv-1.0#page=101
+        quote: "⊕⊕⊝⊝: Magensondenreinsertionsrate: Kein Effekt (RR 0,99; 95% KI 0,06 bis 15,62)"
+      - at: sources/pomgat-lv-1.0#page=101
+        quote: "⊕⊝⊝⊝: Chirurgische Komplikationen > CD II°: Kein Effekt (RR 0,60; 95% KI 0,31 bis 1,16)"
+      - at: sources/pomgat-lv-1.0#page=101
+        quote: "⊕⊕⊝⊝: Pulmonale Komplikationen: Kein Effekt (RR 0,37; 95% KI 0,10 bis 1,47)"
+      - at: sources/pomgat-lv-1.0#page=101
+        quote: "⊕⊝⊝⊝: Dauer bis zur ersten Defäkation: Kein Effekt (MD -9,41 Stunden; 95% KI -25,27 bis"
+      - at: sources/pomgat-lv-1.0#page=101
+        quote: "⊕⊝⊝⊝: Toleranz solider Kost: Kein Effekt (MD -36,73 Stunden; 95% KI -95,11 bis 21,66)"
+      - at: sources/pomgat-lv-1.0#page=101
+        quote: "⊕⊝⊝⊝: Patientenzufriedenheit: Kein Effekt"
+      - at: sources/pomgat-lv-1.0#page=101
+        quote: "⊕⊝⊝⊝: Krankenhausverweildauer: Kein Effekt (MD -2,41 Tage; 95% KI -5,56 bis 0,74)"
+- id: claims/pomgat-lv-1.0/0ca4f0f5
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.4.1.2"
+  label: "Daikenchuto (DKC) ist eine phytotherapeutische Formel aus der traditionellen japanischen Medizin und besteht aus den pflanzlichen Inhaltsstoffen japanischer Pfeffer, getrockneter Ingwer, Ginsengwurzel und Maltosepulver [313]."
+  source:
+    at: sources/pomgat-lv-1.0#page=101
+    quote: "japanischen Medizin und besteht aus den pflanzlichen Inhaltsstoffen japanischer"
