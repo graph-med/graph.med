@@ -50,15 +50,93 @@
   - supports
   - statements/periphere-regionalanalgesie-viszeralchirurgie
   - source: modelling
-- - claims/pomgat-lv-1.0/10423e92
-  - supplements
-  - claims/pomgat-lv-1.0/833d22a3
-  - source: modelling
-- - claims/pomgat-lv-1.0/36973ab5
-  - supplements
-  - claims/pomgat-lv-1.0/93a72721
-  - source: modelling
 - - claims/pomgat-lv-1.0/b0e0ee65
   - refines
   - claims/pomgat-lv-1.0/fac02f97
   - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "R: TAP-Block — der Leitlinientext nennt die Technik: mit kontinuierlicher Applikation eines Lokalanästhetikums.
+      „Ausnahme: Rektumexstirpationen“ nimmt nichts heraus, was die Empfehlung umfasst (G3: zählt nur, was er hinzufügt)."
+- - claims/pomgat-lv-1.0/d97dfc78
+  - refines
+  - claims/pomgat-lv-1.0/fac02f97
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "R: TAP-Block (Transversus abdominis plane block) — der Leitlinientext sagt, für welche Technik das Wort steht:
+      Lokalanästhetikum zwischen Musculus obliquus internus und Musculus transversus abdominis, ultraschallgesteuert oder laparoskopisch."
+- - claims/pomgat-lv-1.0/96c2b6b9
+  - supplements
+  - claims/pomgat-lv-1.0/a5a87bd9
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "S: Magensonde … vor Narkoseausleitung gezogen — der nächste Schritt, wenn nach dem Ziehen eine Verzögerung der
+      Magendarmpassage mit Übelkeit und Erbrechen auftritt: sekundär eine Magensonde zur nasogastralen Dekompression."
+- - claims/pomgat-lv-1.0/20f64eba
+  - supplements
+  - claims/pomgat-lv-1.0/d556cbf1
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "S: zur perioperativen Analgesie — eine Maßnahme neben der Epiduralanalgesie: die perioperative Schmerztherapie
+      entsprechend eines balanzierten Behandlungskonzeptes."
+- - claims/pomgat-lv-1.0/20f64eba
+  - supplements
+  - claims/pomgat-lv-1.0/5871558c
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "S: Epiduralanalgesie — eine Maßnahme neben ihr: die perioperative Schmerztherapie entsprechend eines balanzierten
+      Behandlungskonzeptes."
+- - claims/pomgat-lv-1.0/4750280e
+  - supplements
+  - claims/pomgat-lv-1.0/51f44d3f
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "S: Epiduralanalgesie — eine weitere Handlung für den Fall des Statements: die mögliche Reduktion von Morbidität
+      und Mortalität durch eine thorakale EA bei der Entscheidung für oder gegen eine EA berücksichtigen."
+# cross-statement edges (spec §5): our assertions between statements, never from a claim
+- - statements/magensonde-fruehe-entfernung-oesophagektomie
+  - complements
+  - statements/doppellumige-magensonde-oesophagektomie
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "Empfehlung 7.2 sagt, wann die nach 7.1 intraoperativ eingelegte Magensonde entfernt werden kann; beide betreffen
+      dieselbe Sonde nach transthorakaler Ösophagektomie (N1: zwischen Empfehlungen, nicht als Leitlinientext)."
+- - statements/dauerkatheter-verlaengert-bei-harnverhaltrisiko
+  - specializes
+  - statements/dauerkatheter-entfernung-24h-kolorektal
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "Der zweite Satz der Empfehlung 7.7 gilt für die Teilgruppe der kolorektalen Resektionen mit Risikofaktoren für
+      einen Harnverhalt und erlaubt dort statt der Entfernung in 24 Stunden eine Ableitung bis zum 3. postoperativen Tag (N1)."
+- - statements/tap-block-mic-kolorektal
+  - specializes
+  - statements/periphere-regionalanalgesie-viszeralchirurgie
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "Der TAP-Block ist ein peripheres Regionalanalgesieverfahren (Kapitel 7.3.2 und 7.3.3 zählen ihn zu den PRA),
+      minimalinvasive Kolon- und anteriore Rektumresektionen sind onkologisch-viszeralchirurgische Eingriffe; 7.12 sagt für
+      diesen Fall dasselbe „kann“ wie 7.13."
+- - statements/tap-block-mic-kolorektal
+  - complements
+  - statements/epiduralanalgesie-mic-bei-risikokonstellation
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "7.12 nennt den TAP-Block ausdrücklich als Alternative zur EA bei minimalinvasiven kolorektalen Eingriffen; 7.10
+      sagt, wann bei MIC-Eingriffen eine EA eingesetzt werden kann. Beide sind „kann“ und schließen einander nicht aus."
+- - statements/periphere-regionalanalgesie-viszeralchirurgie
+  - complements
+  - statements/epiduralanalgesie-ueberlegen-peripherer-regionalanalgesie
+  - source: modelling
+    lang: de
+    as_of: "2026-09-23"
+    rationale: "7.13 erlaubt ein peripheres Regionalanalgesieverfahren gegenüber systemischer Schmerztherapie, 7.11 stellt die
+      EA den PRA als überlegen gegenüber; zusammen ordnen sie die drei Verfahren, ohne einander zu widersprechen."
