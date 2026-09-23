@@ -26,3 +26,10 @@
   - supports
   - statements/spezialisierte-fachkraft-nicht-kolorektal-mpom
   - source: modelling
+- - statements/spezialisierte-fachkraft-kolorektal-mpom
+  - complements
+  - statements/mpom-kolorektale-resektion
+  - source: modelling
+    rationale: "Die Begleitung durch eine spezialisierte Fachkraft (8.6) tritt zum mPOM der kolorektalen Resektion (8.5) hinzu, ersetzt es nicht: ihr Stellenwert wird als „Zusatznutzen … im Vergleich zu mPOM ohne spezialisierte Fachkraft“ bestimmt (S. 120), die Population ist dieselbe, das mPOM ihre Bedingung."
+    lang: de
+    as_of: "2026-09-23"
