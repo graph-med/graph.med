@@ -183,7 +183,12 @@ its own about what is true; it asserts what a source states at a location. Its
 unit is the **recommendation sentence**, not the box: a box holding several
 sentences with their own verbs and directions becomes several claims sharing
 the box's `recommendation_no`, each with the one grade its verb maps to under
-the source's grading scheme (memory `box-granularity-per-sentence`).
+the source's grading scheme (memory `box-granularity-per-sentence`). Its `kind`
+names the passage's form, the first that holds: it declines to recommend →
+`gap_notice`; it instructs an action → `recommendation`; the source marks it as
+a definition → `definition`; it states which cases, values or thresholds a term
+covers → `criterion`; otherwise → `fact`. Which sentences outside the marked
+recommendations become claims, and how they attach, is the rule of §5.1.
 
 How binding a recommendation is (`grade`, `verb`) and how certain the evidence
 behind it is are two different facts, and a source may state the second per
@@ -546,7 +551,7 @@ the different jobs of edges apart:
   carry evidential weight.
 - **body-text relations** — `refines`, `supplements`, `limits`: claim → claim.
   Body text never inherits a recommendation's grade; the edge says how they
-  relate.
+  relate. Which sentence earns which edge is the rule of §5.1.
 - **coding** — `codes_as`: concept → terminology concept. Codes are never bare
   strings inside a property; a code is a node and coding is an edge, so the link
   carries provenance and dangles visibly when a classification changes.
@@ -573,6 +578,56 @@ an endpoint's current hash differs, the edge is **stale**: surfaced for
 re-evaluation, its derived weight downgraded — not silently applied, and not a
 blocker (§8). No version is ever pinned on an edge; the mechanism is the same one
 attestations use.
+
+### 5.1 The body-text rule
+
+A **marked recommendation** is what the source marks as one (a numbered box, a
+numbered statement); each of its sentences is a claim (§3.1). **Body text** is
+every other sentence of its section. A body-text sentence becomes a claim with
+an edge exactly when it passes all of G1–G4 and one of R, L, S, tried in that
+order — the first that holds decides. Every other sentence stays on the page.
+
+- **G1 topic** — it is about the action of a marked recommendation of its
+  section, for that recommendation's population (for a gap notice: its topic).
+- **G2 voice** — it speaks for the guideline: its subject is not a study, a
+  review, an author, another guideline or the evidence, nor a pronoun or
+  connective continuing a sentence whose subject was. A reference mark alone is
+  no report. Except: a value the recommendation's wording needs and does not
+  give passes even when reported from the studies, if the guideline gives none.
+- **G3 new** — it adds a case, value or action the recommendation lacks. A
+  repetition (after a summary word, a reason, "this holds for all") adds
+  nothing; a repetition that adds counts only for what it adds.
+- **G4 not a decline** — declining to recommend is a gap notice, no edge.
+- **R `refines`** — it says what a term of the recommendation covers: who is in
+  its group; which value, time, dose, agent or technique a word stands for. It
+  makes cases precise and takes none out.
+- **L `limits`** — it takes cases the recommendation covers out of it: an
+  exception, a contraindication, a circumstance in which the action is not to
+  be done or is advised against, with or without what to do instead.
+- **S `supplements`** — it instructs a further action for the recommendation's
+  case: a next step, what to do when the action fails or is refused, a measure
+  beside it. Describing an effect or a mechanism instructs nothing.
+- **K claim** — `kind` by form (§3.1); `verb` and `direction` as printed (a verb
+  only if the schema knows it); never `grade`, `consensus` or
+  `recommendation_no`. **One claim per answer**: members giving different
+  answers — another threshold for the same term, another action, another
+  direction — are a claim each, each quoting its member; members sharing one
+  answer (the cases one group comprises) are one claim.
+- **E edge** — to each claim of the section whose wording carries the term, the
+  case or the action, none to the other sentences of its recommendation; a
+  definition the source marks, to every claim of the source using the term.
+  `modelling`, with `rationale` naming the clause and the term as printed
+  (`"R: <term>"`), `lang`, `as_of`. A pass deletes an existing body-text edge the rule does not give and
+  lists it, with its clause, in its pull request.
+- **N — not a body-text relation.** (1) Sentences of one marked recommendation,
+  or of two: each supports its own statement; what one says of the other is
+  said between statements (`specializes`, `complements`). (2) How certain the
+  evidence is: `evidence` on the recommendation's claim (§3.1); effect data,
+  study summaries and rationale: nothing. (3) A condition of the statement: an
+  edge relates two claims and never writes a slot, mints a statement or decides
+  what a circumstance is to a statement (§4.1); a circumstance the statement
+  lacks is named in the pull request. (4) A cross-reference, a research
+  question, a quality indicator (→ quality-indicators).
 
 ---
 
@@ -818,27 +873,22 @@ left out:
   claim says.
 - **A body-text edge against the rule.** For each `refines`, `supplements` and
   `limits` edge the judge reads both claims and the page and applies the
-  body-text rule of §5 as this document states it when the judge reads. Today
-  §5 says only what the three kinds are and that body text never inherits a
-  grade; the rule that says which passage earns which kind — a gate, then
-  tests in a fixed order, the edge to the claim of the marked recommendation
-  whose wording carries the term, a `rationale` naming the test and the term,
-  the from-claim ungraded, never between two sentences of one marked
-  recommendation — is being written as its own package, and the third
-  question is stated over that shape: the kind the edge carries is the first
-  test that holds, the target is the right claim, the rationale names what
-  the rule asks for.
+  body-text rule of §5.1 as this document states it when the judge reads: the
+  sentence passes the gate, the kind the edge carries is the first test that
+  holds, the target is the right claim, the from-claim is ungraded and holds
+  one answer, the rationale names the clause and the term, and the edge is
+  not between sentences of marked recommendations.
 - **A page against the pool.** For every page a claim of the branch cites,
   the judge — already holding that page for the first question — reads it
   the other way round and asks whether everything on it that the pool's
   rules make a claim is one: every sentence of every recommendation the
   source marks on the page has a claim, sharing its number where the source
   numbers it (§3.1: a marked recommendation of two sentences is two claims),
-  every body-text sentence that passes the rule's gate is a claim with its
-  edge (§5), every alternative of an "entweder … oder" is a claim of its own,
+  every body-text sentence that passes the rule is a claim with its edge
+  (§5.1), every alternative of an "entweder … oder" is a claim of its own,
   every claim of a marked recommendation supports or contests a statement,
-  and every body-text claim has its one edge — a body-text claim supports no
-  statement, the rule of §5 gives it the edge instead. What "marks" means is
+  and every body-text claim has its edge — a body-text claim supports no
+  statement, the rule of §5.1 gives it the edge instead. What "marks" means is
   read off the source, never assumed: a numbered, shaded box in one
   guideline, a numbered statement, a bulleted "offer", a sentence with a
   grade letter in another; the schema's `kind: recommendation` with whatever
@@ -1018,14 +1068,14 @@ Of the statement it asks the second: the label is the box's sentence, the
 slots name Pankreasresektion, frühe Drainageentfernung, geringes
 Pankreasfistelrisiko and postoperativ, each in the sentence; the short label
 keeps the condition — consistent, `scope: with_evidence`. Of the edge it asks
-the third, on p. 64, against the rule in the shape its package drafts: the
-guideline's own voice, about the box's own action, a value the box's "wenn das
-Drainagesekret … hinweist" needs and the reader cannot supply, nothing taken
-out — `refines`, to the box claim whose wording carries the term, and the
+the third, on p. 64, against §5.1: about the box's own action (G1), a value
+the box's "wenn das Drainagesekret … hinweist" needs and does not give,
+reported from the studies and admitted by G2's exception, nothing taken out —
+`refines`, to the box claim whose wording carries the term, and the
 criterion carries no grade: the kind and the target hold. But the edge carries
-no `rationale`, and the rule asks for one naming the test and the term; the
+no `rationale`, and the rule asks for one naming the clause and the term; the
 finding is `disputed`, its proof naming the property and saying, in German,
-`"Die Kante nennt keinen Test und keinen Begriff (§5: refines, Drainagesekret
+`"Die Kante nennt keinen Test und keinen Begriff (§5.1 R: Drainagesekret
 … hinweist)."` Were the box claim's grade "B", the first attestation would
 instead be `disputed` at `claims/pomgat-lv-1.0/6b9239a9/grade`: `"Seite 63
 druckt Empfehlungsgrad 0, nicht B."` Of p. 64 it asks the fourth: the

@@ -49,6 +49,7 @@ pre-emptively.
 | `design/box-colour-by-direction.md` | A box is coloured by its direction (the banner's four colours) and carries its grade as a letter after the glyph; EK is coloured like any other and marked "EK". Not by grade, not by verb. |
 | `design/claim-evidence-per-outcome.md` | A claim's evidence certainty is `evidence`, a list of {outcome?, value?, system} in the rating system's own words, each entry stating an outcome or a value: never a scalar, values never mapped between systems, several entries never reduced to one; provenance required like the grade. |
 | `design/access-is-a-dimension.md` | The operative access is the dimension `axes/zugang` (offen, minimalinvasiv), never part of a population's name: robotic is minimalinvasiv, oesophagectomy variants stay procedures, an empty slot means "not distinguished"; asserted, not in `group_by`. |
+| `design/body-text-rule.md` | A body-text sentence earns a claim and an edge only by spec §5.1: gate G1–G4, then `refines` → `limits` → `supplements`, first that holds; kind by form, never graded, one claim per answer; no edge between sentences of marked recommendations; an edge never decides a statement's condition. |
 
 ## Writing one
 
