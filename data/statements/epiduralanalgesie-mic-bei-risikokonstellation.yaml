@@ -7,7 +7,7 @@ short_label: "Epiduralanalgesie bei MIC in Risikokonstellation möglich"
 slots:
   population: concepts/minimalinvasive-gastrointestinale-tumoroperation
   action: concepts/epiduralanalgesie
-  condition: concepts/risikokonstellation-lange-op-hoher-opioidbedarf
+  condition: [concepts/risikokonstellation-lange-op-hoher-opioidbedarf]
   phase: concepts/postoperativ
   zugang: concepts/minimalinvasiv
 source: modelling

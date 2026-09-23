@@ -7,6 +7,6 @@ short_label: "Statinbeginn 2 Wochen präoperativ erwägbar"
 slots:
   population: concepts/kardiovaskulaerer-hochrisikopatient
   action: concepts/praeoperativer-statinbeginn
-  condition: concepts/elektiver-abdominalchirurgischer-tumoreingriff
+  condition: [concepts/elektiver-abdominalchirurgischer-tumoreingriff]
   phase: concepts/praeoperativ
 source: modelling

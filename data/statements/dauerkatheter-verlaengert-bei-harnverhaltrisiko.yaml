@@ -7,6 +7,6 @@ short_label: "Bei Harnverhaltrisiko: Katheter bis Tag 3 möglich"
 slots:
   population: concepts/kolorektale-resektion
   action: concepts/verlaengerte-harnableitung-bis-pod3
-  condition: concepts/risikofaktoren-harnverhalt
+  condition: [concepts/risikofaktoren-harnverhalt]
   phase: concepts/postoperativ
 source: modelling

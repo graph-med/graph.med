@@ -7,6 +7,6 @@ short_label: "Frühe Drainageentfernung bei geringem Fistelrisiko"
 slots:
   population: concepts/pankreasresektion
   action: concepts/fruehe-drainageentfernung
-  condition: concepts/geringes-pankreasfistelrisiko
+  condition: [concepts/geringes-pankreasfistelrisiko]
   phase: concepts/postoperativ
 source: modelling

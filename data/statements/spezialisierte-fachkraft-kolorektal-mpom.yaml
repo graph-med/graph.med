@@ -7,6 +7,6 @@ short_label: "Spezialisierte Fachkraft im mPOM möglich (kolorektal)"
 slots:
   population: concepts/kolorektale-resektion
   action: concepts/begleitung-spezialisierte-fachkraft
-  condition: concepts/mpom
+  condition: [concepts/mpom]
   phase: concepts/perioperativ
 source: modelling

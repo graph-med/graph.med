@@ -7,7 +7,7 @@ short_label: "Kein Methylnaltrexon zur POI-Prophylaxe (kolorektal)"
 slots:
   population: concepts/kolorektale-resektion
   action: concepts/methylnaltrexon-postoperativ-subkutan
-  condition: concepts/systemische-opioidbasierte-schmerztherapie
+  condition: [concepts/systemische-opioidbasierte-schmerztherapie]
   outcome: concepts/postoperativer-paralytischer-ileus
   phase: concepts/postoperativ
 source: modelling
