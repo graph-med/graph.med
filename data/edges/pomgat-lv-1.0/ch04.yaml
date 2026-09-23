@@ -115,7 +115,7 @@
   - supplements
   - claims/pomgat-lv-1.0/8c4dc5c7
   - source: modelling
-    rationale: 'S: körperliche Aktivität, ausgewogene Ernährung — Risikopatienten zu einer ressourcenarmen individualisierten Prähabilitation zu Hause motivieren, eine Maßnahme neben dem Standard'
+    rationale: 'S: körperlicher Aktivität, ausgewogener Ernährung — Risikopatienten zu einer ressourcenarmen individualisierten Prähabilitation zu Hause motivieren, eine Maßnahme neben dem Standard'
     lang: de
     as_of: '2026-09-23'
 - - claims/pomgat-lv-1.0/7669e914
@@ -129,7 +129,7 @@
   - supplements
   - claims/pomgat-lv-1.0/b60a7436
   - source: modelling
-    rationale: 'S: Risikostratifizierung — zudem das zunehmende Alter der Patienten berücksichtigen'
+    rationale: 'S: Risikostratifizierungsinstrument — bei der Risikostratifizierung zudem das zunehmende Alter der Patienten berücksichtigen'
     lang: de
     as_of: '2026-09-23'
 - - statements/betablocker-neuansetzen-hochrisiko
