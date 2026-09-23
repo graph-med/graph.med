@@ -27,7 +27,9 @@ got, which pull request, what was left — has to be on the card, or it is lost.
   deprecated, moves a card whose column no longer matches its branch or pull
   request, records dependencies (GitHub's issue dependencies, "blocked by")
   and sub-issues, tags cards with the board's labels, and splits or merges
-  cards when the maintainer asks. Every write is named, with the card's
+  cards when the maintainer asks — carrying into the new cards' text every
+  decision and commitment recorded in the old cards' comments, since a worker
+  follows the text of its own card. Every write is named, with the card's
   number, in the session's final message. It still **registers no work of its
   own finding** — that goes into the final message for the maintainer — and it
   approves and merges nothing.

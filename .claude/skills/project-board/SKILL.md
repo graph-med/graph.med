@@ -79,7 +79,13 @@ write:
   package cut into parts as sub-issues of its parent (`sub`), the labels
   `data-layer`, `user-interface` and `documentation` by what a card touches.
 - **Split and merge cards when the maintainer asks**, each half or the merged
-  card carrying a note of what was moved where.
+  card carrying a note of what was moved where. **A card is its text and its
+  comments**: before splitting or merging, read every comment, and carry each
+  decision, commitment or scope change recorded there into the text of the card
+  that now does that part of the work, with a link back to the comment. A
+  decision left only in the old card's comments is lost to the workers of the
+  new ones — splitting #143 into #160–#168 lost the zone 6 wording decided in a
+  comment on #143, and the stack went up without it (fixed by #185).
 - **Report every write** with the card's number in the final message.
 
 Still never on the agent's own initiative: **no card for work it found** (that
