@@ -94,7 +94,7 @@ CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", 
              "source.claims.one", "source.claims.many", "page.json")
 CARD_WORDS = {"de": {
     "zone.wording": "Wortlaut der Empfehlung", "zone.evidence": "Evidenz", "zone.applies": "Gilt für",
-    "zone.body_text": "Aus dem Leitlinientext", "zone.contested.one": "Widersprechende Empfehlung",
+    "zone.body_text": "Hinweise aus dem Begleittext", "zone.contested.one": "Widersprechende Empfehlung",
     "zone.contested.many": "Widersprechende Empfehlungen", "zone.citation": "Beleg", "zone.more": "Mehr zu dieser Aussage",
     "slot.population": "Eingriff", "slot.condition": "Bedingung", "slot.action": "Maßnahme", "slot.count": "({n} Empfehlungen)",
     "cite.open": "In der Leitlinie öffnen", "cite.quote": "Suchtext kopieren", "cite.review.pending": "Klinische Begutachtung: ausstehend",
@@ -103,7 +103,7 @@ CARD_WORDS = {"de": {
     "consensus.starker_konsens": "starker Konsens", "consensus.konsens": "Konsens",
     "consensus.mehrheitliche_zustimmung": "mehrheitliche Zustimmung", "consensus.kein": "kein Konsens",
     "marker.contested": "⚠ umstritten", "body.limits": "Grenzt ein", "body.refines": "Präzisiert", "body.supplements": "Ergänzt",
-    "body.empty": "Für diese Aussage sind keine Textstellen aus dem Leitlinientext erfasst.",
+    "body.empty": "Der Begleittext schränkt diese Empfehlung nicht ein und ergänzt oder präzisiert sie nicht.",
     "evidence.single": "Evidenz: {wert} ({system})", "evidence.by_outcome": "Evidenz: endpunktabhängig ({n} Endpunkte, {von} bis {bis})",
     "evidence.by_outcome.no_range.one": "Evidenz: endpunktabhängig ({n} Endpunkt)",
     "evidence.by_outcome.no_range.many": "Evidenz: endpunktabhängig ({n} Endpunkte)",

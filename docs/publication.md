@@ -303,7 +303,7 @@ lists the four words with their colours. Timing
   | 3 | Wording | `Wortlaut der Empfehlung` | `claim.label` per supporting claim | never |
   | 4 | Evidence | `Evidenz` | the supporting claims' `evidence`, per outcome; else `Evidenz: nicht erfasst` | never |
   | 5 | Applies to | `Gilt für` | the `population`, `condition`, `action` slots | no slot filled |
-  | 6 | Body text | `Aus dem Leitlinientext` | `limits`, `refines`, `supplements` | never (empty state) |
+  | 6 | Body text | `Hinweise aus dem Begleittext` | `limits`, `refines`, `supplements` | never (empty state) |
   | 7 | Contradiction | `Widersprechende Empfehlung(en)` | `contests` | no contesting claim |
   | 8 | Citation | `Beleg` | the supporting claims' `source`, the source's title | never |
   | 9 | More | `Mehr zu dieser Aussage` | `specializes`, `complements`, `conflicts`, the ids, the slots as stored | never (closed) |
@@ -363,10 +363,16 @@ lists the four words with their colours. Timing
   6. **Body text.** Three groups in order of their effect on the decision, not
      by relation name: `Grenzt ein` (`limits`), `Präzisiert` (`refines`),
      `Ergänzt` (`supplements`) — each passage its wording, then page and section
-     linked into the source. The zone is named after where the passages come
-     from, because the three do not share one promise: `Ergänzt` changes
-     nothing. Empty: `Für diese Aussage sind keine Textstellen aus dem
-     Leitlinientext erfasst.`
+     linked into the source. The zone is named after what its passages do and
+     where they stand: everything on the card is guideline text, and what sets
+     these apart is that they stand beside the box, not in it, and each one
+     bears on how the box is applied — `Ergänzt` without changing it. The
+     heading does not promise the whole of the surrounding text: rationale,
+     study reports and effect data never enter (`graph-representation.md`
+     §5.1). Empty: `Der Begleittext schränkt diese Empfehlung nicht ein und
+     ergänzt oder präzisiert sie nicht.` — a checked result, true once §5.1
+     has been applied to the whole source; before that an empty zone would
+     mean *not yet examined*.
   7. **Contradiction.** One entry per contesting claim: its own badge by zone
      2's rules, its wording, and its own citation with recommendation number
      and page. Heading singular or plural by count. Its existence is what the
