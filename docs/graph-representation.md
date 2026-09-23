@@ -1,7 +1,7 @@
 # Graph Representation — how knowledge is stored in this repository
 
 > **Status: design intent, partly enforced.** The schema (`schema/schema.yaml`,
-> currently 0.6.0) exists and `tools/validate.py` enforces it, locally and in CI
+> currently 0.7.0) exists and `tools/validate.py` enforces it, locally and in CI
 > (`CLAUDE.md`, "Checks"): ids, enums, provenance requirements, claim hashes, slots,
 > edges, a claim's `section` against its source's `outline`, `broader` without
 > cycles, and with `--verify-quotes` every quote against its source. The pool uses
@@ -198,7 +198,11 @@ not know is a valid state, not an error. **Several entries are never reduced to
 one**: a recommendation whose certainty differs by outcome carries every row,
 and no consumer forms a summary value from them — grades are shown, never
 composed (`docs/publication.md` §3). A source that rates the whole
-recommendation once produces one entry without an outcome; an absent or empty
+recommendation once produces one entry without an outcome. An outcome the
+source lists without a rating is an entry with its outcome and system and no
+value: it is recorded, not left out, so that a table with an empty cell keeps
+its count, and it reads *nicht erfasst*. Every entry states an outcome or a
+value, and an entry with neither is refused. An absent or empty
 list means the certainty was not recorded, not that there is none. Like the
 grade, the rating is read off the source and never inferred: its provenance is
 required (§6.5).
