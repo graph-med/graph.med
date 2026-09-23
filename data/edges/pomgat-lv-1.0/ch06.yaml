@@ -72,13 +72,6 @@
     lang: de
     as_of: "2026-09-23"
     rationale: "S: „interkostale Drainage“ — der nächste Schritt für den Fall der Empfehlung: Entfernung der thorakalen Drainage bei einer Fördermenge <250 ml."
-- - claims/pomgat-lv-1.0/4f3c1e1a
-  - refines
-  - claims/pomgat-lv-1.0/4caf2208
-  - source: modelling
-    lang: de
-    as_of: "2026-09-23"
-    rationale: "R: „Pankreasresektion“ — der Fall, für den die Drainage notwendig sein kann: weiches Pankreas mit höherer Fistelrate; nimmt keinen Fall heraus."
 - - claims/pomgat-lv-1.0/3b9ae0a6
   - refines
   - claims/pomgat-lv-1.0/f5c48e4c
@@ -86,13 +79,6 @@
     lang: de
     as_of: "2026-09-23"
     rationale: "R: „Pankreaskopfresektion“ — welche Eingriffe der Begriff umfasst: OP nach Whipple oder Traverso (eine Antwort, zwei Fälle einer Gruppe)."
-- - claims/pomgat-lv-1.0/8698e6df
-  - refines
-  - claims/pomgat-lv-1.0/f5c48e4c
-  - source: modelling
-    lang: de
-    as_of: "2026-09-23"
-    rationale: "R: „Pankreaskopfresektion“ — die Wiederholung nach „zusammenfassend“ zählt für das, was sie hinzufügt: insbesondere bei Risikoanastomosen eines weichen Pankreas; nimmt keinen Fall heraus."
 - - claims/pomgat-lv-1.0/746f5608
   - refines
   - claims/pomgat-lv-1.0/6b9239a9
