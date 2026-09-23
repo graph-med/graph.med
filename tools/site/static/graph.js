@@ -92,8 +92,9 @@
          to a shared aim never leaves through the bottom of one box into the top of the next */
       { selector: "edge[kind = 'aim']", style: { "line-style": "dashed", "target-arrow-shape": "none",
           "curve-style": "taxi", "taxi-direction": "rightward", "taxi-turn": "data(turn)", "taxi-turn-min-distance": 8 } },
-      { selector: "edge[kind = 'relation']", style: { "line-style": "dotted", "line-color": css("--statement"), "target-arrow-color": css("--statement"),
-          "curve-style": "taxi", "taxi-direction": "rightward", "taxi-turn": "data(turn)", "taxi-turn-min-distance": 8 } },
+      /* a box related to the selected one (specializes, complements, conflicts) keeps its colour and wears a
+         dotted outline — no line is drawn across the tree, and the card names the relation (zone 9) */
+      { selector: "node.related", style: { "outline-width": 2.5, "outline-style": "dotted", "outline-color": css("--fg"), "outline-offset": 3 } },
       { selector: "edge.dup", style: { "target-label": "" } },   /* a group reached from two open parents names its answer once */
       { selector: ".folded", style: { "display": "none" } },
       /* a node fades as one piece; an edge fades by its line and arrowhead (`line-opacity`) and by the
@@ -155,6 +156,21 @@
 
   /* the chapter filter: the statements supported from a section or its subsections,
      what leads to them and their aims — nothing else is shown, no edge is computed */
+  /* relations take no part in the tree: out of the graph from the start, so that no layout ranks a box
+     after the box it points at and no unfolding follows them into another group. What remains of them
+     is a mark: `related` outlines the boxes related to the selected ones, where they are shown
+     (docs/publication.md §3) */
+  var relations = cy.edges("[kind = 'relation']").remove().map(function (e) { return [e.data("source"), e.data("target")]; });
+  function related(eles) {
+    cy.nodes(".related").removeClass("related");
+    if (!eles || eles.empty()) return;
+    var picked = {};
+    eles.nodes().forEach(function (n) { picked[n.id()] = true; });
+    relations.forEach(function (r) {
+      var other = picked[r[0]] ? r[1] : picked[r[1]] ? r[0] : null;
+      if (other && !picked[other]) cy.getElementById(other).not(".folded").removeClass("dim").addClass("related");
+    });
+  }
   var statements = cy.nodes("[type = 'statement']"), junctions = cy.nodes("[type = 'junction']"), open = {}, section = "";
   function under(sec, s) { return s === sec || s.indexOf(sec + ".") === 0; }
   function statementsIn(sec) {
@@ -180,7 +196,7 @@
     eles.nodes().forEach(function (n) { var k = Math.round(n.position("x")), b = n.boundingBox({ includeLabels: false }); right[k] = Math.max(right[k] || -Infinity, b.x2); });
     eles.edges().forEach(function (e) {
       var s = e.source(), t = e.target(), x = right[Math.round(s.position("x"))] + 20, turn = x - t.boundingBox({ includeLabels: false }).x1;
-      e.data("turn", turn < -8 ? Math.round(turn) : 24);   /* a target beside or behind its source (a relation) turns just after the source */
+      e.data("turn", turn < -8 ? Math.round(turn) : 24);   /* a target beside or behind its source turns just after the source */
     });
   }
 
@@ -240,7 +256,7 @@
     var lay = shown.layout({ name: "dagre", rankDir: "LR", nodeSep: 18, rankSep: 230, edgeSep: 10, align: "UL", nodeDimensionsIncludeLabels: true,
                              animate: true, animationDuration: 250, fit: false });
     laying = lay;
-    lay.one("layoutstop", function () { if (laying === lay) laying = null; route(shown); if (fitTo) fit(fitTo.not(".folded"), 30); if (cursor) counter(); });
+    lay.one("layoutstop", function () { if (laying === lay) laying = null; route(shown); related(cy.nodes(".picked")); if (fitTo) fit(fitTo.not(".folded"), 30); if (cursor) counter(); });
     lay.run();
     highlight();
   }
@@ -261,6 +277,7 @@
 
   /* selection: what leads to the element and what follows it stays; the rest fades; the sheet fills */
   function select(eles, ref, push) {
+    related(null);
     cy.elements().removeClass("dim picked");
     if (!eles || eles.empty()) {
       sheet.innerHTML = home; hint.hidden = false;
@@ -270,6 +287,7 @@
     var keep = eles.union(eles.predecessors()).union(eles.successors());
     cy.elements().not(keep).addClass("dim");
     eles.addClass("picked");
+    related(eles);
     sheet.innerHTML = data.html[ref] || home; hint.hidden = !data.html[ref];
     if (push) history.replaceState(null, "", "#" + ref);
   }

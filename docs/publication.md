@@ -107,7 +107,12 @@ decision-graph-derivation):
   Diamond, box, tag for question, recommendation, aim; the answers are bold edge
   labels written at the end of their edge, beside the group or box they lead to, so
   that many answers from one question do not pile up mid-edge; the aim a dashed
-  edge. A box takes the colour of its direction — the four colours of the judgement bar
+  edge. A relation between two recommendations (`specializes`, `complements`,
+  `conflicts`) is not an edge of the tree: it takes no part in the layout and
+  unfolding a group never follows it. While a box is selected, the boxes
+  related to it that are shown keep their colour and wear a dotted outline; no
+  line is drawn across the tree, and the card names each relation (zone 9).
+  A box takes the colour of its direction — the four colours of the judgement bar
   in the details, so that box and section agree — and carries its grade as a
   letter before its label (A · B · 0 · EK, the guideline's own scale). No
   direction glyph is on the box, in any direction: the colour says it, and the
