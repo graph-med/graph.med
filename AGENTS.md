@@ -5,31 +5,42 @@ of the organisation (ADR-0004; the `project-board` skill). A card is an issue
 of this repository on it; Todo is registered and not started, In Progress has
 an agent's branch on it, Done has merged.
 
-1. Read the board first: `uv run tools/board.py list`, then each card the
-   command names in full, `uv run tools/board.py show <n>` — its text is the
-   package, its comments the earlier claims and handovers, its Initiative
-   field the scope it serves.
-2. Process the cards the command lists (`/process-work-package 92 93`), and no
-   other: each must be in Todo, with a scope in its text and every card it
-   depends on in Done or itself listed. Given several, decide whether they run
-   in sequence or in parallel — one worker per card, each in a git worktree —
-   and stack their branches, always, so the pull requests merge once, from the
-   top (`.claude/skills/process-work-package/SKILL.md`). Given none, report
-   what could be processed and stop.
+1. Read the board first: `uv run tools/board.py list` (or `ready`, which also
+   says what is blocked and on what), then each card in full,
+   `uv run tools/board.py show <n>` — its text is the package, its work record
+   the branch, pull request and preview, its "blocked by" what it waits on,
+   its comments what earlier sessions did, the last one what is left.
+2. **Which cards.** `/process-work-package 92 93` processes the cards it names
+   and no other. `/process-next-work-package [label | initiative | cards]`
+   continues from the board: it resumes every card in progress from its work
+   record and last comment, then takes the ready Todo cards — a scope in
+   their text, every blocker closed — and announces the set before starting.
+   Either way each card needs a scope in its text; given several, the session
+   decides sequence or parallel — one worker per card, each in a git worktree —
+   and stacks their branches: the bottom pull request against `main`, each
+   higher one against its predecessor, merged from the top down (ADR-0006;
+   `.claude/skills/process-work-package/SKILL.md`).
 3. Claim a card before any code: `uv run tools/board.py claim <n> --branch
-   agent/YYYY-MM-DD-<slug>` moves it to In Progress and comments the branch;
-   push the branch at once so the claim is visible.
-4. Work inside the card's text; never widen it; never answer its open
-   questions yourself — a human answers them in `docs/open-questions.md`.
-5. Every card ends with a pull request that says `Closes #<n>` on its own line
-   and links its preview, a handover comment on the card, and
-   `uv run tools/validate.py` passing; the run ends when every listed card
-   has its pull request. Merging closes the issue and the board moves the
-   card to Done.
-6. **Write to the board only with the maintainer's permission.** The command
-   that names a card permits its claim and its handover comment; anything
-   else — a new card, a move, an edit — only when the maintainer asks. Work
-   you find goes into your final message; the maintainer registers it.
+   agent/<n>-<slug>` moves it to In Progress, comments the branch and writes
+   the card's work record; push the branch at once so the claim is visible.
+   **The branch names its card.**
+4. **Manage the card you work** (ADR-0005): comment on it at every step that
+   changes what the next session would do, saying what is done and what is
+   left; keep its work record current (`tools/board.py record`). A session
+   that starts after yours continues from the card alone.
+5. Work inside the card's text; never widen it; never answer its open
+   questions yourself — a human answers them in `docs/open-questions.md`. A
+   diff that touches `data/` goes through the `judge` agent before its pull
+   request.
+6. Every card ends with a pull request that says `Closes #<n>` on its own line
+   and links its preview, the preview and pull request in its work record, a
+   handover comment on the card, and `uv run tools/validate.py` passing; the
+   run ends when every card of the run has its pull request.
+7. **The agent manages the board**: it closes the cards whose pull requests'
+   commits are on `main` (a stacked pull request does not close its card by
+   itself), keeps columns, dependencies and sub-issues true, and names every
+   write in its final message. It registers no work of its own finding — that
+   goes into the final message, for the maintainer to register.
 
 There is no registry, log or handoff in the repository: the board is the
 single point of truth for work, and its README (on the project page) carries

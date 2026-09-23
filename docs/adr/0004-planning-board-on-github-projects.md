@@ -1,6 +1,6 @@
 # ADR-0004 — The work board on GitHub Projects is the single point of truth for work
 
-Status: accepted, 2026-09-19. Supersedes ADR-0001.
+Status: accepted, 2026-09-19. Supersedes ADR-0001. Its permission rule is superseded by ADR-0005.
 
 ## Context
 

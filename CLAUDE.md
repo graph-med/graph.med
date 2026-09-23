@@ -113,19 +113,22 @@ writes it as the bot through `gh api`, holding no credential:
 ```bash
 uv run tools/board.py list          # every card by column
 uv run tools/board.py show 92       # a card's text, column and comments
-uv run tools/board.py claim 92 --branch agent/2026-09-19-<slug>   # In Progress + the branch
-uv run tools/board.py comment 92 --body-file <file>               # the handover
+uv run tools/board.py claim 92 --branch agent/92-<slug>   # In Progress, the branch, the work record
+uv run tools/board.py record 92 --pr 170 --preview <url>  # the rest of the work record
+uv run tools/board.py comment 92 --body-file <file>       # progress, and the handover
+uv run tools/board.py ready                               # what is in progress, ready, blocked
 ```
 
 `AGENTS.md` at the root says how a session picks up work: read the board,
-process exactly the cards the command names — in sequence or in parallel, one
-worker per card in its own git worktree, branch and pull request, the session
-coordinating and stacking — claim each on the board, and end when each has a
-pull request that says `Closes #<card>` and a handover comment. The agent
-writes to the board only with the maintainer's permission: the command that
-names a card permits its claim and its handover comment, anything else is
-asked for. The `process-work-package` skill is the procedure; the
-`project-board` skill describes the board; the `handover` skill maintains
+process the cards the command names (`/process-work-package`) or continue
+from the board (`/process-next-work-package`) — in sequence or in parallel,
+one worker per card in its own git worktree, branch `agent/<card>-<slug>` and
+pull request, the session coordinating and stacking — claim each on the
+board, keep its work record and report progress on it, and end when each has
+a pull request that says `Closes #<card>` and a handover comment. The agent
+manages the board (ADR-0005) and registers no work of its own finding. The
+`process-work-package` skill is the procedure, `process-next-work-package`
+the resumption; the `project-board` skill describes the board; the `handover` skill maintains
 `docs/open-questions.md`; decisions about the repository are `docs/adr/`.
 The repository holds no registry, log or handoff: the board is the single
 point of truth for work, and its README on the project page carries the
@@ -157,8 +160,9 @@ each piece loads when it is relevant rather than all of it, always:
 │   └── judge.md                 the automated review (spec §8.1): reads a data diff against its pages, writes nothing
 └── skills/
     ├── handover/                end a session: open questions, the handover comment on each card
+    ├── process-next-work-package/  continue from the board: resume in progress, take what is ready
     ├── process-work-package/    process the listed cards: coordinate, one worker each
-    ├── project-board/           the work board (a GitHub project): read always, write with permission
+    ├── project-board/           the work board (a GitHub project): managed by the agent, read always
     └── screenshot/              look at a page of the site in a real browser before proposing it
 ```
 
@@ -170,7 +174,7 @@ record — why a constraint exists, what was decided and rejected. It is checked
 it is reviewed and shared rather than private to one machine.
 `rules/conventions/memory.md` carries its index.
 
-`agents/` holds exactly one subagent and `skills/` exactly four skills. A subagent
+`agents/` holds exactly one subagent and `skills/` exactly five skills. A subagent
 or skill that automates nothing would be guidance pretending to be capability — the
 validator is a check, not a task to automate — and each exception earned its place
 as a real, repeated task. `judge` is the automated review of
@@ -184,10 +188,13 @@ nothing, names no guideline, and its attestations wait for the schema.
 it — an extraction, a linking pass, a schema change, a build feature, a docs
 change, tooling — one worker, branch and pull request each, the session
 coordinating; each ends with a pull request and a handover comment on the card.
-`screenshot` renders a page of the site in a browser container so a build change is looked
-at, not only built. `project-board` is the work board, `planning-graph.med`
-(Todo, In Progress, Done), through `tools/board.py`: read always, written only
-with the maintainer's permission (ADR-0004). Add another only for another such task — then say in the pull request what it
+`process-next-work-package` continues the work from the board without a named
+card: it resumes what is in progress from each card's work record and last
+comment, then takes what is ready, optionally narrowed to a label or an
+initiative. `screenshot` renders a page of the site in a browser container so a
+build change is looked at, not only built. `project-board` is the work board,
+`planning-graph.med` (Todo, In Progress, Done), through `tools/board.py`,
+managed by the agent (ADR-0005). Add another only for another such task — then say in the pull request what it
 does and what it is allowed to touch.
 
 One fact, one home: guidance that belongs in a rule is not restated here.
