@@ -29,8 +29,10 @@ guideline; the generic populations of chapters 4–5 are linked to it with a
 rationale naming the guideline's scope.
 
 **How to apply:** Write a `broader` edge only for a true "is a", with the
-rationale saying why; several parents where the source separates the views
-(`minimalinvasive-kolorektale-resektion`). Do not mint a family for a single
+rationale saying why; several parents only where the concept truly is a
+special case of each. A value that combines freely with every family (the
+operative access) is not a second parent but a dimension
+([[access-is-a-dimension]]). Do not mint a family for a single
 member. When a family concept would also fit a code, it gets `codes_as` like
 any concept. The site folds recursively (`site-hierarchy`); never flatten to a
 fixed depth in the build. Related: [[relations-are-edges-not-fields]].
