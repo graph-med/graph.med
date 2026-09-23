@@ -9,9 +9,26 @@
   verb: sollte
   direction: for
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/mortalitaet, value: sehr niedrig, system: grade}
+    - {outcome: concepts/gesamtmorbiditaet, value: niedrig, system: grade}
+    - {outcome: concepts/anastomoseninsuffizienz, value: sehr niedrig, system: grade}
+    - {outcome: concepts/postoperative-krankenhausverweildauer, value: moderat, system: grade}
+    - {outcome: concepts/kosten, value: hoch, system: grade}
+    - {outcome: concepts/zeit-bis-zum-ersten-stuhlgang, value: hoch, system: grade}
+    - {outcome: concepts/postoperative-pulmonale-komplikationen, value: hoch, system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=112
     quote: Eine onkologische Ösophagusresektion sollte in dem Kontext eines multimodalen
+  provenance:
+    evidence:
+      - {at: sources/pomgat-lv-1.0#page=112, quote: "⊕⊝⊝⊝: Mortalität: Kein Effekt"}
+      - {at: sources/pomgat-lv-1.0#page=112, quote: "⊕⊕⊝⊝: Gesamtmorbidität: Senkung durch mPOM"}
+      - {at: sources/pomgat-lv-1.0#page=112, quote: "⊕⊝⊝⊝: Anastomoseninsuffizienz: Senkung durch mPOM"}
+      - {at: sources/pomgat-lv-1.0#page=112, quote: "⊕⊕⊕⊝: Postoperative Krankenhausverweildauer: Verkürzung durch mPOM"}
+      - {at: sources/pomgat-lv-1.0#page=112, quote: "⊕⊕⊕⊕: Kosten: Senkung durch mPOM"}
+      - {at: sources/pomgat-lv-1.0#page=112, quote: "⊕⊕⊕⊕: Zeitraum bis zum ersten Stuhlgang: Verkürzung durch mPOM"}
+      - {at: sources/pomgat-lv-1.0#page=112, quote: "⊕⊕⊕⊕: Pulmonale Komplikationen: Durch mPOM gesenkt"}
 - id: claims/pomgat-lv-1.0/5a4b0550
   type: claim
   lang: de
@@ -23,9 +40,26 @@
   verb: sollte
   direction: for
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/wundinfektion, value: niedrig, system: grade}
+    - {outcome: concepts/postoperativer-paralytischer-ileus, value: niedrig, system: grade}
+    - {outcome: concepts/anastomoseninsuffizienz, value: niedrig, system: grade}
+    - {outcome: concepts/pulmonale-infekte, value: moderat, system: grade}
+    - {outcome: concepts/harnwegsinfekt, value: niedrig, system: grade}
+    - {outcome: concepts/postoperative-krankenhausverweildauer, value: hoch, system: grade}
+    - {outcome: concepts/kosten, value: niedrig, system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=113
     quote: Eine onkologische Magenresektion sollte eingebettet in ein multimodales
+  provenance:
+    evidence:
+      - {at: sources/pomgat-lv-1.0#page=113, quote: "⊕⊕⊝⊝: Wundinfekt: Kein Effekt"}
+      - {at: sources/pomgat-lv-1.0#page=113, quote: "⊕⊕⊝⊝: Postoperativer Ileus: Kein Effekt"}
+      - {at: sources/pomgat-lv-1.0#page=113, quote: "⊕⊕⊝⊝: Anastomoseninsuffizienz: Kein Effekt"}
+      - {at: sources/pomgat-lv-1.0#page=113, quote: "⊕⊕⊕⊝: Pulmonale Infekte: mPOM zeigt eine Senkung"}
+      - {at: sources/pomgat-lv-1.0#page=113, quote: "⊕⊕⊝⊝: Harnwegsinfekte: Kein Effekt"}
+      - {at: sources/pomgat-lv-1.0#page=113, quote: "⊕⊕⊕⊕: Postoperative Krankenhausverweildauer: mPOM zeigt eine Verkürzung"}
+      - {at: sources/pomgat-lv-1.0#page=113, quote: "⊕⊕⊝⊝: Kosten: Reduktion mit mPOM"}
 - id: claims/pomgat-lv-1.0/5ff38f16
   type: claim
   lang: de
@@ -37,9 +71,24 @@
   verb: sollte
   direction: for
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/gesamtmorbiditaet, value: sehr niedrig, system: grade}
+    - {outcome: concepts/operative-revision, value: sehr niedrig, system: grade}
+    - {outcome: concepts/postoperative-pankreasfistel, value: sehr niedrig, system: grade}
+    - {outcome: concepts/postoperative-krankenhausverweildauer, value: sehr niedrig, system: grade}
+    - {outcome: concepts/verzoegerte-magenentleerung, value: sehr niedrig, system: grade}
+    - {outcome: concepts/mortalitaet, value: sehr niedrig, system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=115
     quote: Eine onkologische Pankreasresektion sollte im Rahmen eines multimodalen
+  provenance:
+    evidence:
+      - {at: sources/pomgat-lv-1.0#page=115, quote: "⊕⊝⊝⊝: Gesamtmorbidität durch mPOM gesenkt"}
+      - {at: sources/pomgat-lv-1.0#page=115, quote: "⊕⊝⊝⊝: Operative Revision: Kein Unterschied"}
+      - {at: sources/pomgat-lv-1.0#page=115, quote: "⊕⊝⊝⊝: Postoperative Pankreasfistel (POPF): Kein Effekt"}
+      - {at: sources/pomgat-lv-1.0#page=115, quote: "⊕⊝⊝⊝: Postoperative Krankenhausverweildauer durch mPOM verkürzt"}
+      - {at: sources/pomgat-lv-1.0#page=115, quote: "⊕⊝⊝⊝: Verzögerte Magenentleerung mit mPOM seltener"}
+      - {at: sources/pomgat-lv-1.0#page=115, quote: "⊕⊝⊝⊝: Mortalität: Kein Effekt"}
 - id: claims/pomgat-lv-1.0/623aaba0
   type: claim
   lang: de
@@ -51,9 +100,18 @@
   verb: sollte
   direction: for
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/mortalitaet, value: niedrig, system: grade}
+    - {outcome: concepts/gesamtmorbiditaet, value: niedrig, system: grade}
+    - {outcome: concepts/postoperative-krankenhausverweildauer, value: sehr niedrig, system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=116
     quote: Eine onkologische Leberresektion sollte eingebettet in ein multimodales
+  provenance:
+    evidence:
+      - {at: sources/pomgat-lv-1.0#page=116, quote: "⊕⊕⊝⊝: Mortalität: Kein Effekt"}
+      - {at: sources/pomgat-lv-1.0#page=116, quote: "⊕⊕⊝⊝: Gesamtmorbidität: mPOM geht mit weniger Komplikationen einher"}
+      - {at: sources/pomgat-lv-1.0#page=116, quote: "⊕⊝⊝⊝: Postoperative Krankenhausverweildauer: mPOM führt zu einer kürzeren"}
 - id: claims/pomgat-lv-1.0/e5188265
   type: claim
   lang: de
@@ -65,9 +123,24 @@
   verb: soll
   direction: for
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/mortalitaet, value: niedrig, system: grade}
+    - {outcome: concepts/postoperative-komplikationen, value: niedrig, system: grade}
+    - {outcome: concepts/zeit-bis-zum-ersten-flatus, value: moderat, system: grade}
+    - {outcome: concepts/zeit-bis-zum-ersten-stuhlgang, value: moderat, system: grade}
+    - {outcome: concepts/wundinfektion, value: niedrig, system: grade}
+    - {outcome: concepts/postoperative-krankenhausverweildauer, value: moderat, system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=118
     quote: Eine kolorektale Resektion soll eingebettet in ein multimodales perioperatives
+  provenance:
+    evidence:
+      - {at: sources/pomgat-lv-1.0#page=118, quote: "⊕⊕⊝⊝: Mortalität: Kein Effekt"}
+      - {at: sources/pomgat-lv-1.0#page=118, quote: "⊕⊕⊝⊝: Komplikationen: Weniger mit mPOM"}
+      - {at: sources/pomgat-lv-1.0#page=118, quote: "⊕⊕⊕⊝: Zeit bis zum ersten Flatus: Mit mPOM kürzer"}
+      - {at: sources/pomgat-lv-1.0#page=118, quote: "⊕⊕⊕⊝: Zeit bis zum ersten Stuhlgang: Mit mPOM verkürzt"}
+      - {at: sources/pomgat-lv-1.0#page=118, quote: "⊕⊕⊝⊝: Wundinfektionen: Kein Effekt"}
+      - {at: sources/pomgat-lv-1.0#page=118, quote: "⊕⊕⊕⊝: Postoperative Krankenhausverweildauer: mPOM verkürzt"}
 - id: claims/pomgat-lv-1.0/c8dce4d6
   type: claim
   lang: de
@@ -81,9 +154,18 @@
   verb: kann
   direction: for
   consensus: konsens
+  evidence:
+    - {outcome: concepts/mortalitaet, value: niedrig, system: grade}
+    - {outcome: concepts/gesamtmorbiditaet, value: moderat, system: grade}
+    - {outcome: concepts/postoperative-krankenhausverweildauer, value: moderat, system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=120
     quote: Perioperativ können Patienten, die sich einer kolorektalen Resektion im Kontext
+  provenance:
+    evidence:
+      - {at: sources/pomgat-lv-1.0#page=120, quote: "⊕⊕⊝⊝: Mortalität: Kein Effekt"}
+      - {at: sources/pomgat-lv-1.0#page=120, quote: "⊕⊕⊕⊝: Gesamtmorbidität: Kein Effekt"}
+      - {at: sources/pomgat-lv-1.0#page=120, quote: "⊕⊕⊕⊝: Postoperative Krankenhausverweildauer: Verkürzung durch den Einsatz einer"}
 - id: claims/pomgat-lv-1.0/3cb16057
   type: claim
   lang: de
