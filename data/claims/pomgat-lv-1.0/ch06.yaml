@@ -54,9 +54,16 @@
   verb: sollte
   direction: against
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/gesamtmorbiditaet, value: hoch, system: grade}
+    - {outcome: concepts/postoperative-krankenhausverweildauer, value: hoch, system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=60
     quote: Nach Gastrektomie sollte keine Anlage einer abdominellen Drainage erfolgen.
+  provenance:
+    evidence:
+      - {at: sources/pomgat-lv-1.0#page=60, quote: "⊕⊕⊕⊕: Postoperative Morbidität (3 RCTs): geringer ohne abdominelle Drainage"}
+      - {at: sources/pomgat-lv-1.0#page=60, quote: "⊕⊕⊕⊕: Krankenhausliegedauer (3 RCTs): kein Unterschied"}
 - id: claims/pomgat-lv-1.0/4caf2208
   type: claim
   lang: de
@@ -68,9 +75,24 @@
   verb: kann
   direction: for
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/gesamtmorbiditaet, value: moderat, system: grade}
+    - {outcome: concepts/mortalitaet-30-tage, value: niedrig, system: grade}
+    - {outcome: concepts/mortalitaet-90-tage, value: niedrig, system: grade}
+    - {outcome: concepts/intraabdominelle-infektion, value: sehr niedrig, system: grade}
+    - {outcome: concepts/wundinfektion, value: niedrig, system: grade}
+    - {outcome: concepts/postoperative-krankenhausverweildauer, value: niedrig, system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=61
     quote: kann die Einlage einer intraabdominellen
+  provenance:
+    evidence:
+      - {at: sources/pomgat-lv-1.0#page=61, quote: "⊕⊕⊕⊝: Postoperative Morbidität (4 RCTs): kein Unterschied"}
+      - {at: sources/pomgat-lv-1.0#page=61, quote: "⊕⊕⊝⊝: Postoperative 30-Tage Mortalität (4 RCTs): kein Unterschied"}
+      - {at: sources/pomgat-lv-1.0#page=61, quote: "⊕⊕⊝⊝: Postoperative 90-Tage Mortalität (2 RCTs): Mit Drainage niedriger"}
+      - {at: sources/pomgat-lv-1.0#page=61, quote: "⊕⊝⊝⊝: Postoperative intraabdominelle Infektionen (4 RCTs): kein Unterschied"}
+      - {at: sources/pomgat-lv-1.0#page=61, quote: "⊕⊕⊝⊝: Postoperative Wundinfektionen (4 RCTs): kein Unterschied"}
+      - {at: sources/pomgat-lv-1.0#page=61, quote: "⊕⊕⊝⊝: Krankenhausliegedauer (4 RCTs): kein Unterschied"}
 - id: claims/pomgat-lv-1.0/f5c48e4c
   type: claim
   lang: de
@@ -83,9 +105,17 @@
   verb: kann
   direction: for
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/postoperative-pankreasfistel, value: moderat, system: grade}
+    - {outcome: concepts/gesamtmorbiditaet, value: moderat, system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=62
     quote: kann eine Pankreasgangdrainage mit externer
+  provenance:
+    evidence:
+      - {at: sources/pomgat-lv-1.0#page=62, quote: "⊕⊕⊕⊝: Postoperative Pankreasfistel (7 RCTs): kein Unterschied"}
+      - {at: sources/pomgat-lv-1.0#page=62, quote: "⊕⊕⊕⊝: Subgruppenanalyse Pankreasgangdrainage mit externer Ableitung (4 RCTs)"}
+      - {at: sources/pomgat-lv-1.0#page=62, quote: "⊕⊕⊕⊝: Postoperative Morbidität (7 RCTs): kein Unterschied"}
 - id: claims/pomgat-lv-1.0/6b9239a9
   type: claim
   lang: de
@@ -98,9 +128,24 @@
   verb: kann
   direction: for
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/gesamtmorbiditaet, value: sehr niedrig, system: grade}
+    - {outcome: concepts/mortalitaet-30-tage, value: sehr niedrig, system: grade}
+    - {outcome: concepts/intraabdominelle-infektion, value: sehr niedrig, system: grade}
+    - {outcome: concepts/wundinfektion, value: sehr niedrig, system: grade}
+    - {outcome: concepts/postoperative-krankenhausverweildauer, value: sehr niedrig, system: grade}
+    - {outcome: concepts/operative-revision, value: sehr niedrig, system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=63
     quote: kann die abdominelle Drainage im frühen postoperativen
+  provenance:
+    evidence:
+      - {at: sources/pomgat-lv-1.0#page=63, quote: "⊕⊝⊝⊝: Postoperative Morbidität (2 RCTs): geringer nach frühzeitiger Entfernung"}
+      - {at: sources/pomgat-lv-1.0#page=63, quote: "⊕⊝⊝⊝: Postoperative 30-Tage Mortalität (3 RCTs): kein Effekt"}
+      - {at: sources/pomgat-lv-1.0#page=63, quote: "⊕⊝⊝⊝: Postoperative intraabdominelle Infektionen (2 RCTs): geringer nach frühzeitiger"}
+      - {at: sources/pomgat-lv-1.0#page=63, quote: "⊕⊝⊝⊝: Postoperative Wundinfektionen (2 RCTs): kein Unterschied"}
+      - {at: sources/pomgat-lv-1.0#page=63, quote: "⊕⊝⊝⊝: Krankenhausliegedauer (3 RCTs): geringer nach frühzeitiger Entfernung"}
+      - {at: sources/pomgat-lv-1.0#page=63, quote: "⊕⊝⊝⊝: Abdominelle Revisionsoperationen (2 RCTs): kein Unterschied"}
 - id: claims/pomgat-lv-1.0/1385fc7e
   type: claim
   lang: de
@@ -112,9 +157,24 @@
   verb: soll
   direction: against
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/galleleck, value: sehr niedrig, system: grade}
+    - {outcome: concepts/postoperative-nachblutung, value: moderat, system: grade}
+    - {outcome: concepts/sekundaere-perkutane-drainageeinlage, value: sehr niedrig, system: grade}
+    - {outcome: concepts/wundinfektion, value: sehr niedrig, system: grade}
+    - {outcome: concepts/postoperative-komplikationen, value: sehr niedrig, system: grade}
+    - {outcome: concepts/postoperative-krankenhausverweildauer, value: niedrig, system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=65
     quote: soll keine prophylaktische Drainage
+  provenance:
+    evidence:
+      - {at: sources/pomgat-lv-1.0#page=65, quote: "⊕⊝⊝⊝: Postoperatives Galleleck: Häufiger mit Drainage"}
+      - {at: sources/pomgat-lv-1.0#page=65, quote: "⊕⊕⊕⊝: Postoperative Nachblutung: kein Unterschied"}
+      - {at: sources/pomgat-lv-1.0#page=65, quote: "⊕⊝⊝⊝: Sekundär postoperativ notwendige perkutane Drainageeinlage: Häufiger nach"}
+      - {at: sources/pomgat-lv-1.0#page=65, quote: "⊕⊝⊝⊝: Wundinfektionen: kein Unterschied"}
+      - {at: sources/pomgat-lv-1.0#page=65, quote: "⊕⊝⊝⊝: Gesamtkomplikationen: Erhöht nach intraoperativer Drainage"}
+      - {at: sources/pomgat-lv-1.0#page=65, quote: "⊕⊕⊝⊝: Länge des Krankenhausaufenthaltes: Verlängert mit Drainage"}
 - id: claims/pomgat-lv-1.0/ce5cbcd4
   type: claim
   lang: de
@@ -141,9 +201,22 @@
   verb: soll
   direction: against
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/klinische-anastomoseninsuffizienz, value: moderat, system: grade}
+    - {outcome: concepts/radiologische-anastomoseninsuffizienz, value: moderat, system: grade}
+    - {outcome: concepts/wundinfektion, value: moderat, system: grade}
+    - {outcome: concepts/reintervention, value: moderat, system: grade}
+    - {outcome: concepts/mortalitaet, value: moderat, system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=67
     quote: soll keine intraabdominelle Drainage
+  provenance:
+    evidence:
+      - {at: sources/pomgat-lv-1.0#page=67, quote: "⊕⊕⊕⊝: Klinische Anastomoseninsuffizienz: kein Unterschied"}
+      - {at: sources/pomgat-lv-1.0#page=67, quote: "⊕⊕⊕⊝: Radiologische Anastomoseninsuffizienz: kein Unterschied"}
+      - {at: sources/pomgat-lv-1.0#page=67, quote: "⊕⊕⊕⊝: Wundinfektion: kein Unterschied"}
+      - {at: sources/pomgat-lv-1.0#page=67, quote: "⊕⊕⊕⊝: Reintervention: kein Unterschied"}
+      - {at: sources/pomgat-lv-1.0#page=67, quote: "⊕⊕⊕⊝: Mortalität: kein Unterschied"}
 - id: claims/pomgat-lv-1.0/39dc0e87
   type: claim
   lang: de
@@ -155,9 +228,18 @@
   verb: sollte
   direction: against
   consensus: konsens
+  evidence:
+    - {outcome: concepts/anastomoseninsuffizienz, value: moderat, system: grade}
+    - {outcome: concepts/operative-revision, value: hoch, system: grade}
+    - {outcome: concepts/anastomosenblutung, value: hoch, system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=68
     quote: sollte keine endoluminale (transanale)
+  provenance:
+    evidence:
+      - {at: sources/pomgat-lv-1.0#page=68, quote: "⊕⊕⊕⊝: Anastomoseninsuffizienz (2 RCTs): Kein Effekt"}
+      - {at: sources/pomgat-lv-1.0#page=68, quote: "⊕⊕⊕⊕: Reoperationen (1 RCT): Weniger Reoperationen mit transanaler Drainage"}
+      - {at: sources/pomgat-lv-1.0#page=68, quote: "⊕⊕⊕⊕: Anastomosenblutung (1 RCT): mehr Blutungen mit transanaler Drainage"}
 - id: claims/pomgat-lv-1.0/29b83a17
   type: claim
   lang: de
@@ -214,9 +296,26 @@
   verb: kann
   direction: for
   consensus: konsens
+  evidence:
+    - {outcome: concepts/anastomoseninsuffizienz, value: moderat, system: grade}
+    - {outcome: concepts/wundinfektion, value: sehr niedrig, system: grade}
+    - {outcome: concepts/postoperativer-paralytischer-ileus, value: sehr niedrig, system: grade}
+    - {outcome: concepts/postoperative-nachblutung, value: sehr niedrig, system: grade}
+    - {outcome: concepts/intraabdomineller-abszess, value: sehr niedrig, system: grade}
+    - {outcome: concepts/operative-revision, value: sehr niedrig, system: grade}
+    - {outcome: concepts/postoperative-krankenhausverweildauer, value: sehr niedrig, system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=72
     quote: kann die Vaskularisation intraoperativ durch Fluoreszenzangiographie
+  provenance:
+    evidence:
+      - {at: sources/pomgat-lv-1.0#page=72, quote: "⊕⊕⊕⊝: Anastomoseninsuffizienz: weniger Anastomoseninsuffizienzen in ICG-Gruppe"}
+      - {at: sources/pomgat-lv-1.0#page=72, quote: "⊕⊝⊝⊝: Wundinfektionen: Kein Effekt"}
+      - {at: sources/pomgat-lv-1.0#page=72, quote: "⊕⊝⊝⊝: Ileus: Kein Effekt"}
+      - {at: sources/pomgat-lv-1.0#page=72, quote: "⊕⊝⊝⊝: Abdominelle Nachblutung: Kein Effekt"}
+      - {at: sources/pomgat-lv-1.0#page=72, quote: "⊕⊝⊝⊝: Intraabdomineller Abszess: Kein Effekt"}
+      - {at: sources/pomgat-lv-1.0#page=72, quote: "⊕⊝⊝⊝: Rate an Reoperationen: Kein Effekt"}
+      - {at: sources/pomgat-lv-1.0#page=72, quote: "⊕⊝⊝⊝: Krankenhausverweildauer: Kein Effekt"}
 - id: claims/pomgat-lv-1.0/8349aa77
   type: claim
   lang: de
