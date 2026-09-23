@@ -680,7 +680,7 @@
   lang: de
   kind: recommendation
   section: "5.3"
-  label: "Grundsätzlich sind deswegen … nach der Applikation des Alkohols getränkte Abdeckmaterialien zu entfernen."
+  label: "… und nach der Applikation des Alkohols sind getränkte Abdeckmaterialien zu entfernen."
   direction: for
   source:
     at: sources/pomgat-lv-1.0#page=45
@@ -780,3 +780,23 @@
   source:
     at: sources/pomgat-lv-1.0#page=55
     quote: "kann postoperativ fortgesetzt werden"
+- id: claims/pomgat-lv-1.0/6cbd83d8
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.3"
+  label: "Chlorhexidin soll nicht angewendet werden im Kontakt mit Gehirn, Meningen, dem Auge oder dem Mittelohr."
+  verb: soll
+  direction: against
+  source:
+    at: sources/pomgat-lv-1.0#page=45
+    quote: "angewendet werden im Kontakt mit Gehirn, Meningen, dem Auge oder dem Mittelohr."
+- id: claims/pomgat-lv-1.0/04c94f73
+  type: claim
+  lang: de
+  kind: fact
+  section: "5.6.2"
+  label: "Die präoperative selektive Darmdekontamination (SDD) mit oralen, nicht resorbierbaren Antibiotika und/oder Antimykotika über 3-7 Tage präoperativ soll postoperative infektiöse Komplikationen durch die Reduktion der Keimbesiedelung reduzieren."
+  source:
+    at: sources/pomgat-lv-1.0#page=54
+    quote: "Die präoperative selektive Darmdekontamination (SDD) mit oralen, nicht"

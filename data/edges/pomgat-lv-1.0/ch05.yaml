@@ -115,6 +115,10 @@
    rationale: "R: präoperative selektive Darmdekontamination (Definition der Leitlinie)"}]
 - [claims/pomgat-lv-1.0/8f48e9b9, refines, claims/pomgat-lv-1.0/2b5903b8, {source: modelling, as_of: "2026-09-23", lang: de,
    rationale: "R: selektiven Darmdekontamination (Definition der Leitlinie)"}]
+- [claims/pomgat-lv-1.0/6cbd83d8, limits, claims/pomgat-lv-1.0/484d969e, {source: modelling, as_of: "2026-09-23", lang: de,
+   rationale: "L: im Kontakt mit Gehirn, Meningen, dem Auge oder dem Mittelohr"}]
+- [claims/pomgat-lv-1.0/04c94f73, refines, claims/pomgat-lv-1.0/2a119f14, {source: modelling, as_of: "2026-09-23", lang: de,
+   rationale: "R: präoperative selektive Darmdekontamination (mit oralen, nicht resorbierbaren Antibiotika und/oder Antimykotika über 3-7 Tage präoperativ)"}]
 # cross-statement semantics (spec §5): statement → statement, what one sentence of a box says of another (§5.1 N1)
 - [statements/ponv-prophylaxe-kombinationstherapie, specializes, statements/ponv-prophylaxe-bei-risikofaktoren, {source: modelling, as_of: "2026-09-23", lang: de,
    rationale: "Empfehlung 5.1: „Hierfür sollte eine Kombinationstherapie …“ — die Kombinationstherapie ist die Form, in der die PONV-Prophylaxe bei Patienten mit Risikofaktoren erfolgen soll."}]
@@ -123,7 +127,7 @@
 - [statements/haarentfernung-mit-clipper, complements, statements/keine-praeoperative-haarentfernung, {source: modelling, as_of: "2026-09-23", lang: de,
    rationale: "Empfehlung 5.3: „Bei operationsbedingter Notwendigkeit zur (Teil-) Haarentfernung …“ — was gilt, wenn auf die Haarentfernung nicht verzichtet werden kann."}]
 - [statements/keine-praeoperative-rasur, complements, statements/haarentfernung-mit-clipper, {source: modelling, as_of: "2026-09-23", lang: de,
-   rationale: "Empfehlung 5.3: „Die präoperative Rasur soll vermieden werden“ — neben den Clippern der zweiten Aussage die Methode, die bei notwendiger Haarentfernung nicht angewendet werden soll."}]
+   rationale: "Empfehlung 5.3 nennt zwei Methoden der Haarentfernung: elektrische Haarschneidemaschinen (Clipper) mit Einwegköpfen „sollten … genutzt werden“, die präoperative Rasur „soll vermieden werden“."}]
 - [statements/hautdesinfektion-povidon-iod-bei-unvertraeglichkeit, complements, statements/hautdesinfektion-chlorhexidin-alkoholisch, {source: modelling, as_of: "2026-09-23", lang: de,
    rationale: "Empfehlung 5.4: „Bei Unverträglichkeit oder Kontraindikationen …“ — die Alternative, wenn Chlorhexidin nicht angewendet werden kann."}]
 - [statements/antibiotikaprophylaxe-intraoperativ-wiederholen, complements, statements/intravenoese-antibiotikaprophylaxe-praeoperativ, {source: modelling, as_of: "2026-09-23", lang: de,
