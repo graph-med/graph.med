@@ -13,8 +13,10 @@ file, the design documentation under `docs/`, the one schema for the data pool
 CI workflow that runs it (`.github/workflows/validate.yml`), the pool itself under
 `data/` (layout in `data/README.md`), the site build (`tools/build.py`, see "Build"),
 the feasibility test of a grouping axis (`tools/axes.py`, see "Checks"), the
-work-board tool (`tools/board.py`, see "Work"), `AGENTS.md`, and the `.claude/` directory
-described below. There is no source tree beyond these scripts.
+screenshot runner (`tools/screenshot.py` with its driver `tools/screenshot.js`, see
+"Build") and the Pages workflow (`.github/workflows/pages.yml`), the work-board tool
+(`tools/board.py`, see "Work"), `AGENTS.md`, and the `.claude/` directory described
+below. There is no source tree beyond these scripts.
 Project-specific guidance — data sources and their licenses, setup and test
 instructions — belongs in this file once it exists. Do not document tooling that does
 not exist.
@@ -25,7 +27,9 @@ Python tooling is managed with `uv` (`pyproject.toml`, `uv.lock`); never pip. Th
 check is the validator. `schema/schema.yaml` is a JSON Schema (draft 2020-12); the
 validator applies it to every file under `data/` with the `jsonschema` library, then
 checks what a document schema cannot say — references resolve, claim ids hash
-correctly, edges are unique:
+correctly, edges are unique, the grouping axes and a view's scope tree hold together,
+a derived concept's rules reach the passages that give them (the full list heads the
+script):
 
 ```bash
 uv run tools/validate.py                  # structure, offline

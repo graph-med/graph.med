@@ -17,9 +17,10 @@ column is its state:
 - **In Progress** — an agent's branch `agent/<card>-<slug>` is on it: claimed
   with `tools/board.py claim`, which moves the card, comments the branch and
   writes the work record. Its pull request says `Closes #<card>`.
-- **Done** — its pull request's commits are on `main` and the issue is closed:
-  by the merge itself for a pull request into `main`, by the agent for one of
-  a stack (ADR-0006).
+- **Done** — its commits are on `main` and the issue is closed: by the merge
+  of the pull request that carried them into `main` — its own, or the top of
+  its stack, which lists every card of the stack as `Closes #<card>`
+  (ADR-0006) — or by the agent where that missed one.
 
 The card's text is the package: what is true when it is done, what is in and
 out of scope, constraints, decisions taken, open questions, how it is
@@ -67,9 +68,12 @@ are the one responsible for managing the board"). Read it at the start of any
 session that touches work, and keep it true without being asked for each
 write:
 
-- **Close what merged.** A pull request merged into `main` that says
-  `Closes #<card>` closes its card; a stacked pull request merges into a
-  branch and does not. Once a card's commits are on `main`, close it (`close`).
+- **Close what merged.** A pull request merged into `main` closes every card
+  it names as `Closes #<card>`; the top of a stack names every card of the
+  stack. Once a card's commits are on `main` and it is still open, close it
+  (`close`). Close the stacked pull requests below a merged top as well —
+  they target branches and stay open otherwise — with a comment naming the
+  pull request that carried them.
 - **Put open packages on the board.** An open issue with a package text in no
   column is checked against `main` first: already done → closed; deprecated →
   reported; otherwise `link`ed with its initiative and labels.

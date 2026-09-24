@@ -1,6 +1,6 @@
 ---
 name: process-work-package
-description: Process the cards listed with the command (`/process-work-package 92 93 …`, issue numbers of cards on the work board `planning-graph.med`) — the session coordinates: it decides sequence or parallel, runs one worker per card in its own git worktree, branch and pull request, claims each card on the board, stacks every branch of the run on the one before (the bottom pull request against main, each higher one against its predecessor, merged from the top down), opens the pull requests with `Closes #<card>`, keeps each card's work record (branch, pull request, preview) and progress comments, leaves the handover as a comment on each card, and processes nothing that was not listed. With no card listed it reports what could be processed and stops; `/process-next-work-package` is the command that chooses from the board.
+description: Process the cards listed with the command (`/process-work-package 92 93 …`, issue numbers of cards on the work board `planning-graph.med`) — the session coordinates: it decides sequence or parallel, runs one worker per card in its own git worktree, branch and pull request, claims each card on the board, stacks every branch of the run on the one before (each pull request against its predecessor, so each shows its own change), opens the pull requests with `Closes #<card>`, hands the stack over as one by retargeting its top pull request to main with a `Closes` line for every card, keeps each card's work record (branch, pull request, preview) and progress comments, leaves the handover as a comment on each card, and processes nothing that was not listed. With no card listed it reports what could be processed and stops; `/process-next-work-package` is the command that chooses from the board.
 ---
 
 # Process cards from the board
@@ -34,11 +34,13 @@ board and its columns are described in the `project-board` skill (ADR-0004);
    session's claim and handover are comments there). Stay on `main` in the
    main checkout; never work inside a worktree yourself.
 2. **Bring the board up to date** (ADR-0005; the `project-board` skill,
-   "Managing the board"). A pull request merged into `main` that says
-   `Closes #<card>` closes its card by itself; one merged into another branch —
-   every pull request of a stack but the bottom — does not. Close each such
-   card once its commits are on `main` (`uv run tools/board.py close <n>`), and
-   name it in the final message.
+   "Managing the board"). A stack reaches `main` through its top pull request,
+   whose description says `Closes #<card>` for every card of the stack
+   (ADR-0006), so its merge closes them all. Close any card of it that is
+   still open once its commits are on `main` (`uv run tools/board.py close
+   <n>`), and close the stacked pull requests below the merged top — they
+   target branches and do not close by themselves — with a comment naming the
+   pull request that carried them. Name every such write in the final message.
 3. **Check each listed card.** It exists and is in Todo (a card in In
    Progress belongs to a branch already — resume it from its work record and
    last comment rather than start again); its
@@ -77,8 +79,9 @@ board and its columns are described in the `project-board` skill (ADR-0004);
    short is asked to finish on the same branch; what it could not do is
    reported to the maintainer, not done by you.
 7. **Stack — always,** whether the cards ran in parallel or in sequence. In
-   order, rebase the first branch onto `origin/main` and each next branch onto
-   its predecessor, so that every branch contains the branches below it and
+   order, rebase the first branch onto `origin/main` — or onto the top of a
+   stack still open when the run depends on it (then the new run continues
+   that stack) — and each next branch onto its predecessor, so that every branch contains the branches below it and
    the top branch contains the whole run. Run `uv run tools/validate.py` (and
    the build, for a build card) on every branch after the rebase. On every
    branch whose diff touches `data/`, run the **judge** (`.claude/agents/judge.md`,
@@ -87,12 +90,10 @@ board and its columns are described in the `project-board` skill (ADR-0004);
    nothing. Push with `--force-with-lease`; these are your own `agent/*`
    branches.
 8. **Open the pull requests** in order, bottom first: the bottom one with
-   `--base main`, each higher one with `--base <predecessor's branch>`, so each
-   shows only its own change (ADR-0006). **The stack merges from the top
-   down**: the top pull request merges into its base, that one into its own
-   base, and so on, until the bottom one merges into `main` — the one merge
-   that reaches it. No pull request is updated with `main` on the way. A run
-   of one card is one pull request against `main`.
+   `--base main` (or the open stack's top branch it continues), each higher one
+   with `--base <predecessor's branch>`, so each shows only its own change and
+   carries its own report (ADR-0006). A run of one card is one pull request
+   against `main`, or against the open stack's top it continues.
    The description carries, each on its own line: **`Closes #<card>`** (so
    that the merge closes the issue and the board moves the card to Done); the
    preview as a complete clickable URL
@@ -105,19 +106,32 @@ board and its columns are described in the `project-board` skill (ADR-0004);
    validator or agent-governing files, named explicitly; the judge's report
    in full under its own heading, when the diff touches `data/` (until the
    schema carries its words, the report is where its findings live); and, for a stacked
-   PR, its place in the stack (`2 of 3, stacked on #N`) and the merge chain
-   spelled out from the top (`#152 → #151 → … → #145 → main`), never "merge
-   only the top one". Write the pull request and its preview into the card's
+   PR, its place in the stack (`2 of 3, stacked on #N`) and its compare link
+   (`https://github.com/<owner>/<repo>/compare/<predecessor>...<branch>`). Write the pull request and its preview into the card's
    work record (`uv run tools/board.py record <n> --pr <N> --preview <url>`).
    Then **the handover comment** on the card
    (`uv run tools/board.py comment <n> --body-file <file>`): the branch, the
    pull request and its place in the stack, what was decided, what was left
    open or undone. This is the one record of the session on that card; the
    command that named the card is the permission for it.
-9. **Finish.** `git worktree remove` each worktree. The final message lists
-   every pull request with its preview URL, its place in the stack, the merge
-   chain from the top, every board write made, every listed card that was not processed and why, and
-   work found that the maintainer may want to register as a card — the agent
+9. **Hand the stack over as one pull request** (ADR-0006). Retarget the
+   **top** pull request to `main`
+   (`gh api -X PATCH repos/<owner>/<repo>/pulls/<top> -f base=main`); its
+   branch contains everything below it, so its diff against `main` is the whole
+   stack. Rewrite its description: that it carries the whole stack, a table of
+   the stacked pull requests bottom to top with their cards, one
+   **`Closes #<card>`** line for every card of the stack (a parent card too,
+   when all of its sub-cards are in it), and the preview of the whole stack.
+   Where the run continued an open stack whose top already targeted `main`,
+   that pull request goes back to its predecessor's branch, so that exactly
+   one pull request of a stack targets `main`. The maintainer reviews and
+   merges only that one; the agent merges nothing, and no pull request is
+   merged into another's branch.
+10. **Finish.** `git worktree remove` each worktree. The final message lists
+   every pull request with its preview URL and its place in the stack, the one
+   that now targets `main` with the preview of the whole stack, every board
+   write made, every listed card that was not processed and why, and work
+   found that the maintainer may want to register as a card — the agent
    registers none. Then stop. A person reviews and merges; the board moves
    the cards.
 
@@ -232,4 +246,4 @@ handover comment.
    unsure of, what you found and left, any change to the schema, the validator
    or agent-governing files. You do not rebase and you do not open the pull
    request; the coordinator does, in order, for the whole stack. Alone in a
-   session, do steps 7 to 9 of "The coordinator" yourself.
+   session, do steps 7 to 10 of "The coordinator" yourself.

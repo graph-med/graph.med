@@ -25,8 +25,9 @@ is ready, and it announces its choice before starting.
 
 1. **Read the board and bring it up to date** (the `project-board` skill,
    "Managing the board"): `git fetch origin`, `uv run tools/board.py list`,
-   then close the cards whose pull requests' commits are on `main` — a stacked
-   pull request merged into a branch leaves its card open — and fix any card
+   then close the cards whose commits are on `main` and are still open, and
+   the stacked pull requests below a merged top, which target branches and do
+   not close by themselves (ADR-0006) — and fix any card
    whose column no longer matches its branch or pull request. Name every write
    in the final message.
 2. **Find the set**: `uv run tools/board.py ready [--label L | --initiative I]`
@@ -63,11 +64,13 @@ is ready, and it announces its choice before starting.
    list (`.claude/skills/process-work-package/SKILL.md`): one worker per card in
    its own worktree and branch `agent/<card>-<slug>`, in parallel where the
    cards are independent, dependents from their blocker's branch; the judge on
-   every data diff; one stack for the run, the bottom pull request against
-   `main` and each higher one against its predecessor (ADR-0006); each card's
-   work record and progress comments kept by its worker.
+   every data diff; one stack for the run, each pull request against its
+   predecessor, handed over as one by retargeting the top to `main` with a
+   `Closes` line for every card (ADR-0006); each card's work record and
+   progress comments kept by its worker.
 6. **Finish** as `process-work-package` does: every pull request with its
-   preview URL and place in the stack, the top-down merge chain, every card of
+   preview URL and place in the stack, the one that targets `main` with the
+   preview of the whole stack, every card of
    the set that stopped and why, the cards left out and why, the board writes
    made, and work found for the maintainer to register — none registered.
 

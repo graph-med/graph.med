@@ -17,8 +17,10 @@ an agent's branch on it, Done has merged.
    their text, every blocker closed — and announces the set before starting.
    Either way each card needs a scope in its text; given several, the session
    decides sequence or parallel — one worker per card, each in a git worktree —
-   and stacks their branches: the bottom pull request against `main`, each
-   higher one against its predecessor, merged from the top down (ADR-0006;
+   and stacks their branches, each pull request against its predecessor so
+   each shows its own change; then it retargets the top one to `main` with a
+   `Closes` line for every card, and that one pull request is reviewed and
+   merged for the whole stack (ADR-0006;
    `.claude/skills/process-work-package/SKILL.md`).
 3. Claim a card before any code: `uv run tools/board.py claim <n> --branch
    agent/<n>-<slug>` moves it to In Progress, comments the branch and writes
@@ -36,9 +38,9 @@ an agent's branch on it, Done has merged.
    and links its preview, the preview and pull request in its work record, a
    handover comment on the card, and `uv run tools/validate.py` passing; the
    run ends when every card of the run has its pull request.
-7. **The agent manages the board**: it closes the cards whose pull requests'
-   commits are on `main` (a stacked pull request does not close its card by
-   itself), keeps columns, dependencies and sub-issues true, and names every
+7. **The agent manages the board**: it closes the cards whose commits are on
+   `main` and are still open, and the stacked pull requests below a merged top
+   (they target branches and stay open otherwise), keeps columns, dependencies and sub-issues true, and names every
    write in its final message. It registers no work of its own finding — that
    goes into the final message, for the maintainer to register.
 

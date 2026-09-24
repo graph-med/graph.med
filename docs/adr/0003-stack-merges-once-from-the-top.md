@@ -1,6 +1,6 @@
 # ADR-0003 — A stack of pull requests merges once, from the top
 
-Status: accepted, 2026-09-18. The pull request bases are superseded by ADR-0006.
+Status: accepted, 2026-09-18. Superseded by ADR-0006.
 
 ## Context
 

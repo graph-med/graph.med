@@ -21,8 +21,9 @@ got, which pull request, what was left — has to be on the card, or it is lost.
 ## Decision
 
 - **The agent manages the board.** It keeps the board in step with the
-  repository without being asked for each write: it closes a card whose pull
-  request's commits are on `main` (a stacked one included), puts an open
+  repository without being asked for each write: it closes a card whose
+  commits are on `main` and which is still open, closes the stacked pull
+  requests below a merged top (ADR-0006), puts an open
   package issue on the board after checking that it is neither done nor
   deprecated, moves a card whose column no longer matches its branch or pull
   request, records dependencies (GitHub's issue dependencies, "blocked by")

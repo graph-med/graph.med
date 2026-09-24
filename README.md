@@ -197,7 +197,7 @@ an edge that says *how*:
 The refining claim here is the criterion "Amylase-Konzentration im Drainagesekret
 unter 5000 U/L am ersten postop. Tag" from page 64. It refines the recommendation;
 it never inherits its grade. The other two relations are `supplements` and
-`limits`. On the site they appear under "From the body text".
+`limits`. On the site they appear under "Hinweise aus dem Begleittext".
 
 #### The direction — derived, never stored
 
@@ -250,10 +250,16 @@ groups by weight, each unfolding into its members, then **Welche Bedingung?** wh
 a statement has a condition, then the recommendation as a box — coloured by its direction, stamped with the
 direction's glyph, the grade letter and, where the letter does not carry it, the
 verb, then the short label — and its aim as a tag.
-Tap a box: the details show the direction, the full sentence, the population,
-action, condition and **source** on one footing, then the evidence, claim by claim,
-with the quote and a link into the PDF at the cited page. The **copy** button
-beside a quote is for viewers that cannot highlight the search from the link.
+Tap a box: its details open beside the graph on a wide screen, and on a phone in
+a strip at the bottom that raises them over the graph. They answer in a fixed
+order: what to do and how binding it is (a band in the direction's colour, with
+the grade and the consensus), the exact wording, the evidence, whom it applies
+to, what the body text adds, any contradicting recommendation, and where it
+stands in the guideline — with the quote and a link into the PDF at the cited
+page, opening in a tab of its own. The **copy** button beside a quote is for
+viewers that cannot highlight the search from the link. The legend at the
+bottom left names the forms, colours, letters and borders the view uses, and
+only those.
 
 The dropdown after the search box changes what the first question asks. **Population**
 is the tree above; **Kapitel** asks for the chapter of the guideline first, then the
@@ -350,7 +356,9 @@ One check exists: the validator, `tools/validate.py`. `schema/schema.yaml` is a 
 Schema (draft 2020-12, written in YAML) and the single point of truth; the validator
 applies it to every file under `data/` with the standard `jsonschema` library, then
 checks the few cross-file rules a document schema cannot state — references resolve,
-claim ids are the hash of their anchor, edges are unique — and optionally every quote
+claim ids are the hash of their anchor, edges are unique, the grouping axes and a
+view's scope tree hold together, a derived concept's rules point at the passages that
+give them — and optionally every quote
 against the cited page of its source. The commands, and
 what each form checks, are in [`CLAUDE.md`](CLAUDE.md) under "Checks" — one home for
 them, read by humans and agents alike. Python tooling is managed with
