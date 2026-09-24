@@ -1,0 +1,7 @@
+id: concepts/rcri-risikofaktoren-anzahl
+type: concept
+lang: de
+label: Anzahl klinischer Risikofaktoren nach dem Revised Cardiac Risk Index (RCRI)
+short_label: "RCRI-Risikofaktoren (Anzahl)"
+facet: finding
+source: modelling   # a scored quantity, named by the threshold that bounds it (spec §3.1)
