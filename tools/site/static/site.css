@@ -59,6 +59,7 @@ ul.cards small, ul.plain small { display: block; color: var(--mute); }
 .sw.d-for { background: var(--dir-for); border: 0; } .sw.d-against { background: var(--dir-against); border: 0; }
 .sw.d-weigh { background: var(--dir-weigh); border: 0; } .sw.d-gap { background: var(--dir-gap); border: 0; }
 .sw.v-for { background: var(--dir-for); border: 2px solid var(--verb-for); } .sw.v-against { background: var(--dir-against); border: 2px solid var(--verb-against); }
+.sw.general { border-radius: 2px; background: var(--mute); outline: 3px double var(--fg); outline-offset: 2px; margin-left: .7em; }   /* the double outline a box applying generally wears in the graph */
 .controls { grid-area: 1 / 1 / 2 / 2; position: relative; z-index: 2; display: flex; gap: .4rem; align-items: flex-start; justify-content: space-between; padding: .6rem; pointer-events: none; }
 .controls > * { pointer-events: auto; }   /* the row spans the width so that left and right keep their ends; only the controls themselves take the tap */
 .tools { display: flex; gap: .4rem; }
@@ -163,6 +164,16 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card dl.slots dd .families { flex-basis: 100%; color: var(--mute); font-size: .85rem; }
 .card dl.slots dd .families .node-link { min-height: 32px; }
 .card ul.body li p { margin: .2rem 0; }
+/* what applies generally to a concept (docs/publication.md §3): set apart under its own heading, below the concept's
+   own statements, each entry the statement, where it stands, the concept it was made for and the condition; and on
+   the card, zone 5's row naming the groups a statement applies generally to, each with its condition */
+.card div.general { border-left: 3px double var(--mute); padding-left: .6rem; margin: .4rem 0 .8rem; }
+.card div.general .from { margin: .2rem 0 .3rem; color: var(--mute); font-size: .85rem; }
+.card div.general .condition { color: var(--fg); }
+.card ul.general li { padding: .3rem 0; }
+.card ul.general li .cite { display: block; font-size: .8rem; }
+.card dl.slots dd.general-for > span { flex-basis: 100%; }   /* one group per line */
+.card dl.slots dd.general-for small { color: var(--mute); }
 /* zone 7: the contesting claims, each with the contested colour beside it, its heading in that colour */
 .card .contested h3 { color: var(--contested); }
 .card .contested ol.claims li { border-left: 3px solid var(--contested); padding-left: .6rem; }

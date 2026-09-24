@@ -66,7 +66,9 @@
 <dl class="slots">
 {% for role, s in c.geltung.items() %}{% if s %}
   <dt>{% if s.axis %}<span lang="{{ s.axis.lang }}">{{ s.axis.label }}</span>{% else %}{{ W("slot." ~ role) }}{% endif %}</dt><dd>{% if s.linked %}<a class="node-link" data-node="{{ s.id }}" href="{{ base }}{{ s.id }}/" lang="{{ s.lang }}">{{ s.label }}</a> <span class="count">{{ W("slot.count").format(n=s.count) }}</span>{% else %}<span lang="{{ s.lang }}">{{ s.label }}</span>{% endif %}{% if s.families %}<small class="families">{% for f in s.families %}<a class="node-link" data-node="{{ f.id }}" href="{{ base }}{{ f.id }}/" lang="{{ f.lang }}">{{ f.label }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</small>{% endif %}</dd>
-{% endif %}{% endfor %}
+{% if s.allgemein %}{% set direct = s.allgemein | selectattr("direct") | list %}{% if direct %}
+  <dt>{{ W("scope.general_for") }}</dt><dd class="general-for">{% for g in direct %}<span><a class="node-link" data-node="{{ g.id }}" href="{{ base }}{{ g.id }}/" lang="{{ g.lang }}">{{ g.label }}</a>{% if g.condition %} <small>({{ W("scope.condition") }}: {% for x in g.condition %}<span lang="{{ x.lang }}">{{ x.label }}</span>{% if not loop.last %} · {% endif %}{% endfor %})</small>{% endif %}</span>{% endfor %}</dd>
+{% endif %}{% endif %}{% endif %}{% endfor %}
 </dl>
 </section>
 {% endif %}
@@ -140,6 +142,21 @@
 {% endfor %}</dl>
 </section>
 {% endif %}
+{# what applies generally to the concept through a view's scope tree (docs/publication.md §3): set apart from its own
+   statements above and never merged into them — grouped by the concept each was made for (its anchor, named by the
+   anchor slot's word) with the condition under which the scope edge holds, then each statement with its
+   recommendation number, page and section, linked into the source #}
+{% for v in general %}
+<section class="zone general" aria-labelledby="zone-general-h{{ loop.index }}">
+<h3 id="zone-general-h{{ loop.index }}">{{ W("concept.general") }} <span class="count">({{ v.n }})</span></h3>
+{% for grp in v.groups %}<div class="general">
+<p class="from">{{ W("slot." ~ v.slot) }}: <a class="node-link" data-node="{{ grp.anchor.id }}" href="{{ base }}{{ grp.anchor.id }}/" lang="{{ grp.anchor.lang }}">{{ grp.anchor.label }}</a>{% if grp.condition %}<br><span class="condition">{{ W("scope.condition") }}: {% for c in grp.condition %}<span lang="{{ c.lang }}">{{ c.label }}</span>{% if not loop.last %} · {% endif %}{% endfor %}</span>{% endif %}</p>
+<ul class="plain general">
+{% for x in grp.statements %}  <li><a class="node-link" data-node="{{ x.id }}" href="{{ base }}{{ x.id }}/" lang="{{ x.lang }}">{{ x.label }}</a> <span class="cite">{{ where(x, no=true) }}</span></li>
+{% endfor %}</ul>
+</div>
+{% endfor %}</section>
+{% endfor %}
 </div>
 {% elif e.type == "claim" %}
 {# a claim: its own judgement in the card's four words with its badge (zone 2), its sentence, its citation

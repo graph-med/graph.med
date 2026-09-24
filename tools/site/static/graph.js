@@ -95,6 +95,10 @@
       /* a box related to the selected one (specializes, complements, conflicts) keeps its colour and wears a
          dotted outline — no line is drawn across the tree, and the card names the relation (zone 9) */
       { selector: "node.related", style: { "outline-width": 2.5, "outline-style": "dotted", "outline-color": css("--fg"), "outline-offset": 3 } },
+      /* a box that applies generally to the selected group — through the view's scope tree, hung where it was made
+         for — keeps its colour and wears a double outline; the group's own boxes follow it as before, and the
+         sheet lists the general ones apart, each with its condition (docs/publication.md §3) */
+      { selector: "node.general", style: { "outline-width": 4, "outline-style": "double", "outline-color": css("--fg"), "outline-offset": 3 } },
       { selector: "edge.dup", style: { "target-label": "" } },   /* a group reached from two open parents names its answer once */
       { selector: ".folded", style: { "display": "none" } },
       /* a node fades as one piece; an edge fades by its line and arrowhead (`line-opacity`) and by the
@@ -132,7 +136,7 @@
   tree.nodes.forEach(function (n) {
     elements.push({ data: { id: n.id, ref: n.ref || "", type: n.type, label: n.label || "", group: n.group || "",
       direction: n.direction || "", verb: n.verb || "", contested: n.contested ? 1 : 0,
-      sections: n.sections || [], text: fold(n.text), facets: n.facets || [] } });
+      sections: n.sections || [], text: fold(n.text), facets: n.facets || [], general: n.general || [] } });
   });
   tree.edges.forEach(function (e, i) {
     /* an answer is written at the end of its edge, beside the group or box it leads to, so that
@@ -169,6 +173,15 @@
     relations.forEach(function (r) {
       var other = picked[r[0]] ? r[1] : picked[r[1]] ? r[0] : null;
       if (other && !picked[other]) cy.getElementById(other).not(".folded").removeClass("dim").addClass("related");
+    });
+  }
+  /* what applies generally to a selected group (its junction's `general`, from the view's scope tree): the boxes
+     that are shown keep their colour and wear the double outline; nothing moves and nothing unfolds */
+  function general(eles) {
+    cy.nodes(".general").removeClass("general");
+    if (!eles || eles.empty()) return;
+    eles.nodes("[type = 'junction']").forEach(function (j) {
+      j.data("general").forEach(function (id) { cy.getElementById(id).not(".folded").removeClass("dim").addClass("general"); });
     });
   }
   var statements = cy.nodes("[type = 'statement']"), junctions = cy.nodes("[type = 'junction']"), open = {}, section = "";
@@ -256,7 +269,7 @@
     var lay = shown.layout({ name: "dagre", rankDir: "LR", nodeSep: 18, rankSep: 230, edgeSep: 10, align: "UL", nodeDimensionsIncludeLabels: true,
                              animate: true, animationDuration: 250, fit: false });
     laying = lay;
-    lay.one("layoutstop", function () { if (laying === lay) laying = null; route(shown); related(cy.nodes(".picked")); if (fitTo) fit(fitTo.not(".folded"), 30); if (cursor) counter(); });
+    lay.one("layoutstop", function () { if (laying === lay) laying = null; route(shown); related(cy.nodes(".picked")); general(cy.nodes(".picked")); if (fitTo) fit(fitTo.not(".folded"), 30); if (cursor) counter(); });
     lay.run();
     highlight();
   }
@@ -277,7 +290,7 @@
 
   /* selection: what leads to the element and what follows it stays; the rest fades; the sheet fills */
   function select(eles, ref, push) {
-    related(null);
+    related(null); general(null);
     cy.elements().removeClass("dim picked");
     if (!eles || eles.empty()) {
       sheet.innerHTML = home; hint.hidden = false;
@@ -287,7 +300,7 @@
     var keep = eles.union(eles.predecessors()).union(eles.successors());
     cy.elements().not(keep).addClass("dim");
     eles.addClass("picked");
-    related(eles);
+    related(eles); general(eles);
     sheet.innerHTML = data.html[ref] || home; hint.hidden = !data.html[ref];
     if (push) history.replaceState(null, "", "#" + ref);
   }

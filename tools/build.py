@@ -91,7 +91,9 @@ CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", 
              "facet.procedure", "facet.patient_state", "facet.medication", "facet.intervention", "facet.outcome", "facet.finding", "facet.qualifier",
              "kind.recommendation", "kind.criterion", "kind.definition", "kind.fact", "kind.gap_notice",
              "slot.outcome", "concept.uses", "concept.codes", "claim.statements", "edge.supports", "edge.contests",
-             "source.claims.one", "source.claims.many", "page.json")
+             "source.claims.one", "source.claims.many", "page.json",
+             # what applies generally through a view's scope tree (docs/publication.md §3): on a concept, and on the card
+             "concept.general", "scope.general_for", "scope.condition")
 CARD_WORDS = {"de": {
     "zone.wording": "Wortlaut der Empfehlung", "zone.evidence": "Evidenz", "zone.applies": "Gilt für",
     "zone.body_text": "Hinweise aus dem Begleittext", "zone.contested.one": "Widersprechende Empfehlung",
@@ -119,6 +121,7 @@ CARD_WORDS = {"de": {
     "slot.outcome": "Endpunkt", "concept.uses": "Verwendet in", "concept.codes": "Kodiert als", "claim.statements": "Bezieht sich auf",
     "edge.supports": "stützt", "edge.contests": "widerspricht",
     "source.claims.one": "{n} Textstelle erfasst", "source.claims.many": "{n} Textstellen erfasst", "page.json": "JSON",
+    "concept.general": "Allgemein geltende Empfehlungen", "scope.general_for": "Gilt allgemein auch für", "scope.condition": "Voraussetzung",
 }}
 # The five questions a physician brings to a recommendation, kept as the semantic mapping of the card's keys
 # — what each zone answers, read by an answering layer from the statement's JSON — and never rendered
@@ -404,13 +407,87 @@ def members_of(view: dict, pool: Pool) -> dict[str, dict]:
             for _, cid in filled(ent):
                 if cid in pool.entities:
                     members[cid] = pool.entities[cid]
-    queue = [m["id"] for m in members.values() if m.get("type") == "concept"]   # and the families above them (spec §5 broader)
+    # and the families above them (spec §5 broader) — and, in a view that declares a scope tree, the
+    # concepts above them along its scope edges up to its `scope_root` (spec §4, §5 `in_scope_of`)
+    up = ("broader", "in_scope_of") if view.get("scope_root") else ("broader",)
+    queue = [m["id"] for m in members.values() if m.get("type") == "concept"]
     while queue:
         for kind, to, _ in pool.out.get(queue.pop(), []):
-            if kind == "broader" and to in pool.entities and to not in members:
+            if kind in up and to in pool.entities and to not in members:
                 members[to] = pool.entities[to]
                 queue.append(to)
     return members
+
+
+def first_no(pool: Pool, st: dict) -> list:
+    """A statement's place in its guideline: the lowest recommendation number among its claims, for sorting."""
+    return natural(min((c["recommendation_no"] for c in pool.claims_for(st["id"]) if c.get("recommendation_no")), default=""))
+
+
+def scope_of(view: dict, members: dict[str, dict], pool: Pool) -> dict | None:
+    """The scope tree of a view that declares `anchor_slot` and `scope_root` (spec §4, §5 `in_scope_of`),
+    or None for a view that declares neither — which is then read exactly as before.
+
+    The tree is the view's plain `broader` edges (those naming no axis, as the plain hierarchy reads them)
+    and the scope edges on a path that ends at the root (open-questions.md → scope-edge-pinning: what the
+    model says today). For every concept in it, the origin of what the view shows for it:
+    `own` — the statements anchored on the concept itself, in the view's `anchor_slot`; and `general` — the
+    statements that apply generally to it: those anchored on the upper end of a scope edge whose lower end
+    the concept reaches (itself, or upwards along the tree). A path must end in a scope edge, so that along
+    `broader` alone nothing moves (spec §5): a family's own statements never reach its members, while what
+    the guideline addresses to a family through a scope edge reaches every special case of it. Each entry
+    names the anchor, the lower end of the scope edge it came through (`via`) and the `condition` — every
+    condition of the scope edges on the path, all holding at once; of several paths the one with the fewest
+    conditions counts (an unconditional path makes it unconditional), ties by the conditions' ids. Nothing
+    is merged: a statement stays `own` of its anchor only, and the junction's count stays its own."""
+    root, slot = view.get("scope_root"), view.get("anchor_slot")
+    if not root:
+        return None
+    if slot != "population":
+        raise SystemExit(f"{view['id']}: anchor_slot {slot!r}; only a scope tree over `population` is built yet")
+    down: dict[str, list[str]] = defaultdict(list)   # to → [from], over broader ∪ in_scope_of, for what reaches the root
+    for frm, kind, to, props in pool.edges:
+        if (kind == "broader" and not props.get("axis")) or kind == "in_scope_of":
+            down[to].append(frm)
+    reach, stack = {root}, [root]
+    while stack:
+        for frm in down.get(stack.pop(), []):
+            if frm not in reach:
+                reach.add(frm); stack.append(frm)
+    up: dict[str, list[tuple[str, str, list[str]]]] = defaultdict(list)   # from → [(kind, to, condition)], the view's tree
+    for frm, kind, to, props in pool.edges:
+        if kind == "broader" and not props.get("axis") and frm in members and to in members:
+            up[frm].append((kind, to, []))
+        elif kind == "in_scope_of" and to in reach and frm in members and to in members:
+            cond = props.get("condition")
+            up[frm].append((kind, to, [cond] if cond else []))
+    statements = sorted((m for m in members.values() if m.get("type") == "statement"), key=lambda s: first_no(pool, s) + [s["id"]])
+    own: dict[str, list[str]] = defaultdict(list)
+    for st in statements:
+        for cid in fillers(st, slot):
+            own[cid].append(st["id"])
+    concepts: dict[str, dict] = {}
+    for c in sorted(cid for cid in members if cid in reach):
+        best: dict[str, tuple[list[str], str]] = {}   # anchor → (condition, via)
+        def walk(at, cond, trail):
+            for kind, to, c2 in up.get(at, []):
+                if to in trail:
+                    continue
+                now = sorted(set(cond) | set(c2))
+                if kind == "in_scope_of":
+                    old = best.get(to)
+                    if old is None or (len(now), now) < (len(old[0]), old[0]):
+                        best[to] = (now, at)
+                walk(to, now, trail | {to})
+        walk(c, [], {c})
+        general = [{"id": sid, "anchor": a, "via": via, "condition": cond}
+                   for a, (cond, via) in best.items() for sid in own.get(a, [])]
+        order = {st["id"]: i for i, st in enumerate(statements)}
+        general.sort(key=lambda g: order[g["id"]])
+        if own.get(c) or general:
+            concepts[c] = {"own": own.get(c, []), "general": general}
+    return {"anchor_slot": slot, "root": root, "concepts": concepts,
+            "up": {c: [(k, to) for k, to, _ in edges] for c, edges in up.items()}}
 
 
 def title_of(view: dict, members: dict[str, dict], root: bool = False) -> str:
@@ -435,7 +512,7 @@ def clip(text: str, limit: int = 60) -> str:
     return cut + "…"
 
 
-def groupings_of(view: dict, members: dict[str, dict], pool: Pool) -> list[dict]:
+def groupings_of(view: dict, members: dict[str, dict], pool: Pool, scope: dict | None = None) -> list[dict]:
     """One decision tree per grouping the view offers, in the order of its switch (spec §4.1 "4. Shown",
     docs/publication.md §3): the plain hierarchy first, needing no declaration; then the chapters of the
     view's sources — built in for every view, derived from the claims' sections and the sources' outline
@@ -473,20 +550,20 @@ def groupings_of(view: dict, members: dict[str, dict], pool: Pool) -> list[dict]
                  "facets": [members[v]["facet"]] if members.get(v, {}).get("facet") else [],
                  "statements": [st for st in statements if v in fillers(st, slot)]} for v in axis["values"]]
 
-    rows = [{"axis": "", "label": words["plain"], "lang": lang, **decision_tree_of(view, members, pool)},
+    rows = [{"axis": "", "label": words["plain"], "lang": lang, **decision_tree_of(view, members, pool, scope=scope)},
             {"axis": CHAPTERS, "label": words["chapter"], "lang": lang,
-             **decision_tree_of(view, members, pool, question=(f"q:{view['id']}:{CHAPTERS}", words["section"]), partition=by_section())}]
+             **decision_tree_of(view, members, pool, question=(f"q:{view['id']}:{CHAPTERS}", words["section"]), partition=by_section(), scope=scope)}]
     for aid in view.get("group_by") or []:
         axis = pool.entities[aid]
         tree = (decision_tree_of(view, members, pool, question=(f"q:{view['id']}:{axis['slot']}", words["axis"].format(label=axis.get("short_label") or axis["label"])),
-                                 partition=by_slot(axis)) if axis["carrier"] == "dimension"
+                                 partition=by_slot(axis), scope=scope) if axis["carrier"] == "dimension"
                 else decision_tree_of(view, members, pool, hierarchy_axis=axis))
         rows.append({"axis": aid, "label": axis["label"], "lang": axis["lang"], **tree})
     return rows
 
 
 def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question: tuple[str, str] | None = None,
-                     partition: list[dict] | None = None, hierarchy_axis: dict | None = None) -> dict:
+                     partition: list[dict] | None = None, hierarchy_axis: dict | None = None, scope: dict | None = None) -> dict:
     """One decision tree for the whole view, derived from the statements' slots
     (docs/publication.md §3). The question nodes are ours; every answer on an edge and
     every box is a slot value or a claim's grade. Patient groups are the population
@@ -500,7 +577,13 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
     `hierarchy_axis` whose `broader` edges replace the plain hierarchy's as the families of the
     population question. Whatever the grouping cannot place is one answer, "not placed", last, at
     every depth where its question is asked; the shape, the folding and where a recommendation hangs
-    stay the same, by one code path."""
+    stay the same, by one code path.
+
+    With the view's `scope` (scope_of), the patient groups under every grouping but a hierarchy axis are
+    its scope tree: the families are the concepts below the `scope_root`, reached along `broader` and
+    `in_scope_of` alike, and the root itself is no family — its own statements, if any, are one answer
+    among the families, with nothing below it. A junction carries `general`, the statements that apply
+    generally to its concept (they hang where they were made for, never here, and are not counted)."""
     nodes: list[dict] = []
     edges: list[dict] = []
     seen: set = set()
@@ -592,13 +675,17 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
         concepts = set(own) & set(members)
         children: dict = defaultdict(list)
         stack = list(concepts)
+        tree = scope if scope and axis_id is None else None   # a hierarchy axis folds by its own respect, never by the scope tree
         while stack:
             c = stack.pop()
-            for kind, to, props in pool.out.get(c, []):
-                if kind == "broader" and to in members and props.get("axis") == axis_id:
-                    children[to].append(c)
-                    if to not in concepts:
-                        concepts.add(to); stack.append(to)
+            ups = tree["up"].get(c, []) if tree else [(kind, to) for kind, to, props in pool.out.get(c, [])
+                                                         if kind == "broader" and to in members and props.get("axis") == axis_id]
+            for _, to in ups:
+                children[to].append(c)
+                if to not in concepts:
+                    concepts.add(to); stack.append(to)
+        if tree and tree["root"] in children:   # the root is no family: the concepts below it are (spec §4)
+            del children[tree["root"]]
         parents = {c for cs in children.values() for c in cs}
         def below(c, trail=()):
             if c in trail:
@@ -619,10 +706,14 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
             edge(q, j, "answer", short(c), ref=c)
             if j in seen:   # a group with two parents appears under both, built once
                 return
-            add(j, ref=c, type="junction", label=str(weight[c]), lang=members[c]["lang"], group=short(c), facets=[facet(c)] if facet(c) else [], text=text_of(c))
+            general = [g["id"] for g in scope["concepts"].get(c, {}).get("general", [])] if tree else []
+            add(j, ref=c, type="junction", label=str(weight[c]), lang=members[c]["lang"], group=short(c), facets=[facet(c)] if facet(c) else [], text=text_of(c),
+                **({"general": general} if general else {}))
             if children.get(c):
                 branch(j, children[c])
         top = concepts - parents
+        if tree and not own.get(tree["root"]):   # a root with no statement of its own is no answer either
+            top.discard(tree["root"])
         # under a hierarchy axis a concept without an edge on that axis, and no member below it, has no
         # place: it is not a family of the axis, so it goes behind the not-placed answer (spec §4.1)
         rest = {c for c in top if axis_id and c not in children}
@@ -699,6 +790,46 @@ def main(argv=None) -> int:
         shutil.copy(SITE_SRC / "static" / "favicon.ico", out / "favicon.ico")
 
     dimension_axes = {a["slot"]: a for a in pool.of_type("axis") if a.get("carrier") == "dimension"}   # a slot an axis adds, by its key (spec §4.1)
+    # every view's members, and the scope tree of each that declares one (scope_of): computed once, read by the
+    # view page and by the concept and statement pages, which say what applies generally and to whom
+    memberships = {v["id"]: members_of(v, pool) for v in pool.of_type("view")}
+    scopes = {vid: sc for vid, sc in ((v["id"], scope_of(v, memberships[v["id"]], pool)) for v in sorted(pool.of_type("view"), key=lambda v: v["id"])) if sc}
+    ref = lambda cid: {"id": cid, "label": pool.entities[cid]["label"], "lang": pool.entities[cid]["lang"]}
+
+    def general_of(cid: str) -> list[dict]:
+        """The statements that apply generally to a concept, per view with a scope tree (docs/publication.md §3):
+        each with the concept it was made for (its anchor), the condition of the scope edges it came through, and
+        the recommendation number, page and link of its first supporting claim — set apart from the concept's own."""
+        rows = []
+        for vid, sc in scopes.items():
+            groups: list[dict] = []   # one per anchor, in the order of its first statement; the condition is the anchor's
+            for g in sc["concepts"].get(cid, {}).get("general", []):
+                st = pool.entities[g["id"]]
+                first = next((c for c in pool.claims_for(g["id"]) if c["edge"] == "supports"), {})
+                grp = next((x for x in groups if x["anchor"]["id"] == g["anchor"]), None)
+                if grp is None:
+                    grp = {"anchor": ref(g["anchor"]), "condition": [ref(c) for c in g["condition"]], "statements": []}
+                    groups.append(grp)
+                grp["statements"].append({"id": g["id"], "label": st.get("short_label") or st["label"], "lang": st["lang"],
+                                          "recommendation_no": first.get("recommendation_no"), "page": first.get("page"),
+                                          "section": first.get("section"), "link": first.get("link")})
+            if groups:
+                rows.append({"view": vid, "slot": sc["anchor_slot"], "n": sum(len(x["statements"]) for x in groups), "groups": groups})
+        return rows
+
+    def general_for(st: dict, role: str) -> list[dict]:
+        """The other side of general_of(), on the statement's card: the concepts it applies generally to, in each
+        view whose anchor slot is `role` — every one, with the condition and the lower end of the scope edge it
+        came through (`via`); `direct` where that is the concept itself, the ones the card names."""
+        rows = []
+        for vid, sc in scopes.items():
+            if sc["anchor_slot"] != role:
+                continue
+            for cid, o in sorted(sc["concepts"].items()):
+                for g in o["general"]:
+                    if g["id"] == st["id"]:
+                        rows.append({**ref(cid), "view": vid, "via": g["via"], "direct": g["via"] == cid, "condition": [ref(c) for c in g["condition"]]})
+        return rows
 
     def details(ent: dict) -> dict:
         """What the sheet and the entity page show for one entity (docs/publication.md §3, §4). Every word
@@ -720,6 +851,7 @@ def main(argv=None) -> int:
             d["uses"] = sorted(({**u, "slot_label": slot_name(u["slot"])} for u in pool.uses_of(ent["id"])),
                                key=lambda u: (order.index(u["slot"]) if u["slot"] in order else len(order), u["id"]))
             d["codes"] = [to for k, to, _ in pool.out.get(ent["id"], []) if k == "codes_as"]
+            d["general"] = general_of(ent["id"])
         elif t == "claim":
             d["claim"] = pool.claim_view(ent)
             j = direction_of([{"edge": "supports", **d["claim"]}])   # the claim's own judgement, in the card's four words (zone 2)
@@ -759,6 +891,9 @@ def main(argv=None) -> int:
             row = {**concept(cid), "count": n, "linked": n > 1}
             if role == "population":
                 row["families"] = [{**f, "lang": pool.entities[f["id"]]["lang"]} for f in pool.families_of(cid)]
+            general = general_for(st, role)   # the anchor of a view with a scope tree: to whom it applies generally too
+            if general:
+                row["allgemein"] = general
             if role in dimension_axes:
                 a = dimension_axes[role]
                 row["axis"] = {"id": a["id"], "label": a.get("short_label") or a["label"], "lang": a["lang"]}
@@ -808,8 +943,9 @@ def main(argv=None) -> int:
     view_tpl = env.get_template("view.html")
     for view in sorted(pool.of_type("view"), key=lambda v: v["id"]):
         vid = view["id"].split("/", 1)[1]
-        members = members_of(view, pool)
-        groupings = groupings_of(view, members, pool)
+        members = memberships[view["id"]]
+        scope = scopes.get(view["id"])
+        groupings = groupings_of(view, members, pool, scope)
         refs = {n["ref"] for g in groupings for n in g["nodes"] if n.get("ref")} | {e["ref"] for g in groupings for e in g["edges"] if e.get("ref")}
         sources = [members[s] for s in view["filter"]["sources"]]
         title = title_of(view, members)
@@ -820,9 +956,11 @@ def main(argv=None) -> int:
         data = {"id": view["id"], "title": title, "sources": [s["id"] for s in sources], "commit": commit, "outline": outline,
                 "facets": sorted({f for g in groupings for n in g["nodes"] for f in n.get("facets", [])}), "groupings": groupings,
                 "html": {r: detail_tpl.render(**details(pool.entities[r])) for r in sorted(refs) if r in pool.entities}}
+        if scope:   # the origin of what the page shows for each concept, own or applying generally, for a reader of the JSON
+            data["scope"] = {k: scope[k] for k in ("anchor_slot", "root", "concepts")}
         (out / vid).mkdir(parents=True, exist_ok=True)
         (out / vid / "index.html").write_text(
-            view_tpl.render(view=view, vid=vid, title=title, sources=sources, counts=counts,
+            view_tpl.render(view=view, vid=vid, title=title, sources=sources, counts=counts, scope=bool(scope),
                             graph_json=dumps(data).replace("</", "<\\/")), encoding="utf-8")   # safe inside <script>
         (out / (vid + ".json")).write_text(dumps(data), encoding="utf-8")
         views.append({"vid": vid, "title": title, "sources": sources, "counts": counts})
