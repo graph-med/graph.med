@@ -6,13 +6,17 @@ where work is registered (the `project-board` skill; ADR-0004).
     uv run tools/board.py show 89                           # a card's text, column and comments
     uv run tools/board.py add "Title" [--body TEXT | --body-file F] [--status Todo] [--draft]
     uv run tools/board.py link 91 [--status Todo]           # an existing issue or pull request onto the board
-    uv run tools/board.py claim 89 --branch agent/2026-09-19-slug   # In Progress + a comment naming the branch
+    uv run tools/board.py claim 89 --branch agent/89-slug      # In Progress, a comment naming the branch, the work record
     uv run tools/board.py move 89 "In Progress"             # set the column
     uv run tools/board.py comment 89 "Text"                 # comment on the card's issue
     uv run tools/board.py comment 89 --body-file F
     uv run tools/board.py set 89 Initiative ui              # any single-select field of the board
     uv run tools/board.py close 89 [--reason not_planned] [--keep-status]   # close the issue, move to Done
     uv run tools/board.py remove 89                         # take the card off the board (the issue stays)
+    uv run tools/board.py record 89 [--branch B] [--pr N] [--preview URL]   # the card's work record
+    uv run tools/board.py depend 101 --on 102 [--remove]    # 101 is blocked by 102 (GitHub's issue dependencies)
+    uv run tools/board.py sub 143 160 [--remove]            # 160 is a sub-issue of 143
+    uv run tools/board.py ready [--label L] [--initiative I] [--json]   # In Progress, then Todo cards whose blockers are closed
 
 A card is an issue of this repository on the board; its column is the project's
 single-select field `Status` (Todo, In Progress, Done; names match case-insensitively).
@@ -20,9 +24,10 @@ Every call goes through `gh api`, which the sandbox host authenticates as the Gi
 (`.claude/rules/environment/git-identity.md`); nothing here holds or reads a credential.
 The board is found by title (`--project`, default below) in the organisation that owns
 `origin`. A card is named by its issue or pull request number; a draft card, which has
-no number, by its exact title. The agent writes to the board only with the maintainer's
-permission — the command that names a card is permission for that card (`claim`, the
-closing comment); everything else is asked for first.
+no number, by its exact title. The agent manages the board (ADR-0005): it keeps it in
+step with the pull requests and the issues, and reports every write; it registers no
+work of its own finding. A card's worker keeps the card's work record and reports its
+progress in comments, so that the next session continues from the card alone.
 
 A refusal `Resource not accessible by integration` (403) means the App's installation
 lacks a permission for that call — GitHub names it in the `X-Accepted-Github-Permissions`
@@ -201,6 +206,10 @@ class Board:
     def find(self, ref: str) -> dict:
         """The item named by an issue/PR number (`89`, `#89`) or, for a draft, its exact title."""
         ref = ref.lstrip("#")
+        if ref.isdigit():
+            hit = self.find_number(int(ref))
+            if hit:
+                return hit
         for attempt in range(4):  # an item just written can take a few seconds to show up in the list
             items = self.items()
             if ref.isdigit():
@@ -211,6 +220,30 @@ class Board:
                 return hits[0]
             time.sleep(2 * (attempt + 1))
         raise BoardError(f"no item {ref!r} on {self.title}; `list` shows what is there")
+
+    def find_number(self, number: int) -> dict | None:
+        """The board's item for issue or pull request `number`, read from the issue itself:
+        the project's item listing lags behind a write by up to minutes, the issue does not."""
+        data = graphql(
+            "query($o:String!,$r:String!,$n:Int!){ repository(owner:$o,name:$r){ issueOrPullRequest(number:$n){ "
+            "... on Issue { number title url state projectItems(first:20){ nodes{ id project{ id } "
+            "fieldValues(first:20){ nodes{ ... on ProjectV2ItemFieldSingleSelectValue { name field{ ... on ProjectV2SingleSelectField { name } } } } } } } } "
+            "... on PullRequest { number title url state projectItems(first:20){ nodes{ id project{ id } "
+            "fieldValues(first:20){ nodes{ ... on ProjectV2ItemFieldSingleSelectValue { name field{ ... on ProjectV2SingleSelectField { name } } } } } } } } } } }",
+            o=self.owner, r=self.repo, n=number,
+        )
+        c = (data.get("repository") or {}).get("issueOrPullRequest") or {}
+        for n in (c.get("projectItems") or {}).get("nodes", []):
+            if n["project"]["id"] != self.id:
+                continue
+            fields = {v["field"]["name"]: v["name"] for v in n["fieldValues"]["nodes"] if v.get("field")}
+            return {
+                "item_id": n["id"], "type": "pull_request" if "/pull/" in c["url"] else "issue",
+                "number": c["number"], "title": c["title"], "url": c["url"],
+                "state": (c.get("state") or "").lower() or None,
+                "repository": f"{self.owner}/{self.repo}", "status": fields.get(STATUS_FIELD), "fields": fields,
+            }
+        return None
 
     def set_status(self, item_id: str, status: str) -> str:
         graphql(
@@ -237,6 +270,42 @@ class Board:
     # issues in the repository
     def issue(self, number: int) -> dict:
         return gh(f"repos/{self.owner}/{self.repo}/issues/{number}")
+
+    def blocked_by(self, number: int) -> list[dict]:
+        return gh(f"repos/{self.owner}/{self.repo}/issues/{number}/dependencies/blocked_by")
+
+    def blocking(self, number: int) -> list[dict]:
+        return gh(f"repos/{self.owner}/{self.repo}/issues/{number}/dependencies/blocking")
+
+    def sub_issues(self, number: int) -> list[dict]:
+        return gh(f"repos/{self.owner}/{self.repo}/issues/{number}/sub_issues")
+
+    def parent(self, number: int) -> dict | None:
+        data = graphql(
+            "query($o:String!,$r:String!,$n:Int!){ repository(owner:$o,name:$r){ issue(number:$n){ parent{ number title state } } } }",
+            o=self.owner, r=self.repo, n=number,
+        )
+        return ((data.get("repository") or {}).get("issue") or {}).get("parent")
+
+    def set_record(self, number: int, **values: str) -> str:
+        """Write `values` (branch, pull request, preview) into the card's `## Work record` section,
+        adding the section when the card has none. Returns the new body."""
+        body = self.issue(number).get("body") or ""
+        labels = {"branch": "Branch", "pr": "Pull request", "preview": "Preview"}
+        m = re.search(r"^## Work record\n(.*?)(?=^## |\Z)", body, re.M | re.S)
+        lines = {k: "—" for k in labels}
+        if m:
+            for k, label in labels.items():
+                found = re.search(rf"^- {label}: (.*)$", m.group(1), re.M)
+                if found:
+                    lines[k] = found.group(1).strip()
+        for k, v in values.items():
+            if v:
+                lines[k] = v
+        section = "## Work record\n\n" + "".join(f"- {labels[k]}: {lines[k]}\n" for k in labels) + "\n"
+        body = body[: m.start()] + section + body[m.end():] if m else body.rstrip() + "\n\n" + section
+        gh(f"repos/{self.owner}/{self.repo}/issues/{number}", "-X", "PATCH", data={"body": body.rstrip() + "\n"})
+        return body
 
 
 # --- commands ----------------------------------------------------------------------------
@@ -279,6 +348,17 @@ def cmd_show(board: Board, args) -> None:
     if item["number"]:
         issue = board.issue(item["number"])
         print(issue["html_url"])
+        rel = {
+            "blocked by": board.blocked_by(item["number"]),
+            "blocking": board.blocking(item["number"]),
+            "sub-issues": board.sub_issues(item["number"]),
+        }
+        parent = board.parent(item["number"])
+        if parent:
+            print(f"parent: #{parent['number']} {parent['title']} ({parent['state'].lower()})")
+        for label, issues in rel.items():
+            if issues:
+                print(f"{label}: " + ", ".join(f"#{i['number']} ({i['state']})" for i in issues))
         print()
         print(issue.get("body") or "(no text)")
         comments = gh(f"repos/{board.owner}/{board.repo}/issues/{item['number']}/comments")
@@ -335,6 +415,7 @@ def cmd_claim(board: Board, args) -> None:
     if args.note:
         text += f" {args.note}"
     c = gh(f"repos/{board.owner}/{board.repo}/issues/{item['number']}/comments", "-X", "POST", data={"body": text})
+    board.set_record(item["number"], branch=f"`{args.branch}`")
     print(f"{name(item)} → {status}; {c['html_url']}")
 
 
@@ -361,6 +442,76 @@ def cmd_remove(board: Board, args) -> None:
     print(f"removed {name(item)} from {board.title}")
 
 
+def cmd_record(board: Board, args) -> None:
+    item = board.find(args.item)
+    pr = f"#{args.pr.lstrip('#')}" if args.pr else None
+    preview = f"[{args.preview}]({args.preview})" if args.preview else None
+    branch = f"`{args.branch}`" if args.branch else None
+    board.set_record(item["number"], branch=branch, pr=pr, preview=preview)
+    print(f"{name(item)}: work record updated")
+
+
+def cmd_depend(board: Board, args) -> None:
+    blocked, blocker = int(args.item.lstrip("#")), int(args.on.lstrip("#"))
+    path = f"repos/{board.owner}/{board.repo}/issues/{blocked}/dependencies/blocked_by"
+    if args.remove:
+        gh(f"{path}/{board.issue(blocker)['id']}", "-X", "DELETE")
+        print(f"#{blocked} no longer blocked by #{blocker}")
+    else:
+        gh(path, "-X", "POST", data={"issue_id": board.issue(blocker)["id"]})
+        print(f"#{blocked} blocked by #{blocker}")
+
+
+def cmd_sub(board: Board, args) -> None:
+    parent, child = int(args.parent.lstrip("#")), int(args.child.lstrip("#"))
+    cid = board.issue(child)["id"]
+    if args.remove:
+        gh(f"repos/{board.owner}/{board.repo}/issues/{parent}/sub_issue", "-X", "DELETE", data={"sub_issue_id": cid})
+        print(f"#{child} no longer a sub-issue of #{parent}")
+    else:
+        gh(f"repos/{board.owner}/{board.repo}/issues/{parent}/sub_issues", "-X", "POST", data={"sub_issue_id": cid})
+        print(f"#{child} is a sub-issue of #{parent}")
+
+
+def cmd_ready(board: Board, args) -> None:
+    """What `/process-next-work-package` continues with: every card In Progress, then every
+    Todo card that has a scope in its text and whose blockers are all closed."""
+    items = [i for i in board.items() if i["number"] and i["state"] == "open"]
+    listed = {i["number"] for i in items}
+    for issue in gh(f"repos/{board.owner}/{board.repo}/issues", "-X", "GET", "-f", "state=open", "-f", "per_page=100"):
+        if issue["number"] not in listed:  # the listing lags behind a card just added; read it from the issue
+            hit = board.find_number(issue["number"])
+            if hit:
+                items.append(hit)
+    out = []
+    for i in items:
+        if i["status"] not in ("In Progress", "Todo"):
+            continue
+        if args.initiative and (i["fields"].get("Initiative") or "").lower() != args.initiative.lower():
+            continue
+        issue = board.issue(i["number"])
+        labels = [l["name"] for l in issue.get("labels", [])]
+        if args.label and args.label not in labels:
+            continue
+        subs = board.sub_issues(i["number"])
+        open_blockers = [b["number"] for b in board.blocked_by(i["number"]) if b["state"] == "open"]
+        scoped = "## Scope" in (issue.get("body") or "")
+        state = ("in progress" if i["status"] == "In Progress" else
+                 "parent" if subs else
+                 "blocked" if open_blockers else
+                 "ready" if scoped else "no scope")
+        out.append({"number": i["number"], "title": i["title"], "status": i["status"], "state": state,
+                    "blocked_by": open_blockers, "labels": labels, "initiative": i["fields"].get("Initiative")})
+    order = {"in progress": 0, "ready": 1, "blocked": 2, "no scope": 3, "parent": 4}
+    out.sort(key=lambda c: (order[c["state"]], c["number"]))
+    if args.json:
+        print(json.dumps(out, indent=1, ensure_ascii=False))
+        return
+    for c in out:
+        extra = f"  blocked by {', '.join('#%d' % b for b in c['blocked_by'])}" if c["blocked_by"] else ""
+        print(f"{c['state']:<12} #{c['number']} {c['title']}{extra}")
+
+
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description=__doc__.split("\n\n")[0], formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--project", default=DEFAULT_PROJECT, help=f"the project's title or number (default: {DEFAULT_PROJECT})")
@@ -380,6 +531,14 @@ def main(argv: list[str] | None = None) -> int:
     s = sub.add_parser("close", help="close the issue and move it to Done"); s.add_argument("item")
     s.add_argument("--reason", choices=["completed", "not_planned"], default="completed"); s.add_argument("--keep-status", action="store_true"); s.set_defaults(run=cmd_close)
     s = sub.add_parser("remove", help="take an item off the board"); s.add_argument("item"); s.set_defaults(run=cmd_remove)
+    s = sub.add_parser("record", help="write the card's work record: branch, pull request, preview"); s.add_argument("item")
+    s.add_argument("--branch"); s.add_argument("--pr"); s.add_argument("--preview"); s.set_defaults(run=cmd_record)
+    s = sub.add_parser("depend", help="mark a card blocked by another (GitHub's issue dependencies)"); s.add_argument("item")
+    s.add_argument("--on", required=True); s.add_argument("--remove", action="store_true"); s.set_defaults(run=cmd_depend)
+    s = sub.add_parser("sub", help="make a card a sub-issue of a parent card"); s.add_argument("parent"); s.add_argument("child")
+    s.add_argument("--remove", action="store_true"); s.set_defaults(run=cmd_sub)
+    s = sub.add_parser("ready", help="cards in progress, then Todo cards that are ready, blocked or without scope")
+    s.add_argument("--label"); s.add_argument("--initiative"); s.add_argument("--json", action="store_true"); s.set_defaults(run=cmd_ready)
     args = p.parse_args(argv)
     try:
         owner, repo = origin()

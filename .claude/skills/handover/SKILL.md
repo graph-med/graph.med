@@ -31,9 +31,10 @@ one is not part of the project.
    and index in `.claude/rules/conventions/memory.md`.
 4. **The card.** The session's record is a comment on each card it worked
    (`uv run tools/board.py comment <n> --body-file <file>`): the branch, the
-   pull request, what was decided, what was left open or undone. The command
-   that named the card is the permission for that comment (`project-board`
-   skill). The repository holds no log and no handoff file (ADR-0004). A
+   pull request, what was decided, what was left open or undone — and the
+   card's work record carries the branch, the pull request and the preview
+   (`tools/board.py record`), so the next session continues from the card
+   (ADR-0005). The repository holds no log and no handoff file (ADR-0004). A
    settled decision about the repository itself is an ADR under `docs/adr/`,
    not a memory.
 5. **Deliver like any other change.** Commit on the working branch, push, and
