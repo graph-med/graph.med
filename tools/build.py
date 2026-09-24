@@ -14,10 +14,11 @@ in the browser by dagre) per grouping the view offers — its tree of patient gr
 of its `group_by` (spec §4.1), chosen by a switch on the page —, a chapter tree
 that filters it and a search that fades it (both from the sources' outline and the
 claims' sections, docs/publication.md §3), with a detail section beside or below it
-— plus <view-id>.json; every entity becomes
-<namespace>/<entity-id>/index.html and <namespace>/<entity-id>.json; the schema is
-copied to schema/schema.yaml. Every page carries Open Graph and Twitter Card tags with
-absolute URLs — the origin is https://<cname> when --cname is given, else the site's
+— plus <view-id>.json; the index is one entry per view — its source's title,
+register number and licence line, and what it holds — and the only page where the
+views meet; every entity becomes <namespace>/<entity-id>/index.html and
+<namespace>/<entity-id>.json; the schema is copied to schema/schema.yaml. Every
+page carries Open Graph and Twitter Card tags with absolute URLs — the origin is https://<cname> when --cname is given, else the site's
 domain, and --origin overrides both — and the one committed preview image
 (tools/site/static/social-card.png, rendered from logo.svg). Offline, deterministic,
 nothing authored.
@@ -1312,9 +1313,15 @@ def main(argv=None) -> int:
             view_tpl.render(view=view, vid=vid, title=title, sources=sources, counts=counts, legend=data["legend"], page=page, page_lang=PAGE_LANG,
                             graph_json=dumps(data).replace("</", "<\\/")), encoding="utf-8")   # safe inside <script>
         (out / (vid + ".json")).write_text(dumps(data), encoding="utf-8")
-        views.append({"vid": vid, "title": title, "sources": sources, "counts": counts})
+        # the view's entry on the index (docs/publication.md §2): what it holds — its recommendations, the patient
+        # groups a reader meets in its tree (the junctions of its first grouping, each concept once) and its claims
+        # — and its sources, each with its register number and licence line; the title in its source's language
+        groups = len({n["ref"] for n in groupings[0]["nodes"] if n["type"] == "junction" and n.get("ref")})
+        views.append({"vid": vid, "title": title, "lang": sources[0].get("lang") if len(sources) == 1 else None, "sources": sources,
+                      "holds": {"statement": counts["statement"], "group": groups, "claim": counts["claim"]}})
 
-    (out / "index.html").write_text(env.get_template("index.html").render(views=views, sources=sorted(pool.of_type("source"), key=lambda s: s["id"])), encoding="utf-8")
+    # the index: one entry per view, the only page where the views meet; its words are the page chrome's (tools/site/words/)
+    (out / "index.html").write_text(env.get_template("index.html").render(views=views, page=page, page_lang=PAGE_LANG), encoding="utf-8")
     print(f"built {len(views)} view(s) and {len(pool.entities) - len(views)} entity pages into {out.relative_to(ROOT) if out.is_relative_to(ROOT) else out} (base {base}{', preview of pull request ' + str(args.preview) if args.preview else ''})")
     return 0
 
