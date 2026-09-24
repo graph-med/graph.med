@@ -5,9 +5,10 @@
   /* the four directions (für · gegen · abwägen · Lücke): one colour each for the box in the graph and the bar beside the
      judgement in the details, so that the two agree — light enough for dark text in both themes; gegen is a tint of the contested red */
   --dir-for: #9ad3a8; --dir-against: #e9a9ad; --dir-weigh: #f2d97a; --dir-gap: #d4d4d4;
-  /* the verb as a border on the box: "soll" gets a rim in a strong shade of its direction's colour ("soll nicht" the red one),
-     saturated well past the pastel fill so that it reads against it in both themes; "sollte" has no border */
-  --verb-for: #1f7a3c; --verb-against: #b3232c;
+  /* the page's type, the graph's too (graph.js reads it): the system face, then fonts that draw the direction glyphs
+     (✓ ✗ ⚖ ∅) as text — a platform whose system face lacks ⚖ would otherwise reach for its colour emoji font,
+     which the text variation selector U+FE0E the build writes after ⚖ asks it not to, but not every browser obeys */
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif, "Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols", "DejaVu Sans", FreeSerif;
   --note: #f2d97a;   /* the preview strip */
   --surface: #f3f3f1;   /* the wording's own surface on the statement card (zone 3) */
   color-scheme: light dark;
@@ -15,13 +16,12 @@
 @media (prefers-color-scheme: dark) {
   :root { --bg: #111; --fg: #eee; --mute: #999; --line: #333; --accent: #7cb7ff; --surface: #1d1d1b;
           --statement: #7cb7ff; --concept: #9ad17a; --contested: #ff6b6b; --edge: #555;
-          --dir-for: #7fc492; --dir-against: #dd8d92; --dir-weigh: #e5c95a; --dir-gap: #b4b4b4;
-          --verb-for: #146b32; --verb-against: #9e1c26; }
+          --dir-for: #7fc492; --dir-against: #dd8d92; --dir-weigh: #e5c95a; --dir-gap: #b4b4b4; }
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--bg); color: var(--fg);
-  font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  font: 16px/1.45 var(--font); }
 a { color: var(--accent); }
 code { font-size: .9em; }
 .preview { padding: .35rem 1rem; font-size: .8rem; font-weight: 700; background: var(--note); color: #111; }
@@ -58,7 +58,6 @@ ul.cards small, ul.plain small { display: block; color: var(--mute); }
 .sw.aim { clip-path: polygon(0 0, 80% 0, 100% 50%, 80% 100%, 0 100%); background: var(--mute); }
 .sw.d-for { background: var(--dir-for); border: 0; } .sw.d-against { background: var(--dir-against); border: 0; }
 .sw.d-weigh { background: var(--dir-weigh); border: 0; } .sw.d-gap { background: var(--dir-gap); border: 0; }
-.sw.v-for { background: var(--dir-for); border: 2px solid var(--verb-for); } .sw.v-against { background: var(--dir-against); border: 2px solid var(--verb-against); }
 .sw.general { border-radius: 2px; background: var(--mute); outline: 3px double var(--fg); outline-offset: 2px; margin-left: .7em; }   /* the double outline a box applying generally wears in the graph */
 .controls { grid-area: 1 / 1 / 2 / 2; position: relative; z-index: 2; display: flex; gap: .4rem; align-items: flex-start; justify-content: space-between; padding: .6rem; pointer-events: none; }
 .controls > * { pointer-events: auto; }   /* the row spans the width so that left and right keep their ends; only the controls themselves take the tap */
@@ -135,7 +134,7 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card .judgement.dir-Lücke { border-color: var(--dir-gap); }
 .card .line1 { display: flex; align-items: baseline; justify-content: space-between; gap: .6rem; margin: 0 0 .35rem; font-size: 1.35rem; font-weight: 700; line-height: 1.25; }
 .card .line1 .answer { flex: 1 1 auto; min-width: 0; }
-.card .line1 .glyph { margin-right: .1rem; }
+.card .line1 .glyph { margin-right: .1rem; font-weight: 400; }   /* a bold ⚖ finds no text face on some platforms and falls to the emoji font */
 .card .line1 .verbs { font-weight: 400; color: var(--mute); margin-left: .3rem; }
 .card .contested-mark { flex: none; font-size: .85rem; font-weight: 700; color: var(--contested); text-decoration: none; padding: .15rem .5rem; border: 2px solid var(--contested); border-radius: 1rem; white-space: nowrap; }
 .card .contested-mark:hover, .card .contested-mark:focus-visible { background: var(--contested); color: #fff; }
