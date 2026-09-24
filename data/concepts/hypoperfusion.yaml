@@ -1,0 +1,10 @@
+# A ledger concept of views/sepsis-lf-4.0 (card #217): the condition of 2.8 ("wenn weiterhin Zeichen
+# einer Hypoperfusion vorliegen") and of 4.9 ("mit persistierender Hypoperfusion"); the persistence is
+# the statements' wording, the concept the state. Stated: the rule on p. 29 is the rule of 2.5's
+# "Sepsis-induzierte Hypoperfusion", a concept of its own (card #218), and reaches this one by no edge.
+id: concepts/hypoperfusion
+type: concept
+lang: de
+label: Hypoperfusion
+facet: finding
+source: modelling

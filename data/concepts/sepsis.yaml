@@ -1,0 +1,9 @@
+# Sepsis as the guideline defines it (Definition 1, p. 22), a ledger concept of views/sepsis-lf-4.0 (card
+# #217): the population of "Patienten mit Sepsis" (3.2, 6.5), shared by the parts. Derived once card #218
+# writes its one defined_by edge, to the claim at the top of Definition 1's rule.
+id: concepts/sepsis
+type: concept
+lang: de
+label: Sepsis
+facet: patient_state
+source: modelling

@@ -1,0 +1,10 @@
+# The septic shock as the guideline defines it (Definition 2, p. 23), a ledger concept of
+# views/sepsis-lf-4.0 (card #217): the population of "Patienten mit septischem Schock" (2.6, 2.10, 3.2,
+# 4.6–4.12, 8.1, 8.17), shared by the parts. Derived once card #218 writes its one defined_by edge, to the
+# claim at the top of Definition 2's rule, combined as card #204 decides.
+id: concepts/septischer-schock
+type: concept
+lang: de
+label: Septischer Schock
+facet: patient_state
+source: modelling
