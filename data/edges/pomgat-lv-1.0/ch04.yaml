@@ -66,9 +66,23 @@
   - refines
   - claims/pomgat-lv-1.0/8ce3a620
   - source: modelling
-    rationale: 'R: kardiovaskuläre Hochrisikopatienten — wer als solcher gilt (mindestens zwei RCRI-Risikofaktoren, ASA Status von mindestens 3, koronare Herzkrankheit oder nachgewiesene Myokardischämie)'
+    rationale: 'R: kardiovaskuläre Hochrisikopatienten — wer als solcher gilt, Antwort 1 von 3: mindestens zwei klinische RCRI-Risikofaktoren'
     lang: de
-    as_of: '2026-09-23'
+    as_of: '2026-09-24'
+- - claims/pomgat-lv-1.0/2f2ded84
+  - refines
+  - claims/pomgat-lv-1.0/8ce3a620
+  - source: modelling
+    rationale: 'R: kardiovaskuläre Hochrisikopatienten — wer als solcher gilt, Antwort 2 von 3 („ferner“): ASA Status von mindestens 3'
+    lang: de
+    as_of: '2026-09-24'
+- - claims/pomgat-lv-1.0/5410f724
+  - refines
+  - claims/pomgat-lv-1.0/8ce3a620
+  - source: modelling
+    rationale: 'R: kardiovaskuläre Hochrisikopatienten — wer als solcher gilt, Antwort 3 von 3: koronare Herzkrankheit oder nachgewiesene Myokardischämie'
+    lang: de
+    as_of: '2026-09-24'
 - - claims/pomgat-lv-1.0/1134b4ef
   - refines
   - claims/pomgat-lv-1.0/2c6b9961

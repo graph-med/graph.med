@@ -92,11 +92,36 @@
   section: "4.1"
   label: 'Als kardiovaskuläre Hochrisikopatienten gelten Patienten mit mindestens zwei klinischen Risikofaktoren (nach dem
     Revised Cardiac Risk Index (RCRI) score: ischämische Herzerkrankung, zerebrovaskuläre Erkrankung, Niereninsuffizienz mit
-    einem Serumkreatinin von >2mg/dl oder insulinpflichtiger Diabetes mellitus), ferner Patienten mit einem ASA Status von
-    mindestens 3 und Patienten mit koronarer Herzkrankheit oder nachgewiesener Myokardischämie'
+    einem Serumkreatinin von >2mg/dl oder insulinpflichtiger Diabetes mellitus)'
+  thresholds:   # as printed (spec §3.1); the serum creatinine bounds one RCRI factor, not the term, and stays in the label
+    - {quantity: concepts/rcri-risikofaktoren-anzahl, comparator: "≥", value: "zwei"}
   source:
     at: sources/pomgat-lv-1.0#page=27
     quote: kardiovaskuläre Hochrisikopatienten gelten Patienten mit mindestens zwei klinischen
+  provenance:   # the quote prints "mindestens zwei"; the next line names what is counted
+    thresholds:
+      - {at: sources/pomgat-lv-1.0#page=27, quote: "kardiovaskuläre Hochrisikopatienten gelten Patienten mit mindestens zwei klinischen"}
+      - {at: sources/pomgat-lv-1.0#page=27, quote: "Risikofaktoren (nach dem Revised Cardiac Risk Index (RCRI) score: ischämische"}
+- id: claims/pomgat-lv-1.0/2f2ded84
+  type: claim
+  lang: de
+  kind: criterion
+  section: "4.1"
+  label: "… ferner Patienten mit einem ASA Status von mindestens 3"
+  thresholds:   # as printed (spec §3.1)
+    - {quantity: concepts/asa-status, comparator: "≥", value: "3"}
+  source:
+    at: sources/pomgat-lv-1.0#page=27
+    quote: Patienten mit einem ASA Status von mindestens 3
+- id: claims/pomgat-lv-1.0/5410f724
+  type: claim
+  lang: de
+  kind: criterion
+  section: "4.1"
+  label: "… und Patienten mit koronarer Herzkrankheit oder nachgewiesener Myokardischämie"
+  source:
+    at: sources/pomgat-lv-1.0#page=27
+    quote: Herzkrankheit oder nachgewiesener Myokardischämie
 - id: claims/pomgat-lv-1.0/1134b4ef
   type: claim
   lang: de
