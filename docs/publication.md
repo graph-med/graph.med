@@ -24,7 +24,8 @@ The pool is published as a **static site**: every **view** is a page at
 identifier, both generated from `data/` by a build script on every change to `main`
 and served by GitHub Pages behind the `graph.med` domain; the primary page is a
 **graph** that is read on a **phone first**, where tapping a node opens its details
-in a **section below the graph**.
+in a **section below the graph** — on a phone, a strip at the bottom edge that
+raises the section over the graph.
 
 ---
 
@@ -113,7 +114,7 @@ decision-graph-derivation):
   unfolding a group never follows it. While a box is selected, the boxes
   related to it that are shown keep their colour and wear a dotted outline; no
   line is drawn across the tree, and the card names each relation (zone 9).
-  A box takes the colour of its direction — the four colours of the judgement bar
+  A box takes the colour of its direction — the four colours of the judgement band
   in the details, so that box and section agree — and its label begins with a
   stamp, in text, before the short form: `✗ EK soll nicht · Keine präoperative
   Haarentfernung`. **The glyph** (✓ ✗ ⚖ ∅) says the direction again, for every
@@ -289,7 +290,16 @@ way back from any search or filter is one tap. Tapping a node or an answer selec
 follows it stay, everything else fades, and its details open in the **section
 below the graph** — on a wide screen, in a **column beside it**, the graph taking
 the full height; the graph stays where it is either way, so the reader keeps their
-place. Tapping the background clears. Tapping a concept linked in the section
+place, and the section opens at its top, the title, on every selection — never in
+the middle of the card before it. **On a phone the details wait in a peek strip**
+at the bottom edge rather than below the graph: the direction colour as a swatch
+and an edge, the title, and the judgement (`✓ für · Grad B`, and `⚠ umstritten`
+where a contesting claim exists), so that closed it already answers the first
+question. Tapping the strip raises the section over the graph; `✕`, the strip
+again or Escape lowers it. The page itself never scrolls: not on a tap, not on
+raising or lowering, and the graph is where the reader left it. The strip is
+built in the browser from the card's own title, band and chips, and a wide
+screen does not show it. Tapping the background clears. Tapping a concept linked in the section
 moves the graph there. Deep links carry `#<entity id>`, and `?by=<grouping>` when the tree is
 grouped by the chapters or an axis. There are no modal dialogs and no page
 loads needed to read a view; the entity pages (§4) exist for linking, not for reading.
@@ -373,21 +383,24 @@ glyph. Timing
   | 9 | More | `Mehr zu dieser Aussage` | `specializes`, `complements`, `conflicts`, the ids, the slots as stored | never (closed) |
 
   1. **Title.** The short label, exactly once on the card.
-  2. **Judgement.** One block with a 6 px bar in the direction colour at its
-     left, no heading. Line 1, in the card's largest type: the glyph, the
-     direction word and the verb as the claims say it — "soll nicht" for a
-     recommendation against, never the bare verb; at its right, only when a
-     contesting claim exists, `⚠ umstritten`, a link to zone 7, so that a
-     reader who stops after the judgement does not leave with a one-sided
-     answer. Line 2: one badge per supporting claim in claim order, its grade
-     as text on the badge's fill (`Grad A`, `Expertenkonsens`) and its consensus
-     beside it; identical pairs collapse to one badge with a count, `Grad A (2)`.
-     The badges wrap under line 1 and never squeeze it. **Their order is the
-     order of zone 8's entries** — the only thing tying a badge to its citation.
-     A claim without a direction (a fact, a gap notice) draws no direction
-     line; its badges still stand in line 2. Grades are shown, never composed
-     (below). Fill means grade, bar and glyph mean direction; nothing is
-     carried by colour alone.
+  2. **Judgement.** One band, a block filled with the direction colour, no
+     heading; its lines share the left edge. Line 1, in the card's largest
+     type: the glyph, the direction word and the verb as the claims say it —
+     "soll nicht" for a recommendation against, never the bare verb. Line 2:
+     one chip per supporting claim in claim order, its grade as text on the
+     chip's own light fill (`Grad A`, `Expertenkonsens`) and its consensus
+     beside it; identical pairs collapse to one chip with a count, `Grad A (2)`.
+     The chips wrap under line 1 and never squeeze it. **Their order is the
+     order of zone 8's entries** — the only thing tying a chip to its citation.
+     Only when a contesting claim exists, a third line under the chips,
+     `⚠ umstritten` in the contested colour, a link to zone 7 — not a chip
+     among the grades, because a contesting recommendation is the one case in
+     which a reader must not stop after the judgement, and a line has room for
+     the reason. A claim without a direction (a fact, a gap notice) draws no
+     direction line and its band stays on the neutral surface; its chips still
+     stand in line 2. Grades are shown, never composed (below). Fill means
+     grade, block and glyph mean direction — the chip keeps its own fill on
+     the block; nothing is carried by colour alone.
   3. **Wording.** The guideline's own sentence on its own surface: body-text
      size, line height 1.6, a measure of about seventy characters, no indent,
      no rule, no shrunken type. Several supporting claims: one surface each, in
@@ -417,7 +430,8 @@ glyph. Timing
      — no average, no worst case, no certainty in zone 2 — and the disclosure
      needs no script and survives printing.
   5. **Applies to.** The slots as rows: `Eingriff` (population, with the
-     families it belongs to below it), `Bedingung` (condition), `Maßnahme`
+     families it belongs to below it, after `gehört zu:`, so that they read as
+     broader categories and not as further requirements), `Bedingung` (condition), `Maßnahme`
      (action), then one row for every dimension axis that gives the
      statement a value (its placement, `graph-representation.md` §4.1), in the
      order of the axes' slot keys, named by the axis's
@@ -481,9 +495,11 @@ glyph. Timing
   8. **Citation.** Each source named once, by its title, in the order of its
      first supporting claim; under it one entry per supporting claim from that
      source: recommendation number, page, section, the verbatim quote, and two
-     buttons — `In der Leitlinie öffnen` (the link into the cited page, §5)
-     and `Suchtext kopieren` (the quote to the clipboard, for viewers that
-     cannot highlight). Then the review status, `Klinische Begutachtung:
+     actions that do not look alike — `In der Leitlinie öffnen`, the primary
+     one (the link into the cited page, §5), opening in a new tab and marked
+     `↗`, so that following the citation keeps the reader's open groups,
+     search, chapter and axis; and beside it `Suchtext kopieren`, a quiet text
+     button (the quote to the clipboard, for viewers that cannot highlight). Then the review status, `Klinische Begutachtung:
      ausstehend` (the pool has no attestation yet). Where a recommendation
      comes from is as much part of the answer as whom it is for.
   9. **More.** A `<details>`, closed: the related statements over
@@ -491,6 +507,10 @@ glyph. Timing
      ids, every slot as stored, the modelling source. The only zone where
      developer vocabulary — edge names, raw values, ids — is allowed.
 
+  The zones are separated by space, not by rules: one rule remains, before
+  zone 8, where the card turns from the answer to where the answer comes from.
+  The headings are in sentence case, never in versals — a German compound
+  keeps its word shape — and every zone keeps its heading, an empty one too.
   Every zone is a `<section>` with an accessible name (zones 1 and 2 by their
   own first line, the others by their heading), glyphs are `aria-hidden`, and
   every text carries its `lang`. At 390 × 844 px zones 1 to 3 of a typical

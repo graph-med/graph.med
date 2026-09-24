@@ -9,7 +9,9 @@ A view page on the site is **one decision tree**: a root, a question "Which pati
 group?" whose answers sit on the edges, a junction per group, an optional "Which
 condition?" with its answers on the edges, the recommendations as boxes coloured
 by their direction with the grade as a letter, aims as tags. Drawn top-down by Cytoscape.js with the
-dagre layout, self-hosted; a node's details in the section below the graph.
+dagre layout, self-hosted; a node's details in the section below the graph (on a
+phone, since WP-0036, a peek strip at the bottom edge that raises the section over
+the graph without moving the page).
 Decided 2026-09-06 after three rejected forms; applied in `docs/publication.md`
 §3 and `tools/build.py`.
 
