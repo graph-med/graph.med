@@ -6,7 +6,8 @@
 > the search with facet filters, short labels, direction glyphs, legend and judgement,
 > the order of the detail section (§3), entity pages and JSON (§4), source links
 > (§5), the grouping switch — Population · Kapitel · each axis the view declares
-> (§3, "The axis is the reader's choice") — and the deploy workflow with one
+> (§3, "The axis is the reader's choice") —, the scope tree and what applies
+> generally, for a view that declares one (§3), and the deploy workflow with one
 > preview per open pull request (§6). Not built and not registered: cuts (§7),
 > pathway views, and everything under §8. The
 > domain `graph.med` points at GitHub Pages. This document fixes what the site is *meant*
@@ -162,6 +163,32 @@ it. Three choices keep the tree readable at ninety recommendations:
   for, never from a family — the edge only groups and folds, it never moves a
   recommendation from a family to a member, and a group with two parents appears
   under both.
+- **The scope tree, where the view declares one.** A view with `anchor_slot` and
+  `scope_root` (`graph-representation.md` §4) folds its patient groups by its
+  scope tree: the `broader` edges and the scope edges (`in_scope_of`, §5) that
+  lead to the root. The first question's answers are then the concepts directly
+  below the root — the root itself is no answer, unless recommendations are
+  anchored on it, and then it is one answer with nothing below it — and every
+  level below folds as before, a scope edge's lower end a member group like a
+  `broader` one. Under every grouping but a hierarchy axis the same scope tree
+  folds the groups. Opening a group also reaches **what applies generally** to
+  it: the recommendations anchored on the upper end of a scope edge its concept
+  reaches, itself or through the groups above it. A path counts only when it
+  ends in a scope edge, so along `broader` alone nothing moves. They are never
+  merged into the group's own: they hang where they were made for and stay out
+  of its count. While the group is selected, those shown keep their colour and
+  wear a double outline (the legend names it, for such a view only), and the
+  sheet lists them apart from the group's own, under "Allgemein geltende
+  Empfehlungen": grouped by the concept each was made for, with the condition of
+  the scope edges on the way ("Voraussetzung", every condition on the path holding
+  at once; of several paths the one with the fewest conditions counts), then each
+  recommendation with its number, page and section. The statement card names the
+  other side in zone 5. The origin is data, not only rendering: the view's JSON
+  carries `scope` — its anchor slot, its root, and per concept `own` (the
+  statements anchored on it) and `general` (each with its `anchor`, the `via`
+  concept whose scope edge it came through and its `condition`) — and each
+  junction its `general`; the statement's JSON carries it on the card (zone 5).
+  A view that declares no scope tree is drawn exactly as without this.
 - **The axis is the reader's choice.** What the tree groups by is an **axis**
   (`graph-representation.md` §4.1). The families above the patient groups are
   the plain hierarchy every view has; other axes exist once a person has
@@ -363,7 +390,12 @@ lists the four words with their colours. Timing
      the statement JSON `geltung` holds each row under its slot key, a
      dimension's row carrying its `axis`. A slot is plain text when its concept carries only this one
      statement in that role, and a link with the count when it carries more —
-     `Magensonde ziehen (6 Empfehlungen)`, the current statement included. The
+     `Magensonde ziehen (6 Empfehlungen)`, the current statement included. In a
+     view with a scope tree, a row `Gilt allgemein auch für` follows the anchor's:
+     the groups whose scope edge leads directly to the statement's anchor, each
+     with its `Voraussetzung` where the edge has a condition; in the JSON the
+     anchor's row carries `allgemein`, every group it applies generally to — also
+     those below the named ones — with its `condition`, its `via` and `direct`. The
      `outcome` slot has no row: an endpoint is the dimension the certainty
      varies along, which is zone 4's business; the slot stays in the schema and
      the data and is listed under zone 9.
@@ -428,7 +460,9 @@ lists the four words with their colours. Timing
   claims' grade and consensus are the badges of zone 2, its contesting claims
   are zone 7. The entity page (§4) renders the same card.
 - *concept*: the label and definition, the statements that use it and in which slot,
-  and its codes (`codes_as`) once terminology imports exist.
+  and its codes (`codes_as`) once terminology imports exist; in a view with a
+  scope tree, below them and apart, the statements that apply generally to it
+  (`Allgemein geltende Empfehlungen`, above).
 - *structural node*: its label, its branches or outcomes, and the statements it is
   about.
 
