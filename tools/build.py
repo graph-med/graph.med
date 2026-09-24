@@ -85,7 +85,7 @@ CHAPTERS = "section"   # the URL token and grouping id of the built-in chapter g
 # the grammar sits in the pair, never in the code. The range line of zone 4 (`evidence.by_outcome`) has no
 # pair: a range needs two values, so it never counts one (evidence_of()).
 CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", "zone.contested.one", "zone.contested.many",
-             "zone.citation", "zone.more", "slot.population", "slot.condition", "slot.action", "slot.count",
+             "zone.citation", "zone.more", "slot.population", "slot.condition", "slot.action", "slot.count", "slot.families",
              "cite.open", "cite.quote", "cite.review.pending", "cite.no", "cite.page", "cite.section",
              "grade.A", "grade.B", "grade.0", "grade.EK",
              "consensus.starker_konsens", "consensus.konsens", "consensus.mehrheitliche_zustimmung", "consensus.kein",
@@ -112,6 +112,7 @@ CARD_WORDS = {"de": {
     "zone.body_text": "Hinweise aus dem Begleittext", "zone.contested.one": "Widersprechende Empfehlung",
     "zone.contested.many": "Widersprechende Empfehlungen", "zone.citation": "Beleg", "zone.more": "Mehr zu dieser Aussage",
     "slot.population": "Eingriff", "slot.condition": "Bedingung", "slot.action": "Maßnahme", "slot.count": "({n} Empfehlungen)",
+    "slot.families": "gehört zu:",
     "cite.open": "In der Leitlinie öffnen", "cite.quote": "Suchtext kopieren", "cite.review.pending": "Klinische Begutachtung: ausstehend",
     "cite.no": "Empf. {nr}", "cite.page": "S. {nr}", "cite.section": "Abschnitt {nr}",
     "grade.A": "Grad A", "grade.B": "Grad B", "grade.0": "Grad 0", "grade.EK": "Expertenkonsens",

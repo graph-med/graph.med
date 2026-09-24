@@ -36,9 +36,13 @@
 <section class="zone title" aria-labelledby="zone-title-h">
 <h2 class="title" id="zone-title-h">{{ c.title }}</h2>
 </section>
+{# zone 2, the band: one block in the direction colour — line 1 the glyph, the direction word and the verbs; line 2
+   the grade and the consensus as chips on their own light fill (a fill means grade, the block means direction);
+   only where a contesting claim exists, a third line with the contested marker, linking to zone 7 #}
 <section class="zone judgement{% if c.urteil.direction %} dir-{{ c.urteil.direction }}{% endif %}" aria-labelledby="zone-judgement-h">
-<p class="line1" id="zone-judgement-h"><span class="answer">{% if c.urteil.direction %}<span class="glyph" aria-hidden="true">{{ c.urteil.glyph }}</span> {{ c.urteil.direction }}{% if c.urteil.verbs %} <span class="verbs">{{ c.urteil.verbs | join(" · ") }}</span>{% endif %}{% endif %}</span>{% if c.urteil.umstritten %} <a class="contested-mark" href="#zone-contested">{{ W("marker.contested") }}</a>{% endif %}</p>
+<p class="line1" id="zone-judgement-h"><span class="answer">{% if c.urteil.direction %}<span class="glyph" aria-hidden="true">{{ c.urteil.glyph }}</span> {{ c.urteil.direction }}{% if c.urteil.verbs %} <span class="verbs">{{ c.urteil.verbs | join(" · ") }}</span>{% endif %}{% endif %}</span></p>
 {% if c.urteil.badges %}<p class="badges">{% for b in c.urteil.badges %}{{ badge(b.grade, b.consensus, b.count) }} {% endfor %}</p>
+{% endif %}{% if c.urteil.umstritten %}<p class="contested-line"><a class="contested-mark" href="#zone-contested">{{ W("marker.contested") }}</a></p>
 {% endif %}</section>
 <section class="zone wording" aria-labelledby="zone-wording-h">
 <h3 id="zone-wording-h">{{ W("zone.wording") }}</h3>
@@ -79,7 +83,7 @@
 <h3 id="zone-applies-h">{{ W("zone.applies") }}</h3>
 <dl class="slots">
 {% for role, s in c.geltung.items() %}{% if s %}
-  <dt>{% if s.axis %}<span lang="{{ s.axis.lang }}">{{ s.axis.label }}</span>{% else %}{{ W("slot." ~ role) }}{% endif %}</dt><dd>{% if s.linked %}<a class="node-link" data-node="{{ s.id }}" href="{{ base }}{{ s.id }}/" lang="{{ s.lang }}">{{ s.label }}</a> <span class="count">{{ W("slot.count").format(n=s.count) }}</span>{% else %}<span lang="{{ s.lang }}">{{ s.label }}</span>{% endif %}{% if s.families %}<small class="families">{% for f in s.families %}<a class="node-link" data-node="{{ f.id }}" href="{{ base }}{{ f.id }}/" lang="{{ f.lang }}">{{ f.label }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</small>{% endif %}{{ rules_of(s) }}</dd>
+  <dt>{% if s.axis %}<span lang="{{ s.axis.lang }}">{{ s.axis.label }}</span>{% else %}{{ W("slot." ~ role) }}{% endif %}</dt><dd>{% if s.linked %}<a class="node-link" data-node="{{ s.id }}" href="{{ base }}{{ s.id }}/" lang="{{ s.lang }}">{{ s.label }}</a> <span class="count">{{ W("slot.count").format(n=s.count) }}</span>{% else %}<span lang="{{ s.lang }}">{{ s.label }}</span>{% endif %}{% if s.families %}<small class="families"><span class="families-label">{{ W("slot.families") }}</span> {% for f in s.families %}<a class="node-link" data-node="{{ f.id }}" href="{{ base }}{{ f.id }}/" lang="{{ f.lang }}">{{ f.label }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</small>{% endif %}{{ rules_of(s) }}</dd>
 {% if s.allgemein %}{% set direct = s.allgemein | selectattr("direct") | list %}{% if direct %}
   <dt>{{ W("scope.general_for") }}</dt><dd class="general-for">{% for g in direct %}<span><a class="node-link" data-node="{{ g.id }}" href="{{ base }}{{ g.id }}/" lang="{{ g.lang }}">{{ g.label }}</a>{% if g.condition %} <small>({{ W("scope.condition") }}: {% for x in g.condition %}<span lang="{{ x.lang }}">{{ x.label }}</span>{% if not loop.last %} · {% endif %}{% endfor %})</small>{% endif %}</span>{% endfor %}</dd>
 {% endif %}{% endif %}{% endif %}{% endfor %}
@@ -121,7 +125,7 @@
 {% for x in s.claims %}  <li>
 {% set at = where(x, no=true, link=false) %}{% if at %}    <p class="cite">{{ at }}</p>
 {% endif %}    <blockquote lang="{{ x.lang }}">„{{ x.quote }}“</blockquote>
-    <p class="actions"><a class="btn" href="{{ x.link }}" rel="noopener">{{ W("cite.open") }}</a> <button type="button" class="copy" data-copy="{{ x.quote }}">{{ W("cite.quote") }}</button></p>
+    <p class="actions"><a class="btn" href="{{ x.link }}" target="_blank" rel="noopener">{{ W("cite.open") }}<span class="ext" aria-hidden="true">↗</span></a> <button type="button" class="copy" data-copy="{{ x.quote }}">{{ W("cite.quote") }}</button></p>
   </li>
 {% endfor %}</ol>
 </div>
@@ -188,7 +192,7 @@
 <p class="label">{{ c.label }}</p>
 <p class="cite"><span lang="{{ c.source_lang }}">{{ c.source_title }}</span>{% if c.recommendation_no %} · {{ W("cite.no").format(nr=c.recommendation_no) }}{% endif %}{% if c.page %} · {{ W("cite.page").format(nr=c.page) }}{% endif %}{% if c.section %} · {{ W("cite.section").format(nr=c.section) }}{% endif %}</p>
 <blockquote>„{{ c.quote }}“</blockquote>
-<p class="actions"><a class="btn" href="{{ c.link }}" rel="noopener">{{ W("cite.open") }}</a> <button type="button" class="copy" data-copy="{{ c.quote }}">{{ W("cite.quote") }}</button></p>
+<p class="actions"><a class="btn" href="{{ c.link }}" target="_blank" rel="noopener">{{ W("cite.open") }}<span class="ext" aria-hidden="true">↗</span></a> <button type="button" class="copy" data-copy="{{ c.quote }}">{{ W("cite.quote") }}</button></p>
 {% if c.statements %}
 <section class="zone" aria-labelledby="zone-statements-h">
 <h3 id="zone-statements-h">{{ W("claim.statements") }}</h3>
