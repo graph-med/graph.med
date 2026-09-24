@@ -172,22 +172,28 @@ its own commit **before** the data commit (spec §7) — and is named in the PR.
 A card says what kind of work it is, in its text or by what it touches.
 
 **extraction** — phase one, claims, mechanical: for every sentence of every
-recommendation box, and for every body-text sentence that passes the body-text
-rule (spec §5.1, which also says its `kind` and that it is never graded), a
-claim in
+marked recommendation, whatever its form (spec §3.1), and for every body-text
+place — a sentence, a footnote, a table or figure read in rows — that passes
+the body-text rule (spec §5.1, which also says its `kind`, that it is never
+graded, and which declines are gap notices), a claim in
 `data/claims/<source-id>/<slug>.yaml`:
 
 - id `claims/<source-id>/<hash8>` where `hash8` = first 8 hex of
   sha256(`<locator>|<quote>`) — script it, never hand-compute;
 - `label`: the full sentence, source language, `lang` tagged; one claim per
-  recommendation sentence, never one per box (memory
-  `box-granularity-per-sentence`);
+  sentence of a box, never one per box (memory
+  `box-granularity-per-sentence`); a table claim as §5.1 K reads it
+  ("Kopf: Zelle; …", reference marks left out);
 - `quote`: a short **verbatim substring** of the extracted text, contiguous on
-  one line of the pdftotext output (layout columns break sentences across
-  lines — verify each quote by substring search before writing it);
-- `grade`, `verb`, `direction`, `consensus`, `recommendation_no`, `section`
-  exactly as printed; nothing the box does not state (underestimate, never
-  upgrade);
+  one line of the pdftotext output and inside one cell where columns
+  interleave — a box's grade column, a table's cells (layout columns break
+  sentences across lines — verify each quote by substring search before
+  writing it);
+- `grade` and `consensus` as the box prints them, reaching its sentences as
+  spec §3.1 says (the grade to its recommendation and gap-notice sentences,
+  the consensus to all); `verb`, `direction`, `recommendation_no` and
+  `section` (the section the box lies in, never its number) as printed;
+  nothing the box does not state (underestimate, never upgrade);
 - locator `#page=N` with the **physical** page.
 
 Phase two, linking, judgment, all `modelling`: for each claim, search
@@ -195,10 +201,15 @@ Phase two, linking, judgment, all `modelling`: for each claim, search
 `supports`/`contests` it; mint a statement only when none fits, its slots
 referencing concepts. For each slot, search `data/concepts/` and the
 terminology namespaces before minting a concept; a new concept gets its
-`facet`. A body-text claim supports no statement: it gets the edge spec §5.1
-gives it (`refines`, `limits`, `supplements`, to the claim the rule names, its
-`rationale` naming the clause and the term), and the rule's N clauses say what
-gets none. Edges go to `data/edges/<source-id>/<slug>.yaml`.
+`facet`. A box's fact or criterion sentence supports the statement spec §3.1
+names, a definition sentence none (its concept's `defined_by` reaches it), a gap
+notice none; a rule printed inside a box sentence stays in that claim and its
+concept stays stated — name each in the pull request (open question
+rule-claim-granularity). A body-text claim supports no statement: it gets the
+edge spec §5.1 gives it (`refines`, `limits`, `supplements`, to the claim the
+rule names, its `rationale` naming the clause and the term), a decline none,
+and the rule's N clauses say what gets none. Edges go to
+`data/edges/<source-id>/<slug>.yaml`.
 
 **linking** — edits existing entities or adds edges under spec §11: every change
 `modelling` or sourced, search before minting, nothing inherited, no review
