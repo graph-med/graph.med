@@ -39,9 +39,8 @@ concept name. The proof that it is not mere subsumption is in the data: POMGAT
 surgery with "sollte", 7.10 (EK) allows it for minimally invasive surgery only
 under a risk constellation — same action, same patient group, and both the
 recommendation and its grade flip with the access. The rejected alternative
-was to carry the access in the `condition` slot: that slot holds one value and
-is for the clinical circumstances of the case, and a procedural qualifier does
-not belong there.
+was to carry the access in the `condition` slot: that slot is for the clinical
+circumstances of the case, and a procedural qualifier does not belong there.
 
 **How to apply:** the axis is asserted but deliberately **not** offered in
 `group_by` — at 4 of 90 statements it cannot group a view. Assertion and
