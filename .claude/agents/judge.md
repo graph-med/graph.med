@@ -90,10 +90,12 @@ is a reading, and the reading is your job.
 ## The six questions
 
 1. **A claim against its page.** Is the `label` the one sentence at the quote
-   — one sentence, not the whole marked recommendation? Does `kind` follow
+   — one sentence, not the whole marked recommendation; for a table, the row
+   or group spec §5.1 K names? Does `kind` follow
    the sentence's form? Are
    `grade`, `verb`, `direction`, `consensus`, `consensus_share`,
-   `recommendation_no` and `section` as printed at that place — a consensus
+   `recommendation_no` and `section` as printed at that place — a box's
+   grade and consensus reaching its sentences as spec §3.1 says, a consensus
    class the one the source's table gives the printed share —, and is none
    supplied where the page prints none? Is every number in the label the number on the page? A
    body-text claim carries no `grade` and no `consensus`. A `threshold` is
@@ -125,12 +127,14 @@ is a reading, and the reading is your job.
 4. **A page against the pool.** For every cited page, read it the other way
    round: does every sentence of every recommendation the source marks on it
    have a claim, sharing its number where the source numbers it? Does every
-   body-text sentence that passes the rule's gate have a claim with its edge?
-   Is every alternative of an enumeration a claim of its own? Does every
-   claim of a marked recommendation support or contest a statement, and does
-   every body-text claim carry its edge (except the top or a part of a
-   combination that is not itself an answer, §5.1 N 5)? List each sentence that should be a
-   claim and is not, verbatim, with page, the marked recommendation it
+   body-text place (a sentence, a footnote, a table's row) that passes the
+   rule's gate have a claim with its edge? Is every alternative of an
+   enumeration a claim of its own? Is every claim of a marked recommendation
+   linked as spec §3.1 says (a statement it supports or contests; a
+   definition's concept by `defined_by`; a gap notice unlinked), and does
+   every body-text claim carry its edge (except a decline, §5.1 G4, and the
+   top or a part of a combination that is not itself an answer, §5.1 N 5)?
+   List each place that should be a claim and is not, verbatim, with page, the marked recommendation it
    belongs to and the test it passes.
    The page is the scope: you do not read pages the diff does not cite. A
    sentence that begins on the cited page belongs to it: read on to the end

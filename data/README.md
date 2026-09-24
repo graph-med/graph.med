@@ -39,8 +39,7 @@ with them, its `defined_by` edges included, under the same file name in
 | file | chapters | physical pages |
 |---|---|---|
 | `ch02` | 2 | 21–36 |
-| `ch03a` | 3.1–3.3, without Tabelle 2 | 37–51, to the heading of 3.4 (line 21 of p. 51) |
-| `ch03-tabelle2` | Tabelle 2 in 3.3, when the table is extracted | 45–46 |
+| `ch03a` | 3.1–3.3 (Tabelle 2 stays on the page: spec §5.1 G2) | 37–51, to the heading of 3.4 (line 21 of p. 51) |
 | `ch03b` | 3.4–3.5 | 51 from the heading of 3.4, to 56 |
 | `ch04` | 4 | 57–72 |
 | `ch05` | 5 | 73–87 |
