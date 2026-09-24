@@ -147,15 +147,6 @@
   source:
     at: sources/pomgat-lv-1.0#page=80
     quote: Bei Risikofaktoren für einen Harnverhalt (männliches Geschlecht, tiefe anteriore
-- id: claims/pomgat-lv-1.0/1a8b3a20
-  type: claim
-  lang: de
-  kind: criterion   # the enumeration in the parenthesis of box 7.7: which cases the term covers; carries no grade (spec §3.1)
-  section: "7.2"
-  label: Risikofaktoren für einen Harnverhalt (männliches Geschlecht, tiefe anteriore Rektumresektion, Rektumexstirpation)
-  source:
-    at: sources/pomgat-lv-1.0#page=80
-    quote: Risikofaktoren für einen Harnverhalt (männliches Geschlecht, tiefe anteriore
 - id: claims/pomgat-lv-1.0/f07134b0
   type: claim
   lang: de
@@ -212,15 +203,6 @@
   source:
     at: sources/pomgat-lv-1.0#page=82
     quote: Bei MIC-Eingriffen kann dann eine Epiduralanalgesie eingesetzt werden, wenn
-- id: claims/pomgat-lv-1.0/a5aadc84
-  type: claim
-  lang: de
-  kind: criterion   # the enumeration in the parenthesis of box 7.10: which cases the term covers, no number printed; carries no grade (spec §3.1)
-  section: "7.3.1"
-  label: Risiko-Konstellationen (lange OP-Zeiten, zu erwartender hoher postoperativer Opioidverbrauch)
-  source:
-    at: sources/pomgat-lv-1.0#page=82
-    quote: Risiko-Konstellationen (lange OP-Zeiten, zu
 - id: claims/pomgat-lv-1.0/51f44d3f
   type: claim
   lang: de
