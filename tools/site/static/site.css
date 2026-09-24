@@ -174,6 +174,16 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card ul.general li .cite { display: block; font-size: .8rem; }
 .card dl.slots dd.general-for > span { flex-basis: 100%; }   /* one group per line */
 .card dl.slots dd.general-for small { color: var(--mute); }
+/* a derived concept's rules, under its row of zone 5 and on its page: the line saying it is derived, then each rule —
+   its thresholds or its sentence, the page and the claim's link on a line of their own below */
+.card .rules { flex-basis: 100%; margin: .15rem 0 .3rem; padding-left: .6rem; border-left: 2px solid var(--line); }
+.card .rules p.derived { margin: 0 0 .15rem; color: var(--mute); font-size: .85rem; font-style: italic; }
+.card .rules ul.rule-list { margin: 0; }
+.card .rules ul.rule-list li { margin: 0; padding: .3rem 0; border-top: 0; }
+.card .rules ul.rule-list li + li { border-top: 1px dashed var(--line); }   /* alternatives, one apart from the next */
+.card .rules ul.rule-list li > span { display: block; }
+.card .rules .threshold { white-space: normal; }
+.card .rules .cite a { min-height: 32px; }
 /* zone 7: the contesting claims, each with the contested colour beside it, its heading in that colour */
 .card .contested h3 { color: var(--contested); }
 .card .contested ol.claims li { border-left: 3px solid var(--contested); padding-left: .6rem; }

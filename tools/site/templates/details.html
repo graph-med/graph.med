@@ -10,6 +10,20 @@
 {% set parts = [] %}{% if no and x.recommendation_no %}{% set _ = parts.append(W("cite.no").format(nr=x.recommendation_no)) %}{% endif %}{% if x.page %}{% set _ = parts.append(W("cite.page").format(nr=x.page)) %}{% endif %}{% if x.section %}{% set _ = parts.append(W("cite.section").format(nr=x.section)) %}{% endif %}
 {%- if parts and link %}<a href="{{ x.link }}" rel="noopener">{{ parts | join(" · ") }}</a>{% elif parts %}{{ parts | join(" · ") }}{% endif %}
 {%- endmacro %}
+{# a derived concept's rules (docs/publication.md §3 zone 5, §4): one line saying it is derived — "nach einer der
+   folgenden Regeln" only when there are several, the rules being alternatives — then each rule as the thresholds
+   its claim prints (quantity, comparator, value, unit, time point; a relative one "× <reference>"; several joined
+   by "und", holding together) or, without any, the claim's sentence; its page linked into the source and a link
+   to the claim's page. One macro for the card's rows, whatever the slot, and the concept's page. #}
+{% macro rules_of(x) -%}
+{% if x.derivation == "derived" %}<div class="rules">
+<p class="derived">{{ W("derivation.rules", x.rules | length).format(n=x.rules | length) }}</p>
+<ul class="plain rule-list">
+{% for r in x.rules %}  <li><span class="rule" lang="{{ r.lang }}">{% if r.thresholds %}{% for t in r.thresholds %}{% if not loop.first %} {{ W("rule.and") }} {% endif %}<span class="threshold"><span lang="{{ t.quantity.lang }}">{{ t.quantity.label }}</span> {% if t.comparator == "between" %}{{ W("comparator.between") }}{% else %}{{ t.comparator }}{% endif %} {{ t.value }}{% if t.unit %} {{ t.unit }}{% endif %}{% if t.relative_to %} × <span lang="{{ t.relative_to.lang }}">{{ t.relative_to.label }}</span>{% endif %}{% if t.when %} {{ t.when }}{% endif %}</span>{% endfor %}{% else %}{{ r.label }}{% endif %}</span>
+    <span class="cite">{{ where(r) }}{% if r.page or r.section %} · {% endif %}<a href="{{ base }}{{ r.id }}/">{{ W("rule.claim") }}</a></span></li>
+{% endfor %}</ul>
+</div>{% endif %}
+{%- endmacro %}
 {% if e.type == "statement" %}
 {# The statement card (docs/publication.md §3 "What the section shows"): nine zones in a fixed order, whatever the
    statement contains — title, judgement, wording, evidence, applies to, body text, contradiction, citation, more —
@@ -65,7 +79,7 @@
 <h3 id="zone-applies-h">{{ W("zone.applies") }}</h3>
 <dl class="slots">
 {% for role, s in c.geltung.items() %}{% if s %}
-  <dt>{% if s.axis %}<span lang="{{ s.axis.lang }}">{{ s.axis.label }}</span>{% else %}{{ W("slot." ~ role) }}{% endif %}</dt><dd>{% if s.linked %}<a class="node-link" data-node="{{ s.id }}" href="{{ base }}{{ s.id }}/" lang="{{ s.lang }}">{{ s.label }}</a> <span class="count">{{ W("slot.count").format(n=s.count) }}</span>{% else %}<span lang="{{ s.lang }}">{{ s.label }}</span>{% endif %}{% if s.families %}<small class="families">{% for f in s.families %}<a class="node-link" data-node="{{ f.id }}" href="{{ base }}{{ f.id }}/" lang="{{ f.lang }}">{{ f.label }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</small>{% endif %}</dd>
+  <dt>{% if s.axis %}<span lang="{{ s.axis.lang }}">{{ s.axis.label }}</span>{% else %}{{ W("slot." ~ role) }}{% endif %}</dt><dd>{% if s.linked %}<a class="node-link" data-node="{{ s.id }}" href="{{ base }}{{ s.id }}/" lang="{{ s.lang }}">{{ s.label }}</a> <span class="count">{{ W("slot.count").format(n=s.count) }}</span>{% else %}<span lang="{{ s.lang }}">{{ s.label }}</span>{% endif %}{% if s.families %}<small class="families">{% for f in s.families %}<a class="node-link" data-node="{{ f.id }}" href="{{ base }}{{ f.id }}/" lang="{{ f.lang }}">{{ f.label }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</small>{% endif %}{{ rules_of(s) }}</dd>
 {% if s.allgemein %}{% set direct = s.allgemein | selectattr("direct") | list %}{% if direct %}
   <dt>{{ W("scope.general_for") }}</dt><dd class="general-for">{% for g in direct %}<span><a class="node-link" data-node="{{ g.id }}" href="{{ base }}{{ g.id }}/" lang="{{ g.lang }}">{{ g.label }}</a>{% if g.condition %} <small>({{ W("scope.condition") }}: {% for x in g.condition %}<span lang="{{ x.lang }}">{{ x.label }}</span>{% if not loop.last %} · {% endif %}{% endfor %})</small>{% endif %}</span>{% endfor %}</dd>
 {% endif %}{% endif %}{% endif %}{% endfor %}
@@ -133,7 +147,8 @@
 <p class="label">{{ e.label }}</p>
 {% if e.definition %}<p>{{ e.definition }}</p>{% endif %}
 {% if codes %}<p>{{ W("concept.codes") }} {% for c in codes %}<code>{{ c }}</code> {% endfor %}</p>{% endif %}
-{% if uses %}
+{% if derivation == "derived" %}{{ rules_of({"derivation": derivation, "rules": rules}) }}
+{% endif %}{% if uses %}
 <section class="zone" aria-labelledby="zone-uses-h">
 <h3 id="zone-uses-h">{{ W("concept.uses") }}</h3>
 <dl class="slots">

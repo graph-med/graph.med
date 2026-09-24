@@ -401,6 +401,30 @@ lists the four words with their colours. Timing
      `outcome` slot has no row: an endpoint is the dimension the certainty
      varies along, which is zone 4's business; the slot stays in the schema and
      the data and is listed under zone 9.
+
+     **A derived concept shows its rules.** Under a row whose concept is
+     derived (`graph-representation.md` §3.2: it has `defined_by` edges) — the
+     anchor, a condition, any row, by one code path — a line says so:
+     `abgeleitet, nach der Regel`, or with several rules `abgeleitet, nach einer
+     der folgenden 3 Regeln`, the rules being alternatives. Each rule is then
+     one entry: the thresholds its claim prints, each as quantity, comparator,
+     value, unit and time point (`Amylase-Konzentration im Drainagesekret < 5000
+     U/L am ersten postop. Tag`), a relative one with `× <reference quantity>`,
+     several joined by `und` because they hold together; a rule without
+     thresholds shows its claim's sentence. Under each, its page and section
+     linked into the source and `Textstelle`, a link to the claim's page. A rule
+     without thresholds says nothing about a missing number: its sentence shows
+     whether one is printed, and nothing in the pool tells a quantity-like rule
+     ("lange OP-Zeit") from a categorical one ("koronare Herzkrankheit"), so the
+     card never claims "the guideline gives no threshold". A stated
+     concept's row is unchanged. In the statement JSON each row of `geltung`
+     carries `derivation` (`derived` or `stated`, computed from the edges) and
+     `rules` (per rule: the claim's `id`, `kind`, `label`, `page`, `section`,
+     `link`, `quote`, its `thresholds` with `quantity` and `relative_to`
+     resolved to `{id, label, lang}`); the view JSON
+     carries the same two keys for every concept its statements hold, under
+     `concepts`, and the concept's own JSON and page carry them too (§4). The
+     words come from the card's words table; nothing is per concept.
   6. **Body text.** Three groups in order of their effect on the decision, not
      by relation name: `Grenzt ein` (`limits`), `Präzisiert` (`refines`),
      `Ergänzt` (`supplements`) — each passage its wording, then page and section
@@ -493,7 +517,9 @@ Every entity gets a page whose content is the same as its sheet section, so that
 `graph.med/statements/<id>` is a working link from anywhere, and a JSON document
 next to it that carries the entity as stored plus its incoming and outgoing edges
 resolved to ids. The JSON is what a program uses; the page is what a person lands
-on. Both are generated; neither is authored.
+on. Both are generated; neither is authored. A derived concept's page lists its
+rules under its label, as zone 5 of the card does (§3), and its JSON carries
+`derivation` and `rules`.
 
 ---
 

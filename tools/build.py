@@ -93,7 +93,9 @@ CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", 
              "slot.outcome", "concept.uses", "concept.codes", "claim.statements", "edge.supports", "edge.contests",
              "source.claims.one", "source.claims.many", "page.json",
              # what applies generally through a view's scope tree (docs/publication.md §3): on a concept, and on the card
-             "concept.general", "scope.general_for", "scope.condition")
+             "concept.general", "scope.general_for", "scope.condition",
+             # a derived concept's rules, under its row of zone 5 and on its own page (docs/publication.md §3, §4)
+             "derivation.rules.one", "derivation.rules.many", "rule.and", "rule.claim", "comparator.between")
 CARD_WORDS = {"de": {
     "zone.wording": "Wortlaut der Empfehlung", "zone.evidence": "Evidenz", "zone.applies": "Gilt für",
     "zone.body_text": "Hinweise aus dem Begleittext", "zone.contested.one": "Widersprechende Empfehlung",
@@ -122,6 +124,8 @@ CARD_WORDS = {"de": {
     "edge.supports": "stützt", "edge.contests": "widerspricht",
     "source.claims.one": "{n} Textstelle erfasst", "source.claims.many": "{n} Textstellen erfasst", "page.json": "JSON",
     "concept.general": "Allgemein geltende Empfehlungen", "scope.general_for": "Gilt allgemein auch für", "scope.condition": "Voraussetzung",
+    "derivation.rules.one": "abgeleitet, nach der Regel", "derivation.rules.many": "abgeleitet, nach einer der folgenden {n} Regeln",
+    "rule.and": "und", "rule.claim": "Textstelle", "comparator.between": "zwischen",
 }}
 # The five questions a physician brings to a recommendation, kept as the semantic mapping of the card's keys
 # — what each zone answers, read by an answering layer from the statement's JSON — and never rendered
@@ -359,6 +363,29 @@ class Pool:
                     rows.append({"id": st["id"], "label": st["label"], "lang": st["lang"], "slot": slot})
         rows.sort(key=lambda r: r["id"])
         return rows
+
+
+def derivation_of(pool: "Pool", cid: str) -> dict:
+    """Whether a concept is derived or stated, and by which rules (spec §3.2, docs/publication.md §3 zone 5):
+    computed from its `defined_by` edges, never read off the concept — `derived` with one rule per edge, in
+    the order of the edges, each an alternative; `stated` with none. A rule is its claim (sentence, page,
+    section, the link into the source) with the `thresholds` it prints, each quantity and reference quantity
+    resolved to its concept; several thresholds of one rule hold together. A rule without thresholds is
+    shown by its sentence, which says itself whether a number is printed: nothing in the pool tells a
+    quantity-like rule from a categorical one, so no "no threshold given" is claimed. One code path for whatever row the concept stands in — anchor, condition or any
+    other — and for the concept's own page."""
+    ref = lambda q: {"id": q, "label": pool.entities[q].get("short_label") or pool.entities[q]["label"], "lang": pool.entities[q]["lang"]} \
+        if q in pool.entities else {"id": q, "label": q, "lang": None}
+    rules = []
+    for kind, to, _ in pool.out.get(cid, []):
+        if kind != "defined_by" or to not in pool.entities:
+            continue
+        claim = pool.entities[to]
+        view = pool.claim_view(claim)
+        thresholds = [{**{k: t.get(k) for k in ("comparator", "value", "unit", "when")}, "quantity": ref(t["quantity"]),
+                       "relative_to": ref(t["relative_to"]) if t.get("relative_to") else None} for t in claim.get("thresholds") or []]
+        rules.append({**{k: view.get(k) for k in ("id", "kind", "label", "lang", "page", "section", "link", "quote")}, "thresholds": thresholds})
+    return {"derivation": "derived" if rules else "stated", "rules": rules}
 
 
 def source_link(url: str, page: str | None, quote: str) -> str:
@@ -852,6 +879,7 @@ def main(argv=None) -> int:
                                key=lambda u: (order.index(u["slot"]) if u["slot"] in order else len(order), u["id"]))
             d["codes"] = [to for k, to, _ in pool.out.get(ent["id"], []) if k == "codes_as"]
             d["general"] = general_of(ent["id"])
+            d.update(derivation_of(pool, ent["id"]))   # its rules, when it is derived (spec §3.2)
         elif t == "claim":
             d["claim"] = pool.claim_view(ent)
             j = direction_of([{"edge": "supports", **d["claim"]}])   # the claim's own judgement, in the card's four words (zone 2)
@@ -888,7 +916,7 @@ def main(argv=None) -> int:
             if cid not in pool.entities:
                 return None
             n = pool.slot_uses[(role, cid)]
-            row = {**concept(cid), "count": n, "linked": n > 1}
+            row = {**concept(cid), "count": n, "linked": n > 1, **derivation_of(pool, cid)}
             if role == "population":
                 row["families"] = [{**f, "lang": pool.entities[f["id"]]["lang"]} for f in pool.families_of(cid)]
             general = general_for(st, role)   # the anchor of a view with a scope tree: to whom it applies generally too
@@ -937,7 +965,8 @@ def main(argv=None) -> int:
         page = out / eid
         page.mkdir(parents=True, exist_ok=True)
         (page / "index.html").write_text(entity_tpl.render(**d), encoding="utf-8")
-        (out / (eid + ".json")).write_text(dumps({**ent, "edges": edges_json(eid), **({"card": d["card"]} if "card" in d else {})}), encoding="utf-8")
+        (out / (eid + ".json")).write_text(dumps({**ent, "edges": edges_json(eid), **({"card": d["card"]} if "card" in d else {}),
+                                                  **({k: d[k] for k in ("derivation", "rules")} if "derivation" in d else {})}), encoding="utf-8")
 
     views = []
     view_tpl = env.get_template("view.html")
@@ -955,7 +984,10 @@ def main(argv=None) -> int:
                    if not sec or s["id"] != sec["source"] or under(str(sec["under"]), e.get("section"))]   # spec §6.7; a chapter is a filter, never a node
         data = {"id": view["id"], "title": title, "sources": [s["id"] for s in sources], "commit": commit, "outline": outline,
                 "facets": sorted({f for g in groupings for n in g["nodes"] for f in n.get("facets", [])}), "groupings": groupings,
-                "html": {r: detail_tpl.render(**details(pool.entities[r])) for r in sorted(refs) if r in pool.entities}}
+                "html": {r: detail_tpl.render(**details(pool.entities[r])) for r in sorted(refs) if r in pool.entities},
+                # every concept the view's statements hold, derived or stated, with its rules — the keys of a card's row (zone 5)
+                "concepts": {cid: derivation_of(pool, cid) for m in members.values() if m["type"] == "statement"
+                             for _, cid in filled(m) if cid in pool.entities}}
         if scope:   # the origin of what the page shows for each concept, own or applying generally, for a reader of the JSON
             data["scope"] = {k: scope[k] for k in ("anchor_slot", "root", "concepts")}
         (out / vid).mkdir(parents=True, exist_ok=True)
