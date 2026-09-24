@@ -147,3 +147,9 @@ and which card is next, is not a question and lives on the board (`uv run tools/
 **Options:** fail the build, file and key alike · fall back to another page language · fall back per key
 **Leaning:** none; it matters only once there is a second page language. (2026-09-24)
 **Settled by:** the second page language.
+
+## rule-across-sources  (graph-representation.md §3.1 `combination`, §3.2, §5 `defined_by`; card #204)
+**Question:** A concept has one `defined_by` edge, and a rule of several parts combines on one claim, read off one passage. What happens when a second guideline gives its own rule for a concept that already has one, such as another threshold for "geringes Pankreasfistelrisiko"? No page prints how the two guidelines' rules combine, so a combination across them would be a default. A second edge is refused for the same reason.
+**Options:** the second guideline's rule defines a concept of its own ("… nach <Leitlinie>"), related to the first by an edge saying they name the same state · a concept may have one `defined_by` edge per source, each rule shown under its source's name and never combined · both rules stay on one concept only where a page of either guideline says how they relate
+**Leaning:** the second, which keeps the concept one node and composes nothing. It needs the validator's one-edge rule narrowed to one edge per source. (2026-09-24)
+**Settled by:** the maintainer, when a second guideline's extraction first meets a derived concept of the first.

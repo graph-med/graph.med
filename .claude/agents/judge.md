@@ -74,7 +74,8 @@ is the unit, and its sentences are the claims.
 `uv run tools/validate.py` ran before you. It checked the schema, that every
 reference resolves, that each claim's id hashes from its locator and quote,
 that edges are unique, that `broader` and `in_scope_of` form no cycle and a
-scope edge doubles no `broader`, that an asserted axis places each statement or
+scope edge doubles no `broader`, that a concept has one `defined_by` edge and
+each piece of a combination's connective lies in one of its quotes, that an asserted axis places each statement or
 concept once and each hierarchy placement is an edge of the pool, that a
 dimension's values are among its declared ones, and (with `--verify-quotes`)
 that each quote is a substring of the page. You do not recompute ids, do not test quotes as
@@ -89,7 +90,16 @@ is a reading, and the reading is your job.
    `grade`, `verb`, `direction`, `consensus`, `recommendation_no` and
    `section` as printed at that place, and is none supplied where the page
    prints none? Is every number in the label the number on the page? A
-   body-text claim carries no `grade` and no `consensus`.
+   body-text claim carries no `grade` and no `consensus`. A `threshold` is
+   the quantity, comparator, value, unit and time point the page prints, one
+   per claim. A claim with a `combination` quotes the passage its parts come
+   from, and each part is one member the passage joins, a narrower place in
+   the sentence. Is the `connective` what the page prints between them? Does
+   `of` hold every member it joins and no other? Is the `operator` the
+   reading the connective bears in its sentence, never decided by the word
+   alone ("und" between groups each counting on its own is `any_of`)? Is a
+   list the page gives without saying how it combines marked `not_stated`
+   rather than read?
 2. **A statement against its supporting claims.** Does the `label` assert
    nothing absent from every supporting claim, and nothing a supporting claim
    contradicts? Does each slot name what the claims' sentences name in that
@@ -108,7 +118,8 @@ is a reading, and the reading is your job.
    body-text sentence that passes the rule's gate have a claim with its edge?
    Is every alternative of an enumeration a claim of its own? Does every
    claim of a marked recommendation support or contest a statement, and does
-   every body-text claim carry its edge? List each sentence that should be a
+   every body-text claim carry its edge (except the top or a part of a
+   combination that is not itself an answer, §5.1 N 5)? List each sentence that should be a
    claim and is not, verbatim, with page, the marked recommendation it
    belongs to and the test it passes.
    The page is the scope: you do not read pages the diff does not cite. A

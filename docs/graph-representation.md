@@ -216,25 +216,58 @@ grade, the rating is read off the source and never inferred: its provenance is
 required (§6.5).
 
 A criterion or a definition may print a **threshold** — "Amylase im
-Drainagesekret unter 5000 U/L am ersten postop. Tag", "mindestens zwei
-klinischen Risikofaktoren". The claim carries it as **`thresholds`**, a list of
-entries, each naming the `quantity` measured or scored (a concept, like every
-other thing the pool refers to), a `comparator` (`<`, `≤`, `>`, `≥`, `=`,
-`between`), the `value` as printed, and, where printed, its `unit` and the
-time point of the measurement (`when`). A **relative** threshold — "kleiner
-als das Dreifach der Serumkonzentration" — also names the quantity it is
-relative to (`relative_to`), and its value is the factor. The comparator list
-is closed because it is mathematics; nothing else is: the quantity is a
-concept, and value, unit and time point are strings exactly as printed, never
-converted, rounded or completed, so no unit table and no vocabulary of scores
-enters the schema. Several entries hold at once: a rule that needs two values
-together ("unter 5000 U/L am postop. Tag 1 und 3 sowie Drainagemenge unter
-300 ml/Tag") is one claim with two entries, while two ways of meeting a term
-are two claims (§3.2). A threshold says for whom — which cases a term covers
-— and never how: a dose, a duration or a volume the action prescribes is not
-one, and only criterion and definition claims carry the list. Like the grade,
-it is the number on the page: its provenance is required (§6.5), and adding
-it to an existing claim is an edit with history (§7).
+Drainagesekret unter 5000 U/L am ersten postop. Tag", "ASA Status von
+mindestens 3". The claim carries it as **`threshold`**, naming the `quantity`
+measured or scored (a concept, like every other thing the pool refers to), a
+`comparator` (`<`, `≤`, `>`, `≥`, `=`, `between`), the `value` as printed,
+and, where printed, its `unit` and the time point of the measurement
+(`when`). A **relative** threshold — "kleiner als das Dreifach der
+Serumkonzentration" — also names the quantity it is relative to
+(`relative_to`), and its value is the factor. The comparator list is closed
+because it is mathematics; nothing else is: the quantity is a concept, and
+value, unit and time point are strings exactly as printed, never converted,
+rounded or completed, so no unit table and no vocabulary of scores enters the
+schema. **A claim prints one threshold**: two values the page joins ("unter
+5000 U/L am postop. Tag 1 und 3 sowie Drainagemenge unter 300 ml/Tag") are
+two claims, and the combination below joins them with the word the page
+joins them by. A threshold says for whom — which cases a term covers — and
+never how: a dose, a duration or a volume the action prescribes is not one,
+and only criterion and definition claims carry it. Like the grade, it is the
+number on the page: its provenance is required (§6.5), and adding it to an
+existing claim is an edit with history (§7).
+
+A rule may have several parts, and the page says how they combine — "entweder
+… oder … oder aber", "sowie", "mindestens zwei", or nothing. A claim carries
+that as its **`combination`**, read off the page like a threshold and never
+set by a default. It has four fields:
+
+- **`operator`**, the reading, from a set closed because it is logic, like
+  the comparators: `all_of` (UND), `any_of` (ODER), `at_least` with `n`
+  (mindestens n von), and `not_stated` for a passage that lists parts without
+  saying how they combine.
+- **`of`**, the parts: criterion or definition claims of the same source.
+- **`connective`**, the word or words the page prints for the combination,
+  as printed, the pieces of a word spread over the passage joined by " … ".
+  Its **`source`** holds the quotes, and every piece lies in one of them, so
+  the quote check (§6.2) reads each connective on its page.
+- **`rationale`**, how the connective is read. That is modelling, and a word
+  alone never decides it: "und" between groups each counting on its own
+  ("… ferner Patienten mit … und Patienten mit …") is `any_of`, not
+  `all_of`.
+
+Operators nest **through claims**: a part that itself combines parts is a
+claim with its own combination, so each group keeps its place, label and
+edges, and the claim at the top quotes the passage as a whole. A claim
+either prints a threshold or combines parts, never both. The top and the
+parts are extracted for the rule and reached through it: one that is not
+itself an answer of §5.1 carries no body-text edge, and the answer's claim
+keeps the one §5.1 gives it. `not_stated` names
+no connective, since the page prints none, and its parts are optional: a
+passage listing factors without a count ("Als Risikofaktoren nach Apfel
+gelten …") is marked, not guessed. How a threshold's `when` is worded ("am
+postop. Tag 1 und 3") stays as printed, and a statement's several conditions
+stay a conjunction (§3.2): neither is a combination. Adding one to an
+existing claim is an edit with history (§7).
 
 ### 3.2 The semantic layer
 
@@ -265,18 +298,24 @@ Three kinds of entity, kept apart because different edges attach to them:
   derived, one without is stated, and that is computed from the edges, never
   written on the concept (§3.3). A derived concept whose source names the rule
   without a number ("lange OP-Zeit") has its edge and no threshold.
-  **Several rules of one concept are alternatives**: each `defined_by` edge is
-  one way of establishing it (drain amylase on day 1; on days 1 and 3 with
-  the drain volume; relative to the serum value on day 3), and any one
-  suffices — the other way round from a statement's conditions, which hold
-  together. A rule that needs two values at once is one claim with two
-  thresholds, not two edges. Because the kind is read off the concept, it
-  holds wherever the concept stands — a statement's anchor, one of its
-  conditions, or the `condition` of a scope edge (§5) — by the one mechanism.
-  These three choices — the kind computed rather than stored, the threshold
-  on the claim that prints it, several rules as alternatives — were proposed
-  on 2026-09-24 (card #187) and stand until the maintainer confirms or
-  overturns them in review.
+  **How several rules of one concept combine is extracted, never assumed.**
+  The concept has one `defined_by` edge, to the claim at the top of its rule;
+  where the page gives several ways of establishing it, that claim quotes the
+  passage and its `combination` (§3.1) joins them as the page does — drain
+  amylase on day 1, *or* on days 1 and 3 *and* the drain volume, *or*
+  relative to the serum value on day 3; at least two of four risk factors,
+  *or* an ASA status of at least 3, *or* coronary heart disease *or* proven
+  myocardial ischaemia. A second edge would join the rules by a default
+  nobody read off the page, and is refused. A combination may be of any
+  operator, so neither "any rule suffices" nor "all rules hold" is ever
+  assumed, and a statement's conditions stay a conjunction of their own
+  (below). Because the kind is read off the concept, it holds wherever the
+  concept stands — a statement's anchor, one of its conditions, or the
+  `condition` of a scope edge (§5) — by the one mechanism. The kind computed
+  rather than stored and the threshold on the claim that prints it were
+  proposed on 2026-09-24 (card #187); the combination extracted from the
+  source replaced that card's third choice, several rules as alternatives by
+  convention, the same day (card #204).
 - **Statements** — propositions with a truth claim: "after pancreatic
   resection, the drain can be removed early when the drain amylase indicates a
   low fistula risk." Statements are what claims *support* or *contest*. A
@@ -763,17 +802,17 @@ the different jobs of edges apart:
 - **definition** — `defined_by`: concept → claim, "is established by the rule
   this passage gives". It connects a derived concept (§3.2) to the
   `criterion` or `definition` claim that says how it is established, with the
-  threshold the claim prints (§3.1). Always `modelling`, with a rationale
-  naming the clause and the term, `lang` and `as_of`. Several edges from one
-  concept are **alternatives**, any one of which establishes it; one concept
-  reaches one claim at most once (the validator refuses a second edge, even
-  with a discriminator, and an edge to a claim of another kind). It is the
-  edge, not a field on the concept, because the rule is a relation with
-  provenance: it can be attested and go stale, and a concept that gains a rule
-  from a second guideline gains an edge, not a rewritten field. It carries no
-  evidence and says nothing about the statements that use the concept; the
-  `refines` edge the same criterion may have to a recommendation (§5.1) stays
-  what it is, a body-text relation between claims.
+  threshold the claim prints or the combination it quotes (§3.1). Always
+  `modelling`, with a rationale naming the clause and the term, `lang` and
+  `as_of`. **A concept has one such edge**: several rules reach it through
+  the combination on the claim the edge leads to, as the page joins them,
+  and the validator refuses a second edge, even with a discriminator, and an
+  edge to a claim of another kind. It is the edge, not a field on the
+  concept, because the rule is a relation with provenance: it can be attested
+  and go stale. It carries no evidence and says nothing about the statements
+  that use the concept; the `refines` edge the same criterion may have to a
+  recommendation (§5.1) stays what it is, a body-text relation between
+  claims.
 - **structure** — `sequence`, `branch` (with a `guard` property), `about`:
   among structural nodes and from them to the statements they arrange.
 - **cross-source semantics** — `specializes`, `complements`, `conflicts`:
@@ -835,7 +874,9 @@ order — the first that holds decides. Every other sentence stays on the page.
   edge relates two claims and never writes a slot, mints a statement or decides
   what a circumstance is to a statement (§4.1); a circumstance the statement
   lacks is named in the pull request. (4) A cross-reference, a research
-  question, a quality indicator (→ quality-indicators).
+  question, a quality indicator (→ quality-indicators). (5) The top or a
+  part of a rule's combination (§3.1) that is not itself an answer: it is
+  reached through the combination, and the answer's claim carries the edge.
 
 ---
 
@@ -1409,8 +1450,8 @@ POMGAT S3 guideline (AWMF 088-010OL), quotes verified against the document.
   kind: criterion
   section: "6.1.3"
   label: "Drainageamylase unter 5000 U/L am ersten postoperativen Tag"
-  thresholds:                               # as printed (§3.1); provenance required, here the claim's own quote
-    - {quantity: concepts/amylase-drainagesekret, comparator: "<", value: "5000", unit: "U/L", when: "am ersten postop. Tag"}
+  threshold:                                # as printed (§3.1), one per claim; provenance required, here the claim's own quote
+    {quantity: concepts/amylase-drainagesekret, comparator: "<", value: "5000", unit: "U/L", when: "am ersten postop. Tag"}
   source: {at: sources/pomgat-lv-1.0#page=64, quote: "unter 5000 U/L am ersten postop. Tag"}
 
 # ── semantic layer (phase two: linking, all modelling) ────────────────────
@@ -1456,7 +1497,7 @@ POMGAT S3 guideline (AWMF 088-010OL), quotes verified against the document.
 # ── edges (derived ids; endpoint hashes recorded for staleness) ───────────
 - [claims/pomgat-lv-1.0/e945b1d8, supports, statements/fruehe-drainageentfernung-pankreasresektion, {source: modelling}]
 - [claims/pomgat-lv-1.0/1f80c3aa, refines,  claims/pomgat-lv-1.0/e945b1d8, {source: modelling}]
-- [concepts/geringes-pankreasfistelrisiko, defined_by, claims/pomgat-lv-1.0/1f80c3aa,   # one rule of several, each an alternative (§5)
+- [concepts/geringes-pankreasfistelrisiko, defined_by, claims/pomgat-lv-1.0/1f80c3aa,   # its one edge (§5); where the page joins several rules, to the claim combining them (§3.1)
    {source: modelling, as_of: "2026-09-24", lang: de, rationale: "Kriterium für geringes Pankreasfistelrisiko: Drainageamylase am ersten postop. Tag."}]
 - [concepts/pankreasresektion, codes_as, ops-2026/5-52, {source: modelling}]
 - [concepts/pankreaskopfresektion, broader, concepts/pankreasresektion,      # subsumption (§5): groups and folds, inherits nothing
