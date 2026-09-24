@@ -63,7 +63,7 @@
      stylesheet is built — at every draw, and again when the theme changes while the page is open */
   function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
   /* a box is coloured by its direction — the banner's four colours, one variable each in site.css — and its
-     label, written by the build, begins with the direction's glyph, the grade letter and, where the letter does
+     label, written by the build, begins with the direction's glyph, the grade as printed and, where the grade does
      not carry it, the verb as a word; a statement without a direction (a fact) stays uncoloured. The border
      means state alone: contested, and the selection */
   var DIRECTION = { "für": "--dir-for", "gegen": "--dir-against", "abwägen": "--dir-weigh", "Lücke": "--dir-gap" };

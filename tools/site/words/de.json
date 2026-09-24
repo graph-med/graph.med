@@ -5,7 +5,7 @@
     "groups": {
       "form": "Form = Typ",
       "direction": "Zeichen + Farbe = Richtung",
-      "grade": "Buchstabe = Grad",
+      "grade": "Grad",
       "state": "Rahmen = Zustand",
       "edges": "Kanten"
     },
