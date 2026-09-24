@@ -178,8 +178,9 @@ for gastrointestinal tumour surgery as such is addressed to it too. `in_scope_of
 may carry a `condition` (a medication group counts only *during* an operation in
 the guideline's scope). The view names the concept its scope ends in — POMGAT's
 patient target group, quoted from page 17 — and every patient group reaches it
-along `broader` and `in_scope_of`: the **scope tree**, which folds thirty-six
-patient groups under five answers to the first question. Open liver resection and
+along `broader` and `in_scope_of`: the **scope tree**, which folds the 34 patient groups
+the recommendations are made for (every concept in a statement's population
+slot) under five answers to the first question. Open liver resection and
 the site shows its own recommendation and, set apart and marked, the ones that
 apply generally; it never merges them.
 

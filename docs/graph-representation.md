@@ -544,8 +544,9 @@ one axis; a placement references entities that exist.
 
 #### Worked example — the first source, and two imagined ones
 
-*The first source* (`views/pomgat-lv-1.0`: 90 statements over 36 population
-concepts, chapters titled by perioperative phase and subsections by organ and
+*The first source* (`views/pomgat-lv-1.0` as the axes were proposed on
+2026-09-13 — the figures below are that report, and the pool has changed since:
+90 statements over 36 population concepts, chapters titled by perioperative phase and subsections by organ and
 modality). A physician proposes two axes.
 
 - **Perioperative phase**, a dimension: `slot: phase`, values *präoperativ*,
