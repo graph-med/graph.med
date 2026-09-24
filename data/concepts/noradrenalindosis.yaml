@@ -1,0 +1,10 @@
+# A measured quantity, named by the thresholds that bound it (spec §3.1), a ledger concept of
+# views/sepsis-lf-4.0 (card #217): the dose in 8.1's definition of "anhaltender Vasopressorbedarf"
+# ("Gabe von Noradrenalin ≥ 0,25 µg∙kg-1min-1", p. 105) and, if it becomes a threshold, in the body text
+# of 4.6 ("0,25-0,5 μg/kg/min für die Noradrenalinlaufrate", p. 65). Labelled as printed on p. 103.
+id: concepts/noradrenalindosis
+type: concept
+lang: de
+label: Noradrenalindosis
+facet: finding
+source: modelling

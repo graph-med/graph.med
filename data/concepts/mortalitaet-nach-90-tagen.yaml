@@ -1,0 +1,10 @@
+# An evidence outcome of views/sepsis-lf-4.0, a ledger concept (card #217): one concept whatever the
+# spelling — "90-Tage Mortalität" (3.7, p. 50), "90-Tage-Mortalität" (4.1, p. 57), "Mortalität (90 Tage)"
+# (8.2, p. 107), "90d-Mortalität" (8.16, p. 124). Not concepts/mortalitaet-90-tage, the first source's
+# postoperative mortality (card #210, Decision 7).
+id: concepts/mortalitaet-nach-90-tagen
+type: concept
+lang: de
+label: Mortalität (90 Tage)
+facet: outcome
+source: modelling

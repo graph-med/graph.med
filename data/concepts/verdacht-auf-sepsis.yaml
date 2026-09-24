@@ -1,0 +1,9 @@
+# A group wider than the guideline's target group, a ledger concept of views/sepsis-lf-4.0 (card #217):
+# the population of "Erwachsenen mit Verdacht auf Sepsis" (2.3) and "bei einem Verdacht auf eine Sepsis"
+# (3.3). Stated: the guideline gives no rule for the suspicion.
+id: concepts/verdacht-auf-sepsis
+type: concept
+lang: de
+label: Verdacht auf Sepsis
+facet: patient_state
+source: modelling

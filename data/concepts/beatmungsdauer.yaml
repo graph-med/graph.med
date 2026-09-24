@@ -1,0 +1,10 @@
+# A ledger concept of views/sepsis-lf-4.0 (card #217): the evidence outcome of 5.13 ("Beatmungsdauer:",
+# p. 85) and the quantity of a threshold on the duration of ventilation — "maschinelle Beatmung > 48 h"
+# (p. 122), and "länger als 24 Stunden invasiv beatmet" (5.13) if a rule inside a box sentence gets a
+# claim of its own. An outcome like concepts/verweildauer-intensivstation, a duration of the course.
+id: concepts/beatmungsdauer
+type: concept
+lang: de
+label: Beatmungsdauer
+facet: outcome
+source: modelling
