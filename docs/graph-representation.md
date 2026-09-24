@@ -1,16 +1,17 @@
 # Graph Representation — how knowledge is stored in this repository
 
 > **Status: design intent, partly enforced.** The schema (`schema/schema.yaml`,
-> currently 0.10.0) exists and `tools/validate.py` enforces it, locally and in CI
+> currently 0.11.0) exists and `tools/validate.py` enforces it, locally and in CI
 > (`CLAUDE.md`, "Checks"): ids, enums, provenance requirements, claim hashes, slots,
 > edges, a claim's `section` against its source's `outline`, `broader` without
 > cycles, and with `--verify-quotes` every quote against its source. The pool uses
 > all of it: one source with its outline, its claims with sections, statements and
 > concepts with short labels, every concept with a facet, a `broader`
 > hierarchy over the patient groups, and grouping axes (§4.1): the `axes/`
-> entity, the validator's axis rules, the feasibility report (`tools/axes.py`),
-> one dimension axis asserted on the first source and offered by its view, and
-> the chapters as the built-in grouping. The scope tree (§4, §5 `in_scope_of`) is
+> entity with its placements, the validator's axis rules, the feasibility
+> report (`tools/axes.py`), the hierarchy axis that draws the first view's
+> patient-group tree and one dimension axis, both asserted and offered by that
+> view, and the chapters as the built-in grouping. The scope tree (§4, §5 `in_scope_of`) is
 > in the schema and the validator, and the first view declares one, rooted in its
 > guideline's patient target group. Everything else described as checked or
 > computed — the canonical form and content hashes (§2), staleness (§5, §8),
@@ -280,8 +281,9 @@ Three kinds of entity, kept apart because different edges attach to them:
   resection, the drain can be removed early when the drain amylase indicates a
   low fistula risk." Statements are what claims *support* or *contest*. A
   statement has a **slot shape** declared by the schema (population, action,
-  condition, outcome — filled with concept URLs; a further slot exists only
-  where a dimension axis declares it, §4.1), which makes "is this the same
+  condition, outcome — filled with concept URLs; the value a dimension axis
+  gives a statement is that axis's placement, not a slot of the statement,
+  §4.1), which makes "is this the same
   statement?" an almost-computable question and keeps granularity honest: **a
   statement is the smallest unit that can be independently supported or
   contested.** Every slot holds one concept except `condition`, which is
@@ -387,11 +389,15 @@ where a guideline's anchors have no common concept, minting one is a visible,
 reviewed act on the view, not something a validator rule forces. Between the
 anchors and the root lie `broader` edges, which hold whatever guideline one
 reads, and scope edges (`in_scope_of`, §5), which hold inside this guideline's
-scope; together they are the view's **scope tree**. The two properties are
+scope. Which of them the view's **scope tree** is drawn from is chosen by the
+first axis of its `group_by`: a hierarchy axis over the anchor slot, whose
+placements pick for each concept the one of those edges it hangs by (§4.1) —
+the pool holds the facts, the axis the tree. The two properties are
 declared together, and a view that declares them owes four things, which the
 validator checks: (1) every member statement fills the anchor slot with
-exactly one concept; (2) every anchor reaches the scope root along `broader`
-and `in_scope_of`; (3) every scope edge carries a rationale, and its
+exactly one concept; (2) the first entry of its `group_by` is such an axis,
+asserted for the view, and every anchor reaches the scope root along its
+placements; (3) every scope edge carries a rationale, and its
 `condition`, where it has one, is a concept; (4) scope edges form no cycle,
 alone or with `broader`, and never repeat a `broader` edge between the same two
 concepts. A view that declares neither is read as before, and none of the four
@@ -412,28 +418,42 @@ how; a second and a third guideline pass through the same four steps unchanged.
 Nothing in this section names an organ, a phase or a source; the worked example
 at its end does.
 
-#### The two carriers
+#### An overlay on the pool, and its two carriers
 
-An axis groups the answers to one question of the tree, and it is carried by
-one of two things the schema already has. The rule that decides which is the
-same for every guideline:
+An axis groups the answers to one question of the tree. It is an **overlay**:
+its placements live in the axis entity, before and after it is asserted, and
+the pool it lies over is left as it is. The pool holds the facts an axis
+chooses from — the statements' own slots, the `broader` and `in_scope_of`
+edges between concepts — and the axis holds the choice, so a fact is stated
+once however many groupings use it, and a fact added to the pool changes no
+grouping until someone changes an axis. The placements are data written by a
+person or a linking pass and reviewed, never derived by the build from the
+axis's rule (step 3). An axis is carried in one of two ways, and the rule that
+decides which is the same for every guideline:
 
-- A **statement dimension** — a slot on the statement (§3.2) that the axis
-  adds. Its value qualifies the *recommendation* and holds whoever the patient
-  is: the same patient group carries recommendations across all values of such
-  an axis. In the tree, a dimension is a question of its own, asked **before**
-  the population question, because it partitions the whole guideline the way
-  its chapters do — and it is exactly what a chapter *meant* (§6.7), lifted
-  from the outline into data. Its values are concepts of facet `qualifier`
-  (§3.2), listed in the axis definition; the slot holds one of them.
-- A **hierarchy respect** — a `broader` edge with an `axis` property (§5) over
-  the concepts that answer a question the tree already asks (today the
-  population and the condition). Its value is a true "is a special case of" of
-  a *concept* in one respect. A concept may have several broader concepts on
-  different axes and, unless the definition says otherwise, one on each; an
-  edge without `axis` is plain subsumption as before. In the tree, a hierarchy
-  changes which concepts are the families of that question and how it folds —
-  never which question is asked.
+- A **statement dimension** — a value the axis gives each statement it
+  places, `{statement: value}` in its placements; the statement's own slots
+  (§3.2) do not change. Its value qualifies the *recommendation* and holds
+  whoever the patient is: the same patient group carries recommendations
+  across all values of such an axis. In the tree, a dimension is a question
+  of its own, asked **before** the population question, because it
+  partitions the whole guideline the way its chapters do — and it is exactly
+  what a chapter *meant* (§6.7), lifted from the outline into data. Its
+  values are concepts of facet `qualifier` (§3.2), listed in the axis
+  definition; a statement has one of them, or none — then the axis does not
+  distinguish it, which never means "all values".
+- A **hierarchy respect** — for each concept that answers a question the
+  tree already asks (today the population and the condition), the parent it
+  hangs by on this axis, `{concept: parent}` in its placements. The parent is
+  chosen from the pool, never stated by the axis: once the axis is asserted,
+  each placement is an edge the pool already holds from the concept to the
+  parent, `broader` (a true "is a special case of", §5) or `in_scope_of` (a
+  membership this guideline stipulates, §5). A relation the axis needs and
+  the pool lacks is added to the pool first, as an edge of its own with its
+  own rationale. A concept may hang by different edges on different axes and,
+  unless the definition says otherwise, by one on each; the edge names no
+  axis. In the tree, a hierarchy changes which concepts are the families of
+  that question and how it folds — never which question is asked.
 
 Which of these a value is — and whether it is either — is decided by four
 questions, asked in order, **per statement**, not per concept:
@@ -476,11 +496,14 @@ is otherwise unplaced — the pool never mints a "several" family, because that
 is not a subsumption. The document outline is neither carrier and needs no axis
 entity, because it is provenance, not modelling (§6.7): every view offers it as
 the built-in chapter grouping of its switch, derived from the claims' sections
-and the sources' outline, with the plain hierarchy as the default — and its
-headings are the extractor's hint when a rule is applied. The `broader` hierarchy over the first source's
-patient groups and the population question the site asks today are the
-**plain hierarchy**: the axis every view has without declaring it, read as one
-hierarchy respect over the population slot; the mechanism adds nothing to it.
+and the sources' outline, second after the view's tree of patient groups —
+and its headings are the extractor's hint when a rule is applied. The tree of patient
+groups a view opens with is an axis like any other: a hierarchy over the
+view's anchor slot (`population` where it declares none), proposed, tested
+and asserted by the same steps, its placements written by the pass that
+writes the guideline's `broader` and `in_scope_of` edges, and listed first in
+the view's `group_by` (step 4). Nothing is built in beside it: a view without
+such an axis shows its patient groups unfolded, each an answer of its own.
 
 #### 1. Proposed — the axis definition
 
@@ -491,27 +514,30 @@ A person — usually a physician — proposes an axis as data: one entity
 |---|---|
 | `id`, `type: axis`, `lang`, `label`, `short_label` | as for every entity; the label is what the site's switch shows |
 | `carrier` | `dimension` or `hierarchy` |
-| `slot` | for a dimension: the slot key the axis adds to statements (English, like every structural key); for a hierarchy: the existing slot whose concepts it folds (`population`, `condition`) |
-| `values` | dimension only: the concepts (facet `qualifier`) the slot may hold, in the order the tree shows them |
+| `slot` | for a dimension: the key its values are shown and asked under — on the card, in the tree — never a slot of the statement's own (English, like every structural key); for a hierarchy: the statement's own slot whose concepts it folds (`population`, `condition`) |
+| `values` | dimension only: the concepts (facet `qualifier`) a statement may have on the axis, in the order the tree shows them |
+| `question` | dimension only, optional: the question the tree asks for it, whole, in the axis's `lang` — where the site's generic form ("which {short label}?") would be wrong in that language; a hierarchy never changes which question is asked, so it has none |
 | `several` | hierarchy only, default `false`: whether a concept may have more than one parent on this axis |
 | `rule` | the written rule a linking session applies without judgment calls: what earns which value or which family, in the source language, `lang`-tagged |
 | `proposed_by` | a role — `physician`, `maintainer`, `agent` — never a name (`.claude/rules/conventions/no-personal-information.md`) |
 | `views` | one entry per view the axis is proposed for: `{view, status, since}`, status one of `proposed`, `asserted`, `withdrawn` |
-| `placements` | the rule *applied*, before assertion: for a dimension, `{statement: value}` pairs; for a hierarchy, `{concept: parent}` pairs; removed from the definition when the axis is asserted, because edges and slot values then carry them with provenance |
+| `placements` | the rule *applied*: for a dimension, `{statement: value}` pairs; for a hierarchy, `{concept: parent}` pairs; while proposed a list where the rule yields several places. A place may be written `{place, rationale}`, the rationale in the axis's `lang`, where the rule alone does not decide it (a value taken from a heading because the sentence names none, say); the rule is the rationale of every other. Kept when the axis is asserted: they are what groups the view |
 
-The rule is for people; the placements are what the tool measures. An axis
-whose rule holds for a second guideline is proposed for its view by adding an
-entry under `views`, not by a second definition; a status is per view, because
-an axis can be feasible on one source and not on another. Proposing is cheap
+The rule is for people; the placements are what the tool measures and what
+the site draws. An axis whose rule holds for a second guideline is proposed for
+its view by adding an entry under `views`, not by a second definition; a status
+is per view, because an axis can be feasible on one source and not on another.
+A hierarchy whose placements pick scope edges holds a tree only one guideline
+stipulates, and a second guideline gets a hierarchy of its own. Proposing is cheap
 and commits the pool to nothing: a proposed axis groups no view.
 
 #### 2. Tested — the feasibility report
 
 A tool (`tools/axes.py <axis> <view>`, registered as WP-0008) applies one axis
-to one view and prints a report. It reads the placements from the definition
-while the axis is proposed, and from the asserted edges and slot values once it
-is asserted, so that the same numbers can be printed before and after. It
-writes nothing. The **universe** *U* is, for a dimension, the view's member
+to one view and prints a report. It reads the definition's placements, which
+are the same before and after assertion, so the same numbers print either way;
+for a hierarchy it also lists every placement that no edge of the pool carries
+yet — what asserting it would first need in the pool. It writes nothing. The **universe** *U* is, for a dimension, the view's member
 statements; for a hierarchy, the concepts that fill the axis's slot on the
 view's member statements. Four measures:
 
@@ -541,16 +567,22 @@ another is a fact the report states, not a defect of either.
 
 #### 3. Asserted — with provenance
 
-What the person accepts is written into the pool the way everything that groups
-the graph is written — by a linking pass, reviewed in a pull request:
+What the person accepts is asserted by a linking pass, reviewed in a pull
+request that carries the feasibility report:
 
-- a dimension: the value as a slot on each statement, an edit with history
-  (§7), `modelling` with a rationale that cites the rule and, where the sentence
-  does not name the value, the heading or passage that does;
-- a hierarchy: `broader` edges naming the axis, each `modelling` with a
-  rationale; a family concept minted where the axis needs one, with facet and
-  label, never for a single member;
-- the definition's `views` entry set to `asserted`, its `placements` removed.
+- the placements, one per statement (a dimension) or per concept (a
+  hierarchy) — a single place each, unless a hierarchy says `several`; for a
+  dimension the value that the rule gives, with a `rationale` where the
+  sentence does not name it and a heading or passage does; for a hierarchy
+  the parent whose edge the pool holds;
+- what a hierarchy needs in the pool and the pool lacks, added to it first as
+  facts of their own: a `broader` or `in_scope_of` edge, `modelling` with a
+  rationale, a family concept minted with facet and label where the axis
+  needs one, never for a single member;
+- the definition's `views` entry set to `asserted`, with its date. The
+  placements stay where they are; from then on the validator holds each
+  hierarchy placement to an edge of the pool, and the placements are what the
+  site draws. Git keeps their history (§7).
 
 **Nothing groups a view that is not asserted this way.** The feasibility test
 is post-processing; the grouping never is — otherwise a grouping would appear
@@ -568,25 +600,38 @@ group_by: [axes/<axis-id>, axes/<axis-id>]   # each asserted for this view
 ```
 
 It is a property of the view beside `filter`, not a filter form: it selects
-nothing and never changes the view's members (§13). The switch lists the plain
-hierarchy first, then the chapters of the view's sources (§6.7: the top-level
-sections in outline order, a statement behind every chapter one of its claims
-sits in), then the declared axes; the first two are built in and need no
-declaration, so a view without `group_by` has those two. Choosing a grouping
+nothing and never changes the view's members (§13). Its **first** entry, when
+it is a hierarchy over the view's anchor slot (`population` where the view
+declares none), is the view's tree of patient groups: the page opens with
+it, it folds the patient groups below the chapters and below every dimension,
+and in a view with a scope root it is the scope tree (§4), which is why such a
+view must list one first. The switch lists that axis first, then the chapters
+of the view's sources (§6.7: the top-level sections in outline order, a
+statement behind every chapter one of its claims sits in) — the one grouping
+built in and needing no declaration —, then the other declared axes. A view
+whose `group_by` does not begin with such an axis shows its patient groups
+unfolded, each an answer of its own, as the first entry of its switch. A
+hierarchy axis other than the first places only what its placements place;
+the rest is "not placed". Choosing a grouping
 changes what the tree asks first (the chapters, a dimension) or which concepts
 are the families of a question (a hierarchy), and nothing else — not the
 shape, not the folding, not where a recommendation hangs. Whatever the chosen
 grouping cannot place is one answer, **"not placed"**, last among the answers
 of the question it groups, at every depth where that question is asked; it is
-never dropped. The build knows no axis by name: the switch's words, the chapter
-question and "not placed" come from the per-language table like the questions,
-keyed by the axis's `label` and the language.
+never dropped. The build knows no axis by name: the switch shows the axis's
+`label`; a dimension's question is the axis's own `question` where it declares
+one and otherwise the per-language form filled with its short label; the
+chapter question, "not placed" and the word for unfolded patient groups come
+from the per-language table like the questions.
 
-The validator (WP-0008) holds this together: an `axis` on a `broader` edge and
-a `group_by` entry name an existing axis of the right carrier; a `group_by`
-entry is asserted for that view; a slot key on a statement is one a dimension
-axis declares, and its value is one of that axis's `values`; no cycle within
-one axis; a placement references entities that exist.
+The validator holds this together: a `group_by` entry names an existing axis
+asserted for that view; an axis asserted for any view places each statement or
+concept once (unless a hierarchy says `several`), a dimension's placements are
+statements holding one of its `values`, and a hierarchy's are edges the pool
+holds; a statement has no slot beyond its own; a placement references entities
+that exist; the first-entry rule of a view with a scope root (§4). A cycle
+needs no check of its own: every hierarchy placement is an edge, and the
+edges have none (§5).
 
 #### Worked example — the first source, and two imagined ones
 
@@ -683,9 +728,9 @@ the different jobs of edges apart:
   is a *Pankreasresektion*; a concept may have several broader
   concepts (a pancreatoduodenectomy is both a pancreatic resection and a
   duodenal resection) and a concept with none is a
-  root. Always `modelling`, with a rationale; it may carry an **`axis`** naming
-  the respect in which the subsumption holds, once that axis is asserted for
-  the view (§4.1). The edge carries **no evidence and no inheritance**: whether a recommendation about the broader concept holds for
+  root. Always `modelling`, with a rationale. A grouping axis chooses among
+  these edges (§4.1); the edge names no axis, and it is the same fact
+  whichever grouping uses it. The edge carries **no evidence and no inheritance**: whether a recommendation about the broader concept holds for
   the narrower one is a clinical question the source either answers explicitly,
   in which case a statement says so, or leaves open, in which case the gap stays
   visible. A build that propagates recommendations down a `broader` edge would
@@ -1004,11 +1049,11 @@ with a recorded identity, not a writer: everything it finds lands as
 attestations by it, never as an edit, and everything else about it follows
 from the rules of §8 above.
 
-**What it checks.** Four questions. Three are asked of one subject the pull
-request adds — a claim, a statement, an edge — against the ground the pool
-already holds for it, and catch what was invented or misread. The fourth is
-asked of the ground itself — the page — against the pool, and catches what was
-left out:
+**What it checks.** Six questions. Five are asked of one subject the pull
+request adds — a claim, a statement, an edge, a placement of an axis — against
+the ground the pool already holds for it, and catch what was invented or
+misread. The fourth is asked of the ground itself — the page — against the
+pool, and catches what was left out:
 
 - **A claim against its page.** The judge reads the physical page the claim's
   locator names — the same extracted text the validator's quote check reads
@@ -1029,8 +1074,7 @@ left out:
   proposition is what the claims say: nothing the label asserts is absent from
   every supporting claim, nothing a supporting claim asserts contradicts it;
   each slot names what the claims' sentences name in that role — the
-  population operated on, the action, the condition, the outcome, the value of
-  a dimension (§4.1); the `short_label` compresses without changing the
+  population operated on, the action, the condition, the outcome; the `short_label` compresses without changing the
   meaning (§3.2); a `contests` edge really contradicts. Sameness is what it
   judges: a wrong `supports` edge is a statement that does not say what its
   claim says.
@@ -1062,6 +1106,27 @@ left out:
   package promised — a chapter, a section of the source's outline — is the
   package's verification, read from the judge's report, not a finding the
   judge attests on its own; a page nobody cited is read by nobody.
+- **A hierarchy edge against the four questions of §4.1.** For each
+  `broader` and `in_scope_of` edge the branch adds or changes, the judge reads
+  both concepts, the rationale and, where it names one, the passage, and asks
+  the second question of §4.1: does "X is a Y" hold whatever guideline one
+  reads (then `broader`), or only because this guideline stipulates it for
+  its own scope (then `in_scope_of`, with a rationale that says where the
+  guideline does, and a `condition` where the membership holds only under a
+  circumstance)? A situation after an intervention is no special case of it
+  (§4.1, edge cases). That the edge exists once and forms no cycle the
+  validator has checked.
+- **A placement against its axis's rule.** For each placement the branch adds
+  or changes in an axis definition, the judge reads the axis's `rule` and
+  applies it as written: for a dimension, to the statement's supporting
+  claims — the sentence first, and the heading or passage the rule allows
+  only where the sentence names no value —; for a hierarchy, to the concept,
+  asking whether the rule puts it under this parent. A placement's own
+  `rationale`, where it has one, must say what the rule alone does not
+  decide. The judge knows no axis: it reads the rule the definition carries,
+  and a rule that does not let it decide makes the placement *undecidable*.
+  That a hierarchy placement is an edge of the pool the validator has
+  checked.
 
 The subjects of a run are the entities and edges the branch adds or changes
 against `main`, plus every statement whose evidence the branch changes — a new
@@ -1072,14 +1137,15 @@ no other guideline, no textbook, no medical judgement. It judges the
 extraction against the page, never the guideline against medicine; a claim
 that faithfully carries a recommendation the judge would disagree with is
 consistent. Nothing in it names a guideline, a grading scheme or a concept —
-the four questions are stated over the schema's properties and this
-document's rules, and the same four are asked of every source (memory
+the six questions are stated over the schema's properties and this
+document's rules, and the same six are asked of every source (memory
 `generic-over-guidelines`).
 
 **What it writes.** One attestation per subject read, by the judge, shaped as
-§8 says: `subject` the claim, the statement or the edge; `subject_hash` its
+§8 says: `subject` the claim, the statement, the edge or the placement (a
+property of the axis, addressed as §2 addresses one); `subject_hash` its
 canonical hash at the head the judge read, so that a changed subject stales
-the finding; `scope` `content` for a claim and an edge, `with_evidence` for a
+the finding; `scope` `content` for a claim, an edge and a placement, `with_evidence` for a
 statement, so that a further supporting claim re-opens the question; `date`;
 and `claim` one of two. The fourth question has no subject of its own — what
 is missing does not exist to be pointed at — so its finding lands on the
@@ -1112,7 +1178,7 @@ the judge holds no key (below); the run is what the proof identifies.
 `.claude/agents/` — the agent-governing directory `CLAUDE.md` describes — and
 the file is the whole of the judge: its frontmatter pins the model and limits
 its tools to reading (the diff, the pool, the source's extracted text, this
-document), and its body is the three questions above, stated once, over the
+document), and its body is the questions above, stated once, over the
 schema's properties. The judging is done by a model, so the definition is
 what a prompt and a tool would otherwise be, and its identity is the file's
 own: the `proof` of every attestation records the definition's git blob hash
@@ -1187,7 +1253,7 @@ part, *undecidable*, with the sentence, the page and the two readings, for the
 package that owns the rule to settle. Nothing under it becomes an attestation:
 an undecided subject is unjudged, not consistent, and its row in the report
 says so in that one word. The third part is *noticed*:
-what the judge saw on the page or in the pool outside its four questions — a
+what the judge saw on the page or in the pool outside its six questions — a
 property the schema carries and the claim lacks, a requirement this document
 states and the schema cannot express. It is written down because a reader was
 there, and it is never a finding, because the judge judges only what it was
@@ -1228,8 +1294,8 @@ the helper writes:
 ```
 
 Of the statement it asks the second: the label is the box's sentence, the
-slots name Pankreasresektion, frühe Drainageentfernung, geringes
-Pankreasfistelrisiko and postoperativ, each in the sentence; the short label
+slots name Pankreasresektion, frühe Drainageentfernung and geringes
+Pankreasfistelrisiko, each in the sentence; the short label
 keeps the condition — consistent, `scope: with_evidence`. Of the edge it asks
 the third, on p. 64, against §5.1: about the box's own action (G1), a value
 the box's "wenn das Drainagesekret … hinweist" needs and does not give,
