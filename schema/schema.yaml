@@ -12,9 +12,12 @@
 # outline, `broader` has no cycles, the grouping axes hold together (spec §4.1:
 # a statement's extra slot is declared by one dimension axis and holds one of its
 # values, `axis` on an edge names a hierarchy axis with no cycle within it, a view's
-# `group_by` is asserted for it), and a view that declares a scope tree holds
+# `group_by` is asserted for it), a view that declares a scope tree holds
 # together (spec §4, §5: each member statement has one anchor, every anchor reaches
-# the view's `scope_root`, `in_scope_of` has no cycle and doubles no `broader`).
+# the view's `scope_root`, `in_scope_of` has no cycle and doubles no `broader`), and
+# a derived concept's rules hold together (spec §3.1, §5: `defined_by` reaches a
+# claim of kind criterion or definition, once per pair; a relative threshold is
+# relative to another quantity than its own).
 # CI runs it on every pull request and push to main (.github/workflows/validate.yml).
 #
 # Keywords prefixed `x-` are this project's annotations; JSON Schema validators
@@ -23,7 +26,7 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 $id: https://graph.med/schema/schema.yaml
 title: graph.med pool
-x-version: 0.9.0
+x-version: 0.10.0
 
 # ── layout: which definition each data file validates against ────────────────
 # (data/README.md). Globs are relative to the repository root. `one_per_file`
@@ -153,6 +156,23 @@ $defs:
       outcome: {$ref: '#/$defs/concept_ref'}   # absent where the source rates the whole recommendation
       value:   {$ref: '#/$defs/text'}          # the system's own word, source language, never translated; absent where the source lists the outcome unrated
       system:  {$ref: '#/$defs/slug'}          # grade, oxford_loe, esc_loe, … — an open string, never an enum; required with or without a value: the system whose table lists the outcome
+  # one threshold a criterion or definition claim prints (spec §3.1): which quantity, compared how,
+  # with which value — read off the page, never inferred, rounded or completed. The comparator list
+  # is closed because it is mathematics, not a guideline's vocabulary; nothing else is enumerated:
+  # the quantity is a concept, value, unit and time point are strings as printed, never converted.
+  # A relative threshold ("less than three times the serum value") names the quantity it is
+  # relative to; its value is the factor as printed. In YAML, `=` must be quoted
+  threshold:
+    type: object
+    required: [quantity, comparator, value]
+    additionalProperties: false
+    properties:
+      quantity:    {$ref: '#/$defs/concept_ref'}   # what is measured or scored
+      comparator:  {enum: ["<", "≤", ">", "≥", "=", between]}   # `between`: `value` holds both bounds as printed
+      value:       {$ref: '#/$defs/text'}          # as printed, a string ("5000", "zwei", "Dreifach"); never a number the loader may reshape
+      unit:        {$ref: '#/$defs/text'}          # as printed ("U/L", "ml/Tag"); absent where the source prints none
+      when:        {$ref: '#/$defs/text'}          # the time point of the measurement as printed ("am postop. Tag 1 und 3"); absent where none is printed
+      relative_to: {$ref: '#/$defs/concept_ref'}   # a relative threshold: the reference quantity, another than `quantity` (validator)
 
   # ── provenance (spec §6.2–6.4) ────────────────────────────────────────────
   locator:
@@ -239,6 +259,14 @@ $defs:
         uniqueItems: true
         items: {$ref: '#/$defs/evidence_entry'}
         x-provenance: required   # read off the source like grade and consensus, never inferred
+      thresholds:  # the thresholds the passage prints (spec §3.1): criterion and definition claims only,
+                   # the claims a `defined_by` edge reaches (§5). Several entries hold at once — a rule that
+                   # needs two values is one claim with two entries; alternatives are separate claims
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {$ref: '#/$defs/threshold'}
+        x-provenance: required   # the number on the page, like the grade; never from the extractor
       source: {$ref: '#/$defs/reference'}
       provenance:
         description: Per-property overrides. A `required`-provenance property may only be overridden with a passage.
@@ -253,8 +281,13 @@ $defs:
           direction:         {$ref: '#/$defs/references'}
           consensus:         {$ref: '#/$defs/references'}
           evidence:          {$ref: '#/$defs/references'}
+          thresholds:        {$ref: '#/$defs/references'}
+    if: {required: [thresholds]}   # a threshold says for whom (the case a term covers), never how (a dose, a duration)
+    then: {properties: {kind: {enum: [criterion, definition]}}}
 
   concept:
+    # whether a concept is derived (established by a rule) or stated is computed from its
+    # `defined_by` edges (spec §3.2, §3.3), never a field: one mechanism wherever the concept stands
     type: object
     required: [id, type, lang, label, source]
     additionalProperties: false
@@ -530,7 +563,7 @@ $defs:
     prefixItems:
       - $ref: '#/$defs/entity_ref'
       - enum: [supports, contests, refines, supplements, limits, codes_as, broader, in_scope_of,
-               sequence, branch, about, specializes, complements, conflicts]
+               defined_by, sequence, branch, about, specializes, complements, conflicts]
       - $ref: '#/$defs/entity_ref'
       - $ref: '#/$defs/edge_props'
     allOf:
@@ -565,6 +598,14 @@ $defs:
                         {$ref: '#/$defs/modelling_edge_props'}]
       - if: {prefixItems: [true, true, true, {required: [condition]}]}
         then: {prefixItems: [true, {const: in_scope_of}]}
+      # definition — "is established by the rule this claim gives": a concept the clinician cannot
+      # observe but establishes by a threshold, a score or a definition (spec §3.2, §5). Concept →
+      # claim, modelling with a rationale; several edges from one concept are alternatives. The
+      # validator checks that the claim is of kind criterion or definition and that no pair repeats
+      - if: {prefixItems: [true, {const: defined_by}]}
+        then:
+          prefixItems: [{$ref: '#/$defs/concept_ref'}, true, {$ref: '#/$defs/claim_ref'},
+                        {$ref: '#/$defs/modelling_edge_props'}]
       # structure — among structural nodes, and from them to statements
       - if: {prefixItems: [true, {const: sequence}]}
         then: {prefixItems: [{$ref: '#/$defs/structural_ref'}, true, {$ref: '#/$defs/structural_ref'}]}

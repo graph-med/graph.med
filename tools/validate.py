@@ -30,6 +30,11 @@ rules a document schema cannot state because they span files:
     `in_scope_of` forms no cycle, alone or with `broader`, and never doubles a
     `broader` edge between the same two concepts. A view without `scope_root`
     is not checked for (1) and (2);
+  - a derived concept's rules hold together (spec §3.1, §5): a `defined_by` edge
+    reaches a claim of kind `criterion` or `definition`, and one concept has at
+    most one such edge to one claim, discriminator or not; a threshold's
+    `quantity` and `relative_to` resolve like every reference, and a relative
+    threshold is relative to another quantity than the one it bounds;
 
 With --verify-quotes it also downloads each source (hash-checked, cached) and
 verifies every quote is a verbatim substring of `pdftotext -layout` on the cited
@@ -139,6 +144,7 @@ def main(argv=None) -> int:
     seen_edges: set[tuple] = set()
     broader: list[tuple[str, int, str, str, dict]] = []   # (file, index, from, to, props)
     scope: list[tuple[str, int, str, str, dict]] = []     # the same, for in_scope_of
+    defined_by: list[tuple[str, int, str, str, dict]] = []   # the same, for defined_by
     for rel, doc, _ in docs:
         for path, value in walk(doc):
             if isinstance(value, str) and ref_pattern.match(value) and value.split("#")[0] not in ids:
@@ -154,9 +160,12 @@ def main(argv=None) -> int:
                         broader.append((rel, i, edge[0], edge[2], edge[3]))
                     elif edge[1] == "in_scope_of":
                         scope.append((rel, i, edge[0], edge[2], edge[3]))
+                    elif edge[1] == "defined_by":
+                        defined_by.append((rel, i, edge[0], edge[2], edge[3]))
 
     errors += check_axes(schema, ids, entities, broader)
     errors += check_scope_edges(broader, scope)
+    errors += check_definitions(ids, entities, defined_by)
     if any(e.get("type") == "view" and "scope_root" in e for e in entities.values()):
         if errors:   # members are computed by the build's reader, which expects a pool that fits the schema
             print("the scope trees of views are checked once the errors below are fixed")
@@ -295,6 +304,33 @@ def check_scope_edges(broader: list[tuple[str, int, str, str, dict]],
         for cycle in cycles(both):
             if frozenset(cycle) not in alone:
                 errs.append(f"in_scope_of and broader edges form a cycle together: {' -> '.join(cycle)}")
+    return errs
+
+
+def check_definitions(ids: dict[str, str], entities: dict[str, dict],
+                      defined_by: list[tuple[str, int, str, str, dict]]) -> list[str]:
+    """A derived concept's rules (spec §3.1, §3.2, §5). A `defined_by` edge reaches a claim of kind
+    `criterion` or `definition` — the passage that gives the rule, not a recommendation that uses the
+    term. One concept is defined by one claim once: several edges from a concept are alternatives,
+    and a second edge to the same claim, even with a discriminator, would count one rule twice.
+    A threshold's `relative_to` names another quantity than its `quantity`; that both resolve is the
+    reference check's, and that only criterion and definition claims carry thresholds the schema's.
+    No kind of concept, quantity or unit is named here."""
+    errs: list[str] = []
+    seen: dict[tuple[str, str], str] = {}
+    for rel, i, frm, to, _ in defined_by:
+        kind = entities.get(to, {}).get("kind")
+        if to in entities and kind not in ("criterion", "definition"):
+            errs.append(f"{rel} at {i}: {frm} defined_by {to}, a claim of kind {kind!r}; a rule is a criterion or a definition")
+        if (frm, to) in seen:
+            errs.append(f"{rel} at {i}: {frm} defined_by {to} repeats the edge in {seen[(frm, to)]}; one rule is one edge")
+        seen.setdefault((frm, to), f"{rel} at {i}")
+    for cid, claim in sorted(entities.items()):
+        if claim.get("type") != "claim" or not isinstance(claim.get("thresholds"), list):
+            continue
+        for n, th in enumerate(claim["thresholds"]):
+            if isinstance(th, dict) and "relative_to" in th and th.get("relative_to") == th.get("quantity"):
+                errs.append(f"{ids[cid]}: threshold {n} of {cid} is relative to {th['quantity']}, its own quantity; a relative threshold names the quantity it is relative to")
     return errs
 
 
