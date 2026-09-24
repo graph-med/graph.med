@@ -1,0 +1,9 @@
+# The second view: everything in the pool drawn from the sepsis guideline — published at
+# graph.med/sepsis-lf-4.0 (docs/publication.md §2). A separate graph: no view combines it with
+# another source, and the site's index is where the two meet. Its anchor slot, scope root and
+# grouping axes come with the linking pass that asserts them.
+id: views/sepsis-lf-4.0
+type: view
+view_kind: selection
+filter:
+  sources: [sources/sepsis-lf-4.0]

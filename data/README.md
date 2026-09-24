@@ -31,6 +31,31 @@ extracted `pomgat-lv-1.0` were one per chapter cluster, so its files are:
 | `ch08` | 8.1–8.2 | 112–121 |
 | `ch09` | 9 | 122–124 |
 
+The parts that extract `sepsis-lf-4.0` are one per chapter cluster too, chapter 3
+cut at its section boundary 3.3 | 3.4. Each writes its claims and the edges minted
+with them, its `defined_by` edges included, under the same file name in
+`claims/sepsis-lf-4.0/` and `edges/sepsis-lf-4.0/`:
+
+| file | chapters | physical pages |
+|---|---|---|
+| `ch02` | 2 | 21–36 |
+| `ch03a` | 3.1–3.3, without Tabelle 2 | 37–51, to the heading of 3.4 (line 21 of p. 51) |
+| `ch03-tabelle2` | Tabelle 2 in 3.3, when the table is extracted | 45–46 |
+| `ch03b` | 3.4–3.5 | 51 from the heading of 3.4, to 56 |
+| `ch04` | 4 | 57–72 |
+| `ch05` | 5 | 73–87 |
+| `ch06` | 6 | 88–102 |
+| `ch07` | 7 | 103–104 |
+| `ch08` | 8 | 105–126 |
+| `ch09` | 9 | 127–134 |
+| `ch10` | 10 | 135–138 |
+
+The linking passes over the whole source write only edges, each in a file of its
+own under `edges/sepsis-lf-4.0/`: `cross-chapter` (the edges between statements or
+concepts of two chapters, and the families across chapters), `scope-edges` (the
+view's scope tree) and `broader-edges` (`broader` between the concepts that fill a
+population or condition slot).
+
 Rules that bind everything here:
 
 - **Source language, tagged.** All content stays in the source language with a
