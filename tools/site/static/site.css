@@ -2,12 +2,14 @@
 :root {
   --bg: #fff; --fg: #1a1a1a; --mute: #666; --line: #ddd; --accent: #0b5cad;
   --statement: #0b5cad; --concept: #6a994e; --contested: #c1121f; --edge: #bbb;
-  /* the four directions (für · gegen · abwägen · Lücke): one colour each for the box in the graph and the bar beside the
+  /* the four directions (für · gegen · abwägen · Lücke): one colour each for the box in the graph and the band of the
      judgement in the details, so that the two agree — light enough for dark text in both themes; gegen is a tint of the contested red */
   --dir-for: #9ad3a8; --dir-against: #e9a9ad; --dir-weigh: #f2d97a; --dir-gap: #d4d4d4;
-  /* the verb as a border on the box: "soll" gets a rim in a strong shade of its direction's colour ("soll nicht" the red one),
-     saturated well past the pastel fill so that it reads against it in both themes; "sollte" has no border */
-  --verb-for: #1f7a3c; --verb-against: #b3232c;
+  --ink: #1a1a1a;   /* text on a direction colour, in both themes: the four stay light enough for it */
+  /* the page's type, the graph's too (graph.js reads it): the system face, then fonts that draw the direction glyphs
+     (✓ ✗ ⚖ ∅) as text — a platform whose system face lacks ⚖ would otherwise reach for its colour emoji font,
+     which the text variation selector U+FE0E the build writes after ⚖ asks it not to, but not every browser obeys */
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif, "Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols", "DejaVu Sans", FreeSerif;
   --note: #f2d97a;   /* the preview strip */
   --surface: #f3f3f1;   /* the wording's own surface on the statement card (zone 3) */
   color-scheme: light dark;
@@ -15,13 +17,12 @@
 @media (prefers-color-scheme: dark) {
   :root { --bg: #111; --fg: #eee; --mute: #999; --line: #333; --accent: #7cb7ff; --surface: #1d1d1b;
           --statement: #7cb7ff; --concept: #9ad17a; --contested: #ff6b6b; --edge: #555;
-          --dir-for: #7fc492; --dir-against: #dd8d92; --dir-weigh: #e5c95a; --dir-gap: #b4b4b4;
-          --verb-for: #146b32; --verb-against: #9e1c26; }
+          --dir-for: #7fc492; --dir-against: #dd8d92; --dir-weigh: #e5c95a; --dir-gap: #b4b4b4; }
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--bg); color: var(--fg);
-  font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  font: 16px/1.45 var(--font); }
 a { color: var(--accent); }
 code { font-size: .9em; }
 .preview { padding: .35rem 1rem; font-size: .8rem; font-weight: 700; background: var(--note); color: #111; }
@@ -49,16 +50,50 @@ ul.cards small, ul.plain small { display: block; color: var(--mute); }
 .graph-wrap { margin: 0 -1rem; position: relative; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; grid-template-columns: minmax(0, 1fr); background: var(--bg); border-top: 1px solid var(--line); }
 #graph { grid-area: 1 / 1 / 4 / 2; display: block; width: 100%; height: 62vh; touch-action: none; }
 .free { grid-area: 2 / 1 / 3 / 2; pointer-events: none; }   /* the free row itself, so that fit() measures it once instead of adding up the controls and the legend */
-.hint { grid-area: 3 / 1 / 4 / 2; position: relative; z-index: 1; margin: 0 1rem .3rem; color: var(--mute); font-size: .74rem; line-height: 1.5; pointer-events: none; }   /* above the canvas, which Cytoscape positions with a z-index of its own */
-.hint .key { white-space: nowrap; }   /* a swatch stays on the line of its word */
-.sw { display: inline-block; width: .75em; height: .75em; vertical-align: -.05em; margin: 0 .15em 0 .45em; border: 1px solid var(--mute); box-sizing: border-box; }
+/* the legend (docs/publication.md §3, "The legend"): in the third row, at the bottom left, a pill that says what it
+   opens — the word and the view's direction chips — and, expanded, a panel of named groups opening upward from it.
+   Only the keys the view draws (tools/build.py, legend_of), in the view layer's words (tools/site/words/). The row
+   spans the width so the panel can take it; only the pill and the panel take the tap, the rest reaches the graph */
+.legend { grid-area: 3 / 1 / 4 / 2; position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; gap: .4rem;
+  margin: 0 .6rem .6rem; min-width: 0; color: var(--fg); font-size: .8rem; line-height: 1.45; pointer-events: none; }   /* above the canvas, which Cytoscape positions with a z-index of its own */
+.legend > * { pointer-events: auto; }
+.legend-panel { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: .5rem 1rem; width: 100%; max-width: 56rem;
+  max-height: 40vh; overflow: auto; padding: .55rem .75rem; background: var(--bg); border: 1px solid var(--line); border-radius: .6rem; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+.legend-panel[hidden] { display: none; }
+.legend .lg p { margin: .1rem 0; }
+.legend .lg-name { font-weight: 600; color: var(--mute); font-size: .74rem; }
+.legend .key .sw { margin: 0 .35em 0 0; }
+.legend .key.variant { padding-left: 1.2em; }   /* a state of the form above it: the folded question, the open group */
+.legend .grades b { font-weight: 700; }
+.legend-toggle { display: inline-flex; align-items: center; gap: .45rem; min-height: 44px; padding: 0 .9rem 0 .55rem; border: 1px solid var(--line); border-radius: 22px;
+  background: var(--bg); color: var(--fg); font: inherit; font-size: .85rem; font-weight: 600; cursor: pointer; }
+.legend-toggle:hover, .legend-toggle:focus-visible { border-color: var(--fg); }
+.legend-toggle .chips { display: inline-flex; gap: .2rem; font-weight: 400; }   /* a bold ⚖ finds no text face on some platforms and falls to the emoji font */
+.legend-toggle .chips .chip { margin: 0; }
+.legend-toggle .caret::after { content: "▴"; color: var(--mute); }   /* opens upward */
+.legend-toggle[aria-expanded="true"] .caret::after { content: "▾"; }
+/* a direction chip: the box's own fill, the glyph inside it in the box's dark text, and a border that holds against the
+   page in both themes (the fills alone are pastels under 3:1 on white — WCAG 1.4.11) */
+.chip { display: inline-flex; align-items: center; justify-content: center; width: 1.55em; height: 1.55em; margin-right: .35em; vertical-align: middle;
+  border: 1px solid var(--mute); border-radius: .3em; color: #111; font-size: .95em; line-height: 1; }
+.chip.d-für { background: var(--dir-for); } .chip.d-gegen { background: var(--dir-against); }
+.chip.d-abwägen { background: var(--dir-weigh); } .chip.d-Lücke { background: var(--dir-gap); }
+.chip.none { background: var(--bg); }   /* a statement without a direction: the page's colours, with a border, as in the graph */
+.sw { display: inline-block; width: .85em; height: .85em; vertical-align: -.05em; margin: 0 .15em 0 .45em; border: 1px solid var(--mute); box-sizing: border-box; }
 .sw.question { transform: rotate(45deg) scale(.8); border-color: var(--fg); }
+.sw.question.closed { background: var(--line); border-style: dashed; }   /* folded: there is more below */
 .sw.junction { border-radius: 50%; border: 2px solid var(--fg); }
+.sw.junction.open { background: var(--fg); }
 .sw.statement { border-radius: 2px; background: var(--mute); }
-.sw.aim { clip-path: polygon(0 0, 80% 0, 100% 50%, 80% 100%, 0 100%); background: var(--mute); }
-.sw.d-for { background: var(--dir-for); border: 0; } .sw.d-against { background: var(--dir-against); border: 0; }
-.sw.d-weigh { background: var(--dir-weigh); border: 0; } .sw.d-gap { background: var(--dir-gap); border: 0; }
-.sw.v-for { background: var(--dir-for); border: 2px solid var(--verb-for); } .sw.v-against { background: var(--dir-against); border: 2px solid var(--verb-against); }
+.sw.aim { width: 1.2em; border-radius: 2px; border-style: dashed; background: var(--bg); }
+.sw.contested { border-radius: 2px; border: 2px dashed var(--contested); background: var(--bg); }
+.sw.related { border-radius: 2px; background: var(--mute); outline: 2px dotted var(--fg); outline-offset: 2px; }   /* the dotted outline a box related to the selected one wears */
+.sw.general { border-radius: 2px; background: var(--mute); outline: 3px double var(--fg); outline-offset: 2px; }   /* the double outline a box applying generally wears in the graph */
+.legend .key .sw.related, .legend .key .sw.general { margin-left: .2em; margin-right: .55em; }   /* room for the outline */
+/* an edge's key: a short run of its line */
+.ln { display: inline-block; width: 1.6em; height: 0; vertical-align: middle; margin-right: .35em; border-top: 1.5px solid var(--edge); }
+.ln.answer { border-top-color: var(--fg); }
+.ln.aim { border-top-style: dashed; }
 .controls { grid-area: 1 / 1 / 2 / 2; position: relative; z-index: 2; display: flex; gap: .4rem; align-items: flex-start; justify-content: space-between; padding: .6rem; pointer-events: none; }
 .controls > * { pointer-events: auto; }   /* the row spans the width so that left and right keep their ends; only the controls themselves take the tap */
 .tools { display: flex; gap: .4rem; }
@@ -77,6 +112,7 @@ blockquote { margin: .3rem 0; padding-left: .7rem; border-left: 3px solid var(--
 button.copy { font: inherit; font-style: normal; font-size: .72rem; padding: 0 .5rem; margin-left: .3rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--bg); color: var(--mute); cursor: pointer; vertical-align: middle; min-height: 28px; }
 button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: var(--fg); }
 .cite { font-size: .85rem; color: var(--mute); }
+.sheet .hint { margin: 0 0 .5rem; font-size: .85rem; color: var(--mute); }   /* the home text's one hint: where the details appear */
 .node-link { min-height: 44px; display: inline-flex; align-items: center; }   /* touch target */
 
 /* wide screens: the graph fills the height, the details sit beside it as a column */
@@ -86,6 +122,36 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
   main.view .graph-wrap { margin: 0; border-top: 0; height: 100%; min-height: 0; }
   main.view #graph { height: 100%; }
   main.view .sheet { border-top: 0; border-left: 1px solid var(--line); padding: .6rem 1rem 2rem; overflow: auto; min-height: 0; }
+}
+
+/* the phone's peek strip (docs/publication.md §3): below 900 px a selection's details wait at the bottom edge in a
+   strip carrying the direction colour, the title and the judgement, and the page does not move; the strip raises
+   the panel over the graph, ✕ or Escape lowers it. The strip's parts are built by graph.js from the card. */
+.peek-bar { display: none; }
+@media (max-width: 899px) {
+  main.view:has(.sheet.peeking) { padding-bottom: 5rem; }   /* the footer stays reachable above the strip */
+  main.view .sheet.peeking { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; margin: 0; padding: 0 1rem; border-top: 0; background: var(--bg); box-shadow: 0 -2px 12px rgba(0,0,0,.18); }
+  main.view .sheet.peeking:not(.raised) > :not(.peek-bar) { display: none; }   /* lowered: the strip alone */
+  main.view .sheet.peeking.raised { top: 2.5rem; overflow: auto; overscroll-behavior: contain; border-radius: .8rem .8rem 0 0; padding-bottom: 2rem; }
+  .peek-bar { display: flex; align-items: stretch; position: sticky; top: 0; z-index: 1; margin: 0 -1rem; background: var(--bg); border-top: 5px solid var(--band, var(--line)); padding-bottom: env(safe-area-inset-bottom); }
+  .sheet.raised .peek-bar { border-bottom: 1px solid var(--line); margin-bottom: .6rem; padding-bottom: 0; border-radius: .8rem .8rem 0 0; }
+  .peek-bar.dir-für { --band: var(--dir-for); } .peek-bar.dir-gegen { --band: var(--dir-against); }
+  .peek-bar.dir-abwägen { --band: var(--dir-weigh); } .peek-bar.dir-Lücke { --band: var(--dir-gap); }
+  .peek { flex: 1 1 auto; min-width: 0; min-height: 56px; display: flex; align-items: center; gap: .7rem; padding: .4rem .6rem .4rem 1rem; border: 0; background: none; color: var(--fg); font: inherit; text-align: left; cursor: pointer; }
+  .peek::after { content: "▴"; flex: none; margin-left: auto; color: var(--mute); font-size: 1.1rem; }   /* it rises */
+  .sheet.raised .peek::after { content: none; }
+  .sheet.raised .peek { min-height: 48px; }
+  .sheet.raised .peek-text { display: none; }   /* raised, the card below says it: the title stands once */
+  .peek .sw-band { flex: none; width: 1.3rem; height: 1.3rem; border-radius: .3rem; background: var(--band, var(--line)); }
+  .peek-text { min-width: 0; display: flex; flex-direction: column; }
+  .peek-title { font-weight: 600; font-size: .95rem; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .peek .verdict { font-size: .85rem; line-height: 1.3; color: var(--mute); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .peek .verdict .answer { color: var(--fg); font-weight: 600; }
+  .peek .verdict .glyph { font-weight: 400; }
+  .peek .verdict .contested { color: var(--contested); font-weight: 600; }
+  .peek .verdict .contested .glyph { font-weight: 400; }   /* a bold ⚠ falls to the emoji font, as in the card */
+  .peek-close { display: none; flex: none; width: 52px; min-height: 48px; border: 0; background: none; color: var(--fg); font: inherit; font-size: 1.25rem; cursor: pointer; }
+  .sheet.raised .peek-close { display: block; }
 }
 
 /* chapters and search (docs/publication.md §3 "Chapters and search"): a hard filter and a soft highlight */
@@ -115,33 +181,46 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .chapters .sec { color: var(--mute); min-width: 3.2rem; font-variant-numeric: tabular-nums; }
 
 /* the statement card (docs/publication.md §3 "What the section shows"): nine zones in a fixed order, the
-   headings labels in the source language (the page's h3), no written-out questions. The direction colours
-   are the boxes' four (one variable each): here as a bar beside the judgement, never as a fill, so that
-   a fill can mean the grade and nothing else. Also the facet select of the graph's controls. */
-.card .zone { margin: 0 0 .5rem; }
-.card .zone + .zone { border-top: 1px solid var(--line); padding-top: .2rem; }
-.card .zone.title, .card .zone.judgement, .card .zone.wording { border-top: 0; padding-top: 0; }
+   headings labels in the source language (the page's h3), in sentence case so that a German compound keeps its
+   word shape, no written-out questions. The zones are separated by space, not by rules: one rule remains, before
+   zone 8, where the card turns from the answer to where the answer comes from. The direction colours are the
+   boxes' four (one variable each): here as the band of the judgement, whose chips keep a light fill of their own,
+   so that a chip's fill still means the grade and nothing else. Also the facet select of the graph's controls. */
+.card .zone { margin: 0; }
+.card .zone + .zone { margin-top: 1.45rem; }
+.card .zone.title + .zone { margin-top: .2rem; }   /* the band belongs to its title */
 .card h2.title { font-size: 1.15rem; font-weight: 600; line-height: 1.3; margin: .3rem 0 .6rem; }
-.card h3 { margin: .8rem 0 .4rem; }
-.card h4 { margin: .6rem 0 .1rem; font-size: .8rem; color: var(--mute); text-transform: uppercase; letter-spacing: .04em; }
+.card h3, .card h4 { font-size: .9rem; font-weight: 600; color: var(--mute); text-transform: none; letter-spacing: 0; }
+.card h3 { margin: 0 0 .4rem; }
+.card h4 { margin: .6rem 0 .1rem; font-size: .85rem; }
+.card .zone.citation { border-top: 1px solid var(--line); padding-top: 1.1rem; }   /* the card's one structural break */
+.card ul.body li:first-child, .card .contested ol.claims li:first-child { border-top: 0; }   /* a list opens under its heading, not under a rule */
 .card .none { margin: .3rem 0; color: var(--mute); font-size: .9rem; }
-/* zone 2, the judgement: a 6 px bar in the direction colour, line 1 in the card's largest type with only the
-   contested marker at its right, line 2 the badges — wrapping under it, never squeezing it */
-.card .judgement { border-left: 6px solid var(--line); padding: .15rem 0 .3rem .7rem; margin-bottom: .8rem; }
-.card .judgement.dir-für { border-color: var(--dir-for); }
-.card .judgement.dir-gegen { border-color: var(--dir-against); }
-.card .judgement.dir-abwägen { border-color: var(--dir-weigh); }
-.card .judgement.dir-Lücke { border-color: var(--dir-gap); }
-.card .line1 { display: flex; align-items: baseline; justify-content: space-between; gap: .6rem; margin: 0 0 .35rem; font-size: 1.35rem; font-weight: 700; line-height: 1.25; }
-.card .line1 .answer { flex: 1 1 auto; min-width: 0; }
-.card .line1 .glyph { margin-right: .1rem; }
-.card .line1 .verbs { font-weight: 400; color: var(--mute); margin-left: .3rem; }
-.card .contested-mark { flex: none; font-size: .85rem; font-weight: 700; color: var(--contested); text-decoration: none; padding: .15rem .5rem; border: 2px solid var(--contested); border-radius: 1rem; white-space: nowrap; }
-.card .contested-mark:hover, .card .contested-mark:focus-visible { background: var(--contested); color: #fff; }
+/* zone 2, the band: one block filled with the direction colour, its lines sharing the left edge — line 1 in the
+   card's largest type (glyph, direction word, verbs), line 2 the chips, wrapping under it and never squeezing it,
+   and only where a contesting claim exists a third line, the contested marker. A statement without a direction
+   (a fact) keeps the block on the neutral surface. The text on a direction colour is --ink, in both themes. */
+.card .judgement { background: var(--surface); border-radius: .6rem; padding: .6rem .8rem .7rem; }
+.card .judgement.dir-für { background: var(--dir-for); color: var(--ink); }
+.card .judgement.dir-gegen { background: var(--dir-against); color: var(--ink); }
+.card .judgement.dir-abwägen { background: var(--dir-weigh); color: var(--ink); }
+.card .judgement.dir-Lücke { background: var(--dir-gap); color: var(--ink); }
+.card .line1 { margin: 0 0 .45rem; font-size: 1.35rem; font-weight: 700; line-height: 1.25; }
+.card .line1:only-child, .card .line1:empty { margin: 0; }
+.card .line1 .glyph { margin-right: .1rem; font-weight: 400; }   /* a bold ⚖ finds no text face on some platforms and falls to the emoji font */
+.card .line1 .verbs { font-weight: 400; opacity: .75; margin-left: .3rem; }   /* the ink or the fg, softened: --mute would not hold on a direction colour */
 .card .badges { display: flex; flex-wrap: wrap; gap: .3rem .4rem; margin: 0; }
 /* a badge: the grade as text on the badge's own fill (a fill means grade, never direction), its consensus beside it */
 .card .badge { display: inline-block; padding: .15rem .6rem; border-radius: .4rem; background: var(--line); color: var(--fg); font-size: .85rem; line-height: 1.4; }
 .card .badge b { font-weight: 700; }
+/* on the band a badge is a chip: a light fill of its own and a hairline, holding on all four colours and the surface */
+.card .judgement .badge { background: rgba(255,255,255,.78); color: var(--ink); box-shadow: inset 0 0 0 1px rgba(0,0,0,.14); }
+/* the contested marker: its own line under the chips, in the contested colour, a link to zone 7. On the band it
+   takes the light theme's red, the dark theme's being too light for a light block */
+.card .contested-line { margin: .5rem 0 0; }
+.card .contested-mark { display: inline-block; font-size: .9rem; font-weight: 700; color: #a50f1b; background: rgba(255,255,255,.78); text-decoration: none; padding: .2rem .6rem; border-left: 4px solid #a50f1b; border-radius: .3rem; min-height: 32px; }
+.card .contested-mark .glyph { font-weight: 400; }   /* like the judgement's glyph: a bold ⚠ finds no text face and falls to the emoji font */
+.card .contested-mark:hover, .card .contested-mark:focus-visible { background: #a50f1b; color: #fff; }
 /* zone 3, the wording: the guideline's sentence on its own surface, body-text size, a measure of about 70 characters */
 .card .surface { background: var(--surface); border-radius: .6rem; padding: .9rem 1rem; margin: 0 0 .5rem; max-width: 70ch; }
 .card .surface p { margin: 0; font-size: 1rem; line-height: 1.6; }
@@ -161,8 +240,37 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card dl.slots dd { display: flex; flex-wrap: wrap; align-items: center; column-gap: .4rem; }   /* the count beside the link while it fits, under it when not */
 .card dl.slots dd .count { color: var(--mute); font-size: .85rem; white-space: nowrap; }
 .card dl.slots dd .families { flex-basis: 100%; color: var(--mute); font-size: .85rem; }
+.card dl.slots dd .families-label { margin-right: .15rem; }   /* "gehört zu:" — broader categories, not further requirements */
 .card dl.slots dd .families .node-link { min-height: 32px; }
 .card ul.body li p { margin: .2rem 0; }
+/* what applies generally to a concept (docs/publication.md §3): set apart under its own heading, below the concept's
+   own statements, each entry the statement, where it stands, the concept it was made for and the condition; and on
+   the card, zone 5's row naming the groups a statement applies generally to, each with its condition */
+.card div.general { border-left: 3px double var(--mute); padding-left: .6rem; margin: .4rem 0 .8rem; }
+.card div.general .from { margin: .2rem 0 .3rem; color: var(--mute); font-size: .85rem; }
+.card div.general .condition { color: var(--fg); }
+.card ul.general li { padding: .3rem 0; }
+.card ul.general li .cite { display: block; font-size: .8rem; }
+.card dl.slots dd.general-for > span { flex-basis: 100%; }   /* one group per line */
+.card dl.slots dd.general-for small { color: var(--mute); }
+/* a grouped list: statements or concepts under what groups them — a concept's uses under each slot, an axis's
+   placements under each parent or value — each member on its own line; a hierarchy member names in a quiet word
+   the kind of edge it hangs by, and one without an edge (a proposal's) is marked */
+.card div.grouped { border-left: 2px solid var(--line); padding-left: .6rem; margin: .4rem 0 .8rem; }
+.card div.grouped .from { margin: .2rem 0 .2rem; }
+.card div.grouped .from .count, .card ul.grouped .edge-kind { color: var(--mute); font-size: .85rem; }
+.card ul.grouped li { padding: .3rem 0; }
+.card ul.grouped .edge-kind.none { color: var(--fg); font-style: italic; }
+/* a derived concept's rules, under its row of zone 5 and on its page: the line saying it is derived, then each rule —
+   its thresholds or its sentence, the page and the claim's link on a line of their own below */
+.card .rules { flex-basis: 100%; margin: .15rem 0 .3rem; padding-left: .6rem; border-left: 2px solid var(--line); }
+.card .rules p.derived { margin: 0 0 .15rem; color: var(--mute); font-size: .85rem; font-style: italic; }
+.card .rules ul.rule-list { margin: 0; }
+.card .rules ul.rule-list li { margin: 0; padding: .3rem 0; border-top: 0; }
+.card .rules ul.rule-list li + li { border-top: 1px dashed var(--line); }   /* alternatives, one apart from the next */
+.card .rules ul.rule-list li > span { display: block; }
+.card .rules .threshold { white-space: normal; }
+.card .rules .cite a { min-height: 32px; }
 /* zone 7: the contesting claims, each with the contested colour beside it, its heading in that colour */
 .card .contested h3 { color: var(--contested); }
 .card .contested ol.claims li { border-left: 3px solid var(--contested); padding-left: .6rem; }
@@ -170,13 +278,19 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 /* zone 8: a source named once — its title as the group's heading, in the citation's own type, not the card's
    uppercase group label — with its claims' entries under it; the rule that separated the entries now opens each
    source, so that one source with one claim looks as before */
-.card .citation .source { border-top: 1px solid var(--line); padding-top: .5rem; }
+.card .citation .source + .source { border-top: 1px solid var(--line); padding-top: .5rem; margin-top: .4rem; }
 .card .citation .source h4 { margin: 0; font-size: .85rem; font-weight: 500; color: var(--mute); text-transform: none; letter-spacing: 0; }
 .card .citation .source ol.claims li:first-child { border-top: 0; padding-top: .1rem; }
-/* zone 8: the citation's two actions as one row of buttons, and the review status */
-.card .actions { display: flex; flex-wrap: wrap; gap: .4rem; margin: .3rem 0; }
-.card .actions .btn, .card .actions button.copy { font: inherit; font-size: .8rem; margin: 0; padding: .25rem .7rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--bg); color: var(--fg); text-decoration: none; min-height: 32px; display: inline-flex; align-items: center; }
-.card .actions .btn:hover, .card .actions .btn:focus-visible, .card .actions button.copy:hover, .card .actions button.copy:focus-visible { border-color: var(--fg); }
+/* zone 8: the citation's two actions, unlike — the link into the source is the primary action (filled, opening
+   in a new tab, marked as leaving the page), copying the quote a quiet text button beside it — and the review status */
+.card .actions { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .9rem; margin: .4rem 0; }
+.card .actions .btn { font: inherit; font-size: .85rem; font-weight: 600; margin: 0; padding: .3rem .85rem; border: 1px solid var(--accent); border-radius: 1rem; background: var(--accent); color: var(--bg); text-decoration: none; min-height: 36px; display: inline-flex; align-items: center; gap: .35rem; }
+.card .actions .btn .ext { font-weight: 400; }
+.card .actions .btn:hover, .card .actions .btn:focus-visible { background: var(--fg); border-color: var(--fg); }
+.card .actions button.copy { font: inherit; font-size: .8rem; margin: 0; padding: .3rem .1rem; border: 0; border-radius: 0; background: none; color: var(--mute); text-decoration: underline; text-underline-offset: .2em; min-height: 36px; display: inline-flex; align-items: center; }
+.card .actions button.copy:hover, .card .actions button.copy:focus-visible { color: var(--fg); }
+.card .actions button.copy.done { color: var(--fg); text-decoration: none; background: none; }
+.card .actions button.copy.done::after { content: " ✓"; }
 .card .review { margin: .5rem 0 0; color: var(--mute); font-size: .85rem; }
 /* zone 9: closed by default; the only zone with ids and edge names */
 .card .more summary { cursor: pointer; }
@@ -197,6 +311,7 @@ button.copy.done { color: var(--fg); border-color: var(--fg); background: var(--
   .tools select { max-width: 6.6rem; }
   .tools select#axis { max-width: calc(100% - 7.2rem); }   /* the row it wraps to holds it beside the facet select */
   .chapters button { min-height: 44px; align-items: center; }   /* touch targets */
+  .legend-panel { max-height: 26vh; }   /* expanded on a phone, it leaves the tree a strip of the free row; the panel scrolls */
 }
 
 /* print: the disclosure of zone 4 is open and has no marker to click; a table is not split across pages */

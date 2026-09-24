@@ -7,5 +7,4 @@ short_label: "Betablocker-Neuansetzen bei Hochrisiko erwägbar"
 slots:
   population: concepts/kardiovaskulaerer-hochrisikopatient
   action: concepts/praeoperatives-neuansetzen-betablocker
-  phase: concepts/praeoperativ
 source: modelling

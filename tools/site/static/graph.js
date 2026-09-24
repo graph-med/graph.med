@@ -2,28 +2,45 @@
    recommendation → aim — drawn left to right by Cytoscape.js with the dagre layout
    (self-hosted, see assets/vendor/LICENSES.md). Folded by default: tap an answer to
    unfold that patient group. Tap a box for its details in the section beside or below
-   the graph. Tap a question to fold everything below it; tap it again to restore what
+   the graph (on a phone, a peek strip that raises it). Tap a question to fold everything below it; tap it again to restore what
    was open there. A chapter tree (from the source's outline and the claims' sections) is
    a hard filter: only what that section supports is shown. The search is a soft
    highlight: matches keep their colour, the rest fades; the arrows beside the box, or
    ↓ and ↑ in it, step from match to match. The reset button returns the
    page to its opening state (docs/publication.md §3). The axis switch chooses which of
-   the view's groupings is drawn — the plain hierarchy, the chapters of its sources, or an
-   axis of its `group_by` (spec §4.1) — as `?by=<grouping>` in the URL (`section` for the
-   chapters, else the axis id), so a grouped view is a shareable link.
+   the view's groupings is drawn — its tree of patient groups (the first), the chapters of
+   its sources, or another axis of its `group_by` (spec §4.1) — as `?by=<grouping>` in the
+   URL (`section` for the chapters, else the axis id; absent for the first), so a grouped
+   view is a shareable link.
+   The legend under the graph keys what the view draws, open on a wide screen and a
+   pill on a phone.
    Data: the #graph-data JSON written by tools/build.py, one tree per grouping. */
 (function () {
   "use strict";
-  var hint = document.getElementById("hint"), sheet = document.getElementById("sheet");
+  var legend = document.getElementById("legend"), sheet = document.getElementById("sheet");
   var home = sheet.innerHTML;
   var data = JSON.parse(document.getElementById("graph-data").textContent);
   var chapters = document.getElementById("chapters"), chaptersToggle = document.getElementById("chapters-toggle");
   var search = document.getElementById("search"), count = document.getElementById("count"), facetSel = document.getElementById("facet");
-  var axisSel = document.getElementById("axis"), by = new URLSearchParams(location.search).get("by") || "", cy = null;
-  if (!data.groupings.some(function (g) { return g.axis === by; })) by = "";   /* an unknown axis in the link: the plain hierarchy */
+  var first = data.groupings[0].axis;   /* the view's tree of patient groups, what the page opens with */
+  var axisSel = document.getElementById("axis"), by = new URLSearchParams(location.search).get("by") || first, cy = null;
+  if (!data.groupings.some(function (g) { return g.axis === by; })) by = first;   /* an unknown axis in the link: the first grouping */
   data.groupings.forEach(function (g) { var o = document.createElement("option"); o.value = g.axis; o.textContent = g.label; o.lang = g.lang; axisSel.appendChild(o); });
-  axisSel.value = by; axisSel.hidden = data.groupings.length < 2;   /* a view without group_by has only the plain hierarchy: no switch */
-  function fail(msg) { hint.hidden = false; hint.textContent = "The graph could not be drawn: " + msg; }
+  axisSel.value = by; axisSel.hidden = data.groupings.length < 2;   /* a single grouping needs no switch */
+  function fail(msg) { legend.textContent = "The graph could not be drawn: " + msg; }
+
+  /* the legend: open on a wide screen, collapsed on a phone, at every load — nothing is remembered. The pill
+     toggles the panel above it; the zoom does not follow, the fit button does (the free row is re-read) */
+  var legendPanel = document.getElementById("legend-panel"), legendToggle = document.getElementById("legend-toggle");
+  function showLegend(on) { legendPanel.hidden = !on; legendToggle.setAttribute("aria-expanded", String(on)); }
+  showLegend(!!(window.matchMedia && window.matchMedia("(min-width: 900px)").matches));
+  /* on a phone the legend and the chapter panel share the little height the graph leaves, so opening one closes the other */
+  var narrow = function () { return !(window.matchMedia && window.matchMedia("(min-width: 900px)").matches); };
+  legendToggle.onclick = function () {
+    var open = legendPanel.hidden;
+    if (open && narrow() && !chapters.hidden) { chapters.hidden = true; chaptersToggle.setAttribute("aria-expanded", "false"); }
+    showLegend(open);
+  };
 
   /* switching the grouping redraws the tree from the chosen grouping's nodes and edges and keeps
      the rest of the page's state — the chapter, the search and the facet, the selected entity —
@@ -31,9 +48,9 @@
   axisSel.onchange = function () { switchTo(axisSel.value); };
   function switchTo(axis) {
     var g = window.graphmed, was = g.state();
-    by = data.groupings.some(function (x) { return x.axis === axis; }) ? axis : "";
+    by = data.groupings.some(function (x) { return x.axis === axis; }) ? axis : first;
     axisSel.value = by;
-    history.replaceState(null, "", location.pathname + (by ? "?by=" + encodeURIComponent(by) : "") + location.hash);
+    history.replaceState(null, "", location.pathname + (by !== first ? "?by=" + encodeURIComponent(by) : "") + location.hash);
     cy.destroy();
     draw();
     g = window.graphmed;
@@ -45,16 +62,16 @@
   /* the graph's colours are the page's: the custom properties on :root (site.css), read when the
      stylesheet is built — at every draw, and again when the theme changes while the page is open */
   function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
-  /* a box is coloured by its direction — the banner's four colours, one variable each in site.css — and
-     carries its grade as a letter in the label; a statement without a direction (a fact) stays uncoloured.
-     Its verb is its border: a solid border in a strong shade of the direction's colour when the supporting
-     claims all say "soll" (green: soll; red: soll nicht), none for "sollte" or when the claims disagree */
+  /* a box is coloured by its direction — the banner's four colours, one variable each in site.css — and its
+     label, written by the build, begins with the direction's glyph, the grade letter and, where the letter does
+     not carry it, the verb as a word; a statement without a direction (a fact) stays uncoloured. The border
+     means state alone: contested, and the selection */
   var DIRECTION = { "für": "--dir-for", "gegen": "--dir-against", "abwägen": "--dir-weigh", "Lücke": "--dir-gap" };
   function stylesheet() {
     return [
       { selector: "node", style: {
           "shape": "round-rectangle", "background-color": css("--bg"), "border-width": 1.5, "border-color": css("--mute"),
-          "label": "data(label)", "color": css("--fg"), "font-family": "system-ui, sans-serif", "font-size": 12,
+          "label": "data(label)", "color": css("--fg"), "font-family": css("--font"), "font-size": 12,
           "text-wrap": "wrap", "text-max-width": 210, "text-valign": "center", "text-halign": "center",
           "width": 240, "height": "label", "padding": 10 } } ].concat(
       /* the fill by direction: one rule per direction word, so that the colour is the stylesheet's and not the node's */
@@ -67,14 +84,9 @@
       { selector: "node[type = 'question'].closed", style: { "background-color": css("--line"), "border-style": "dashed" } },   /* folded: there is more below */
       /* a box has no border of its own: "none" is a width of 0, not a transparent colour — Cytoscape takes a
          border's alpha from `border-opacity`, never from the colour, so a transparent colour drew a dark hairline.
-         The verb, contested and picked rules below each set their own width, so they draw as before */
+         The contested and picked rules below each set their own width, so they draw as before */
       { selector: "node[type = 'statement']", style: { "color": "#111", "border-width": 0, "text-halign": "center" } },   /* dark text on the direction's colour, in both themes */
       { selector: "node[type = 'statement'][!direction]", style: { "color": css("--fg"), "border-width": 1.5, "border-color": css("--mute") } },   /* no direction: the page's own colours, with a border */
-      /* the verb as a border: "soll" für gets a solid green rim, "soll nicht" a red one; "sollte" and a mixed verb none.
-         Cytoscape resolves a clash by stylesheet order, not specificity, so the contested rule stays after these two:
-         a contested box keeps its dashed red border and the verb's border is suppressed on it */
-      { selector: "node[type = 'statement'][verb = 'soll'][direction = 'für']", style: { "border-width": 2.5, "border-color": css("--verb-for") } },
-      { selector: "node[type = 'statement'][verb = 'soll'][direction = 'gegen']", style: { "border-width": 2.5, "border-color": css("--verb-against") } },
       { selector: "node[type = 'statement'][contested = 1]", style: { "border-width": 3, "border-color": css("--contested"), "border-style": "dashed" } },
       { selector: "node[type = 'aim']", style: { "width": 180, "text-max-width": 160, "font-size": 11, "color": css("--mute"), "border-style": "dashed" } },
       { selector: "edge", style: {
@@ -92,8 +104,13 @@
          to a shared aim never leaves through the bottom of one box into the top of the next */
       { selector: "edge[kind = 'aim']", style: { "line-style": "dashed", "target-arrow-shape": "none",
           "curve-style": "taxi", "taxi-direction": "rightward", "taxi-turn": "data(turn)", "taxi-turn-min-distance": 8 } },
-      { selector: "edge[kind = 'relation']", style: { "line-style": "dotted", "line-color": css("--statement"), "target-arrow-color": css("--statement"),
-          "curve-style": "taxi", "taxi-direction": "rightward", "taxi-turn": "data(turn)", "taxi-turn-min-distance": 8 } },
+      /* a box related to the selected one (specializes, complements, conflicts) keeps its colour and wears a
+         dotted outline — no line is drawn across the tree, and the card names the relation (zone 9) */
+      { selector: "node.related", style: { "outline-width": 2.5, "outline-style": "dotted", "outline-color": css("--fg"), "outline-offset": 3 } },
+      /* a box that applies generally to the selected group — through the view's scope tree, hung where it was made
+         for — keeps its colour and wears a double outline; the group's own boxes follow it as before, and the
+         sheet lists the general ones apart, each with its condition (docs/publication.md §3) */
+      { selector: "node.general", style: { "outline-width": 4, "outline-style": "double", "outline-color": css("--fg"), "outline-offset": 3 } },
       { selector: "edge.dup", style: { "target-label": "" } },   /* a group reached from two open parents names its answer once */
       { selector: ".folded", style: { "display": "none" } },
       /* a node fades as one piece; an edge fades by its line and arrowhead (`line-opacity`) and by the
@@ -117,6 +134,53 @@
   var scheme = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
   if (scheme) { if (scheme.addEventListener) scheme.addEventListener("change", retheme); else scheme.addListener(retheme); }
 
+  /* the details of a selection (docs/publication.md §3). Every fill starts the panel at its top — the title, never
+     the middle of the next card. Below 900 px a selection leaves the page where it is: the details wait in a peek
+     strip at the bottom edge, carrying what the card's band carries — the direction colour, the title, the
+     judgement and the grade — built from the card itself, so that no word or value is written here. Tapping the
+     strip raises the panel over the graph; the strip again, ✕ or Escape lowers it. A wide screen never shows it. */
+  function fill(html) {
+    sheet.innerHTML = html;
+    sheet.classList.remove("peeking", "raised");
+    var card = sheet.querySelector(".card"), title = card && card.querySelector("h2.title, .label");
+    if (card && title) {
+      var band = card.querySelector(".zone.judgement"), dir = "";
+      if (band) band.classList.forEach(function (c) { if (c.indexOf("dir-") === 0) dir = c; });
+      var bar = document.createElement("div"), peek = document.createElement("button"), close = document.createElement("button");
+      bar.className = "peek-bar" + (dir ? " " + dir : "");
+      peek.type = "button"; peek.className = "peek"; peek.setAttribute("aria-expanded", "false"); peek.setAttribute("aria-controls", "sheet");
+      var sw = document.createElement("span"), text = document.createElement("span"), t = document.createElement("span"), verdict = document.createElement("span");
+      sw.className = "sw-band"; sw.setAttribute("aria-hidden", "true"); text.className = "peek-text";
+      t.className = "peek-title"; t.textContent = title.textContent.trim(); t.lang = card.lang;
+      verdict.className = "verdict"; verdict.lang = card.lang;
+      var answer = band && band.querySelector(".line1 .answer"), parts = [];
+      if (answer && answer.textContent.trim()) {
+        var a = answer.cloneNode(true), verbs = a.querySelector(".verbs");
+        if (verbs) verbs.remove();
+        if (a.lastChild && a.lastChild.nodeType === 3) a.lastChild.textContent = a.lastChild.textContent.replace(/\s+$/, "");   /* the space before the verbs */
+        verdict.appendChild(a);
+      }
+      if (band) band.querySelectorAll(".badge b").forEach(function (b) { if (parts.indexOf(b.textContent) < 0) parts.push(b.textContent); });
+      if (parts.length) verdict.appendChild(document.createTextNode((verdict.firstChild ? " · " : "") + parts.join(" · ")));
+      var mark = band && band.querySelector(".contested-mark");
+      if (mark) { var m = document.createElement("span"); m.className = "contested"; Array.prototype.forEach.call(mark.childNodes, function (n) { m.appendChild(n.cloneNode(true)); });   /* the glyph keeps its own span and weight */ verdict.appendChild(document.createTextNode(" · ")); verdict.appendChild(m); }
+      text.appendChild(t); if (verdict.firstChild) text.appendChild(verdict);
+      peek.appendChild(sw); peek.appendChild(text);
+      close.type = "button"; close.className = "peek-close"; close.setAttribute("aria-label", "close the details"); close.textContent = "✕";
+      bar.appendChild(peek); bar.appendChild(close);
+      sheet.insertBefore(bar, sheet.firstChild);
+      sheet.classList.add("peeking");
+    }
+    sheet.scrollTop = 0;
+  }
+  function raise(up) {
+    if (!sheet.classList.contains("peeking")) return;
+    sheet.classList.toggle("raised", up);
+    sheet.querySelector(".peek").setAttribute("aria-expanded", up ? "true" : "false");
+    sheet.scrollTop = 0;
+  }
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && sheet.classList.contains("raised")) raise(false); });
+
   try { draw(); } catch (e) { fail(e && e.message ? e.message : String(e)); throw e; }
 
   function draw() {
@@ -130,8 +194,8 @@
   tree.nodes.forEach(function (n) { types[n.id] = n.type; });
   tree.nodes.forEach(function (n) {
     elements.push({ data: { id: n.id, ref: n.ref || "", type: n.type, label: n.label || "", group: n.group || "",
-      direction: n.direction || "", verb: n.verb || "", contested: n.contested ? 1 : 0,
-      sections: n.sections || [], text: fold(n.text), facets: n.facets || [] } });
+      direction: n.direction || "", contested: n.contested ? 1 : 0,
+      sections: n.sections || [], text: fold(n.text), facets: n.facets || [], general: n.general || [] } });
   });
   tree.edges.forEach(function (e, i) {
     /* an answer is written at the end of its edge, beside the group or box it leads to, so that
@@ -155,6 +219,30 @@
 
   /* the chapter filter: the statements supported from a section or its subsections,
      what leads to them and their aims — nothing else is shown, no edge is computed */
+  /* relations take no part in the tree: out of the graph from the start, so that no layout ranks a box
+     after the box it points at and no unfolding follows them into another group. What remains of them
+     is a mark: `related` outlines the boxes related to the selected ones, where they are shown
+     (docs/publication.md §3) */
+  var relations = cy.edges("[kind = 'relation']").remove().map(function (e) { return [e.data("source"), e.data("target")]; });
+  function related(eles) {
+    cy.nodes(".related").removeClass("related");
+    if (!eles || eles.empty()) return;
+    var picked = {};
+    eles.nodes().forEach(function (n) { picked[n.id()] = true; });
+    relations.forEach(function (r) {
+      var other = picked[r[0]] ? r[1] : picked[r[1]] ? r[0] : null;
+      if (other && !picked[other]) cy.getElementById(other).not(".folded").removeClass("dim").addClass("related");
+    });
+  }
+  /* what applies generally to a selected group (its junction's `general`, from the view's scope tree): the boxes
+     that are shown keep their colour and wear the double outline; nothing moves and nothing unfolds */
+  function general(eles) {
+    cy.nodes(".general").removeClass("general");
+    if (!eles || eles.empty()) return;
+    eles.nodes("[type = 'junction']").forEach(function (j) {
+      j.data("general").forEach(function (id) { cy.getElementById(id).not(".folded").removeClass("dim").addClass("general"); });
+    });
+  }
   var statements = cy.nodes("[type = 'statement']"), junctions = cy.nodes("[type = 'junction']"), open = {}, section = "";
   function under(sec, s) { return s === sec || s.indexOf(sec + ".") === 0; }
   function statementsIn(sec) {
@@ -180,13 +268,13 @@
     eles.nodes().forEach(function (n) { var k = Math.round(n.position("x")), b = n.boundingBox({ includeLabels: false }); right[k] = Math.max(right[k] || -Infinity, b.x2); });
     eles.edges().forEach(function (e) {
       var s = e.source(), t = e.target(), x = right[Math.round(s.position("x"))] + 20, turn = x - t.boundingBox({ includeLabels: false }).x1;
-      e.data("turn", turn < -8 ? Math.round(turn) : 24);   /* a target beside or behind its source (a relation) turns just after the source */
+      e.data("turn", turn < -8 ? Math.round(turn) : 24);   /* a target beside or behind its source turns just after the source */
     });
   }
 
   /* fit what is open into the part of the canvas nothing covers. That part is the free row of the
      wrapper's grid (site.css, .graph-wrap): the controls make the row above it as tall as they are,
-     the legend the row below, and a legend that is hidden leaves no row at all — so the free row is
+     the legend the row below, as tall as it is collapsed or expanded — so the free row is
      read once here instead of adding up the controls' height and the legend's with a constant each. */
   var canvas = document.getElementById("graph"), free = document.getElementById("free");
   function fit(eles, padding) {
@@ -195,7 +283,12 @@
     var g = canvas.getBoundingClientRect(), f = free.getBoundingClientRect();
     var top = Math.max(0, f.top - g.top), bottom = Math.max(0, g.bottom - f.bottom);
     var zoom = Math.max(cy.minZoom(), Math.min((w - 2 * padding) / bb.w, (h - top - bottom - 2 * padding) / bb.h, cy.maxZoom()));
-    cy.animate({ zoom: zoom, pan: { x: (w - bb.w * zoom) / 2 - bb.x1 * zoom, y: top + (h - top - bottom - bb.h * zoom) / 2 - bb.y1 * zoom } }, { duration: 250 });
+    /* centred in the free row; what is still too large at the smallest zoom starts at the row's top left instead,
+       so that it runs out below and to the right rather than under the controls above */
+    var room = h - top - bottom, wide = bb.w * zoom > w - 2 * padding, tall = bb.h * zoom > room - 2 * padding;
+    var x = wide ? padding - bb.x1 * zoom : (w - bb.w * zoom) / 2 - bb.x1 * zoom;
+    var y = tall ? top + padding - bb.y1 * zoom : top + (room - bb.h * zoom) / 2 - bb.y1 * zoom;
+    cy.animate({ zoom: zoom, pan: { x: x, y: y } }, { duration: 250 });
   }
 
   /* folding: the root, the first question and its answers — the families — are always
@@ -240,7 +333,7 @@
     var lay = shown.layout({ name: "dagre", rankDir: "LR", nodeSep: 18, rankSep: 230, edgeSep: 10, align: "UL", nodeDimensionsIncludeLabels: true,
                              animate: true, animationDuration: 250, fit: false });
     laying = lay;
-    lay.one("layoutstop", function () { if (laying === lay) laying = null; route(shown); if (fitTo) fit(fitTo.not(".folded"), 30); if (cursor) counter(); });
+    lay.one("layoutstop", function () { if (laying === lay) laying = null; route(shown); related(cy.nodes(".picked")); general(cy.nodes(".picked")); if (fitTo) fit(fitTo.not(".folded"), 30); if (cursor) counter(); });
     lay.run();
     highlight();
   }
@@ -261,16 +354,18 @@
 
   /* selection: what leads to the element and what follows it stays; the rest fades; the sheet fills */
   function select(eles, ref, push) {
+    related(null); general(null);
     cy.elements().removeClass("dim picked");
     if (!eles || eles.empty()) {
-      sheet.innerHTML = home; hint.hidden = false;
+      fill(home);
       if (push) history.replaceState(null, "", location.pathname + location.search);
       return;
     }
     var keep = eles.union(eles.predecessors()).union(eles.successors());
     cy.elements().not(keep).addClass("dim");
     eles.addClass("picked");
-    sheet.innerHTML = data.html[ref] || home; hint.hidden = !data.html[ref];
+    related(eles); general(eles);
+    fill(data.html[ref] || home);
     if (push) history.replaceState(null, "", "#" + ref);
   }
   cy.on("tap", "node, edge", function (evt) {
@@ -298,6 +393,8 @@
     select(eles, ref, push);
   }
   sheet.onclick = function (e) {
+    if (e.target.closest(".peek-close")) { raise(false); return; }
+    if (e.target.closest(".peek")) { raise(!sheet.classList.contains("raised")); return; }
     var a = e.target.closest("a.node-link");
     if (a && cy.elements("[ref = '" + a.dataset.node + "']").nonempty()) { e.preventDefault(); open_(a.dataset.node, true); if (window.innerWidth < 900) window.scrollTo({ top: 0, behavior: "smooth" }); }
   };
@@ -343,7 +440,10 @@
       setSection(b.dataset.section || "");
       if (window.innerWidth < 900) { chapters.hidden = true; chaptersToggle.setAttribute("aria-expanded", "false"); }
     };
-    chaptersToggle.onclick = function () { chapters.hidden = !chapters.hidden; chaptersToggle.setAttribute("aria-expanded", String(!chapters.hidden)); };
+    chaptersToggle.onclick = function () {
+      chapters.hidden = !chapters.hidden; chaptersToggle.setAttribute("aria-expanded", String(!chapters.hidden));
+      if (!chapters.hidden && narrow()) showLegend(false);   /* one panel at a time on a phone (the legend's toggle, above) */
+    };
   } else {
     chaptersToggle.hidden = true;
   }

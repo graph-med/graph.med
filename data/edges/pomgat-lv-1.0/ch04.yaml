@@ -62,19 +62,122 @@
   - supports
   - statements/risikostratifizierung-mit-patient-besprechen
   - source: modelling
-- - claims/pomgat-lv-1.0/2c6b9961
-  - refines
-  - claims/pomgat-lv-1.0/8ce3a620
-  - source: modelling
-- - claims/pomgat-lv-1.0/5d24c688
-  - limits
-  - claims/pomgat-lv-1.0/01ba1a06
-  - source: modelling
 - - claims/pomgat-lv-1.0/ed10bff2
   - refines
   - claims/pomgat-lv-1.0/8ce3a620
   - source: modelling
+    rationale: 'R: kardiovaskuläre Hochrisikopatienten — wer als solcher gilt, Antwort 1 von 3: mindestens zwei klinische RCRI-Risikofaktoren'
+    lang: de
+    as_of: '2026-09-24'
+- - claims/pomgat-lv-1.0/2f2ded84
+  - refines
+  - claims/pomgat-lv-1.0/8ce3a620
+  - source: modelling
+    rationale: 'R: kardiovaskuläre Hochrisikopatienten — wer als solcher gilt, Antwort 2 von 3 („ferner“): ASA Status von mindestens 3'
+    lang: de
+    as_of: '2026-09-24'
+- - claims/pomgat-lv-1.0/5410f724
+  - refines
+  - claims/pomgat-lv-1.0/8ce3a620
+  - source: modelling
+    rationale: 'R: kardiovaskuläre Hochrisikopatienten — wer als solcher gilt, Antwort 3 von 3: koronare Herzkrankheit oder nachgewiesene Myokardischämie'
+    lang: de
+    as_of: '2026-09-24'
 - - claims/pomgat-lv-1.0/1134b4ef
   - refines
   - claims/pomgat-lv-1.0/2c6b9961
   - source: modelling
+    rationale: 'R: ausreichender Zeitabstand zur Dosistitration der Betablockertherapie nach Herzfrequenz und Blutdruck — welcher Abstand (idealerweise eine Woche) und welche Zielwerte (Ruheherzfrequenz 60-70/min, RRsyst>100mmHg)'
+    lang: de
+    as_of: '2026-09-23'
+- - claims/pomgat-lv-1.0/1ba3f25a
+  - limits
+  - claims/pomgat-lv-1.0/8ce3a620
+  - source: modelling
+    rationale: 'L: Dosistitration nicht gewährleistet — dann wird von der präoperativen Neueinstellung auf eine Betablockertherapie grundsätzlich abgeraten'
+    lang: de
+    as_of: '2026-09-23'
+- - claims/pomgat-lv-1.0/7c31f786
+  - supplements
+  - claims/pomgat-lv-1.0/703e9fb1
+  - source: modelling
+    rationale: 'S: Calciumantagonisten — bestehende Dauertherapie bei antianginöser Indikationsstellung fortführen (ein Glied von zweien, K)'
+    lang: de
+    as_of: '2026-09-23'
+- - claims/pomgat-lv-1.0/dae4474f
+  - supplements
+  - claims/pomgat-lv-1.0/703e9fb1
+  - source: modelling
+    rationale: 'S: Calciumantagonisten — bei antihypertensiver Indikation am Tag der Operation präoperativ aussetzen (ein Glied von zweien, K)'
+    lang: de
+    as_of: '2026-09-23'
+- - claims/pomgat-lv-1.0/a1e6e098
+  - supplements
+  - claims/pomgat-lv-1.0/d71e071c
+  - source: modelling
+    rationale: 'S: Statin-Therapie — Nebenwirkungen bei Auftreten klinisch beobachten und bewerten, eine Maßnahme neben der Fortführung'
+    lang: de
+    as_of: '2026-09-23'
+- - claims/pomgat-lv-1.0/a1e6e098
+  - supplements
+  - claims/pomgat-lv-1.0/694720f1
+  - source: modelling
+    rationale: 'S: Statintherapie — Nebenwirkungen bei Auftreten klinisch beobachten und bewerten, eine Maßnahme neben der Einleitung'
+    lang: de
+    as_of: '2026-09-23'
+- - claims/pomgat-lv-1.0/7669e914
+  - supplements
+  - claims/pomgat-lv-1.0/8c4dc5c7
+  - source: modelling
+    rationale: 'S: körperlicher Aktivität, ausgewogener Ernährung — Risikopatienten zu einer ressourcenarmen individualisierten Prähabilitation zu Hause motivieren, eine Maßnahme neben dem Standard'
+    lang: de
+    as_of: '2026-09-23'
+- - claims/pomgat-lv-1.0/7669e914
+  - supplements
+  - claims/pomgat-lv-1.0/fb48ead9
+  - source: modelling
+    rationale: 'S: Prähabilitation — statt der verzichtbaren ressourcenaufwändigen Programme Risikopatienten zu einer ressourcenarmen Prähabilitation zu Hause motivieren'
+    lang: de
+    as_of: '2026-09-23'
+- - claims/pomgat-lv-1.0/c2782c03
+  - supplements
+  - claims/pomgat-lv-1.0/b60a7436
+  - source: modelling
+    rationale: 'S: Risikostratifizierungsinstrument — bei der Risikostratifizierung zudem das zunehmende Alter der Patienten berücksichtigen'
+    lang: de
+    as_of: '2026-09-23'
+- - statements/betablocker-neuansetzen-hochrisiko
+  - specializes
+  - statements/kein-generelles-betablocker-neuansetzen
+  - source: modelling
+    rationale: 'Box 4.1: „grundsätzliches Neuansetzen … sollte nicht erfolgen“, Neuansetzen „aus kardiologischer Indikation heraus für kardiovaskuläre Hochrisikopatienten“ kann erwogen werden — der Sonderfall der allgemeinen Aussage; S. 27: „außerhalb einer kardiologischen Indikation - nicht empfohlen“'
+    lang: de
+    as_of: '2026-09-23'
+- - statements/betablocker-neuansetzen-dosistitration
+  - complements
+  - statements/betablocker-neuansetzen-hochrisiko
+  - source: modelling
+    rationale: 'Box 4.1: „Dabei soll ein ausreichender Zeitabstand zur Dosistitration … gewährleistet sein“ — die Bedingung, unter der das erwogene Neuansetzen erfolgt'
+    lang: de
+    as_of: '2026-09-23'
+- - statements/ace-hemmer-sartane-pause-op-morgen
+  - specializes
+  - statements/ace-hemmer-sartane-fortfuehrung
+  - source: modelling
+    rationale: 'Box 4.5: „sollten diese perioperativ fortsetzen mit folgender Ausnahme: Nur am Morgen der Operation (bzw. in den 24h davor)“ — die Ausnahme für den OP-Morgen'
+    lang: de
+    as_of: '2026-09-23'
+- - statements/keine-strukturierte-praehabilitation
+  - complements
+  - statements/praeoperative-lebensstilmassnahmen-standard
+  - source: modelling
+    rationale: 'Box 4.8: „Auf eine darüber hinausgehende intensivierte ressourcenaufwändige Prähabilitation“ — was über den Standard hinausgeht, kann entfallen'
+    lang: de
+    as_of: '2026-09-23'
+- - statements/risikostratifizierung-mit-patient-besprechen
+  - complements
+  - statements/risikostratifizierungsinstrument-verwenden
+  - source: modelling
+    rationale: 'Box 4.10: „Die Ergebnisse der Risikostratifizierung sollten mit dem Patienten besprochen werden“ — der nächste Schritt nach der Risikostratifizierung'
+    lang: de
+    as_of: '2026-09-23'

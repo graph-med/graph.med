@@ -6,5 +6,4 @@ short_label: "Pankreasresektion im mPOM"
 slots:
   population: concepts/pankreasresektion
   action: concepts/mpom
-  phase: concepts/perioperativ
 source: modelling

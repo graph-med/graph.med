@@ -23,8 +23,11 @@ The lean keeps "kann verzichtet werden" distinguishable from "kann erwogen
 werden" without inventing a fifth word.
 
 **How to apply:** Never store a direction on a statement; derive it. Keep the
-four words and glyphs (✓ ✗ ⚖ ∅); timing stays in the label. When gap notices
+four words and glyphs (✓ ✗ ⚖ ∅; `⚖` with U+FE0E and text faces in the font stack, so
+that it is text and never an emoji); the glyph stands on the box, in the judgement and in the legend, which lists only the directions the view has
+([[page-chrome-in-the-view-layer]]). Timing stays in the label. When gap notices
 are linked to statements (open question gap-notices), *Lücke* starts to appear
 without a build change. Related: [[box-colour-by-direction]] — the box takes
-the direction's colour, strength is the grade letter beside the glyph;
+the direction's colour, strength is the grade letter beside the glyph and,
+where the letter does not carry it, the verb as a word;
 [[grade-derivation]] is still open and unaffected.

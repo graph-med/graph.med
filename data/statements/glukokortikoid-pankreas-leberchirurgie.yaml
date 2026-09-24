@@ -6,5 +6,4 @@ short_label: "Perioperative Glukokortikoidgabe erwägbar"
 slots:
   population: concepts/pankreas-und-leberchirurgie
   action: concepts/perioperative-glukokortikoidgabe
-  phase: concepts/perioperativ
 source: modelling

@@ -7,5 +7,4 @@ short_label: "Doppellumige Magensonde intraoperativ (Ösophagektomie)"
 slots:
   population: concepts/transthorakale-oesophagektomie
   action: concepts/doppellumige-magensonde-intraoperativ
-  phase: concepts/intraoperativ
 source: modelling

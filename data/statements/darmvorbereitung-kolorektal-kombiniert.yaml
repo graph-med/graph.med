@@ -7,6 +7,5 @@ short_label: "Wenn Darmvorbereitung: mechanisch + oral-antibiotisch"
 slots:
   population: concepts/kolorektale-resektion
   action: concepts/kombinierte-mechanische-oral-antibiotische-darmvorbereitung
-  condition: concepts/praeoperative-darmvorbereitung
-  phase: concepts/praeoperativ
+  condition: [concepts/praeoperative-darmvorbereitung]
 source: modelling

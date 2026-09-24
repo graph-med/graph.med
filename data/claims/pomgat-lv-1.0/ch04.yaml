@@ -92,11 +92,36 @@
   section: "4.1"
   label: 'Als kardiovaskuläre Hochrisikopatienten gelten Patienten mit mindestens zwei klinischen Risikofaktoren (nach dem
     Revised Cardiac Risk Index (RCRI) score: ischämische Herzerkrankung, zerebrovaskuläre Erkrankung, Niereninsuffizienz mit
-    einem Serumkreatinin von >2mg/dl oder insulinpflichtiger Diabetes mellitus), ferner Patienten mit einem ASA Status von
-    mindestens 3 und Patienten mit koronarer Herzkrankheit oder nachgewiesener Myokardischämie'
+    einem Serumkreatinin von >2mg/dl oder insulinpflichtiger Diabetes mellitus)'
+  thresholds:   # as printed (spec §3.1); the serum creatinine bounds one RCRI factor, not the term, and stays in the label
+    - {quantity: concepts/rcri-risikofaktoren-anzahl, comparator: "≥", value: "zwei"}
   source:
     at: sources/pomgat-lv-1.0#page=27
     quote: kardiovaskuläre Hochrisikopatienten gelten Patienten mit mindestens zwei klinischen
+  provenance:   # the quote prints "mindestens zwei"; the next line names what is counted
+    thresholds:
+      - {at: sources/pomgat-lv-1.0#page=27, quote: "kardiovaskuläre Hochrisikopatienten gelten Patienten mit mindestens zwei klinischen"}
+      - {at: sources/pomgat-lv-1.0#page=27, quote: "Risikofaktoren (nach dem Revised Cardiac Risk Index (RCRI) score: ischämische"}
+- id: claims/pomgat-lv-1.0/2f2ded84
+  type: claim
+  lang: de
+  kind: criterion
+  section: "4.1"
+  label: "… ferner Patienten mit einem ASA Status von mindestens 3"
+  thresholds:   # as printed (spec §3.1)
+    - {quantity: concepts/asa-status, comparator: "≥", value: "3"}
+  source:
+    at: sources/pomgat-lv-1.0#page=27
+    quote: Patienten mit einem ASA Status von mindestens 3
+- id: claims/pomgat-lv-1.0/5410f724
+  type: claim
+  lang: de
+  kind: criterion
+  section: "4.1"
+  label: "… und Patienten mit koronarer Herzkrankheit oder nachgewiesener Myokardischämie"
+  source:
+    at: sources/pomgat-lv-1.0#page=27
+    quote: Herzkrankheit oder nachgewiesener Myokardischämie
 - id: claims/pomgat-lv-1.0/1134b4ef
   type: claim
   lang: de
@@ -221,6 +246,59 @@
   grade: '0'
   direction: for
   consensus: konsens
+  evidence:
+    - outcome: concepts/mortalitaet
+      value: moderat
+      system: grade
+    - outcome: concepts/postoperative-komplikationen
+      value: niedrig
+      system: grade
+    - outcome: concepts/postoperative-pulmonale-komplikationen
+      value: moderat
+      system: grade
+    - outcome: concepts/komplikationen-clavien-dindo-ueber-2
+      value: niedrig
+      system: grade
+    - outcome: concepts/postoperative-krankenhausverweildauer
+      value: niedrig
+      system: grade
+    - outcome: concepts/verweildauer-intensivstation
+      value: moderat
+      system: grade
+    - outcome: concepts/gangausdauer
+      value: moderat
+      system: grade
+    - outcome: concepts/lebensqualitaet
+      value: niedrig
+      system: grade
+    - outcome: concepts/depression
+      value: niedrig
+      system: grade
+    - outcome: concepts/krankenhausbedingte-angst
+      value: niedrig
+      system: grade
+  provenance:
+    evidence:
+      - at: sources/pomgat-lv-1.0#page=34
+        quote: '⊕⊕⊕⊝: Mortalität: Kein Effekt'
+      - at: sources/pomgat-lv-1.0#page=34
+        quote: '⊕⊕⊝⊝: Komplikationsrate (global): Kein Effekt'
+      - at: sources/pomgat-lv-1.0#page=34
+        quote: '⊕⊕⊕⊝: Komplikationsrate (pulmonal): Fragliche Reduktion'
+      - at: sources/pomgat-lv-1.0#page=34
+        quote: '⊕⊕⊝⊝: Komplikationen (Clavien-Dindo > 2): Kein Effekt'
+      - at: sources/pomgat-lv-1.0#page=34
+        quote: '⊕⊕⊝⊝: Krankenhausverweildauer: Kein Effekt'
+      - at: sources/pomgat-lv-1.0#page=34
+        quote: '⊕⊕⊕⊝: Verweildauer auf Intensivstation: Kein Effekt'
+      - at: sources/pomgat-lv-1.0#page=34
+        quote: '⊕⊕⊕⊝: Gangausdauer: Verbesserung der Gangausdauer'
+      - at: sources/pomgat-lv-1.0#page=34
+        quote: '⊕⊕⊝⊝: Lebensqualität: Kein Effekt'
+      - at: sources/pomgat-lv-1.0#page=34
+        quote: '⊕⊕⊝⊝: Depression Kein Effekt'
+      - at: sources/pomgat-lv-1.0#page=34
+        quote: '⊕⊕⊝⊝: Krankenhausbedingte Angst: Kein Effekt'
   source:
     at: sources/pomgat-lv-1.0#page=34
     quote: ist als internationaler Standard anzusehen.
@@ -236,6 +314,59 @@
   verb: kann
   direction: against
   consensus: konsens
+  evidence:
+    - outcome: concepts/mortalitaet
+      value: moderat
+      system: grade
+    - outcome: concepts/postoperative-komplikationen
+      value: niedrig
+      system: grade
+    - outcome: concepts/postoperative-pulmonale-komplikationen
+      value: moderat
+      system: grade
+    - outcome: concepts/komplikationen-clavien-dindo-ueber-2
+      value: niedrig
+      system: grade
+    - outcome: concepts/postoperative-krankenhausverweildauer
+      value: niedrig
+      system: grade
+    - outcome: concepts/verweildauer-intensivstation
+      value: moderat
+      system: grade
+    - outcome: concepts/gangausdauer
+      value: moderat
+      system: grade
+    - outcome: concepts/lebensqualitaet
+      value: niedrig
+      system: grade
+    - outcome: concepts/depression
+      value: niedrig
+      system: grade
+    - outcome: concepts/krankenhausbedingte-angst
+      value: niedrig
+      system: grade
+  provenance:
+    evidence:
+      - at: sources/pomgat-lv-1.0#page=34
+        quote: '⊕⊕⊕⊝: Mortalität: Kein Effekt'
+      - at: sources/pomgat-lv-1.0#page=34
+        quote: '⊕⊕⊝⊝: Komplikationsrate (global): Kein Effekt'
+      - at: sources/pomgat-lv-1.0#page=34
+        quote: '⊕⊕⊕⊝: Komplikationsrate (pulmonal): Fragliche Reduktion'
+      - at: sources/pomgat-lv-1.0#page=34
+        quote: '⊕⊕⊝⊝: Komplikationen (Clavien-Dindo > 2): Kein Effekt'
+      - at: sources/pomgat-lv-1.0#page=34
+        quote: '⊕⊕⊝⊝: Krankenhausverweildauer: Kein Effekt'
+      - at: sources/pomgat-lv-1.0#page=34
+        quote: '⊕⊕⊕⊝: Verweildauer auf Intensivstation: Kein Effekt'
+      - at: sources/pomgat-lv-1.0#page=34
+        quote: '⊕⊕⊕⊝: Gangausdauer: Verbesserung der Gangausdauer'
+      - at: sources/pomgat-lv-1.0#page=34
+        quote: '⊕⊕⊝⊝: Lebensqualität: Kein Effekt'
+      - at: sources/pomgat-lv-1.0#page=34
+        quote: '⊕⊕⊝⊝: Depression Kein Effekt'
+      - at: sources/pomgat-lv-1.0#page=34
+        quote: '⊕⊕⊝⊝: Krankenhausbedingte Angst: Kein Effekt'
   source:
     at: sources/pomgat-lv-1.0#page=34
     quote: Prähabilitation mit strukturierten Programmen kann verzichtet werden.
@@ -284,3 +415,82 @@
   source:
     at: sources/pomgat-lv-1.0#page=38
     quote: Die Ergebnisse der Risikostratifizierung sollten mit dem Patienten besprochen
+- id: claims/pomgat-lv-1.0/1ba3f25a
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.1"
+  label: Wenn eine Dosistitration nicht gewährleistet ist, wird von einer präoperativen Neueinstellung auf eine Betablockertherapie
+    grundsätzlich abgeraten.
+  direction: against
+  source:
+    at: sources/pomgat-lv-1.0#page=27
+    quote: wird von einer präoperativen Neueinstellung auf eine
+- id: claims/pomgat-lv-1.0/7c31f786
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.1"
+  label: Eine bestehende Dauertherapie sollte bei antianginöser Indikationsstellung fortgeführt werden
+  verb: sollte
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=27
+    quote: bestehende Dauertherapie sollte bei antianginöser Indikationsstellung fortgeführt
+- id: claims/pomgat-lv-1.0/dae4474f
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.1"
+  label: bei antihypertensiver Indikation zur Vermeidung von intraoperativen Hypotensionen am Tag der Operation präoperativ
+    aus pragmatischer Sicht ausgesetzt werden
+  verb: sollte
+  direction: against
+  source:
+    at: sources/pomgat-lv-1.0#page=27
+    quote: bei antihypertensiver Indikation zur Vermeidung von intraoperativen
+  provenance:
+    verb:
+      at: sources/pomgat-lv-1.0#page=27
+      quote: bestehende Dauertherapie sollte bei antianginöser Indikationsstellung fortgeführt
+- id: claims/pomgat-lv-1.0/a1e6e098
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.1.1"
+  label: Im Sinne von GCP sind diese bei Auftreten klinisch zu beobachten und zu bewerten, häufig ist durch einen Wechsel
+    des Präparats oder der Dosierung Linderung zu erreichen.
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=28
+    quote: sind diese bei Auftreten klinisch zu beobachten und zu bewerten, häufig ist durch
+- id: claims/pomgat-lv-1.0/7669e914
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.3"
+  label: Aus diesem Standard der Kontrollarme und der moderaten Evidenz für die Verbesserung der 6 Minuten Gehstrecke leitet
+    die Arbeitsgruppe ab, dass Risikopatienten bei der Vorbereitung einer großen Operation partizipativ zu einer ressourcenarmen
+    individualisierten „Prähabilitation“ zu Hause (z.B. Anleitung durch Flyer, einmalige Diät-Beratung, Bewegungs-/Physiotherapie)
+    motiviert werden sollten.
+  verb: sollte
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=35
+    quote: partizipativ zu einer ressourcenarmen individualisierten „Prähabilitation“ zu Hause
+  provenance:
+    verb:
+      at: sources/pomgat-lv-1.0#page=35
+      quote: motiviert werden sollten.
+- id: claims/pomgat-lv-1.0/c2782c03
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.5"
+  label: Die präoperative Risikostratifizierung sollte zudem das zunehmende Alter der Patienten zur Resektion gastrointestinaler
+    Tumoren berücksichtigen.
+  verb: sollte
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=38
+    quote: Die präoperative Risikostratifizierung sollte zudem das zunehmende Alter der

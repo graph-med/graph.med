@@ -7,6 +7,5 @@ short_label: "Haarentfernung nur mit Clipper (Einwegkopf)"
 slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/haarentfernung-clipper-einwegkopf
-  condition: concepts/operationsbedingte-notwendigkeit-haarentfernung
-  phase: concepts/praeoperativ
+  condition: [concepts/operationsbedingte-notwendigkeit-haarentfernung]
 source: modelling

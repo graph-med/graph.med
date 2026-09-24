@@ -6,5 +6,4 @@ short_label: "Drainage bei komplexer Leberresektion möglich"
 slots:
   population: concepts/leberresektion-komplex
   action: concepts/abdominelle-drainage
-  phase: concepts/intraoperativ
 source: modelling

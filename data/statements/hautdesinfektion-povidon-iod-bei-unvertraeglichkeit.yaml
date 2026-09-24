@@ -7,6 +7,5 @@ short_label: "Povidon-Iod bei Chlorhexidin-Unverträglichkeit"
 slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/hautdesinfektion-povidon-iod
-  condition: concepts/unvertraeglichkeit-kontraindikation-chlorhexidin
-  phase: concepts/praeoperativ
+  condition: [concepts/unvertraeglichkeit-kontraindikation-chlorhexidin]
 source: modelling

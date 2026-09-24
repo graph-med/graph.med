@@ -7,5 +7,4 @@ short_label: "Strukturierte Prähabilitation verzichtbar"
 slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/strukturierte-praehabilitation
-  phase: concepts/praeoperativ
 source: modelling

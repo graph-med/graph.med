@@ -34,11 +34,87 @@
   - supports
   - statements/bauchbinde-nach-medianer-laparotomie
   - source: modelling
-- - claims/pomgat-lv-1.0/c0b8b043
-  - supplements
-  - claims/pomgat-lv-1.0/6fc4b22f
+- - claims/pomgat-lv-1.0/14a461d0
+  - refines
+  - claims/pomgat-lv-1.0/a63da046
   - source: modelling
-- - claims/pomgat-lv-1.0/a63da046
+    rationale: "R: Akupunkturpunkte ZuSanLi und ShangJuXu — die Punktauswahl allein oder in Kombination mit weiteren Akupunkturpunkten"
+    lang: de
+    as_of: "2026-09-23"
+- - claims/pomgat-lv-1.0/ebd03d0c
+  - refines
+  - claims/pomgat-lv-1.0/a63da046
+  - source: modelling
+    rationale: "R: ZuSanLi — Lage des Akupunkturpunkts"
+    lang: de
+    as_of: "2026-09-23"
+- - claims/pomgat-lv-1.0/ee4fa54b
+  - refines
+  - claims/pomgat-lv-1.0/a63da046
+  - source: modelling
+    rationale: "R: ShangJuXu — Lage des Akupunkturpunkts"
+    lang: de
+    as_of: "2026-09-23"
+- - claims/pomgat-lv-1.0/5f70e72f
   - refines
   - claims/pomgat-lv-1.0/90443ad0
   - source: modelling
+    rationale: "R: Akupunktur — kommerziell vertriebene Akupunkturnadelprodukte"
+    lang: de
+    as_of: "2026-09-23"
+- - claims/pomgat-lv-1.0/597a4e63
+  - supplements
+  - claims/pomgat-lv-1.0/90443ad0
+  - source: modelling
+    rationale: "S: Akupunktur — die Vorgehensweise unter sterilen Kautelen"
+    lang: de
+    as_of: "2026-09-23"
+- - claims/pomgat-lv-1.0/5cad2271
+  - refines
+  - claims/pomgat-lv-1.0/b42d6557
+  - source: modelling
+    rationale: "R: frühmobilisiert — der erste postoperative Tag (G2: ein Wert, den die Empfehlung braucht und nicht gibt, aus den Studien berichtet)"
+    lang: de
+    as_of: "2026-09-23"
+- - claims/pomgat-lv-1.0/b4904b46
+  - refines
+  - claims/pomgat-lv-1.0/b42d6557
+  - source: modelling
+    rationale: "R: frühmobilisiert — direkt nach Extubation oder Eintreffen auf Intensivstation (G2 wie oben; K: eine andere Antwort für denselben Begriff)"
+    lang: de
+    as_of: "2026-09-23"
+- - statements/kaffeekonsum-ab-aufwachraum
+  - specializes
+  - statements/kaffee-nach-abdominalchirurgie
+  - source: modelling
+    rationale: "Box 7.25: „Der Kaffee-Konsum kann bereits im Aufwachraum begonnen werden“ sagt, ab wann der angebotene koffeinierte Kaffee nach abdominalchirurgischen Operationen getrunken werden kann — ein Sonderfall derselben Maßnahme"
+    lang: de
+    as_of: "2026-09-23"
+- - statements/akupunkturpunkte-zusanli-shangjuxu
+  - specializes
+  - statements/akupunktur-nach-abdominalchirurgie
+  - source: modelling
+    rationale: "Box 7.28: „Hierfür sollten die Akupunkturpunkte ZuSanLi und ShangJuXu … genutzt werden“ — die Akupunktur an diesen Punkten ist ein Sonderfall der Akupunktur nach abdominalchirurgischen Eingriffen"
+    lang: de
+    as_of: "2026-09-23"
+- - statements/kaugummi-kolorektal
+  - complements
+  - statements/kaugummi-offene-leberresektion
+  - source: modelling
+    rationale: "Abschnitt 7.4.2.2 Kaugummi: dieselbe Maßnahme (Kaugummikauen) für zwei getrennte Populationen, kolorektale Resektionen (7.26, sollte) und offene Leberresektionen (7.27, kann); keine ist ein Sonderfall der anderen"
+    lang: de
+    as_of: "2026-09-23"
+- - concepts/abdomineller-schmerz-pod1
+  - broader
+  - concepts/postoperativer-schmerz
+  - source: modelling
+    rationale: "Abdomineller Schmerz am 1. postoperativen Tag ist postoperativer (abdomineller) Schmerz zu einem Zeitpunkt"
+    lang: de
+    as_of: "2026-09-23"
+- - concepts/abdomineller-schmerz-pod5
+  - broader
+  - concepts/postoperativer-schmerz
+  - source: modelling
+    rationale: "Abdomineller Schmerz am 5. postoperativen Tag ist postoperativer (abdomineller) Schmerz zu einem Zeitpunkt"
+    lang: de
+    as_of: "2026-09-23"

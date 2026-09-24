@@ -6,5 +6,4 @@ short_label: "Betablocker perioperativ weiterführen"
 slots:
   population: concepts/bestehende-betablockertherapie
   action: concepts/perioperative-fortfuehrung-dauertherapie
-  phase: concepts/perioperativ
 source: modelling

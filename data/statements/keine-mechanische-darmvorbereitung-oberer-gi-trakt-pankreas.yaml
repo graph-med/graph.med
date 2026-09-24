@@ -7,5 +7,4 @@ short_label: "Keine mechanische Darmvorbereitung (oberer GI, Pankreas)"
 slots:
   population: concepts/tumorresektion-oberer-gi-trakt-und-pankreas
   action: concepts/mechanische-darmvorbereitung
-  phase: concepts/praeoperativ
 source: modelling

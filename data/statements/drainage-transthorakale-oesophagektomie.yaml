@@ -6,5 +6,4 @@ short_label: "Eine interkostale Drainage (mit/ohne Sog)"
 slots:
   population: concepts/transthorakale-oesophagektomie
   action: concepts/interkostale-drainage
-  phase: concepts/intraoperativ
 source: modelling

@@ -7,5 +7,4 @@ slots:
   population: concepts/elektiver-abdominalchirurgischer-tumoreingriff
   action: concepts/akupunktur-postoperativ
   outcome: concepts/postoperativer-paralytischer-ileus
-  phase: concepts/postoperativ
 source: modelling

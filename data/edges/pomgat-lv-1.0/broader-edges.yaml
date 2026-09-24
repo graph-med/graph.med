@@ -1,13 +1,13 @@
 # broader edges (spec §5): "is a special case of", between uncoded concepts, all modelling with a
 # rationale. They group and fold; nothing is inherited along them. Written in chunk broader-edges of pass 2.
+# Only what holds whatever guideline one reads: what holds only inside this guideline's scope, and a
+# situation after an operation, are scope edges (scope-edges.yaml, spec §5 `in_scope_of`; WP-0031).
 - [concepts/onkologische-oesophagusresektion, broader, concepts/oesophagusresektion, {source: modelling, as_of: "2026-09-10", lang: de,
    rationale: "Eine onkologische Ösophagusresektion ist eine Ösophagusresektion."}]
 - [concepts/transthorakale-oesophagektomie, broader, concepts/oesophagusresektion, {source: modelling, as_of: "2026-09-10", lang: de,
    rationale: "Die transthorakale Ösophagektomie ist ein Zugangsweg der Ösophagusresektion."}]
 - [concepts/oesophagektomie-zervikale-rekonstruktion, broader, concepts/oesophagusresektion, {source: modelling, as_of: "2026-09-10", lang: de,
    rationale: "Ösophagektomie mit zervikaler Rekonstruktion ist eine Ösophagusresektion, unabhängig vom Zugang."}]
-- [concepts/magenschlauch-rekonstruktion, broader, concepts/oesophagusresektion, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Die Situation nach Ösophagektomie mit Magenschlauchrekonstruktion; das Konzept dient als Population der Empfehlung 6.12 und gehört zur Ösophagusresektion, deren Rekonstruktionsschritt es ist."}]
 - [concepts/gastrektomie, broader, concepts/gastrektomie-oder-magenteilresektion, {source: modelling, as_of: "2026-09-10", lang: de,
    rationale: "Die Gastrektomie ist eine der beiden Magenresektionen, die das breitere Konzept benennt."}]
 - [concepts/pankreaskopfresektion, broader, concepts/pankreasresektion, {source: modelling, as_of: "2026-09-10", lang: de,
@@ -15,25 +15,15 @@
 - [concepts/klassische-whipple-operation, broader, concepts/pankreaskopfresektion, {source: modelling, as_of: "2026-09-10", lang: de,
    rationale: "Die klassische Whipple-Operation ist eine Pankreaskopfresektion; die Leitlinie schließt in 7.4 die pyloruserhaltende Variante ausdrücklich aus."}]
 - [concepts/elektive-leberresektion, broader, concepts/leberresektion, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Eine Leberresektion, durch Indikation, Komplexität, Zugang oder Elektivität eingegrenzt."}]
+   rationale: "Eine Leberresektion, durch Indikation, Komplexität oder Elektivität eingegrenzt."}]
 - [concepts/leberresektion-hcc, broader, concepts/leberresektion, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Eine Leberresektion, durch Indikation, Komplexität, Zugang oder Elektivität eingegrenzt."}]
+   rationale: "Eine Leberresektion, durch Indikation, Komplexität oder Elektivität eingegrenzt."}]
 - [concepts/leberresektion-komplex, broader, concepts/leberresektion, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Eine Leberresektion, durch Indikation, Komplexität, Zugang oder Elektivität eingegrenzt."}]
+   rationale: "Eine Leberresektion, durch Indikation, Komplexität oder Elektivität eingegrenzt."}]
 - [concepts/leberresektion-unkompliziert, broader, concepts/leberresektion, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Eine Leberresektion, durch Indikation, Komplexität, Zugang oder Elektivität eingegrenzt."}]
-- [concepts/offene-leberresektion, broader, concepts/leberresektion, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Eine Leberresektion, durch Indikation, Komplexität, Zugang oder Elektivität eingegrenzt."}]
+   rationale: "Eine Leberresektion, durch Indikation, Komplexität oder Elektivität eingegrenzt."}]
 - [concepts/kolorektale-resektion, broader, concepts/kolorektale-chirurgie, {source: modelling, as_of: "2026-09-10", lang: de,
    rationale: "Die kolorektale Resektion ist der Eingriff der kolorektalen Chirurgie."}]
-- [concepts/kolorektale-anastomose, broader, concepts/kolorektale-chirurgie, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Die Anastomose nach Kolon- oder Rektumresektion ist eine Situation der kolorektalen Chirurgie, keine Resektion; deshalb neben, nicht unter der Resektion."}]
-- [concepts/minimalinvasive-kolorektale-resektion, broader, concepts/kolorektale-resektion, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Die minimalinvasive Kolon- oder Rektumresektion ist eine kolorektale Resektion."}]
-- [concepts/minimalinvasive-kolorektale-resektion, broader, concepts/minimalinvasive-gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Sie ist zugleich eine minimalinvasive Operation eines gastrointestinalen Tumors; Mehrfacheinordnung, wie die Leitlinie in 7.10 und 7.12 die beiden Sichten trennt."}]
-- [concepts/tiefe-anteriore-rektumresektion, broader, concepts/kolorektale-resektion, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Die tiefe anteriore Rektumresektion ist eine kolorektale Resektion."}]
 - [concepts/rektumanastomose, broader, concepts/kolorektale-anastomose, {source: modelling, as_of: "2026-09-10", lang: de,
    rationale: "Die Anastomose zum Rektum ist eine der Anastomosen nach Rektum- oder Kolonresektion."}]
 - [concepts/antianginoese-nitrattherapie, broader, concepts/kardiale-dauermedikation, {source: modelling, as_of: "2026-09-10", lang: de,
@@ -54,20 +44,6 @@
    rationale: "Risikofaktoren für Harnverhalt sind ein perioperatives Risikoprofil."}]
 - [concepts/risikokonstellation-lange-op-hoher-opioidbedarf, broader, concepts/perioperatives-risikoprofil, {source: modelling, as_of: "2026-09-10", lang: de,
    rationale: "Die Risikokonstellation für die Analgesie ist ein perioperatives Risikoprofil."}]
-- [concepts/minimalinvasive-gastrointestinale-tumoroperation, broader, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Die minimalinvasive Operation eines gastrointestinalen Tumors ist eine Operation eines gastrointestinalen Tumors."}]
-- [concepts/offene-gastrointestinale-tumoroperation, broader, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Die offene Operation eines gastrointestinalen Tumors ist eine Operation eines gastrointestinalen Tumors."}]
-- [concepts/operation-oberer-gastrointestinaltrakt, broader, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Im Geltungsbereich der Leitlinie (Kapitel 5.6.1) bezeichnet das Konzept Tumoroperationen am oberen Gastrointestinaltrakt."}]
-- [concepts/tumorresektion-oberer-gi-trakt-und-pankreas, broader, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Tumorresektionen des oberen Gastrointestinaltraktes und des Pankreas sind Operationen gastrointestinaler Tumoren."}]
-- [concepts/nicht-kolorektale-viszeralonkologische-resektion, broader, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Die nicht-kolorektale viszeralonkologische Resektion (Ösophagus, Magen, Pankreas, Leber) ist eine Operation eines gastrointestinalen Tumors."}]
-- [concepts/pankreas-und-leberchirurgie, broader, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Im Geltungsbereich der Leitlinie (Kapitel 4.2) ist die Pankreas- und Leberchirurgie Tumorchirurgie des Gastrointestinaltraktes."}]
-- [concepts/elektiver-abdominalchirurgischer-tumoreingriff, broader, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Im Geltungsbereich der Leitlinie ist der elektive abdominalchirurgische Tumoreingriff eine Operation eines gastrointestinalen Tumors; das Konzept wurde aus Kapitel 4 und 5 mit dieser Bedeutung geprägt."}]
 - [concepts/mechanische-darmvorbereitung, broader, concepts/praeoperative-darmvorbereitung, {source: modelling, as_of: "2026-09-10", lang: de,
    rationale: "Eine Form der präoperativen Darmvorbereitung."}]
 - [concepts/oral-antibiotische-darmvorbereitung, broader, concepts/praeoperative-darmvorbereitung, {source: modelling, as_of: "2026-09-10", lang: de,

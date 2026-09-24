@@ -1,0 +1,15 @@
+# The scope root of views/pomgat-lv-1.0 (spec §4 `scope_root`): the guideline's own patient target
+# group as its section 2.1.2 "Adressaten" names it — sourced, not a collector coined for the tree.
+id: concepts/elektive-operation-gi-oder-hpb-malignom
+type: concept
+lang: de
+label: Elektive Operation eines Erwachsenen aufgrund eines gastrointestinalen oder hepatopankreatobiliären Malignoms
+short_label: "Elektive OP Erwachsener wegen GI- oder HPB-Malignom"
+facet: procedure
+definition: Die elektive Operation, der sich ein erwachsener Patient aufgrund eines gastrointestinalen oder
+  hepatopankreatobiliären Malignoms unterziehen muss, gleich ob in kurativer oder palliativer Intention.
+source:
+  - {at: sources/pomgat-lv-1.0#page=17, quote: "Als Patientenzielgruppe sind alle erwachsenen Patienten definiert, die sich aufgrund"}
+  - {at: sources/pomgat-lv-1.0#page=17, quote: "eines gastrointestinalen oder hepatopankreatobiliären Malignoms einer elektiven"}
+  - {at: sources/pomgat-lv-1.0#page=17, quote: "Operation unterziehen müssen. Es ist hierbei nicht relevant, ob der Eingriff in"}
+  - {at: sources/pomgat-lv-1.0#page=17, quote: "kurativer oder palliativer Intention erfolgt."}

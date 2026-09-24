@@ -8,7 +8,21 @@
 {%- endmacro %}
 {% macro where(x, no=false, link=true) -%}
 {% set parts = [] %}{% if no and x.recommendation_no %}{% set _ = parts.append(W("cite.no").format(nr=x.recommendation_no)) %}{% endif %}{% if x.page %}{% set _ = parts.append(W("cite.page").format(nr=x.page)) %}{% endif %}{% if x.section %}{% set _ = parts.append(W("cite.section").format(nr=x.section)) %}{% endif %}
-{%- if parts and link %}<a href="{{ x.link }}" rel="noopener">{{ parts | join(" · ") }}</a>{% elif parts %}{{ parts | join(" · ") }}{% endif %}
+{%- if parts and link %}<a href="{{ x.link }}" target="_blank" rel="noopener">{{ parts | join(" · ") }}</a>{% elif parts %}{{ parts | join(" · ") }}{% endif %}
+{%- endmacro %}
+{# a derived concept's rules (docs/publication.md §3 zone 5, §4): one line saying it is derived — "nach einer der
+   folgenden Regeln" only when there are several, the rules being alternatives — then each rule as the thresholds
+   its claim prints (quantity, comparator, value, unit, time point; a relative one "× <reference>"; several joined
+   by "und", holding together) or, without any, the claim's sentence; its page linked into the source and a link
+   to the claim's page. One macro for the card's rows, whatever the slot, and the concept's page. #}
+{% macro rules_of(x) -%}
+{% if x.derivation == "derived" %}<div class="rules">
+<p class="derived">{{ W("derivation.rules", x.rules | length).format(n=x.rules | length) }}</p>
+<ul class="plain rule-list">
+{% for r in x.rules %}  <li><span class="rule" lang="{{ r.lang }}">{% if r.thresholds %}{% for t in r.thresholds %}{% if not loop.first %} {{ W("rule.and") }} {% endif %}<span class="threshold"><span lang="{{ t.quantity.lang }}">{{ t.quantity.label }}</span> {% if t.comparator == "between" %}{{ W("comparator.between") }}{% else %}{{ t.comparator }}{% endif %} {{ t.value }}{% if t.unit %} {{ t.unit }}{% endif %}{% if t.relative_to %} × <span lang="{{ t.relative_to.lang }}">{{ t.relative_to.label }}</span>{% endif %}{% if t.when %} {{ t.when }}{% endif %}</span>{% endfor %}{% else %}{{ r.label }}{% endif %}</span>
+    <span class="cite">{{ where(r) }}{% if r.page or r.section %} · {% endif %}<a href="{{ base }}{{ r.id }}/">{{ W("rule.claim") }}</a></span></li>
+{% endfor %}</ul>
+</div>{% endif %}
 {%- endmacro %}
 {% if e.type == "statement" %}
 {# The statement card (docs/publication.md §3 "What the section shows"): nine zones in a fixed order, whatever the
@@ -22,9 +36,13 @@
 <section class="zone title" aria-labelledby="zone-title-h">
 <h2 class="title" id="zone-title-h">{{ c.title }}</h2>
 </section>
+{# zone 2, the band: one block in the direction colour — line 1 the glyph, the direction word and the verbs; line 2
+   the grade and the consensus as chips on their own light fill (a fill means grade, the block means direction);
+   only where a contesting claim exists, a third line with the contested marker, linking to zone 7 #}
 <section class="zone judgement{% if c.urteil.direction %} dir-{{ c.urteil.direction }}{% endif %}" aria-labelledby="zone-judgement-h">
-<p class="line1" id="zone-judgement-h"><span class="answer">{% if c.urteil.direction %}<span class="glyph" aria-hidden="true">{{ c.urteil.glyph }}</span> {{ c.urteil.direction }}{% if c.urteil.verbs %} <span class="verbs">{{ c.urteil.verbs | join(" · ") }}</span>{% endif %}{% endif %}</span>{% if c.urteil.umstritten %} <a class="contested-mark" href="#zone-contested">{{ W("marker.contested") }}</a>{% endif %}</p>
+<p class="line1" id="zone-judgement-h"><span class="answer">{% if c.urteil.direction %}<span class="glyph" aria-hidden="true">{{ c.urteil.glyph }}</span> {{ c.urteil.direction }}{% if c.urteil.verbs %} <span class="verbs">{{ c.urteil.verbs | join(" · ") }}</span>{% endif %}{% endif %}</span></p>
 {% if c.urteil.badges %}<p class="badges">{% for b in c.urteil.badges %}{{ badge(b.grade, b.consensus, b.count) }} {% endfor %}</p>
+{% endif %}{% if c.urteil.umstritten %}<p class="contested-line"><a class="contested-mark" href="#zone-contested"><span class="glyph" aria-hidden="true">⚠&#xFE0E;</span> {{ W("marker.contested") }}</a></p>
 {% endif %}</section>
 <section class="zone wording" aria-labelledby="zone-wording-h">
 <h3 id="zone-wording-h">{{ W("zone.wording") }}</h3>
@@ -64,9 +82,11 @@
 <section class="zone applies" aria-labelledby="zone-applies-h">
 <h3 id="zone-applies-h">{{ W("zone.applies") }}</h3>
 <dl class="slots">
-{% for role in ("population", "condition", "action") %}{% set s = c.geltung[role] %}{% if s %}
-  <dt>{{ W("slot." ~ role) }}</dt><dd>{% if s.linked %}<a class="node-link" data-node="{{ s.id }}" href="{{ base }}{{ s.id }}/" lang="{{ s.lang }}">{{ s.label }}</a> <span class="count">{{ W("slot.count").format(n=s.count) }}</span>{% else %}<span lang="{{ s.lang }}">{{ s.label }}</span>{% endif %}{% if s.families %}<small class="families">{% for f in s.families %}<a class="node-link" data-node="{{ f.id }}" href="{{ base }}{{ f.id }}/" lang="{{ f.lang }}">{{ f.label }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</small>{% endif %}</dd>
-{% endif %}{% endfor %}
+{% for role, s in c.geltung.items() %}{% if s %}
+  <dt>{% if s.axis %}<span lang="{{ s.axis.lang }}">{{ s.axis.label }}</span>{% else %}{{ W("slot." ~ role) }}{% endif %}</dt><dd>{% if s.linked %}<a class="node-link" data-node="{{ s.id }}" href="{{ base }}{{ s.id }}/" lang="{{ s.lang }}">{{ s.label }}</a> <span class="count">{{ W("slot.count").format(n=s.count) }}</span>{% else %}<span lang="{{ s.lang }}">{{ s.label }}</span>{% endif %}{% if s.families %}<small class="families"><span class="families-label">{{ W("slot.families") }}</span> {% for f in s.families %}<a class="node-link" data-node="{{ f.id }}" href="{{ base }}{{ f.id }}/" lang="{{ f.lang }}">{{ f.label }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</small>{% endif %}{{ rules_of(s) }}</dd>
+{% if s.allgemein %}{% set direct = s.allgemein | selectattr("direct") | list %}{% if direct %}
+  <dt>{{ W("scope.general_for") }}</dt><dd class="general-for">{% for g in direct %}<span><a class="node-link" data-node="{{ g.id }}" href="{{ base }}{{ g.id }}/" lang="{{ g.lang }}">{{ g.label }}</a>{% if g.condition %} <small>({{ W("scope.condition") }}: {% for x in g.condition %}<span lang="{{ x.lang }}">{{ x.label }}</span>{% if not loop.last %} · {% endif %}{% endfor %})</small>{% endif %}</span>{% endfor %}</dd>
+{% endif %}{% endif %}{% endif %}{% endfor %}
 </dl>
 </section>
 {% endif %}
@@ -105,7 +125,7 @@
 {% for x in s.claims %}  <li>
 {% set at = where(x, no=true, link=false) %}{% if at %}    <p class="cite">{{ at }}</p>
 {% endif %}    <blockquote lang="{{ x.lang }}">„{{ x.quote }}“</blockquote>
-    <p class="actions"><a class="btn" href="{{ x.link }}" rel="noopener">{{ W("cite.open") }}</a> <button type="button" class="copy" data-copy="{{ x.quote }}">{{ W("cite.quote") }}</button></p>
+    <p class="actions"><a class="btn" href="{{ x.link }}" target="_blank" rel="noopener">{{ W("cite.open") }}<span class="ext" aria-hidden="true">↗</span></a> <button type="button" class="copy" data-copy="{{ x.quote }}">{{ W("cite.quote") }}</button></p>
   </li>
 {% endfor %}</ol>
 </div>
@@ -131,15 +151,36 @@
 <p class="label">{{ e.label }}</p>
 {% if e.definition %}<p>{{ e.definition }}</p>{% endif %}
 {% if codes %}<p>{{ W("concept.codes") }} {% for c in codes %}<code>{{ c }}</code> {% endfor %}</p>{% endif %}
-{% if uses %}
+{% if derivation == "derived" %}{{ rules_of({"derivation": derivation, "rules": rules}) }}
+{% endif %}{% if uses %}
 <section class="zone" aria-labelledby="zone-uses-h">
 <h3 id="zone-uses-h">{{ W("concept.uses") }}</h3>
-<dl class="slots">
-{% for u in uses %}{% if loop.first or u.slot != loop.previtem.slot %}  <dt>{{ u.slot_label }}</dt>
-{% endif %}  <dd><a class="node-link" data-node="{{ u.id }}" href="{{ base }}{{ u.id }}/" lang="{{ u.lang }}">{{ u.label }}</a></dd>
-{% endfor %}</dl>
+{# one group per slot, its statements listed under it — as an axis's placements are: a labelled list of one term
+   and one value per row (dl.slots) cannot hold several statements under one slot #}
+{% for u in uses %}{% if loop.first or u.slot != loop.previtem.slot %}<div class="grouped">
+<p class="from">{{ u.slot_label }}</p>
+<ul class="plain grouped">
+{% endif %}  <li><a class="node-link" data-node="{{ u.id }}" href="{{ base }}{{ u.id }}/" lang="{{ u.lang }}">{{ u.label }}</a></li>
+{% if loop.last or u.slot != loop.nextitem.slot %}</ul>
+</div>
+{% endif %}{% endfor %}
 </section>
 {% endif %}
+{# what applies generally to the concept through a view's scope tree (docs/publication.md §3): set apart from its own
+   statements above and never merged into them — grouped by the concept each was made for (its anchor, named by the
+   anchor slot's word) with the condition under which the scope edge holds, then each statement with its
+   recommendation number, page and section, linked into the source #}
+{% for v in general %}
+<section class="zone general" aria-labelledby="zone-general-h{{ loop.index }}">
+<h3 id="zone-general-h{{ loop.index }}">{{ W("concept.general") }} <span class="count">({{ v.n }})</span></h3>
+{% for grp in v.groups %}<div class="general">
+<p class="from">{{ W("slot." ~ v.slot) }}: <a class="node-link" data-node="{{ grp.anchor.id }}" href="{{ base }}{{ grp.anchor.id }}/" lang="{{ grp.anchor.lang }}">{{ grp.anchor.label }}</a>{% if grp.condition %}<br><span class="condition">{{ W("scope.condition") }}: {% for c in grp.condition %}<span lang="{{ c.lang }}">{{ c.label }}</span>{% if not loop.last %} · {% endif %}{% endfor %}</span>{% endif %}</p>
+<ul class="plain general">
+{% for x in grp.statements %}  <li><a class="node-link" data-node="{{ x.id }}" href="{{ base }}{{ x.id }}/" lang="{{ x.lang }}">{{ x.label }}</a> <span class="cite">{{ where(x, no=true) }}</span></li>
+{% endfor %}</ul>
+</div>
+{% endfor %}</section>
+{% endfor %}
 </div>
 {% elif e.type == "claim" %}
 {# a claim: its own judgement in the card's four words with its badge (zone 2), its sentence, its citation
@@ -156,7 +197,7 @@
 <p class="label">{{ c.label }}</p>
 <p class="cite"><span lang="{{ c.source_lang }}">{{ c.source_title }}</span>{% if c.recommendation_no %} · {{ W("cite.no").format(nr=c.recommendation_no) }}{% endif %}{% if c.page %} · {{ W("cite.page").format(nr=c.page) }}{% endif %}{% if c.section %} · {{ W("cite.section").format(nr=c.section) }}{% endif %}</p>
 <blockquote>„{{ c.quote }}“</blockquote>
-<p class="actions"><a class="btn" href="{{ c.link }}" rel="noopener">{{ W("cite.open") }}</a> <button type="button" class="copy" data-copy="{{ c.quote }}">{{ W("cite.quote") }}</button></p>
+<p class="actions"><a class="btn" href="{{ c.link }}" target="_blank" rel="noopener">{{ W("cite.open") }}<span class="ext" aria-hidden="true">↗</span></a> <button type="button" class="copy" data-copy="{{ c.quote }}">{{ W("cite.quote") }}</button></p>
 {% if c.statements %}
 <section class="zone" aria-labelledby="zone-statements-h">
 <h3 id="zone-statements-h">{{ W("claim.statements") }}</h3>
@@ -170,9 +211,33 @@
 <div class="card" lang="{{ e.lang }}">
 <p class="kind">{{ W("type.source") }}</p>
 <p class="label">{{ e.title }}</p>
-<p><a href="{{ e.url }}" rel="noopener">{{ e.url }}</a></p>
+<p><a href="{{ e.url }}" target="_blank" rel="noopener">{{ e.url }}</a></p>
 <p><small>{{ e.license }}</small></p>
 <p><small>{{ e.content_hash }}{% if e.awmf_register %} · AWMF {{ e.awmf_register }}{% endif %} · {{ W("source.claims", claim_count).format(n=claim_count) }}</small></p>
+</div>
+{% elif e.type == "axis" %}
+{# an axis (spec §4.1): an overlay on the pool, so its page is where the grouping shows as data — its carrier,
+   rule and question, its status per view, and its placements grouped by where they place (docs/publication.md §4) #}
+<div class="card" lang="{{ e.lang }}">
+<p class="kind">{{ W("type.axis") }} · {{ W("carrier." ~ e.carrier) }}</p>
+<p class="label">{{ e.label }}</p>
+<dl class="slots">
+  <dt>{{ W("axis.rule") }}</dt><dd>{{ e.rule }}</dd>
+{% if e.question %}  <dt>{{ W("axis.question") }}</dt><dd>{{ e.question }}</dd>
+{% endif %}  <dt>{{ W("axis.views") }}</dt><dd>{% for v in axis_views %}<span><a href="{{ base }}{{ v.label }}/">{{ v.label }}</a>: {{ W("status." ~ v.status) }}, {{ W("axis.since").format(date=v.since) }}</span>{% if not loop.last %}<br>{% endif %}{% endfor %}</dd>
+</dl>
+{% if placed %}
+<section class="zone" aria-labelledby="zone-placements-h">
+<h3 id="zone-placements-h">{{ W("axis.placements") }} <span class="count">({{ placed_n }})</span></h3>
+{% for p in placed %}<div class="grouped">
+<p class="from"><a class="node-link" data-node="{{ p.id }}" href="{{ base }}{{ p.id }}/" lang="{{ p.lang }}">{{ p.label }}</a> <span class="count">({{ p.members | length }})</span></p>
+<ul class="plain grouped">
+{% for m in p.members %}  <li><a class="node-link" data-node="{{ m.id }}" href="{{ base }}{{ m.id }}/" lang="{{ m.lang }}">{{ m.label }}</a>{% if m.kind %} <span class="edge-kind{% if m.kind == 'none' %} none{% endif %}">{{ W("placement." ~ m.kind) }}</span>{% endif %}{% if m.rationale %}<small>{{ m.rationale }}</small>{% endif %}</li>
+{% endfor %}</ul>
+</div>
+{% endfor %}
+</section>
+{% endif %}
 </div>
 {% else %}
 <p class="kind">{{ W("type." ~ e.type) }}</p>

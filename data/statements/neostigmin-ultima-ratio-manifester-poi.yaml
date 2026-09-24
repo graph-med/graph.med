@@ -7,6 +7,5 @@ short_label: "Neostigmin als Ultima ratio bei manifestem POI"
 slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/neostigmin
-  condition: concepts/klinisch-manifester-postoperativer-ileus
-  phase: concepts/postoperativ
+  condition: [concepts/klinisch-manifester-postoperativer-ileus]
 source: modelling

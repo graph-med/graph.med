@@ -1,0 +1,6 @@
+id: concepts/drainagemenge
+type: concept
+lang: de
+label: Drainagemenge
+facet: finding
+source: modelling   # a measured quantity, named by the thresholds that bound it (spec §3.1)

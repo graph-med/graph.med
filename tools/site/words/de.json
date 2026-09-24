@@ -1,0 +1,42 @@
+{
+  "legend": {
+    "toggle": "Legende",
+    "label": "Legende des Graphen",
+    "groups": {
+      "form": "Form = Typ",
+      "direction": "Zeichen + Farbe = Richtung",
+      "grade": "Buchstabe = Grad",
+      "state": "Rahmen = Zustand",
+      "edges": "Kanten"
+    },
+    "forms": {
+      "question": "Frage",
+      "junction": "Patientengruppe (Zahl: Empfehlungen)",
+      "statement": "Empfehlung",
+      "aim": "Ziel"
+    },
+    "folded": "zugeklappt",
+    "open": "geöffnet",
+    "directions": {
+      "für": "für",
+      "gegen": "gegen",
+      "abwägen": "abwägen",
+      "Lücke": "Lücke"
+    },
+    "undirected": "ohne Richtung",
+    "verb": "{grades} + Verb als Wort",
+    "states": {
+      "contested": "umstritten",
+      "related": "verwandt mit der gewählten",
+      "general": "gilt allgemein für die gewählte Gruppe"
+    },
+    "edges": {
+      "answer": "Antwort",
+      "flow": "weiter",
+      "aim": "Ziel"
+    }
+  },
+  "sheet": {
+    "hint": "Ein Feld im Graphen antippen: hier erscheinen seine Details."
+  }
+}

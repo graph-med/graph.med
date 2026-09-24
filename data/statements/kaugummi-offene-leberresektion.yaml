@@ -4,8 +4,7 @@ lang: de
 label: Nach offenen Leberresektionen kann den Patienten Kaugummi angeboten werden.
 short_label: "Kaugummi anbieten möglich (offene Leberresektion)"
 slots:
-  population: concepts/offene-leberresektion
+  population: concepts/leberresektion
   action: concepts/kaugummikauen-postoperativ
   outcome: concepts/postoperativer-paralytischer-ileus
-  phase: concepts/postoperativ
 source: modelling

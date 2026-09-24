@@ -1,0 +1,38 @@
+# The operative access as a statement dimension (spec §4.1), proposed by the physician for
+# views/pomgat-lv-1.0 and asserted by WP-0028. The placements below give one of the two values to the
+# statements whose sentence names the access (until card #202 they were `zugang` slots of the
+# statements); a statement without a placement is one where the guideline does not distinguish,
+# never "applies to both". Deliberately not in the view's group_by: at 4 of 90 statements it covers
+# too little to group a view (assertion and offering are two steps).
+id: axes/zugang
+type: axis
+lang: de
+label: Operativer Zugang
+short_label: Zugang
+carrier: dimension
+slot: zugang
+values: [concepts/offen, concepts/minimalinvasiv]
+rule: >-
+  Der Wert wird nur gesetzt, wo der Satz der Empfehlung den Zugang als das benennt, was diese
+  Empfehlung von einer anderen unterscheidet — als Adjektiv der Population („bei offenen
+  onkologisch-viszeralchirurgischen Eingriffen“, „bei minimalinvasiven Kolonresektionen“) oder als
+  Eigenschaft des Eingriffs, an der die Empfehlung hängt. Der Prüfstein ist das Paar: dieselbe
+  Maßnahme bei derselben Patientengruppe, und die Verbindlichkeit kippt mit dem Zugang (POMGAT 7.9
+  gegen 7.10: Epiduralanalgesie, offen „sollte“ bei Grad B, minimalinvasiv „kann“ nur bei
+  Risikokonstellation bei EK). Laparoskopisch und robotisch-assistiert sind beide minimalinvasiv;
+  eine Leitlinie, die sie trennt, bekommt einen weiteren Wert, nie eine Umdeutung des vorhandenen.
+  Nicht gesetzt wird der Wert, wo der Zugang bestimmt, welche Operation durchgeführt wurde, und
+  die Empfehlung aus deren Anatomie folgt statt aus der Invasivität: die transthorakale
+  Ösophagektomie und die Ösophagektomie mit zervikaler Rekonstruktion sind Eingriffskonzepte mit
+  eigenen broader-Kanten, keine Dimensionswerte — dass ein solcher Eingriff offen erfolgt, macht
+  ihn nicht zum Fall dieser Achse. Nennt der Satz keinen Zugang, bleibt der Slot leer; die Leitlinie
+  sagt dann nichts über ihn, und die Abwesenheit wird nie als „gilt für beide“ gelesen, sondern als
+  „nicht unterschieden“.
+proposed_by: physician
+views:
+  - {view: views/pomgat-lv-1.0, status: asserted, since: "2026-09-23"}
+placements:   # each statement's value (spec §4.1): the axis is an overlay, the statement has no such slot
+  statements/epiduralanalgesie-offene-viszeralchirurgie: concepts/offen
+  statements/kaugummi-offene-leberresektion: concepts/offen
+  statements/epiduralanalgesie-mic-bei-risikokonstellation: concepts/minimalinvasiv
+  statements/tap-block-mic-kolorektal: concepts/minimalinvasiv

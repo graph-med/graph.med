@@ -1,16 +1,19 @@
 # Graph Representation — how knowledge is stored in this repository
 
 > **Status: design intent, partly enforced.** The schema (`schema/schema.yaml`,
-> currently 0.6.0) exists and `tools/validate.py` enforces it, locally and in CI
+> currently 0.11.0) exists and `tools/validate.py` enforces it, locally and in CI
 > (`CLAUDE.md`, "Checks"): ids, enums, provenance requirements, claim hashes, slots,
 > edges, a claim's `section` against its source's `outline`, `broader` without
 > cycles, and with `--verify-quotes` every quote against its source. The pool uses
 > all of it: one source with its outline, its claims with sections, statements and
 > concepts with short labels, every concept with a facet, a `broader`
 > hierarchy over the patient groups, and grouping axes (§4.1): the `axes/`
-> entity, the validator's axis rules, the feasibility report (`tools/axes.py`),
-> one dimension axis asserted on the first source and offered by its view, and
-> the chapters as the built-in grouping. Everything else described as checked or
+> entity with its placements, the validator's axis rules, the feasibility
+> report (`tools/axes.py`), the hierarchy axis that draws the first view's
+> patient-group tree and one dimension axis, both asserted and offered by that
+> view, and the chapters as the built-in grouping. The scope tree (§4, §5 `in_scope_of`) is
+> in the schema and the validator, and the first view declares one, rooted in its
+> guideline's patient target group. Everything else described as checked or
 > computed — the canonical form and content hashes (§2), staleness (§5, §8),
 > attestations and review state (§8), view cuts (§4), the derived statement
 > properties (§3.3) — is not implemented yet, and the automated review (§8.1) is
@@ -183,7 +186,12 @@ its own about what is true; it asserts what a source states at a location. Its
 unit is the **recommendation sentence**, not the box: a box holding several
 sentences with their own verbs and directions becomes several claims sharing
 the box's `recommendation_no`, each with the one grade its verb maps to under
-the source's grading scheme (memory `box-granularity-per-sentence`).
+the source's grading scheme (memory `box-granularity-per-sentence`). Its `kind`
+names the passage's form, the first that holds: it declines to recommend →
+`gap_notice`; it instructs an action → `recommendation`; the source marks it as
+a definition → `definition`; it states which cases, values or thresholds a term
+covers → `criterion`; otherwise → `fact`. Which sentences outside the marked
+recommendations become claims, and how they attach, is the rule of §5.1.
 
 How binding a recommendation is (`grade`, `verb`) and how certain the evidence
 behind it is are two different facts, and a source may state the second per
@@ -198,10 +206,35 @@ not know is a valid state, not an error. **Several entries are never reduced to
 one**: a recommendation whose certainty differs by outcome carries every row,
 and no consumer forms a summary value from them — grades are shown, never
 composed (`docs/publication.md` §3). A source that rates the whole
-recommendation once produces one entry without an outcome; an absent or empty
+recommendation once produces one entry without an outcome. An outcome the
+source lists without a rating is an entry with its outcome and system and no
+value: it is recorded, not left out, so that a table with an empty cell keeps
+its count, and it reads *nicht erfasst*. Every entry states an outcome or a
+value, and an entry with neither is refused. An absent or empty
 list means the certainty was not recorded, not that there is none. Like the
 grade, the rating is read off the source and never inferred: its provenance is
 required (§6.5).
+
+A criterion or a definition may print a **threshold** — "Amylase im
+Drainagesekret unter 5000 U/L am ersten postop. Tag", "mindestens zwei
+klinischen Risikofaktoren". The claim carries it as **`thresholds`**, a list of
+entries, each naming the `quantity` measured or scored (a concept, like every
+other thing the pool refers to), a `comparator` (`<`, `≤`, `>`, `≥`, `=`,
+`between`), the `value` as printed, and, where printed, its `unit` and the
+time point of the measurement (`when`). A **relative** threshold — "kleiner
+als das Dreifach der Serumkonzentration" — also names the quantity it is
+relative to (`relative_to`), and its value is the factor. The comparator list
+is closed because it is mathematics; nothing else is: the quantity is a
+concept, and value, unit and time point are strings exactly as printed, never
+converted, rounded or completed, so no unit table and no vocabulary of scores
+enters the schema. Several entries hold at once: a rule that needs two values
+together ("unter 5000 U/L am postop. Tag 1 und 3 sowie Drainagemenge unter
+300 ml/Tag") is one claim with two entries, while two ways of meeting a term
+are two claims (§3.2). A threshold says for whom — which cases a term covers
+— and never how: a dose, a duration or a volume the action prescribes is not
+one, and only criterion and definition claims carry the list. Like the grade,
+it is the number on the page: its provenance is required (§6.5), and adding
+it to an existing claim is an edit with history (§7).
 
 ### 3.2 The semantic layer
 
@@ -223,15 +256,49 @@ Three kinds of entity, kept apart because different edges attach to them:
   varies (`mpom` is the action of one statement and the condition of another).
   Where the two seem to collide, ask whether the concept describes the case or
   the act.
+
+  A concept is **derived** (*abgeleitet*) when a clinician cannot observe it
+  but establishes it by a rule — a threshold on a measured quantity, a score
+  over risk factors, a definition — and **stated** (*angegeben*) otherwise.
+  The rule is a `criterion` or `definition` claim (§3.1), and the concept
+  reaches it by a `defined_by` edge (§5); a concept with such an edge is
+  derived, one without is stated, and that is computed from the edges, never
+  written on the concept (§3.3). A derived concept whose source names the rule
+  without a number ("lange OP-Zeit") has its edge and no threshold.
+  **Several rules of one concept are alternatives**: each `defined_by` edge is
+  one way of establishing it (drain amylase on day 1; on days 1 and 3 with
+  the drain volume; relative to the serum value on day 3), and any one
+  suffices — the other way round from a statement's conditions, which hold
+  together. A rule that needs two values at once is one claim with two
+  thresholds, not two edges. Because the kind is read off the concept, it
+  holds wherever the concept stands — a statement's anchor, one of its
+  conditions, or the `condition` of a scope edge (§5) — by the one mechanism.
+  These three choices — the kind computed rather than stored, the threshold
+  on the claim that prints it, several rules as alternatives — were proposed
+  on 2026-09-24 (card #187) and stand until the maintainer confirms or
+  overturns them in review.
 - **Statements** — propositions with a truth claim: "after pancreatic
   resection, the drain can be removed early when the drain amylase indicates a
   low fistula risk." Statements are what claims *support* or *contest*. A
   statement has a **slot shape** declared by the schema (population, action,
-  condition, outcome — filled with concept URLs; a further slot exists only
-  where a dimension axis declares it, §4.1), which makes "is this the same
+  condition, outcome — filled with concept URLs; the value a dimension axis
+  gives a statement is that axis's placement, not a slot of the statement,
+  §4.1), which makes "is this the same
   statement?" an almost-computable question and keeps granularity honest: **a
   statement is the smallest unit that can be independently supported or
-  contested.** Its `label` is the full proposition; an optional **`short_label`**
+  contested.** Every slot holds one concept except `condition`, which is
+  always a **list** of concepts, one entry or more — one shape, whether a
+  recommendation has one prerequisite or four. **Several conditions are a
+  conjunction; a disjunction is one concept.** The entries hold at once, each
+  on its own, individually checkable and citable ("LVEF ≤ 35 % *and* sinus
+  rhythm *and* …" is several entries); where the source says "or", one concept
+  names the alternatives ("Gastrektomie oder Magenteilresektion", "mittleres
+  oder hohes VTE-Risiko") and stands as a single entry. A list can mean only
+  one of the two, so the other has its own carrier. Nor are independent
+  prerequisites fused into one concept to fit a single value: a concept for a
+  constellation stands only where the source itself names it as one. A
+  hierarchy respect over `condition` (§4.1) places each entry's concept.
+  Its `label` is the full proposition; an optional **`short_label`**
   is the same proposition compressed for a box on a drawing, and it must still
   tell siblings apart — six boxes reading "Magensonde ziehen" hide exactly the
   staging the drawing exists to show, so the short form carries the
@@ -253,7 +320,11 @@ hand: its source set (via `supports`), its conflict status (via `contests`), its
 effective grade (computed from supporting claims by a schema-declared policy —
 a grade always originates in a document, §6.5), and its review state (via
 attestations, §8). A hand-written evidence property on a statement is the same
-violation as a hand-written review status.
+violation as a hand-written review status. Likewise, whether a concept is
+derived or stated (§3.2) is computed from its `defined_by` edges and never
+stored: a stored kind would have to be kept in step with the edges by hand,
+and a concept used as a condition in one statement and as an anchor in
+another would need it written twice.
 
 ### 3.4 How new evidence arrives
 
@@ -300,6 +371,38 @@ outcomes, every referenced statement is a member, nothing dangles. A filter that
 amputates a branch fails validation and the cut is not made. "A graph is complete
 and valid on its own" is a guarantee only a cut can honour, so it lives there.
 
+**Anchor and scope root.** A view may declare, beside its filter, the two
+properties that make its members one tree of "for whom":
+
+```yaml
+anchor_slot: population        # a slot every statement has (§3.2)
+scope_root:  concepts/<id>     # the concept the scope tree ends in
+```
+
+The **anchor** of a statement (not a claim's source anchor, §3.1) is the one
+concept in the view's `anchor_slot`:
+the guideline's primary index, what its recommendations are keyed on and what
+one must know to look anything up (§4.1, question 1). The **scope root** is the
+concept above every anchor — for a guideline, its own scope, the patients it
+addresses, as the source describes them. It is **declared, never inferred**:
+where a guideline's anchors have no common concept, minting one is a visible,
+reviewed act on the view, not something a validator rule forces. Between the
+anchors and the root lie `broader` edges, which hold whatever guideline one
+reads, and scope edges (`in_scope_of`, §5), which hold inside this guideline's
+scope. Which of them the view's **scope tree** is drawn from is chosen by the
+first axis of its `group_by`: a hierarchy axis over the anchor slot, whose
+placements pick for each concept the one of those edges it hangs by (§4.1) —
+the pool holds the facts, the axis the tree. The two properties are
+declared together, and a view that declares them owes four things, which the
+validator checks: (1) every member statement fills the anchor slot with
+exactly one concept; (2) the first entry of its `group_by` is such an axis,
+asserted for the view, and every anchor reaches the scope root along its
+placements; (3) every scope edge carries a rationale, and its
+`condition`, where it has one, is a concept; (4) scope edges form no cycle,
+alone or with `broader`, and never repeat a `broader` edge between the same two
+concepts. A view that declares neither is read as before, and none of the four
+applies to it.
+
 ### 4.1 Grouping axes: proposed, tested, asserted, shown
 
 A view is read as a tree of questions whose answers are grouped
@@ -315,33 +418,76 @@ how; a second and a third guideline pass through the same four steps unchanged.
 Nothing in this section names an organ, a phase or a source; the worked example
 at its end does.
 
-#### The two carriers
+#### An overlay on the pool, and its two carriers
 
-An axis groups the answers to one question of the tree, and it is carried by
-one of two things the schema already has. The rule that decides which is the
-same for every guideline:
+An axis groups the answers to one question of the tree. It is an **overlay**:
+its placements live in the axis entity, before and after it is asserted, and
+the pool it lies over is left as it is. The pool holds the facts an axis
+chooses from — the statements' own slots, the `broader` and `in_scope_of`
+edges between concepts — and the axis holds the choice, so a fact is stated
+once however many groupings use it, and a fact added to the pool changes no
+grouping until someone changes an axis. The placements are data written by a
+person or a linking pass and reviewed, never derived by the build from the
+axis's rule (step 3). An axis is carried in one of two ways, and the rule that
+decides which is the same for every guideline:
 
-- A **statement dimension** — a slot on the statement (§3.2) that the axis
-  adds. Its value qualifies the *recommendation* and holds whoever the patient
-  is: the same patient group carries recommendations across all values of such
-  an axis. In the tree, a dimension is a question of its own, asked **before**
-  the population question, because it partitions the whole guideline the way
-  its chapters do — and it is exactly what a chapter *meant* (§6.7), lifted
-  from the outline into data. Its values are concepts of facet `qualifier`
-  (§3.2), listed in the axis definition; the slot holds one of them.
-- A **hierarchy respect** — a `broader` edge with an `axis` property (§5) over
-  the concepts that answer a question the tree already asks (today the
-  population and the condition). Its value is a true "is a special case of" of
-  a *concept* in one respect. A concept may have several broader concepts on
-  different axes and, unless the definition says otherwise, one on each; an
-  edge without `axis` is plain subsumption as before. In the tree, a hierarchy
-  changes which concepts are the families of that question and how it folds —
-  never which question is asked.
+- A **statement dimension** — a value the axis gives each statement it
+  places, `{statement: value}` in its placements; the statement's own slots
+  (§3.2) do not change. Its value qualifies the *recommendation* and holds
+  whoever the patient is: the same patient group carries recommendations
+  across all values of such an axis. In the tree, a dimension is a question
+  of its own, asked **before** the population question, because it
+  partitions the whole guideline the way its chapters do — and it is exactly
+  what a chapter *meant* (§6.7), lifted from the outline into data. Its
+  values are concepts of facet `qualifier` (§3.2), listed in the axis
+  definition; a statement has one of them, or none — then the axis does not
+  distinguish it, which never means "all values".
+- A **hierarchy respect** — for each concept that answers a question the
+  tree already asks (today the population and the condition), the parent it
+  hangs by on this axis, `{concept: parent}` in its placements. The parent is
+  chosen from the pool, never stated by the axis: once the axis is asserted,
+  each placement is an edge the pool already holds from the concept to the
+  parent, `broader` (a true "is a special case of", §5) or `in_scope_of` (a
+  membership this guideline stipulates, §5). A relation the axis needs and
+  the pool lacks is added to the pool first, as an edge of its own with its
+  own rationale. A concept may hang by different edges on different axes and,
+  unless the definition says otherwise, by one on each; the edge names no
+  axis. In the tree, a hierarchy changes which concepts are the families of
+  that question and how it folds — never which question is asked.
 
-If the value would stay true whatever were recommended, it is subsumption; if
-it varies with the recommendation, it is a dimension. Edge cases, decided once:
+Which of these a value is — and whether it is either — is decided by four
+questions, asked in order, **per statement**, not per concept:
+
+1. **Is the value the guideline's primary index** — what its recommendation
+   chapters are keyed on, what one must know to look anything up? Then it is
+   the statement's **anchor** (§4), in the view's `anchor_slot`. A guideline
+   on perioperative care is keyed on the procedure, one on pneumonia on the
+   severity, one on thromboembolism prophylaxis on the risk group, one on
+   heart failure on the phenotype. Whether the value is observed or computed
+   does not matter here; that decides only how it is obtained.
+2. **Is the value a thing in its own right that is a special case of
+   another?** The test is the sentence "X is a Y", where the value changes
+   *which* thing is present, not merely *how* it is done. Then it is a
+   **subgroup**: `broader` where the sentence holds whatever guideline one
+   reads, a **scope edge** (`in_scope_of`, §5) where it holds only inside this
+   guideline's scope. A named operation is a special case of the resection it
+   performs; an operation whose route decides its anatomy is a procedure of
+   its own; "minimally invasive" is not a thing but a qualifier of one.
+3. **Does the value combine freely with every anchor value, from a closed,
+   named list?** Then it is a **dimension**. Orthogonality is the
+   discriminator, not variation: a value that is forced into one tree with
+   the anchor although both combine freely (an access and an organ) breaks
+   the tree.
+4. **Otherwise it is a condition** (§3.2): the circumstance of the individual
+   case, with an open range of values and no partition.
+
+The same concept may be the anchor of one statement and a condition of
+another; slots are roles, not types (§3.2). This replaces an earlier rule —
+"if it varies with the recommendation, it is a dimension" — which held for
+every patient group too and so separated nothing. Edge cases, decided once:
 a value that names the patient's *situation* after an intervention ("the state
-after X") is a population concept and is placed by hierarchies like any other,
+after X") is a population concept and may be an anchor, but it is not "an X":
+where the guideline treats it under X, that is a scope edge, not `broader`,
 while *when* the recommendation applies stays a dimension; a dimension value
 that covers the whole guideline ("throughout") is a legitimate declared value,
 not a missing one; a concept defined by exclusion or spanning several families
@@ -350,11 +496,14 @@ is otherwise unplaced — the pool never mints a "several" family, because that
 is not a subsumption. The document outline is neither carrier and needs no axis
 entity, because it is provenance, not modelling (§6.7): every view offers it as
 the built-in chapter grouping of its switch, derived from the claims' sections
-and the sources' outline, with the plain hierarchy as the default — and its
-headings are the extractor's hint when a rule is applied. The `broader` hierarchy over the first source's
-patient groups and the population question the site asks today are the
-**plain hierarchy**: the axis every view has without declaring it, read as one
-hierarchy respect over the population slot; the mechanism adds nothing to it.
+and the sources' outline, second after the view's tree of patient groups —
+and its headings are the extractor's hint when a rule is applied. The tree of patient
+groups a view opens with is an axis like any other: a hierarchy over the
+view's anchor slot (`population` where it declares none), proposed, tested
+and asserted by the same steps, its placements written by the pass that
+writes the guideline's `broader` and `in_scope_of` edges, and listed first in
+the view's `group_by` (step 4). Nothing is built in beside it: a view without
+such an axis shows its patient groups unfolded, each an answer of its own.
 
 #### 1. Proposed — the axis definition
 
@@ -365,27 +514,30 @@ A person — usually a physician — proposes an axis as data: one entity
 |---|---|
 | `id`, `type: axis`, `lang`, `label`, `short_label` | as for every entity; the label is what the site's switch shows |
 | `carrier` | `dimension` or `hierarchy` |
-| `slot` | for a dimension: the slot key the axis adds to statements (English, like every structural key); for a hierarchy: the existing slot whose concepts it folds (`population`, `condition`) |
-| `values` | dimension only: the concepts (facet `qualifier`) the slot may hold, in the order the tree shows them |
+| `slot` | for a dimension: the key its values are shown and asked under — on the card, in the tree — never a slot of the statement's own (English, like every structural key); for a hierarchy: the statement's own slot whose concepts it folds (`population`, `condition`) |
+| `values` | dimension only: the concepts (facet `qualifier`) a statement may have on the axis, in the order the tree shows them |
+| `question` | dimension only, optional: the question the tree asks for it, whole, in the axis's `lang` — where the site's generic form ("which {short label}?") would be wrong in that language; a hierarchy never changes which question is asked, so it has none |
 | `several` | hierarchy only, default `false`: whether a concept may have more than one parent on this axis |
 | `rule` | the written rule a linking session applies without judgment calls: what earns which value or which family, in the source language, `lang`-tagged |
 | `proposed_by` | a role — `physician`, `maintainer`, `agent` — never a name (`.claude/rules/conventions/no-personal-information.md`) |
 | `views` | one entry per view the axis is proposed for: `{view, status, since}`, status one of `proposed`, `asserted`, `withdrawn` |
-| `placements` | the rule *applied*, before assertion: for a dimension, `{statement: value}` pairs; for a hierarchy, `{concept: parent}` pairs; removed from the definition when the axis is asserted, because edges and slot values then carry them with provenance |
+| `placements` | the rule *applied*: for a dimension, `{statement: value}` pairs; for a hierarchy, `{concept: parent}` pairs; while proposed a list where the rule yields several places. A place may be written `{place, rationale}`, the rationale in the axis's `lang`, where the rule alone does not decide it (a value taken from a heading because the sentence names none, say); the rule is the rationale of every other. Kept when the axis is asserted: they are what groups the view |
 
-The rule is for people; the placements are what the tool measures. An axis
-whose rule holds for a second guideline is proposed for its view by adding an
-entry under `views`, not by a second definition; a status is per view, because
-an axis can be feasible on one source and not on another. Proposing is cheap
+The rule is for people; the placements are what the tool measures and what
+the site draws. An axis whose rule holds for a second guideline is proposed for
+its view by adding an entry under `views`, not by a second definition; a status
+is per view, because an axis can be feasible on one source and not on another.
+A hierarchy whose placements pick scope edges holds a tree only one guideline
+stipulates, and a second guideline gets a hierarchy of its own. Proposing is cheap
 and commits the pool to nothing: a proposed axis groups no view.
 
 #### 2. Tested — the feasibility report
 
 A tool (`tools/axes.py <axis> <view>`, registered as WP-0008) applies one axis
-to one view and prints a report. It reads the placements from the definition
-while the axis is proposed, and from the asserted edges and slot values once it
-is asserted, so that the same numbers can be printed before and after. It
-writes nothing. The **universe** *U* is, for a dimension, the view's member
+to one view and prints a report. It reads the definition's placements, which
+are the same before and after assertion, so the same numbers print either way;
+for a hierarchy it also lists every placement that no edge of the pool carries
+yet — what asserting it would first need in the pool. It writes nothing. The **universe** *U* is, for a dimension, the view's member
 statements; for a hierarchy, the concepts that fill the axis's slot on the
 view's member statements. Four measures:
 
@@ -415,16 +567,22 @@ another is a fact the report states, not a defect of either.
 
 #### 3. Asserted — with provenance
 
-What the person accepts is written into the pool the way everything that groups
-the graph is written — by a linking pass, reviewed in a pull request:
+What the person accepts is asserted by a linking pass, reviewed in a pull
+request that carries the feasibility report:
 
-- a dimension: the value as a slot on each statement, an edit with history
-  (§7), `modelling` with a rationale that cites the rule and, where the sentence
-  does not name the value, the heading or passage that does;
-- a hierarchy: `broader` edges naming the axis, each `modelling` with a
-  rationale; a family concept minted where the axis needs one, with facet and
-  label, never for a single member;
-- the definition's `views` entry set to `asserted`, its `placements` removed.
+- the placements, one per statement (a dimension) or per concept (a
+  hierarchy) — a single place each, unless a hierarchy says `several`; for a
+  dimension the value that the rule gives, with a `rationale` where the
+  sentence does not name it and a heading or passage does; for a hierarchy
+  the parent whose edge the pool holds;
+- what a hierarchy needs in the pool and the pool lacks, added to it first as
+  facts of their own: a `broader` or `in_scope_of` edge, `modelling` with a
+  rationale, a family concept minted with facet and label where the axis
+  needs one, never for a single member;
+- the definition's `views` entry set to `asserted`, with its date. The
+  placements stay where they are; from then on the validator holds each
+  hierarchy placement to an edge of the pool, and the placements are what the
+  site draws. Git keeps their history (§7).
 
 **Nothing groups a view that is not asserted this way.** The feasibility test
 is post-processing; the grouping never is — otherwise a grouping would appear
@@ -442,30 +600,44 @@ group_by: [axes/<axis-id>, axes/<axis-id>]   # each asserted for this view
 ```
 
 It is a property of the view beside `filter`, not a filter form: it selects
-nothing and never changes the view's members (§13). The switch lists the plain
-hierarchy first, then the chapters of the view's sources (§6.7: the top-level
-sections in outline order, a statement behind every chapter one of its claims
-sits in), then the declared axes; the first two are built in and need no
-declaration, so a view without `group_by` has those two. Choosing a grouping
+nothing and never changes the view's members (§13). Its **first** entry, when
+it is a hierarchy over the view's anchor slot (`population` where the view
+declares none), is the view's tree of patient groups: the page opens with
+it, it folds the patient groups below the chapters and below every dimension,
+and in a view with a scope root it is the scope tree (§4), which is why such a
+view must list one first. The switch lists that axis first, then the chapters
+of the view's sources (§6.7: the top-level sections in outline order, a
+statement behind every chapter one of its claims sits in) — the one grouping
+built in and needing no declaration —, then the other declared axes. A view
+whose `group_by` does not begin with such an axis shows its patient groups
+unfolded, each an answer of its own, as the first entry of its switch. A
+hierarchy axis other than the first places only what its placements place;
+the rest is "not placed". Choosing a grouping
 changes what the tree asks first (the chapters, a dimension) or which concepts
 are the families of a question (a hierarchy), and nothing else — not the
 shape, not the folding, not where a recommendation hangs. Whatever the chosen
 grouping cannot place is one answer, **"not placed"**, last among the answers
 of the question it groups, at every depth where that question is asked; it is
-never dropped. The build knows no axis by name: the switch's words, the chapter
-question and "not placed" come from the per-language table like the questions,
-keyed by the axis's `label` and the language.
+never dropped. The build knows no axis by name: the switch shows the axis's
+`label`; a dimension's question is the axis's own `question` where it declares
+one and otherwise the per-language form filled with its short label; the
+chapter question, "not placed" and the word for unfolded patient groups come
+from the per-language table like the questions.
 
-The validator (WP-0008) holds this together: an `axis` on a `broader` edge and
-a `group_by` entry name an existing axis of the right carrier; a `group_by`
-entry is asserted for that view; a slot key on a statement is one a dimension
-axis declares, and its value is one of that axis's `values`; no cycle within
-one axis; a placement references entities that exist.
+The validator holds this together: a `group_by` entry names an existing axis
+asserted for that view; an axis asserted for any view places each statement or
+concept once (unless a hierarchy says `several`), a dimension's placements are
+statements holding one of its `values`, and a hierarchy's are edges the pool
+holds; a statement has no slot beyond its own; a placement references entities
+that exist; the first-entry rule of a view with a scope root (§4). A cycle
+needs no check of its own: every hierarchy placement is an edge, and the
+edges have none (§5).
 
 #### Worked example — the first source, and two imagined ones
 
-*The first source* (`views/pomgat-lv-1.0`: 90 statements over 36 population
-concepts, chapters titled by perioperative phase and subsections by organ and
+*The first source* (`views/pomgat-lv-1.0` as the axes were proposed on
+2026-09-13 — the figures below are that report, and the pool has changed since:
+90 statements over 36 population concepts, chapters titled by perioperative phase and subsections by organ and
 modality). A physician proposes two axes.
 
 - **Perioperative phase**, a dimension: `slot: phase`, values *präoperativ*,
@@ -504,26 +676,32 @@ modality). A physician proposes two axes.
   phase axis's business. The report says what a physician suspected: half the
   guideline speaks of gastrointestinal tumour surgery as such, and a region
   axis leaves that half in "not placed". Whether that is useful is the
-  proposer's call, not the tool's.
+  proposer's call, not the tool's. For this view it was answered by the scope
+  tree (§4): once the organ families and the generic groups hang under the
+  guideline's own scope, one tree places both halves, and the region was
+  withdrawn for the view.
 
 *A guideline organised by stage* (an oncological entity, chapters by UICC
-stage). Its physician proposes a hierarchy "Stadium" over the condition slot
-(`slot: condition`), families the stages, rule: the stage a condition concept
-names; and a dimension "Therapielinie" (first-line, second-line, …). Nothing
+stage). The stage is what its chapters are keyed on, so by the first question
+it is the anchor: its view names the slot that holds it as `anchor_slot`
+(`population`, "patient in stage X"). Its physician proposes a hierarchy
+"Stadium" over that slot (`slot: population`), families the stages, rule: the
+stage a population concept names; and a dimension "Therapielinie"
+(first-line, second-line, …). Nothing
 in the mechanism, the schema or the build changes; its view declares both in
 `group_by`, and its switch shows "Stadium" and "Therapielinie" where the
-first source's shows "Phase" and "Region".
+first source's shows "Phase".
 
 *A guideline organised by leading symptom* (an emergency guideline, chapters
 "Brustschmerz", "Dyspnoe", …). The symptom is the population's *presentation*,
 not a phase and not a subsumption of a procedure: a dimension `slot:
 leitsymptom` whose values are the symptoms — or, if the populations are
-minted as "patient with X", a hierarchy over the population slot. The
-carrier rule decides: a symptom stays true whatever is recommended, so it is
-subsumption where the population concept carries it, and a dimension only
-where the same population is addressed under several presentations. The
-feasibility report of each variant tells the proposer which one the data
-carries.
+minted as "patient with X", a hierarchy over the population slot. The four
+questions decide: chapters keyed on the symptom make it the guideline's
+primary index, so it is the anchor and the populations are minted as
+"patient with X"; a dimension only where a symptom combines freely with every
+anchor value, which a primary index cannot. The feasibility report of each
+variant tells the proposer which one the data carries.
 
 ---
 
@@ -542,21 +720,60 @@ the different jobs of edges apart:
   carry evidential weight.
 - **body-text relations** — `refines`, `supplements`, `limits`: claim → claim.
   Body text never inherits a recommendation's grade; the edge says how they
-  relate.
+  relate. Which sentence earns which edge is the rule of §5.1.
 - **coding** — `codes_as`: concept → terminology concept. Codes are never bare
   strings inside a property; a code is a node and coding is an edge, so the link
   carries provenance and dangles visibly when a classification changes.
-- **subsumption** — `broader`: concept → concept, "is a special case of". *Offene
-  Leberresektion* is a *Leberresektion*; a concept may have several broader
-  concepts (a minimally invasive colorectal resection is both a colorectal
-  resection and a minimally invasive procedure) and a concept with none is a
-  root. Always `modelling`, with a rationale; it may carry an **`axis`** naming
-  the respect in which the subsumption holds, once that axis is asserted for
-  the view (§4.1). The edge carries **no evidence and no inheritance**: whether a recommendation about the broader concept holds for
+- **subsumption** — `broader`: concept → concept, "is a special case of". *Pankreaskopfresektion*
+  is a *Pankreasresektion*; a concept may have several broader
+  concepts (a pancreatoduodenectomy is both a pancreatic resection and a
+  duodenal resection) and a concept with none is a
+  root. Always `modelling`, with a rationale. A grouping axis chooses among
+  these edges (§4.1); the edge names no axis, and it is the same fact
+  whichever grouping uses it. The edge carries **no evidence and no inheritance**: whether a recommendation about the broader concept holds for
   the narrower one is a clinical question the source either answers explicitly,
   in which case a statement says so, or leaves open, in which case the gap stays
   visible. A build that propagates recommendations down a `broader` edge would
   be inventing answers; it may only use the edge to group and to fold.
+- **scope** — `in_scope_of`: concept → concept, "counts, within the scope of
+  this guideline, as a case of". It carries what one guideline stipulates for
+  its own scope and what `broader` cannot hold: that its general
+  recommendations are addressed to a group because the group lies in its
+  scope, not because the group is a special case of anything. Such a sentence
+  can be false outside the guideline (a kind of operation counts as tumour
+  surgery only where the guideline says it is about tumour surgery), and it
+  can even point the other way (a guideline carries the evidence of a group
+  *wider* than its own patients onto them; as "is a special case of" that is
+  backwards, as a scope edge it is right). Written into `broader`, it would
+  make the concept hierarchy false for the next guideline that reuses the
+  concepts. Always `modelling`, with a rationale and a date; an optional
+  **`condition`** names, as a concept reference like every other condition
+  in the pool, the circumstance under which the membership holds ("during a
+  procedure within the scope"), and its absence means unconditional — no
+  magic value stands for "always". A scope edge belongs to the scope tree of
+  the view whose `scope_root` (§4) it leads to. It is an **edge, not an
+  entity**: as an entity it would lack `source`, `as_of` and `lang` — no
+  provenance, no attestation, no staleness — and would need a namespace of its
+  own. Unlike `broader`, it says what the guideline itself says: that what it
+  recommends for the upper concept is addressed to the lower one. A view may
+  therefore show a concept, beside its own statements, those anchored above it
+  along its scope edges — set apart and marked as applying generally, with
+  the condition (`docs/publication.md`) — and never merges them into its own;
+  along `broader` alone nothing moves.
+- **definition** — `defined_by`: concept → claim, "is established by the rule
+  this passage gives". It connects a derived concept (§3.2) to the
+  `criterion` or `definition` claim that says how it is established, with the
+  threshold the claim prints (§3.1). Always `modelling`, with a rationale
+  naming the clause and the term, `lang` and `as_of`. Several edges from one
+  concept are **alternatives**, any one of which establishes it; one concept
+  reaches one claim at most once (the validator refuses a second edge, even
+  with a discriminator, and an edge to a claim of another kind). It is the
+  edge, not a field on the concept, because the rule is a relation with
+  provenance: it can be attested and go stale, and a concept that gains a rule
+  from a second guideline gains an edge, not a rewritten field. It carries no
+  evidence and says nothing about the statements that use the concept; the
+  `refines` edge the same criterion may have to a recommendation (§5.1) stays
+  what it is, a body-text relation between claims.
 - **structure** — `sequence`, `branch` (with a `guard` property), `about`:
   among structural nodes and from them to the statements they arrange.
 - **cross-source semantics** — `specializes`, `complements`, `conflicts`:
@@ -569,6 +786,56 @@ an endpoint's current hash differs, the edge is **stale**: surfaced for
 re-evaluation, its derived weight downgraded — not silently applied, and not a
 blocker (§8). No version is ever pinned on an edge; the mechanism is the same one
 attestations use.
+
+### 5.1 The body-text rule
+
+A **marked recommendation** is what the source marks as one (a numbered box, a
+numbered statement); each of its sentences is a claim (§3.1). **Body text** is
+every other sentence of its section. A body-text sentence becomes a claim with
+an edge exactly when it passes all of G1–G4 and one of R, L, S, tried in that
+order — the first that holds decides. Every other sentence stays on the page.
+
+- **G1 topic** — it is about the action of a marked recommendation of its
+  section, for that recommendation's population (for a gap notice: its topic).
+- **G2 voice** — it speaks for the guideline: its subject is not a study, a
+  review, an author, another guideline or the evidence, nor a pronoun or
+  connective continuing a sentence whose subject was. A reference mark alone is
+  no report. Except: a value the recommendation's wording needs and does not
+  give passes even when reported from the studies, if the guideline gives none.
+- **G3 new** — it adds a case, value or action the recommendation lacks. A
+  repetition (after a summary word, a reason, "this holds for all") adds
+  nothing; a repetition that adds counts only for what it adds.
+- **G4 not a decline** — declining to recommend is a gap notice, no edge.
+- **R `refines`** — it says what a term of the recommendation covers: who is in
+  its group; which value, time, dose, agent or technique a word stands for. It
+  makes cases precise and takes none out.
+- **L `limits`** — it takes cases the recommendation covers out of it: an
+  exception, a contraindication, a circumstance in which the action is not to
+  be done or is advised against, with or without what to do instead.
+- **S `supplements`** — it instructs a further action for the recommendation's
+  case: a next step, what to do when the action fails or is refused, a measure
+  beside it. Describing an effect or a mechanism instructs nothing.
+- **K claim** — `kind` by form (§3.1); `verb` and `direction` as printed (a verb
+  only if the schema knows it); never `grade`, `consensus` or
+  `recommendation_no`. **One claim per answer**: members giving different
+  answers — another threshold for the same term, another action, another
+  direction — are a claim each, each quoting its member; members sharing one
+  answer (the cases one group comprises) are one claim.
+- **E edge** — to each claim of the section whose wording carries the term, the
+  case or the action, none to the other sentences of its recommendation; a
+  definition the source marks, to every claim of the source using the term.
+  `modelling`, with `rationale` naming the clause and the term as printed
+  (`"R: <term>"`), `lang`, `as_of`. A pass deletes an existing body-text edge the rule does not give and
+  lists it, with its clause, in its pull request.
+- **N — not a body-text relation.** (1) Sentences of one marked recommendation,
+  or of two: each supports its own statement; what one says of the other is
+  said between statements (`specializes`, `complements`). (2) How certain the
+  evidence is: `evidence` on the recommendation's claim (§3.1); effect data,
+  study summaries and rationale: nothing. (3) A condition of the statement: an
+  edge relates two claims and never writes a slot, mints a statement or decides
+  what a circumstance is to a statement (§4.1); a circumstance the statement
+  lacks is named in the pull request. (4) A cross-reference, a research
+  question, a quality indicator (→ quality-indicators).
 
 ---
 
@@ -782,11 +1049,11 @@ with a recorded identity, not a writer: everything it finds lands as
 attestations by it, never as an edit, and everything else about it follows
 from the rules of §8 above.
 
-**What it checks.** Four questions. Three are asked of one subject the pull
-request adds — a claim, a statement, an edge — against the ground the pool
-already holds for it, and catch what was invented or misread. The fourth is
-asked of the ground itself — the page — against the pool, and catches what was
-left out:
+**What it checks.** Six questions. Five are asked of one subject the pull
+request adds — a claim, a statement, an edge, a placement of an axis — against
+the ground the pool already holds for it, and catch what was invented or
+misread. The fourth is asked of the ground itself — the page — against the
+pool, and catches what was left out:
 
 - **A claim against its page.** The judge reads the physical page the claim's
   locator names — the same extracted text the validator's quote check reads
@@ -807,34 +1074,28 @@ left out:
   proposition is what the claims say: nothing the label asserts is absent from
   every supporting claim, nothing a supporting claim asserts contradicts it;
   each slot names what the claims' sentences name in that role — the
-  population operated on, the action, the condition, the outcome, the value of
-  a dimension (§4.1); the `short_label` compresses without changing the
+  population operated on, the action, the condition, the outcome; the `short_label` compresses without changing the
   meaning (§3.2); a `contests` edge really contradicts. Sameness is what it
   judges: a wrong `supports` edge is a statement that does not say what its
   claim says.
 - **A body-text edge against the rule.** For each `refines`, `supplements` and
   `limits` edge the judge reads both claims and the page and applies the
-  body-text rule of §5 as this document states it when the judge reads. Today
-  §5 says only what the three kinds are and that body text never inherits a
-  grade; the rule that says which passage earns which kind — a gate, then
-  tests in a fixed order, the edge to the claim of the marked recommendation
-  whose wording carries the term, a `rationale` naming the test and the term,
-  the from-claim ungraded, never between two sentences of one marked
-  recommendation — is being written as its own package, and the third
-  question is stated over that shape: the kind the edge carries is the first
-  test that holds, the target is the right claim, the rationale names what
-  the rule asks for.
+  body-text rule of §5.1 as this document states it when the judge reads: the
+  sentence passes the gate, the kind the edge carries is the first test that
+  holds, the target is the right claim, the from-claim is ungraded and holds
+  one answer, the rationale names the clause and the term, and the edge is
+  not between sentences of marked recommendations.
 - **A page against the pool.** For every page a claim of the branch cites,
   the judge — already holding that page for the first question — reads it
   the other way round and asks whether everything on it that the pool's
   rules make a claim is one: every sentence of every recommendation the
   source marks on the page has a claim, sharing its number where the source
   numbers it (§3.1: a marked recommendation of two sentences is two claims),
-  every body-text sentence that passes the rule's gate is a claim with its
-  edge (§5), every alternative of an "entweder … oder" is a claim of its own,
+  every body-text sentence that passes the rule is a claim with its edge
+  (§5.1), every alternative of an "entweder … oder" is a claim of its own,
   every claim of a marked recommendation supports or contests a statement,
-  and every body-text claim has its one edge — a body-text claim supports no
-  statement, the rule of §5 gives it the edge instead. What "marks" means is
+  and every body-text claim has its edge — a body-text claim supports no
+  statement, the rule of §5.1 gives it the edge instead. What "marks" means is
   read off the source, never assumed: a numbered, shaded box in one
   guideline, a numbered statement, a bulleted "offer", a sentence with a
   grade letter in another; the schema's `kind: recommendation` with whatever
@@ -845,6 +1106,27 @@ left out:
   package promised — a chapter, a section of the source's outline — is the
   package's verification, read from the judge's report, not a finding the
   judge attests on its own; a page nobody cited is read by nobody.
+- **A hierarchy edge against the four questions of §4.1.** For each
+  `broader` and `in_scope_of` edge the branch adds or changes, the judge reads
+  both concepts, the rationale and, where it names one, the passage, and asks
+  the second question of §4.1: does "X is a Y" hold whatever guideline one
+  reads (then `broader`), or only because this guideline stipulates it for
+  its own scope (then `in_scope_of`, with a rationale that says where the
+  guideline does, and a `condition` where the membership holds only under a
+  circumstance)? A situation after an intervention is no special case of it
+  (§4.1, edge cases). That the edge exists once and forms no cycle the
+  validator has checked.
+- **A placement against its axis's rule.** For each placement the branch adds
+  or changes in an axis definition, the judge reads the axis's `rule` and
+  applies it as written: for a dimension, to the statement's supporting
+  claims — the sentence first, and the heading or passage the rule allows
+  only where the sentence names no value —; for a hierarchy, to the concept,
+  asking whether the rule puts it under this parent. A placement's own
+  `rationale`, where it has one, must say what the rule alone does not
+  decide. The judge knows no axis: it reads the rule the definition carries,
+  and a rule that does not let it decide makes the placement *undecidable*.
+  That a hierarchy placement is an edge of the pool the validator has
+  checked.
 
 The subjects of a run are the entities and edges the branch adds or changes
 against `main`, plus every statement whose evidence the branch changes — a new
@@ -855,14 +1137,15 @@ no other guideline, no textbook, no medical judgement. It judges the
 extraction against the page, never the guideline against medicine; a claim
 that faithfully carries a recommendation the judge would disagree with is
 consistent. Nothing in it names a guideline, a grading scheme or a concept —
-the four questions are stated over the schema's properties and this
-document's rules, and the same four are asked of every source (memory
+the six questions are stated over the schema's properties and this
+document's rules, and the same six are asked of every source (memory
 `generic-over-guidelines`).
 
 **What it writes.** One attestation per subject read, by the judge, shaped as
-§8 says: `subject` the claim, the statement or the edge; `subject_hash` its
+§8 says: `subject` the claim, the statement, the edge or the placement (a
+property of the axis, addressed as §2 addresses one); `subject_hash` its
 canonical hash at the head the judge read, so that a changed subject stales
-the finding; `scope` `content` for a claim and an edge, `with_evidence` for a
+the finding; `scope` `content` for a claim, an edge and a placement, `with_evidence` for a
 statement, so that a further supporting claim re-opens the question; `date`;
 and `claim` one of two. The fourth question has no subject of its own — what
 is missing does not exist to be pointed at — so its finding lands on the
@@ -895,7 +1178,7 @@ the judge holds no key (below); the run is what the proof identifies.
 `.claude/agents/` — the agent-governing directory `CLAUDE.md` describes — and
 the file is the whole of the judge: its frontmatter pins the model and limits
 its tools to reading (the diff, the pool, the source's extracted text, this
-document), and its body is the three questions above, stated once, over the
+document), and its body is the questions above, stated once, over the
 schema's properties. The judging is done by a model, so the definition is
 what a prompt and a tool would otherwise be, and its identity is the file's
 own: the `proof` of every attestation records the definition's git blob hash
@@ -970,7 +1253,7 @@ part, *undecidable*, with the sentence, the page and the two readings, for the
 package that owns the rule to settle. Nothing under it becomes an attestation:
 an undecided subject is unjudged, not consistent, and its row in the report
 says so in that one word. The third part is *noticed*:
-what the judge saw on the page or in the pool outside its four questions — a
+what the judge saw on the page or in the pool outside its six questions — a
 property the schema carries and the claim lacks, a requirement this document
 states and the schema cannot express. It is written down because a reader was
 there, and it is never a finding, because the judge judges only what it was
@@ -1011,17 +1294,17 @@ the helper writes:
 ```
 
 Of the statement it asks the second: the label is the box's sentence, the
-slots name Pankreasresektion, frühe Drainageentfernung, geringes
-Pankreasfistelrisiko and postoperativ, each in the sentence; the short label
+slots name Pankreasresektion, frühe Drainageentfernung and geringes
+Pankreasfistelrisiko, each in the sentence; the short label
 keeps the condition — consistent, `scope: with_evidence`. Of the edge it asks
-the third, on p. 64, against the rule in the shape its package drafts: the
-guideline's own voice, about the box's own action, a value the box's "wenn das
-Drainagesekret … hinweist" needs and the reader cannot supply, nothing taken
-out — `refines`, to the box claim whose wording carries the term, and the
+the third, on p. 64, against §5.1: about the box's own action (G1), a value
+the box's "wenn das Drainagesekret … hinweist" needs and does not give,
+reported from the studies and admitted by G2's exception, nothing taken out —
+`refines`, to the box claim whose wording carries the term, and the
 criterion carries no grade: the kind and the target hold. But the edge carries
-no `rationale`, and the rule asks for one naming the test and the term; the
+no `rationale`, and the rule asks for one naming the clause and the term; the
 finding is `disputed`, its proof naming the property and saying, in German,
-`"Die Kante nennt keinen Test und keinen Begriff (§5: refines, Drainagesekret
+`"Die Kante nennt keinen Test und keinen Begriff (§5.1 R: Drainagesekret
 … hinweist)."` Were the box claim's grade "B", the first attestation would
 instead be `disputed` at `claims/pomgat-lv-1.0/6b9239a9/grade`: `"Seite 63
 druckt Empfehlungsgrad 0, nicht B."` Of p. 64 it asks the fourth: the
@@ -1126,6 +1409,8 @@ POMGAT S3 guideline (AWMF 088-010OL), quotes verified against the document.
   kind: criterion
   section: "6.1.3"
   label: "Drainageamylase unter 5000 U/L am ersten postoperativen Tag"
+  thresholds:                               # as printed (§3.1); provenance required, here the claim's own quote
+    - {quantity: concepts/amylase-drainagesekret, comparator: "<", value: "5000", unit: "U/L", when: "am ersten postop. Tag"}
   source: {at: sources/pomgat-lv-1.0#page=64, quote: "unter 5000 U/L am ersten postop. Tag"}
 
 # ── semantic layer (phase two: linking, all modelling) ────────────────────
@@ -1143,6 +1428,13 @@ POMGAT S3 guideline (AWMF 088-010OL), quotes verified against the document.
   facet: procedure
   source: modelling
 
+- id: concepts/geringes-pankreasfistelrisiko   # derived: it has a defined_by edge (§3.2); nothing on it says so
+  type: concept
+  lang: de
+  label: "Geringes Pankreasfistelrisiko"
+  facet: finding
+  source: modelling
+
 - id: statements/fruehe-drainageentfernung-pankreasresektion
   type: statement
   lang: de
@@ -1151,7 +1443,7 @@ POMGAT S3 guideline (AWMF 088-010OL), quotes verified against the document.
   slots:
     population: concepts/pankreasresektion
     action: concepts/fruehe-drainageentfernung
-    condition: concepts/geringes-pankreasfistelrisiko
+    condition: [concepts/geringes-pankreasfistelrisiko]   # always a list; several entries hold at once (§3.2)
   source: modelling
 
 # ── structure (the pathway arranging the statements) ──────────────────────
@@ -1164,6 +1456,8 @@ POMGAT S3 guideline (AWMF 088-010OL), quotes verified against the document.
 # ── edges (derived ids; endpoint hashes recorded for staleness) ───────────
 - [claims/pomgat-lv-1.0/e945b1d8, supports, statements/fruehe-drainageentfernung-pankreasresektion, {source: modelling}]
 - [claims/pomgat-lv-1.0/1f80c3aa, refines,  claims/pomgat-lv-1.0/e945b1d8, {source: modelling}]
+- [concepts/geringes-pankreasfistelrisiko, defined_by, claims/pomgat-lv-1.0/1f80c3aa,   # one rule of several, each an alternative (§5)
+   {source: modelling, as_of: "2026-09-24", lang: de, rationale: "Kriterium für geringes Pankreasfistelrisiko: Drainageamylase am ersten postop. Tag."}]
 - [concepts/pankreasresektion, codes_as, ops-2026/5-52, {source: modelling}]
 - [concepts/pankreaskopfresektion, broader, concepts/pankreasresektion,      # subsumption (§5): groups and folds, inherits nothing
    {source: modelling, as_of: "2026-09-10", lang: de, rationale: "Die Pankreaskopfresektion ist eine Pankreasresektion."}]
@@ -1181,7 +1475,9 @@ POMGAT S3 guideline (AWMF 088-010OL), quotes verified against the document.
 Things to notice: the grade sits on the *claim*, extracted verbatim from the
 recommendation box, and the statement carries no grade at all — its effective
 grade is derived; the criterion is a claim of its own, related by an edge, never
-inheriting the grade; where in the document a claim was found (`section`) sits on
+inheriting the grade, and it carries the threshold it prints, while the
+condition it establishes is derived only because an edge reaches the criterion
+— nothing on the concept says so; where in the document a claim was found (`section`) sits on
 the claim and nowhere else, and the outline that makes it checkable sits on the
 source; the classification code is a URL; the head resection is a special case
 of the resection by an edge that carries a reason and no evidence, so a

@@ -12,6 +12,52 @@
   source:
     at: sources/pomgat-lv-1.0#page=40
     quote: Im Rahmen abdominalchirurgischer Tumoroperationen soll bei Patienten mit
+  evidence:
+  - outcome: concepts/erbrechen
+    value: "hoch"
+    system: grade
+  - outcome: concepts/erbrechen
+    value: "moderat"
+    system: grade
+  - outcome: concepts/schwerwiegende-unerwuenschte-ereignisse
+    value: "sehr niedrig"
+    system: grade
+  - outcome: concepts/unerwuenschte-ereignisse
+    value: "moderat"
+    system: grade
+  - outcome: concepts/unerwuenschte-ereignisse
+    value: "niedrig"
+    system: grade
+  - outcome: concepts/unerwuenschte-ereignisse
+    value: "sehr niedrig"
+    system: grade
+  - outcome: concepts/kopfschmerzen
+    value: "moderat"
+    system: grade
+  - outcome: concepts/sedierung
+    value: "moderat"
+    system: grade
+  - outcome: concepts/sedierung
+    value: "hoch"
+    system: grade
+  provenance:
+    evidence:
+    - at: sources/pomgat-lv-1.0#page=40
+      quote: "⊕⊕⊕⊕: Die folgenden Einzelmedikamente können das Auftreten von Erbrechen reduzieren"
+    - at: sources/pomgat-lv-1.0#page=40
+      quote: "⊕⊕⊕⊝: Die folgenden Einzelmedikamente können das Auftreten von Erbrechen"
+    - at: sources/pomgat-lv-1.0#page=40
+      quote: "⊕⊝⊝⊝: Droperidol kann schwerwiegende unerwünschte Ereignisse (SAEs) möglicherweise"
+    - at: sources/pomgat-lv-1.0#page=40
+      quote: "⊕⊕⊕⊝: Granisetron hat wahrscheinlich keine oder nur geringe Auswirkungen auf"
+    - at: sources/pomgat-lv-1.0#page=40
+      quote: "⊕⊕⊝⊝: Dexamethason (RR 0,77; 95% KI 0,55 bis 1,08, niedrige Sicherheit, Rang 2/15) und"
+    - at: sources/pomgat-lv-1.0#page=40
+      quote: "⊕⊝⊝⊝: Die Auswirkungen von Aprepitant (RR 0,87; 95% KI 0,78 bis 0,97) und Ramosetron"
+    - at: sources/pomgat-lv-1.0#page=40
+      quote: "⊕⊕⊕⊝: Ondansetron verursacht wahrscheinlich mehr Kopfschmerzen (RR 1,16; 95% KI"
+    - at: sources/pomgat-lv-1.0#page=40
+      quote: "⊕⊕⊕⊕: Dexamethason hat keine Auswirkungen auf die Sedierung (RR 1,00; 95% KI 0,91"
 - id: claims/pomgat-lv-1.0/392ed64d
   type: claim
   lang: de
@@ -27,6 +73,52 @@
   source:
     at: sources/pomgat-lv-1.0#page=40
     quote: Hierfür sollte eine Kombinationstherapie aus verschiedenen
+  evidence:
+  - outcome: concepts/erbrechen
+    value: "hoch"
+    system: grade
+  - outcome: concepts/erbrechen
+    value: "moderat"
+    system: grade
+  - outcome: concepts/schwerwiegende-unerwuenschte-ereignisse
+    value: "sehr niedrig"
+    system: grade
+  - outcome: concepts/unerwuenschte-ereignisse
+    value: "moderat"
+    system: grade
+  - outcome: concepts/unerwuenschte-ereignisse
+    value: "niedrig"
+    system: grade
+  - outcome: concepts/unerwuenschte-ereignisse
+    value: "sehr niedrig"
+    system: grade
+  - outcome: concepts/kopfschmerzen
+    value: "moderat"
+    system: grade
+  - outcome: concepts/sedierung
+    value: "moderat"
+    system: grade
+  - outcome: concepts/sedierung
+    value: "hoch"
+    system: grade
+  provenance:
+    evidence:
+    - at: sources/pomgat-lv-1.0#page=40
+      quote: "⊕⊕⊕⊕: Die folgenden Einzelmedikamente können das Auftreten von Erbrechen reduzieren"
+    - at: sources/pomgat-lv-1.0#page=40
+      quote: "⊕⊕⊕⊝: Die folgenden Einzelmedikamente können das Auftreten von Erbrechen"
+    - at: sources/pomgat-lv-1.0#page=40
+      quote: "⊕⊝⊝⊝: Droperidol kann schwerwiegende unerwünschte Ereignisse (SAEs) möglicherweise"
+    - at: sources/pomgat-lv-1.0#page=40
+      quote: "⊕⊕⊕⊝: Granisetron hat wahrscheinlich keine oder nur geringe Auswirkungen auf"
+    - at: sources/pomgat-lv-1.0#page=40
+      quote: "⊕⊕⊝⊝: Dexamethason (RR 0,77; 95% KI 0,55 bis 1,08, niedrige Sicherheit, Rang 2/15) und"
+    - at: sources/pomgat-lv-1.0#page=40
+      quote: "⊕⊝⊝⊝: Die Auswirkungen von Aprepitant (RR 0,87; 95% KI 0,78 bis 0,97) und Ramosetron"
+    - at: sources/pomgat-lv-1.0#page=40
+      quote: "⊕⊕⊕⊝: Ondansetron verursacht wahrscheinlich mehr Kopfschmerzen (RR 1,16; 95% KI"
+    - at: sources/pomgat-lv-1.0#page=40
+      quote: "⊕⊕⊕⊕: Dexamethason hat keine Auswirkungen auf die Sedierung (RR 1,00; 95% KI 0,91"
 - id: claims/pomgat-lv-1.0/ad0f29aa
   type: claim
   lang: de
@@ -53,6 +145,26 @@
   source:
     at: sources/pomgat-lv-1.0#page=42
     quote: basierte totalintravenöse Anästhesie (TIVA) anstelle einer volatilen Anästhesie
+  evidence:
+  - outcome: concepts/ponv-risiko
+    value: "moderat"
+    system: grade
+  - outcome: concepts/schwere-nebenwirkungen
+    value: "sehr niedrig"
+    system: grade
+  - outcome: concepts/patientenzufriedenheit
+    value: "sehr niedrig"
+    system: grade
+  provenance:
+    evidence:
+    - at: sources/pomgat-lv-1.0#page=42
+      quote: "⊕⊕⊕⊝: Reduktion des PONV-Risikos: Propofol zeigt einen Effekt im Vergleich zu volatilen"
+    - at: sources/pomgat-lv-1.0#page=42
+      quote: "⊕⊕⊕⊝: Reduktion des PONV-Risikos: früh: Kein Effekt"
+    - at: sources/pomgat-lv-1.0#page=42
+      quote: "⊕⊝⊝⊝: Schwere Nebenwirkungen (CDC 3-4): Kein Effekt"
+    - at: sources/pomgat-lv-1.0#page=42
+      quote: "⊕⊝⊝⊝: Patientenzufriedenheit: Kein Effekt"
 - id: claims/pomgat-lv-1.0/f9eb0050
   type: claim
   lang: de
@@ -65,6 +177,26 @@
   source:
     at: sources/pomgat-lv-1.0#page=42
     quote: in Bezug auf das PONV-Risiko einer TIVA gleich zu setzen.
+  evidence:
+  - outcome: concepts/ponv-risiko
+    value: "moderat"
+    system: grade
+  - outcome: concepts/schwere-nebenwirkungen
+    value: "sehr niedrig"
+    system: grade
+  - outcome: concepts/patientenzufriedenheit
+    value: "sehr niedrig"
+    system: grade
+  provenance:
+    evidence:
+    - at: sources/pomgat-lv-1.0#page=42
+      quote: "⊕⊕⊕⊝: Reduktion des PONV-Risikos: Propofol zeigt einen Effekt im Vergleich zu volatilen"
+    - at: sources/pomgat-lv-1.0#page=42
+      quote: "⊕⊕⊕⊝: Reduktion des PONV-Risikos: früh: Kein Effekt"
+    - at: sources/pomgat-lv-1.0#page=42
+      quote: "⊕⊝⊝⊝: Schwere Nebenwirkungen (CDC 3-4): Kein Effekt"
+    - at: sources/pomgat-lv-1.0#page=42
+      quote: "⊕⊝⊝⊝: Patientenzufriedenheit: Kein Effekt"
 - id: claims/pomgat-lv-1.0/635f8f2a
   type: claim
   lang: de
@@ -122,6 +254,13 @@
   source:
     at: sources/pomgat-lv-1.0#page=45
     quote: Vor dem Hautschnitt sollte eine Desinfektion mit Chlorhexidin-haltigen
+  evidence:
+  - value: "moderat"
+    system: grade
+  provenance:
+    evidence:
+    - at: sources/pomgat-lv-1.0#page=45
+      quote: "⊕⊕⊕⊝: Leitlinienadaptation: Evidence review for the effectiveness of skin antiseptics in the"
 - id: claims/pomgat-lv-1.0/d766c5a6
   type: claim
   lang: de
@@ -136,6 +275,13 @@
   source:
     at: sources/pomgat-lv-1.0#page=45
     quote: Bei Unverträglichkeit oder Kontraindikationen kann die Verwendung von Povidon-
+  evidence:
+  - value: "moderat"
+    system: grade
+  provenance:
+    evidence:
+    - at: sources/pomgat-lv-1.0#page=45
+      quote: "⊕⊕⊕⊝: Leitlinienadaptation: Evidence review for the effectiveness of skin antiseptics in the"
 - id: claims/pomgat-lv-1.0/1098f250
   type: claim
   lang: de
@@ -195,6 +341,44 @@
   source:
     at: sources/pomgat-lv-1.0#page=48
     quote: durchgeführt wird, sollte diese als kombinierte mechanische und oral-
+  evidence:
+  - outcome: concepts/wundinfektion
+    value: "moderat"
+    system: grade
+  - outcome: concepts/anastomoseninsuffizienz
+    value: "moderat"
+    system: grade
+  - outcome: concepts/mortalitaet
+    value: "moderat"
+    system: grade
+  - outcome: concepts/postoperative-komplikationen
+    value: "moderat"
+    system: grade
+  - outcome: concepts/postoperativer-paralytischer-ileus
+    value: "niedrig"
+    system: grade
+  - outcome: concepts/postoperative-krankenhausverweildauer
+    value: "moderat"
+    system: grade
+  - outcome: concepts/nebenwirkungen-der-intervention
+    value: "niedrig"
+    system: grade
+  provenance:
+    evidence:
+    - at: sources/pomgat-lv-1.0#page=48
+      quote: "⊕⊕⊕⊝: Infektionen des Operationsgebiets: Das Risiko wird durch eine kombinierte"
+    - at: sources/pomgat-lv-1.0#page=48
+      quote: "⊕⊕⊕⊝: Anastomoseninsuffizienz: Das Risiko wird durch eine kombinierte"
+    - at: sources/pomgat-lv-1.0#page=48
+      quote: "⊕⊕⊕⊝: Sterblichkeit: Kein Effekt (RR 0,87"
+    - at: sources/pomgat-lv-1.0#page=48
+      quote: "⊕⊕⊕⊝: Postoperative Komplikationen: Kein Effekt hinsichtlich milder"
+    - at: sources/pomgat-lv-1.0#page=48
+      quote: "⊕⊕⊝⊝: Postoperativer Ileus: Kein Effekt (RR 0,89"
+    - at: sources/pomgat-lv-1.0#page=48
+      quote: "⊕⊕⊕⊝: Krankenhausverweildauer: Kein Effekt"
+    - at: sources/pomgat-lv-1.0#page=48
+      quote: "⊕⊕⊝⊝: Nebenwirkungen der Intervention:"
 - id: claims/pomgat-lv-1.0/7660502b
   type: claim
   lang: de
@@ -209,6 +393,44 @@
   source:
     at: sources/pomgat-lv-1.0#page=48
     quote: Eine rein mechanische Darmvorbereitung soll nicht durchgeführt werden.
+  evidence:
+  - outcome: concepts/wundinfektion
+    value: "moderat"
+    system: grade
+  - outcome: concepts/anastomoseninsuffizienz
+    value: "moderat"
+    system: grade
+  - outcome: concepts/mortalitaet
+    value: "moderat"
+    system: grade
+  - outcome: concepts/postoperative-komplikationen
+    value: "moderat"
+    system: grade
+  - outcome: concepts/postoperativer-paralytischer-ileus
+    value: "niedrig"
+    system: grade
+  - outcome: concepts/postoperative-krankenhausverweildauer
+    value: "moderat"
+    system: grade
+  - outcome: concepts/nebenwirkungen-der-intervention
+    value: "niedrig"
+    system: grade
+  provenance:
+    evidence:
+    - at: sources/pomgat-lv-1.0#page=48
+      quote: "⊕⊕⊕⊝: Infektionen des Operationsgebiets: Das Risiko wird durch eine kombinierte"
+    - at: sources/pomgat-lv-1.0#page=48
+      quote: "⊕⊕⊕⊝: Anastomoseninsuffizienz: Das Risiko wird durch eine kombinierte"
+    - at: sources/pomgat-lv-1.0#page=48
+      quote: "⊕⊕⊕⊝: Sterblichkeit: Kein Effekt (RR 0,87"
+    - at: sources/pomgat-lv-1.0#page=48
+      quote: "⊕⊕⊕⊝: Postoperative Komplikationen: Kein Effekt hinsichtlich milder"
+    - at: sources/pomgat-lv-1.0#page=48
+      quote: "⊕⊕⊝⊝: Postoperativer Ileus: Kein Effekt (RR 0,89"
+    - at: sources/pomgat-lv-1.0#page=48
+      quote: "⊕⊕⊕⊝: Krankenhausverweildauer: Kein Effekt"
+    - at: sources/pomgat-lv-1.0#page=48
+      quote: "⊕⊕⊝⊝: Nebenwirkungen der Intervention:"
 - id: claims/pomgat-lv-1.0/d4427c4a
   type: claim
   lang: de
@@ -223,6 +445,29 @@
   source:
     at: sources/pomgat-lv-1.0#page=48
     quote: Alternativ kann eine rein oral-antibiotische Darmvorbereitung erwogen werden.
+  evidence:
+  - outcome: concepts/wundinfektion
+    value: "sehr niedrig"
+    system: grade
+  - outcome: concepts/anastomoseninsuffizienz
+    value: "niedrig"
+    system: grade
+  - outcome: concepts/mortalitaet
+    value: "niedrig"
+    system: grade
+  - outcome: concepts/postoperativer-paralytischer-ileus
+    value: "niedrig"
+    system: grade
+  provenance:
+    evidence:
+    - at: sources/pomgat-lv-1.0#page=48
+      quote: "⊕⊝⊝⊝: Infektionen des Operationsgebiets: Die Evidenz ist sehr ungewiss"
+    - at: sources/pomgat-lv-1.0#page=48
+      quote: "⊕⊕⊝⊝: Anastomoseninsuffizienz: Kein Effekt (RR 0,84"
+    - at: sources/pomgat-lv-1.0#page=48
+      quote: "⊕⊕⊝⊝: Sterblichkeit: Kein Effekt (RR 1,02"
+    - at: sources/pomgat-lv-1.0#page=48
+      quote: "⊕⊕⊝⊝: Postoperativer Ileus: Kein Effekt (RR 1,25"
 - id: claims/pomgat-lv-1.0/c5e4008d
   type: claim
   lang: de
@@ -253,6 +498,24 @@
   source:
     at: sources/pomgat-lv-1.0#page=50
     quote: Vor Leberresektion bei hepatozellulären Karzinomen sollte keine präoperative
+  evidence:
+  - outcome: concepts/postoperatives-leberversagen
+    value: "sehr niedrig"
+    system: grade
+  - outcome: concepts/schwere-komplikationen
+    value: "sehr niedrig"
+    system: grade
+  - outcome: concepts/mortalitaet
+    value: "sehr niedrig"
+    system: grade
+  provenance:
+    evidence:
+    - at: sources/pomgat-lv-1.0#page=50
+      quote: "⊕⊝⊝⊝: Leberversagen:"
+    - at: sources/pomgat-lv-1.0#page=50
+      quote: "⊕⊝⊝⊝: Schwere Komplikationen:"
+    - at: sources/pomgat-lv-1.0#page=50
+      quote: "⊕⊝⊝⊝: Mortalität:"
 - id: claims/pomgat-lv-1.0/76fe9f17
   type: claim
   lang: de
@@ -279,6 +542,29 @@
   source:
     at: sources/pomgat-lv-1.0#page=52
     quote: Eine perioperative selektive Darmdekontamination vor Operationen am oberen
+  evidence:
+  - outcome: concepts/anastomoseninsuffizienz
+    value: "moderat"
+    system: grade
+  - outcome: concepts/pneumonie
+    value: "moderat"
+    system: grade
+  - outcome: concepts/mortalitaet
+    value: "niedrig"
+    system: grade
+  - outcome: concepts/wundinfektion
+    value: "niedrig"
+    system: grade
+  provenance:
+    evidence:
+    - at: sources/pomgat-lv-1.0#page=52
+      quote: "⊕⊕⊕⊝: Anastomoseninsuffizienz: Das Risiko wird durch eine perioperativ selektive"
+    - at: sources/pomgat-lv-1.0#page=52
+      quote: "⊕⊕⊕⊝: Pneumonie:"
+    - at: sources/pomgat-lv-1.0#page=52
+      quote: "⊕⊕⊝⊝: Sterblichkeit: Kein Effekt (RR 0,50"
+    - at: sources/pomgat-lv-1.0#page=52
+      quote: "⊕⊕⊝⊝: Surgical-site Infections: Kein Effekt (RR 0,89"
 - id: claims/pomgat-lv-1.0/2a119f14
   type: claim
   lang: de
@@ -293,6 +579,39 @@
   source:
     at: sources/pomgat-lv-1.0#page=54
     quote: Eine präoperative selektive Darmdekontamination vor kolorektalen Operationen
+  evidence:
+  - outcome: concepts/anastomoseninsuffizienz
+    value: "moderat"
+    system: grade
+  - outcome: concepts/postoperativer-paralytischer-ileus
+    value: "hoch"
+    system: grade
+  - outcome: concepts/mortalitaet
+    value: "niedrig"
+    system: grade
+  - outcome: concepts/wundinfektion
+    value: "niedrig"
+    system: grade
+  - outcome: concepts/diarrhoe
+    value: "hoch"
+    system: grade
+  - outcome: concepts/c-difficile-assoziierte-diarrhoe
+    value: "moderat"
+    system: grade
+  provenance:
+    evidence:
+    - at: sources/pomgat-lv-1.0#page=54
+      quote: "⊕⊕⊕⊝: Anastomoseninsuffizienz: Kein Effekt (OR 0,68"
+    - at: sources/pomgat-lv-1.0#page=54
+      quote: "⊕⊕⊕⊕: Postoperativer Ileus: Kein Effekt (OR 0,91"
+    - at: sources/pomgat-lv-1.0#page=54
+      quote: "⊕⊕⊝⊝: Sterblichkeit: Kein Effekt (OR 1,22"
+    - at: sources/pomgat-lv-1.0#page=54
+      quote: "⊕⊕⊝⊝: Surgical-site Infections: Kein Effekt (OR 0,91"
+    - at: sources/pomgat-lv-1.0#page=54
+      quote: "⊕⊕⊕⊕: Diarrhoe:"
+    - at: sources/pomgat-lv-1.0#page=54
+      quote: "⊕⊕⊕⊝: C. diff. assoziierte Diarrhoe:"
 - id: claims/pomgat-lv-1.0/2b5903b8
   type: claim
   lang: de
@@ -305,3 +624,179 @@
   source:
     at: sources/pomgat-lv-1.0#page=55
     quote: Aufgrund fehlender Evidenz zur selektiven Darmdekontamination in der hepato-
+- id: claims/pomgat-lv-1.0/17e02423
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.3"
+  label: "Bei möglichem Kontakt mit Schleimhäuten ist Chlorhexidin in wässriger Lösung die empfohlene Alternative."
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=45
+    quote: "möglichem Kontakt mit Schleimhäuten ist Chlorhexidin in wässriger Lösung die"
+- id: claims/pomgat-lv-1.0/7e30e1ad
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.3"
+  label: "Bei Kontraindikationen für Chlorhexidin (Allergien, Säuglinge/Kleinkinder) ist eine alkoholische Lösung mit Povidon-Jod die erste Alternative"
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=45
+    quote: "Bei Kontraindikationen für Chlorhexidin (Allergien,"
+- id: claims/pomgat-lv-1.0/d2b82897
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.3"
+  label: "bei einer Kontraindikation für die Anwendung von Alkohol (Mukosa), sollten wässrige Lösungen von Povidon-Jod Anwendung finden."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=45
+    quote: "bei einer Kontraindikation für die Anwendung von Alkohol (Mukosa),"
+- id: claims/pomgat-lv-1.0/ffa6b040
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.3"
+  label: "Grundsätzlich ist deswegen das vollständige Abtrocknen der Hautdesinfektion abzuwarten"
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=45
+    quote: "das vollständige Abtrocknen der Hautdesinfektion abzuwarten"
+- id: claims/pomgat-lv-1.0/9dd3c209
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.3"
+  label: "Grundsätzlich ist deswegen … die Anwendung von Diathermie in dieser Operationsphase zu begrenzen"
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=45
+    quote: "Anwendung von Diathermie in dieser Operationsphase zu begrenzen"
+- id: claims/pomgat-lv-1.0/1bd4f62a
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.3"
+  label: "… und nach der Applikation des Alkohols sind getränkte Abdeckmaterialien zu entfernen."
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=45
+    quote: "Applikation des Alkohols sind getränkte Abdeckmaterialien zu entfernen."
+- id: claims/pomgat-lv-1.0/770230c2
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.4"
+  label: "Da aber bei der Resektion gastrointestinaler Tumoren generell mit einem polymikrobiellen Erregerspektrum als Verursacher einer SSI zu rechnen ist, sollte dies – unabhängig von dem spezifischen Eingriff und der u.U. unterschiedlichen Häufigkeitsverteilung einzelner Bakterien - bei der Wahl der Substanzen für die PAP berücksichtigt werden."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=47
+    quote: "der Wahl der Substanzen für die PAP berücksichtigt werden."
+- id: claims/pomgat-lv-1.0/15c37c65
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.4"
+  label: "Die Kombination eines Cephalosporins der Gruppe 2 (z.B. Cefuroxim) mit Metronidazol kann daher als PAP bei der Resektion gastrointestinaler Tumoren eingesetzt werden."
+  verb: kann
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=47
+    quote: "Cephalosporins der Gruppe 2 (z.B. Cefuroxim) mit Metronidazol kann daher als PAP"
+- id: claims/pomgat-lv-1.0/f7f9b3a1
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.4"
+  label: "Alternativ ist auch die Kombination eines Betalaktamantibiotikums zusammen mit einem Betalaktamaseinhibitor (z.B. Ampicillin/Sulbaktam) adäquat."
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=47
+    quote: "Betalaktamaseinhibitor (z.B. Ampicillin/Sulbaktam) adäquat."
+- id: claims/pomgat-lv-1.0/557e2770
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.4"
+  label: "Bei Betalaktamallergie ist der Einsatz eines Fluorchinolons der Gruppe 2 (z.B. Ciprofloxacin) in Kombination mit Metronidazol sinnvoll."
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=47
+    quote: "der Einsatz eines Fluorchinolons der Gruppe 2 (z.B. Ciprofloxacin) in Kombination mit"
+- id: claims/pomgat-lv-1.0/2d78ae5c
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.4"
+  label: "Bei allen Eingriffen, die weniger als 3 h dauern, ist die Einmalgabe des Antibiotikums (sog. single-shot) in der Regel ausreichend."
+  source:
+    at: sources/pomgat-lv-1.0#page=47
+    quote: "als 3 h dauern, ist die Einmalgabe des Antibiotikums (sog. single-shot) in der Regel"
+- id: claims/pomgat-lv-1.0/3fe48a2f
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.4"
+  label: "Eine zweite Gabe sollte abhängig von der Halbwertszeit oder bei größerem Blutverlust (>1,5l) während der Operation gegeben werden."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=47
+    quote: "bei größerem Blutverlust (>1,5l) während der Operation gegeben werden."
+- id: claims/pomgat-lv-1.0/f5da5493
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.6.1"
+  label: "In Abgrenzung zur Darmvorbereitung mittels präoperativer oraler Antibiotikagabe sollte die SDD drei oder mehr Tage vor der Operation beginnen."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=53
+    quote: "Darmvorbereitung mittels präoperativer oraler Antibiotikagabe sollte die SDD drei"
+- id: claims/pomgat-lv-1.0/77549f8d
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.6.3"
+  label: "Die perioperative selektive Darmdekontamination soll nach Definition der Leitlinie für 3-7 Tage präoperativ gegeben … werden."
+  verb: soll
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=55
+    quote: "Die perioperative selektive Darmdekontamination soll nach Definition der Leitlinie für"
+- id: claims/pomgat-lv-1.0/8f48e9b9
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.6.3"
+  label: "Die perioperative selektive Darmdekontamination … kann postoperativ fortgesetzt werden."
+  verb: kann
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=55
+    quote: "kann postoperativ fortgesetzt werden"
+- id: claims/pomgat-lv-1.0/6cbd83d8
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.3"
+  label: "Chlorhexidin soll nicht angewendet werden im Kontakt mit Gehirn, Meningen, dem Auge oder dem Mittelohr."
+  verb: soll
+  direction: against
+  source:
+    at: sources/pomgat-lv-1.0#page=45
+    quote: "angewendet werden im Kontakt mit Gehirn, Meningen, dem Auge oder dem Mittelohr."
+- id: claims/pomgat-lv-1.0/04c94f73
+  type: claim
+  lang: de
+  kind: fact
+  section: "5.6.2"
+  label: "Die präoperative selektive Darmdekontamination (SDD) mit oralen, nicht resorbierbaren Antibiotika und/oder Antimykotika über 3-7 Tage präoperativ soll postoperative infektiöse Komplikationen durch die Reduktion der Keimbesiedelung reduzieren."
+  source:
+    at: sources/pomgat-lv-1.0#page=54
+    quote: "Die präoperative selektive Darmdekontamination (SDD) mit oralen, nicht"

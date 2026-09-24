@@ -1,5 +1,7 @@
 # The perioperative phase as a statement dimension (spec §4.1), proposed by the physician for
-# views/pomgat-lv-1.0 and applied by WP-0009. The slot `phase` holds one of the four values.
+# views/pomgat-lv-1.0 and applied by WP-0009. Each statement's value is its placement below, under the
+# key `phase`; the statements hold no such slot (card #202: an axis is an overlay). The 90 values were
+# the statements' `phase` slots until then, moved unchanged; their reasons are in WP-0009's pull request.
 id: axes/phase
 type: axis
 lang: de
@@ -28,3 +30,94 @@ rule: >-
 proposed_by: physician
 views:
   - {view: views/pomgat-lv-1.0, status: asserted, since: "2026-09-13"}
+placements:   # each statement's value (spec §4.1): the axis is an overlay, the statement has no such slot
+  statements/ace-hemmer-sartane-pause-op-morgen: concepts/praeoperativ
+  statements/betablocker-neuansetzen-dosistitration: concepts/praeoperativ
+  statements/betablocker-neuansetzen-hochrisiko: concepts/praeoperativ
+  statements/darmvorbereitung-kolorektal-kombiniert: concepts/praeoperativ
+  statements/haarentfernung-mit-clipper: concepts/praeoperativ
+  statements/hautdesinfektion-chlorhexidin-alkoholisch: concepts/praeoperativ
+  statements/hautdesinfektion-povidon-iod-bei-unvertraeglichkeit: concepts/praeoperativ
+  statements/intravenoese-antibiotikaprophylaxe-praeoperativ: concepts/praeoperativ
+  statements/kein-generelles-betablocker-neuansetzen: concepts/praeoperativ
+  statements/keine-mechanische-darmvorbereitung-leberresektion-hcc: concepts/praeoperativ
+  statements/keine-mechanische-darmvorbereitung-oberer-gi-trakt-pankreas: concepts/praeoperativ
+  statements/keine-praeoperative-haarentfernung: concepts/praeoperativ
+  statements/keine-praeoperative-rasur: concepts/praeoperativ
+  statements/keine-rein-mechanische-darmvorbereitung-kolorektal: concepts/praeoperativ
+  statements/keine-selektive-darmdekontamination-kolorektal: concepts/praeoperativ
+  statements/keine-strukturierte-praehabilitation: concepts/praeoperativ
+  statements/op-verschiebung-eindosierung-ace-hemmer-sartane: concepts/praeoperativ
+  statements/oral-antibiotische-darmvorbereitung-kolorektal-optional: concepts/praeoperativ
+  statements/ponv-prophylaxe-bei-risikofaktoren: concepts/praeoperativ
+  statements/ponv-prophylaxe-kombinationstherapie: concepts/praeoperativ
+  statements/praeoperative-lebensstilmassnahmen-standard: concepts/praeoperativ
+  statements/praeoperative-patientenschulung-multimodales-konzept: concepts/praeoperativ
+  statements/propofol-tiva-statt-volatiler-anaesthesie: concepts/praeoperativ
+  statements/risikostratifizierung-mit-patient-besprechen: concepts/praeoperativ
+  statements/risikostratifizierungsinstrument-verwenden: concepts/praeoperativ
+  statements/selektive-darmdekontamination-oberer-gi-trakt-optional: concepts/praeoperativ
+  statements/statin-neubeginn-hochrisiko: concepts/praeoperativ
+  statements/volatile-anaesthesie-mit-antiemetikum-gleichwertig-tiva: concepts/praeoperativ
+  statements/antibiotikaprophylaxe-intraoperativ-wiederholen: concepts/intraoperativ
+  statements/dichtigkeitspruefung-rektumanastomose: concepts/intraoperativ
+  statements/doppellumige-magensonde-oesophagektomie: concepts/intraoperativ
+  statements/drainage-komplexe-leberresektion-optional: concepts/intraoperativ
+  statements/drainage-pankreasresektion-optional: concepts/intraoperativ
+  statements/drainage-transthorakale-oesophagektomie: concepts/intraoperativ
+  statements/externe-pankreasgangdrainage-pankreaskopfresektion: concepts/intraoperativ
+  statements/icg-pruefung-kolorektale-anastomose: concepts/intraoperativ
+  statements/icg-pruefung-magenschlauch: concepts/intraoperativ
+  statements/keine-abdominelle-drainage-gastrektomie: concepts/intraoperativ
+  statements/keine-abdominelle-drainage-oesophagektomie: concepts/intraoperativ
+  statements/keine-drainage-kolorektale-resektion: concepts/intraoperativ
+  statements/keine-drainage-unkomplizierte-leberresektion: concepts/intraoperativ
+  statements/keine-transanale-drainage-rektumresektion: concepts/intraoperativ
+  statements/keine-zervikale-drainage-oesophagektomie: concepts/intraoperativ
+  statements/magensonde-entfernung-op-ende-whipple: concepts/intraoperativ
+  statements/magensonde-entfernung-vor-narkoseausleitung-kolorektal: concepts/intraoperativ
+  statements/magensonde-entfernung-vor-narkoseausleitung-leberresektion: concepts/intraoperativ
+  statements/magensonde-entfernung-vor-narkoseausleitung-magenresektion: concepts/intraoperativ
+  statements/perfusionspruefung-kolorektale-anastomose: concepts/intraoperativ
+  statements/akupunktur-nach-abdominalchirurgie: concepts/postoperativ
+  statements/akupunkturpunkte-zusanli-shangjuxu: concepts/postoperativ
+  statements/bauchbinde-nach-medianer-laparotomie: concepts/postoperativ
+  statements/dauerkatheter-entfernung-24h-kolorektal: concepts/postoperativ
+  statements/dauerkatheter-verlaengert-bei-harnverhaltrisiko: concepts/postoperativ
+  statements/epiduralanalgesie-mic-bei-risikokonstellation: concepts/postoperativ
+  statements/epiduralanalgesie-ueberlegen-peripherer-regionalanalgesie: concepts/postoperativ
+  statements/fruehe-drainageentfernung-pankreasresektion: concepts/postoperativ
+  statements/kaffee-nach-abdominalchirurgie: concepts/postoperativ
+  statements/kaffeekonsum-ab-aufwachraum: concepts/postoperativ
+  statements/kaugummi-kolorektal: concepts/postoperativ
+  statements/kaugummi-offene-leberresektion: concepts/postoperativ
+  statements/kein-daikenchuto-prophylaxe-poi: concepts/postoperativ
+  statements/kein-erythromycin-prophylaxe-poi: concepts/postoperativ
+  statements/kein-metoclopramid-prophylaxe-poi: concepts/postoperativ
+  statements/kein-propranolol-prophylaxe-poi-kolorektal: concepts/postoperativ
+  statements/kein-prucaloprid-prophylaxe-poi: concepts/postoperativ
+  statements/kein-simethicon-prophylaxe-poi: concepts/postoperativ
+  statements/keine-methylnaltrexon-prophylaxe-poi-kolorektal: concepts/postoperativ
+  statements/keine-osmotischen-kontrastmittel-therapie-poi: concepts/postoperativ
+  statements/keine-postoperative-antibiotikaprophylaxe: concepts/postoperativ
+  statements/laxantien-fruehzeitig-poi-kolorektal: concepts/postoperativ
+  statements/magensonde-fruehe-entfernung-oesophagektomie: concepts/postoperativ
+  statements/neostigmin-ultima-ratio-manifester-poi: concepts/postoperativ
+  statements/postoperative-fruehmobilisation: concepts/postoperativ
+  statements/verzicht-incentive-spirometrie-alleinig: concepts/postoperativ
+  statements/ace-hemmer-sartane-fortfuehrung: concepts/perioperativ
+  statements/betablocker-fortfuehrung: concepts/perioperativ
+  statements/epiduralanalgesie-offene-viszeralchirurgie: concepts/perioperativ
+  statements/glukokortikoid-pankreas-leberchirurgie: concepts/perioperativ
+  statements/mpom-kolorektale-resektion: concepts/perioperativ
+  statements/mpom-leberresektion: concepts/perioperativ
+  statements/mpom-magenresektion: concepts/perioperativ
+  statements/mpom-oesophagusresektion: concepts/perioperativ
+  statements/mpom-pankreasresektion: concepts/perioperativ
+  statements/nitrate-fortfuehrung: concepts/perioperativ
+  statements/nsar-perioperativ-prophylaxe-poi-kolorektal: concepts/perioperativ
+  statements/periphere-regionalanalgesie-viszeralchirurgie: concepts/perioperativ
+  statements/spezialisierte-fachkraft-kolorektal-mpom: concepts/perioperativ
+  statements/spezialisierte-fachkraft-nicht-kolorektal-mpom: concepts/perioperativ
+  statements/statin-fortfuehrung: concepts/perioperativ
+  statements/tap-block-mic-kolorektal: concepts/perioperativ

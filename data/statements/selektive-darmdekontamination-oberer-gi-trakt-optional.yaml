@@ -6,5 +6,4 @@ short_label: "Selektive Darmdekontamination erwägbar (oberer GI)"
 slots:
   population: concepts/operation-oberer-gastrointestinaltrakt
   action: concepts/selektive-darmdekontamination
-  phase: concepts/praeoperativ
 source: modelling

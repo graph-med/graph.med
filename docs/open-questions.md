@@ -40,7 +40,7 @@ and which card is next, is not a question and lives on the board (`uv run tools/
 **Settled by:** the first view a fixed form cannot express.
 
 ## gap-notices  (graph-representation.md §3.2, §11.7; schema `claim.kind: gap_notice`, edge kinds)
-**Question:** How does a `gap_notice` claim — a box that says "no recommendation can be given" (POMGAT 4.3 on calcium antagonists, 4.6 on perioperative glucocorticoids) — enter the semantic layer? `supports`/`contests` target statements, but a gap asserts no proposition; the structural `gap` node exists only inside a pathway, and none is authored yet.
+**Question:** How does a `gap_notice` claim — a box that says "no recommendation can be given" (POMGAT 4.3 on calcium antagonists, 4.6 on perioperative glucocorticoids) — enter the semantic layer? `supports`/`contests` target statements, but a gap asserts no proposition; the structural `gap` node exists only inside a pathway, and none is authored yet. The body-text rule (graph-representation.md §5.1, G1) lets a body-text sentence refine, limit or supplement a gap notice on its topic; while the gap claim is linked to nothing, that edge hangs off a claim no statement shows, so the card's zone 6 cannot show it — whichever shape is chosen decides where such a passage appears. (2026-09-23)
 **Options:** leave gap notices as unlinked claims until a pathway arranges them · allow a `gap` structural node outside any pathway that the claim `supports` · mint a statement of the form "no recommendation possible for X" and let the claim support it · a dedicated edge kind (`notes_gap`: claim → concept) pointing at the topic the source declines to rule on
 **Leaning:** the fourth — the gap is *about a concept*, not a proposition, and an edge to the concept keeps it findable from the topic without inventing a statement nobody can contest. The gap claims are extracted and unlinked, so nothing is lost. Whatever shape gap notices take must let a recommendation stand *inside* a gap's scope: 4.7 ("in der Pankreas- und Leberchirurgie kann … erwogen werden") is the exception carved out of 4.6's gap. The site's *Lücke* direction (publication.md §3) will need this. (2026-09-05)
 **Settled by:** the first pathway or view that has to render "the guideline declines to recommend here".
@@ -75,12 +75,6 @@ and which card is next, is not a question and lives on the board (`uv run tools/
 **Leaning:** the second, after the first: one query, two places it shows — the counter already reads "n matches in m sections", and lighting those sections in the tree is the same fact drawn where the reader is looking. A second field would be two searches to explain. Decide after WP-0001 has fixed the misses that prompted the question. (2026-09-11)
 **Settled by:** the physician's next read of the site with the search fixed.
 
-## statement-slot-provenance  (graph-representation.md §4.1, §6.4; schema `statement`)
-**Question:** Where does the rationale of an asserted dimension value live? Spec §4.1 asserts a dimension "as a slot on each statement, an edit with history, `modelling` with a rationale", but the statement has only a default `source` and no per-property `provenance`, and `provenance_value` holds a passage or `modelling`, never a rationale text — so the first assertion (WP-0009, `axes/phase`) put its ninety rationales in the data commit's message and the pull request.
-**Options:** leave it there — git is the history (§7) and `git log -S` finds it · a `provenance.<slot>` entry on the statement, extending `provenance_value` with `{source: modelling, rationale, lang}` like an edge's properties · a rationale map kept on the axis definition after assertion, beside the removed placements
-**Leaning:** the first for now — a per-slot rationale in every statement file is ninety lines a reviewer scrolls past, and the commit is where an edit's reason belongs; the second if a reviewer or the site needs the reason next to the value, or if a second dimension on the same statements makes the commit history hard to read. Decide against the second guideline's first dimension, not before. (2026-09-13)
-**Settled by:** the first consumer that needs a slot value's reason in the file, or the second dimension axis asserted on one view.
-
 ## judge-provider  (graph-representation.md §8.1; README.md "Checks")
 **Question:** Which model does the judge's frontmatter pin, where does the workflow's key live, and who pays — the session's run reads with the session's own model, authenticated by the host, but the second run in CI needs a key of its own.
 **Options:** the frontmatter pins one model and the workflow holds its key as a repository secret, the model's domain allowlisted like the source's · the frontmatter names no model, so each run reads with whatever its harness offers and the proof records which · two different models, one per run, so the second run is independent in kind as well as in time
@@ -110,3 +104,46 @@ and which card is next, is not a question and lives on the board (`uv run tools/
 **Options:** page-local only, as §8.1 says, and the declared range (a chapter, a section of the outline) is the package's verification read from the report · the run also reads every page of every outline section a cited page belongs to · a section-level completeness attestation on the source with the outline entry as the address
 **Leaning:** the first; a page the branch cited is ground the branch answers for, a section is a promise the card made, and the two should not be confused in one attestation. Revisit when the second guideline shows pages with boxes that no branch ever cited. (2026-09-21)
 **Settled by:** the first extraction card judged end to end, and the schema follow-up that names the source-with-claims scope.
+
+## scope-edge-pinning  (graph-representation.md §4, §5 `in_scope_of`; schema `view.scope_root`)
+**Question:** A scope edge holds inside one guideline's scope, and it is pinned to a view only by the `scope_root` it leads to. When a second guideline reuses a concept and writes its own scope edges from it, a view's walk up from an anchor can pass through the other guideline's edges on its way to its own root — and show as "applying generally" what only the other guideline stipulated.
+**Options:** read, per view, only the scope edges on a path that ends at its root (enough while no path crosses a foreign edge) · a scope edge names the source whose scope it states, and a view reads only the edges of its sources · scope edges filed per view and read only from there
+**Leaning:** the second once it happens — the source is what the stipulation is a stipulation of, and the edge already sits in that source's edge directory; the first is what the model says today. (2026-09-24)
+**Since card #202** (the same day) a view's scope tree is drawn by the placements of its first axis, a hierarchy each guideline writes for itself, so a view walks only the edges its own axis chooses and a foreign scope edge reaches it only by a placement a reviewer let through. That may settle the question without an attribute on the edge; the maintainer decides whether it does.
+**Settled by:** the second guideline that reuses a concept carrying a scope edge.
+
+## scope-groups-spanning-organs  (graph-representation.md §4, §5 `in_scope_of`; publication.md §3 "what applies generally")
+**Question:** A group that names several organ families — "Pankreas- und Leberchirurgie", "Tumorresektion oberer GI-Trakt und Pankreas", "Operation am oberen Gastrointestinaltrakt", the resection defined as "nicht-kolorektal" — hangs in the first view's scope tree beside the organ families, under the operation of a gastrointestinal tumour. Opening an organ family therefore reaches what applies to that operation as such, but not what the guideline recommends for such a spanning group: opening *Leberresektion* does not show the glucocorticoid recommendation for pancreatic and liver surgery. Should an organ family also reach the spanning groups that name it?
+**Options:** leave it — the spanning group is one answer of its own, found under the same parent · a scope edge from each named organ family to the spanning group (several parents; the tree then shows the family under each, and the "applies generally" list grows by the spanning groups' statements) · `broader` from the organ family to the spanning group where "X is a Y" holds whatever guideline one reads ("Leberresektion ist Leberchirurgie"), which by itself moves nothing (a path must end in a scope edge)
+**Leaning:** the second for the groups named by listing organs, none for the one defined by exclusion until a physician says whether "nicht-kolorektal" is meant as a union; it is what a physician opening an organ would expect, and it widens no recommendation. (2026-09-24)
+**Settled by:** a physician reading an organ family's "applies generally" list on the first view.
+
+## rule-claim-granularity  (graph-representation.md §3.1, §5 `defined_by`, §5.1; card #192)
+**Question:** How does a derived concept reach its rule when the source prints the rule only inside a marked recommendation sentence — "Bei Risikofaktoren für einen Harnverhalt (männliches Geschlecht, tiefe anteriore Rektumresektion, Rektumexstirpation) kann …" (7.7), "… aufgrund von Risiko-Konstellationen (lange OP-Zeiten, zu erwartender hoher postoperativer Opioidverbrauch) …" (7.10)? §3.1 makes the recommendation sentence the unit, §5.1 applies only outside marked recommendations, and `defined_by` reaches only a criterion or definition claim, so today such a concept stays stated. A gap in the specification, not in the data.
+**Options:** a parenthesis that states which cases a term covers becomes a criterion claim of its own, a narrower place in the box sentence, by a rule §3.1 would have to name · `defined_by` may also reach the recommendation claim whose sentence prints the rule · the concept stays stated and the page shows its label, which already carries the enumeration
+**Leaning:** none yet; the first keeps the edge's target a rule claim but breaks "one claim per sentence" for boxes, the second keeps the unit but makes the edge point at an instruction. (A sentence of the body text that lists alternative answers is not part of this question: §5.1 K already makes each answer a claim, as #192 did for 4.1.) (2026-09-24)
+**Settled by:** the maintainer's decision on the route; then a linking pass over 7.7 and 7.10.
+
+## verb-word-scope  (publication.md §3 "The verb is a word where the letter does not carry it"; card #153)
+**Question:** Over what does the build compute which grade letters determine their verb? Today it is per view: the letters under which every supporting claim of the view says one verb write none, the others write the verb after the letter. That is right while a view shows one guideline. Two sources with different grading schemes in one view would pool their letters (an `A` of one scheme beside an `A` of another), and the grade carries no `system` the way an `evidence` entry does. And a single new claim with a letter and an unusual verb makes that letter ambiguous for every box of the view, including boxes nothing changed in.
+**Options:** per view, as now · per source, so that one guideline's letters are read against its own claims · per grading system, once the grade names its system (with `grade-derivation`)
+**Leaning:** per view until a view holds two graded sources; then per grading system, which needs the grade to name its scheme. The pool-wide rewrite on one new claim is deterministic and is what the reader needs from that moment; it is not a reason to declare the rule. (2026-09-24)
+**Settled by:** the first view with two graded sources, or the schema giving a grade its system.
+
+## gap-glyph-beside-zero  (publication.md §3; card #153)
+**Question:** A *Lücke* box would begin `∅ 0 · …` if a gap notice ever carried grade `0`: the empty-set glyph beside the digit zero is a reading trap. Nothing renders it today (no gap notice is linked to a statement in the first view), so the glyph set stands as ✓ ✗ ⚖ ∅.
+**Options:** keep `∅` · another character for *Lücke* · draw the four glyphs as SVG (the mechanism a bold stamp would need too)
+**Leaning:** none; decide before the first gap notice is linked to a statement. (2026-09-24)
+**Settled by:** a gap notice linked to a statement (`gap-notices`), seen on the page.
+
+## page-hint-language  (publication.md §3 "Language"; card #155)
+**Question:** The sheet's home text carries one hint ("Ein Feld im Graphen antippen …"), which left the legend. It is page chrome, German from the view layer's table, but it stands in the sheet, whose chrome is in the *source* language. For the first view both are German and nothing shows the seam; in a view whose source is English the sheet would be English and its hint German.
+**Options:** harmless, keep it in the sheet · the hint in the source language, from `CARD_WORDS` · the hint elsewhere (the pill, the controls)
+**Leaning:** none. (2026-09-24)
+**Settled by:** the first view whose source language is not the page language.
+
+## page-words-missing-language  (publication.md §3 "Language"; card #155)
+**Question:** What happens when the view layer's table (`tools/site/words/<lang>.json`) lacks the page language, or a key? Today the build stops when the file is absent, as `card_words()` does for the source-language tables, and a missing key renders nothing.
+**Options:** fail the build, file and key alike · fall back to another page language · fall back per key
+**Leaning:** none; it matters only once there is a second page language. (2026-09-24)
+**Settled by:** the second page language.

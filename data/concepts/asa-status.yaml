@@ -1,0 +1,6 @@
+id: concepts/asa-status
+type: concept
+lang: de
+label: ASA Status
+facet: finding
+source: modelling   # a scored quantity, named by the threshold that bounds it (spec §3.1)

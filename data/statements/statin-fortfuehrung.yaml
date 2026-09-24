@@ -6,5 +6,4 @@ short_label: "Bestehende Statintherapie fortführen"
 slots:
   population: concepts/bestehende-statintherapie
   action: concepts/perioperative-fortfuehrung-dauertherapie
-  phase: concepts/perioperativ
 source: modelling

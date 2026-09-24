@@ -84,6 +84,57 @@
   source:
     at: sources/pomgat-lv-1.0#page=105
     quote: Hierfür sollten die Akupunkturpunkte ZuSanLi und ShangJuXu als eine gering
+- id: claims/pomgat-lv-1.0/14a461d0
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.4.2.3"
+  label: 'Bei Einsatz der Akupunktur nach abdominalchirurgischen Eingriffen kann die meridianbezogene Punktauswahl ZuSanLi und ShangJuXu („Magen 36“ und „Magen 37“) allein oder in Kombination mit weiteren Akupunkturpunkten zur Beschleunigung des Auftretens der ersten Darmgeräusche, des ersten Flatus und der ersten Defäkation umfassen.'
+  verb: kann
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=106
+    quote: Bei Einsatz der Akupunktur nach abdominalchirurgischen Eingriffen kann die
+- id: claims/pomgat-lv-1.0/ebd03d0c
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.4.2.3"
+  label: ZuSanLi befindet sich ca. 1,5 cm lateral-ventral der Tibiakante ca. 4,5 cm unterhalb der Patella in Höhe der Tuberositas tibiae.
+  source:
+    at: sources/pomgat-lv-1.0#page=107
+    quote: ZuSanLi befindet sich ca. 1,5 cm lateral-ventral der Tibiakante ca. 4,5 cm unterhalb
+- id: claims/pomgat-lv-1.0/ee4fa54b
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.4.2.3"
+  label: ShangJuXu befindet sich ca. 4,5 cm distal von ZuSanLi ca. 1,5 cm lateral der Tibiavorderkante.
+  source:
+    at: sources/pomgat-lv-1.0#page=107
+    quote: ShangJuXu befindet sich ca. 4,5 cm distal von ZuSanLi ca. 1,5 cm lateral der
+- id: claims/pomgat-lv-1.0/5f70e72f
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.4.2.3"
+  label: Zur Anwendung können kommerziell vertriebene Akupunkturnadelprodukte kommen.
+  verb: kann
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=107
+    quote: Zur Anwendung können kommerziell vertriebene Akupunkturnadelprodukte kommen;
+- id: claims/pomgat-lv-1.0/597a4e63
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.4.2.3"
+  label: Die Vorgehensweise sollte unter sterilen Kautelen erfolgen.
+  verb: sollte
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=107
+    quote: die Vorgehensweise sollte unter sterilen Kautelen erfolgen.
 - id: claims/pomgat-lv-1.0/b42d6557
   type: claim
   lang: de
@@ -98,6 +149,24 @@
   source:
     at: sources/pomgat-lv-1.0#page=107
     quote: Patienten sollen postoperativ frühmobilisiert werden.
+- id: claims/pomgat-lv-1.0/5cad2271
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.5"
+  label: Die ausgewählten relevanten Studien haben als Frühmobilisation den ersten postoperativen Tag definiert.
+  source:
+    at: sources/pomgat-lv-1.0#page=107
+    quote: ausgewählten relevanten Studien haben als Frühmobilisation den ersten
+- id: claims/pomgat-lv-1.0/b4904b46
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.5"
+  label: Nur eine Studie hat den Zeitpunkt direkt nach Extubation oder Eintreffen auf Intensivstation und passive Beübung mit Bettfahrrad als Frühmobilisation definiert.
+  source:
+    at: sources/pomgat-lv-1.0#page=107
+    quote: Nur eine Studie hat den Zeitpunkt direkt nach
 - id: claims/pomgat-lv-1.0/65bb0fcd
   type: claim
   lang: de
@@ -110,6 +179,18 @@
   verb: kann
   direction: against
   consensus: starker_konsens
+  evidence:
+    - {outcome: concepts/postoperative-pulmonale-komplikationen, value: moderat, system: grade}
+    - {outcome: concepts/mortalitaet, value: niedrig, system: grade}
+    - {outcome: concepts/postoperative-krankenhausverweildauer, value: niedrig, system: grade}
+  provenance:
+    evidence:
+      - at: sources/pomgat-lv-1.0#page=109
+        quote: '⊕⊕⊕⊝: Postoperative pulmonale Komplikationen (26 RCTs): Kein Effekt (RR 1,00; 95% KI'
+      - at: sources/pomgat-lv-1.0#page=109
+        quote: '⊕⊕⊝⊝: Postoperative Mortalität (9 RCTs): Kein Effekt (RR 0,73; 95% KI 0,42 bis 1,25)'
+      - at: sources/pomgat-lv-1.0#page=109
+        quote: '⊕⊕⊝⊝: Krankenhausliegedauer (15 RCTs): Kein Effekt (MD -0,17 Tage; 95% KI -0,65 bis'
   source:
     at: sources/pomgat-lv-1.0#page=109
     quote: Nach abdominellen und thorakalen Eingriffen kann auf eine Atemtherapie in Form
@@ -124,6 +205,15 @@
   verb: kann
   direction: for
   consensus: konsens
+  evidence:
+    - {outcome: concepts/abdomineller-schmerz-pod1, value: hoch, system: grade}
+    - {outcome: concepts/abdomineller-schmerz-pod5, value: hoch, system: grade}
+  provenance:
+    evidence:
+      - at: sources/pomgat-lv-1.0#page=111
+        quote: '⊕⊕⊕⊕: Abdomineller Schmerz am 1. Postoperativen Tag (5 RCTs): geringer mit'
+      - at: sources/pomgat-lv-1.0#page=111
+        quote: '⊕⊕⊕⊕: Abdomineller Schmerz am 5.postoperativen Tag (3 RCTs): geringer mit'
   source:
     at: sources/pomgat-lv-1.0#page=111
     quote: Nach medianer Laparotomie kann eine Bauchbinde zur Schmerzreduktion

@@ -6,5 +6,4 @@ short_label: "Keine transanale Drainage (tiefe Rektumresektion)"
 slots:
   population: concepts/tiefe-anteriore-rektumresektion
   action: concepts/transanale-drainage
-  phase: concepts/intraoperativ
 source: modelling

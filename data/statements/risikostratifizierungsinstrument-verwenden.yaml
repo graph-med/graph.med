@@ -6,5 +6,4 @@ short_label: "Validiertes Risikoinstrument ergänzend nutzen"
 slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/validiertes-risikostratifizierungsinstrument
-  phase: concepts/praeoperativ
 source: modelling

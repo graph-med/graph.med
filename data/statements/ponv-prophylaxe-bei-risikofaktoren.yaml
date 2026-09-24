@@ -6,6 +6,5 @@ short_label: "PONV-Prophylaxe bei Risikofaktoren"
 slots:
   population: concepts/elektiver-abdominalchirurgischer-tumoreingriff
   action: concepts/ponv-prophylaxe
-  condition: concepts/ponv-risikofaktoren
-  phase: concepts/praeoperativ
+  condition: [concepts/ponv-risikofaktoren]
 source: modelling

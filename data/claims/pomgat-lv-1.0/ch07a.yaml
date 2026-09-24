@@ -42,6 +42,21 @@
   source:
     at: sources/pomgat-lv-1.0#page=77
     quote: Nach Gastrektomie oder Magenteilresektion soll eine intraoperativ eingelegte
+  evidence:
+  - {outcome: concepts/anastomoseninsuffizienz, value: hoch, system: grade}
+  - {outcome: concepts/postoperative-pulmonale-komplikationen, value: hoch, system: grade}
+  - {outcome: concepts/gesamtmorbiditaet, value: hoch, system: grade}
+  - {outcome: concepts/mortalitaet, value: hoch, system: grade}
+  - {outcome: concepts/postoperative-krankenhausverweildauer, value: hoch, system: grade}
+  - {outcome: concepts/zeit-bis-zum-kostaufbau, value: hoch, system: grade}
+  provenance:
+    evidence:
+    - {at: sources/pomgat-lv-1.0#page=77, quote: '⊕⊕⊕⊕: Postoperative Anastomoseninsuffizienz (8 RCTs): Kein Effekt (RR 1,25; 95% KI 0,68'}
+    - {at: sources/pomgat-lv-1.0#page=77, quote: '⊕⊕⊕⊕: Postoperative pulmonale Komplikationen (7 RCTs): Kein Effekt (RR 1,31; 95% KI'}
+    - {at: sources/pomgat-lv-1.0#page=77, quote: '⊕⊕⊕⊕: Postoperative Morbidität (6 RCTs): Kein Effekt (RR 1,33; 95% KI 0,83 bis 1,55)'}
+    - {at: sources/pomgat-lv-1.0#page=77, quote: '⊕⊕⊕⊕: Postoperative Mortalität (8 RCTs): Kein Effekt (RR 1,27; 95% KI 0,34 bis 4,78)'}
+    - {at: sources/pomgat-lv-1.0#page=77, quote: '⊕⊕⊕⊕: Länge des Klinikaufenthaltes (6 RCTs): längerer Krankenhausaufenthalt mit Anlage'}
+    - {at: sources/pomgat-lv-1.0#page=77, quote: '⊕⊕⊕⊕: Zeit bis zum Kostaufbau (6 RCTs): Kürzer ohne Anlage einer transnasalen Sonde'}
 - id: claims/pomgat-lv-1.0/6d1139d0
   type: claim
   lang: de
@@ -70,6 +85,25 @@
   source:
     at: sources/pomgat-lv-1.0#page=78
     quote: Bei elektiven Leberresektionen soll eine intraoperativ eingelegte Magensonde vor
+  evidence:
+  - {outcome: concepts/postoperative-uebelkeit, value: niedrig, system: grade}
+  - {outcome: concepts/postoperatives-erbrechen, value: niedrig, system: grade}
+  - {outcome: concepts/abdominelle-distension, value: moderat, system: grade}
+  - {outcome: concepts/postoperative-krankenhausverweildauer, value: hoch, system: grade}
+  - {outcome: concepts/zeit-bis-zum-ersten-flatus, value: niedrig, system: grade}
+  - {outcome: concepts/zeit-bis-zum-ersten-stuhlgang, value: hoch, system: grade}
+  - {outcome: concepts/zeit-bis-zum-kostaufbau, value: moderat, system: grade}
+  - {outcome: concepts/erneute-magensondeneinlage, value: hoch, system: grade}
+  provenance:
+    evidence:
+    - {at: sources/pomgat-lv-1.0#page=78, quote: '⊕⊕⊝⊝: Übelkeit postoperativ: Kein Effekt (OR 0,81; 95% KI 0,40 bis 1,67)'}
+    - {at: sources/pomgat-lv-1.0#page=78, quote: '⊕⊕⊝⊝: Erbrechen postoperativ: Kein Effekt (OR 1,06; 95% KI 0,19 bis 5,93)'}
+    - {at: sources/pomgat-lv-1.0#page=78, quote: '⊕⊕⊕⊝: Abdominelle Distension: Kein Effekt (OR 0,87; 95% KI 0,60 bis 1,25)'}
+    - {at: sources/pomgat-lv-1.0#page=78, quote: '⊕⊕⊕⊕: Länge des Klinikaufenthaltes: Kürzerer Krankenhausaufenthalt ohne Magensonde'}
+    - {at: sources/pomgat-lv-1.0#page=78, quote: '⊕⊕⊝⊝: Erster Flatus postoperativ: Kein Effekt (MD -0,34 Tage; 95% KI -0,86 bis 0,18)'}
+    - {at: sources/pomgat-lv-1.0#page=78, quote: '⊕⊕⊕⊕: Erste Defäkation: Kürzere Zeit bis zur ersten Defäkation ohne Magensonde (MD -'}
+    - {at: sources/pomgat-lv-1.0#page=78, quote: '⊕⊕⊕⊝: Zeit bis zum Kostaufbau: Kürzer ohne Magensonde (MD -0,46 Tage; 95% KI -0,90'}
+    - {at: sources/pomgat-lv-1.0#page=78, quote: '⊕⊕⊕⊕: Erneute Magensondeneinlage: Häufiger in Gruppe ohne postoperative Magensonde'}
 - id: claims/pomgat-lv-1.0/b871a426
   type: claim
   lang: de
@@ -141,6 +175,19 @@
   source:
     at: sources/pomgat-lv-1.0#page=82
     quote: Eine kontinuierliche Epiduralanalgesie sollte intra- und postoperativ zur
+  evidence:
+  - {outcome: concepts/schmerzintensitaet-ruhe-24h, value: niedrig, system: grade}
+  - {outcome: concepts/schmerzintensitaet-belastung-24h, value: niedrig, system: grade}
+  - {outcome: concepts/postoperativer-paralytischer-ileus, value: sehr niedrig, system: grade}
+  - {outcome: concepts/ea-assoziierte-adverse-events, value: sehr niedrig, system: grade}
+  - {outcome: concepts/postoperative-uebelkeit-und-erbrechen, value: sehr niedrig, system: grade}
+  provenance:
+    evidence:
+    - {at: sources/pomgat-lv-1.0#page=82, quote: '⊕⊕⊝⊝: Schmerzintensität in Ruhe 24 Stunden nach der Operation: verringerte Ruhe -'}
+    - {at: sources/pomgat-lv-1.0#page=82, quote: '⊕⊕⊝⊝: Schmerzintensität bei Belastung 24 Stunden nach der OP: Belastungs -Schmerzen'}
+    - {at: sources/pomgat-lv-1.0#page=82, quote: '⊕⊝⊝⊝: Postoperativer lleus: Kein Effekt (RR 1,23; 95% KI -0,31 bis 4,81)'}
+    - {at: sources/pomgat-lv-1.0#page=82, quote: '⊕⊝⊝⊝: EA-assoziierten Adverse Events: Das Risiko für EA-assoziierte Adverse Events war'}
+    - {at: sources/pomgat-lv-1.0#page=82, quote: '⊕⊝⊝⊝: Übelkeit und Erbrechen: Kein Effekt (RR 0,72; 95% KI 0,47 bis 1,09)'}
 - id: claims/pomgat-lv-1.0/5871558c
   type: claim
   lang: de
@@ -168,6 +215,17 @@
   source:
     at: sources/pomgat-lv-1.0#page=85
     quote: Im Vergleich zu peripheren Regionalanalgesieverfahren ist die Epiduralanalgesie
+  evidence:
+  - {outcome: concepts/schmerzintensitaet-ruhe-24h, value: niedrig, system: grade}
+  - {outcome: concepts/schmerzintensitaet-belastung-24h, value: niedrig, system: grade}
+  - {outcome: concepts/verfahrensspezifische-adverse-events, value: sehr niedrig, system: grade}
+  - {outcome: concepts/postoperativer-paralytischer-ileus, value: sehr niedrig, system: grade}
+  provenance:
+    evidence:
+    - {at: sources/pomgat-lv-1.0#page=85, quote: '⊕⊕⊝⊝: Schmerzintensität in Ruhe 24 Stunden nach Operation: Kein Effekt (MD -0,74 auf'}
+    - {at: sources/pomgat-lv-1.0#page=85, quote: '⊕⊕⊝⊝: Schmerzintensität bei Belastung 24 Stunden nach Operation: Eine EA führt im'}
+    - {at: sources/pomgat-lv-1.0#page=85, quote: '⊕⊝⊝⊝: Verfahrensspezifische Adverse Events: Es besteht vermutlich kein Unterschied'}
+    - {at: sources/pomgat-lv-1.0#page=85, quote: '⊕⊝⊝⊝: Postoperativer Ileus: Kein Effekt (EA: 71 pro 1.000; PRA: 71 pro 1.000; RR 1,00;'}
 - id: claims/pomgat-lv-1.0/fac02f97
   type: claim
   lang: de
@@ -183,6 +241,27 @@
   source:
     at: sources/pomgat-lv-1.0#page=87
     quote: Rektumresektionen kann zur perioperativen Analgesie ein TAP-Block (Transversus
+  evidence:
+  - {outcome: concepts/schmerzintensitaet-ruhe-24h, value: moderat, system: grade}
+  - {outcome: concepts/schmerzintensitaet-belastung-24h, value: moderat, system: grade}
+  - {outcome: concepts/schmerzintensitaet-belastung-48h, value: moderat, system: grade}
+  - {outcome: concepts/opiatkonsum-48h, value: sehr niedrig, system: grade}
+  - {outcome: concepts/postoperative-uebelkeit-und-erbrechen, value: moderat, system: grade}
+  - {outcome: concepts/verbleib-harnkatheter-postoperativ, value: niedrig, system: grade}
+  - {outcome: concepts/postoperative-krankenhausverweildauer, value: moderat, system: grade}
+  - {outcome: concepts/empfindungsstoerungen, value: moderat, system: grade}
+  - {outcome: concepts/postoperative-hypotonie-48h, value: moderat, system: grade}
+  provenance:
+    evidence:
+    - {at: sources/pomgat-lv-1.0#page=87, quote: '⊕⊕⊕⊝: Schmerzen in Ruhe 24 Stunden postoperativ: Kein klinisch relevanter Effekt (VAS'}
+    - {at: sources/pomgat-lv-1.0#page=87, quote: '⊕⊕⊕⊝: Schmerzen bei Bewegung 24 Stunden postoperativ: Kein klinisch relevanter Effekt'}
+    - {at: sources/pomgat-lv-1.0#page=87, quote: '⊕⊕⊕⊝: Schmerzen bei Bewegung 48 Stunden postoperativ: Kein klinisch relevanter Effekt'}
+    - {at: sources/pomgat-lv-1.0#page=87, quote: '⊕⊝⊝⊝: Opiatkonsum innerhalb von 48 Stunden postoperativ: Kein Effekt (VAS 1-10: MD'}
+    - {at: sources/pomgat-lv-1.0#page=87, quote: '⊕⊕⊕⊝: PONV-Inzidenz: Durch TAP-Block verringert (RR 0,40; 95% KI 0,21 bis 0,73)'}
+    - {at: sources/pomgat-lv-1.0#page=87, quote: '⊕⊕⊝⊝: Postoperativer Verbleib des Harnkatheters: Mit TAP-Blockade frühere Entfernung'}
+    - {at: sources/pomgat-lv-1.0#page=87, quote: '⊕⊕⊕⊝: Krankenhausverweildauer: kein Effekt (MD 0,4 Tage; 95% KI -0,96 bis 1,75)'}
+    - {at: sources/pomgat-lv-1.0#page=87, quote: '⊕⊕⊕⊝: Empfindungsstörungen: Mit TAP-Block erhebliche Risikoreduktion (RR 0,05; 95% KI'}
+    - {at: sources/pomgat-lv-1.0#page=87, quote: '⊕⊕⊕⊝: Postoperative Hypotonie nach 48 Stunden: Mit TAP-Block erhebliche'}
 - id: claims/pomgat-lv-1.0/b0e0ee65
   type: claim
   lang: de
@@ -209,3 +288,85 @@
   source:
     at: sources/pomgat-lv-1.0#page=89
     quote: Ein peripheres Regionalanalgesieverfahren kann zur perioperativen Analgesie bei
+  evidence:
+  - {outcome: concepts/schmerzintensitaet-ruhe-24h, value: moderat, system: grade}
+  - {outcome: concepts/schmerzintensitaet-belastung-24h, value: moderat, system: grade}
+  - {outcome: concepts/mortalitaet, system: grade}
+  - {outcome: concepts/kardiale-komplikationen, system: grade}
+  - {outcome: concepts/delir, system: grade}
+  - {outcome: concepts/gi-ii-kriterien, system: grade}
+  provenance:
+    evidence:
+    - {at: sources/pomgat-lv-1.0#page=89, quote: '⊕⊕⊕⊝: Schmerzintensität in Ruhe 24 Stunden nach der Operation: Kein klinisch relevanter'}
+    - {at: sources/pomgat-lv-1.0#page=89, quote: '⊕⊕⊕⊝: Schmerzintensität bei Belastung 24 Stunden nach der OP: Kein klinisch relevanter'}
+    - {at: sources/pomgat-lv-1.0#page=89, quote: '-: "Kritische Endpunkte", zu denen keine Daten vorlagen: Mortalität'}
+    - {at: sources/pomgat-lv-1.0#page=89, quote: 'Mortalität, kardiale'}
+    - {at: sources/pomgat-lv-1.0#page=89, quote: 'Komplikationen, Delir'}
+    - {at: sources/pomgat-lv-1.0#page=89, quote: 'Delir, GI-II Kriterien'}
+- id: claims/pomgat-lv-1.0/fcb17ef6
+  type: claim
+  lang: de
+  kind: gap_notice
+  section: "7.1.3"
+  label: Für Pankreaskopfresektionen mit Pylorus-Erhalt, für Rekonstruktionen mittels Pankreato-Gastrostomie und für Pankreaslinksresektionen
+    können mangels valider Studien keine Empfehlungen ausgesprochen werden.
+  source:
+    at: sources/pomgat-lv-1.0#page=78
+    quote: Für Pankreaskopfresektionen mit Pylorus-Erhalt, für Rekonstruktionen mittels
+- id: claims/pomgat-lv-1.0/96c2b6b9
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.1.4"
+  label: Sollte sich im Verlauf eine Verzögerung der Magendarmpassage zeigen und der Patient entsprechend unter Übelkeit und
+    Erbrechen leiden, kann sekundär eine Magensonde zur nasogastralen Dekompression eingebracht werden.
+  verb: kann
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=79
+    quote: Übelkeit und Erbrechen leiden, kann sekundär eine Magensonde zur nasogastralen
+- id: claims/pomgat-lv-1.0/20f64eba
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.3.1"
+  label: Es soll hier nicht unerwähnt bleiben, dass eine perioperative Schmerztherapie entsprechend eines balanzierten Behandlungskonzeptes
+    durchgeführt werden soll.
+  verb: soll
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=84
+    quote: entsprechend eines balanzierten Behandlungskonzeptes durchgeführt werden soll.
+- id: claims/pomgat-lv-1.0/4750280e
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.3.2"
+  label: 'Da – bei summarischer Betrachtung vielfältiger Organgebiete - eine thorakale EA Morbidität und Mortalität reduzieren
+    kann [231], sollte auch dies bei der Entscheidung für oder gegen eine EA berücksichtigt werden (vgl hierzu auch 2 weitere
+    S3 Leitlinien: 001-025 und 001-012).'
+  verb: sollte
+  direction: for
+  source:
+    at: sources/pomgat-lv-1.0#page=86
+    quote: Morbidität und Mortalität reduzieren kann [231], sollte auch dies bei der
+- id: claims/pomgat-lv-1.0/d97dfc78
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.3.2.1"
+  label: Bei dieser Technik wird ein Lokalanästhetikum ultraschallgesteuert oder im Rahmen der Laparoskopie zwischen den Musculus
+    obliquus internus und den Musculus transversus abdominis injiziert, was zu einer peripheren Nervenblockade der anterolateralen
+    Bauchwand führt.
+  source:
+    at: sources/pomgat-lv-1.0#page=87
+    quote: Lokalanästhetikum ultraschallgesteuert oder im Rahmen der Laparoskopie zwischen
+- id: claims/pomgat-lv-1.0/cf088c37
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.3.2.1"
+  label: Dies kann als einmalige Injektion oder als kontinuierliche Infusion über das Einführen eines Schmerzkatheters erfolgen.
+  source:
+    at: sources/pomgat-lv-1.0#page=87
+    quote: kann als einmalige Injektion oder als kontinuierliche Infusion über das Einführen

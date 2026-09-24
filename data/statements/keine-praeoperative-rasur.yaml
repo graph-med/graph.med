@@ -6,5 +6,4 @@ short_label: "Keine präoperative Rasur"
 slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/praeoperative-rasur
-  phase: concepts/praeoperativ
 source: modelling

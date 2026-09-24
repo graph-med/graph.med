@@ -1,6 +1,6 @@
 ---
 name: screenshot
-description: Capture a view page of the built site in a real browser — Chromium in a container on the sandbox's own Docker daemon — before proposing a build change, or when the maintainer asks to see the page. Runs tools/screenshot.py; installs nothing in the sandbox.
+description: Capture any page of the built site (a view, an entity page, the index) in a real browser — Chromium in a container on the sandbox's own Docker daemon — before proposing a build change, or when the maintainer asks to see the page. Runs tools/screenshot.py; installs nothing in the sandbox.
 ---
 
 # Screenshot the site
@@ -38,22 +38,38 @@ uv run tools/screenshot.py pomgat-lv-1.0 \
     --do toggle=concepts/leberresektion \
     --do open=statements/drainage-komplexe-leberresektion-optional \
     --do chapters --out /tmp/graph.med/screenshots/liver.png
+uv run tools/screenshot.py pomgat-lv-1.0 --phone \
+    --do open=statements/drainage-komplexe-leberresektion-optional --do graph   # the graph under the selection
+uv run tools/screenshot.py statements/tap-block-mic-kolorektal --phone --full  # an entity page, the whole of it
+uv run tools/screenshot.py /                        # the index
 ```
+
+The first argument is a **site path**: a view id, an entity page
+(`statements/<id>`, `concepts/<id>`, `axes/<id>`, `sources/<id>`, …), or `/`
+for the index; a trailing slash and `index.html` may be left out. `--full`
+captures the whole scrolled page instead of the viewport, so a sheet or an
+entity page longer than the screen is one image without a tall `--size`.
 
 The runner builds the site into a temporary directory with base path `/site/`,
 copies it and the driver into a fresh container, captures, copies the PNG out,
 and removes the container. Actions run in order before the capture and map onto
 the hooks `tools/site/static/graph.js` exposes as `window.graphmed`:
+all of them need a view page — on a page without the graph the run fails,
+naming the action, before anything is captured — except `wait`.
 `toggle=<concept id>` folds or unfolds a patient group, `open=<entity id>` is a
 deep link (unfold and select), `section=<number>` sets the chapter filter,
 `fold=<question node id>` folds or unfolds everything below a question,
 `search=<text>` and `facet=<kind>` set the search, `step=<n>` steps `n` times through its
 matches (back when negative), `chapters` opens the chapter
-panel and `chapters-scroll=<px>` scrolls its list, `all` opens every patient
+panel and `chapters-scroll=<px>` scrolls its list, `legend` collapses or expands the legend
+(open on a wide screen, collapsed on a phone at load), `all` opens every patient
 group one tap at a time (the physician's extreme state), `fit` fits what is
-open, `reset` returns the page to its opening state, `wait=<ms>` waits. `--dark`
+open, `reset` returns the page to its opening state, `sheet` and `graph` bring
+the details or the graph into view as a reader does — on a phone, where a
+selection waits in a peek strip, `sheet` raises the panel by tapping the strip
+and `graph` lowers it again; elsewhere they scroll the page to the section, `wait=<ms>` waits. `--dark`
 is a flag, not an action: the graph reads its colours from the stylesheet once,
-when it is drawn, so the theme is emulated before the page loads. The runner
+when it is drawn, so the theme is emulated before the page loads. On a view page the runner
 prints how many graph elements were shown, any page error — also when the
 graph never appears, which is a script error, not a slow run — and **what
 overlaps**: every pair
@@ -61,13 +77,18 @@ of nodes and answers whose boxes intersect, and every edge drawn across a node o
 an answer it does not touch — the mechanical half of "nothing overlaps"
 (`docs/publication.md` §3). It cannot see what a hand does on a phone, such as a
 pan that pushes nodes under the floating controls; look for that yourself.
+On any other page it prints any page error and whether the page is wider than
+the viewport (`overflows horizontally: <w> px wide at <width>`, or
+`fits <width> px across`) and how tall it is — the mechanical half of "the page
+fits a phone".
 
 Output goes under `/tmp/graph.med/screenshots/<branch>/` by default — a neutral
 path, never one derived from a home directory
 (`conventions/no-personal-information.md`) — and the container is named
 `shot-<branch>`, so that sessions running in parallel on the one Docker daemon
 (ADR-0002; the `process-work-package` skill) do not remove each other's container
-or overwrite each other's PNG. `--name` and `--out` override both.
+or overwrite each other's PNG. The file is named after the page
+(`statements-<id>-phone-full.png`). `--name` and `--out` override both.
 Read the PNG to look at it. To show it to the maintainer, put it on a page they
 can open; it does not belong in the repository.
 
@@ -75,7 +96,9 @@ can open; it does not belong in the repository.
 
 Before the pull request: capture the folded start on desktop and on a phone, and
 one state that exercises what the package changed (a family unfolded, a box
-selected, a filter, a search) — in both themes when the package touches a
+selected, a filter, a search; on a phone, `--do graph` after `open=` for the
+graph under the selection), and every entity page it changes at both widths
+with `--full` — in both themes when the package touches a
 colour — and run `--do all --do fit`: a build package ends
 with 0 overlapping pairs with everything open. Say in the PR description which captures you
 took and what you saw — including what is wrong, so the reviewer does not have

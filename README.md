@@ -103,7 +103,7 @@ short_label: "Frühe Drainageentfernung bei geringem Fistelrisiko"
 slots:
   population: concepts/pankreasresektion
   action: concepts/fruehe-drainageentfernung
-  condition: concepts/geringes-pankreasfistelrisiko
+  condition: [concepts/geringes-pankreasfistelrisiko]
 source: modelling
 ```
 
@@ -125,7 +125,8 @@ sentences becomes three claims and, usually, three statements.
 
 The **slots** are what make a statement navigable: *whom* it is for (population),
 *what* it recommends (action), *when* (condition), *to what end* (outcome). The
-site's decision tree is nothing but these slots drawn as questions and answers.
+condition is a list: its entries hold at once, and a guideline's "or" is one
+concept that names the alternatives. The site's decision tree is nothing but these slots drawn as questions and answers.
 
 The `short_label` is the same proposition compressed for a box on the drawing — at
 most 60 characters, and it must still tell the statement apart from its siblings.
@@ -151,18 +152,37 @@ contested. Concepts are minted only after searching for an existing one, and
 where a classification has a code for it, the code becomes a node of its own,
 linked by a `codes_as` edge, so that two guidelines meet on the same code.
 
-Concepts also carry the one hierarchy in the pool:
+Concepts also carry a hierarchy:
 
 ```yaml
 - [concepts/kolorektale-resektion, broader, concepts/kolorektale-chirurgie, {source: modelling, as_of: "2026-09-10", lang: de,
    rationale: "Die kolorektale Resektion ist der Eingriff der kolorektalen Chirurgie."}]
 ```
 
-`broader` means "is a special case of". It lets the site fold thirty-six patient
-groups into ten families. It carries **no evidence and no inheritance**: a
-recommendation for colorectal resection says nothing about its minimally invasive
-variant unless the guideline says so. Where the guideline is silent, the gap stays
-visible. That rule is what keeps the graph from improvising.
+`broader` means "is a special case of", and only what is true whatever guideline
+you read. It carries **no evidence and no inheritance**: a recommendation for
+colorectal resection says nothing about a narrower resection unless the
+guideline says so. Where the guideline is silent, the gap stays visible. That
+rule is what keeps the graph from improvising.
+
+What a guideline stipulates for its own scope is a second kind of edge:
+
+```yaml
+- [concepts/leberresektion, in_scope_of, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "Im Geltungsbereich der Leitlinie (2.1.2: …) ist die Leberresektion eine Operation eines gastrointestinalen Tumors; …"}]
+```
+
+A liver resection is not in general the operation of a gastrointestinal tumour —
+it has benign indications — but inside POMGAT it is, so what POMGAT recommends
+for gastrointestinal tumour surgery as such is addressed to it too. `in_scope_of`
+may carry a `condition` (a medication group counts only *during* an operation in
+the guideline's scope). The view names the concept its scope ends in — POMGAT's
+patient target group, quoted from page 17 — and every patient group reaches it
+along `broader` and `in_scope_of`: the **scope tree**, which folds the 34 patient groups
+the recommendations are made for (every concept in a statement's population
+slot) under five answers to the first question. Open liver resection and
+the site shows its own recommendation and, set apart and marked, the ones that
+apply generally; it never merges them.
 
 #### The body text — what qualifies a recommendation
 
@@ -201,11 +221,14 @@ On the site, a chapter is a **filter**: the `§` panel narrows the tree to what 
 section supports. It is never a node in the graph. What a chapter *means*
 clinically — an organ, a phase — is a grouping **axis**, and an axis is never built
 in: a physician proposes one for a guideline, a tool tests whether the pool can
-carry it and reports, a linking pass asserts what holds as edges and slot values
-with provenance, and only then does a view offer it as a way to fold the tree
-(`docs/graph-representation.md` §4.1). The next guideline, organised by stage or
-by symptom, proposes its own axes through the same steps; the families the site
-folds by today are the first axis.
+carry it and reports, a linking pass asserts what holds, and only then does a view
+offer it as a way to fold the tree (`docs/graph-representation.md` §4.1). An axis
+lies over the pool rather than inside it: its own file says which statement has
+which value, or under which family each patient group hangs, choosing among the
+`broader` and scope edges the pool already holds. The next guideline, organised by
+stage or by symptom, proposes its own axes through the same steps. The patient
+groups themselves fold by the scope tree the view declares (above), which is drawn
+by the view's first axis.
 
 ### Views: the pool is one, the graphs are many
 
@@ -224,8 +247,9 @@ the quote.
 
 Left to right: the guideline, **Welche Population?**, the families of patient
 groups by weight, each unfolding into its members, then **Welche Bedingung?** where
-a statement has a condition, then the recommendation as a box — a direction glyph
-and the short label, coloured by the guideline's grade — and its aim as a tag.
+a statement has a condition, then the recommendation as a box — coloured by its direction, stamped with the
+direction's glyph, the grade letter and, where the letter does not carry it, the
+verb, then the short label — and its aim as a tag.
 Tap a box: the details show the direction, the full sentence, the population,
 action, condition and **source** on one footing, then the evidence, claim by claim,
 with the quote and a link into the PDF at the cited page. The **copy** button
@@ -266,9 +290,9 @@ current leaning, so that nobody re-derives it. What was decided, and why, lives 
 | **claim** | one passage of one source and what it states: verbatim quote, page, grade, verb |
 | **statement** | a proposition in the pool's words, with slots; what claims support or contest |
 | **concept** | a thing statements talk about; has a facet; can be a special case of another (`broader`) |
-| **axis** | what a view's first question groups by — proposed by a person for a guideline, tested by a tool, asserted with provenance, then offered by the view; carried by a slot on statements or by `broader` edges naming it |
-| **slot** | a statement's population, action, condition or outcome, filled with a concept |
-| **edge** | a typed link: `supports`/`contests` (claim → statement), `refines`/`supplements`/`limits` (claim → claim), `broader`, `codes_as` (concept), `specializes`/`complements`/`conflicts` (statement → statement) |
+| **axis** | what a view's first question groups by — proposed by a person for a guideline, tested by a tool, asserted by a linking pass, then offered by the view; an overlay on the pool: its placements give each statement a value (a dimension) or pick for each concept the `broader` or `in_scope_of` edge it hangs by (a hierarchy — the tree of patient groups a view opens with is one) |
+| **slot** | a statement's population, action, condition or outcome, filled with a concept (the condition with a list of them, all holding at once) |
+| **edge** | a typed link: `supports`/`contests` (claim → statement), `refines`/`supplements`/`limits` (claim → claim), `broader`, `in_scope_of` (concept → concept, the second only within one guideline's scope), `codes_as` (concept), `specializes`/`complements`/`conflicts` (statement → statement) |
 | **section** | where in its document a claim was found; on the claim only |
 | **view** | a named filter over the pool; a page on the site. A **cut** is a frozen view |
 | **modelling** | provenance meaning "no document says this; we asserted it" |

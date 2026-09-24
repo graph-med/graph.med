@@ -1,0 +1,7 @@
+id: concepts/schmerzintensitaet-belastung-24h
+type: concept
+lang: de
+label: Schmerzintensität bei Belastung (Bewegung) 24 Stunden postoperativ
+short_label: Belastungsschmerz 24 h postoperativ
+facet: outcome
+source: modelling

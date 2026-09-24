@@ -60,8 +60,9 @@ document.addEventListener("click", function (e) {
    since on a view page it is the deep link the graph follows */
 document.addEventListener("click", function (e) {
   var a = e.target.closest("a.contested-mark"); if (!a) return;
+  e.preventDefault();   /* before the lookup: on a view page a changed hash is a deep link the graph would follow */
   var z = document.getElementById(a.getAttribute("href").slice(1)); if (!z) return;
-  e.preventDefault(); z.scrollIntoView({ behavior: "smooth", block: "start" }); z.focus({ preventScroll: true });
+  z.scrollIntoView({ behavior: "smooth", block: "start" }); z.focus({ preventScroll: true });
 });
 </script>
 {% block scripts %}{% endblock %}

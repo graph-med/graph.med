@@ -7,7 +7,6 @@ short_label: "Propofol-TIVA statt volatil, wenn keine Antiemetika"
 slots:
   population: concepts/elektiver-abdominalchirurgischer-tumoreingriff
   action: concepts/propofol-tiva
-  condition: concepts/keine-zusaetzlichen-antiemetika
+  condition: [concepts/keine-zusaetzlichen-antiemetika]
   outcome: concepts/ponv-risiko
-  phase: concepts/praeoperativ
 source: modelling

@@ -6,5 +6,4 @@ short_label: "Keine präoperative Haarentfernung"
 slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/praeoperative-haarentfernung
-  phase: concepts/praeoperativ
 source: modelling

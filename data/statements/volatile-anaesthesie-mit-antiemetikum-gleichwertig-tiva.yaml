@@ -7,5 +7,4 @@ slots:
   population: concepts/elektiver-abdominalchirurgischer-tumoreingriff
   action: concepts/volatile-anaesthesie-mit-antiemetikum
   outcome: concepts/ponv-risiko
-  phase: concepts/praeoperativ
 source: modelling
