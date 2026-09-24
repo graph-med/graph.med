@@ -158,7 +158,8 @@ decision-graph-derivation):
   the view's direction chips and the word *Legende*, so the corner says what it
   opens; expanded, the panel of groups opens upward from it. It is open on a wide
   screen and collapsed on a phone at every load, and nothing is remembered: the
-  site keeps no client state.
+  site keeps no client state. On a phone the legend and the chapter panel share
+  the little height the graph leaves, so opening one closes the other.
   Claims are not nodes; they are the evidence and appear in the section.
 
 **Drawn by a library, left to right, folded.** The page uses Cytoscape.js with the
@@ -284,7 +285,10 @@ own rather than run into a box. The physician's test is a family with ten member
 open: each answer legible, each box clear of its neighbours.
 
 **The interaction.** Pan by one finger, pinch or wheel to zoom, a fit button for
-what is open, and a **reset** button beside it that returns the page to its
+what is open (drawn, not a glyph a font may lack) — centred in the free row, and
+where the tree is too large even at the smallest zoom, starting at the row's top
+left so that it runs out below and to the right, never under the controls — and
+a **reset** button beside it that returns the page to its
 opening state — folded, no search, no facet, no chapter, nothing selected — so the
 way back from any search or filter is one tap. Tapping a node or an answer selects it: what leads to it and what
 follows it stay, everything else fades, and its details open in the **section
@@ -604,7 +608,10 @@ the cited physical page; those that understand the search highlight the passage 
 Firefox's pdf.js and Acrobat do, Chrome, Edge and Safari do not. No link form
 highlights in every browser and the document is never rehosted in a viewer of our
 own, so the verbatim quote is shown beside the link with a **copy** button: in a
-viewer that cannot highlight, the reader pastes it into the document's find. The source's license line, as
+viewer that cannot highlight, the reader pastes it into the document's find. Every
+link into a source opens in a tab of its own — the citation's, a body-text passage's,
+a contesting claim's, a rule's — so that the page keeps its open groups, search,
+chapter and axis. The source's license line, as
 recorded on the source entity, is shown on its page and on every view drawn from it.
 
 ---

@@ -247,8 +247,9 @@ the quote.
 
 Left to right: the guideline, **Welche Population?**, the families of patient
 groups by weight, each unfolding into its members, then **Welche Bedingung?** where
-a statement has a condition, then the recommendation as a box — a direction glyph
-and the short label, coloured by the guideline's grade — and its aim as a tag.
+a statement has a condition, then the recommendation as a box — coloured by its direction, stamped with the
+direction's glyph, the grade letter and, where the letter does not carry it, the
+verb, then the short label — and its aim as a tag.
 Tap a box: the details show the direction, the full sentence, the population,
 action, condition and **source** on one footing, then the evidence, claim by claim,
 with the quote and a link into the PDF at the cited page. The **copy** button
