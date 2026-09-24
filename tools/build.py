@@ -118,7 +118,7 @@ CARD_WORDS = {"de": {
     "grade.A": "Grad A", "grade.B": "Grad B", "grade.0": "Grad 0", "grade.EK": "Expertenkonsens",
     "consensus.starker_konsens": "starker Konsens", "consensus.konsens": "Konsens",
     "consensus.mehrheitliche_zustimmung": "mehrheitliche Zustimmung", "consensus.kein": "kein Konsens",
-    "marker.contested": "⚠ umstritten", "body.limits": "Grenzt ein", "body.refines": "Präzisiert", "body.supplements": "Ergänzt",
+    "marker.contested": "umstritten", "body.limits": "Grenzt ein", "body.refines": "Präzisiert", "body.supplements": "Ergänzt",
     "body.empty": "Der Begleittext schränkt diese Empfehlung nicht ein und ergänzt oder präzisiert sie nicht.",
     "evidence.single": "Evidenz: {wert} ({system})", "evidence.by_outcome": "Evidenz: endpunktabhängig ({n} Endpunkte, {von} bis {bis})",
     "evidence.by_outcome.no_range.one": "Evidenz: endpunktabhängig ({n} Endpunkt)",

@@ -34,7 +34,13 @@
   var legendPanel = document.getElementById("legend-panel"), legendToggle = document.getElementById("legend-toggle");
   function showLegend(on) { legendPanel.hidden = !on; legendToggle.setAttribute("aria-expanded", String(on)); }
   showLegend(!!(window.matchMedia && window.matchMedia("(min-width: 900px)").matches));
-  legendToggle.onclick = function () { showLegend(legendPanel.hidden); };
+  /* on a phone the legend and the chapter panel share the little height the graph leaves, so opening one closes the other */
+  var narrow = function () { return !(window.matchMedia && window.matchMedia("(min-width: 900px)").matches); };
+  legendToggle.onclick = function () {
+    var open = legendPanel.hidden;
+    if (open && narrow() && !chapters.hidden) { chapters.hidden = true; chaptersToggle.setAttribute("aria-expanded", "false"); }
+    showLegend(open);
+  };
 
   /* switching the grouping redraws the tree from the chosen grouping's nodes and edges and keeps
      the rest of the page's state — the chapter, the search and the facet, the selected entity —
@@ -157,7 +163,7 @@
       if (band) band.querySelectorAll(".badge b").forEach(function (b) { if (parts.indexOf(b.textContent) < 0) parts.push(b.textContent); });
       if (parts.length) verdict.appendChild(document.createTextNode((verdict.firstChild ? " · " : "") + parts.join(" · ")));
       var mark = band && band.querySelector(".contested-mark");
-      if (mark) { var m = document.createElement("span"); m.className = "contested"; m.textContent = mark.textContent; verdict.appendChild(document.createTextNode(" · ")); verdict.appendChild(m); }
+      if (mark) { var m = document.createElement("span"); m.className = "contested"; Array.prototype.forEach.call(mark.childNodes, function (n) { m.appendChild(n.cloneNode(true)); });   /* the glyph keeps its own span and weight */ verdict.appendChild(document.createTextNode(" · ")); verdict.appendChild(m); }
       text.appendChild(t); if (verdict.firstChild) text.appendChild(verdict);
       peek.appendChild(sw); peek.appendChild(text);
       close.type = "button"; close.className = "peek-close"; close.setAttribute("aria-label", "close the details"); close.textContent = "✕";
@@ -277,7 +283,12 @@
     var g = canvas.getBoundingClientRect(), f = free.getBoundingClientRect();
     var top = Math.max(0, f.top - g.top), bottom = Math.max(0, g.bottom - f.bottom);
     var zoom = Math.max(cy.minZoom(), Math.min((w - 2 * padding) / bb.w, (h - top - bottom - 2 * padding) / bb.h, cy.maxZoom()));
-    cy.animate({ zoom: zoom, pan: { x: (w - bb.w * zoom) / 2 - bb.x1 * zoom, y: top + (h - top - bottom - bb.h * zoom) / 2 - bb.y1 * zoom } }, { duration: 250 });
+    /* centred in the free row; what is still too large at the smallest zoom starts at the row's top left instead,
+       so that it runs out below and to the right rather than under the controls above */
+    var room = h - top - bottom, wide = bb.w * zoom > w - 2 * padding, tall = bb.h * zoom > room - 2 * padding;
+    var x = wide ? padding - bb.x1 * zoom : (w - bb.w * zoom) / 2 - bb.x1 * zoom;
+    var y = tall ? top + padding - bb.y1 * zoom : top + (room - bb.h * zoom) / 2 - bb.y1 * zoom;
+    cy.animate({ zoom: zoom, pan: { x: x, y: y } }, { duration: 250 });
   }
 
   /* folding: the root, the first question and its answers — the families — are always
@@ -429,7 +440,10 @@
       setSection(b.dataset.section || "");
       if (window.innerWidth < 900) { chapters.hidden = true; chaptersToggle.setAttribute("aria-expanded", "false"); }
     };
-    chaptersToggle.onclick = function () { chapters.hidden = !chapters.hidden; chaptersToggle.setAttribute("aria-expanded", String(!chapters.hidden)); };
+    chaptersToggle.onclick = function () {
+      chapters.hidden = !chapters.hidden; chaptersToggle.setAttribute("aria-expanded", String(!chapters.hidden));
+      if (!chapters.hidden && narrow()) showLegend(false);   /* one panel at a time on a phone (the legend's toggle, above) */
+    };
   } else {
     chaptersToggle.hidden = true;
   }
