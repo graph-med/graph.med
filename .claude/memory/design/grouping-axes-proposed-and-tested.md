@@ -43,11 +43,14 @@ would have hidden that.
 **How to apply:** Never add an axis name to the schema, the validator or
 `tools/` ([[generic-over-guidelines]] applies to the data model too); the
 schema's `structure_kind` on a source describes the document and is not the
-axis vocabulary. Decide the carrier by one rule: a value that varies with the
-recommendation is a statement dimension (a slot, values are concepts of facet
-`qualifier`, the dimension's question is asked before the population's), a
-value that is a true "is a" of a concept is a hierarchy respect (`axis` on
-`broader`, one parent per axis unless the definition says `several`). Never
+axis vocabulary. Decide the carrier by the four questions of
+[[scope-tree-and-anchor]], asked per statement: a value that is a true "is a"
+of a concept is a hierarchy respect (`axis` on `broader`, one parent per axis
+unless the definition says `several`); a value that combines freely with every
+anchor value from a closed, named list is a statement dimension (a slot,
+values are concepts of facet `qualifier`, the dimension's question is asked
+before the population's). Orthogonality decides a dimension, not variation:
+"varies with the recommendation" is true of every patient group. Never
 mint a "several" family: what spans families is unplaced and shows as "not
 placed". Treat the feasibility tool as a check like the validator — it
 reports, it never writes to `data/`. Put an axis's report in the pull request

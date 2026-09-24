@@ -25,11 +25,13 @@ level, and the site can fold any depth. Two families are deliberately *not*
 linked under the general "Operation eines gastrointestinalen Tumors":
 `leberresektion` and the other organ families have benign indications outside
 this guideline, and a concept hierarchy is meant to be reused by the next
-guideline; the generic populations of chapters 4–5 are linked to it with a
-rationale naming the guideline's scope.
+guideline. A link that holds only inside the guideline's scope — the generic
+populations of chapters 4–5 under that operation — is not subsumption at all
+but a scope edge `in_scope_of` ([[scope-tree-and-anchor]]).
 
-**How to apply:** Write a `broader` edge only for a true "is a", with the
-rationale saying why; several parents only where the concept truly is a
+**How to apply:** Write a `broader` edge only for a true "is a" that holds
+whatever guideline you read, with the rationale saying why (one true only in
+this guideline's scope is `in_scope_of`); several parents only where the concept truly is a
 special case of each. A value that combines freely with every family (the
 operative access) is not a second parent but a dimension
 ([[access-is-a-dimension]]). Do not mint a family for a single

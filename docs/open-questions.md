@@ -110,3 +110,9 @@ and which card is next, is not a question and lives on the board (`uv run tools/
 **Options:** page-local only, as §8.1 says, and the declared range (a chapter, a section of the outline) is the package's verification read from the report · the run also reads every page of every outline section a cited page belongs to · a section-level completeness attestation on the source with the outline entry as the address
 **Leaning:** the first; a page the branch cited is ground the branch answers for, a section is a promise the card made, and the two should not be confused in one attestation. Revisit when the second guideline shows pages with boxes that no branch ever cited. (2026-09-21)
 **Settled by:** the first extraction card judged end to end, and the schema follow-up that names the source-with-claims scope.
+
+## scope-edge-pinning  (graph-representation.md §4, §5 `in_scope_of`; schema `view.scope_root`)
+**Question:** A scope edge holds inside one guideline's scope, and it is pinned to a view only by the `scope_root` it leads to. When a second guideline reuses a concept and writes its own scope edges from it, a view's walk up from an anchor can pass through the other guideline's edges on its way to its own root — and show as "applying generally" what only the other guideline stipulated.
+**Options:** read, per view, only the scope edges on a path that ends at its root (enough while no path crosses a foreign edge) · a scope edge names the source whose scope it states, and a view reads only the edges of its sources · scope edges filed per view and read only from there
+**Leaning:** the second once it happens — the source is what the stipulation is a stipulation of, and the edge already sits in that source's edge directory; the first is what the model says today. (2026-09-24)
+**Settled by:** the second guideline that reuses a concept carrying a scope edge.

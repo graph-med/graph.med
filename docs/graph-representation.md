@@ -1,7 +1,7 @@
 # Graph Representation — how knowledge is stored in this repository
 
 > **Status: design intent, partly enforced.** The schema (`schema/schema.yaml`,
-> currently 0.8.0) exists and `tools/validate.py` enforces it, locally and in CI
+> currently 0.9.0) exists and `tools/validate.py` enforces it, locally and in CI
 > (`CLAUDE.md`, "Checks"): ids, enums, provenance requirements, claim hashes, slots,
 > edges, a claim's `section` against its source's `outline`, `broader` without
 > cycles, and with `--verify-quotes` every quote against its source. The pool uses
@@ -10,7 +10,8 @@
 > hierarchy over the patient groups, and grouping axes (§4.1): the `axes/`
 > entity, the validator's axis rules, the feasibility report (`tools/axes.py`),
 > one dimension axis asserted on the first source and offered by its view, and
-> the chapters as the built-in grouping. Everything else described as checked or
+> the chapters as the built-in grouping. The scope tree (§4, §5 `in_scope_of`) is
+> in the schema and the validator, and no view declares one yet. Everything else described as checked or
 > computed — the canonical form and content hashes (§2), staleness (§5, §8),
 > attestations and review state (§8), view cuts (§4), the derived statement
 > properties (§3.3) — is not implemented yet, and the automated review (§8.1) is
@@ -321,6 +322,34 @@ outcomes, every referenced statement is a member, nothing dangles. A filter that
 amputates a branch fails validation and the cut is not made. "A graph is complete
 and valid on its own" is a guarantee only a cut can honour, so it lives there.
 
+**Anchor and scope root.** A view may declare, beside its filter, the two
+properties that make its members one tree of "for whom":
+
+```yaml
+anchor_slot: population        # a slot every statement has (§3.2)
+scope_root:  concepts/<id>     # the concept the scope tree ends in
+```
+
+The **anchor** of a statement (not a claim's source anchor, §3.1) is the one
+concept in the view's `anchor_slot`:
+the guideline's primary index, what its recommendations are keyed on and what
+one must know to look anything up (§4.1, question 1). The **scope root** is the
+concept above every anchor — for a guideline, its own scope, the patients it
+addresses, as the source describes them. It is **declared, never inferred**:
+where a guideline's anchors have no common concept, minting one is a visible,
+reviewed act on the view, not something a validator rule forces. Between the
+anchors and the root lie `broader` edges, which hold whatever guideline one
+reads, and scope edges (`in_scope_of`, §5), which hold inside this guideline's
+scope; together they are the view's **scope tree**. The two properties are
+declared together, and a view that declares them owes four things, which the
+validator checks: (1) every member statement fills the anchor slot with
+exactly one concept; (2) every anchor reaches the scope root along `broader`
+and `in_scope_of`; (3) every scope edge carries a rationale, and its
+`condition`, where it has one, is a concept; (4) scope edges form no cycle,
+alone or with `broader`, and never repeat a `broader` edge between the same two
+concepts. A view that declares neither is read as before, and none of the four
+applies to it.
+
 ### 4.1 Grouping axes: proposed, tested, asserted, shown
 
 A view is read as a tree of questions whose answers are grouped
@@ -359,10 +388,39 @@ same for every guideline:
   changes which concepts are the families of that question and how it folds —
   never which question is asked.
 
-If the value would stay true whatever were recommended, it is subsumption; if
-it varies with the recommendation, it is a dimension. Edge cases, decided once:
+Which of these a value is — and whether it is either — is decided by four
+questions, asked in order, **per statement**, not per concept:
+
+1. **Is the value the guideline's primary index** — what its recommendation
+   chapters are keyed on, what one must know to look anything up? Then it is
+   the statement's **anchor** (§4), in the view's `anchor_slot`. A guideline
+   on perioperative care is keyed on the procedure, one on pneumonia on the
+   severity, one on thromboembolism prophylaxis on the risk group, one on
+   heart failure on the phenotype. Whether the value is observed or computed
+   does not matter here; that decides only how it is obtained.
+2. **Is the value a thing in its own right that is a special case of
+   another?** The test is the sentence "X is a Y", where the value changes
+   *which* thing is present, not merely *how* it is done. Then it is a
+   **subgroup**: `broader` where the sentence holds whatever guideline one
+   reads, a **scope edge** (`in_scope_of`, §5) where it holds only inside this
+   guideline's scope. A named operation is a special case of the resection it
+   performs; an operation whose route decides its anatomy is a procedure of
+   its own; "minimally invasive" is not a thing but a qualifier of one.
+3. **Does the value combine freely with every anchor value, from a closed,
+   named list?** Then it is a **dimension**. Orthogonality is the
+   discriminator, not variation: a value that is forced into one tree with
+   the anchor although both combine freely (an access and an organ) breaks
+   the tree.
+4. **Otherwise it is a condition** (§3.2): the circumstance of the individual
+   case, with an open range of values and no partition.
+
+The same concept may be the anchor of one statement and a condition of
+another; slots are roles, not types (§3.2). This replaces an earlier rule —
+"if it varies with the recommendation, it is a dimension" — which held for
+every patient group too and so separated nothing. Edge cases, decided once:
 a value that names the patient's *situation* after an intervention ("the state
-after X") is a population concept and is placed by hierarchies like any other,
+after X") is a population concept and may be an anchor, but it is not "an X":
+where the guideline treats it under X, that is a scope edge, not `broader`,
 while *when* the recommendation applies stays a dimension; a dimension value
 that covers the whole guideline ("throughout") is a legitimate declared value,
 not a missing one; a concept defined by exclusion or spanning several families
@@ -528,9 +586,12 @@ modality). A physician proposes two axes.
   proposer's call, not the tool's.
 
 *A guideline organised by stage* (an oncological entity, chapters by UICC
-stage). Its physician proposes a hierarchy "Stadium" over the condition slot
-(`slot: condition`), families the stages, rule: the stage a condition concept
-names; and a dimension "Therapielinie" (first-line, second-line, …). Nothing
+stage). The stage is what its chapters are keyed on, so by the first question
+it is the anchor: its view names the slot that holds it as `anchor_slot`
+(`population`, "patient in stage X"). Its physician proposes a hierarchy
+"Stadium" over that slot (`slot: population`), families the stages, rule: the
+stage a population concept names; and a dimension "Therapielinie"
+(first-line, second-line, …). Nothing
 in the mechanism, the schema or the build changes; its view declares both in
 `group_by`, and its switch shows "Stadium" and "Therapielinie" where the
 first source's shows "Phase" and "Region".
@@ -539,12 +600,12 @@ first source's shows "Phase" and "Region".
 "Brustschmerz", "Dyspnoe", …). The symptom is the population's *presentation*,
 not a phase and not a subsumption of a procedure: a dimension `slot:
 leitsymptom` whose values are the symptoms — or, if the populations are
-minted as "patient with X", a hierarchy over the population slot. The
-carrier rule decides: a symptom stays true whatever is recommended, so it is
-subsumption where the population concept carries it, and a dimension only
-where the same population is addressed under several presentations. The
-feasibility report of each variant tells the proposer which one the data
-carries.
+minted as "patient with X", a hierarchy over the population slot. The four
+questions decide: chapters keyed on the symptom make it the guideline's
+primary index, so it is the anchor and the populations are minted as
+"patient with X"; a dimension only where a symptom combines freely with every
+anchor value, which a primary index cannot. The feasibility report of each
+variant tells the proposer which one the data carries.
 
 ---
 
@@ -578,6 +639,31 @@ the different jobs of edges apart:
   in which case a statement says so, or leaves open, in which case the gap stays
   visible. A build that propagates recommendations down a `broader` edge would
   be inventing answers; it may only use the edge to group and to fold.
+- **scope** — `in_scope_of`: concept → concept, "counts, within the scope of
+  this guideline, as a case of". It carries what one guideline stipulates for
+  its own scope and what `broader` cannot hold: that its general
+  recommendations are addressed to a group because the group lies in its
+  scope, not because the group is a special case of anything. Such a sentence
+  can be false outside the guideline (a kind of operation counts as tumour
+  surgery only where the guideline says it is about tumour surgery), and it
+  can even point the other way (a guideline carries the evidence of a group
+  *wider* than its own patients onto them; as "is a special case of" that is
+  backwards, as a scope edge it is right). Written into `broader`, it would
+  make the concept hierarchy false for the next guideline that reuses the
+  concepts. Always `modelling`, with a rationale and a date; an optional
+  **`condition`** names, as a concept reference like every other condition
+  in the pool, the circumstance under which the membership holds ("during a
+  procedure within the scope"), and its absence means unconditional — no
+  magic value stands for "always". A scope edge belongs to the scope tree of
+  the view whose `scope_root` (§4) it leads to. It is an **edge, not an
+  entity**: as an entity it would lack `source`, `as_of` and `lang` — no
+  provenance, no attestation, no staleness — and would need a namespace of its
+  own. Unlike `broader`, it says what the guideline itself says: that what it
+  recommends for the upper concept is addressed to the lower one. A view may
+  therefore show a concept, beside its own statements, those anchored above it
+  along its scope edges — set apart and marked as applying generally, with
+  the condition (`docs/publication.md`) — and never merges them into its own;
+  along `broader` alone nothing moves.
 - **structure** — `sequence`, `branch` (with a `guard` property), `about`:
   among structural nodes and from them to the statements they arrange.
 - **cross-source semantics** — `specializes`, `complements`, `conflicts`:

@@ -269,7 +269,7 @@ current leaning, so that nobody re-derives it. What was decided, and why, lives 
 | **concept** | a thing statements talk about; has a facet; can be a special case of another (`broader`) |
 | **axis** | what a view's first question groups by — proposed by a person for a guideline, tested by a tool, asserted with provenance, then offered by the view; carried by a slot on statements or by `broader` edges naming it |
 | **slot** | a statement's population, action, condition or outcome, filled with a concept (the condition with a list of them, all holding at once) |
-| **edge** | a typed link: `supports`/`contests` (claim → statement), `refines`/`supplements`/`limits` (claim → claim), `broader`, `codes_as` (concept), `specializes`/`complements`/`conflicts` (statement → statement) |
+| **edge** | a typed link: `supports`/`contests` (claim → statement), `refines`/`supplements`/`limits` (claim → claim), `broader`, `in_scope_of` (concept → concept, the second only within one guideline's scope), `codes_as` (concept), `specializes`/`complements`/`conflicts` (statement → statement) |
 | **section** | where in its document a claim was found; on the claim only |
 | **view** | a named filter over the pool; a page on the site. A **cut** is a frozen view |
 | **modelling** | provenance meaning "no document says this; we asserted it" |
