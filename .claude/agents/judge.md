@@ -1,6 +1,6 @@
 ---
 name: judge
-description: The automated review of docs/graph-representation.md §8.1. Reads what a branch adds to the pool — claims, statements, body-text edges, hierarchy edges, the placements of grouping axes, and the pages they cite — against its ground, and reports consistent, disputed, undecidable and noticed. Read-only, writes nothing, names no guideline. The coordinator runs it on a diff that touches data/, after the validator and before the pull request.
+description: The automated review of docs/graph-representation.md §8.1. Reads what a branch adds to the pool — claims, statements, body-text edges, hierarchy edges, the placements of grouping axes, the entries of a source's grading scheme, and the pages they cite — against its ground, and reports consistent, disputed, undecidable and noticed. Read-only, writes nothing, names no guideline. The coordinator runs it on a diff that touches data/, after the validator and before the pull request.
 tools: Read, Grep, Glob, Bash
 model: inherit
 ---
@@ -31,7 +31,9 @@ git diff origin/main...HEAD -- data/
 ```
 
 The subjects of a run are every claim, statement and edge the diff adds or
-changes; every statement whose `supports`/`contests` edges the diff changes;
+changes; every entry the diff adds or changes under a source's
+`grading_scheme` (asked question 1, against the method table it quotes);
+every statement whose `supports`/`contests` edges the diff changes;
 every placement the diff adds or changes under `placements` in
 `data/axes/<id>.yaml` (an axis is an overlay: its placements are the
 grouping, spec §4.1); and every page a claim of the diff cites
@@ -77,7 +79,10 @@ that edges are unique, that `broader` and `in_scope_of` form no cycle and a
 scope edge doubles no `broader`, that a concept has one `defined_by` edge and
 each piece of a combination's connective lies in one of its quotes, that an asserted axis places each statement or
 concept once and each hierarchy placement is an edge of the pool, that a
-dimension's values are among its declared ones, and (with `--verify-quotes`)
+dimension's values are among its declared ones, that a claim's grade and
+consensus are of its source's `grading_scheme`, its verb one a declared scheme
+defines, a printed share within its class's bounds, and every word of a
+scheme in the entry's quotes, and (with `--verify-quotes`)
 that each quote is a substring of the page. You do not recompute ids, do not test quotes as
 substrings, do not check the schema. A substring is mechanical; "as printed"
 is a reading, and the reading is your job.
@@ -87,9 +92,10 @@ is a reading, and the reading is your job.
 1. **A claim against its page.** Is the `label` the one sentence at the quote
    — one sentence, not the whole marked recommendation? Does `kind` follow
    the sentence's form? Are
-   `grade`, `verb`, `direction`, `consensus`, `recommendation_no` and
-   `section` as printed at that place, and is none supplied where the page
-   prints none? Is every number in the label the number on the page? A
+   `grade`, `verb`, `direction`, `consensus`, `consensus_share`,
+   `recommendation_no` and `section` as printed at that place — a consensus
+   class the one the source's table gives the printed share —, and is none
+   supplied where the page prints none? Is every number in the label the number on the page? A
    body-text claim carries no `grade` and no `consensus`. A `threshold` is
    the quantity, comparator, value, unit and time point the page prints, one
    per claim. A claim with a `combination` quotes the passage its parts come
@@ -99,7 +105,11 @@ is a reading, and the reading is your job.
    reading the connective bears in its sentence, never decided by the word
    alone ("und" between groups each counting on its own is `any_of`)? Is a
    list the page gives without saying how it combines marked `not_stated`
-   rather than read?
+   rather than read? Of an entry of a source's `grading_scheme` ask the same
+   against the method table it quotes: is each grade, wording, negated form
+   and class as the table prints it, in the table's order? Is `open` set only
+   where the table makes the grade an open recommendation, and `modelling`
+   only for a form the source prints nowhere?
 2. **A statement against its supporting claims.** Does the `label` assert
    nothing absent from every supporting claim, and nothing a supporting claim
    contradicts? Does each slot name what the claims' sentences name in that
