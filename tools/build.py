@@ -48,7 +48,9 @@ SITE = "https://graph.med"   # the origin of the published site and its previews
 CLAIM_EDGES = ("supports", "contests")   # how a claim bears on a statement (spec §5)
 STATEMENT_EDGES = ("specializes", "complements", "conflicts")
 BODY_TEXT = ("limits", "refines", "supplements")   # zone 6 of the statement card, in order of their effect on the decision
-DIRECTION_GLYPH = {"für": "✓", "gegen": "✗", "abwägen": "⚖", "Lücke": "∅"}
+# the four glyphs, on the box and in the judgement: ⚖ (U+2696) carries the text variation selector U+FE0E, or several
+# platforms draw it from a colour emoji font; ✓ ✗ ∅ need none
+DIRECTION_GLYPH = {"für": "✓", "gegen": "✗", "abwägen": "⚖\ufe0e", "Lücke": "∅"}
 GRADES = ("A", "B", "0", "EK")   # the guideline's own scale, in order: the letter a box carries before its label; a new scale is a new letter
 # An evidence system's values from high to low (docs/publication.md §3, zone 4), keyed by the `system` a claim's
 # `evidence` entry names: read for the range a per-outcome table is summarised by ("hoch bis sehr niedrig") and for
@@ -253,12 +255,27 @@ def evidence_of(claims: list[dict], concept) -> dict:
 
 
 def verb_of(claims: list[dict]) -> str | None:
-    """The one verb of a statement's supporting claims (soll, sollte, kann), derived the way direction_of()
-    derives the direction: from the `supports` edges only, and never composed — supporting claims that
-    disagree on the verb give none, the way claims that disagree on the grade give no single letter
+    """The one verb of a statement's supporting claims, as the box writes it: soll, sollte, kann, with "nicht"
+    for an against claim ("soll nicht"), exactly as direction_of() writes the judgement's verbs — so that box and
+    card say the same thing. From the `supports` edges only, and never composed: supporting claims that disagree
+    on the verb give none, the way claims that disagree on the grade give no single letter
     (docs/publication.md §3, "Grades are shown, never composed")."""
-    verbs = {c["verb"] for c in claims if c["edge"] == "supports" and c.get("verb")}
+    verbs = {c["verb"] + (" nicht" if c.get("direction") == "against" else "") for c in claims if c["edge"] == "supports" and c.get("verb")}
     return next(iter(verbs)) if len(verbs) == 1 else None
+
+
+def verbs_by_grade(statements: list[dict], pool) -> dict[str, str]:
+    """The grade letters of one view that determine their verb: a letter under which every supporting claim of
+    the view's statements says the same verb, mapped to that verb (docs/publication.md §3, "the verb is a word
+    where the letter does not carry it"). Computed from the pool, never declared — no grade, verb or scheme is
+    known to the build — so a letter under which the claims say two verbs is absent, and a box of that grade
+    writes its verb as a word."""
+    seen: dict[str, set] = defaultdict(set)
+    for st in statements:
+        for c in pool.claims_for(st["id"]):
+            if c["edge"] == "supports" and c.get("grade") and c.get("verb"):
+                seen[c["grade"]].add(c["verb"])
+    return {g: next(iter(v)) for g, v in seen.items() if len(v) == 1}
 
 
 # ── the pool ────────────────────────────────────────────────────────────────
@@ -723,6 +740,7 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
     if hierarchy_axis:
         respects[hierarchy_axis["id"]] = respect_of(hierarchy_axis, pool)
     statements = sorted((m for m in members.values() if m["type"] == "statement"), key=lambda s: first_no(s) + [s["id"]])
+    implied = verbs_by_grade(statements, pool)   # which letters carry their verb, over the whole view
 
     def hang(st, at):
         """The recommendation itself, under the junction of its group (`at`, or the question when it names
@@ -733,14 +751,18 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
         cond, outc = the_one(st, "condition"), sl.get("outcome")
         d = direction_of(claims)
         again = st["id"] in seen   # under two answers (two chapters): one node, hung from both, its aim and relations once
-        # the box reads "A · <short label>": the grade as a letter (every grade when the claims differ — shown,
-        # never composed), then the short form; no direction glyph — the direction is the box's colour, the glyph
-        # lives in the details' banner and the legend (docs/publication.md §3). The verb (soll, sollte) travels as
-        # its own attribute: the client draws a border for `soll`, none for `sollte`
+        # the box reads "✗ EK soll nicht · <short label>" (docs/publication.md §3): the direction's glyph, the
+        # redundancy for a reader who does not see the colour; the grade as a letter (every grade when the claims
+        # differ — shown, never composed); the verb as a word, only where the letters do not already carry it —
+        # some supporting claim's grade does not determine its verb in this view (verbs_by_grade) — and never when
+        # the claims disagree on it; then the short form
         letters = "/".join(sorted(grades, key=lambda g: (GRADES.index(g) if g in GRADES else len(GRADES), g)))
+        verb = verb_of(claims)
+        carried = all(implied.get(c.get("grade")) == c["verb"] for c in claims if c["edge"] == "supports" and c.get("verb"))
+        stamp = " ".join(filter(None, [d["glyph"] if d else None, letters, None if carried else verb]))
         sid = add(st["id"], ref=st["id"], type="statement", lang=st["lang"],
-                  label=(letters + " · " if letters else "") + (st.get("short_label") or st["label"]), full=st["label"],
-                  direction=d["word"] if d else None, verb=verb_of(claims), facets=sorted({f for f in (facet(c) for _, c in pool.filled(st)) if f}),
+                  label=(stamp + " · " if stamp else "") + (st.get("short_label") or st["label"]), full=st["label"],
+                  direction=d["word"] if d else None, verb=verb, facets=sorted({f for f in (facet(c) for _, c in pool.filled(st)) if f}),
                   grade=next(iter(grades)) if len(grades) == 1 else ("mixed" if grades else None),
                   against={c["direction"] for c in claims if c["edge"] == "supports" and c.get("direction")} == {"against"},
                   contested=any(c["edge"] == "contests" for c in claims),
