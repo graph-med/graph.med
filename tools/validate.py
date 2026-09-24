@@ -33,11 +33,16 @@ rules a document schema cannot state because they span files:
     `in_scope_of` forms no cycle, alone or with `broader`, and never doubles a
     `broader` edge between the same two concepts. A view without `scope_root`
     is not checked for (1) and (2);
-  - a derived concept's rules hold together (spec §3.1, §5): a `defined_by` edge
-    reaches a claim of kind `criterion` or `definition`, and one concept has at
-    most one such edge to one claim, discriminator or not; a threshold's
-    `quantity` and `relative_to` resolve like every reference, and a relative
-    threshold is relative to another quantity than the one it bounds;
+  - a derived concept's rule holds together (spec §3.1, §5): a concept has one
+    `defined_by` edge, discriminator or not — several rules combine on the claim it
+    reaches, as the page prints it, and a second edge would be a combination
+    nobody extracted —, to a claim of kind `criterion` or `definition`; a
+    `combination`'s parts are claims of those kinds from the claim's own source,
+    its connective's quotes are from that source too, each piece of the connective
+    lies in one of them, `at_least` counts no more parts than it names, and
+    combinations nest through claims without a cycle; a threshold's `quantity`
+    and `relative_to` resolve like every reference, and a relative threshold is
+    relative to another quantity than the one it bounds;
 
 With --verify-quotes it also downloads each source (hash-checked, cached) and
 verifies every quote is a verbatim substring of `pdftotext -layout` on the cited
@@ -302,28 +307,62 @@ def check_scope_edges(broader: list[tuple[str, int, str, str, dict]],
 
 def check_definitions(ids: dict[str, str], entities: dict[str, dict],
                       defined_by: list[tuple[str, int, str, str, dict]]) -> list[str]:
-    """A derived concept's rules (spec §3.1, §3.2, §5). A `defined_by` edge reaches a claim of kind
-    `criterion` or `definition` — the passage that gives the rule, not a recommendation that uses the
-    term. One concept is defined by one claim once: several edges from a concept are alternatives,
-    and a second edge to the same claim, even with a discriminator, would count one rule twice.
-    A threshold's `relative_to` names another quantity than its `quantity`; that both resolve is the
-    reference check's, and that only criterion and definition claims carry thresholds the schema's.
-    No kind of concept, quantity or unit is named here."""
+    """A derived concept's rule (spec §3.1, §3.2, §5). A concept has one `defined_by` edge, to a claim of kind
+    `criterion` or `definition` — the passage that gives the rule, not a recommendation that uses the term.
+    Several rules of one concept are the parts of a `combination` on that claim, with the connective the page
+    prints; a second edge would join them by a default nobody read off the page, so it is refused, to the same
+    claim or another, discriminator or not. A combination's parts are criterion or definition claims of the
+    claim's own source, as are the quotes of its connective, and every piece of the connective ("entweder …
+    oder") lies in one of those quotes, so that --verify-quotes checks the words on the page; `at_least` names
+    at most as many as its parts; combinations nest through claims and never reach their own claim. That the
+    operator states its parts, connective and `n`, and that a combining claim prints no threshold, is the
+    schema's. A threshold's `relative_to` names another quantity than its `quantity`; that both resolve is the
+    reference check's. No operator word, kind of concept, quantity or unit of a guideline is named here."""
     errs: list[str] = []
-    seen: dict[tuple[str, str], str] = {}
+    rules = ("criterion", "definition")
+    first: dict[str, tuple[str, str]] = {}
     for rel, i, frm, to, _ in defined_by:
         kind = entities.get(to, {}).get("kind")
-        if to in entities and kind not in ("criterion", "definition"):
+        if to in entities and kind not in rules:
             errs.append(f"{rel} at {i}: {frm} defined_by {to}, a claim of kind {kind!r}; a rule is a criterion or a definition")
-        if (frm, to) in seen:
-            errs.append(f"{rel} at {i}: {frm} defined_by {to} repeats the edge in {seen[(frm, to)]}; one rule is one edge")
-        seen.setdefault((frm, to), f"{rel} at {i}")
+        if frm in first:
+            errs.append(f"{rel} at {i}: {frm} has a second defined_by edge (to {to}; the first, to {first[frm][1]}, is in "
+                        f"{first[frm][0]}); several rules combine on one claim as the page prints it (`combination`), never by a second edge")
+        first.setdefault(frm, (f"{rel} at {i}", to))
+    source_of = lambda at: str(at).split("#")[0]
+    graph: dict[str, list[str]] = {}
     for cid, claim in sorted(entities.items()):
-        if claim.get("type") != "claim" or not isinstance(claim.get("thresholds"), list):
+        if claim.get("type") != "claim":
             continue
-        for n, th in enumerate(claim["thresholds"]):
-            if isinstance(th, dict) and "relative_to" in th and th.get("relative_to") == th.get("quantity"):
-                errs.append(f"{ids[cid]}: threshold {n} of {cid} is relative to {th['quantity']}, its own quantity; a relative threshold names the quantity it is relative to")
+        th = claim.get("threshold")
+        if isinstance(th, dict) and "relative_to" in th and th.get("relative_to") == th.get("quantity"):
+            errs.append(f"{ids[cid]}: the threshold of {cid} is relative to {th['quantity']}, its own quantity; a relative threshold names the quantity it is relative to")
+        comb = claim.get("combination")
+        if not isinstance(comb, dict):
+            continue
+        rel, own = ids[cid], source_of((claim.get("source") or {}).get("at", ""))
+        parts = [p for p in comb.get("of") or [] if isinstance(p, str)]
+        graph[cid] = parts
+        for part in parts:
+            if part not in entities:
+                continue   # the reference check reports it
+            if entities[part].get("kind") not in rules:
+                errs.append(f"{rel}: the combination of {cid} names {part}, a claim of kind {entities[part].get('kind')!r}; a part is a criterion or a definition")
+            if source_of((entities[part].get("source") or {}).get("at", "")) != own:
+                errs.append(f"{rel}: the combination of {cid} names {part}, a claim of another source; a combination is read off one passage")
+        if comb.get("operator") == "at_least" and isinstance(comb.get("n"), int) and comb["n"] > len(parts):
+            errs.append(f"{rel}: the combination of {cid} asks for at least {comb['n']} of {len(parts)} parts")
+        refs = comb.get("source")
+        refs = [refs] if isinstance(refs, dict) else [r for r in refs or [] if isinstance(r, dict)]
+        for r in refs:
+            if source_of(r.get("at", "")) != own:
+                errs.append(f"{rel}: the connective of {cid} is quoted from {source_of(r.get('at', ''))}, not from its own source {own}")
+        if isinstance(comb.get("connective"), str):
+            for piece in (x.strip() for x in comb["connective"].split("…")):
+                if piece and not any(piece in str(r.get("quote", "")) for r in refs):
+                    errs.append(f"{rel}: the connective of {cid} prints {piece!r}, which none of its quotes contains")
+    for cycle in cycles(graph):
+        errs.append(f"combinations form a cycle through claims: {' -> '.join(cycle)}")
     return errs
 
 
