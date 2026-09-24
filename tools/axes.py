@@ -9,10 +9,11 @@
 one axis definition, so a proposal is measured before anything is committed; the
 definition is validated against the schema's `axis` first. <view> is a view id.
 
-While the axis is proposed for the view (or withdrawn, or not listed for it) the
-places are read from the definition's `placements`; once asserted, from the data —
-`axis` on `broader` edges for a hierarchy, the slot value on each statement for a
-dimension — so the same numbers print before and after assertion. The universe is
+The places are the definition's `placements`, before and after assertion alike — an
+axis is an overlay, and asserting it keeps them (spec §4.1) — so the same numbers print
+either way. For a hierarchy the report also lists every placement no `broader` or
+`in_scope_of` edge of the pool carries: what asserting the axis would first need in the
+pool, since an asserted hierarchy only chooses among edges. The universe is
 the view's member statements for a dimension and, for a hierarchy, the concepts
 filling the axis's slot on them. Four measures, no verdict: coverage (for a
 hierarchy by concept and by statement), disjointness, the unplaced remainder by
@@ -30,7 +31,7 @@ from pathlib import Path
 from jsonschema import Draft202012Validator
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from build import SCHEMA, Pool, fillers, load, members_of   # noqa: E402 — one membership computation for the tool and the site
+from build import SCHEMA, Pool, fillers, load, members_of, places as placed   # noqa: E402 — one membership computation for the tool and the site
 
 
 def main(argv=None) -> int:
@@ -72,17 +73,15 @@ def axis_of(arg: str, pool: Pool) -> dict:
 
 def report(axis: dict, view: dict, members: dict[str, dict], pool: Pool) -> list[str]:
     entry = next((e for e in axis.get("views") or [] if e.get("view") == view["id"]), None)
-    asserted = bool(entry and entry.get("status") == "asserted")
-    where = "the data" if asserted else "the definition's placements"
     listed = f"{entry['status']} since {entry['since']}" if entry else "not listed under its views"
     label = axis.get("short_label") or axis["label"]
     statements = sorted((m for m in members.values() if m.get("type") == "statement"), key=lambda m: m["id"])
     kind = (f"hierarchy over `{axis['slot']}`, several: {'true' if axis.get('several') else 'false'}"
             if axis["carrier"] == "hierarchy" else f"dimension, slot `{axis['slot']}`, {len(axis.get('values') or [])} values")
     lines = [f"axis      {axis['id']} — {label}: {kind}",
-             f"view      {view['id']} — {listed}; places read from {where}"]
+             f"view      {view['id']} — {listed}; places read from the definition's placements"]
     measure = hierarchy if axis["carrier"] == "hierarchy" else dimension
-    return lines + measure(axis, statements, pool, asserted)
+    return lines + measure(axis, statements, pool)
 
 
 def name(eid: str, pool: Pool) -> str:
@@ -98,7 +97,7 @@ def plural(n: int, noun: str) -> str:
     return f"{n} {noun}{'' if n == 1 else 's'}"
 
 
-def hierarchy(axis: dict, statements: list[dict], pool: Pool, asserted: bool) -> list[str]:
+def hierarchy(axis: dict, statements: list[dict], pool: Pool) -> list[str]:
     slot = axis["slot"]
     carries: dict[str, list[str]] = defaultdict(list)          # concept → the member statements it answers for
     for st in statements:
@@ -108,13 +107,10 @@ def hierarchy(axis: dict, statements: list[dict], pool: Pool, asserted: bool) ->
     without = sum(1 for st in statements if not fillers(st, slot))
 
     parents: dict[str, list[str]] = defaultdict(list)          # the places, on this axis only
-    if asserted:
-        for frm, kind, to, props in pool.edges:
-            if kind == "broader" and props.get("axis") == axis["id"]:
-                parents[frm].append(to)
-    else:
-        for concept, place in (axis.get("placements") or {}).items():
-            parents[concept].extend(place if isinstance(place, list) else [place])
+    for concept, place in (axis.get("placements") or {}).items():
+        parents[concept].extend(placed(place))
+    held = {(frm, to) for frm, kind, to, _ in pool.edges if kind in ("broader", "in_scope_of")}
+    no_edge = sorted((c, p) for c, ps in parents.items() for p in ps if (c, p) not in held)
     nodes = set(parents) | {p for ps in parents.values() for p in ps}
     roots = sorted(n for n in nodes if not parents.get(n))
 
@@ -145,6 +141,10 @@ def hierarchy(axis: dict, statements: list[dict], pool: Pool, asserted: bool) ->
              f"{without} fill no `{slot}`"]
     if unknown:
         lines.append(f"unknown   {plural(len(unknown), 'place')} not in the pool: {', '.join(unknown)}")
+    lines.append(f"no edge   {plural(len(no_edge), 'placement')} no broader or in_scope_of edge of the pool carries"
+                 + (" — the pool needs these before the axis can be asserted:" if no_edge else ""))
+    for c, p in no_edge:
+        lines.append(f"          {c} → {p}")
     lines.append(f"coverage  {len(covered)} of {len(universe)} concepts ({pct(len(covered), len(universe))}), "
                  f"carrying {weight(covered)} of {len(statements)} statements ({pct(weight(covered), len(statements))})")
     verdict = "information (several: true)" if several else "a defect of the places (several: false)"
@@ -162,21 +162,16 @@ def hierarchy(axis: dict, statements: list[dict], pool: Pool, asserted: bool) ->
     return lines
 
 
-def dimension(axis: dict, statements: list[dict], pool: Pool, asserted: bool) -> list[str]:
+def dimension(axis: dict, statements: list[dict], pool: Pool) -> list[str]:
     slot, values = axis["slot"], list(axis.get("values") or [])
     ids = [st["id"] for st in statements]
     given: dict[str, list[str]] = {}
     outside = 0
-    if asserted:
-        for st in statements:
-            if fillers(st, slot):
-                given[st["id"]] = fillers(st, slot)
-    else:
-        for sid, place in (axis.get("placements") or {}).items():
-            if sid in set(ids):
-                given[sid] = list(place) if isinstance(place, list) else [place]
-            else:
-                outside += 1
+    for sid, place in (axis.get("placements") or {}).items():
+        if sid in set(ids):
+            given[sid] = placed(place)
+        else:
+            outside += 1
     one = [s for s in ids if len(given.get(s, [])) == 1]
     many = [s for s in ids if len(given.get(s, [])) > 1]
     none = [s for s in ids if s not in given]

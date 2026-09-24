@@ -8,9 +8,10 @@
    highlight: matches keep their colour, the rest fades; the arrows beside the box, or
    ↓ and ↑ in it, step from match to match. The reset button returns the
    page to its opening state (docs/publication.md §3). The axis switch chooses which of
-   the view's groupings is drawn — the plain hierarchy, the chapters of its sources, or an
-   axis of its `group_by` (spec §4.1) — as `?by=<grouping>` in the URL (`section` for the
-   chapters, else the axis id), so a grouped view is a shareable link.
+   the view's groupings is drawn — its tree of patient groups (the first), the chapters of
+   its sources, or another axis of its `group_by` (spec §4.1) — as `?by=<grouping>` in the
+   URL (`section` for the chapters, else the axis id; absent for the first), so a grouped
+   view is a shareable link.
    Data: the #graph-data JSON written by tools/build.py, one tree per grouping. */
 (function () {
   "use strict";
@@ -19,10 +20,11 @@
   var data = JSON.parse(document.getElementById("graph-data").textContent);
   var chapters = document.getElementById("chapters"), chaptersToggle = document.getElementById("chapters-toggle");
   var search = document.getElementById("search"), count = document.getElementById("count"), facetSel = document.getElementById("facet");
-  var axisSel = document.getElementById("axis"), by = new URLSearchParams(location.search).get("by") || "", cy = null;
-  if (!data.groupings.some(function (g) { return g.axis === by; })) by = "";   /* an unknown axis in the link: the plain hierarchy */
+  var first = data.groupings[0].axis;   /* the view's tree of patient groups, what the page opens with */
+  var axisSel = document.getElementById("axis"), by = new URLSearchParams(location.search).get("by") || first, cy = null;
+  if (!data.groupings.some(function (g) { return g.axis === by; })) by = first;   /* an unknown axis in the link: the first grouping */
   data.groupings.forEach(function (g) { var o = document.createElement("option"); o.value = g.axis; o.textContent = g.label; o.lang = g.lang; axisSel.appendChild(o); });
-  axisSel.value = by; axisSel.hidden = data.groupings.length < 2;   /* a view without group_by has only the plain hierarchy: no switch */
+  axisSel.value = by; axisSel.hidden = data.groupings.length < 2;   /* a single grouping needs no switch */
   function fail(msg) { hint.hidden = false; hint.textContent = "The graph could not be drawn: " + msg; }
 
   /* switching the grouping redraws the tree from the chosen grouping's nodes and edges and keeps
@@ -31,9 +33,9 @@
   axisSel.onchange = function () { switchTo(axisSel.value); };
   function switchTo(axis) {
     var g = window.graphmed, was = g.state();
-    by = data.groupings.some(function (x) { return x.axis === axis; }) ? axis : "";
+    by = data.groupings.some(function (x) { return x.axis === axis; }) ? axis : first;
     axisSel.value = by;
-    history.replaceState(null, "", location.pathname + (by ? "?by=" + encodeURIComponent(by) : "") + location.hash);
+    history.replaceState(null, "", location.pathname + (by !== first ? "?by=" + encodeURIComponent(by) : "") + location.hash);
     cy.destroy();
     draw();
     g = window.graphmed;
