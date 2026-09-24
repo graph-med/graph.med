@@ -1,10 +1,13 @@
-/* Runs inside zenika/alpine-chrome:with-puppeteer (tools/screenshot.py copies it in): open the
-   built view page at file:///site/<view>/, wait for the graph to lay out, run the requested
-   actions through window.graphmed (the hooks tools/site/static/graph.js exposes), capture. */
+/* Runs inside zenika/alpine-chrome:with-puppeteer (tools/screenshot.py copies it in): open a page
+   of the built site at file:///site/<path>, and on a view page wait for the graph to lay out and run
+   the requested actions through window.graphmed (the hooks tools/site/static/graph.js exposes);
+   capture the viewport, or the whole page with spec.full. Any other page (an entity page, the index)
+   takes no view action: one fails with its name before the capture. */
 const puppeteer = require("/usr/src/app/node_modules/puppeteer");
 const spec = JSON.parse(process.argv[2]);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const errors = [];
+const ANYWHERE = new Set(["wait"]);   /* the one action a page without the graph takes */
 (async () => {
   const browser = await puppeteer.launch({ executablePath: "/usr/bin/chromium-browser", args: ["--no-sandbox", "--disable-gpu", "--hide-scrollbars"] });
   const page = await browser.newPage();
@@ -12,11 +15,16 @@ const errors = [];
   page.on("console", m => { if (m.type() === "error") errors.push(m.text()); });
   await page.setViewport({ width: spec.width, height: spec.height, deviceScaleFactor: spec.phone ? 2 : 1, isMobile: !!spec.phone, hasTouch: !!spec.phone });
   if (spec.dark) await page.emulateMediaFeatures([{ name: "prefers-color-scheme", value: "dark" }]);   /* before the load: the graph reads its colours once, when drawn */
-  await page.goto(`file:///site/${spec.view}/index.html`, { waitUntil: "load" });
+  await page.goto(`file:///site/${spec.file}`, { waitUntil: "load" });
+  if (!(await page.evaluate(() => !!document.getElementById("graph")))) return other(browser, page);
   await page.waitForFunction(() => window.graphmed && window.graphmed.cy.nodes().not(".folded").length > 0, { timeout: 20000 });
   await sleep(900);
   for (const [action, value] of spec.actions) {
     if (action === "wait") { await sleep(Number(value) || 500); continue; }
+    if (action === "graph" || action === "sheet") {   /* scroll the page to the graph (its section's top) or to the sheet: on a phone they stack */
+      await page.evaluate(a => { document.querySelector(a === "graph" ? ".graph-wrap" : "#sheet").scrollIntoView({ block: "start" }); }, action);
+      await sleep(300); continue;
+    }
     if (action === "all") {   /* every patient group open, one tap at a time as a reader would */
       const ids = await page.evaluate(() => window.graphmed.cy.nodes("[type = 'junction']").map(j => j.id()));
       for (const id of ids) { await page.evaluate(id => window.graphmed.toggle(window.graphmed.cy.getElementById(id), true), id); await sleep(400); }
@@ -41,7 +49,7 @@ const errors = [];
     }, action, value);
     await sleep(900);
   }
-  await page.screenshot({ path: "/tmp/shot.png" });
+  await page.screenshot(spec.full ? { path: "/tmp/shot.png", fullPage: true } : { path: "/tmp/shot.png" });
   const shown = await page.evaluate(() => window.graphmed.cy.elements().not(".folded").length);
   /* what overlaps: every pair of shown nodes (with their labels) and edge labels whose boxes
      intersect by more than a pixel — the mechanical half of "nothing overlaps" (docs/publication.md §3) */
@@ -93,3 +101,18 @@ const errors = [];
   overlaps.slice(0, 40).forEach(p => console.log("  " + p));
   await browser.close();
 })().catch(e => { console.error("screenshot failed: " + e.message + (errors.length ? "; page errors: " + errors.join(" | ") : "")); process.exit(1); });
+
+/* a page without the graph: a view action fails, naming itself; otherwise the page settles, and the
+   report is its page errors and whether it is wider than the viewport — the mechanical half of
+   "the page fits a phone" (docs/publication.md) */
+async function other(browser, page) {
+  const needs = spec.actions.find(([a]) => !ANYWHERE.has(a));
+  if (needs) throw new Error(`action ${needs[0]}${needs[1] ? "=" + needs[1] : ""} needs a view page (the graph); ${spec.file} has none`);
+  await page.evaluate(() => document.fonts.ready);
+  await sleep(300);
+  for (const [action, value] of spec.actions) if (action === "wait") await sleep(Number(value) || 500);
+  await page.screenshot(spec.full ? { path: "/tmp/shot.png", fullPage: true } : { path: "/tmp/shot.png" });
+  const [wide, view, tall] = await page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth, document.documentElement.scrollHeight]);
+  console.log(`no graph; ${wide > view ? `overflows horizontally: ${wide} px wide at ${view}` : `fits ${view} px across`}, ${tall} px tall` + (errors.length ? `; page errors: ${errors.join(" | ")}` : ""));
+  await browser.close();
+}

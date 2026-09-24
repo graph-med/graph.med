@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
-"""Screenshot a view page of the built site in a headless browser (the `screenshot` skill).
+"""Screenshot a page of the built site in a headless browser (the `screenshot` skill).
 
-    uv run tools/screenshot.py pomgat-lv-1.0                       # the folded start, 1280×900
+    uv run tools/screenshot.py pomgat-lv-1.0                       # a view: the folded start, 1280×900
     uv run tools/screenshot.py pomgat-lv-1.0 --phone               # 390×844 at device scale 2
     uv run tools/screenshot.py pomgat-lv-1.0 --dark                # the dark theme (prefers-color-scheme: dark)
     uv run tools/screenshot.py pomgat-lv-1.0 --do toggle=concepts/leberresektion \\
         --do open=statements/drainage-komplexe-leberresektion-optional --out /tmp/graph.med/screenshots/liver.png
+    uv run tools/screenshot.py pomgat-lv-1.0 --phone --do open=statements/drainage-komplexe-leberresektion-optional --do graph
+    uv run tools/screenshot.py statements/tap-block-mic-kolorektal --phone --full   # any page, the whole scrolled page
+    uv run tools/screenshot.py /                                   # the index
+
+The page is a site path: a view id, an entity page (statements/<id>, concepts/<id>, axes/<id>,
+sources/<id>, …), or / for the index; a trailing slash and index.html may be left out.
 
 The sandbox has no browser and cannot download one, but it runs a Docker daemon and
 image pulls pass the proxy: the page is rendered by Chromium inside a container
@@ -13,7 +19,8 @@ image pulls pass the proxy: the page is rendered by Chromium inside a container
 tools/screenshot.js so that the layout can settle before the capture. The site is
 built into a temporary directory with base path /site/ and copied into the container;
 nothing is installed in the sandbox and nothing is mounted. Actions run in order
-before the capture: by=<grouping> (choose the grouping: "" for the view's first, section for the
+before the capture, and all but wait need a view page (one with the graph; elsewhere the run fails
+naming the action): by=<grouping> (choose the grouping: "" for the view's first, section for the
 chapters, or an axis id),
 toggle=<concept id> (fold or unfold that patient group; under an axis the junction id in full,
 j:<value>:<concept id>),
@@ -21,10 +28,14 @@ fold=<question node id> (fold or unfold everything below that question, e.g.
 q:j:concepts/leberresektion:population), open=<entity id> (deep link: unfold and select),
 section=<number> (chapter filter), search=<text>, facet=<kind>, step=<n> (n steps through the
 matches, back when negative), chapters (open the chapter panel), chapters-scroll=<px> (scroll its
-list), all (every patient group open), fit (fit what is open), reset (the opening state), wait=<ms>. --dark renders the page in the dark theme: the graph
+list), all (every patient group open), fit (fit what is open), reset (the opening state), graph and
+sheet (scroll the page to the graph or to the sheet: on a phone they stack), wait=<ms>. --full captures
+the whole scrolled page instead of the viewport. --dark renders the page in the dark theme: the graph
 reads its colours from the stylesheet once, when drawn, so the theme is emulated before the
-page loads rather than switched by an action. The runner prints how many elements are shown and
-how many pairs of nodes and answers overlap — the mechanical half of "nothing overlaps".
+page loads rather than switched by an action. On a view page the runner prints how many elements
+are shown and how many pairs of nodes and answers overlap — the mechanical half of "nothing
+overlaps"; on any other page, whether it is wider than the viewport — the mechanical half of "the
+page fits a phone"; on both, any page error.
 The container name and the output directory default to the current branch, so that
 sessions working in parallel (one git worktree each, ADR-0002 and the
 process-work-package skill) on the one Docker daemon do not remove each other's container or PNG.
@@ -61,10 +72,11 @@ def branch_slug() -> str:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("view", help="view id as on the site, e.g. pomgat-lv-1.0")
-    ap.add_argument("--out", type=Path, default=None, help="PNG to write (default /tmp/graph.med/screenshots/<branch>/<view>.png)")
+    ap.add_argument("page", help="site path: a view id (pomgat-lv-1.0), an entity page (statements/<id>), or / for the index")
+    ap.add_argument("--out", type=Path, default=None, help="PNG to write (default /tmp/graph.med/screenshots/<branch>/<page>.png)")
     ap.add_argument("--size", default="1280x900", help="viewport WxH (default 1280x900)")
     ap.add_argument("--phone", action="store_true", help="390x844 at device scale 2, touch")
+    ap.add_argument("--full", action="store_true", help="capture the whole scrolled page, not only the viewport")
     ap.add_argument("--dark", action="store_true", help="the dark theme (emulates prefers-color-scheme: dark before the page loads)")
     ap.add_argument("--do", action="append", default=[], metavar="ACTION", help="an action before the capture; repeatable, in order")
     ap.add_argument("--name", default=None, help="container name (default shot-<branch>)")
@@ -75,11 +87,14 @@ def main(argv=None) -> int:
         print("error: docker is not available; the screenshot skill needs the sandbox's Docker daemon", file=sys.stderr)
         return 1
     branch = branch_slug()
-    out = args.out or Path("/tmp/graph.med/screenshots") / branch / f"{args.view}{'-phone' if args.phone else ''}{'-dark' if args.dark else ''}.png"
+    path = re.sub(r"(^|/)index\.html$", "", args.page.strip()).strip("/")
+    file = f"{path}/index.html" if path else "index.html"
+    stem = path.replace("/", "-") or "index"
+    out = args.out or Path("/tmp/graph.med/screenshots") / branch / f"{stem}{'-phone' if args.phone else ''}{'-dark' if args.dark else ''}{'-full' if args.full else ''}.png"
     out.parent.mkdir(parents=True, exist_ok=True)
     args.name = args.name or f"shot-{branch}"
     width, height = (390, 844) if args.phone else map(int, args.size.lower().split("x"))
-    spec = {"view": args.view, "width": width, "height": height, "phone": args.phone, "dark": args.dark,
+    spec = {"file": file, "width": width, "height": height, "phone": args.phone, "dark": args.dark, "full": args.full,
             "actions": [a.split("=", 1) if "=" in a else [a, ""] for a in args.do]}
 
     if not run("docker", "images", "-q", IMAGE).stdout.strip():
@@ -90,8 +105,8 @@ def main(argv=None) -> int:
         site = Path(tmp) / "site"
         build = [sys.executable, str(ROOT / "tools" / "build.py"), "--base", "/site/", "--out", str(site)]
         subprocess.run(build + (["--preview", str(args.preview)] if args.preview else []), check=True, capture_output=True)
-        if not (site / args.view / "index.html").exists():
-            print(f"error: no view {args.view!r} in the built site", file=sys.stderr)
+        if ".." in Path(file).parts or not (site / file).is_file():
+            print(f"error: no page {args.page!r} in the built site", file=sys.stderr)
             return 1
         subprocess.run(["docker", "rm", "-f", args.name], capture_output=True)
         run("docker", "create", "--name", args.name, "--entrypoint", "node", IMAGE, "/driver.js", json.dumps(spec))
