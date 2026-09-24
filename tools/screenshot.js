@@ -34,6 +34,7 @@ const errors = [];
       else if (action === "facet") g.search(document.getElementById("search").value, value);
       else if (action === "step") for (let i = Math.abs(Number(value) || 1); i--;) g.step(Number(value) < 0 ? -1 : 1);   /* n steps through the matches, back when negative */
       else if (action === "chapters") document.getElementById("chapters-toggle").click();
+      else if (action === "legend") document.getElementById("legend-toggle").click();   /* collapse or expand the legend */
       else if (action === "chapters-scroll") document.querySelector("#chapters .list").scrollTop = Number(value) || 0;
       else if (action === "fit") document.getElementById("fit").click();
       else throw new Error("unknown action " + action);

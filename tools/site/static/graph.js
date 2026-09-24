@@ -12,10 +12,12 @@
    its sources, or another axis of its `group_by` (spec §4.1) — as `?by=<grouping>` in the
    URL (`section` for the chapters, else the axis id; absent for the first), so a grouped
    view is a shareable link.
+   The legend under the graph keys what the view draws, open on a wide screen and a
+   pill on a phone.
    Data: the #graph-data JSON written by tools/build.py, one tree per grouping. */
 (function () {
   "use strict";
-  var hint = document.getElementById("hint"), sheet = document.getElementById("sheet");
+  var legend = document.getElementById("legend"), sheet = document.getElementById("sheet");
   var home = sheet.innerHTML;
   var data = JSON.parse(document.getElementById("graph-data").textContent);
   var chapters = document.getElementById("chapters"), chaptersToggle = document.getElementById("chapters-toggle");
@@ -25,7 +27,14 @@
   if (!data.groupings.some(function (g) { return g.axis === by; })) by = first;   /* an unknown axis in the link: the first grouping */
   data.groupings.forEach(function (g) { var o = document.createElement("option"); o.value = g.axis; o.textContent = g.label; o.lang = g.lang; axisSel.appendChild(o); });
   axisSel.value = by; axisSel.hidden = data.groupings.length < 2;   /* a single grouping needs no switch */
-  function fail(msg) { hint.hidden = false; hint.textContent = "The graph could not be drawn: " + msg; }
+  function fail(msg) { legend.textContent = "The graph could not be drawn: " + msg; }
+
+  /* the legend: open on a wide screen, collapsed on a phone, at every load — nothing is remembered. The pill
+     toggles the panel above it; the zoom does not follow, the fit button does (the free row is re-read) */
+  var legendPanel = document.getElementById("legend-panel"), legendToggle = document.getElementById("legend-toggle");
+  function showLegend(on) { legendPanel.hidden = !on; legendToggle.setAttribute("aria-expanded", String(on)); }
+  showLegend(!!(window.matchMedia && window.matchMedia("(min-width: 900px)").matches));
+  legendToggle.onclick = function () { showLegend(legendPanel.hidden); };
 
   /* switching the grouping redraws the tree from the chosen grouping's nodes and edges and keeps
      the rest of the page's state — the chapter, the search and the facet, the selected entity —
@@ -212,7 +221,7 @@
 
   /* fit what is open into the part of the canvas nothing covers. That part is the free row of the
      wrapper's grid (site.css, .graph-wrap): the controls make the row above it as tall as they are,
-     the legend the row below, and a legend that is hidden leaves no row at all — so the free row is
+     the legend the row below, as tall as it is collapsed or expanded — so the free row is
      read once here instead of adding up the controls' height and the legend's with a constant each. */
   var canvas = document.getElementById("graph"), free = document.getElementById("free");
   function fit(eles, padding) {
@@ -290,7 +299,7 @@
     related(null); general(null);
     cy.elements().removeClass("dim picked");
     if (!eles || eles.empty()) {
-      sheet.innerHTML = home; hint.hidden = false;
+      sheet.innerHTML = home;
       if (push) history.replaceState(null, "", location.pathname + location.search);
       return;
     }
@@ -298,7 +307,7 @@
     cy.elements().not(keep).addClass("dim");
     eles.addClass("picked");
     related(eles); general(eles);
-    sheet.innerHTML = data.html[ref] || home; hint.hidden = !data.html[ref];
+    sheet.innerHTML = data.html[ref] || home;
     if (push) history.replaceState(null, "", "#" + ref);
   }
   cy.on("tap", "node, edge", function (evt) {

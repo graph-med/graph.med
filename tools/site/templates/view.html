@@ -23,15 +23,60 @@
   </div>
   <div class="free" id="free" aria-hidden="true"></div>
   <nav class="chapters" id="chapters" aria-label="chapters" hidden></nav>
-  <p class="hint" id="hint">
-    <span class="sw question"></span> question (tap to fold) <span class="sw junction"></span> patient group (tap to unfold) <span class="sw statement"></span> recommendation <span class="sw aim"></span> aim
-    <br>direction by colour and sign: <span class="key"><span class="sw d-for"></span> <span lang="de">✓ für</span></span> · <span class="key"><span class="sw d-against"></span> <span lang="de">✗ gegen</span></span> · <span class="key"><span class="sw d-weigh"></span> <span lang="de">⚖&#xFE0E; abwägen</span></span> · <span class="key"><span class="sw d-gap"></span> <span lang="de">∅ Lücke</span></span> · <span class="key">grade by letter: A · B · 0 · EK</span>
-    <br><span class="key">the verb as a word where the letter does not carry it</span> · tap a box for details{% if scope %} · <span class="key"><span class="sw general"></span> applies generally to the selected group</span>{% endif +%}
-  </p>
+  {% set W = page.legend %}
+  <div class="legend" id="legend" lang="{{ page_lang }}">
+    <div class="legend-panel" id="legend-panel" role="group" aria-label="{{ W.label }}" hidden>
+      <div class="lg">
+        <p class="lg-name">{{ W.groups.form }}</p>
+        {% for f in legend.forms %}
+        <p class="key"><span class="sw {{ f }}"></span> {{ W.forms[f] }}</p>
+        {% if f == "question" and legend.folded %}<p class="key variant"><span class="sw question closed"></span> {{ W.folded }}</p>{% endif %}
+        {% if f == "junction" and legend.open %}<p class="key variant"><span class="sw junction open"></span> {{ W.open }}</p>{% endif %}
+        {% endfor %}
+      </div>
+      {% if legend.directions or legend.undirected %}
+      <div class="lg">
+        <p class="lg-name">{{ W.groups.direction }}</p>
+        {% for d in legend.directions %}
+        <p class="key"><span class="chip d-{{ d.word }}" aria-hidden="true">{{ d.glyph }}</span> {{ W.directions[d.word] }}</p>
+        {% endfor %}
+        {% if legend.undirected %}<p class="key"><span class="chip none" aria-hidden="true"></span> {{ W.undirected }}</p>{% endif %}
+      </div>
+      {% endif %}
+      {% if legend.grades %}
+      <div class="lg">
+        <p class="lg-name">{{ W.groups.grade }}</p>
+        <p class="key grades">{% for g in legend.grades %}<b>{{ g }}</b>{% if not loop.last %} · {% endif %}{% endfor %}</p>
+        {% if legend.verb_grades %}<p class="key">{{ W.verb | replace("{grades}", legend.verb_grades | join(" · ")) }}</p>{% endif %}
+      </div>
+      {% endif %}
+      {% if legend.states %}
+      <div class="lg">
+        <p class="lg-name">{{ W.groups.state }}</p>
+        {% for st in legend.states %}
+        <p class="key"><span class="sw {{ st }}"></span> {{ W.states[st] }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% if legend.edges %}
+      <div class="lg">
+        <p class="lg-name">{{ W.groups.edges }}</p>
+        {% for e in legend.edges %}
+        <p class="key"><span class="ln {{ e }}"></span> {{ W.edges[e] }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    <button type="button" class="legend-toggle" id="legend-toggle" aria-controls="legend-panel" aria-expanded="false">
+      <span class="chips" aria-hidden="true">{% for d in legend.directions %}<span class="chip d-{{ d.word }}">{{ d.glyph }}</span>{% endfor %}</span>
+      <span class="word">{{ W.toggle }}</span><span class="caret" aria-hidden="true"></span>
+    </button>
+  </div>
 </section>
 <section class="sheet" id="sheet" aria-live="polite">
   <p class="kind">view</p>
   <p class="label" lang="{{ sources[0].lang }}">{{ title }}</p>
+  <p class="hint" lang="{{ page_lang }}">{{ page.sheet.hint }}</p>
   <p class="cite">{{ counts.statement }} statements · {{ counts.concept }} concepts · {{ counts.claim }} claims</p>
   {% for s in sources %}<p class="cite"><a href="{{ s.url }}" rel="noopener">{{ s.id | short }}</a> · <a href="{{ base }}{{ s.id }}/">source</a> · <small>{{ s.license }}</small></p>{% endfor %}
   <p class="cite"><a href="{{ base }}{{ vid }}.json">json</a></p>

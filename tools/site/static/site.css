@@ -49,16 +49,50 @@ ul.cards small, ul.plain small { display: block; color: var(--mute); }
 .graph-wrap { margin: 0 -1rem; position: relative; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; grid-template-columns: minmax(0, 1fr); background: var(--bg); border-top: 1px solid var(--line); }
 #graph { grid-area: 1 / 1 / 4 / 2; display: block; width: 100%; height: 62vh; touch-action: none; }
 .free { grid-area: 2 / 1 / 3 / 2; pointer-events: none; }   /* the free row itself, so that fit() measures it once instead of adding up the controls and the legend */
-.hint { grid-area: 3 / 1 / 4 / 2; position: relative; z-index: 1; margin: 0 1rem .3rem; color: var(--mute); font-size: .74rem; line-height: 1.5; pointer-events: none; }   /* above the canvas, which Cytoscape positions with a z-index of its own */
-.hint .key { white-space: nowrap; }   /* a swatch stays on the line of its word */
-.sw { display: inline-block; width: .75em; height: .75em; vertical-align: -.05em; margin: 0 .15em 0 .45em; border: 1px solid var(--mute); box-sizing: border-box; }
+/* the legend (docs/publication.md §3, "The legend"): in the third row, at the bottom left, a pill that says what it
+   opens — the word and the view's direction chips — and, expanded, a panel of named groups opening upward from it.
+   Only the keys the view draws (tools/build.py, legend_of), in the view layer's words (tools/site/words/). The row
+   spans the width so the panel can take it; only the pill and the panel take the tap, the rest reaches the graph */
+.legend { grid-area: 3 / 1 / 4 / 2; position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; gap: .4rem;
+  margin: 0 .6rem .6rem; min-width: 0; color: var(--fg); font-size: .8rem; line-height: 1.45; pointer-events: none; }   /* above the canvas, which Cytoscape positions with a z-index of its own */
+.legend > * { pointer-events: auto; }
+.legend-panel { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: .5rem 1rem; width: 100%; max-width: 56rem;
+  max-height: 40vh; overflow: auto; padding: .55rem .75rem; background: var(--bg); border: 1px solid var(--line); border-radius: .6rem; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+.legend-panel[hidden] { display: none; }
+.legend .lg p { margin: .1rem 0; }
+.legend .lg-name { font-weight: 600; color: var(--mute); font-size: .74rem; }
+.legend .key .sw { margin: 0 .35em 0 0; }
+.legend .key.variant { padding-left: 1.2em; }   /* a state of the form above it: the folded question, the open group */
+.legend .grades b { font-weight: 700; }
+.legend-toggle { display: inline-flex; align-items: center; gap: .45rem; min-height: 44px; padding: 0 .9rem 0 .55rem; border: 1px solid var(--line); border-radius: 22px;
+  background: var(--bg); color: var(--fg); font: inherit; font-size: .85rem; font-weight: 600; cursor: pointer; }
+.legend-toggle:hover, .legend-toggle:focus-visible { border-color: var(--fg); }
+.legend-toggle .chips { display: inline-flex; gap: .2rem; font-weight: 400; }   /* a bold ⚖ finds no text face on some platforms and falls to the emoji font */
+.legend-toggle .chips .chip { margin: 0; }
+.legend-toggle .caret::after { content: "▴"; color: var(--mute); }   /* opens upward */
+.legend-toggle[aria-expanded="true"] .caret::after { content: "▾"; }
+/* a direction chip: the box's own fill, the glyph inside it in the box's dark text, and a border that holds against the
+   page in both themes (the fills alone are pastels under 3:1 on white — WCAG 1.4.11) */
+.chip { display: inline-flex; align-items: center; justify-content: center; width: 1.55em; height: 1.55em; margin-right: .35em; vertical-align: middle;
+  border: 1px solid var(--mute); border-radius: .3em; color: #111; font-size: .95em; line-height: 1; }
+.chip.d-für { background: var(--dir-for); } .chip.d-gegen { background: var(--dir-against); }
+.chip.d-abwägen { background: var(--dir-weigh); } .chip.d-Lücke { background: var(--dir-gap); }
+.chip.none { background: var(--bg); }   /* a statement without a direction: the page's colours, with a border, as in the graph */
+.sw { display: inline-block; width: .85em; height: .85em; vertical-align: -.05em; margin: 0 .15em 0 .45em; border: 1px solid var(--mute); box-sizing: border-box; }
 .sw.question { transform: rotate(45deg) scale(.8); border-color: var(--fg); }
+.sw.question.closed { background: var(--line); border-style: dashed; }   /* folded: there is more below */
 .sw.junction { border-radius: 50%; border: 2px solid var(--fg); }
+.sw.junction.open { background: var(--fg); }
 .sw.statement { border-radius: 2px; background: var(--mute); }
-.sw.aim { clip-path: polygon(0 0, 80% 0, 100% 50%, 80% 100%, 0 100%); background: var(--mute); }
-.sw.d-for { background: var(--dir-for); border: 0; } .sw.d-against { background: var(--dir-against); border: 0; }
-.sw.d-weigh { background: var(--dir-weigh); border: 0; } .sw.d-gap { background: var(--dir-gap); border: 0; }
-.sw.general { border-radius: 2px; background: var(--mute); outline: 3px double var(--fg); outline-offset: 2px; margin-left: .7em; }   /* the double outline a box applying generally wears in the graph */
+.sw.aim { width: 1.2em; border-radius: 2px; border-style: dashed; background: var(--bg); }
+.sw.contested { border-radius: 2px; border: 2px dashed var(--contested); background: var(--bg); }
+.sw.related { border-radius: 2px; background: var(--mute); outline: 2px dotted var(--fg); outline-offset: 2px; }   /* the dotted outline a box related to the selected one wears */
+.sw.general { border-radius: 2px; background: var(--mute); outline: 3px double var(--fg); outline-offset: 2px; }   /* the double outline a box applying generally wears in the graph */
+.legend .key .sw.related, .legend .key .sw.general { margin-left: .2em; margin-right: .55em; }   /* room for the outline */
+/* an edge's key: a short run of its line */
+.ln { display: inline-block; width: 1.6em; height: 0; vertical-align: middle; margin-right: .35em; border-top: 1.5px solid var(--edge); }
+.ln.answer { border-top-color: var(--fg); }
+.ln.aim { border-top-style: dashed; }
 .controls { grid-area: 1 / 1 / 2 / 2; position: relative; z-index: 2; display: flex; gap: .4rem; align-items: flex-start; justify-content: space-between; padding: .6rem; pointer-events: none; }
 .controls > * { pointer-events: auto; }   /* the row spans the width so that left and right keep their ends; only the controls themselves take the tap */
 .tools { display: flex; gap: .4rem; }
@@ -77,6 +111,7 @@ blockquote { margin: .3rem 0; padding-left: .7rem; border-left: 3px solid var(--
 button.copy { font: inherit; font-style: normal; font-size: .72rem; padding: 0 .5rem; margin-left: .3rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--bg); color: var(--mute); cursor: pointer; vertical-align: middle; min-height: 28px; }
 button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: var(--fg); }
 .cite { font-size: .85rem; color: var(--mute); }
+.sheet .hint { margin: 0 0 .5rem; font-size: .85rem; color: var(--mute); }   /* the home text's one hint: where the details appear */
 .node-link { min-height: 44px; display: inline-flex; align-items: center; }   /* touch target */
 
 /* wide screens: the graph fills the height, the details sit beside it as a column */
@@ -224,6 +259,7 @@ button.copy.done { color: var(--fg); border-color: var(--fg); background: var(--
   .tools select { max-width: 6.6rem; }
   .tools select#axis { max-width: calc(100% - 7.2rem); }   /* the row it wraps to holds it beside the facet select */
   .chapters button { min-height: 44px; align-items: center; }   /* touch targets */
+  .legend-panel { max-height: 26vh; }   /* expanded on a phone, it leaves the tree a strip of the free row; the panel scrolls */
 }
 
 /* print: the disclosure of zone 4 is open and has no marker to click; a table is not split across pages */

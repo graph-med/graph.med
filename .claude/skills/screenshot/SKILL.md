@@ -49,7 +49,8 @@ deep link (unfold and select), `section=<number>` sets the chapter filter,
 `fold=<question node id>` folds or unfolds everything below a question,
 `search=<text>` and `facet=<kind>` set the search, `step=<n>` steps `n` times through its
 matches (back when negative), `chapters` opens the chapter
-panel and `chapters-scroll=<px>` scrolls its list, `all` opens every patient
+panel and `chapters-scroll=<px>` scrolls its list, `legend` collapses or expands the legend
+(open on a wide screen, collapsed on a phone at load), `all` opens every patient
 group one tap at a time (the physician's extreme state), `fit` fits what is
 open, `reset` returns the page to its opening state, `wait=<ms>` waits. `--dark`
 is a flag, not an action: the graph reads its colours from the stylesheet once,
