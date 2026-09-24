@@ -69,23 +69,30 @@
 {% endfor %}</ol>
 {% endif %}</section>
 {# zone 4: how certain the evidence is, in one of four states (docs/publication.md §3) — one value on one line; per
-   outcome a native <details>, open, its <summary> the counting line and under it the table in the guideline's order,
+   row a native <details>, open, its <summary> the counting line and under it the table in the guideline's order,
    one per system, the system named once as the table's caption and never per row; expert consensus only; nothing
    recorded. A counting line takes its singular or plural form from the count (W(key, count)); the range line has
-   no singular, a range needing two values. No value is composed from several, and no JavaScript is needed. #}
+   no singular, a range needing two values. A table with a row the source keys by anything but its endpoint (a
+   component, a subgroup, a comparator, …: the row's printed `key`) is read by its keys: a first column `Bezug`,
+   the endpoint column only where a row names one, and the counting line counts rows, not endpoints; a table
+   without a key reads as before. No value is composed from several, and no JavaScript is needed. #}
 <section class="zone evidence" aria-labelledby="zone-evidence-h">
 <h3 id="zone-evidence-h">{{ W("zone.evidence") }}</h3>
 {% set ev = c.evidenz %}
 {% if ev.state == "single" %}{% set g = ev.groups[0] %}
 <p class="value">{{ W("evidence.single").format(wert=g.rows[0].value, system=g.system) }}</p>
 {% elif ev.state == "by_outcome" %}
-{% for g in ev.groups %}<details class="outcomes" open>
-<summary>{% if g.k < g.n %}{{ W("evidence.by_outcome.partial", g.n).format(k=g.k, n=g.n) }}{% elif g.range %}{{ W("evidence.by_outcome").format(n=g.n, von=g.range.von, bis=g.range.bis) }}{% else %}{{ W("evidence.by_outcome.no_range", g.n).format(n=g.n) }}{% endif %}</summary>
+{% for g in ev.groups %}
+{% set keyed = g.rows | selectattr("key") | list | length > 0 %}
+{% set endpoints = not keyed or g.rows | selectattr("outcome") | list | length > 0 %}
+{% set by = "evidence.by_key" if keyed else "evidence.by_outcome" %}
+<details class="outcomes" open>
+<summary>{% if g.k < g.n %}{{ W(by ~ ".partial", g.n).format(k=g.k, n=g.n) }}{% elif g.range %}{{ W(by).format(n=g.n, von=g.range.von, bis=g.range.bis) }}{% else %}{{ W(by ~ ".no_range", g.n).format(n=g.n) }}{% endif %}</summary>
 <table>
 <caption>{{ g.system }}</caption>
-<thead><tr><th scope="col">{{ W("evidence.table.outcome") }}</th><th scope="col">{{ W("evidence.table.certainty") }}</th></tr></thead>
+<thead><tr>{% if keyed %}<th scope="col">{{ W("evidence.table.key") }}</th>{% endif %}{% if endpoints %}<th scope="col">{{ W("evidence.table.outcome") }}</th>{% endif %}<th scope="col">{{ W("evidence.table.certainty") }}</th></tr></thead>
 <tbody>
-{% for r in g.rows %}<tr>{% if r.outcome %}<td lang="{{ r.outcome.lang }}">{{ r.outcome.label }}</td>{% else %}<td class="none">{{ W("evidence.row.missing") }}</td>{% endif %}{% if r.value %}<td lang="{{ r.lang }}">{{ r.value }}</td>{% else %}<td class="none">{{ W("evidence.row.missing") }}</td>{% endif %}</tr>
+{% for r in g.rows %}<tr>{% if keyed %}<td lang="{{ r.lang }}">{{ r.key or "" }}</td>{% endif %}{% if endpoints %}{% if r.outcome %}<td lang="{{ r.outcome.lang }}">{{ r.outcome.label }}</td>{% else %}<td class="none">{{ W("evidence.row.missing") }}</td>{% endif %}{% endif %}{% if r.value %}<td lang="{{ r.lang }}">{{ r.value }}</td>{% else %}<td class="none">{{ W("evidence.row.missing") }}</td>{% endif %}</tr>
 {% endfor %}</tbody>
 </table>
 </details>
