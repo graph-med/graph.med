@@ -8,5 +8,4 @@ slots:
   population: concepts/kolorektale-resektion
   action: concepts/laxantien-fruehzeitig-multimodal
   outcome: concepts/postoperativer-paralytischer-ileus
-  phase: concepts/postoperativ
 source: modelling

@@ -7,5 +7,4 @@ short_label: "Magensonde vor Narkoseausleitung ziehen (Magen)"
 slots:
   population: concepts/gastrektomie-oder-magenteilresektion
   action: concepts/magensondenentfernung-vor-narkoseausleitung
-  phase: concepts/intraoperativ
 source: modelling

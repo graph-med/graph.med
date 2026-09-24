@@ -1,8 +1,9 @@
 # The operative access as a statement dimension (spec §4.1), proposed by the physician for
-# views/pomgat-lv-1.0 and asserted by WP-0028. The slot `zugang` holds one of the two values on the
-# statements whose sentence names the access; an empty slot means the guideline does not
-# distinguish there, never "applies to both". Deliberately not in the view's group_by: at 4 of 90
-# statements it covers too little to group a view (assertion and offering are two steps).
+# views/pomgat-lv-1.0 and asserted by WP-0028. The placements below give one of the two values to the
+# statements whose sentence names the access (until card #202 they were `zugang` slots of the
+# statements); a statement without a placement is one where the guideline does not distinguish,
+# never "applies to both". Deliberately not in the view's group_by: at 4 of 90 statements it covers
+# too little to group a view (assertion and offering are two steps).
 id: axes/zugang
 type: axis
 lang: de
@@ -30,3 +31,8 @@ rule: >-
 proposed_by: physician
 views:
   - {view: views/pomgat-lv-1.0, status: asserted, since: "2026-09-23"}
+placements:   # each statement's value (spec §4.1): the axis is an overlay, the statement has no such slot
+  statements/epiduralanalgesie-offene-viszeralchirurgie: concepts/offen
+  statements/kaugummi-offene-leberresektion: concepts/offen
+  statements/epiduralanalgesie-mic-bei-risikokonstellation: concepts/minimalinvasiv
+  statements/tap-block-mic-kolorektal: concepts/minimalinvasiv

@@ -6,5 +6,4 @@ short_label: "Keine abdominelle Drainage (Ösophagektomie)"
 slots:
   population: concepts/transthorakale-oesophagektomie
   action: concepts/abdominelle-drainage
-  phase: concepts/intraoperativ
 source: modelling

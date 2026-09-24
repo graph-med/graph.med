@@ -7,6 +7,4 @@ short_label: "TAP-Block statt EA möglich (MIC Kolon/ant. Rektum)"
 slots:
   population: concepts/kolonresektion-oder-anteriore-rektumresektion
   action: concepts/tap-block
-  phase: concepts/perioperativ
-  zugang: concepts/minimalinvasiv
 source: modelling

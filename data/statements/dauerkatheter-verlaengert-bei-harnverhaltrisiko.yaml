@@ -8,5 +8,4 @@ slots:
   population: concepts/kolorektale-resektion
   action: concepts/verlaengerte-harnableitung-bis-pod3
   condition: [concepts/risikofaktoren-harnverhalt]
-  phase: concepts/postoperativ
 source: modelling

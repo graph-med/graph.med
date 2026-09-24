@@ -7,5 +7,4 @@ short_label: "Ösophagusresektion im mPOM"
 slots:
   population: concepts/onkologische-oesophagusresektion
   action: concepts/mpom
-  phase: concepts/perioperativ
 source: modelling

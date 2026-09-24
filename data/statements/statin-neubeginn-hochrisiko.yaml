@@ -8,5 +8,4 @@ slots:
   population: concepts/kardiovaskulaerer-hochrisikopatient
   action: concepts/praeoperativer-statinbeginn
   condition: [concepts/elektiver-abdominalchirurgischer-tumoreingriff]
-  phase: concepts/praeoperativ
 source: modelling

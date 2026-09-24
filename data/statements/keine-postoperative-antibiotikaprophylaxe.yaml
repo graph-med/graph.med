@@ -6,5 +6,4 @@ short_label: "Keine postoperative Antibiotikaprophylaxe"
 slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/postoperative-fortfuehrung-antibiotikaprophylaxe
-  phase: concepts/postoperativ
 source: modelling

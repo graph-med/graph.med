@@ -8,5 +8,4 @@ slots:
   population: concepts/kolorektale-resektion
   action: concepts/begleitung-spezialisierte-fachkraft
   condition: [concepts/mpom]
-  phase: concepts/perioperativ
 source: modelling

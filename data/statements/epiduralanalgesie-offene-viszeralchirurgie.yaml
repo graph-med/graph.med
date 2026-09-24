@@ -7,6 +7,4 @@ short_label: "Kontinuierliche Epiduralanalgesie (offene Eingriffe)"
 slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/epiduralanalgesie
-  phase: concepts/perioperativ
-  zugang: concepts/offen
 source: modelling

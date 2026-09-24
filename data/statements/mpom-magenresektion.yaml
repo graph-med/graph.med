@@ -6,5 +6,4 @@ short_label: "Magenresektion im mPOM"
 slots:
   population: concepts/gastrektomie-oder-magenteilresektion
   action: concepts/mpom
-  phase: concepts/perioperativ
 source: modelling

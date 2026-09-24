@@ -8,5 +8,4 @@ slots:
   population: concepts/kardiovaskulaerer-hochrisikopatient
   action: concepts/dosistitration-betablocker-praeoperativ
   condition: [concepts/praeoperatives-neuansetzen-betablocker]
-  phase: concepts/praeoperativ
 source: modelling

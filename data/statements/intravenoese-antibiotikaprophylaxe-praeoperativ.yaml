@@ -7,5 +7,4 @@ short_label: "i.v. Antibiotikaprophylaxe 60 min vor Inzision"
 slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/intravenoese-perioperative-antibiotikaprophylaxe
-  phase: concepts/praeoperativ
 source: modelling

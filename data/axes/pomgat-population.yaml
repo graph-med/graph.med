@@ -1,0 +1,66 @@
+# The tree of patient groups views/pomgat-lv-1.0 opens with, as a hierarchy axis over its anchor slot
+# (spec §4.1 "4. Shown", card #202): it chooses, for each population concept and each family above one,
+# the one edge of the pool it hangs by — a broader edge where it is a special case, a scope edge
+# (in_scope_of) where the guideline places it in its own scope — up to the view's scope_root, which has
+# no place of its own. Written from the scope tree the linking passes of WP-0031 (card #190) built; every
+# placement is an edge in data/edges/pomgat-lv-1.0/ (broader-edges.yaml, scope-edges.yaml).
+id: axes/pomgat-population
+type: axis
+lang: de
+label: Population
+short_label: Population
+carrier: hierarchy
+slot: population
+several: false
+rule: >-
+  Jedes Konzept, das in einer Empfehlung der Sicht die Population nennt, und jede Familie über einem
+  solchen steht unter dem einen Konzept, zu dem die Kante des Pools führt, an der es zur Wurzel der
+  Sicht hin hängt — der Zielgruppe der Leitlinie (2.1.2, S. 17): unter dem breiteren Konzept, dessen
+  Sonderfall es ist (broader), und wo es kein Sonderfall ist, sondern die Leitlinie es ihrem
+  Geltungsbereich zuordnet, unter dem Konzept, dem sie es zuordnet (in_scope_of). Ein Konzept hängt an
+  genau einer solchen Kante; die Wurzel selbst hat keinen Platz. Fehlt einem Konzept die Kante, wird
+  zuerst sie in den Pool geschrieben, mit eigener Begründung, und dann der Platz.
+proposed_by: maintainer
+views:
+  - {view: views/pomgat-lv-1.0, status: asserted, since: "2026-09-24"}
+placements:   # concept: parent — each an edge of the pool, grouped by the kind of that edge
+  # along broader (19)
+  concepts/gastrektomie: concepts/gastrektomie-oder-magenteilresektion
+  concepts/antianginoese-nitrattherapie: concepts/kardiale-dauermedikation
+  concepts/bestehende-betablockertherapie: concepts/kardiale-dauermedikation
+  concepts/bestehende-statintherapie: concepts/kardiale-dauermedikation
+  concepts/dauertherapie-ace-hemmer-sartane: concepts/kardiale-dauermedikation
+  concepts/rektumanastomose: concepts/kolorektale-anastomose
+  concepts/kolorektale-resektion: concepts/kolorektale-chirurgie
+  concepts/elektive-leberresektion: concepts/leberresektion
+  concepts/leberresektion-hcc: concepts/leberresektion
+  concepts/leberresektion-komplex: concepts/leberresektion
+  concepts/leberresektion-unkompliziert: concepts/leberresektion
+  concepts/oesophagektomie-zervikale-rekonstruktion: concepts/oesophagusresektion
+  concepts/onkologische-oesophagusresektion: concepts/oesophagusresektion
+  concepts/transthorakale-oesophagektomie: concepts/oesophagusresektion
+  concepts/klassische-whipple-operation: concepts/pankreaskopfresektion
+  concepts/pankreaskopfresektion: concepts/pankreasresektion
+  concepts/kardiovaskulaerer-hochrisikopatient: concepts/perioperatives-risikoprofil
+  concepts/neu-diagnostizierte-linksventrikulaere-herzinsuffizienz: concepts/perioperatives-risikoprofil
+  concepts/ponv-risikofaktoren: concepts/perioperatives-risikoprofil
+  # along in_scope_of (19)
+  concepts/abdomineller-oder-thorakaler-eingriff: concepts/elektive-operation-gi-oder-hpb-malignom
+  concepts/gastrointestinale-tumoroperation: concepts/elektive-operation-gi-oder-hpb-malignom
+  concepts/kardiale-dauermedikation: concepts/elektive-operation-gi-oder-hpb-malignom
+  concepts/mediane-laparotomie: concepts/elektive-operation-gi-oder-hpb-malignom
+  concepts/perioperatives-risikoprofil: concepts/elektive-operation-gi-oder-hpb-malignom
+  concepts/elektiver-abdominalchirurgischer-tumoreingriff: concepts/gastrointestinale-tumoroperation
+  concepts/gastrektomie-oder-magenteilresektion: concepts/gastrointestinale-tumoroperation
+  concepts/kolorektale-chirurgie: concepts/gastrointestinale-tumoroperation
+  concepts/leberresektion: concepts/gastrointestinale-tumoroperation
+  concepts/nicht-kolorektale-viszeralonkologische-resektion: concepts/gastrointestinale-tumoroperation
+  concepts/oesophagusresektion: concepts/gastrointestinale-tumoroperation
+  concepts/operation-oberer-gastrointestinaltrakt: concepts/gastrointestinale-tumoroperation
+  concepts/pankreas-und-leberchirurgie: concepts/gastrointestinale-tumoroperation
+  concepts/pankreasresektion: concepts/gastrointestinale-tumoroperation
+  concepts/tumorresektion-oberer-gi-trakt-und-pankreas: concepts/gastrointestinale-tumoroperation
+  concepts/kolonresektion-oder-anteriore-rektumresektion: concepts/kolorektale-resektion
+  concepts/kolorektale-anastomose: concepts/kolorektale-resektion
+  concepts/tiefe-anteriore-rektumresektion: concepts/kolorektale-resektion
+  concepts/magenschlauch-rekonstruktion: concepts/oesophagusresektion

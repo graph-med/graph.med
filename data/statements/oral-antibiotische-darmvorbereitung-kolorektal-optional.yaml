@@ -6,5 +6,4 @@ short_label: "Rein oral-antibiotische Darmvorbereitung möglich"
 slots:
   population: concepts/kolorektale-resektion
   action: concepts/oral-antibiotische-darmvorbereitung
-  phase: concepts/praeoperativ
 source: modelling

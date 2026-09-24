@@ -9,5 +9,4 @@ slots:
   action: concepts/methylnaltrexon-postoperativ-subkutan
   condition: [concepts/systemische-opioidbasierte-schmerztherapie]
   outcome: concepts/postoperativer-paralytischer-ileus
-  phase: concepts/postoperativ
 source: modelling

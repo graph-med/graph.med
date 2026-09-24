@@ -8,5 +8,4 @@ slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/neostigmin
   condition: [concepts/klinisch-manifester-postoperativer-ileus]
-  phase: concepts/postoperativ
 source: modelling

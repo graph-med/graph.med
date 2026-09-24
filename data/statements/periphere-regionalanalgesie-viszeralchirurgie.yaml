@@ -7,5 +7,4 @@ short_label: "Periphere Regionalanalgesie möglich"
 slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/peripheres-regionalanalgesieverfahren
-  phase: concepts/perioperativ
 source: modelling

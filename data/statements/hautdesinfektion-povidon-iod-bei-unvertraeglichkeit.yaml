@@ -8,5 +8,4 @@ slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/hautdesinfektion-povidon-iod
   condition: [concepts/unvertraeglichkeit-kontraindikation-chlorhexidin]
-  phase: concepts/praeoperativ
 source: modelling

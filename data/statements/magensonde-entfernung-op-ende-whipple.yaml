@@ -7,5 +7,4 @@ short_label: "Magensonde am OP-Ende entfernbar (Whipple)"
 slots:
   population: concepts/klassische-whipple-operation
   action: concepts/magensondenentfernung-vor-narkoseausleitung
-  phase: concepts/intraoperativ
 source: modelling

@@ -6,5 +6,4 @@ short_label: "Keine rein mechanische Darmvorbereitung (kolorektal)"
 slots:
   population: concepts/kolorektale-resektion
   action: concepts/mechanische-darmvorbereitung
-  phase: concepts/praeoperativ
 source: modelling

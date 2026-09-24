@@ -8,5 +8,4 @@ slots:
   population: concepts/gastrointestinale-tumoroperation
   action: concepts/besprechung-risikostratifizierung
   outcome: concepts/partizipative-entscheidungsfindung
-  phase: concepts/praeoperativ
 source: modelling

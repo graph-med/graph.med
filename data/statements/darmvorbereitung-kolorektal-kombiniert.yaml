@@ -8,5 +8,4 @@ slots:
   population: concepts/kolorektale-resektion
   action: concepts/kombinierte-mechanische-oral-antibiotische-darmvorbereitung
   condition: [concepts/praeoperative-darmvorbereitung]
-  phase: concepts/praeoperativ
 source: modelling

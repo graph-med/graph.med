@@ -7,5 +7,4 @@ short_label: "Dichtigkeitsprüfung der Rektumanastomose"
 slots:
   population: concepts/rektumanastomose
   action: concepts/dichtigkeitspruefung-anastomose
-  phase: concepts/intraoperativ
 source: modelling
