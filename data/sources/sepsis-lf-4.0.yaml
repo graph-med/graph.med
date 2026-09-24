@@ -40,9 +40,11 @@ grading_scheme:   # spec §3.1: Tabellen 7 and 8 (p. 148) and the count on p. 3,
       source:
         - {at: sources/sepsis-lf-4.0#page=3, quote: "Davon wurden 2 als Statements, 29 als Expertenkonsens und 57 als"}
         - {at: sources/sepsis-lf-4.0#page=29, quote: "EK"}
-      rationale: "Die Langfassung schreibt „EK“ nirgends aus. S. 3 zählt 29 Empfehlungen als Expertenkonsens, und 29 Kästen
-        drucken „EK“, wo die übrigen „Empfehlungsgrad:“ mit „Stark“ oder „Schwach“ drucken (hier Empfehlung 2.5). Ihre Stärke
-        trägt die Formulierung, „Wir empfehlen“ oder „Wir schlagen vor“; EK steht darum nach den Graden."
+      rationale: "Die Langfassung schreibt „EK“ nirgends aus. S. 3 zählt von 88 PICO-Fragen 29 als Expertenkonsens konsentiert,
+        und 29 Kästen drucken „EK“, wo die übrigen „Empfehlungsgrad:“ mit „Stark“ oder „Schwach“ drucken (hier Empfehlung
+        2.5). Ihre Stärke trägt allein die Formulierung: 25 dieser Kästen drucken „Wir empfehlen“ oder „Wir schlagen vor“,
+        Empfehlung 4.11 druckt „kann NICHT empfohlen werden“, und 4.7, 4.11, 8.7 und 8.8 sprechen „weder für noch gegen“
+        eine Empfehlung aus. EK fixiert darum keine Formulierung und steht nach den Graden."
   consensus:   # Tabelle 8, by which „Die Konsensstärke wurde gemäß Tabelle 8 klassifiziert.“ (p. 148); the boxes print the share
     - class: starker_konsens
       name: Starker Konsens
