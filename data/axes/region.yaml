@@ -40,7 +40,6 @@ placements:
   concepts/leberresektion-hcc: concepts/leberresektion
   concepts/leberresektion-komplex: concepts/leberresektion
   concepts/leberresektion-unkompliziert: concepts/leberresektion
-  concepts/offene-leberresektion: concepts/leberresektion
   # Kolorektum
   concepts/kolorektale-resektion: concepts/kolorektale-chirurgie
   concepts/kolorektale-anastomose: concepts/kolorektale-chirurgie

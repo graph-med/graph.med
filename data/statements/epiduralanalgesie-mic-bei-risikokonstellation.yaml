@@ -5,7 +5,7 @@ label: Bei minimalinvasiven Eingriffen kann eine Epiduralanalgesie eingesetzt we
   (lange OP-Zeiten, zu erwartender hoher postoperativer Opioidverbrauch) Erfolg verspricht.
 short_label: "Epiduralanalgesie bei MIC in Risikokonstellation möglich"
 slots:
-  population: concepts/minimalinvasive-gastrointestinale-tumoroperation
+  population: concepts/gastrointestinale-tumoroperation
   action: concepts/epiduralanalgesie
   condition: [concepts/risikokonstellation-lange-op-hoher-opioidbedarf]
   phase: concepts/postoperativ

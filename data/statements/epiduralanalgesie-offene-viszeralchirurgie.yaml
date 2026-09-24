@@ -5,7 +5,7 @@ label: Bei offenen onkologisch-viszeralchirurgischen Eingriffen sollte intra- un
   zur perioperativen Analgesie eingesetzt werden.
 short_label: "Kontinuierliche Epiduralanalgesie (offene Eingriffe)"
 slots:
-  population: concepts/offene-gastrointestinale-tumoroperation
+  population: concepts/gastrointestinale-tumoroperation
   action: concepts/epiduralanalgesie
   phase: concepts/perioperativ
   zugang: concepts/offen

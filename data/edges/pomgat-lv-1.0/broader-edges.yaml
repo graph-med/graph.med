@@ -15,15 +15,13 @@
 - [concepts/klassische-whipple-operation, broader, concepts/pankreaskopfresektion, {source: modelling, as_of: "2026-09-10", lang: de,
    rationale: "Die klassische Whipple-Operation ist eine Pankreaskopfresektion; die Leitlinie schließt in 7.4 die pyloruserhaltende Variante ausdrücklich aus."}]
 - [concepts/elektive-leberresektion, broader, concepts/leberresektion, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Eine Leberresektion, durch Indikation, Komplexität, Zugang oder Elektivität eingegrenzt."}]
+   rationale: "Eine Leberresektion, durch Indikation, Komplexität oder Elektivität eingegrenzt."}]
 - [concepts/leberresektion-hcc, broader, concepts/leberresektion, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Eine Leberresektion, durch Indikation, Komplexität, Zugang oder Elektivität eingegrenzt."}]
+   rationale: "Eine Leberresektion, durch Indikation, Komplexität oder Elektivität eingegrenzt."}]
 - [concepts/leberresektion-komplex, broader, concepts/leberresektion, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Eine Leberresektion, durch Indikation, Komplexität, Zugang oder Elektivität eingegrenzt."}]
+   rationale: "Eine Leberresektion, durch Indikation, Komplexität oder Elektivität eingegrenzt."}]
 - [concepts/leberresektion-unkompliziert, broader, concepts/leberresektion, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Eine Leberresektion, durch Indikation, Komplexität, Zugang oder Elektivität eingegrenzt."}]
-- [concepts/offene-leberresektion, broader, concepts/leberresektion, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Eine Leberresektion, durch Indikation, Komplexität, Zugang oder Elektivität eingegrenzt."}]
+   rationale: "Eine Leberresektion, durch Indikation, Komplexität oder Elektivität eingegrenzt."}]
 - [concepts/kolorektale-resektion, broader, concepts/kolorektale-chirurgie, {source: modelling, as_of: "2026-09-10", lang: de,
    rationale: "Die kolorektale Resektion ist der Eingriff der kolorektalen Chirurgie."}]
 - [concepts/kolorektale-anastomose, broader, concepts/kolorektale-chirurgie, {source: modelling, as_of: "2026-09-10", lang: de,
@@ -52,10 +50,6 @@
    rationale: "Risikofaktoren für Harnverhalt sind ein perioperatives Risikoprofil."}]
 - [concepts/risikokonstellation-lange-op-hoher-opioidbedarf, broader, concepts/perioperatives-risikoprofil, {source: modelling, as_of: "2026-09-10", lang: de,
    rationale: "Die Risikokonstellation für die Analgesie ist ein perioperatives Risikoprofil."}]
-- [concepts/minimalinvasive-gastrointestinale-tumoroperation, broader, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Die minimalinvasive Operation eines gastrointestinalen Tumors ist eine Operation eines gastrointestinalen Tumors."}]
-- [concepts/offene-gastrointestinale-tumoroperation, broader, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Die offene Operation eines gastrointestinalen Tumors ist eine Operation eines gastrointestinalen Tumors."}]
 - [concepts/operation-oberer-gastrointestinaltrakt, broader, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-10", lang: de,
    rationale: "Im Geltungsbereich der Leitlinie (Kapitel 5.6.1) bezeichnet das Konzept Tumoroperationen am oberen Gastrointestinaltrakt."}]
 - [concepts/tumorresektion-oberer-gi-trakt-und-pankreas, broader, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-10", lang: de,
