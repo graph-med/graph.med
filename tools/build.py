@@ -55,9 +55,11 @@ DIRECTION_GLYPH = {"für": "✓", "gegen": "✗", "abwägen": "⚖\ufe0e", "Lüc
 # as data (`grading_scheme`): the order of the grades, their wordings and negated forms, which wording is an open
 # recommendation, the consensus classes. The build names none of them — Pool reads each from the declaration.
 # An evidence system's values from high to low (docs/publication.md §3, zone 4), keyed by the `system` a claim's
-# `evidence` entry names: read for the range a per-outcome table is summarised by ("hoch bis sehr niedrig") and for
+# `evidence` entry names: read for the range a table of rows is summarised by ("hoch bis sehr niedrig") and for
 # nothing else — never for a comparison, a threshold or a derived value, and a value is never mapped onto another
-# system's. A system not in the table is a valid state that costs the range, never the build. A display order,
+# system's. A value is recorded as printed (spec §3.1), so it is matched without regard to case — a box's "Moderat"
+# and a method section's "moderat" are one level — and the range names the level in the form this order holds.
+# A system not in the table is a valid state that costs the range, never the build. A display order,
 # not a fact about the world, which is why it lives here and not in the schema (WP-0025).
 EVIDENCE_SCALES = {"grade": ("hoch", "moderat", "niedrig", "sehr niedrig")}
 # The language of the page's own chrome — the legend, and the hint on the sheet's home — chosen for the reader,
@@ -86,8 +88,8 @@ CHAPTERS = "section"   # the URL token and grouping id of the built-in chapter g
 # There is no fallback: a language that lacks any key of CARD_KEYS fails the build, naming the language
 # and the keys (card_words()). A line that counts something
 # is a pair, `<key>.one` and `<key>.many`, chosen by the count at render time (card_words(): word(key, count));
-# the grammar sits in the pair, never in the code. The range line of zone 4 (`evidence.by_outcome`) has no
-# pair: a range needs two values, so it never counts one (evidence_of()).
+# the grammar sits in the pair, never in the code. The range lines of zone 4 (`evidence.by_outcome`,
+# `evidence.by_key`) have no pair: a range needs two values, so it never counts one (evidence_of()).
 CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", "zone.contested.one", "zone.contested.many",
              "zone.citation", "zone.more", "slot.population", "slot.condition", "slot.action", "slot.count", "slot.families",
              "cite.open", "cite.quote", "cite.review.pending", "cite.no", "cite.page", "cite.section",
@@ -96,6 +98,9 @@ CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", 
              "evidence.single", "evidence.by_outcome", "evidence.by_outcome.no_range.one", "evidence.by_outcome.no_range.many",
              "evidence.by_outcome.partial.one", "evidence.by_outcome.partial.many",
              "evidence.ek_only", "evidence.missing", "evidence.table.outcome", "evidence.table.certainty", "evidence.row.missing",
+             # a table whose rows carry a printed key (spec §3.1): read by that key, counted in rows, not endpoints
+             "evidence.by_key", "evidence.by_key.no_range.one", "evidence.by_key.no_range.many",
+             "evidence.by_key.partial.one", "evidence.by_key.partial.many", "evidence.table.key",
              # the detail sections of a concept, a claim and a source, and the entity page (docs/publication.md §3, §4)
              "type.concept", "type.claim", "type.source", "type.axis",
              "facet.procedure", "facet.patient_state", "facet.medication", "facet.intervention", "facet.outcome", "facet.finding", "facet.qualifier",
@@ -130,6 +135,12 @@ CARD_WORDS = {"de": {
     "evidence.by_outcome.partial.many": "Evidenz: endpunktabhängig ({k} von {n} Endpunkten erfasst)",
     "evidence.ek_only": "Expertenkonsens, keine Evidenzbewertung", "evidence.missing": "Evidenz: nicht erfasst",
     "evidence.table.outcome": "Endpunkt", "evidence.table.certainty": "Sicherheit", "evidence.row.missing": "nicht erfasst",
+    "evidence.by_key": "Evidenz: aufgeschlüsselt ({n} Zeilen, {von} bis {bis})",
+    "evidence.by_key.no_range.one": "Evidenz: aufgeschlüsselt ({n} Zeile)",
+    "evidence.by_key.no_range.many": "Evidenz: aufgeschlüsselt ({n} Zeilen)",
+    "evidence.by_key.partial.one": "Evidenz: aufgeschlüsselt ({k} von {n} Zeile erfasst)",
+    "evidence.by_key.partial.many": "Evidenz: aufgeschlüsselt ({k} von {n} Zeilen erfasst)",
+    "evidence.table.key": "Bezug",
     "type.concept": "Begriff", "type.claim": "Textstelle", "type.source": "Quelle", "type.axis": "Achse",
     "facet.procedure": "Eingriff", "facet.patient_state": "Patientenzustand", "facet.medication": "Medikament",
     "facet.intervention": "Intervention", "facet.outcome": "Endpunkt", "facet.finding": "Befund", "facet.qualifier": "Qualifikator",
@@ -241,13 +252,15 @@ def direction_of(claims: list[dict]) -> dict | None:
 def evidence_of(claims: list[dict], concept) -> dict:
     """Zone 4 of the statement card (docs/publication.md §3): how certain the evidence is, from the supporting
     claims' `evidence` entries (schema 0.6.0), in one of four states and no fifth — `single` (one entry, no
-    outcome: one value for the whole recommendation), `by_outcome` (anything else with entries: one group per
-    system, its rows the entries in the claims' order, never sorted — sorting by certainty would rank what the
-    guideline did not), `ek_only` (no entry, and every supporting claim's grade one that fixes no wording in its
-    scheme — the expert consensus of spec §3.1, `unworded` —), `missing` (no entry).
-    Nothing is composed: no value is derived from several. A group counts its rows (`n`) and those with a value
-    (`k`), and carries a range — the highest and the lowest value present, by EVIDENCE_SCALES' order — only where
-    every row has a value, the system is in that table, every value is on its scale and more than one value
+    outcome and no key: one value for the whole recommendation), `by_outcome` (anything else with entries: one
+    group per system, its rows the entries in the claims' order, never sorted — sorting by certainty would rank
+    what the guideline did not), `ek_only` (no entry, and every supporting claim's grade one that fixes no wording
+    in its scheme — the expert consensus of spec §3.1, `unworded` —), `missing` (no entry). A row carries its
+    printed `key` where the entry has one (schema 0.14.0), and only there, and the template reads a group with a
+    keyed row by its keys. Nothing is composed: no value is derived from several. A group counts its rows (`n`)
+    and those with a value (`k`), and carries a range — the highest and the lowest value present, by
+    EVIDENCE_SCALES' order, matched without regard to case and named in the form the order holds — only where
+    every row has a value, the system is in that table, every value is on its scale and more than one level
     occurs; no order is guessed, and a partial table is summarised by its count alone.
     `concept` resolves an outcome id to {id, label, lang}."""
     sup = [c for c in claims if c["edge"] == "supports"]
@@ -260,15 +273,21 @@ def evidence_of(claims: list[dict], concept) -> dict:
         if g is None:
             g = {"system": e["system"], "rows": []}
             groups.append(g)
-        g["rows"].append({"outcome": concept(e["outcome"]) if e.get("outcome") else None, "value": e.get("value") or None, "lang": c["lang"]})
+        row = {"outcome": concept(e["outcome"]) if e.get("outcome") else None, "value": e.get("value") or None, "lang": c["lang"]}
+        if e.get("key"):
+            row["key"] = e["key"]
+        g["rows"].append(row)
     for g in groups:
         values = [r["value"] for r in g["rows"] if r["value"]]
         g["n"], g["k"], g["range"] = len(g["rows"]), len(values), None
-        scale = EVIDENCE_SCALES.get(g["system"])
-        if scale and g["k"] == g["n"] and all(v in scale for v in values) and len(set(values)) > 1:
-            ranked = sorted(set(values), key=scale.index)
-            g["range"] = {"von": ranked[0], "bis": ranked[-1]}
-    single = len(entries) == 1 and groups[0]["rows"][0]["outcome"] is None
+        scale = [s.casefold() for s in EVIDENCE_SCALES.get(g["system"], ())]
+        levels = {v.casefold() for v in values}
+        if scale and g["k"] == g["n"] and levels <= set(scale) and len(levels) > 1:
+            ranked = sorted(levels, key=scale.index)
+            g["range"] = {"von": EVIDENCE_SCALES[g["system"]][scale.index(ranked[0])],
+                          "bis": EVIDENCE_SCALES[g["system"]][scale.index(ranked[-1])]}
+    first = groups[0]["rows"][0]
+    single = len(entries) == 1 and first["outcome"] is None and "key" not in first
     return {"state": "single" if single else "by_outcome", "groups": groups}
 
 

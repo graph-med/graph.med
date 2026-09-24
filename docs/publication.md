@@ -394,7 +394,7 @@ glyph. Timing
   | 1 | Title | none | `short_label`, else `label` | never |
   | 2 | Judgement | none | supporting claims; whether a contesting claim exists | never |
   | 3 | Wording | `Wortlaut der Empfehlung` | `claim.label` per supporting claim | never |
-  | 4 | Evidence | `Evidenz` | the supporting claims' `evidence`, per outcome; else `Evidenz: nicht erfasst` | never |
+  | 4 | Evidence | `Evidenz` | the supporting claims' `evidence`, per row; else `Evidenz: nicht erfasst` | never |
   | 5 | Applies to | `Gilt für` | the `population`, `condition`, `action` slots, then the value of every dimension axis that places the statement, named by that axis's `short_label` (else `label`) | no slot filled |
   | 6 | Body text | `Hinweise aus dem Begleittext` | `limits`, `refines`, `supplements` | never (empty state) |
   | 7 | Contradiction | `Widersprechende Empfehlung(en)` | `contests` | no contesting claim |
@@ -437,8 +437,8 @@ glyph. Timing
 
      | State | What it renders |
      |---|---|
-     | One value | one line, no disclosure: `Evidenz: moderat (grade)` — the value and the system as the claim stores them |
-     | Per outcome | a native `<details>`, open: its `<summary>` reads `Evidenz: endpunktabhängig (4 Endpunkte, hoch bis sehr niedrig)`, under it a table `Endpunkt \| Sicherheit` in the guideline's order, never sorted, the system named once as the table's caption |
+     | One value | one line, no disclosure: `Evidenz: moderat (grade)` — the value and the system as the claim stores them; one entry with neither an outcome nor a key |
+     | Per row | a native `<details>`, open: its `<summary>` reads `Evidenz: endpunktabhängig (4 Endpunkte, hoch bis sehr niedrig)`, under it a table `Endpunkt \| Sicherheit` in the guideline's order, never sorted, the system named once as the table's caption; a table with keyed rows reads by its keys (below) |
      | Expert consensus only | one line: `Expertenkonsens, keine Evidenzbewertung` — every supporting claim's grade one that fixes no wording in its scheme (`EK`, an expert consensus, `graph-representation.md` §3.1) and none carrying an entry |
      | Nothing recorded | one line: `Evidenz: nicht erfasst` — what is not recorded, never that the guideline says nothing |
 
@@ -447,7 +447,11 @@ glyph. Timing
      exists and the range reads as what it is — a description of a set. The
      range is the highest and the lowest value present by the system's display
      order (`EVIDENCE_SCALES` in `tools/build.py`, keyed by system, read for
-     this and nothing else); a system the build has no order for keeps the
+     this and nothing else), matched without regard to case — a value is
+     stored as printed, and a box's `Moderat` and a method section's `moderat`
+     are one level — and named in the form that order holds (`moderat bis
+     sehr niedrig`), while each row shows its value as the claim stores it; a
+     system the build has no order for keeps the
      table and loses the range, `Evidenz: endpunktabhängig (4 Endpunkte)`, and
      never fails the build. Where some rows carry a value and others do not,
      those rows read `nicht erfasst` and the line counts only what is
@@ -455,6 +459,20 @@ glyph. Timing
      systems give one disclosure per system, never merged. Nothing is composed
      — no average, no worst case, no certainty in zone 2 — and the disclosure
      needs no script and survives printing.
+
+     A source may key its rows by something other than an endpoint — a
+     component of the action, a subgroup, an arm, a comparator, a device, a
+     regimen —, and the entry then carries the row's printed `key`
+     (`graph-representation.md` §3.1). A table with such a row is read by its
+     keys: a first column `Bezug` holds each row's key (empty for a row
+     without one), the `Endpunkt` column follows only where some row names an
+     endpoint, and the summary line counts rows, not endpoints, with the same
+     range rule: `Evidenz: aufgeschlüsselt (2 Zeilen, moderat bis sehr
+     niedrig)`, `Evidenz: aufgeschlüsselt (5 Zeilen)`, `Evidenz:
+     aufgeschlüsselt (3 von 5 Zeilen erfasst)`. `Sepsis-Screening | Moderat`,
+     `Dopamin | Hoch`, `oXiris® | Mortalität | Sehr niedrig`: the key is never
+     shown as an endpoint. A table without a key reads as above, and a row
+     of the statement JSON carries `key` only where its entry has one.
   5. **Applies to.** The slots as rows: `Eingriff` (population, with the
      families it belongs to below it, after `gehört zu:`, so that they read as
      broader categories and not as further requirements), `Bedingung` (condition), `Maßnahme`
