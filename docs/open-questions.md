@@ -147,3 +147,9 @@ and which card is next, is not a question and lives on the board (`uv run tools/
 **Options:** the second guideline's rule defines a concept of its own ("… nach <Leitlinie>"), related to the first by an edge saying they name the same state · a concept may have one `defined_by` edge per source, each rule shown under its source's name and never combined · both rules stay on one concept only where a page of either guideline says how they relate
 **Leaning:** the second, which keeps the concept one node and composes nothing. It needs the validator's one-edge rule narrowed to one edge per source. (2026-09-24)
 **Settled by:** the maintainer, when a second guideline's extraction first meets a derived concept of the first.
+
+## negated-open-wording  (graph-representation.md §3.1; schema `scheme_grade.negated`; card #212)
+**Question:** What does the site write for an open recommendation against something when the source prints no negated form of its open wording? The first source's Tabelle 5 prints "kann" and no negation, and its open recommendations against something read "kann auf … verzichtet werden"; the site has shown them as "kann nicht", which reads as "cannot". The grading scheme records "kann nicht" as `modelling` with a rationale only so that the site stays as it is (#212, #214).
+**Options:** keep "kann nicht" as modelling · no negated form for that wording: the site writes the wording and the lean ("kann · eher gegen") · a form the recommendations print, quoted, where one exists
+**Leaning:** the second — the lean already says against, and the page then shows nothing the source does not print; it changes two cards of the first view, so it is the maintainer's call. (2026-09-24)
+**Settled by:** the maintainer, reading an open recommendation against something on the first view.
