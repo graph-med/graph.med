@@ -25,8 +25,8 @@ on `views/pomgat-lv-1.0` by card #190: the root is the guideline's patient
 target group, quoted from its section 2.1.2 (p. 17); the organ families, the
 generic groups and the situations after an operation are unconditional scope
 edges, the organ families under "Operation eines gastrointestinalen Tumors" and
-that under the root; the four groups that are no operation (a medication, a
-risk profile, an access, a wider group of operations) hang under the root with
+that under the root; the four groups that are not an operation of the scope (a medication,
+a risk profile, an access, a wider group of operations that includes others) hang under the root with
 the condition "during an elective operation of the scope". The first question
 went from ten answers to five, and all 90 statements reach the root.
 

@@ -7,8 +7,11 @@ metadata:
 
 `broader` edges are written wherever one concept is a special case of another,
 and the hierarchy is as deep as that takes: in POMGAT three concept levels
-(Whipple → Pankreaskopfresektion → Pankreasresektion; Rektumanastomose →
-kolorektale Chirurgie). A family is simply a concept
+(Whipple → Pankreaskopfresektion → Pankreasresektion; the colorectal chain
+Rektumanastomose → kolorektale Anastomose → kolorektale Chirurgie was one too,
+until WP-0031 found its middle step to be a situation and made it a scope
+edge, so it now has two `broader` levels: Rektumanastomose → kolorektale
+Anastomose). A family is simply a concept
 with no `broader` edge. Existing
 concepts serve as families where one fits (`pankreasresektion`,
 `gastrektomie-oder-magenteilresektion`, `gastrointestinale-tumoroperation`),
@@ -30,7 +33,7 @@ linked by `broader` under the general "Operation eines gastrointestinalen
 Tumors": `leberresektion` and the other organ families have benign indications
 outside this guideline, and a concept hierarchy is meant to be reused by the
 next guideline. A link that holds only inside the guideline's scope — the organ
-families and the generic populations of chapters 4–5 under that operation, a
+families and the generic populations of chapters 4, 5 and 7 (7.4.1, 7.4.2, 7.5) under that operation, a
 situation after an operation under the operation — is not subsumption at all
 but a scope edge `in_scope_of` ([[scope-tree-and-anchor]]).
 
