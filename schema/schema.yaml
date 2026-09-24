@@ -241,14 +241,14 @@ $defs:
     required: [grade, source]
     additionalProperties: false
     properties:
-      grade:       {$ref: '#/$defs/text'}      # as the recommendations print it ("A", "Stark", "EK"): what a claim carries
-      description: {$ref: '#/$defs/text'}      # as the table describes the grade ("Starke Empfehlung"), a broken word joined
-      verb:        {$ref: '#/$defs/text'}      # the wording the table gives the grade ("soll", "empfehlen"), as it prints it;
-                                               # absent for a grade that fixes none, whose claims' wording carries the strength
-      negated:     {$ref: '#/$defs/text'}      # that wording negated, as the source prints it ("empfehlen nicht",
-                                               # "schlagen nicht vor"); never the verb followed by "nicht"
-      open:        {type: boolean}             # the table makes the grade an open recommendation ("Empfehlung offen"):
-                                               # a claim with its wording weighs, neither for nor against
+      grade:       {$ref: '#/$defs/text'}      # as the recommendations print it: what a claim carries as `grade`
+      description: {$ref: '#/$defs/text'}      # as the table describes the grade, a word the table breaks across lines joined
+      verb:        {$ref: '#/$defs/text'}      # the wording the table gives the grade, as it prints it; absent for a grade
+                                               # that fixes none, whose claims' own wording carries the strength
+      negated:     {$ref: '#/$defs/text'}      # that wording negated, as the source prints it — never the verb with a
+                                               # negation appended (spec §3.1)
+      open:        {type: boolean}             # the table makes the grade an open recommendation: a claim with its
+                                               # wording weighs, neither for nor against
       source:      {$ref: '#/$defs/references'}   # where the source prints the grade: its table row, cell by cell
       provenance:  # where the negated form is printed, when not in the row; `modelling` for a form printed nowhere
         type: object
@@ -262,7 +262,7 @@ $defs:
     if: {required: [provenance], properties: {provenance: {required: [negated], properties: {negated: {const: modelling}}}}}
     then: {required: [rationale]}
   # one class of the source's consensus table. `class` is what a claim carries as `consensus`: the printed name
-  # slugified ("Starker Konsens" → starker_konsens), unique per scheme (validator). Every word of `name` and
+  # slugified (lower case, words joined by `_`), unique per scheme (validator). Every word of `name` and
   # `bounds` lies in one of the quotes of `source` (validator). Where the source prints shares, the bounds are
   # also read as numbers, a lower and an upper at most, and a claim's printed share must lie within its
   # class's (validator); a reading the printed bounds leave open is said in `rationale`
@@ -273,7 +273,7 @@ $defs:
     properties:
       class:    {$ref: '#/$defs/slug'}
       name:     {$ref: '#/$defs/text'}          # as the table names it
-      bounds:   {$ref: '#/$defs/text'}          # as the table prints them ("> 75-95 % der Stimmberechtigten")
+      bounds:   {$ref: '#/$defs/text'}          # as the table prints them
       above:    {type: number}                  # the share is greater than this
       at_least: {type: number}                  # the share is this or more
       at_most:  {type: number}                  # the share is this or less
@@ -365,15 +365,15 @@ $defs:
       grade:     {$ref: '#/$defs/text', x-provenance: required}   # never from the extractor
              # as printed, one of the grades its own source's `grading_scheme` lists (validator; spec §3.1)
       verb:      {$ref: '#/$defs/text', x-provenance: required}
-             # the wording the sentence uses, in the form a scheme gives it ("sollten" → sollte): one some declared
-             # `grading_scheme` defines — its own source's, or another's (validator)
+             # the wording the sentence uses, in the form a scheme gives it (never inflected, never negated): one
+             # some declared `grading_scheme` defines — its own source's, or another's (validator)
       direction: {enum: [for, against], x-provenance: required}
       consensus: {$ref: '#/$defs/slug', x-provenance: required}
              # a class of its own source's `grading_scheme` (validator): the one the box prints, or the one the
              # source's table gives the printed share
       consensus_share: {$ref: '#/$defs/text', x-provenance: required}
-             # the share of agreement as printed ("95 %"), where the source prints one; beside `consensus`,
-             # within its class's bounds (validator)
+             # the share of agreement as printed, where the source prints one; beside `consensus`, within its
+             # class's bounds (validator)
       evidence:  # how certain the evidence is, per outcome, in the words of the system that rated it
                  # (spec §3.1); absent or [] is "not recorded". A list even where the source states one
                  # value (one entry, no `outcome`): never a scalar, and never reduced to one value
