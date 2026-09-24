@@ -409,6 +409,9 @@ def check_grading(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
                 errs.append(f"{rel}: the grading scheme lists the {what} {value!r} more than once")
         for entry, fields in [(g, ("grade", "verb", "negated")) for g in grades] + [(c, ("name", "bounds")) for c in classes]:
             name = entry.get("grade", entry.get("class"))
+            quoted = as_refs(entry.get("source")) + [r for v in (entry.get("provenance") or {}).values() for r in as_refs(v)]
+            for other in sorted({source_of(r.get("at", "")) for r in quoted} - {sid}):
+                errs.append(f"{rel}: the grading scheme quotes {other} for {name!r}; a scheme is read off its own source")
             for field in fields:
                 if field not in entry:
                     continue
@@ -416,9 +419,6 @@ def check_grading(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
                 if given == "modelling":
                     continue
                 refs = as_refs(given)
-                for r in refs:
-                    if source_of(r.get("at", "")) != sid:
-                        errs.append(f"{rel}: the grading scheme quotes {source_of(r.get('at', ''))} for {name!r}; a scheme is read off its own source")
                 missing = [w for w in str(entry[field]).split() if not any(printed(w, r.get("quote")) for r in refs)]
                 if missing:
                     errs.append(f"{rel}: the {field} {entry[field]!r} of {name!r} in the grading scheme prints "
