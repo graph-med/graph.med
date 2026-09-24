@@ -1,0 +1,6 @@
+id: concepts/amylase-serum
+type: concept
+lang: de
+label: Amylase-Konzentration im Serum
+facet: finding
+source: modelling   # a measured quantity, the reference of a relative threshold (spec §3.1)
