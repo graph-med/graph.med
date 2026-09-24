@@ -206,6 +206,30 @@
 <p><small>{{ e.license }}</small></p>
 <p><small>{{ e.content_hash }}{% if e.awmf_register %} · AWMF {{ e.awmf_register }}{% endif %} · {{ W("source.claims", claim_count).format(n=claim_count) }}</small></p>
 </div>
+{% elif e.type == "axis" %}
+{# an axis (spec §4.1): an overlay on the pool, so its page is where the grouping shows as data — its carrier,
+   rule and question, its status per view, and its placements grouped by where they place (docs/publication.md §4) #}
+<div class="card" lang="{{ e.lang }}">
+<p class="kind">{{ W("type.axis") }} · {{ W("carrier." ~ e.carrier) }}</p>
+<p class="label">{{ e.label }}</p>
+<dl class="slots">
+  <dt>{{ W("axis.rule") }}</dt><dd>{{ e.rule }}</dd>
+{% if e.question %}  <dt>{{ W("axis.question") }}</dt><dd>{{ e.question }}</dd>
+{% endif %}  <dt>{{ W("axis.views") }}</dt><dd>{% for v in axis_views %}<span><a href="{{ base }}{{ v.label }}/">{{ v.label }}</a>: {{ W("status." ~ v.status) }}, {{ W("axis.since").format(date=v.since) }}</span>{% if not loop.last %}<br>{% endif %}{% endfor %}</dd>
+</dl>
+{% if placed %}
+<section class="zone" aria-labelledby="zone-placements-h">
+<h3 id="zone-placements-h">{{ W("axis.placements") }} <span class="count">({{ placed_n }})</span></h3>
+{% for p in placed %}<div class="placed">
+<p class="from"><a class="node-link" data-node="{{ p.id }}" href="{{ base }}{{ p.id }}/" lang="{{ p.lang }}">{{ p.label }}</a> <span class="count">({{ p.members | length }})</span></p>
+<ul class="plain placed">
+{% for m in p.members %}  <li><a class="node-link" data-node="{{ m.id }}" href="{{ base }}{{ m.id }}/" lang="{{ m.lang }}">{{ m.label }}</a>{% if m.kind %} <span class="edge-kind{% if m.kind == 'none' %} none{% endif %}">{{ W("placement." ~ m.kind) }}</span>{% endif %}{% if m.rationale %}<small>{{ m.rationale }}</small>{% endif %}</li>
+{% endfor %}</ul>
+</div>
+{% endfor %}
+</section>
+{% endif %}
+</div>
 {% else %}
 <p class="kind">{{ W("type." ~ e.type) }}</p>
 <p class="label" lang="{{ e.lang }}">{{ e.label or e.id }}</p>

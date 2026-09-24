@@ -174,6 +174,13 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card ul.general li .cite { display: block; font-size: .8rem; }
 .card dl.slots dd.general-for > span { flex-basis: 100%; }   /* one group per line */
 .card dl.slots dd.general-for small { color: var(--mute); }
+/* an axis's page: its placements grouped by where they place — a parent or a value, then its members, each a hierarchy
+   member with the kind of edge it hangs by in a quiet word after it; one without an edge (a proposal's) marked */
+.card div.placed { border-left: 2px solid var(--line); padding-left: .6rem; margin: .4rem 0 .8rem; }
+.card div.placed .from { margin: .2rem 0 .2rem; }
+.card div.placed .from .count, .card ul.placed .edge-kind { color: var(--mute); font-size: .85rem; }
+.card ul.placed li { padding: .3rem 0; }
+.card ul.placed .edge-kind.none { color: var(--fg); font-style: italic; }
 /* a derived concept's rules, under its row of zone 5 and on its page: the line saying it is derived, then each rule —
    its thresholds or its sentence, the page and the claim's link on a line of their own below */
 .card .rules { flex-basis: 100%; margin: .15rem 0 .3rem; padding-left: .6rem; border-left: 2px solid var(--line); }

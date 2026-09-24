@@ -524,7 +524,15 @@ next to it that carries the entity as stored plus its incoming and outgoing edge
 resolved to ids. The JSON is what a program uses; the page is what a person lands
 on. Both are generated; neither is authored. A derived concept's page lists its
 rules under its label, as zone 5 of the card does (§3), and its JSON carries
-`derivation` and `rules`.
+`derivation` and `rules`. An axis's page is where a grouping shows as data, since
+an axis lies over the pool rather than in it (`graph-representation.md` §4.1): its
+carrier, its rule, its own question where it declares one, its status and date per
+view, and its placements grouped by where they place — a dimension's statements
+under each of its values in the declared order, a hierarchy's concepts under each
+parent from the top of the tree down, each with the kind of edge it hangs by
+("Sonderfall" for `broader`, "im Geltungsbereich" for `in_scope_of`, "ohne Kante"
+where a proposal names a parent the pool holds no edge to), and a placement's
+rationale where it has one. The words come from the build's per-language table.
 
 ---
 

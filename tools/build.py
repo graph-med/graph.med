@@ -96,7 +96,11 @@ CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", 
              # what applies generally through a view's scope tree (docs/publication.md §3): on a concept, and on the card
              "concept.general", "scope.general_for", "scope.condition",
              # a derived concept's rules, under its row of zone 5 and on its own page (docs/publication.md §3, §4)
-             "derivation.rules.one", "derivation.rules.many", "rule.and", "rule.claim", "comparator.between")
+             "derivation.rules.one", "derivation.rules.many", "rule.and", "rule.claim", "comparator.between",
+             # an axis's page (docs/publication.md §4): its carrier, rule and question, its status per view, its placements
+             "carrier.dimension", "carrier.hierarchy", "axis.rule", "axis.question", "axis.views", "axis.since",
+             "status.proposed", "status.asserted", "status.withdrawn", "axis.placements",
+             "placement.broader", "placement.in_scope_of", "placement.none")
 CARD_WORDS = {"de": {
     "zone.wording": "Wortlaut der Empfehlung", "zone.evidence": "Evidenz", "zone.applies": "Gilt für",
     "zone.body_text": "Hinweise aus dem Begleittext", "zone.contested.one": "Widersprechende Empfehlung",
@@ -127,6 +131,11 @@ CARD_WORDS = {"de": {
     "concept.general": "Allgemein geltende Empfehlungen", "scope.general_for": "Gilt allgemein auch für", "scope.condition": "Voraussetzung",
     "derivation.rules.one": "abgeleitet, nach der Regel", "derivation.rules.many": "abgeleitet, nach einer der folgenden {n} Regeln",
     "rule.and": "und", "rule.claim": "Textstelle", "comparator.between": "zwischen",
+    "carrier.dimension": "Dimension", "carrier.hierarchy": "Hierarchie", "axis.rule": "Regel", "axis.question": "Frage",
+    "axis.views": "Sichten", "axis.since": "seit {date}",
+    "status.proposed": "vorgeschlagen", "status.asserted": "zugesichert", "status.withdrawn": "zurückgezogen",
+    "axis.placements": "Platzierungen", "placement.broader": "Sonderfall", "placement.in_scope_of": "im Geltungsbereich",
+    "placement.none": "ohne Kante",
 }}
 # The five questions a physician brings to a recommendation, kept as the semantic mapping of the card's keys
 # — what each zone answers, read by an answering layer from the statement's JSON — and never rendered
@@ -962,7 +971,33 @@ def main(argv=None) -> int:
             d["claim"]["urteil"] = {"direction": j["word"], "glyph": j["glyph"], "verbs": j["verbs"]} if j else None
         elif t == "source":
             d["claim_count"] = sum(1 for c in pool.of_type("claim") if pool.source_of(c) == ent["id"])
+        elif t == "axis":
+            d.update(placements_of(ent))
         return d
+
+    def placements_of(axis: dict) -> dict:
+        """What an axis's page shows of its placements (spec §4.1, docs/publication.md §4), grouped by where they
+        place: a dimension's statements under each of its values, in the declared order; a hierarchy's concepts
+        under each parent, parents from the top of the tree down and by label, members by label, each member with the kind of the pool edge it hangs by —
+        or none, which a proposal may name and an asserted axis may not. A placement's rationale, where it has
+        one, goes with it. The axis is an overlay, so this is the one place the site shows the grouping as data."""
+        label = lambda eid: (pool.entities[eid].get("short_label") or pool.entities[eid].get("label") or eid) if eid in pool.entities else eid
+        lang = lambda eid: pool.entities.get(eid, {}).get("lang") or axis["lang"]
+        groups: dict[str, list[dict]] = defaultdict(list)
+        for key, value in (axis.get("placements") or {}).items():
+            for place in places(value):
+                kind = next((k for k, to, _ in pool.out.get(key, []) if to == place and k in ("broader", "in_scope_of")), None) \
+                    if axis["carrier"] == "hierarchy" else None
+                groups[place].append({"id": key, "label": label(key), "lang": lang(key), "kind": kind or ("none" if axis["carrier"] == "hierarchy" else None),
+                                      "rationale": value.get("rationale") if isinstance(value, dict) else None})
+        up = {key: places(value) for key, value in (axis.get("placements") or {}).items()}
+        def depth(c, trail=()):   # how far a parent lies below the top of the axis's tree: the tree is read from the root down
+            return 0 if c in trail or not up.get(c) else 1 + min(depth(p, trail + (c,)) for p in up[c])
+        order = axis.get("values") or sorted(groups, key=lambda p: (depth(p), label(p).casefold(), p))
+        return {"placed": [{"id": p, "label": label(p), "lang": lang(p), "members": sorted(groups[p], key=lambda m: (m["label"].casefold(), m["id"]))}
+                           for p in order if groups.get(p)],
+                "placed_n": sum(len(v) for v in groups.values()),
+                "axis_views": [{**e, "label": e["view"].split("/", 1)[-1]} for e in axis.get("views") or []]}
 
     def card_of(st: dict) -> dict:
         """The statement card (docs/publication.md §3 "What the section shows"), assembled once: the template
