@@ -123,3 +123,15 @@ and which card is next, is not a question and lives on the board (`uv run tools/
 **Options:** a parenthesis that states which cases a term covers becomes a criterion claim of its own, a narrower place in the box sentence, by a rule §3.1 would have to name · `defined_by` may also reach the recommendation claim whose sentence prints the rule · the concept stays stated and the page shows its label, which already carries the enumeration
 **Leaning:** none yet; the first keeps the edge's target a rule claim but breaks "one claim per sentence" for boxes, the second keeps the unit but makes the edge point at an instruction. (A sentence of the body text that lists alternative answers is not part of this question: §5.1 K already makes each answer a claim, as #192 did for 4.1.) (2026-09-24)
 **Settled by:** the maintainer's decision on the route; then a linking pass over 7.7 and 7.10.
+
+## verb-word-scope  (publication.md §3 "The verb is a word where the letter does not carry it"; card #153)
+**Question:** Over what does the build compute which grade letters determine their verb? Today it is per view: the letters under which every supporting claim of the view says one verb write none, the others write the verb after the letter. That is right while a view shows one guideline. Two sources with different grading schemes in one view would pool their letters (an `A` of one scheme beside an `A` of another), and the grade carries no `system` the way an `evidence` entry does. And a single new claim with a letter and an unusual verb makes that letter ambiguous for every box of the view, including boxes nothing changed in.
+**Options:** per view, as now · per source, so that one guideline's letters are read against its own claims · per grading system, once the grade names its system (with `grade-derivation`)
+**Leaning:** per view until a view holds two graded sources; then per grading system, which needs the grade to name its scheme. The pool-wide rewrite on one new claim is deterministic and is what the reader needs from that moment; it is not a reason to declare the rule. (2026-09-24)
+**Settled by:** the first view with two graded sources, or the schema giving a grade its system.
+
+## gap-glyph-beside-zero  (publication.md §3; card #153)
+**Question:** A *Lücke* box would begin `∅ 0 · …` if a gap notice ever carried grade `0`: the empty-set glyph beside the digit zero is a reading trap. Nothing renders it today (no gap notice is linked to a statement in the first view), so the glyph set stands as ✓ ✗ ⚖ ∅.
+**Options:** keep `∅` · another character for *Lücke* · draw the four glyphs as SVG (the mechanism a bold stamp would need too)
+**Leaning:** none; decide before the first gap notice is linked to a statement. (2026-09-24)
+**Settled by:** a gap notice linked to a statement (`gap-notices`), seen on the page.

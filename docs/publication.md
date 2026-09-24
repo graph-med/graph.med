@@ -87,8 +87,8 @@ decision-graph-derivation):
    ┌──┴────────┐   ┌───┴───────┐ ┌───┴───────┐
    │ recommend.│   │ recommend.│ │ recommend.│    the statements — boxes coloured by
    └─────┬─────┘   └───────────┘ └───────────┘    direction (für · gegen · abwägen · Lücke),
-         ┆ (dashed)                               the grade a letter (A · B · 0 · EK);
-         ┆                                        solid border when the verb is "soll",
+         ┆ (dashed)                               its glyph, the grade a letter (A · B · 0 · EK),
+         ┆                                        the verb a word where the letter does not carry it;
          ┆                                        dashed red border when contested
          ▷ aim                                    outcome slot
 ```
@@ -114,20 +114,32 @@ decision-graph-derivation):
   related to it that are shown keep their colour and wear a dotted outline; no
   line is drawn across the tree, and the card names each relation (zone 9).
   A box takes the colour of its direction — the four colours of the judgement bar
-  in the details, so that box and section agree — and carries its grade as a
-  letter before its label (A · B · 0 · EK, the guideline's own scale). No
-  direction glyph is on the box, in any direction: the colour says it, and the
-  glyph lives in the judgement and the legend. An
-  EK box is coloured by its direction like every other recommendation and marked
-  "EK", not demoted. **The verb is a border.** A box whose supporting claims all
-  say `soll` gets a solid border in a strong shade of its direction's colour —
-  green for *für*, red for *gegen* ("soll nicht") — so that two recommendations
-  of one grade and direction still show which is the stronger; `sollte` gets no
-  border, and neither does a box whose supporting claims disagree on the verb
-  (the verb, like the grade, is shown and never composed). A contested box
-  keeps its dashed red border and shows no verb border: the rarer, more urgent
-  signal is never the one dropped. Legend under the graph: the colours are
-  directions, the letters grades, the border the verb.
+  in the details, so that box and section agree — and its label begins with a
+  stamp, in text, before the short form: `✗ EK soll nicht · Keine präoperative
+  Haarentfernung`. **The glyph** (✓ ✗ ⚖ ∅) says the direction again, for every
+  reader who does not see the colour: under red-green deficiency the *für* and
+  *gegen* fills are one colour. `⚖` carries the text variation selector U+FE0E,
+  and the page's font stack (`--font`, the graph's too) names text faces that
+  have it after the system face, so that no platform draws it from a colour emoji
+  font — the selector alone did not keep Chromium from it where the system face
+  lacks the glyph. **The grade** follows as a
+  letter (A · B · 0 · EK, the guideline's own scale; every letter when the claims
+  differ). An EK box is coloured by its direction like every other recommendation
+  and marked "EK", not demoted. **The verb is a word where the letter does not
+  carry it.** The build computes, per view, which verbs the supporting claims say
+  under each grade letter: where a letter has exactly one, the letter determines
+  the verb and nothing is written; where it has more than one, a box whose
+  claims carry that letter writes its verb after it. The word carries its
+  negation — `soll nicht`, `sollte nicht` for a recommendation against — exactly
+  as the judgement writes it, so that box and card say the same thing. Nothing
+  about a grading scheme is known to the build: the rule reads the pool, so one
+  new claim can make a letter ambiguous and every box of that letter in the view
+  then writes its verb. Supporting claims that disagree on the verb give no word
+  (the verb, like the grade, is shown and never composed). **The border means
+  state alone** — a contested box's dashed red border, and the selection; it
+  carries no meaning of its own. Legend under the graph: the colours and glyphs
+  are directions, the letters grades, a verb word appears where the letter does
+  not carry it.
   Claims are not nodes; they are the evidence and appear in the section.
 
 **Drawn by a library, left to right, folded.** The page uses Cytoscape.js with the
@@ -315,8 +327,8 @@ because in the AWMF scheme "kann" *is* the open recommendation, the guideline's 
 third category (the judgement adds the lean, "eher für" or "eher gegen"); `kind:
 gap_notice` → Lücke; claims that disagree in direction → abwägen; a fact has no
 direction. The box's colour and the judgement at the top of the details carry it; the
-glyph (✓ ✗ ⚖ ∅) stands in the judgement and the legend, never on the box; the legend
-lists the four words with their colours. Timing
+glyph (✓ ✗ ⚖ ∅) stands on the box, before its grade letter, in the judgement and in
+the legend; the legend lists the four words with their colours. Timing
 ("innerhalb von 24 Stunden") is not a direction; it stays in the label.
 
 **What the section shows.**
