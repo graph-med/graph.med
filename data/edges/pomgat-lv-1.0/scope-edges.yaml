@@ -17,7 +17,7 @@
 - [concepts/pankreas-und-leberchirurgie, in_scope_of, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-24", lang: de,
    rationale: "Im Geltungsbereich der Leitlinie (Kapitel 4.2) ist die Pankreas- und Leberchirurgie Tumorchirurgie des Gastrointestinaltraktes."}]
 - [concepts/elektiver-abdominalchirurgischer-tumoreingriff, in_scope_of, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-24", lang: de,
-   rationale: "Im Geltungsbereich der Leitlinie ist der elektive abdominalchirurgische Tumoreingriff eine Operation eines gastrointestinalen Tumors; das Konzept wurde für die Empfehlungen der Abschnitte 5.1 und 5.2 und für 7.25 und 7.28 mit dieser Bedeutung geprägt, die von abdominalchirurgischen Eingriffen allgemein sprechen."}]
+   rationale: "Im Geltungsbereich der Leitlinie ist der elektive abdominalchirurgische Tumoreingriff eine Operation eines gastrointestinalen Tumors; das Konzept wurde für die Empfehlungen 5.1 und 5.2 (Abschnitt 5.1) und für 7.25 und 7.28 mit dieser Bedeutung geprägt, die von abdominalchirurgischen Eingriffen allgemein sprechen."}]
 
 # ── the two situations after an operation, moved out of broader-edges.yaml: a situation is not a
 # special case of the operation (spec §4.1, edge cases); each hangs under the operation the guideline

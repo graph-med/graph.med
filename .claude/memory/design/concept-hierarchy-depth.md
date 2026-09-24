@@ -19,7 +19,7 @@ and five were minted (`oesophagusresektion`, `leberresektion`,
 `kolorektale-chirurgie`, `kardiale-dauermedikation`,
 `perioperatives-risikoprofil`). Decided 2026-09-10 in chunk `broader-edges` of
 pass 2. Since the scope stipulations left `broader` (WP-0031, card #190),
-`broader` alone leaves the POMGAT patient groups seventeen families; the view
+`broader` alone leaves the POMGAT patient groups nineteen families; the view
 folds them by its scope tree, which hangs them under the guideline's patient
 target group and gives the first question five answers
 ([[scope-tree-and-anchor]]).
@@ -33,7 +33,7 @@ linked by `broader` under the general "Operation eines gastrointestinalen
 Tumors": `leberresektion` and the other organ families have benign indications
 outside this guideline, and a concept hierarchy is meant to be reused by the
 next guideline. A link that holds only inside the guideline's scope — the organ
-families and the generic populations of chapters 4, 5 and 7 (7.4.1, 7.4.2, 7.5) under that operation, a
+families and the generic populations under that operation (anchored in chapters 4, 5, 7 and 8), a
 situation after an operation under the operation — is not subsumption at all
 but a scope edge `in_scope_of` ([[scope-tree-and-anchor]]).
 

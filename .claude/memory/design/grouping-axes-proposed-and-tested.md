@@ -35,7 +35,7 @@ what groups the graph is always an edge or a slot value with provenance
 complaint was that `broader` might have emerged in post-processing; and
 "feasible" is a measurement, not an opinion, so the pull request that asserts
 an axis carries a report a reviewer can check. The worked example on the first
-source showed why the measures are what they are: a region axis places 20 of
+source showed why the measures are what they are (its report of 2026-09-13): a region axis places 20 of
 36 population concepts but only 42 of 90 statements, because the generic
 "gastrointestinal tumour operation" carries 24 — coverage by concept alone
 would have hidden that. The region was withdrawn for that view on 2026-09-24
