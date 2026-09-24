@@ -124,7 +124,7 @@
   lang: de
   kind: criterion
   section: "5.1.1"
-  label: Risikofaktoren nach Apfel 1999 [93] gelten weibliches Geschlecht, Nichtraucher, PONV oder Reiseübelkeit in der Anamnese
+  label: Als Risikofaktoren nach Apfel 1999 [93] gelten weibliches Geschlecht, Nichtraucher, PONV oder Reiseübelkeit in der Anamnese
     sowie postoperativer Opioidbedarf; zusätzlich können Inhalationsanästhesie oder abdominalchirurgische Eingriffe auch als
     Risikofaktoren betrachtet werden.
   combination:   # spec §3.1: the page lists the factors and does not say how many must be present (#204)

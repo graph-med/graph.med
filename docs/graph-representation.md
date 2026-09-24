@@ -1104,7 +1104,12 @@ pool, and catches what was left out:
   `consensus`, `recommendation_no` and `section` are as printed at that place,
   and none is supplied where the page prints none (§11, rule 6; a body-text
   claim carries no grade, §5); a number in the label — a day, a dose, a value,
-  a threshold — is the number on the page. Whether the quote is on the page,
+  a threshold — is the number on the page. A `threshold` is what the page
+  prints, one per claim; a `combination` (§3.1) joins every member the passage
+  joins and no other, its connective is what the page prints between them,
+  and its operator is the reading the connective bears in its sentence, never
+  decided by the word alone; a list the page does not combine is marked
+  `not_stated`, not read. Whether the quote is on the page,
   whether the id hashes from the anchor, whether the file fits the schema, it
   does not ask: the validator has, and the judge runs after it and repeats
   none of it — the definition lists what the validator covers so that the
@@ -1136,7 +1141,8 @@ pool, and catches what was left out:
   (§5.1), every alternative of an "entweder … oder" is a claim of its own,
   every claim of a marked recommendation supports or contests a statement,
   and every body-text claim has its edge — a body-text claim supports no
-  statement, the rule of §5.1 gives it the edge instead. What "marks" means is
+  statement, the rule of §5.1 gives it the edge instead; the top or a part of
+  a combination that is not itself an answer carries none (§5.1 N 5). What "marks" means is
   read off the source, never assumed: a numbered, shaded box in one
   guideline, a numbered statement, a bulleted "offer", a sentence with a
   grade letter in another; the schema's `kind: recommendation` with whatever
