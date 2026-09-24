@@ -270,25 +270,59 @@ their verb is decided per scheme, never across two (`docs/publication.md` §3).
 
 How binding a recommendation is (`grade`, `verb`) and how certain the evidence
 behind it is are two different facts, and a source may state the second per
-outcome — *hoch* for one endpoint, *sehr niedrig* for another. A claim carries
-it as **`evidence`**: a list of entries, each the rating in the words of the
+outcome — *hoch* for one endpoint, *sehr niedrig* for another — or per row of
+another kind: a component of the action, a subgroup, an arm, a comparator, a
+device, a regimen. A claim carries it as **`evidence`**: a list of entries, one
+per row the source prints, in its order, each the rating in the words of the
 system that made it (`value`, `system`: GRADE, Oxford, the ESC levels, whatever
-the source used) and, where the source rates per outcome, the outcome concept
-it applies to. Two rules keep the field honest. **A value is never mapped
-between systems**: GRADE's *hoch* is not an Oxford level, no table in the
-schema, the validator or the build says otherwise, and a system the site does
-not know is a valid state, not an error. **Several entries are never reduced to
-one**: a recommendation whose certainty differs by outcome carries every row,
-and no consumer forms a summary value from them — grades are shown, never
+the source used), the outcome concept it applies to where the row names an
+endpoint (`outcome`), and the row's **`key`** as printed where the row names
+anything else ("Sepsis-Screening", "Septischer Schock", "Dopamin", "HAT",
+"oXiris®"). The key is a string, never a concept and never a kind: rows keyed by
+comparator and rows keyed by subgroup are told apart by the words they print, and
+no vocabulary of row kinds exists for the next source to break. A row naming
+both, an endpoint for a device ("Mortalität oXiris®") or under a comparison
+("CRRT vs. IHD" above "Mortalität"), carries both; what qualifies the endpoint
+itself — its time frame ("Mortalität (30 Tage)"), its setting ("ICU
+Mortalität") — belongs to the endpoint and is no key. **A component, a subgroup
+or a comparator is never recorded as an outcome**: an `outcome` is a concept of
+facet `outcome` (validator). The key also keeps apart rows that would otherwise
+be the same entry — three devices rated *Sehr niedrig* for one endpoint — so no
+two rows the source prints become one entry. The `value` is the system's word
+**as printed**, "Moderat" where the box prints it capitalised: the case is the
+print's, not a second level, and a consumer compares the values of one system
+without regard to it. Where the source prints a rating twice, as a word and as
+symbols (⊕⊕⊕⊝), the value is the word; where the two disagree, the word is
+recorded and the pass that meets it names the disagreement in its pull
+request — it is never resolved. Two rules keep the field honest. **A value is
+never mapped between systems**: GRADE's *hoch* is not an Oxford level, no table
+in the schema, the validator or the build says otherwise, and a system the site
+does not know is a valid state, not an error. **Several entries are never
+reduced to one**: a recommendation whose certainty differs by row carries every
+row, and no consumer forms a summary value from them — grades are shown, never
 composed (`docs/publication.md` §3). A source that rates the whole
-recommendation once produces one entry without an outcome. An outcome the
-source lists without a rating is an entry with its outcome and system and no
-value: it is recorded, not left out, so that a table with an empty cell keeps
-its count, and it reads *nicht erfasst*. Every entry states an outcome or a
-value, and an entry with neither is refused. An absent or empty
-list means the certainty was not recorded, not that there is none. Like the
-grade, the rating is read off the source and never inferred: its provenance is
-required (§6.5).
+recommendation once produces one entry without an outcome or a key — a box's
+"Evidenzgrad: 1", where the method section names the system, is `value: "1"`
+with the system that section names. An outcome the source lists without a
+rating is an entry with its outcome and system and no value: it is recorded,
+not left out, so that a table with an empty cell keeps its count, and it reads
+*nicht erfasst*. Every entry states an outcome or a value, and an entry with
+neither is refused. An absent or empty list means the certainty was not
+recorded, not that there is none.
+
+The rows a marked recommendation prints once belong to **every sentence of it
+that supports a statement of its own**: each such claim carries all of them, in
+the source's order. Two sentences of opposite direction under rows keyed by arm
+each carry both rows, and the keys tell the reader which arm each rates; no row
+is given to one sentence by reading its key against the sentence. A sentence
+that supports another sentence's statement, or none, carries none: that
+statement's card shows the rows already, and a second claim repeating them would
+count each row twice. Like the grade, the rating is read off the source and
+never inferred: its provenance is required (§6.5) — one quote per row, in the
+rows' order, the line that prints the row's key or outcome (the rating's own
+line where the row prints neither), followed by the method section's line that
+names the system where the row prints a level no notation identifies (a bare
+"1", where GRADE's ⊕ symbols identify theirs).
 
 A criterion or a definition may print a **threshold** — "Amylase im
 Drainagesekret unter 5000 U/L am ersten postop. Tag", "ASA Status von
