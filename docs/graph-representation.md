@@ -567,8 +567,8 @@ the different jobs of edges apart:
 - **coding** — `codes_as`: concept → terminology concept. Codes are never bare
   strings inside a property; a code is a node and coding is an edge, so the link
   carries provenance and dangles visibly when a classification changes.
-- **subsumption** — `broader`: concept → concept, "is a special case of". *Offene
-  Leberresektion* is a *Leberresektion*; a concept may have several broader
+- **subsumption** — `broader`: concept → concept, "is a special case of". *Pankreaskopfresektion*
+  is a *Pankreasresektion*; a concept may have several broader
   concepts (a pancreatoduodenectomy is both a pancreatic resection and a
   duodenal resection) and a concept with none is a
   root. Always `modelling`, with a rationale; it may carry an **`axis`** naming

@@ -48,7 +48,7 @@ not belong there.
 offering are two steps ([[grouping-axes-proposed-and-tested]]), so a sparse
 qualifier lives on the statement without appearing in the switch. Another
 guideline's qualifier of the same shape gets the same mechanism, not a new one
-([[generic-over-guidelines]]). The access-coloured population concepts that
-remain (`offene-gastrointestinale-tumoroperation`,
-`minimalinvasive-gastrointestinale-tumoroperation`, `offene-leberresektion`)
-are retired by their own card, not by adding access to further names.
+([[generic-over-guidelines]]). No population concept carries the access in its
+name: a statement whose sentence names it hangs on the access-free stem, with
+the access in the slot, so that a pair told apart only by the access (7.9 and
+7.10) stands under one node and is read as a pair.
