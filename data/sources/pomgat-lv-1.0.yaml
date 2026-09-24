@@ -10,6 +10,72 @@ media_type: application/pdf
 license: © Leitlinienprogramm Onkologie (DKG, Deutsche Krebshilfe, AWMF) — referenced at its public URL, never rehosted;
   written permission of the OL-Redaktion required for any reproduction
 structure: [chronologisch_perioperativ, anatomisch, modalitaetsbezogen]   # chapters 4–8 by phase, subsections by organ and by modality
+grading_scheme:   # spec §3.1: Tabelle 5 (p. 19), section 2.2.4 and Tabelle 6 (p. 20), quoted cell by cell
+  grades:   # the legend's order: Tabelle 5's rows, then EK, which fixes no wording
+    - grade: "A"
+      description: Starke Empfehlung
+      verb: soll
+      negated: soll nicht
+      source:
+        - {at: sources/pomgat-lv-1.0#page=19, quote: "A"}
+        - {at: sources/pomgat-lv-1.0#page=19, quote: "Starke Empfehlung"}
+        - {at: sources/pomgat-lv-1.0#page=19, quote: "soll"}
+      provenance:   # Tabelle 5 prints the affirmative only; a grade-A box prints the negated form
+        negated: {at: sources/pomgat-lv-1.0#page=48, quote: "Eine rein mechanische Darmvorbereitung soll nicht durchgeführt werden."}
+    - grade: "B"
+      description: Empfehlung
+      verb: sollte
+      negated: sollte nicht
+      source:
+        - {at: sources/pomgat-lv-1.0#page=19, quote: "B"}
+        - {at: sources/pomgat-lv-1.0#page=19, quote: "Empfehlung"}
+        - {at: sources/pomgat-lv-1.0#page=19, quote: "sollte"}
+      provenance:   # as for A: a grade-B box
+        negated: {at: sources/pomgat-lv-1.0#page=101, quote: "Daikenchuto sollte nicht zur Prophylaxe des postoperativen (paralytischen) Ileus"}
+    - grade: "0"
+      description: Empfehlung offen
+      verb: kann
+      negated: kann nicht
+      open: true
+      source:
+        - {at: sources/pomgat-lv-1.0#page=19, quote: "0"}
+        - {at: sources/pomgat-lv-1.0#page=19, quote: "Empfehlung offen"}
+        - {at: sources/pomgat-lv-1.0#page=19, quote: "kann"}
+      provenance:
+        negated: modelling
+      rationale: "Tabelle 5 nennt nur die bejahende Ausdrucksweise, und die Leitlinie druckt „kann nicht“ nirgends: ihre offenen
+        Empfehlungen gegen etwas lauten „kann auf … verzichtet werden“. Die verneinte Form ist die, mit der die Seite solche
+        Empfehlungen bisher zeigt."
+    - grade: EK
+      description: Expertenkonsens
+      source:
+        - {at: sources/pomgat-lv-1.0#page=20, quote: "werden als Expertenkonsens (EK) ausgewiesen."}
+        - {at: sources/pomgat-lv-1.0#page=20, quote: "aus der verwendeten Formulierung (soll/sollte/kann) entsprechend der Abstufung in"}
+  consensus:   # Tabelle 6; the boxes print the class, never a share, so the bounds are not read as numbers
+    - class: starker_konsens
+      name: Starker Konsens
+      bounds: ">95% der Stimmberechtigten"
+      source:
+        - {at: sources/pomgat-lv-1.0#page=20, quote: "Starker Konsens"}
+        - {at: sources/pomgat-lv-1.0#page=20, quote: ">95% der Stimmberechtigten"}
+    - class: konsens
+      name: Konsens
+      bounds: "95-75% der Stimmberechtigten"
+      source:
+        - {at: sources/pomgat-lv-1.0#page=20, quote: "Konsens"}
+        - {at: sources/pomgat-lv-1.0#page=20, quote: "95-75% der Stimmberechtigten"}
+    - class: mehrheitliche_zustimmung
+      name: Mehrheitliche Zustimmung
+      bounds: "50-75% der Stimmberechtigten"
+      source:
+        - {at: sources/pomgat-lv-1.0#page=20, quote: "Mehrheitliche Zustimmung"}
+        - {at: sources/pomgat-lv-1.0#page=20, quote: "50-75% der Stimmberechtigten"}
+    - class: keine_mehrheitliche_zustimmung
+      name: Keine mehrheitliche Zustimmung
+      bounds: "<50% der Stimmberechtigten"
+      source:
+        - {at: sources/pomgat-lv-1.0#page=20, quote: "Keine mehrheitliche Zustimmung"}
+        - {at: sources/pomgat-lv-1.0#page=20, quote: "<50% der Stimmberechtigten"}
 outline:   # the complete table of contents (pp. 2–5), physical page = printed page
   - {section: "1", title: "Informationen zu dieser Leitlinie", page: 6}
   - {section: "1.1", title: "Herausgeber", page: 6}
