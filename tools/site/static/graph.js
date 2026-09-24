@@ -2,7 +2,7 @@
    recommendation → aim — drawn left to right by Cytoscape.js with the dagre layout
    (self-hosted, see assets/vendor/LICENSES.md). Folded by default: tap an answer to
    unfold that patient group. Tap a box for its details in the section beside or below
-   the graph. Tap a question to fold everything below it; tap it again to restore what
+   the graph (on a phone, a peek strip that raises it). Tap a question to fold everything below it; tap it again to restore what
    was open there. A chapter tree (from the source's outline and the claims' sections) is
    a hard filter: only what that section supports is shown. The search is a soft
    highlight: matches keep their colour, the rest fades; the arrows beside the box, or
@@ -127,6 +127,53 @@
   function retheme() { if (cy) cy.style().fromJson(stylesheet()).update(); }
   var scheme = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
   if (scheme) { if (scheme.addEventListener) scheme.addEventListener("change", retheme); else scheme.addListener(retheme); }
+
+  /* the details of a selection (docs/publication.md §3). Every fill starts the panel at its top — the title, never
+     the middle of the next card. Below 900 px a selection leaves the page where it is: the details wait in a peek
+     strip at the bottom edge, carrying what the card's band carries — the direction colour, the title, the
+     judgement and the grade — built from the card itself, so that no word or value is written here. Tapping the
+     strip raises the panel over the graph; the strip again, ✕ or Escape lowers it. A wide screen never shows it. */
+  function fill(html) {
+    sheet.innerHTML = html;
+    sheet.classList.remove("peeking", "raised");
+    var card = sheet.querySelector(".card"), title = card && card.querySelector("h2.title, .label");
+    if (card && title) {
+      var band = card.querySelector(".zone.judgement"), dir = "";
+      if (band) band.classList.forEach(function (c) { if (c.indexOf("dir-") === 0) dir = c; });
+      var bar = document.createElement("div"), peek = document.createElement("button"), close = document.createElement("button");
+      bar.className = "peek-bar" + (dir ? " " + dir : "");
+      peek.type = "button"; peek.className = "peek"; peek.setAttribute("aria-expanded", "false"); peek.setAttribute("aria-controls", "sheet");
+      var sw = document.createElement("span"), text = document.createElement("span"), t = document.createElement("span"), verdict = document.createElement("span");
+      sw.className = "sw-band"; sw.setAttribute("aria-hidden", "true"); text.className = "peek-text";
+      t.className = "peek-title"; t.textContent = title.textContent.trim(); t.lang = card.lang;
+      verdict.className = "verdict"; verdict.lang = card.lang;
+      var answer = band && band.querySelector(".line1 .answer"), parts = [];
+      if (answer && answer.textContent.trim()) {
+        var a = answer.cloneNode(true), verbs = a.querySelector(".verbs");
+        if (verbs) verbs.remove();
+        if (a.lastChild && a.lastChild.nodeType === 3) a.lastChild.textContent = a.lastChild.textContent.replace(/\s+$/, "");   /* the space before the verbs */
+        verdict.appendChild(a);
+      }
+      if (band) band.querySelectorAll(".badge b").forEach(function (b) { if (parts.indexOf(b.textContent) < 0) parts.push(b.textContent); });
+      if (parts.length) verdict.appendChild(document.createTextNode((verdict.firstChild ? " · " : "") + parts.join(" · ")));
+      var mark = band && band.querySelector(".contested-mark");
+      if (mark) { var m = document.createElement("span"); m.className = "contested"; m.textContent = mark.textContent; verdict.appendChild(document.createTextNode(" · ")); verdict.appendChild(m); }
+      text.appendChild(t); if (verdict.firstChild) text.appendChild(verdict);
+      peek.appendChild(sw); peek.appendChild(text);
+      close.type = "button"; close.className = "peek-close"; close.setAttribute("aria-label", "close the details"); close.textContent = "✕";
+      bar.appendChild(peek); bar.appendChild(close);
+      sheet.insertBefore(bar, sheet.firstChild);
+      sheet.classList.add("peeking");
+    }
+    sheet.scrollTop = 0;
+  }
+  function raise(up) {
+    if (!sheet.classList.contains("peeking")) return;
+    sheet.classList.toggle("raised", up);
+    sheet.querySelector(".peek").setAttribute("aria-expanded", up ? "true" : "false");
+    sheet.scrollTop = 0;
+  }
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && sheet.classList.contains("raised")) raise(false); });
 
   try { draw(); } catch (e) { fail(e && e.message ? e.message : String(e)); throw e; }
 
@@ -299,7 +346,7 @@
     related(null); general(null);
     cy.elements().removeClass("dim picked");
     if (!eles || eles.empty()) {
-      sheet.innerHTML = home;
+      fill(home);
       if (push) history.replaceState(null, "", location.pathname + location.search);
       return;
     }
@@ -307,7 +354,7 @@
     cy.elements().not(keep).addClass("dim");
     eles.addClass("picked");
     related(eles); general(eles);
-    sheet.innerHTML = data.html[ref] || home;
+    fill(data.html[ref] || home);
     if (push) history.replaceState(null, "", "#" + ref);
   }
   cy.on("tap", "node, edge", function (evt) {
@@ -335,6 +382,8 @@
     select(eles, ref, push);
   }
   sheet.onclick = function (e) {
+    if (e.target.closest(".peek-close")) { raise(false); return; }
+    if (e.target.closest(".peek")) { raise(!sheet.classList.contains("raised")); return; }
     var a = e.target.closest("a.node-link");
     if (a && cy.elements("[ref = '" + a.dataset.node + "']").nonempty()) { e.preventDefault(); open_(a.dataset.node, true); if (window.innerWidth < 900) window.scrollTo({ top: 0, behavior: "smooth" }); }
   };

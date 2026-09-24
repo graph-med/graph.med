@@ -124,6 +124,35 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
   main.view .sheet { border-top: 0; border-left: 1px solid var(--line); padding: .6rem 1rem 2rem; overflow: auto; min-height: 0; }
 }
 
+/* the phone's peek strip (docs/publication.md §3): below 900 px a selection's details wait at the bottom edge in a
+   strip carrying the direction colour, the title and the judgement, and the page does not move; the strip raises
+   the panel over the graph, ✕ or Escape lowers it. The strip's parts are built by graph.js from the card. */
+.peek-bar { display: none; }
+@media (max-width: 899px) {
+  main.view:has(.sheet.peeking) { padding-bottom: 5rem; }   /* the footer stays reachable above the strip */
+  main.view .sheet.peeking { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; margin: 0; padding: 0 1rem; border-top: 0; background: var(--bg); box-shadow: 0 -2px 12px rgba(0,0,0,.18); }
+  main.view .sheet.peeking:not(.raised) > :not(.peek-bar) { display: none; }   /* lowered: the strip alone */
+  main.view .sheet.peeking.raised { top: 2.5rem; overflow: auto; overscroll-behavior: contain; border-radius: .8rem .8rem 0 0; padding-bottom: 2rem; }
+  .peek-bar { display: flex; align-items: stretch; position: sticky; top: 0; z-index: 1; margin: 0 -1rem; background: var(--bg); border-top: 5px solid var(--band, var(--line)); padding-bottom: env(safe-area-inset-bottom); }
+  .sheet.raised .peek-bar { border-bottom: 1px solid var(--line); margin-bottom: .6rem; padding-bottom: 0; border-radius: .8rem .8rem 0 0; }
+  .peek-bar.dir-für { --band: var(--dir-for); } .peek-bar.dir-gegen { --band: var(--dir-against); }
+  .peek-bar.dir-abwägen { --band: var(--dir-weigh); } .peek-bar.dir-Lücke { --band: var(--dir-gap); }
+  .peek { flex: 1 1 auto; min-width: 0; min-height: 56px; display: flex; align-items: center; gap: .7rem; padding: .4rem .6rem .4rem 1rem; border: 0; background: none; color: var(--fg); font: inherit; text-align: left; cursor: pointer; }
+  .peek::after { content: "▴"; flex: none; margin-left: auto; color: var(--mute); font-size: 1.1rem; }   /* it rises */
+  .sheet.raised .peek::after { content: none; }
+  .sheet.raised .peek { min-height: 48px; }
+  .sheet.raised .peek-text { display: none; }   /* raised, the card below says it: the title stands once */
+  .peek .sw-band { flex: none; width: 1.3rem; height: 1.3rem; border-radius: .3rem; background: var(--band, var(--line)); }
+  .peek-text { min-width: 0; display: flex; flex-direction: column; }
+  .peek-title { font-weight: 600; font-size: .95rem; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .peek .verdict { font-size: .85rem; line-height: 1.3; color: var(--mute); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .peek .verdict .answer { color: var(--fg); font-weight: 600; }
+  .peek .verdict .glyph { font-weight: 400; }
+  .peek .verdict .contested { color: var(--contested); font-weight: 600; }
+  .peek-close { display: none; flex: none; width: 52px; min-height: 48px; border: 0; background: none; color: var(--fg); font: inherit; font-size: 1.25rem; cursor: pointer; }
+  .sheet.raised .peek-close { display: block; }
+}
+
 /* chapters and search (docs/publication.md §3 "Chapters and search"): a hard filter and a soft highlight */
 .tools.left { flex: 1 1 auto; min-width: 0; align-items: center; flex-wrap: wrap; }   /* what does not fit wraps under, the counter first; the flex row keeps the fit and reset buttons their place */
 .tools.right { flex: none; }
