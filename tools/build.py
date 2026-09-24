@@ -750,7 +750,8 @@ def main(argv=None) -> int:
 
         def slot_row(role):
             """A row of zone 5: plain when the concept carries only this statement in that role, linked with the
-            count (this statement included) when it carries more; the population keeps its families below it."""
+            count (this statement included) when it carries more; the population keeps its families below it.
+            A slot a dimension axis adds carries that axis, whose short label (else label) names the row."""
             cid = the_one(st, role)
             if cid not in pool.entities:
                 return None
@@ -758,10 +759,14 @@ def main(argv=None) -> int:
             row = {**concept(cid), "count": n, "linked": n > 1}
             if role == "population":
                 row["families"] = [{**f, "lang": pool.entities[f["id"]]["lang"]} for f in pool.families_of(cid)]
+            if role in dimension_axes:
+                a = dimension_axes[role]
+                row["axis"] = {"id": a["id"], "label": a.get("short_label") or a["label"], "lang": a["lang"]}
             return row
 
         passage = lambda b: {k: b.get(k) for k in ("id", "label", "lang", "page", "section", "link", "quote")}
-        geltung = {role: slot_row(role) for role in CARD_SLOTS}
+        # the card's slots, then every slot a dimension axis adds that the statement fills, by slot key (spec §4.1)
+        geltung = {role: slot_row(role) for role in list(CARD_SLOTS) + sorted(s for s in slots if s in dimension_axes and s not in CARD_SLOTS)}
         cited = []   # zone 8: each source named once, its supporting claims' entries under it, in `sup`'s order
         for c in sup:
             if not cited or cited[-1]["id"] != c["source"]:

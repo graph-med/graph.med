@@ -302,7 +302,7 @@ lists the four words with their colours. Timing
   | 2 | Judgement | none | supporting claims; whether a contesting claim exists | never |
   | 3 | Wording | `Wortlaut der Empfehlung` | `claim.label` per supporting claim | never |
   | 4 | Evidence | `Evidenz` | the supporting claims' `evidence`, per outcome; else `Evidenz: nicht erfasst` | never |
-  | 5 | Applies to | `Gilt für` | the `population`, `condition`, `action` slots | no slot filled |
+  | 5 | Applies to | `Gilt für` | the `population`, `condition`, `action` slots, then every slot a dimension axis adds, named by that axis's `short_label` (else `label`) | no slot filled |
   | 6 | Body text | `Hinweise aus dem Begleittext` | `limits`, `refines`, `supplements` | never (empty state) |
   | 7 | Contradiction | `Widersprechende Empfehlung(en)` | `contests` | no contesting claim |
   | 8 | Citation | `Beleg` | the supporting claims' `source`, the source's title | never |
@@ -354,7 +354,14 @@ lists the four words with their colours. Timing
      needs no script and survives printing.
   5. **Applies to.** The slots as rows: `Eingriff` (population, with the
      families it belongs to below it), `Bedingung` (condition), `Maßnahme`
-     (action). A slot is plain text when its concept carries only this one
+     (action), then one row for every slot a dimension axis adds that the
+     statement fills, in the order of the slot keys, named by the axis's
+     `short_label` (else `label`) and never by the slot key or a word of the
+     build's table — so a dimension asserted later appears without a code
+     change, and two statements under one population that differ only in a
+     dimension value (an access, a phase) are told apart on their cards. In
+     the statement JSON `geltung` holds each row under its slot key, a
+     dimension's row carrying its `axis`. A slot is plain text when its concept carries only this one
      statement in that role, and a link with the count when it carries more —
      `Magensonde ziehen (6 Empfehlungen)`, the current statement included. The
      `outcome` slot has no row: an endpoint is the dimension the certainty
