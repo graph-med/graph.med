@@ -261,14 +261,18 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card div.grouped .from .count, .card ul.grouped .edge-kind { color: var(--mute); font-size: .85rem; }
 .card ul.grouped li { padding: .3rem 0; }
 .card ul.grouped .edge-kind.none { color: var(--fg); font-style: italic; }
-/* a derived concept's rules, under its row of zone 5 and on its page: the line saying it is derived, then each rule —
-   its thresholds or its sentence, the page and the claim's link on a line of their own below */
+/* a derived concept's rule, under its row of zone 5 and on its page: the line saying it is derived, then the rule as a
+   tree. A node that combines parts is its operator line — the operator in words, the connective as printed, the page
+   and the claim's link — with its parts nested under it behind a line of their own, one level per combination; any
+   other node is its threshold or its sentence, the page and the claim's link on a line of their own below */
 .card .rules { flex-basis: 100%; margin: .15rem 0 .3rem; padding-left: .6rem; border-left: 2px solid var(--line); }
 .card .rules p.derived { margin: 0 0 .15rem; color: var(--mute); font-size: .85rem; font-style: italic; }
-.card .rules ul.rule-list { margin: 0; }
+.card .rules p.op { margin: 0; }
+.card .rules p.op > .cite { display: block; }
+.card .rules ul.rule-list { margin: .15rem 0 0; padding-left: .6rem; border-left: 2px solid var(--line); }
 .card .rules ul.rule-list li { margin: 0; padding: .3rem 0; border-top: 0; }
-.card .rules ul.rule-list li + li { border-top: 1px dashed var(--line); }   /* alternatives, one apart from the next */
-.card .rules ul.rule-list li > span { display: block; }
+.card .rules ul.rule-list li + li { border-top: 1px dashed var(--line); }   /* the parts, one apart from the next */
+.card .rules .rule-tree > span, .card .rules ul.rule-list li > span { display: block; }
 .card .rules .threshold { white-space: normal; }
 .card .rules .cite a { min-height: 32px; }
 /* zone 7: the contesting claims, each with the contested colour beside it, its heading in that colour */

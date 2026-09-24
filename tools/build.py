@@ -101,8 +101,10 @@ CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", 
              "source.claims.one", "source.claims.many", "page.json",
              # what applies generally through a view's scope tree (docs/publication.md §3): on a concept, and on the card
              "concept.general", "scope.general_for", "scope.condition",
-             # a derived concept's rules, under its row of zone 5 and on its own page (docs/publication.md §3, §4)
-             "derivation.rules.one", "derivation.rules.many", "rule.and", "rule.claim", "comparator.between",
+             # a derived concept's rule, under its row of zone 5 and on its own page (docs/publication.md §3, §4)
+             "derivation.rule", "rule.claim", "comparator.between",
+             # how a rule's parts combine (spec §3.1), by the schema's operators: the word the card says for each
+             "op.all_of", "op.any_of", "op.at_least", "op.not_stated",
              # an axis's page (docs/publication.md §4): its carrier, rule and question, its status per view, its placements
              "carrier.dimension", "carrier.hierarchy", "axis.rule", "axis.question", "axis.views", "axis.since",
              "status.proposed", "status.asserted", "status.withdrawn", "axis.placements",
@@ -136,8 +138,8 @@ CARD_WORDS = {"de": {
     "edge.supports": "stützt", "edge.contests": "widerspricht",
     "source.claims.one": "{n} Textstelle erfasst", "source.claims.many": "{n} Textstellen erfasst", "page.json": "JSON",
     "concept.general": "Allgemein geltende Empfehlungen", "scope.general_for": "Gilt allgemein auch für", "scope.condition": "Voraussetzung",
-    "derivation.rules.one": "abgeleitet, nach der Regel", "derivation.rules.many": "abgeleitet, nach einer der folgenden {n} Regeln",
-    "rule.and": "und", "rule.claim": "Textstelle", "comparator.between": "zwischen",
+    "derivation.rule": "abgeleitet, nach der Regel", "rule.claim": "Textstelle", "comparator.between": "zwischen",
+    "op.all_of": "UND", "op.any_of": "ODER", "op.at_least": "mindestens {n} von {m}", "op.not_stated": "Verknüpfung nicht angegeben",
     "carrier.dimension": "Dimension", "carrier.hierarchy": "Hierarchie", "axis.rule": "Regel", "axis.question": "Frage",
     "axis.views": "Sichten", "axis.since": "seit {date}",
     "status.proposed": "vorgeschlagen", "status.asserted": "zugesichert", "status.withdrawn": "zurückgezogen",
@@ -491,26 +493,39 @@ class Pool:
 
 
 def derivation_of(pool: "Pool", cid: str) -> dict:
-    """Whether a concept is derived or stated, and by which rules (spec §3.2, docs/publication.md §3 zone 5):
-    computed from its `defined_by` edges, never read off the concept — `derived` with one rule per edge, in
-    the order of the edges, each an alternative; `stated` with none. A rule is its claim (sentence, page,
-    section, the link into the source) with the `thresholds` it prints, each quantity and reference quantity
-    resolved to its concept; several thresholds of one rule hold together. A rule without thresholds is
-    shown by its sentence, which says itself whether a number is printed: nothing in the pool tells a
-    quantity-like rule from a categorical one, so no "no threshold given" is claimed. One code path for whatever row the concept stands in — anchor, condition or any
-    other — and for the concept's own page."""
+    """Whether a concept is derived or stated, and by which rule (spec §3.2, docs/publication.md §3 zone 5):
+    computed from its one `defined_by` edge, never read off the concept — `derived` with the rule the edge
+    reaches, `stated` with none. The rule is a tree of claims, each node its claim (sentence, page, section,
+    the link into the source) with the `threshold` it prints, its quantity and reference quantity resolved
+    to their concepts, or the `combination` it quotes: the operator, `n`, the connective as printed with its
+    pages and the link to its first quote, the reading, and its parts, each such a node in turn (spec §3.1,
+    operators nesting through claims). Nothing is composed and no operator is assumed: a claim without a
+    combination is a single rule. A rule without a threshold is shown by its sentence, which says itself
+    whether a number is printed: nothing in the pool tells a quantity-like rule from a categorical one, so
+    no "no threshold given" is claimed. One code path for whatever row the concept stands in — anchor,
+    condition or any other — and for the concept's own page."""
     ref = lambda q: {"id": q, "label": pool.entities[q].get("short_label") or pool.entities[q]["label"], "lang": pool.entities[q]["lang"]} \
         if q in pool.entities else {"id": q, "label": q, "lang": None}
-    rules = []
-    for kind, to, _ in pool.out.get(cid, []):
-        if kind != "defined_by" or to not in pool.entities:
-            continue
-        claim = pool.entities[to]
+    def node(claim_id: str, above: frozenset) -> dict:
+        claim = pool.entities[claim_id]
         view = pool.claim_view(claim)
-        thresholds = [{**{k: t.get(k) for k in ("comparator", "value", "unit", "when")}, "quantity": ref(t["quantity"]),
-                       "relative_to": ref(t["relative_to"]) if t.get("relative_to") else None} for t in claim.get("thresholds") or []]
-        rules.append({**{k: view.get(k) for k in ("id", "kind", "label", "lang", "page", "section", "link", "quote")}, "thresholds": thresholds})
-    return {"derivation": "derived" if rules else "stated", "rules": rules}
+        row = {k: view.get(k) for k in ("id", "kind", "label", "lang", "page", "section", "link", "quote")}
+        t = claim.get("threshold")
+        row["threshold"] = {**{k: t.get(k) for k in ("comparator", "value", "unit", "when")}, "quantity": ref(t["quantity"]),
+                            "relative_to": ref(t["relative_to"]) if t.get("relative_to") else None} if t else None
+        comb, row["combination"] = claim.get("combination"), None
+        if comb:
+            refs = comb.get("source") or []
+            refs = [refs] if isinstance(refs, dict) else refs
+            pages = list(dict.fromkeys(r["at"].partition("#page=")[2] for r in refs if "#page=" in r["at"]))
+            url = pool.entities.get(view["source"], {}).get("url", "")
+            row["combination"] = {**{k: comb.get(k) for k in ("operator", "n", "connective", "rationale")}, "pages": pages,
+                                  "link": source_link(url, pages[0], refs[0]["quote"]) if pages else None,
+                                  "of": [node(p, above | {claim_id}) for p in comb.get("of") or []
+                                         if p in pool.entities and p not in above | {claim_id}]}   # the validator refuses a cycle
+        return row
+    to = next((to for kind, to, _ in pool.out.get(cid, []) if kind == "defined_by" and to in pool.entities), None)
+    return {"derivation": "derived" if to else "stated", "rule": node(to, frozenset()) if to else None}
 
 
 def source_link(url: str, page: str | None, quote: str) -> str:
@@ -1045,7 +1060,7 @@ def main(argv=None) -> int:
                                key=lambda u: (order.index(u["slot"]) if u["slot"] in order else len(order), u["id"]))
             d["codes"] = [to for k, to, _ in pool.out.get(ent["id"], []) if k == "codes_as"]
             d["general"] = general_of(ent["id"])
-            d.update(derivation_of(pool, ent["id"]))   # its rules, when it is derived (spec §3.2)
+            d.update(derivation_of(pool, ent["id"]))   # its rule, when it is derived (spec §3.2)
         elif t == "claim":
             d["claim"] = pool.claim_view(ent)
             j = direction_of([{"edge": "supports", **d["claim"]}])   # the claim's own judgement, in the card's four words (zone 2)
@@ -1158,7 +1173,7 @@ def main(argv=None) -> int:
         page.mkdir(parents=True, exist_ok=True)
         (page / "index.html").write_text(entity_tpl.render(**d), encoding="utf-8")
         (out / (eid + ".json")).write_text(dumps({**ent, "edges": edges_json(eid), **({"card": d["card"]} if "card" in d else {}),
-                                                  **({k: d[k] for k in ("derivation", "rules")} if "derivation" in d else {})}), encoding="utf-8")
+                                                  **({k: d[k] for k in ("derivation", "rule")} if "derivation" in d else {})}), encoding="utf-8")
 
     views = []
     view_tpl = env.get_template("view.html")
@@ -1178,7 +1193,7 @@ def main(argv=None) -> int:
         data = {"id": view["id"], "title": title, "sources": [s["id"] for s in sources], "commit": commit, "outline": outline,
                 "facets": sorted({f for g in groupings for n in g["nodes"] for f in n.get("facets", [])}), "groupings": groupings,
                 "html": {r: detail_tpl.render(**details(pool.entities[r])) for r in sorted(refs) if r in pool.entities},
-                # every concept the view's statements hold, derived or stated, with its rules — the keys of a card's row (zone 5)
+                # every concept the view's statements hold, derived or stated, with its rule — the keys of a card's row (zone 5)
                 "concepts": {cid: derivation_of(pool, cid) for m in members.values() if m["type"] == "statement"
                              for _, cid in pool.filled(m) if cid in pool.entities}}
         data["legend"] = legend_of([m for m in members.values() if m["type"] == "statement"], groupings, pool)   # what the view draws, keyed

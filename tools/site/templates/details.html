@@ -10,18 +10,27 @@
 {% set parts = [] %}{% if no and x.recommendation_no %}{% set _ = parts.append(W("cite.no").format(nr=x.recommendation_no)) %}{% endif %}{% if x.page %}{% set _ = parts.append(W("cite.page").format(nr=x.page)) %}{% endif %}{% if x.section %}{% set _ = parts.append(W("cite.section").format(nr=x.section)) %}{% endif %}
 {%- if parts and link %}<a href="{{ x.link }}" target="_blank" rel="noopener">{{ parts | join(" · ") }}</a>{% elif parts %}{{ parts | join(" · ") }}{% endif %}
 {%- endmacro %}
-{# a derived concept's rules (docs/publication.md §3 zone 5, §4): one line saying it is derived — "nach einer der
-   folgenden Regeln" only when there are several, the rules being alternatives — then each rule as the thresholds
-   its claim prints (quantity, comparator, value, unit, time point; a relative one "× <reference>"; several joined
-   by "und", holding together) or, without any, the claim's sentence; its page linked into the source and a link
-   to the claim's page. One macro for the card's rows, whatever the slot, and the concept's page. #}
+{# a derived concept's rule (docs/publication.md §3 zone 5, §4): one line saying it is derived, then the rule its one
+   edge reaches, as a tree. A node that combines parts (spec §3.1) is a line with the operator in words — UND, ODER,
+   mindestens n von m, Verknüpfung nicht angegeben —, the connective as printed with its page linked into the source,
+   and a link to the claim's page, then its parts nested under it; a combination the page leaves open and names no
+   parts for shows the claim's sentence under that line. Any other node is the threshold its claim prints (quantity,
+   comparator, value, unit, time point; a relative one "× <reference>") or, without one, the claim's sentence; its
+   page linked into the source and a link to the claim's page. One macro for the card's rows, whatever the slot, and
+   the concept's page; it calls itself for the parts. #}
+{% macro rule_node(r) -%}
+{% if r.combination %}{% set c = r.combination %}<p class="op"><strong>{{ W("op." ~ c.operator).format(n=c.n, m=c.of | length) }}</strong>{% if c.connective %} <span class="connective" lang="{{ r.lang }}">„{{ c.connective }}“</span>{% endif %}
+    <span class="cite">{% if c.pages %}<a href="{{ c.link }}" target="_blank" rel="noopener">{{ W("cite.page").format(nr=c.pages | join(", ")) }}</a> · {% endif %}<a href="{{ base }}{{ r.id }}/">{{ W("rule.claim") }}</a></span></p>
+{% if c.of %}<ul class="plain rule-list">
+{% for x in c.of %}  <li>{{ rule_node(x) }}</li>
+{% endfor %}</ul>{% else %}<span class="rule" lang="{{ r.lang }}">{{ r.label }}</span>{% endif %}
+{%- else %}<span class="rule" lang="{{ r.lang }}">{% if r.threshold %}{% set t = r.threshold %}<span class="threshold"><span lang="{{ t.quantity.lang }}">{{ t.quantity.label }}</span> {% if t.comparator == "between" %}{{ W("comparator.between") }}{% else %}{{ t.comparator }}{% endif %} {{ t.value }}{% if t.unit %} {{ t.unit }}{% endif %}{% if t.relative_to %} × <span lang="{{ t.relative_to.lang }}">{{ t.relative_to.label }}</span>{% endif %}{% if t.when %} {{ t.when }}{% endif %}</span>{% else %}{{ r.label }}{% endif %}</span>
+    <span class="cite">{{ where(r) }}{% if r.page or r.section %} · {% endif %}<a href="{{ base }}{{ r.id }}/">{{ W("rule.claim") }}</a></span>{% endif %}
+{%- endmacro %}
 {% macro rules_of(x) -%}
 {% if x.derivation == "derived" %}<div class="rules">
-<p class="derived">{{ W("derivation.rules", x.rules | length).format(n=x.rules | length) }}</p>
-<ul class="plain rule-list">
-{% for r in x.rules %}  <li><span class="rule" lang="{{ r.lang }}">{% if r.thresholds %}{% for t in r.thresholds %}{% if not loop.first %} {{ W("rule.and") }} {% endif %}<span class="threshold"><span lang="{{ t.quantity.lang }}">{{ t.quantity.label }}</span> {% if t.comparator == "between" %}{{ W("comparator.between") }}{% else %}{{ t.comparator }}{% endif %} {{ t.value }}{% if t.unit %} {{ t.unit }}{% endif %}{% if t.relative_to %} × <span lang="{{ t.relative_to.lang }}">{{ t.relative_to.label }}</span>{% endif %}{% if t.when %} {{ t.when }}{% endif %}</span>{% endfor %}{% else %}{{ r.label }}{% endif %}</span>
-    <span class="cite">{{ where(r) }}{% if r.page or r.section %} · {% endif %}<a href="{{ base }}{{ r.id }}/">{{ W("rule.claim") }}</a></span></li>
-{% endfor %}</ul>
+<p class="derived">{{ W("derivation.rule") }}</p>
+<div class="rule-tree">{{ rule_node(x.rule) }}</div>
 </div>{% endif %}
 {%- endmacro %}
 {% if e.type == "statement" %}
@@ -151,7 +160,7 @@
 <p class="label">{{ e.label }}</p>
 {% if e.definition %}<p>{{ e.definition }}</p>{% endif %}
 {% if codes %}<p>{{ W("concept.codes") }} {% for c in codes %}<code>{{ c }}</code> {% endfor %}</p>{% endif %}
-{% if derivation == "derived" %}{{ rules_of({"derivation": derivation, "rules": rules}) }}
+{% if derivation == "derived" %}{{ rules_of({"derivation": derivation, "rule": rule}) }}
 {% endif %}{% if uses %}
 <section class="zone" aria-labelledby="zone-uses-h">
 <h3 id="zone-uses-h">{{ W("concept.uses") }}</h3>
