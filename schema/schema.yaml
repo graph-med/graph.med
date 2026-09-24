@@ -19,7 +19,11 @@
 # `defined_by` edge, to a claim of kind criterion or definition; a combination's
 # parts are such claims of the same source, nest without a cycle, and its
 # connective is printed in its quotes; `at_least` counts no more parts than it
-# has; a relative threshold is relative to another quantity than its own).
+# has; a relative threshold is relative to another quantity than its own), and
+# a claim is read in its source's grading scheme (spec §3.1: its grade and
+# consensus are of its own source's `grading_scheme`, its verb one a declared
+# scheme defines, a printed share lies in its class's bounds, and every word of
+# a scheme lies in the quotes of its entry).
 # CI runs it on every pull request and push to main (.github/workflows/validate.yml).
 #
 # Keywords prefixed `x-` are this project's annotations; JSON Schema validators
@@ -28,7 +32,7 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 $id: https://graph.med/schema/schema.yaml
 title: graph.med pool
-x-version: 0.12.0
+x-version: 0.13.0
 
 # ── layout: which definition each data file validates against ────────────────
 # (data/README.md). Globs are relative to the repository root. `one_per_file`
@@ -94,8 +98,10 @@ x-conventions:
   language: source-language     # ALL content values (labels, quotes, text) stay in the source
                                 # language, never translated at extraction; every entity and edge
                                 # carrying text declares `lang` (BCP 47). Enum values are schema
-                                # vocabulary, slugified from the source language (soll/sollte/kann,
-                                # konsens/starker_konsens). Translations are a build-layer concern.
+                                # vocabulary, slugified from the source language (versorgungspfad,
+                                # modalitaetsbezogen). A claim's grade, verb and consensus are none:
+                                # they are the words its source's `grading_scheme` declares (spec §3.1).
+                                # Translations are a build-layer concern.
   quotes: verbatim-substring    # of the source's extracted text (spec §6.2); single line
   pdf_pages: physical           # #page=N counts PDF pages, not printed numbers
 
@@ -207,6 +213,77 @@ $defs:
       - if: {required: [operator], properties: {operator: {enum: [all_of, any_of, at_least]}}}
         then: {required: [of, connective]}   # an operator the page states: its parts, and the words it states it with
 
+  # a source's grading scheme (spec §3.1): how binding its recommendations are and how it classes the
+  # agreement of its panel, in its own words, quoted from its method table. A claim's grade, verb and
+  # consensus are checked against it (validator); the schema enumerates no grade, verb or class, and no
+  # value is mapped between schemes. The build reads the order, the words, the negated forms and the
+  # open grade from here, never from literals
+  grading_scheme:
+    type: object
+    required: [grades]
+    additionalProperties: false
+    properties:
+      grades:      # in the order the legend follows: the table's rows, strongest first; a grade that fixes
+                   # no wording (an expert consensus whose strength its wording carries) after them
+        type: array
+        minItems: 1
+        items: {$ref: '#/$defs/scheme_grade'}
+      consensus:   # the classes the source's table sorts the agreement into, in the table's order
+        type: array
+        minItems: 1
+        items: {$ref: '#/$defs/consensus_class'}
+  # one grade of a scheme. Every word of `grade`, `verb` and `negated` lies in one of the quotes that give
+  # it — `source`, or the entry's `provenance` for its negated form — as a whole word (validator); the
+  # description, whose cell a table may break across lines, is read by review. Unique per scheme: the
+  # grade, and the wording (validator)
+  scheme_grade:
+    type: object
+    required: [grade, source]
+    additionalProperties: false
+    properties:
+      grade:       {$ref: '#/$defs/text'}      # as the recommendations print it: what a claim carries as `grade`
+      description: {$ref: '#/$defs/text'}      # as the table describes the grade, a word the table breaks across lines joined
+      verb:        {$ref: '#/$defs/text'}      # the wording the table gives the grade, as it prints it; absent for a grade
+                                               # that fixes none, whose claims' own wording carries the strength
+      negated:     {$ref: '#/$defs/text'}      # that wording negated, as the source prints it — never the verb with a
+                                               # negation appended (spec §3.1)
+      open:        {type: boolean}             # the table makes the grade an open recommendation: a claim with its
+                                               # wording weighs, neither for nor against
+      source:      {$ref: '#/$defs/references'}   # where the source prints the grade: its table row, cell by cell
+      provenance:  # where the negated form is printed, when not in the row; `modelling` for a form printed nowhere
+        type: object
+        additionalProperties: false
+        properties:
+          negated: {$ref: '#/$defs/provenance_value'}
+      rationale:   {$ref: '#/$defs/text'}      # the reading, in the source's language, where the quotes alone do not carry it
+    dependentRequired:
+      negated: [verb]
+      open: [verb]
+    if: {required: [provenance], properties: {provenance: {required: [negated], properties: {negated: {const: modelling}}}}}
+    then: {required: [rationale]}
+  # one class of the source's consensus table. `class` is what a claim carries as `consensus`: the printed name
+  # slugified (lower case, words joined by `_`), unique per scheme (validator). Every word of `name` and
+  # `bounds` lies in one of the quotes of `source` (validator). Where the source prints shares, the bounds are
+  # also read as numbers, a lower and an upper at most, and a claim's printed share must lie within its
+  # class's (validator); a reading the printed bounds leave open is said in `rationale`
+  consensus_class:
+    type: object
+    required: [class, name, source]
+    additionalProperties: false
+    properties:
+      class:    {$ref: '#/$defs/slug'}
+      name:     {$ref: '#/$defs/text'}          # as the table names it
+      bounds:   {$ref: '#/$defs/text'}          # as the table prints them
+      above:    {type: number}                  # the share is greater than this
+      at_least: {type: number}                  # the share is this or more
+      at_most:  {type: number}                  # the share is this or less
+      below:    {type: number}                  # the share is less than this
+      source:   {$ref: '#/$defs/references'}    # the table row, cell by cell
+      rationale: {$ref: '#/$defs/text'}         # the reading of the bounds, in the source's language
+    allOf:
+      - not: {required: [above, at_least]}
+      - not: {required: [at_most, below]}
+
   # ── provenance (spec §6.2–6.4) ────────────────────────────────────────────
   locator:
     type: string
@@ -257,6 +334,10 @@ $defs:
         uniqueItems: true
         items: {$ref: '#/$defs/structure_kind'}
         x-provenance: not_applicable
+      grading_scheme:   # how binding its recommendations are and how it classes consensus (spec §3.1)
+        $ref: '#/$defs/grading_scheme'
+        x-provenance: optional   # carried by each entry: its quotes of the method table, `modelling` with a
+                                 # rationale for a form the source prints nowhere
 
   claim:
     description: >
@@ -281,10 +362,18 @@ $defs:
       section:           {type: string, minLength: 1, x-provenance: required}
              # the source section the passage lies in ('7.4.1.1'); must name an entry of the
              # source's outline (validator). Document structure, on the claim only (spec §6.7)
-      grade:     {enum: ["A", "B", "0", "EK"],   x-provenance: required}   # never from the extractor
-      verb:      {enum: [soll, sollte, kann],     x-provenance: required}
-      direction: {enum: [for, against],           x-provenance: required}
-      consensus: {enum: [konsens, starker_konsens, mehrheitliche_zustimmung], x-provenance: required}
+      grade:     {$ref: '#/$defs/text', x-provenance: required}   # never from the extractor
+             # as printed, one of the grades its own source's `grading_scheme` lists (validator; spec §3.1)
+      verb:      {$ref: '#/$defs/text', x-provenance: required}
+             # the wording the sentence uses, in the form a scheme gives it (never inflected, never negated): one
+             # some declared `grading_scheme` defines — its own source's, or another's (validator)
+      direction: {enum: [for, against], x-provenance: required}
+      consensus: {$ref: '#/$defs/slug', x-provenance: required}
+             # a class of its own source's `grading_scheme` (validator): the one the box prints, or the one the
+             # source's table gives the printed share
+      consensus_share: {$ref: '#/$defs/text', x-provenance: required}
+             # the share of agreement as printed, where the source prints one; beside `consensus`, within its
+             # class's bounds (validator)
       evidence:  # how certain the evidence is, per outcome, in the words of the system that rated it
                  # (spec §3.1); absent or [] is "not recorded". A list even where the source states one
                  # value (one entry, no `outcome`): never a scalar, and never reduced to one value
@@ -314,6 +403,7 @@ $defs:
           verb:              {$ref: '#/$defs/references'}
           direction:         {$ref: '#/$defs/references'}
           consensus:         {$ref: '#/$defs/references'}
+          consensus_share:   {$ref: '#/$defs/references'}
           evidence:          {$ref: '#/$defs/references'}
           threshold:         {$ref: '#/$defs/references'}
     allOf:

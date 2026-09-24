@@ -159,8 +159,11 @@ and every view at `https://graph.med/<view-id>` — `docs/publication.md`.
 texts are never translated at extraction. Every entity and edge that carries
 text declares `lang` (BCP 47, e.g. `de`). Structural keys are English (they are
 ours, not content); enum values are schema vocabulary slugified from the source
-language (`soll`/`sollte`/`kann`, `konsens`/`starker_konsens`). Translation is
-a build-layer concern, never a data concern.
+language (`versorgungspfad`, `modalitaetsbezogen`). A claim's grade, verb and
+consensus are no schema vocabulary: they are the words its source's grading
+scheme declares (§3.1), a consensus class slugified from its printed name
+(`starker_konsens`). Translation is a build-layer concern, never a data
+concern.
 
 **Canonical form.** Every entity has exactly one canonical serialisation
 (deterministic key order and encoding, fixed by the validator and never changed
@@ -192,6 +195,47 @@ names the passage's form, the first that holds: it declines to recommend →
 a definition → `definition`; it states which cases, values or thresholds a term
 covers → `criterion`; otherwise → `fact`. Which sentences outside the marked
 recommendations become claims, and how they attach, is the rule of §5.1.
+
+A claim's **grade, verb and consensus are read in its source's own grading
+scheme**, and the source declares that scheme as data: `grading_scheme` on the
+source entity, quoted from its method table. One guideline grades A, B and 0,
+worded *soll*, *sollte* and *kann*; another grades *Stark* and *Schwach*,
+worded *Wir empfehlen* and *Wir schlagen vor*; a third will say "offer" and
+"consider". The declaration lists the **grades** in the order the legend
+follows, each as the recommendations print it, with the table's description,
+the **wording** the table gives it (`verb`), that wording's **negated** form as
+printed ("empfehlen nicht", "schlagen nicht vor" — never the verb followed by
+"nicht"), and whether the table makes it an **open** recommendation, one that
+weighs rather than advises for or against. A grade that fixes no wording — an
+expert consensus whose strength its wording carries — has none and follows the
+graded ones. It lists the **consensus classes**, each with its bounds as
+printed and, where the source prints shares, those bounds read as numbers.
+Every entry quotes the source's own pages, and every word of a grade, a
+wording, a negated form or a class lies in one of its quotes; a form the
+source prints nowhere is `modelling`, with a rationale. A claim then carries:
+
+- `grade` as printed, one of the grades its own source declares;
+- `verb`, the wording the sentence uses in the form a scheme gives it
+  ("sollten" is `sollte`, "empfohlen" is `empfehlen`), and a sentence may use
+  another guideline's wording (a *sollte* in a guideline graded by GRADE): the
+  verb is recorded wherever some declared scheme defines it, and read in its
+  own source's scheme if that defines it, otherwise in the schemes that do,
+  which must read it alike (open or not, one negated form);
+- `direction`, `for` or `against`, as the sentence reads;
+- `consensus`, a class of its own source's table; and where the source prints
+  the share of votes rather than a class, `consensus_share` as printed
+  ("95 %") beside it, the class being the one the table gives that share,
+  with provenance naming both the line that prints the share and the table's
+  row.
+
+The validator checks each against the declaration, and a printed share
+against its class's bounds. Nothing is mapped between schemes: a *Stark* is
+not an *A*, and a 95 % is *Konsens* where the table starts *Starker Konsens*
+above 95 %. What the site shows is read from the declaration too: the order of
+the grades, the words and their negated forms, and the direction — a claim
+whose verb is the wording of an open grade weighs (*abwägen*), any other
+recommendation is *für* or *gegen* by its direction —, and which grades carry
+their verb is decided per scheme, never across two (`docs/publication.md` §3).
 
 How binding a recommendation is (`grade`, `verb`) and how certain the evidence
 behind it is are two different facts, and a source may state the second per
@@ -855,7 +899,7 @@ order — the first that holds decides. Every other sentence stays on the page.
   case: a next step, what to do when the action fails or is refused, a measure
   beside it. Describing an effect or a mechanism instructs nothing.
 - **K claim** — `kind` by form (§3.1); `verb` and `direction` as printed (a verb
-  only if the schema knows it); never `grade`, `consensus` or
+  only if a declared grading scheme defines it, §3.1); never `grade`, `consensus` or
   `recommendation_no`. **One claim per answer**: members giving different
   answers — another threshold for the same term, another action, another
   direction — are a claim each, each quoting its member; members sharing one
@@ -946,7 +990,13 @@ resolve to a passage, never `modelling`), **optional**, or **not applicable**.
 Domain rules such as "a recommendation grade must always come from the
 document, never from the extractor" are enforced here mechanically — which is
 also why a statement's effective grade is *derived* from its supporting claims
-(§3.3) and never written on the statement.
+(§3.3) and never written on the statement. A claim's `grade`, `verb`,
+`direction`, `consensus` and `consensus_share` all require it: each is read off
+the page. The words they may hold are no list in the schema but the grading
+scheme their source declares (§3.1), whose entries carry their own provenance
+— the method table's cells, and `modelling` with a rationale for a form the
+source prints nowhere — so that a value is checked against the words the
+source prints.
 
 ### 6.6 Who did it
 
@@ -1101,7 +1151,8 @@ pool, and catches what was left out:
   (`--verify-quotes`; §14) — and asks whether the claim says what is printed
   there: the `label` is the sentence at the quote, one sentence and not the
   whole recommendation the source marks (§3.1); `kind` follows the sentence's form; `grade`, `verb`, `direction`,
-  `consensus`, `recommendation_no` and `section` are as printed at that place,
+  `consensus`, `consensus_share`, `recommendation_no` and `section` are as printed at that place —
+  a consensus class the one the source's table gives the printed share —,
   and none is supplied where the page prints none (§11, rule 6; a body-text
   claim carries no grade, §5); a number in the label — a day, a dose, a value,
   a threshold — is the number on the page. A `threshold` is what the page
@@ -1109,7 +1160,11 @@ pool, and catches what was left out:
   joins and no other, its connective is what the page prints between them,
   and its operator is the reading the connective bears in its sentence, never
   decided by the word alone; a list the page does not combine is marked
-  `not_stated`, not read. Whether the quote is on the page,
+  `not_stated`, not read. An entry of a source's `grading_scheme` (§3.1) is
+  read the same way against the method table it quotes: each grade, wording,
+  negated form and class as the table prints it, in its order, `open` only
+  where the table makes the grade an open recommendation, and `modelling`
+  only for a form the source prints nowhere. Whether the quote is on the page,
   whether the id hashes from the anchor, whether the file fits the schema, it
   does not ask: the validator has, and the judge runs after it and repeats
   none of it — the definition lists what the validator covers so that the
@@ -1421,6 +1476,25 @@ POMGAT S3 guideline (AWMF 088-010OL), quotes verified against the document.
     - {section: "6.1",   title: "Intraoperative Einlage einer Drainage in das OP-Feld", page: 58}
     - {section: "6.1.3", title: "Pankreas", page: 61}
     # … every numbered section, those without a recommendation included
+  grading_scheme:                                                           # its method table, quoted (§3.1)
+    grades:                                                                 # in the order the legend follows
+      - grade: "0"
+        description: Empfehlung offen
+        verb: kann
+        open: true                                                          # weighs: neither for nor against
+        source:                                                             # the row of Tabelle 5, cell by cell
+          - {at: sources/pomgat-lv-1.0#page=19, quote: "0"}
+          - {at: sources/pomgat-lv-1.0#page=19, quote: "Empfehlung offen"}
+          - {at: sources/pomgat-lv-1.0#page=19, quote: "kann"}
+      # … A, B and EK, each with its row
+    consensus:
+      - class: starker_konsens                                              # what a claim carries: the name, slugified
+        name: Starker Konsens
+        bounds: ">95% der Stimmberechtigten"
+        source:
+          - {at: sources/pomgat-lv-1.0#page=20, quote: "Starker Konsens"}
+          - {at: sources/pomgat-lv-1.0#page=20, quote: ">95% der Stimmberechtigten"}
+      # … Konsens, Mehrheitliche Zustimmung, Keine mehrheitliche Zustimmung
 
 # ── claims (phase one: deterministic, verifiable against the source) ──────
 - id: claims/pomgat-lv-1.0/7c31a2f0        # hash over (locator, quote); validator-checked

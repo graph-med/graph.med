@@ -10,6 +10,74 @@ media_type: application/pdf
 license: "Deutsche Sepsis-Gesellschaft e. V. (federführend) et al., publiziert im AWMF-Register (079-001); das Dokument
   nennt keine Lizenz — referenced at its public URL, never rehosted"
 structure: [versorgungspfad, modalitaetsbezogen]   # chapters 2–10 from screening through therapy by modality to follow-up and prevention
+grading_scheme:   # spec §3.1: Tabellen 7 and 8 (p. 148) and the count on p. 3, quoted cell by cell
+  grades:   # the legend's order: Tabelle 7's rows, then EK, which fixes no wording
+    - grade: Stark
+      description: Starke Empfehlung
+      verb: empfehlen
+      negated: empfehlen nicht
+      source:
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "Starke Empfehlung"}
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "Wir empfehlen/ empfehlen"}
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "nicht"}
+        - {at: sources/sepsis-lf-4.0#page=24, quote: "Stark"}
+      rationale: "Die Kästen drucken den Empfehlungsgrad als „Stark“ (hier Empfehlung 2.1); Tabelle 7 nummeriert ihn 1 und
+        beschreibt ihn als „Starke Empfehlung“, ausgedrückt „Wir empfehlen/ empfehlen nicht“."
+    - grade: Schwach
+      description: Schwache Empfehlung
+      verb: schlagen vor
+      negated: schlagen nicht vor
+      source:
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "Schwache Empfeh-"}
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "Wir schlagen vor/ schlagen"}
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "nicht vor"}
+        - {at: sources/sepsis-lf-4.0#page=35, quote: "Schwach"}
+      rationale: "Die Kästen drucken den Empfehlungsgrad als „Schwach“ (hier Empfehlung 2.11); Tabelle 7 nummeriert ihn 2 und
+        beschreibt ihn als „Schwache Empfehlung“, ausgedrückt „Wir schlagen vor/ schlagen nicht vor“. Tabelle 7 kennt keine
+        offene Empfehlung: auch der schwache Grad ist für oder gegen (⇑/⇓)."
+    - grade: EK
+      description: Expertenkonsens
+      source:
+        - {at: sources/sepsis-lf-4.0#page=3, quote: "Davon wurden 2 als Statements, 29 als Expertenkonsens und 57 als"}
+        - {at: sources/sepsis-lf-4.0#page=29, quote: "EK"}
+      rationale: "Die Langfassung schreibt „EK“ nirgends aus. S. 3 zählt von 88 PICO-Fragen 29 als Expertenkonsens konsentiert,
+        und 29 Kästen drucken „EK“, wo die übrigen „Empfehlungsgrad:“ mit „Stark“ oder „Schwach“ drucken (hier Empfehlung
+        2.5). Ihre Stärke trägt allein die Formulierung: 25 dieser Kästen drucken „Wir empfehlen“ oder „Wir schlagen vor“,
+        Empfehlung 4.11 druckt „kann NICHT empfohlen werden“, und 4.7, 4.11, 8.7 und 8.8 sprechen „weder für noch gegen“
+        eine Empfehlung aus. EK fixiert darum keine Formulierung und steht nach den Graden."
+  consensus:   # Tabelle 8, by which „Die Konsensstärke wurde gemäß Tabelle 8 klassifiziert.“ (p. 148); the boxes print the share
+    - class: starker_konsens
+      name: Starker Konsens
+      bounds: "> 95 % der Stimmberechtigten"
+      above: 95
+      source:
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "Starker Konsens"}
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    - class: konsens
+      name: Konsens
+      bounds: "> 75-95 % der Stimmberechtigten"
+      above: 75
+      at_most: 95
+      source:
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "Konsens"}
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "> 75-95 % der Stimmberechtigten"}
+      rationale: "„> 75-95 %“ reicht bis einschließlich 95 %, denn „Starker Konsens“ beginnt erst über 95 %: 95 % ist Konsens."
+    - class: mehrheitliche_zustimmung
+      name: Mehrheitliche Zustimmung
+      bounds: "> 50-75 % der Stimmberechtigten"
+      above: 50
+      at_most: 75
+      source:
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "Mehrheitliche Zustimmung"}
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "> 50-75 % der Stimmberechtigten"}
+      rationale: "„> 50-75 %“ reicht bis einschließlich 75 %, denn „Konsens“ beginnt erst über 75 %."
+    - class: keine_mehrheitliche_zustimmung
+      name: Keine mehrheitliche Zustimmung
+      bounds: "< 50 % der Stimmberechtigten"
+      below: 50
+      source:
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "Keine mehrheitliche Zustimmung"}
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "< 50 % der Stimmberechtigten"}
 outline:   # every numbered entry of the table of contents (pp. 13–16), physical page = printed page; its seven
            # unnumbered entries (pp. 2, 3, 3, 17, 18, 152, 157) carry no section number and are left out
   - {section: "1", title: "Geltungsbereich und Zweck", page: 19}
