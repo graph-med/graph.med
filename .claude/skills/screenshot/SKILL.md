@@ -64,11 +64,10 @@ matches (back when negative), `chapters` opens the chapter
 panel and `chapters-scroll=<px>` scrolls its list, `legend` collapses or expands the legend
 (open on a wide screen, collapsed on a phone at load), `all` opens every patient
 group one tap at a time (the physician's extreme state), `fit` fits what is
-open, `reset` returns the page to its opening state, `graph` and `sheet` scroll
-the page to the graph or to the sheet (on a phone they stack, so after `open=`
-the sheet is below the graph: `sheet` shows it at a reader's size, `graph`
-brings the dimmed siblings and the picked box back after anything that
-scrolled), `wait=<ms>` waits. `--dark`
+open, `reset` returns the page to its opening state, `sheet` and `graph` bring
+the details or the graph into view as a reader does — on a phone, where a
+selection waits in a peek strip, `sheet` raises the panel by tapping the strip
+and `graph` lowers it again; elsewhere they scroll the page to the section, `wait=<ms>` waits. `--dark`
 is a flag, not an action: the graph reads its colours from the stylesheet once,
 when it is drawn, so the theme is emulated before the page loads. On a view page the runner
 prints how many graph elements were shown, any page error — also when the

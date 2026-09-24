@@ -21,9 +21,15 @@ const ANYWHERE = new Set(["wait"]);   /* the one action a page without the graph
   await sleep(900);
   for (const [action, value] of spec.actions) {
     if (action === "wait") { await sleep(Number(value) || 500); continue; }
-    if (action === "graph" || action === "sheet") {   /* scroll the page to the graph (its section's top) or to the sheet: on a phone they stack */
-      await page.evaluate(a => { document.querySelector(a === "graph" ? ".graph-wrap" : "#sheet").scrollIntoView({ block: "start" }); }, action);
-      await sleep(300); continue;
+    if (action === "graph" || action === "sheet") {   /* bring the graph or the details into view as a reader does */
+      await page.evaluate(a => {
+        /* on a phone a selection waits in a peek strip: `sheet` raises the panel by tapping it, `graph` lowers it again;
+           where there is no strip (a wide screen, nothing selected), the page scrolls to the section instead */
+        const peek = document.querySelector("#sheet .peek"), raised = document.querySelector("#sheet.raised");
+        if (peek && peek.offsetParent !== null && (a === "sheet") !== !!raised) { peek.click(); return; }
+        document.querySelector(a === "graph" ? ".graph-wrap" : "#sheet").scrollIntoView({ block: "start" });
+      }, action);
+      await sleep(400); continue;
     }
     if (action === "all") {   /* every patient group open, one tap at a time as a reader would */
       const ids = await page.evaluate(() => window.graphmed.cy.nodes("[type = 'junction']").map(j => j.id()));
