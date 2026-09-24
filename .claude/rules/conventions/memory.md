@@ -52,6 +52,7 @@ pre-emptively.
 | `design/body-text-rule.md` | A body-text sentence earns a claim and an edge only by spec §5.1: gate G1–G4, then `refines` → `limits` → `supplements`, first that holds; kind by form, never graded, one claim per answer; no edge between sentences of marked recommendations; an edge never decides a statement's condition. |
 | `design/scope-tree-and-anchor.md` | One anchor per statement (the view's `anchor_slot`); a membership true only inside one guideline's scope is `in_scope_of` (optional condition concept), never `broader`; the root is declared (`scope_root`); anchor / subgroup / dimension / condition by four questions per statement. |
 | `design/conditions-are-a-conjunction-list.md` | A statement's `condition` is always a list of concepts; several entries hold at once (a conjunction), a source's "or" is one concept naming the alternatives; the other slots stay single-valued. |
+| `design/derived-concepts-defined-by.md` | A concept established by a rule is derived because a `defined_by` edge reaches the criterion or definition claim giving it — computed, never stored; the threshold sits on that claim as printed (`thresholds`); several rules are alternatives, a rule needing two values is one claim with two thresholds. Proposed 2026-09-24, awaiting confirmation. |
 
 ## Writing one
 

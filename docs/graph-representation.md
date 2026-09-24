@@ -214,6 +214,27 @@ list means the certainty was not recorded, not that there is none. Like the
 grade, the rating is read off the source and never inferred: its provenance is
 required (§6.5).
 
+A criterion or a definition may print a **threshold** — "Amylase im
+Drainagesekret unter 5000 U/L am ersten postop. Tag", "mindestens zwei
+klinischen Risikofaktoren". The claim carries it as **`thresholds`**, a list of
+entries, each naming the `quantity` measured or scored (a concept, like every
+other thing the pool refers to), a `comparator` (`<`, `≤`, `>`, `≥`, `=`,
+`between`), the `value` as printed, and, where printed, its `unit` and the
+time point of the measurement (`when`). A **relative** threshold — "kleiner
+als das Dreifach der Serumkonzentration" — also names the quantity it is
+relative to (`relative_to`), and its value is the factor. The comparator list
+is closed because it is mathematics; nothing else is: the quantity is a
+concept, and value, unit and time point are strings exactly as printed, never
+converted, rounded or completed, so no unit table and no vocabulary of scores
+enters the schema. Several entries hold at once: a rule that needs two values
+together ("unter 5000 U/L am postop. Tag 1 und 3 sowie Drainagemenge unter
+300 ml/Tag") is one claim with two entries, while two ways of meeting a term
+are two claims (§3.2). A threshold says for whom — which cases a term covers
+— and never how: a dose, a duration or a volume the action prescribes is not
+one, and only criterion and definition claims carry the list. Like the grade,
+it is the number on the page: its provenance is required (§6.5), and adding
+it to an existing claim is an edit with history (§7).
+
 ### 3.2 The semantic layer
 
 Three kinds of entity, kept apart because different edges attach to them:
@@ -234,6 +255,27 @@ Three kinds of entity, kept apart because different edges attach to them:
   varies (`mpom` is the action of one statement and the condition of another).
   Where the two seem to collide, ask whether the concept describes the case or
   the act.
+
+  A concept is **derived** (*abgeleitet*) when a clinician cannot observe it
+  but establishes it by a rule — a threshold on a measured quantity, a score
+  over risk factors, a definition — and **stated** (*angegeben*) otherwise.
+  The rule is a `criterion` or `definition` claim (§3.1), and the concept
+  reaches it by a `defined_by` edge (§5); a concept with such an edge is
+  derived, one without is stated, and that is computed from the edges, never
+  written on the concept (§3.3). A derived concept whose source names the rule
+  without a number ("lange OP-Zeit") has its edge and no threshold.
+  **Several rules of one concept are alternatives**: each `defined_by` edge is
+  one way of establishing it (drain amylase on day 1; on days 1 and 3 with
+  the drain volume; relative to the serum value on day 3), and any one
+  suffices — the other way round from a statement's conditions, which hold
+  together. A rule that needs two values at once is one claim with two
+  thresholds, not two edges. Because the kind is read off the concept, it
+  holds wherever the concept stands — a statement's anchor, one of its
+  conditions, or the `condition` of a scope edge (§5) — by the one mechanism.
+  These three choices — the kind computed rather than stored, the threshold
+  on the claim that prints it, several rules as alternatives — were proposed
+  on 2026-09-24 (card #187) and stand until the maintainer confirms or
+  overturns them in review.
 - **Statements** — propositions with a truth claim: "after pancreatic
   resection, the drain can be removed early when the drain amylase indicates a
   low fistula risk." Statements are what claims *support* or *contest*. A
@@ -276,7 +318,11 @@ hand: its source set (via `supports`), its conflict status (via `contests`), its
 effective grade (computed from supporting claims by a schema-declared policy —
 a grade always originates in a document, §6.5), and its review state (via
 attestations, §8). A hand-written evidence property on a statement is the same
-violation as a hand-written review status.
+violation as a hand-written review status. Likewise, whether a concept is
+derived or stated (§3.2) is computed from its `defined_by` edges and never
+stored: a stored kind would have to be kept in step with the edges by hand,
+and a concept used as a condition in one statement and as an anchor in
+another would need it written twice.
 
 ### 3.4 How new evidence arrives
 
@@ -669,6 +715,20 @@ the different jobs of edges apart:
   along its scope edges — set apart and marked as applying generally, with
   the condition (`docs/publication.md`) — and never merges them into its own;
   along `broader` alone nothing moves.
+- **definition** — `defined_by`: concept → claim, "is established by the rule
+  this passage gives". It connects a derived concept (§3.2) to the
+  `criterion` or `definition` claim that says how it is established, with the
+  threshold the claim prints (§3.1). Always `modelling`, with a rationale
+  naming the clause and the term, `lang` and `as_of`. Several edges from one
+  concept are **alternatives**, any one of which establishes it; one concept
+  reaches one claim at most once (the validator refuses a second edge, even
+  with a discriminator, and an edge to a claim of another kind). It is the
+  edge, not a field on the concept, because the rule is a relation with
+  provenance: it can be attested and go stale, and a concept that gains a rule
+  from a second guideline gains an edge, not a rewritten field. It carries no
+  evidence and says nothing about the statements that use the concept; the
+  `refines` edge the same criterion may have to a recommendation (§5.1) stays
+  what it is, a body-text relation between claims.
 - **structure** — `sequence`, `branch` (with a `guard` property), `about`:
   among structural nodes and from them to the statements they arrange.
 - **cross-source semantics** — `specializes`, `complements`, `conflicts`:
@@ -1283,6 +1343,8 @@ POMGAT S3 guideline (AWMF 088-010OL), quotes verified against the document.
   kind: criterion
   section: "6.1.3"
   label: "Drainageamylase unter 5000 U/L am ersten postoperativen Tag"
+  thresholds:                               # as printed (§3.1); provenance required, here the claim's own quote
+    - {quantity: concepts/amylase-drainagesekret, comparator: "<", value: "5000", unit: "U/L", when: "am ersten postop. Tag"}
   source: {at: sources/pomgat-lv-1.0#page=64, quote: "unter 5000 U/L am ersten postop. Tag"}
 
 # ── semantic layer (phase two: linking, all modelling) ────────────────────
@@ -1298,6 +1360,13 @@ POMGAT S3 guideline (AWMF 088-010OL), quotes verified against the document.
   lang: de
   label: "Pankreaskopfresektion"
   facet: procedure
+  source: modelling
+
+- id: concepts/geringes-pankreasfistelrisiko   # derived: it has a defined_by edge (§3.2); nothing on it says so
+  type: concept
+  lang: de
+  label: "Geringes Pankreasfistelrisiko"
+  facet: finding
   source: modelling
 
 - id: statements/fruehe-drainageentfernung-pankreasresektion
@@ -1321,6 +1390,8 @@ POMGAT S3 guideline (AWMF 088-010OL), quotes verified against the document.
 # ── edges (derived ids; endpoint hashes recorded for staleness) ───────────
 - [claims/pomgat-lv-1.0/e945b1d8, supports, statements/fruehe-drainageentfernung-pankreasresektion, {source: modelling}]
 - [claims/pomgat-lv-1.0/1f80c3aa, refines,  claims/pomgat-lv-1.0/e945b1d8, {source: modelling}]
+- [concepts/geringes-pankreasfistelrisiko, defined_by, claims/pomgat-lv-1.0/1f80c3aa,   # one rule of several, each an alternative (§5)
+   {source: modelling, as_of: "2026-09-24", lang: de, rationale: "Kriterium für geringes Pankreasfistelrisiko: Drainageamylase am ersten postop. Tag."}]
 - [concepts/pankreasresektion, codes_as, ops-2026/5-52, {source: modelling}]
 - [concepts/pankreaskopfresektion, broader, concepts/pankreasresektion,      # subsumption (§5): groups and folds, inherits nothing
    {source: modelling, as_of: "2026-09-10", lang: de, rationale: "Die Pankreaskopfresektion ist eine Pankreasresektion."}]
@@ -1338,7 +1409,9 @@ POMGAT S3 guideline (AWMF 088-010OL), quotes verified against the document.
 Things to notice: the grade sits on the *claim*, extracted verbatim from the
 recommendation box, and the statement carries no grade at all — its effective
 grade is derived; the criterion is a claim of its own, related by an edge, never
-inheriting the grade; where in the document a claim was found (`section`) sits on
+inheriting the grade, and it carries the threshold it prints, while the
+condition it establishes is derived only because an edge reaches the criterion
+— nothing on the concept says so; where in the document a claim was found (`section`) sits on
 the claim and nowhere else, and the outline that makes it checkable sits on the
 source; the classification code is a URL; the head resection is a special case
 of the resection by an edge that carries a reason and no evidence, so a
