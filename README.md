@@ -203,11 +203,14 @@ it never inherits its grade. The other two relations are `supplements` and
 
 The site shows every recommendation as one of four words: **für**, **gegen**,
 **abwägen**, **Lücke**. Nobody writes that word into the data. It is computed from
-the claims: `soll`/`sollte` for or against give für or gegen; `kann` — the
-guideline's own open recommendation — gives abwägen, with the lean shown beside it;
-a box that says "no recommendation possible" gives Lücke. Our example is abwägen,
-eher für. The rule is the same for every statement, so it can be changed in one
-place and never drifts.
+the claims, each read in the grading scheme its source declares (the source quotes
+its own method table): a recommendation for or against gives für or gegen —
+`soll`, `sollte`, or another guideline's "Wir empfehlen" and "Wir schlagen vor"
+alike —; the wording of a grade the scheme calls open, `kann` in this guideline,
+gives abwägen, with the lean shown beside it; a box that says "no recommendation
+possible" gives Lücke. Our example is abwägen, eher für. The rule is the same for
+every statement and every guideline, so it can be changed in one place and never
+drifts.
 
 ### Where the chapters went
 
@@ -248,8 +251,8 @@ the quote.
 Left to right: the guideline, **Welche Population?**, the families of patient
 groups by weight, each unfolding into its members, then **Welche Bedingung?** where
 a statement has a condition, then the recommendation as a box — coloured by its direction, stamped with the
-direction's glyph, the grade letter and, where the letter does not carry it, the
-verb, then the short label — and its aim as a tag.
+direction's glyph, the grade as the guideline prints it and, where the grade does
+not carry it, the verb, then the short label — and its aim as a tag.
 Tap a box: its details open beside the graph on a wide screen, and on a phone in
 a strip at the bottom that raises them over the graph. They answer in a fixed
 order: what to do and how binding it is (a band in the direction's colour, with

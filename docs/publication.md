@@ -59,7 +59,10 @@ A **graph id**, as the maintainer calls it, is therefore a view id. The first vi
 are one per source document, e.g. `graph.med/pomgat-lv-1.0` for the POMGAT guideline:
 a `selection` view whose filter is that one source. A view is a data entity
 (`data/views/<view-id>.yaml`, schema `view`); adding a graph to the site is a reviewed
-data change, never a change to the build.
+data change, and a change to the build only where its source brings something the
+build does not yet read from data — a language without a words table, a scope tree
+over a slot other than `population`. A source's grading scheme is data: its grades,
+wordings and consensus classes are read from the source (§3).
 
 ---
 
@@ -88,8 +91,8 @@ decision-graph-derivation):
    ┌──┴────────┐   ┌───┴───────┐ ┌───┴───────┐
    │ recommend.│   │ recommend.│ │ recommend.│    the statements — boxes coloured by
    └─────┬─────┘   └───────────┘ └───────────┘    direction (für · gegen · abwägen · Lücke),
-         ┆ (dashed)                               its glyph, the grade a letter (A · B · 0 · EK),
-         ┆                                        the verb a word where the letter does not carry it;
+         ┆ (dashed)                               its glyph, the grade as printed (A · B · 0 · EK),
+         ┆                                        the verb a word where the grade does not carry it;
          ┆                                        dashed red border when contested
          ▷ aim                                    outcome slot
 ```
@@ -105,7 +108,7 @@ decision-graph-derivation):
 - **Patient groups converge.** Statements sharing a population hang from one
   junction, so the tree shows at a glance what the guideline says for, say,
   colorectal resection. A condition is asked within its group.
-- **Forms tell the types apart, colour tells the direction, a letter the grade.**
+- **Forms tell the types apart, colour tells the direction, a token the grade.**
   Diamond, box, tag for question, recommendation, aim; the answers are bold edge
   labels written at the end of their edge, beside the group or box they lead to, so
   that many answers from one question do not pile up mid-edge; the aim a dashed
@@ -123,20 +126,26 @@ decision-graph-derivation):
   and the page's font stack (`--font`, the graph's too) names text faces that
   have it after the system face, so that no platform draws it from a colour emoji
   font — the selector alone did not keep Chromium from it where the system face
-  lacks the glyph. **The grade** follows as a
-  letter (A · B · 0 · EK, the guideline's own scale; every letter when the claims
-  differ). An EK box is coloured by its direction like every other recommendation
-  and marked "EK", not demoted. **The verb is a word where the letter does not
-  carry it.** The build computes, per view, which verbs the supporting claims say
-  under each grade letter: where a letter has exactly one, the letter determines
-  the verb and nothing is written; where it has more than one, a box whose
-  claims carry that letter writes its verb after it. The word carries its
-  negation — `soll nicht`, `sollte nicht` for a recommendation against — exactly
-  as the judgement writes it, so that box and card say the same thing. Nothing
-  about a grading scheme is known to the build: the rule reads the pool, so one
-  new claim can make a letter ambiguous and every box of that letter in the view
-  then writes its verb. Supporting claims that disagree on the verb give no word
-  (the verb, like the grade, is shown and never composed). **The border means
+  lacks the glyph. **The grade** follows as the
+  guideline prints it — `A · B · 0 · EK` in one, `Stark · Schwach · EK` in
+  another —, several in their scheme's order when the claims differ. The order,
+  like everything else about a grade, is read from the grading scheme the source
+  declares (`graph-representation.md` §3.1): the build knows no grade, verb or
+  consensus class by name. An EK box is coloured by its direction like every
+  other recommendation and marked "EK", not demoted. **The verb is a word where
+  the grade does not carry it.** The build computes, per grading scheme — the
+  grade names its scheme through its claim's source, so the grades of two
+  schemes are never pooled —, which verbs the supporting claims of that source
+  say under each grade: where a grade has exactly one, the grade determines the
+  verb and nothing is written; where it has more than one, a box whose claims
+  carry that grade writes its verb after it. The word carries its negation in
+  the form the scheme prints — `soll nicht`, `schlagen nicht vor` for a
+  recommendation against, never the verb with "nicht" appended — exactly as the
+  judgement writes it, so that box and card say the same thing. The rule reads
+  the claims, not the scheme's table, so one new claim can make a grade
+  ambiguous and every box of that grade then writes its verb. Supporting claims
+  that disagree on the verb give no word (the verb, like the grade, is shown and
+  never composed). **The border means
   state alone** — a contested box's dashed red border, and the selection; it
   carries no meaning of its own.
   **The legend** sits under the graph, at the bottom left, and keys what this
@@ -148,8 +157,8 @@ decision-graph-derivation):
   groups, laid out as a grid: *Form = Typ* (question, and a folded question;
   patient group, and an open one; recommendation; aim), *Zeichen + Farbe =
   Richtung* (a chip in the box's fill with the glyph inside it, and a box without
-  a direction), *Buchstabe = Grad* (the letters the boxes carry, and the letters
-  under which the verb is written as a word), *Rahmen = Zustand* (contested,
+  a direction), *Grad* (the grades the boxes carry, in their scheme's order, and
+  the grades under which the verb is written as a word), *Rahmen = Zustand* (contested,
   related to the selected box, applying generally to the selected group) and
   *Kanten* (answer, the way on, the aim). A chip carries a border that holds
   against the page in both themes, so that no key is told by a pastel alone.
@@ -353,13 +362,19 @@ Once concepts carry a `facet`, the search gets facet filters (only procedures,
 only outcomes). Everything here runs in the browser on the view's JSON.
 
 **Direction, in four words.** A recommendation's direction is one of *für*,
-*gegen*, *abwägen*, *Lücke*, derived at build time from the supporting claims:
-`soll`/`sollte` with `direction: for` → für, with `against` → gegen; `kann` → abwägen,
-because in the AWMF scheme "kann" *is* the open recommendation, the guideline's own
-third category (the judgement adds the lean, "eher für" or "eher gegen"); `kind:
+*gegen*, *abwägen*, *Lücke*, derived at build time from the supporting claims, each
+read in its grading scheme (`graph-representation.md` §3.1): a claim whose verb is
+the wording of a grade the scheme declares `open` → abwägen, because an open
+recommendation is the guideline's own third category, neither for nor against — in
+the AWMF scheme grade 0, "kann" (the judgement adds the lean, "eher für" or "eher
+gegen"); any other recommendation → für with `direction: for`, gegen with
+`against` — `soll`, `sollte`, and a GRADE scheme's weak "schlagen vor" as much as its
+strong "empfehlen", since its table gives the weak grade an arrow up or down; `kind:
 gap_notice` → Lücke; claims that disagree in direction → abwägen; a fact has no
-direction. The box's colour and the judgement at the top of the details carry it; the
-glyph (✓ ✗ ⚖ ∅) stands on the box, before its grade letter, in the judgement and in
+direction. A verb another guideline's scheme defines (a *sollte* in a guideline
+graded by GRADE) is read in that scheme. The box's colour and the judgement at the
+top of the details carry it; the
+glyph (✓ ✗ ⚖ ∅) stands on the box, before its grade, in the judgement and in
 the legend; the legend lists the words this view has, each with its colour and
 glyph. Timing
 ("innerhalb von 24 Stunden") is not a direction; it stays in the label.
@@ -390,10 +405,17 @@ glyph. Timing
   2. **Judgement.** One band, a block filled with the direction colour, no
      heading; its lines share the left edge. Line 1, in the card's largest
      type: the glyph, the direction word and the verb as the claims say it —
-     "soll nicht" for a recommendation against, never the bare verb. Line 2:
-     one chip per supporting claim in claim order, its grade as text on the
-     chip's own light fill (`Grad A`, `Expertenkonsens`) and its consensus
-     beside it; identical pairs collapse to one chip with a count, `Grad A (2)`.
+     for a recommendation against the negated form its scheme prints, "soll
+     nicht", "schlagen nicht vor", never the bare verb. Line 2: one chip per
+     supporting claim in claim order, its grade as text on the chip's own light
+     fill — the grade as printed in the card's frame (`Grad A`, `Grad Stark`),
+     and a grade that fixes no wording, an expert consensus, by its scheme's
+     description of it (`Expertenkonsens`) — and its consensus beside it: the
+     class as the scheme names it (`Starker Konsens`) and, where the claim
+     prints the share of votes, the share after it (`Konsens, 95 %`);
+     identical chips collapse to one with a count, `Grad A (2)`. A chip is
+     read in its claim's own scheme: the same token from two schemes is two
+     chips.
      The chips wrap under line 1 and never squeeze it. **Their order is the
      order of zone 8's entries** — the only thing tying a chip to its citation.
      Only when a contesting claim exists, a third line under the chips,
@@ -417,7 +439,7 @@ glyph. Timing
      |---|---|
      | One value | one line, no disclosure: `Evidenz: moderat (grade)` — the value and the system as the claim stores them |
      | Per outcome | a native `<details>`, open: its `<summary>` reads `Evidenz: endpunktabhängig (4 Endpunkte, hoch bis sehr niedrig)`, under it a table `Endpunkt \| Sicherheit` in the guideline's order, never sorted, the system named once as the table's caption |
-     | Expert consensus only | one line: `Expertenkonsens, keine Evidenzbewertung` — every supporting claim `grade: EK` and none carrying an entry |
+     | Expert consensus only | one line: `Expertenkonsens, keine Evidenzbewertung` — every supporting claim's grade one that fixes no wording in its scheme (`EK`, an expert consensus, `graph-representation.md` §3.1) and none carrying an entry |
      | Nothing recorded | one line: `Evidenz: nicht erfasst` — what is not recorded, never that the guideline says nothing |
 
      `endpunktabhängig` comes first in the summary line and the range follows
@@ -508,7 +530,11 @@ glyph. Timing
      marker in zone 2 announces.
   8. **Citation.** Each source named once, by its title, in the order of its
      first supporting claim; under it one entry per supporting claim from that
-     source: recommendation number, page, section, the verbatim quote, and two
+     source, in the guideline's order — by recommendation number, and a
+     recommendation number that is not a number ("Definition 1") by the page it
+     is printed on, after the numbered ones printed before it: recommendation
+     number (`Empf. 2.1`; one that is not a number as printed, `Definition 1`),
+     page, section, the verbatim quote, and two
      actions that do not look alike — `In der Leitlinie öffnen`, the primary
      one (the link into the cited page, §5), opening in a new tab and marked
      `↗`, so that following the citation keeps the reader's open groups,

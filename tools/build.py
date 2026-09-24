@@ -51,7 +51,9 @@ BODY_TEXT = ("limits", "refines", "supplements")   # zone 6 of the statement car
 # the four glyphs, on the box and in the judgement: ⚖ (U+2696) carries the text variation selector U+FE0E, or several
 # platforms draw it from a colour emoji font; ✓ ✗ ∅ need none
 DIRECTION_GLYPH = {"für": "✓", "gegen": "✗", "abwägen": "⚖\ufe0e", "Lücke": "∅"}
-GRADES = ("A", "B", "0", "EK")   # the guideline's own scale, in order: the letter a box carries before its label; a new scale is a new letter
+# A claim's grade, verb and consensus are read in its source's grading scheme (spec §3.1), which the source declares
+# as data (`grading_scheme`): the order of the grades, their wordings and negated forms, which wording is an open
+# recommendation, the consensus classes. The build names none of them — Pool reads each from the declaration.
 # An evidence system's values from high to low (docs/publication.md §3, zone 4), keyed by the `system` a claim's
 # `evidence` entry names: read for the range a per-outcome table is summarised by ("hoch bis sehr niedrig") and for
 # nothing else — never for a comparison, a threshold or a derived value, and a value is never mapped onto another
@@ -76,9 +78,11 @@ CHAPTERS = "section"   # the URL token and grouping id of the built-in chapter g
 
 # The words of the statement card (docs/publication.md §3 "What the section shows"), and of the detail
 # sections of the other entities and the entity page (§4): every visible word of their chrome, in the
-# entity's source language, keyed structurally — the zone, the slot, the grade and the consensus, the
-# entity type, the concept's facet and the claim's kind by the schema's own enum values, so that a new
-# value is a missing key and never a silent blank. The values are fixed by the maintainer (WP-0024).
+# entity's source language, keyed structurally — the zone, the slot, the entity type, the concept's facet
+# and the claim's kind by the schema's own enum values, so that a new value is a missing key and never a
+# silent blank. A grade, a consensus class and a share are no keys: their words are the source's, from its
+# grading scheme, and the table holds only the frame they stand in (`grade`, `consensus.share`), so that no
+# grade stops the build. The values are fixed by the maintainer (WP-0024).
 # There is no fallback: a language that lacks any key of CARD_KEYS fails the build, naming the language
 # and the keys (card_words()). A line that counts something
 # is a pair, `<key>.one` and `<key>.many`, chosen by the count at render time (card_words(): word(key, count));
@@ -87,8 +91,7 @@ CHAPTERS = "section"   # the URL token and grouping id of the built-in chapter g
 CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", "zone.contested.one", "zone.contested.many",
              "zone.citation", "zone.more", "slot.population", "slot.condition", "slot.action", "slot.count", "slot.families",
              "cite.open", "cite.quote", "cite.review.pending", "cite.no", "cite.page", "cite.section",
-             "grade.A", "grade.B", "grade.0", "grade.EK",
-             "consensus.starker_konsens", "consensus.konsens", "consensus.mehrheitliche_zustimmung", "consensus.kein",
+             "grade", "consensus.share",
              "marker.contested", "body.limits", "body.refines", "body.supplements", "body.empty",
              "evidence.single", "evidence.by_outcome", "evidence.by_outcome.no_range.one", "evidence.by_outcome.no_range.many",
              "evidence.by_outcome.partial.one", "evidence.by_outcome.partial.many",
@@ -117,9 +120,7 @@ CARD_WORDS = {"de": {
     "slot.families": "gehört zu:",
     "cite.open": "In der Leitlinie öffnen", "cite.quote": "Suchtext kopieren", "cite.review.pending": "Klinische Begutachtung: ausstehend",
     "cite.no": "Empf. {nr}", "cite.page": "S. {nr}", "cite.section": "Abschnitt {nr}",
-    "grade.A": "Grad A", "grade.B": "Grad B", "grade.0": "Grad 0", "grade.EK": "Expertenkonsens",
-    "consensus.starker_konsens": "starker Konsens", "consensus.konsens": "Konsens",
-    "consensus.mehrheitliche_zustimmung": "mehrheitliche Zustimmung", "consensus.kein": "kein Konsens",
+    "grade": "Grad {grade}", "consensus.share": "{name}, {share}",
     "marker.contested": "umstritten", "body.limits": "Grenzt ein", "body.refines": "Präzisiert", "body.supplements": "Ergänzt",
     "body.empty": "Der Begleittext schränkt diese Empfehlung nicht ein und ergänzt oder präzisiert sie nicht.",
     "evidence.single": "Evidenz: {wert} ({system})", "evidence.by_outcome": "Evidenz: endpunktabhängig ({n} Endpunkte, {von} bis {bis})",
@@ -175,53 +176,62 @@ def card_words(lang: str):
     return word
 
 
+def badge_of(c: dict) -> dict:
+    """A claim's badge (docs/publication.md §3, zone 2): its grade, its consensus class and the share it prints,
+    as the claim states them, and the source whose grading scheme they are read in — a grade of one scheme is
+    never the same badge as the same token of another (spec §3.1). The words are the scheme's, at render time."""
+    return {"source": c["source"], "grade": c.get("grade"), "consensus": c.get("consensus"), "share": c.get("consensus_share")}
+
+
 def badges_of(claims: list[dict]) -> list[dict]:
     """Line 2 of the judgement (docs/publication.md §3, zone 2): one badge per supporting claim, in the order
     of the claims — the order zone 8 lists them in, which is the only thing tying a badge to its citation —
-    each its grade and consensus as the claim states them; identical pairs collapse into one badge with a
-    count. Shown, never composed into one value. A claim stating neither has no badge."""
+    each its grade and consensus as the claim states them (badge_of); identical badges collapse into one with a
+    count. Shown, never composed into one value. A claim stating none of them has no badge."""
     rows: list[dict] = []
     for c in claims:
-        if c["edge"] != "supports" or not (c.get("grade") or c.get("consensus")):
+        if c["edge"] != "supports" or not (c.get("grade") or c.get("consensus") or c.get("consensus_share")):
             continue
+        b = badge_of(c)
         for r in rows:
-            if (r["grade"], r["consensus"]) == (c.get("grade"), c.get("consensus")):
+            if {k: r[k] for k in b} == b:
                 r["count"] += 1
                 break
         else:
-            rows.append({"grade": c.get("grade"), "consensus": c.get("consensus"), "count": 1})
+            rows.append({**b, "count": 1})
     return rows
 
 
 def contests_of(claims: list[dict]) -> list[dict]:
     """Zone 7 of the card: the claims that contest the statement, each with its own badge by zone 2's rules,
     its wording and its own citation. Its existence is what the ⚠ marker in the judgement announces."""
-    return [{"id": c["id"], "label": c["label"], "lang": c["lang"], "badge": {"grade": c.get("grade"), "consensus": c.get("consensus")},
+    return [{"id": c["id"], "label": c["label"], "lang": c["lang"], "badge": badge_of(c),
              "recommendation_no": c.get("recommendation_no"), "page": c["page"], "section": c.get("section"), "link": c["link"], "quote": c["quote"]}
             for c in claims if c["edge"] == "contests"]
 
 
 def direction_of(claims: list[dict]) -> dict | None:
-    """The four-word direction of a statement, derived from its supporting claims (docs/publication.md §3):
-    soll/sollte for → für, soll/sollte against → gegen, kann → abwägen (the guideline's own open
-    recommendation), a gap notice → Lücke. Facts have no direction; claims that disagree give abwägen.
-    With the word come the verbs as the claims say them — "soll nicht" for an against claim, as the
-    sentence reads —, the badges of the judgement's second line (badges_of), and `umstritten`: whether a
-    contesting claim exists, which the judgement marks so that a reader who stops there does not leave
-    with a one-sided answer."""
+    """The four-word direction of a statement, derived from its supporting claims (docs/publication.md §3), each
+    read in its grading scheme (Pool.claim_view): a claim whose verb is the wording of an open grade → abwägen
+    (the scheme's own open recommendation); any other recommendation für or gegen by its direction; a gap
+    notice → Lücke. Facts have no direction; claims that disagree give abwägen. With the word come the verbs
+    as the claims say them (`says`) — for an against claim the negated form its scheme prints ("soll nicht",
+    "schlagen nicht vor"), never the verb with a word appended —, the badges of the judgement's second line
+    (badges_of), and `umstritten`: whether a contesting claim exists, which the judgement marks so that a
+    reader who stops there does not leave with a one-sided answer."""
     sup = [c for c in claims if c["edge"] == "supports"]
     if not sup:
         return None
     if all(c.get("kind") == "gap_notice" for c in sup):
         word = "Lücke"
-    elif any(c.get("verb") == "kann" for c in sup):
+    elif any(c.get("open") for c in sup):
         word = "abwägen"
     else:
         dirs = {c.get("direction") for c in sup if c.get("direction")}
         if not dirs:
             return None
         word = "abwägen" if len(dirs) > 1 else ("gegen" if dirs == {"against"} else "für")
-    verbs = sorted({c["verb"] + (" nicht" if c.get("direction") == "against" else "") for c in sup if c.get("verb")})
+    verbs = sorted({c["says"] for c in sup if c.get("says")})
     if word == "abwägen" and len({c.get("direction") for c in sup if c.get("direction")}) == 1:
         verbs.append("eher gegen" if sup[0].get("direction") == "against" else "eher für")   # the lean of an open recommendation
     return {"word": word, "glyph": DIRECTION_GLYPH[word], "verbs": verbs, "badges": badges_of(claims),
@@ -233,7 +243,8 @@ def evidence_of(claims: list[dict], concept) -> dict:
     claims' `evidence` entries (schema 0.6.0), in one of four states and no fifth — `single` (one entry, no
     outcome: one value for the whole recommendation), `by_outcome` (anything else with entries: one group per
     system, its rows the entries in the claims' order, never sorted — sorting by certainty would rank what the
-    guideline did not), `ek_only` (no entry, and every supporting claim `grade: EK`), `missing` (no entry).
+    guideline did not), `ek_only` (no entry, and every supporting claim's grade one that fixes no wording in its
+    scheme — the expert consensus of spec §3.1, `unworded` —), `missing` (no entry).
     Nothing is composed: no value is derived from several. A group counts its rows (`n`) and those with a value
     (`k`), and carries a range — the highest and the lowest value present, by EVIDENCE_SCALES' order — only where
     every row has a value, the system is in that table, every value is on its scale and more than one value
@@ -242,7 +253,7 @@ def evidence_of(claims: list[dict], concept) -> dict:
     sup = [c for c in claims if c["edge"] == "supports"]
     entries = [(c, e) for c in sup for e in c.get("evidence") or []]
     if not entries:
-        return {"state": "ek_only" if sup and all(c.get("grade") == "EK" for c in sup) else "missing", "groups": []}
+        return {"state": "ek_only" if sup and all(c.get("unworded") for c in sup) else "missing", "groups": []}
     groups: list[dict] = []
     for c, e in entries:
         g = next((g for g in groups if g["system"] == e["system"]), None)
@@ -262,26 +273,26 @@ def evidence_of(claims: list[dict], concept) -> dict:
 
 
 def verb_of(claims: list[dict]) -> str | None:
-    """The one verb of a statement's supporting claims, as the box writes it: soll, sollte, kann, with "nicht"
-    for an against claim ("soll nicht"), exactly as direction_of() writes the judgement's verbs — so that box and
-    card say the same thing. From the `supports` edges only, and never composed: supporting claims that disagree
-    on the verb give none, the way claims that disagree on the grade give no single letter
-    (docs/publication.md §3, "Grades are shown, never composed")."""
-    verbs = {c["verb"] + (" nicht" if c.get("direction") == "against" else "") for c in claims if c["edge"] == "supports" and c.get("verb")}
+    """The one verb of a statement's supporting claims, as the box writes it: the verb as each claim says it
+    (`says`: the wording, or for an against claim the negated form its scheme prints), exactly as direction_of()
+    writes the judgement's verbs — so that box and card say the same thing. From the `supports` edges only, and
+    never composed: supporting claims that disagree on the verb give none, the way claims that disagree on the
+    grade give no single grade (docs/publication.md §3, "Grades are shown, never composed")."""
+    verbs = {c["says"] for c in claims if c["edge"] == "supports" and c.get("says")}
     return next(iter(verbs)) if len(verbs) == 1 else None
 
 
-def verbs_by_grade(statements: list[dict], pool) -> dict[str, str]:
-    """The grade letters of one view that determine their verb: a letter under which every supporting claim of
-    the view's statements says the same verb, mapped to that verb (docs/publication.md §3, "the verb is a word
-    where the letter does not carry it"). Computed from the pool, never declared — no grade, verb or scheme is
-    known to the build — so a letter under which the claims say two verbs is absent, and a box of that grade
-    writes its verb as a word."""
-    seen: dict[str, set] = defaultdict(set)
-    for st in statements:
+def implied_verbs(pool) -> dict[tuple[str, str], str]:
+    """The grades that determine their verb, per grading scheme — (source, grade) → verb: a grade under which every
+    supporting claim of the pool from that source says the same verb (docs/publication.md §3, "the verb is a word
+    where the grade does not carry it"). A grade names its scheme through its source (spec §3.1), so the grades of
+    two schemes are never pooled, whatever view shows them. Computed from the claims, never declared — a grade
+    under which the claims say two verbs is absent, and a box of that grade writes its verb as a word."""
+    seen: dict[tuple[str, str], set] = defaultdict(set)
+    for st in pool.of_type("statement"):
         for c in pool.claims_for(st["id"]):
             if c["edge"] == "supports" and c.get("grade") and c.get("verb"):
-                seen[c["grade"]].add(c["verb"])
+                seen[(c["source"], c["grade"])].add(c["verb"])
     return {g: next(iter(v)) for g, v in seen.items() if len(v) == 1}
 
 
@@ -294,24 +305,24 @@ def page_words(lang: str) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def grade_order(g: str):
-    """A grade letter's place in GRADES, a letter outside it after them — the order the box and the legend write."""
-    return (GRADES.index(g) if g in GRADES else len(GRADES), g)
+def tokens(pairs) -> list[str]:
+    """The grades of (source, grade) pairs as the box and the legend write them: each token once, in the order given."""
+    return list(dict.fromkeys(g for _, g in pairs))
 
 
-def worded_verb(claims: list[dict], implied: dict[str, str]) -> str | None:
-    """The verb a box writes as a word after its grade letter: only where some supporting claim's grade does not
-    determine its verb in this view (`implied`, from verbs_by_grade), and never when the claims disagree on it
-    (verb_of). One rule for the box and for the legend, which names the letters it applies to."""
-    carried = all(implied.get(c.get("grade")) == c["verb"] for c in claims if c["edge"] == "supports" and c.get("verb"))
+def worded_verb(claims: list[dict], implied: dict[tuple[str, str], str]) -> str | None:
+    """The verb a box writes as a word after its grade: only where some supporting claim's grade does not determine
+    its verb in its scheme (`implied`, from implied_verbs), and never when the claims disagree on it (verb_of). One
+    rule for the box and for the legend, which names the grades it applies to."""
+    carried = all(implied.get((c["source"], c.get("grade"))) == c["verb"] for c in claims if c["edge"] == "supports" and c.get("verb"))
     return None if carried else verb_of(claims)
 
 
-def legend_of(statements: list[dict], groupings: list[dict], pool) -> dict:
+def legend_of(statements: list[dict], groupings: list[dict], pool, sources: list[str]) -> dict:
     """The keys a view's legend shows (docs/publication.md §3, "The legend"): what the view draws, and nothing
     else — computed from its trees under every grouping and from its statements' claims, never declared. Each
-    entry is a structural key; the words are the view layer's (tools/site/words/<lang>.json)."""
-    implied = verbs_by_grade(statements, pool)   # the same computation as the boxes' verb word
+    entry is a structural key; the words are the view layer's (tools/site/words/<lang>.json). The grades stand in
+    their scheme's order (spec §3.1), a view's sources in the order of its filter."""
     nodes = [n for g in groupings for n in g["nodes"]]
     kinds = {e["kind"] for g in groupings for e in g["edges"]}
     types = {n["type"] for n in nodes}
@@ -322,17 +333,18 @@ def legend_of(statements: list[dict], groupings: list[dict], pool) -> dict:
     for st in statements:
         claims = pool.claims_for(st["id"])
         sup = [c for c in claims if c["edge"] == "supports"]
-        grades |= {c["grade"] for c in sup if c.get("grade")}
-        if worded_verb(claims, implied):   # the letters under which this box writes its verb
-            worded |= {c["grade"] for c in sup if c.get("grade") and c.get("verb") and implied.get(c["grade"]) != c["verb"]}
+        grades |= {(c["source"], c["grade"]) for c in sup if c.get("grade")}
+        if worded_verb(claims, pool.implied):   # the grades under which this box writes its verb
+            worded |= {(c["source"], c["grade"]) for c in sup if c.get("grade") and c.get("verb") and pool.implied.get((c["source"], c["grade"])) != c["verb"]}
+    order = lambda p: (sources.index(p[0]) if p[0] in sources else len(sources), p[0], pool.grade_rank(*p))
     return {
         "forms": [t for t in ("question", "junction", "statement", "aim") if t in types],
         "folded": "question" in types,   # a question the reader closed: grey and dashed
         "open": "junction" in types,     # a patient group the reader opened: filled
         "directions": [{"word": w, "glyph": g} for w, g in DIRECTION_GLYPH.items() if w in directions],
         "undirected": None in directions,   # a statement without a direction (a fact): the page's colours, with a border
-        "grades": sorted(grades, key=grade_order),
-        "verb_grades": sorted(worded, key=grade_order),
+        "grades": tokens(sorted(grades, key=order)),
+        "verb_grades": tokens(sorted(worded, key=order)),
         "states": [s for s, on in (("contested", any(n.get("contested") for n in boxes)),
                                    ("related", "relation" in kinds),
                                    ("general", any(n.get("general") for n in nodes))) if on],
@@ -425,6 +437,66 @@ class Pool:
         for st in self.of_type("statement"):
             for slot, cid in self.filled(st):
                 self.slot_uses[(slot, cid)] += 1
+        # the grading scheme each source declares (spec §3.1), read for the order of its grades, the wordings and
+        # their negated forms, which wording is an open recommendation, and the names of its consensus classes
+        self.schemes: dict[str, dict] = {sid: e.get("grading_scheme") or {} for sid, e in self.entities.items() if e.get("type") == "source"}
+        # the numbered recommendations of each source by the page they are printed on, source → [(page, number)]:
+        # where a recommendation_no that is not a number stands among them (no_key)
+        self.numbered: dict[str, list[tuple[int, list]]] = defaultdict(list)
+        for c in self.of_type("claim"):
+            no, page = c.get("recommendation_no"), page_of(c["source"]["at"])
+            if no and numbered(no) and page is not None:
+                self.numbered[self.source_of(c)].append((page, natural(str(no))))
+        self.implied = implied_verbs(self)   # which grades carry their verb, per scheme
+
+    def grade_of(self, source: str, grade) -> dict:
+        """A grade's entry in its own source's grading scheme, or {} for a grade the scheme does not list — which the
+        validator refuses; the build shows its token as printed and stops at nothing."""
+        return next((g for g in self.schemes.get(source, {}).get("grades") or [] if g.get("grade") == grade), {}) if grade else {}
+
+    def grade_rank(self, source: str, grade) -> tuple:
+        """A grade's place in its source's scheme, the order the box and the legend write (spec §3.1: the table's
+        rows, strongest first, then a grade that fixes no wording); a grade the scheme does not list after them."""
+        listed = [g.get("grade") for g in self.schemes.get(source, {}).get("grades") or []]
+        return (listed.index(grade) if grade in listed else len(listed), str(grade))
+
+    def wording_of(self, source: str, verb) -> dict:
+        """The scheme entry a claim's verb is read in (spec §3.1): the grade of its own source's scheme that gives
+        the wording, else of the first scheme by source id that does — the validator has checked that every scheme
+        defining a wording reads it alike (open or not, one negated form). {} for a wording no scheme gives."""
+        if not verb:
+            return {}
+        for sid in [source] + sorted(s for s in self.schemes if s != source):
+            entry = next((g for g in self.schemes[sid].get("grades") or [] if g.get("verb") == verb), None) if sid in self.schemes else None
+            if entry:
+                return entry
+        return {}
+
+    def badge_words(self, badge: dict) -> dict:
+        """The source's own words for a badge (badge_of), read in the grading scheme of the badge's source: `grade`,
+        the description of a grade that fixes no wording — an expert consensus, whose token abbreviates it (spec
+        §3.1) — and none for a graded one, which the card names by its token in its own frame (`grade`); `consensus`,
+        the name of the class as the scheme prints it, else the value as stored."""
+        g = self.grade_of(badge["source"], badge.get("grade"))
+        cls = next((k for k in self.schemes.get(badge["source"], {}).get("consensus") or [] if k.get("class") == badge.get("consensus")), {})
+        return {"grade": g.get("description") if g and not g.get("verb") else None,
+                "consensus": cls.get("name") or badge.get("consensus")}
+
+    def no_key(self, c: dict) -> tuple:
+        """Where a claim stands among its source's recommendations, for sorting (docs/publication.md §3): a numbered
+        one by its number ("2.1" before "10.4"); a `recommendation_no` that is not a number ("Definition 1") by the
+        page it is printed on — after every numbered recommendation of its source printed on an earlier page, before
+        those on its own page and after; a claim without one first."""
+        no = c.get("recommendation_no")
+        if not no or numbered(no):
+            return (natural(str(no or "")), 0, [])
+        page = int(c["page"]) if str(c.get("page") or "").isdigit() else None
+        before = [n for p, n in self.numbered.get(c["source"], []) if page is not None and p < page]
+        return (max(before, default=natural("")), 1, natural(str(no)))
+
+    def first_no(self, st: dict) -> tuple:
+        """A statement's place in its guideline: the first recommendation number among its claims (no_key), for sorting."""
+        return min((self.no_key(c) for c in self.claims_for(st["id"]) if c.get("recommendation_no")), default=(natural(""), 0, []))
 
     def slots_of(self, st: dict) -> dict:
         """What a statement shows in its slots: its own, then the value each asserted dimension axis gives it,
@@ -446,7 +518,7 @@ class Pool:
         for kind, frm, _ in self.inc.get(statement_id, []):
             if kind in CLAIM_EDGES and frm in self.entities:
                 rows.append({"edge": kind, **self.claim_view(self.entities[frm])})
-        rows.sort(key=lambda r: (r["edge"] != "supports", natural(r.get("recommendation_no") or ""), r["id"]))
+        rows.sort(key=lambda r: (r["edge"] != "supports", self.no_key(r), r["id"]))
         return rows
 
     def claim_view(self, claim: dict) -> dict:
@@ -457,8 +529,17 @@ class Pool:
         link = src.get("url", "")
         if link and page:
             link = source_link(link, page, claim["source"]["quote"])
-        row = {k: claim.get(k) for k in ("id", "kind", "recommendation_no", "section", "label", "grade", "verb", "direction", "consensus", "evidence", "lang")}
+        row = {k: claim.get(k) for k in ("id", "kind", "recommendation_no", "section", "label", "grade", "verb", "direction", "consensus",
+                                         "consensus_share", "evidence", "lang")}
         row.update({"quote": claim["source"]["quote"], "page": page, "source": src_id, "source_title": src.get("title"), "source_lang": src.get("lang"), "link": link})
+        # the claim read in its grading scheme (spec §3.1): whether its verb is the wording of an open grade; the verb as
+        # the sentence says it — the wording, or for a claim against the negated form the scheme prints, never the
+        # wording with a word appended, and none where the scheme gives no negated form; whether its grade is one that
+        # fixes no wording (an expert consensus)
+        wording, grade = self.wording_of(src_id, claim.get("verb")), self.grade_of(src_id, claim.get("grade"))
+        row["open"] = bool(wording.get("open"))
+        row["says"] = (wording.get("negated") if claim.get("direction") == "against" else claim["verb"]) if claim.get("verb") else None
+        row["unworded"] = bool(grade) and not grade.get("verb")
         for kind, frm, _ in self.inc.get(claim["id"], []):   # what the body text adds to this claim (spec §5)
             if kind in BODY_TEXT and frm in self.entities:
                 b = self.entities[frm]
@@ -542,6 +623,18 @@ def natural(s: str):
     return [int(p) if p.isdigit() else p for p in re.split(r"(\d+)", s)]
 
 
+def numbered(no) -> bool:
+    """Whether a `recommendation_no` is a number — digits, dot-separated ("2.1", "10.4") — which the card cites after
+    its word for a recommendation; anything else ("Definition 1") names itself and is cited as printed."""
+    return re.fullmatch(r"\d+(?:\.\d+)*", str(no).strip()) is not None
+
+
+def page_of(at: str) -> int | None:
+    """The physical page a reference's fragment names (`#page=N`), or None."""
+    frag = str(at).partition("#")[2]
+    return int(frag[5:]) if frag.startswith("page=") and frag[5:].isdigit() else None
+
+
 # ── views ───────────────────────────────────────────────────────────────────
 
 def under(section: str, s) -> bool:
@@ -584,11 +677,6 @@ def members_of(view: dict, pool: Pool) -> dict[str, dict]:
                 members[to] = pool.entities[to]
                 queue.append(to)
     return members
-
-
-def first_no(pool: Pool, st: dict) -> list:
-    """A statement's place in its guideline: the lowest recommendation number among its claims, for sorting."""
-    return natural(min((c["recommendation_no"] for c in pool.claims_for(st["id"]) if c.get("recommendation_no")), default=""))
 
 
 def tree_axis(view: dict, pool: Pool) -> dict | None:
@@ -655,7 +743,7 @@ def scope_of(view: dict, members: dict[str, dict], pool: Pool) -> dict | None:
         for kind, to, cond in rows:
             if frm in members and to in members and (kind == "broader" or to in reach):
                 up[frm].append((kind, to, cond))
-    statements = sorted((m for m in members.values() if m.get("type") == "statement"), key=lambda s: first_no(pool, s) + [s["id"]])
+    statements = sorted((m for m in members.values() if m.get("type") == "statement"), key=lambda s: pool.first_no(s) + (s["id"],))
     own: dict[str, list[str]] = defaultdict(list)
     for st in statements:
         for cid in fillers(st, slot):
@@ -804,7 +892,7 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
     # (docs/publication.md §3; the browser folds case and diacritics)
     text_of = lambda cid: " ".join(filter(None, [label(cid), members[cid].get("short_label")])) if cid in members else cid
     slots = lambda st: st.get("slots") or {}
-    first_no = lambda st: natural(min((c["recommendation_no"] for c in pool.claims_for(st["id"]) if c.get("recommendation_no")), default=""))
+    first_no = pool.first_no
     sources = [members[s] for s in view["filter"]["sources"]]
     lang = sources[0]["lang"]
     words = WORDS[lang]
@@ -814,33 +902,32 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
     respects = {None: respect_of(tree_axis(view, pool), pool)}
     if hierarchy_axis:
         respects[hierarchy_axis["id"]] = respect_of(hierarchy_axis, pool)
-    statements = sorted((m for m in members.values() if m["type"] == "statement"), key=lambda s: first_no(s) + [s["id"]])
-    implied = verbs_by_grade(statements, pool)   # which letters carry their verb, over the whole view
+    statements = sorted((m for m in members.values() if m["type"] == "statement"), key=lambda s: first_no(s) + (s["id"],))
 
     def hang(st, at):
         """The recommendation itself, under the junction of its group (`at`, or the question when it names
         no group): through the condition question where it has one, then its aim and its relations."""
         sl = slots(st)
         claims = pool.claims_for(st["id"])
-        grades = {c["grade"] for c in claims if c["edge"] == "supports" and c.get("grade")}
+        grades = {(c["source"], c["grade"]) for c in claims if c["edge"] == "supports" and c.get("grade")}   # read in each claim's own scheme
         cond, outc = the_one(st, "condition"), sl.get("outcome")
         d = direction_of(claims)
         again = st["id"] in seen   # under two answers (two chapters): one node, hung from both, its aim and relations once
         # the box reads "✗ EK soll nicht · <short label>" (docs/publication.md §3): the direction's glyph, the
-        # redundancy for a reader who does not see the colour; the grade as a letter (every grade when the claims
-        # differ — shown, never composed); the verb as a word, only where the letters do not already carry it —
-        # some supporting claim's grade does not determine its verb in this view (verbs_by_grade) — and never when
-        # the claims disagree on it; then the short form
-        letters = "/".join(sorted(grades, key=grade_order))
+        # redundancy for a reader who does not see the colour; the grade as printed, in its scheme's order (every
+        # grade when the claims differ — shown, never composed); the verb as a word, only where the grades do not
+        # already carry it — some supporting claim's grade does not determine its verb in its scheme
+        # (implied_verbs) — and never when the claims disagree on it; then the short form
+        letters = "/".join(tokens(sorted(grades, key=lambda p: (p[0], pool.grade_rank(*p)))))
         verb = verb_of(claims)
-        stamp = " ".join(filter(None, [d["glyph"] if d else None, letters, worded_verb(claims, implied)]))
+        stamp = " ".join(filter(None, [d["glyph"] if d else None, letters, worded_verb(claims, pool.implied)]))
         sid = add(st["id"], ref=st["id"], type="statement", lang=st["lang"],
                   label=(stamp + " · " if stamp else "") + (st.get("short_label") or st["label"]), full=st["label"],
                   direction=d["word"] if d else None, verb=verb, facets=sorted({f for f in (facet(c) for _, c in pool.filled(st)) if f}),
-                  grade=next(iter(grades)) if len(grades) == 1 else ("mixed" if grades else None),
+                  grade=next(iter(grades))[1] if len(grades) == 1 else ("mixed" if grades else None),
                   against={c["direction"] for c in claims if c["edge"] == "supports" and c.get("direction")} == {"against"},
                   contested=any(c["edge"] == "contests" for c in claims),
-                  no=min((c["recommendation_no"] for c in claims if c.get("recommendation_no")), default=None),
+                  no=min((c for c in claims if c.get("recommendation_no")), key=pool.no_key, default={}).get("recommendation_no"),
                   sections=sorted({c["section"] for c in claims if c.get("section")}, key=natural),
                   # what the search matches: the statement, its short form, its slot concepts (label and short
                   # label), its claims' sentences and quotes (docs/publication.md §3)
@@ -983,6 +1070,8 @@ def main(argv=None) -> int:
                        version=schema.get("x-version"), repo=REPO,
                        preview={"number": args.preview, "url": f"{REPO}/pull/{args.preview}"} if args.preview else None)
     env.filters["short"] = lambda eid: eid.split("/", 1)[-1]
+    env.globals["badge_words"] = pool.badge_words   # a badge's words, from its source's grading scheme (spec §3.1)
+    env.tests["numbered"] = numbered                 # a recommendation number the card cites after its word, else as printed
 
     out = args.out
     if out.exists():
@@ -1196,7 +1285,7 @@ def main(argv=None) -> int:
                 # every concept the view's statements hold, derived or stated, with its rule — the keys of a card's row (zone 5)
                 "concepts": {cid: derivation_of(pool, cid) for m in members.values() if m["type"] == "statement"
                              for _, cid in pool.filled(m) if cid in pool.entities}}
-        data["legend"] = legend_of([m for m in members.values() if m["type"] == "statement"], groupings, pool)   # what the view draws, keyed
+        data["legend"] = legend_of([m for m in members.values() if m["type"] == "statement"], groupings, pool, view["filter"]["sources"])   # what the view draws, keyed
         if scope:   # the origin of what the page shows for each concept, own or applying generally, for a reader of the JSON
             data["scope"] = {k: scope[k] for k in ("anchor_slot", "root", "concepts")}
         (out / vid).mkdir(parents=True, exist_ok=True)

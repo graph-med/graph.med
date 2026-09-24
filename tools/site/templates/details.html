@@ -1,13 +1,21 @@
 {# The detail section for one entity: the sheet under the graph, and the entity page. Every visible word of
    the chrome, whatever the entity, is W(key) from the words table in the entity's own language (no fallback);
    the content carries its own lang. The elements are the statement card's: a badge for grade and consensus,
-   dl.slots for a labelled list, zone 8's citation for a quote. #}
+   dl.slots for a labelled list, zone 8's citation for a quote. A grade, a consensus class and a share are the
+   source's words, read in its grading scheme (badge_words); a recommendation number that is not a number
+   ("Definition 1") is cited as printed. #}
 {% set e = entity %}
-{% macro badge(grade, consensus, count=1) -%}
-<span class="badge">{% if grade %}<b>{{ W("grade." ~ grade) }}</b>{% endif %}{% if consensus %} <span>{{ W("consensus." ~ consensus) }}</span>{% endif %}{% if count > 1 %} ({{ count }}){% endif %}</span>
+{# a badge (badge_of): the grade by its token in the card's frame ("Grad A", "Grad Stark"), or where the grade fixes
+   no wording by the scheme's description of it ("Expertenkonsens"); the consensus class by the name the scheme
+   prints, with the share beside it where the claim prints one; the count of identical badges #}
+{% macro badge(b, count=1) -%}
+{% set w = badge_words(b) %}<span class="badge">{% if b.grade %}<b>{{ w.grade or W("grade").format(grade=b.grade) }}</b>{% endif %}{% if w.consensus or b.share %} <span>{% if w.consensus and b.share %}{{ W("consensus.share").format(name=w.consensus, share=b.share) }}{% else %}{{ w.consensus or b.share }}{% endif %}</span>{% endif %}{% if count > 1 %} ({{ count }}){% endif %}</span>
+{%- endmacro %}
+{% macro no_of(x) -%}
+{{ W("cite.no").format(nr=x.recommendation_no) if x.recommendation_no is numbered else x.recommendation_no }}
 {%- endmacro %}
 {% macro where(x, no=false, link=true) -%}
-{% set parts = [] %}{% if no and x.recommendation_no %}{% set _ = parts.append(W("cite.no").format(nr=x.recommendation_no)) %}{% endif %}{% if x.page %}{% set _ = parts.append(W("cite.page").format(nr=x.page)) %}{% endif %}{% if x.section %}{% set _ = parts.append(W("cite.section").format(nr=x.section)) %}{% endif %}
+{% set parts = [] %}{% if no and x.recommendation_no %}{% set _ = parts.append(no_of(x)) %}{% endif %}{% if x.page %}{% set _ = parts.append(W("cite.page").format(nr=x.page)) %}{% endif %}{% if x.section %}{% set _ = parts.append(W("cite.section").format(nr=x.section)) %}{% endif %}
 {%- if parts and link %}<a href="{{ x.link }}" target="_blank" rel="noopener">{{ parts | join(" · ") }}</a>{% elif parts %}{{ parts | join(" · ") }}{% endif %}
 {%- endmacro %}
 {# a derived concept's rule (docs/publication.md §3 zone 5, §4): one line saying it is derived, then the rule its one
@@ -50,7 +58,7 @@
    only where a contesting claim exists, a third line with the contested marker, linking to zone 7 #}
 <section class="zone judgement{% if c.urteil.direction %} dir-{{ c.urteil.direction }}{% endif %}" aria-labelledby="zone-judgement-h">
 <p class="line1" id="zone-judgement-h"><span class="answer">{% if c.urteil.direction %}<span class="glyph" aria-hidden="true">{{ c.urteil.glyph }}</span> {{ c.urteil.direction }}{% if c.urteil.verbs %} <span class="verbs">{{ c.urteil.verbs | join(" · ") }}</span>{% endif %}{% endif %}</span></p>
-{% if c.urteil.badges %}<p class="badges">{% for b in c.urteil.badges %}{{ badge(b.grade, b.consensus, b.count) }} {% endfor %}</p>
+{% if c.urteil.badges %}<p class="badges">{% for b in c.urteil.badges %}{{ badge(b, b.count) }} {% endfor %}</p>
 {% endif %}{% if c.urteil.umstritten %}<p class="contested-line"><a class="contested-mark" href="#zone-contested"><span class="glyph" aria-hidden="true">⚠&#xFE0E;</span> {{ W("marker.contested") }}</a></p>
 {% endif %}</section>
 <section class="zone wording" aria-labelledby="zone-wording-h">
@@ -116,7 +124,7 @@
 <h3 id="zone-contested-h">{{ W("zone.contested", c.widerspruch | length) }}</h3>
 <ol class="claims">
 {% for x in c.widerspruch %}  <li>
-    <p class="badges">{{ badge(x.badge.grade, x.badge.consensus) }}</p>
+    <p class="badges">{{ badge(x.badge) }}</p>
     <p lang="{{ x.lang }}">{{ x.label }}</p>
     <p class="cite">{{ where(x, no=true) }}</p>
   </li>
@@ -197,14 +205,14 @@
 {% set c = claim %}
 <div class="card" lang="{{ c.lang }}">
 <p class="kind">{{ W("type.claim") }} · {{ W("kind." ~ c.kind) }}</p>
-{% if c.urteil or c.grade or c.consensus %}
+{% if c.urteil or c.grade or c.consensus or c.consensus_share %}
 <section class="zone judgement{% if c.urteil %} dir-{{ c.urteil.direction }}{% endif %}">
 {% if c.urteil %}<p class="line1"><span class="answer"><span class="glyph" aria-hidden="true">{{ c.urteil.glyph }}</span> {{ c.urteil.direction }}{% if c.urteil.verbs %} <span class="verbs">{{ c.urteil.verbs | join(" · ") }}</span>{% endif %}</span></p>
-{% endif %}{% if c.grade or c.consensus %}<p class="badges">{{ badge(c.grade, c.consensus) }}</p>
+{% endif %}{% if c.grade or c.consensus or c.consensus_share %}<p class="badges">{{ badge({"source": c.source, "grade": c.grade, "consensus": c.consensus, "share": c.consensus_share}) }}</p>
 {% endif %}</section>
 {% endif %}
 <p class="label">{{ c.label }}</p>
-<p class="cite"><span lang="{{ c.source_lang }}">{{ c.source_title }}</span>{% if c.recommendation_no %} · {{ W("cite.no").format(nr=c.recommendation_no) }}{% endif %}{% if c.page %} · {{ W("cite.page").format(nr=c.page) }}{% endif %}{% if c.section %} · {{ W("cite.section").format(nr=c.section) }}{% endif %}</p>
+<p class="cite"><span lang="{{ c.source_lang }}">{{ c.source_title }}</span>{% if c.recommendation_no %} · {{ no_of(c) }}{% endif %}{% if c.page %} · {{ W("cite.page").format(nr=c.page) }}{% endif %}{% if c.section %} · {{ W("cite.section").format(nr=c.section) }}{% endif %}</p>
 <blockquote>„{{ c.quote }}“</blockquote>
 <p class="actions"><a class="btn" href="{{ c.link }}" target="_blank" rel="noopener">{{ W("cite.open") }}<span class="ext" aria-hidden="true">↗</span></a> <button type="button" class="copy" data-copy="{{ c.quote }}">{{ W("cite.quote") }}</button></p>
 {% if c.statements %}
