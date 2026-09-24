@@ -43,6 +43,16 @@ rules a document schema cannot state because they span files:
     combinations nest through claims without a cycle; a threshold's `quantity`
     and `relative_to` resolve like every reference, and a relative threshold is
     relative to another quantity than the one it bounds;
+  - a claim is read in its source's grading scheme (spec §3.1): its `grade` is
+    one its own source's `grading_scheme` lists and its `consensus` one of its
+    classes; its `verb` is a wording some declared scheme defines — its own
+    source's, or others that read it alike (open or not, one negated form); a
+    printed `consensus_share` shows a number, carries the class where its
+    source classes shares, and lies within that class's bounds where the scheme
+    reads them as numbers; within a scheme a grade, a wording and a class are
+    listed once, every word of a grade, wording, negated form, class name and
+    bounds lies as a whole word in one of the quotes that give it, and those
+    quotes are the source's own;
 
 With --verify-quotes it also downloads each source (hash-checked, cached) and
 verifies every quote is a verbatim substring of `pdftotext -layout` on the cited
@@ -174,6 +184,7 @@ def main(argv=None) -> int:
     errors += check_axes(schema, ids, entities, broader, scope)
     errors += check_scope_edges(broader, scope)
     errors += check_definitions(ids, entities, defined_by)
+    errors += check_grading(ids, entities)
     if any(e.get("type") == "view" and "scope_root" in e for e in entities.values()):
         if errors:   # members are computed by the build's reader, which expects a pool that fits the schema
             print("the scope trees of views are checked once the errors below are fixed")
@@ -363,6 +374,94 @@ def check_definitions(ids: dict[str, str], entities: dict[str, dict],
                     errs.append(f"{rel}: the connective of {cid} prints {piece!r}, which none of its quotes contains")
     for cycle in cycles(graph):
         errs.append(f"combinations form a cycle through claims: {' -> '.join(cycle)}")
+    return errs
+
+
+def check_grading(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
+    """A claim's grade, verb and consensus in its source's grading scheme (spec §3.1, §6.5). A source declares the
+    scheme as data, quoted from its method table; the schema enumerates none of its words, so this is where a claim's
+    values are held to them. `grade` and `consensus` are its own source's; `verb` may be another guideline's wording
+    — recorded wherever a declared scheme defines it, read in its own source's scheme first, otherwise in the schemes
+    that define it, which must read it alike, or its direction would depend on which guideline one asked. A printed
+    share carries its class where the source classes shares, and lies within the class's bounds where the scheme
+    reads them as numbers. Within a scheme, each grade, wording and class is listed once, and every word of a grade,
+    wording, negated form, class name and bounds lies, as a whole word, in one of the quotes that give it — quotes
+    from the source itself — so that the words are the source's; a form marked `modelling` is not read against
+    quotes. That grade and verb agree is not checked: which grade a sentence carries is the rule of §3.1 and §5.1.
+    No grade, verb, class or scheme of any guideline is named here."""
+    errs: list[str] = []
+    source_of = lambda at: str(at).split("#")[0]
+    as_refs = lambda refs: [refs] if isinstance(refs, dict) else [r for r in refs or [] if isinstance(r, dict)] if isinstance(refs, list) else []
+    printed = lambda word, quote: re.search(rf"(?<!\w){re.escape(word)}(?!\w)", str(quote)) is not None
+    schemes: dict[str, dict] = {}
+    readings: dict[str, dict[str, tuple]] = {}   # a wording → {source: (open, negated)}
+    for sid, src in sorted(entities.items()):
+        if src.get("type") != "source" or not isinstance(src.get("grading_scheme"), dict):
+            continue
+        rel, scheme = ids[sid], src["grading_scheme"]
+        grades = [g for g in scheme.get("grades") or [] if isinstance(g, dict)]
+        classes = [c for c in scheme.get("consensus") or [] if isinstance(c, dict)]
+        schemes[sid] = {"grades": [g.get("grade") for g in grades], "verbs": {g["verb"] for g in grades if "verb" in g},
+                        "classes": {c.get("class"): c for c in classes}}
+        for field, entries, what in (("grade", grades, "grade"), ("verb", grades, "wording"), ("class", classes, "consensus class")):
+            values = [e[field] for e in entries if field in e]
+            for value in sorted({v for v in values if values.count(v) > 1}, key=str):
+                errs.append(f"{rel}: the grading scheme lists the {what} {value!r} more than once")
+        for entry, fields in [(g, ("grade", "verb", "negated")) for g in grades] + [(c, ("name", "bounds")) for c in classes]:
+            name = entry.get("grade", entry.get("class"))
+            for field in fields:
+                if field not in entry:
+                    continue
+                given = (entry.get("provenance") or {}).get(field, entry.get("source"))
+                if given == "modelling":
+                    continue
+                refs = as_refs(given)
+                for r in refs:
+                    if source_of(r.get("at", "")) != sid:
+                        errs.append(f"{rel}: the grading scheme quotes {source_of(r.get('at', ''))} for {name!r}; a scheme is read off its own source")
+                missing = [w for w in str(entry[field]).split() if not any(printed(w, r.get("quote")) for r in refs)]
+                if missing:
+                    errs.append(f"{rel}: the {field} {entry[field]!r} of {name!r} in the grading scheme prints "
+                                f"{', '.join(map(repr, missing))}, which none of its quotes contains as a word")
+        for g in grades:
+            if "verb" in g:
+                readings.setdefault(g["verb"], {})[sid] = (bool(g.get("open")), g.get("negated"))
+    for cid, claim in sorted(entities.items()):
+        if claim.get("type") != "claim":
+            continue
+        rel, own = ids[cid], source_of((claim.get("source") or {}).get("at", ""))
+        scheme = schemes.get(own)
+        for field, listed in (("grade", "grades"), ("consensus", "classes")):
+            if field not in claim:
+                continue
+            if scheme is None:
+                errs.append(f"{rel}: {cid} carries {field} {claim[field]!r}, but {own} declares no grading scheme to read it in")
+            elif claim[field] not in scheme[listed]:
+                errs.append(f"{rel}: {cid} has {field} {claim[field]!r}, which the grading scheme of {own} does not list "
+                            f"({', '.join(map(str, scheme[listed])) or 'none'})")
+        if "verb" in claim and not (scheme and claim["verb"] in scheme["verbs"]):
+            others = readings.get(claim["verb"], {})
+            if not others:
+                errs.append(f"{rel}: {cid} has verb {claim['verb']!r}, which no declared grading scheme defines")
+            elif len(set(others.values())) > 1:
+                errs.append(f"{rel}: {cid} has verb {claim['verb']!r}, which {own} does not define and the grading schemes of "
+                            f"{', '.join(sorted(others))} read differently (open or not, or another negated form); "
+                            f"its reading would depend on which guideline one asked")
+        if "consensus_share" in claim:
+            number = re.search(r"\d+(?:[.,]\d+)?", str(claim["consensus_share"]))
+            cls = (scheme or {}).get("classes", {}).get(claim.get("consensus"))
+            if not number:
+                errs.append(f"{rel}: {cid} has consensus_share {claim['consensus_share']!r}, which prints no number")
+            elif scheme and scheme["classes"] and "consensus" not in claim:
+                errs.append(f"{rel}: {cid} prints a share, and the grading scheme of {own} classes shares; carry its class as `consensus` beside it")
+            elif cls:
+                share = float(number.group().replace(",", "."))
+                outside = [f"{k} {cls[k]}" for k, fits in (("above", lambda b: share > b), ("at_least", lambda b: share >= b),
+                                                           ("at_most", lambda b: share <= b), ("below", lambda b: share < b))
+                           if isinstance(cls.get(k), (int, float)) and not fits(cls[k])]
+                if outside:
+                    errs.append(f"{rel}: {cid} prints the share {claim['consensus_share']!r}, outside the bounds of "
+                                f"{claim['consensus']!r} in the grading scheme of {own} ({', '.join(outside)})")
     return errs
 
 
