@@ -24,7 +24,8 @@ werden" without inventing a fifth word.
 
 **How to apply:** Never store a direction on a statement; derive it. Keep the
 four words and glyphs (✓ ✗ ⚖ ∅; `⚖` with U+FE0E and text faces in the font stack, so
-that it is text and never an emoji); the glyph stands on the box and in the judgement. Timing stays in the label. When gap notices
+that it is text and never an emoji); the glyph stands on the box, in the judgement and in the legend, which lists only the directions the view has
+([[page-chrome-in-the-view-layer]]). Timing stays in the label. When gap notices
 are linked to statements (open question gap-notices), *Lücke* starts to appear
 without a build change. Related: [[box-colour-by-direction]] — the box takes
 the direction's colour, strength is the grade letter beside the glyph and,

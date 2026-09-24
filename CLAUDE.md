@@ -63,7 +63,7 @@ uv run tools/build.py --base /preview/pr12/ --preview 12   # as the preview of p
 ```
 
 Open `site/index.html` in a browser to see a change. Templates and the client script
-live in `tools/site/`. Inside the sandbox, where there is no browser,
+live in `tools/site/`, the page chrome's words in `tools/site/words/` (not published). Inside the sandbox, where there is no browser,
 `uv run tools/screenshot.py <view-id>` renders a view page in a Chromium container
 on the sandbox's Docker daemon, writes a PNG under `/tmp/graph.med/screenshots/`
 and reports what overlaps (the `screenshot` skill describes the actions it can

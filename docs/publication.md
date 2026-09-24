@@ -137,9 +137,27 @@ decision-graph-derivation):
   then writes its verb. Supporting claims that disagree on the verb give no word
   (the verb, like the grade, is shown and never composed). **The border means
   state alone** — a contested box's dashed red border, and the selection; it
-  carries no meaning of its own. Legend under the graph: the colours and glyphs
-  are directions, the letters grades, a verb word appears where the letter does
-  not carry it.
+  carries no meaning of its own.
+  **The legend** sits under the graph, at the bottom left, and keys what this
+  view draws and nothing else. Its keys are computed by the build from the
+  view's trees and its statements' claims — the same computation that decides
+  where a box writes its verb — never declared: a direction no box has, a
+  contested border no box wears, an edge style no tree draws, has no key, and a
+  form, colour, letter or edge style the view draws has one. They stand in named
+  groups, laid out as a grid: *Form = Typ* (question, and a folded question;
+  patient group, and an open one; recommendation; aim), *Zeichen + Farbe =
+  Richtung* (a chip in the box's fill with the glyph inside it, and a box without
+  a direction), *Buchstabe = Grad* (the letters the boxes carry, and the letters
+  under which the verb is written as a word), *Rahmen = Zustand* (contested,
+  related to the selected box, applying generally to the selected group) and
+  *Kanten* (answer, the way on, the aim). A chip carries a border that holds
+  against the page in both themes, so that no key is told by a pastel alone.
+  Interaction hints are not keys: the legend has none, and "tap a box" is the
+  sheet's home text. Collapsed, the legend is a pill of at least 44 px carrying
+  the view's direction chips and the word *Legende*, so the corner says what it
+  opens; expanded, the panel of groups opens upward from it. It is open on a wide
+  screen and collapsed on a phone at every load, and nothing is remembered: the
+  site keeps no client state.
   Claims are not nodes; they are the evidence and appear in the section.
 
 **Drawn by a library, left to right, folded.** The page uses Cytoscape.js with the
@@ -280,10 +298,10 @@ loads needed to read a view; the entity pages (§4) exist for linking, not for r
 in a row of one grid rather than at a measured distance from an edge: the controls
 in the first, what the reader opens over the graph — the chapter panel — in the
 second, the legend in the third, and the canvas spanning all three. A control row
-that wraps on a phone makes its own row taller, the legend is as tall as its lines
-are at that width, and both the panel's height and the zoom that fits the tree
-follow from the free middle row. No constant states how tall the controls are, and
-a hidden legend leaves no row to subtract.
+that wraps on a phone makes its own row taller, the legend is as tall as it is,
+collapsed or expanded, and both the panel's height and the zoom that fits the tree
+follow from the free middle row. No constant states how tall the controls or the
+legend are.
 
 **Chapters and search.** Two ways to narrow the tree, deliberately different in
 kind:
@@ -328,7 +346,8 @@ third category (the judgement adds the lean, "eher für" or "eher gegen"); `kind
 gap_notice` → Lücke; claims that disagree in direction → abwägen; a fact has no
 direction. The box's colour and the judgement at the top of the details carry it; the
 glyph (✓ ✗ ⚖ ∅) stands on the box, before its grade letter, in the judgement and in
-the legend; the legend lists the four words with their colours. Timing
+the legend; the legend lists the words this view has, each with its colour and
+glyph. Timing
 ("innerhalb von 24 Stunden") is not a direction; it stays in the label.
 
 **What the section shows.**
@@ -521,9 +540,16 @@ source language too, from per-language tables in the build with no fallback: a
 language the tables do not cover fails the build, naming the language and the
 missing keys, so that no English word ever stands on a German card. The detail
 sections of a concept, a claim and a source, and the entity page's link to its
-JSON (§4), take their words from the same table in the entity's own language. The page
-chrome outside graph and sheet — header, footer, legend, counter — is English (§8).
-Translation is a build-layer concern and can be added without a data change
+JSON (§4), take their words from the same table in the entity's own language.
+**The page's own chrome is the reader's, not the source's.** The legend and the
+sheet's one hint are German, whatever the view's source language, from a table of
+the view layer — one file per language under `tools/site/words/`, read by the
+build and never published — and the build, the schema, the data and every
+identifier, key and comment behind them stay English: only what the viewer reads
+is German. A German and an English site are a later phase; they will be a second
+table, not a second template. The rest of the page chrome — header, footer,
+counter, the controls' titles — is still English (§8). Translation of content is a
+build-layer concern and can be added without a data change
 (`graph-representation.md` §2).
 
 ---
@@ -629,11 +655,12 @@ cut-publication).
   whether a cut has a PDF export.
 - **Branch guards** — yes/no and value-range branches come with authored pathways
   (`branch` edges carry a `guard`); the derived tree has only slot answers.
-- **The build's own words outside the graph and the card** — the legend, the
-  counter, the chapter panel's "all" and the page chrome are English; the
+- **The page chrome outside the legend** — the counter, the chapter panel's
+  "all", the controls' titles, header and footer are English; the legend and the
+  sheet's hint are German from the view layer's table (§3 "Language"); the
   questions and the direction words inside the graph, and every word of the
   sheet — the statement card and the other entities' sections — are in the
-  source language. The maintainer deferred the rest
-  to a later phase.
+  source language. The maintainer decided on German now and a German and an
+  English site in a later phase; nothing selects a page language yet.
 - **Translation** — a build-layer projection, not started.
 - **Other projections** — FHIR, RDF, diagram formats (`graph-representation.md` §13).

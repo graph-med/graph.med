@@ -135,3 +135,15 @@ and which card is next, is not a question and lives on the board (`uv run tools/
 **Options:** keep `∅` · another character for *Lücke* · draw the four glyphs as SVG (the mechanism a bold stamp would need too)
 **Leaning:** none; decide before the first gap notice is linked to a statement. (2026-09-24)
 **Settled by:** a gap notice linked to a statement (`gap-notices`), seen on the page.
+
+## page-hint-language  (publication.md §3 "Language"; card #155)
+**Question:** The sheet's home text carries one hint ("Ein Feld im Graphen antippen …"), which left the legend. It is page chrome, German from the view layer's table, but it stands in the sheet, whose chrome is in the *source* language. For the first view both are German and nothing shows the seam; in a view whose source is English the sheet would be English and its hint German.
+**Options:** harmless, keep it in the sheet · the hint in the source language, from `CARD_WORDS` · the hint elsewhere (the pill, the controls)
+**Leaning:** none. (2026-09-24)
+**Settled by:** the first view whose source language is not the page language.
+
+## page-words-missing-language  (publication.md §3 "Language"; card #155)
+**Question:** What happens when the view layer's table (`tools/site/words/<lang>.json`) lacks the page language, or a key? Today the build stops when the file is absent, as `card_words()` does for the source-language tables, and a missing key renders nothing.
+**Options:** fail the build, file and key alike · fall back to another page language · fall back per key
+**Leaning:** none; it matters only once there is a second page language. (2026-09-24)
+**Settled by:** the second page language.
