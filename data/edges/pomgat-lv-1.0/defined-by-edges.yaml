@@ -1,0 +1,31 @@
+# defined_by edges (spec §3.2, §5): a derived concept → the criterion or definition claim that gives
+# its rule, all modelling, the rationale naming the term as printed and the clause that gives the rule.
+# Several edges from one concept are alternatives, any one of which establishes it. Written by #192.
+
+# 6.7 — three alternatives, p. 64 ("entweder … oder … oder aber …")
+- [concepts/geringes-pankreasfistelrisiko, defined_by, claims/pomgat-lv-1.0/8349aa77, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "„geringes Risiko einer späteren Pankreasfistel“ — Alternative 1 von 3 („entweder“): Amylase im Drainagesekret unter 5000 U/L am ersten postop. Tag."}]
+- [concepts/geringes-pankreasfistelrisiko, defined_by, claims/pomgat-lv-1.0/746f5608, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "„geringes Risiko einer späteren Pankreasfistel“ — Alternative 2 von 3 („oder“): Amylase im Drainagesekret unter 5000 U/L am postop. Tag 1 und 3 sowie Drainagemenge unter 300 ml/Tag."}]
+- [concepts/geringes-pankreasfistelrisiko, defined_by, claims/pomgat-lv-1.0/d1e946a1, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "„geringes Risiko einer späteren Pankreasfistel“ — Alternative 3 von 3 („oder aber“): Amylase im Drainagesekret kleiner als das Dreifach der Serumkonzentration am postop. Tag 3."}]
+
+# 4.1 — "Als kardiovaskuläre Hochrisikopatienten gelten …", p. 27
+- [concepts/kardiovaskulaerer-hochrisikopatient, defined_by, claims/pomgat-lv-1.0/ed10bff2, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "„kardiovaskuläre Hochrisikopatienten“ — „Als … gelten“: mindestens zwei klinische RCRI-Risikofaktoren, ferner ASA Status von mindestens 3 und koronare Herzkrankheit oder nachgewiesene Myokardischämie."}]
+
+# 6.8 — quality indicator QI 2, p. 123: "Unkomplizierte Leberresektion = …"
+- [concepts/leberresektion-unkompliziert, defined_by, claims/pomgat-lv-1.0/eafa4550, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "„Unkomplizierte Leberresektion“ — die durch „=“ markierte Definition: Leberresektion ohne biliäre oder vaskuläre Rekonstruktion."}]
+
+# 5.1 — "Als Risikofaktoren nach Apfel 1999 gelten …", p. 41; no number of factors printed
+- [concepts/ponv-risikofaktoren, defined_by, claims/pomgat-lv-1.0/ad0f29aa, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "„Risikofaktoren“ (für PONV) — „Als Risikofaktoren nach Apfel 1999 [93] gelten“: die aufgezählten Faktoren; eine Mindestzahl nennt die Leitlinie nicht."}]
+
+# 7.7 — the parenthesis of the box sentence, p. 80
+- [concepts/risikofaktoren-harnverhalt, defined_by, claims/pomgat-lv-1.0/1a8b3a20, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "„Risikofaktoren für einen Harnverhalt“ — die Aufzählung in der Klammer: männliches Geschlecht, tiefe anteriore Rektumresektion, Rektumexstirpation."}]
+
+# 7.10 — the parenthesis of the box sentence, p. 82; no number printed
+- [concepts/risikokonstellation-lange-op-hoher-opioidbedarf, defined_by, claims/pomgat-lv-1.0/a5aadc84, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "„Risiko-Konstellationen“ — die Aufzählung in der Klammer: lange OP-Zeiten, zu erwartender hoher postoperativer Opioidverbrauch; eine Dauer oder Menge nennt die Leitlinie nicht."}]
