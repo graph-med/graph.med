@@ -4,15 +4,19 @@
 
 # 6.7 — three alternatives, p. 64 ("entweder … oder … oder aber …")
 - [concepts/geringes-pankreasfistelrisiko, defined_by, claims/pomgat-lv-1.0/8349aa77, {source: modelling, as_of: "2026-09-24", lang: de,
-   rationale: "„geringes Risiko einer späteren Pankreasfistel“ — Alternative 1 von 3 („entweder“): Amylase im Drainagesekret unter 5000 U/L am ersten postop. Tag."}]
+   rationale: "„eines geringen Risikos einer späteren Pankreasfistel“ — Alternative 1 von 3 („entweder“): Amylase-Konzentration im Drainagesekret unter 5000 U/L am ersten postop. Tag."}]
 - [concepts/geringes-pankreasfistelrisiko, defined_by, claims/pomgat-lv-1.0/746f5608, {source: modelling, as_of: "2026-09-24", lang: de,
-   rationale: "„geringes Risiko einer späteren Pankreasfistel“ — Alternative 2 von 3 („oder“): Amylase im Drainagesekret unter 5000 U/L am postop. Tag 1 und 3 sowie Drainagemenge unter 300 ml/Tag."}]
+   rationale: "„eines geringen Risikos einer späteren Pankreasfistel“ — Alternative 2 von 3 („oder“): Amylase-Konzentration im Drainagesekret unter 5000 U/L am postop. Tag 1 und 3 sowie Drainagemenge unter 300 ml/Tag."}]
 - [concepts/geringes-pankreasfistelrisiko, defined_by, claims/pomgat-lv-1.0/d1e946a1, {source: modelling, as_of: "2026-09-24", lang: de,
-   rationale: "„geringes Risiko einer späteren Pankreasfistel“ — Alternative 3 von 3 („oder aber“): Amylase im Drainagesekret kleiner als das Dreifach der Serumkonzentration am postop. Tag 3."}]
+   rationale: "„eines geringen Risikos einer späteren Pankreasfistel“ — Alternative 3 von 3 („oder aber“): Amylase im Drainagesekret kleiner als das Dreifach der Serumkonzentration am postop. Tag 3."}]
 
-# 4.1 — "Als kardiovaskuläre Hochrisikopatienten gelten …", p. 27
+# 4.1 — "Als kardiovaskuläre Hochrisikopatienten gelten …", p. 27: three groups, each an alternative
 - [concepts/kardiovaskulaerer-hochrisikopatient, defined_by, claims/pomgat-lv-1.0/ed10bff2, {source: modelling, as_of: "2026-09-24", lang: de,
-   rationale: "„kardiovaskuläre Hochrisikopatienten“ — „Als … gelten“: mindestens zwei klinische RCRI-Risikofaktoren, ferner ASA Status von mindestens 3 und koronare Herzkrankheit oder nachgewiesene Myokardischämie."}]
+   rationale: "„kardiovaskuläre Hochrisikopatienten“ — „Als … gelten“, Gruppe 1 von 3: Patienten mit mindestens zwei klinischen Risikofaktoren nach dem RCRI."}]
+- [concepts/kardiovaskulaerer-hochrisikopatient, defined_by, claims/pomgat-lv-1.0/2f2ded84, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "„kardiovaskuläre Hochrisikopatienten“ — „Als … gelten“, Gruppe 2 von 3 („ferner“): Patienten mit einem ASA Status von mindestens 3."}]
+- [concepts/kardiovaskulaerer-hochrisikopatient, defined_by, claims/pomgat-lv-1.0/5410f724, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "„kardiovaskuläre Hochrisikopatienten“ — „Als … gelten“, Gruppe 3 von 3: Patienten mit koronarer Herzkrankheit oder nachgewiesener Myokardischämie."}]
 
 # 6.8 — quality indicator QI 2, p. 123: "Unkomplizierte Leberresektion = …"
 - [concepts/leberresektion-unkompliziert, defined_by, claims/pomgat-lv-1.0/eafa4550, {source: modelling, as_of: "2026-09-24", lang: de,
