@@ -19,11 +19,13 @@
 # `defined_by` edge, to a claim of kind criterion or definition; a combination's
 # parts are such claims of the same source, nest without a cycle, and its
 # connective is printed in its quotes; `at_least` counts no more parts than it
-# has; a relative threshold is relative to another quantity than its own), and
+# has; a relative threshold is relative to another quantity than its own),
 # a claim is read in its source's grading scheme (spec §3.1: its grade and
 # consensus are of its own source's `grading_scheme`, its verb one a declared
 # scheme defines, a printed share lies in its class's bounds, and every word of
-# a scheme lies in the quotes of its entry).
+# a scheme lies in the quotes of its entry), and an evidence row's `outcome` is
+# an endpoint (spec §3.1: a concept of facet `outcome`; whatever else the row
+# names is its printed `key`).
 # CI runs it on every pull request and push to main (.github/workflows/validate.yml).
 #
 # Keywords prefixed `x-` are this project's annotations; JSON Schema validators
@@ -32,7 +34,7 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 $id: https://graph.med/schema/schema.yaml
 title: graph.med pool
-x-version: 0.13.0
+x-version: 0.14.0
 
 # ── layout: which definition each data file validates against ────────────────
 # (data/README.md). Globs are relative to the repository root. `one_per_file`
@@ -147,12 +149,14 @@ $defs:
       section: {type: string, minLength: 1}
       title:   {$ref: '#/$defs/text'}
       page:    {type: integer, minimum: 1}
-  # one certainty rating on a claim (spec §3.1): the word of the system that rated it, and the
-  # outcome it rates where the source rates per outcome. No system and no value is enumerated:
-  # a second guideline brings its own, and a value is never mapped onto another system's.
+  # one certainty rating on a claim (spec §3.1), one entry per row the source prints: the word of
+  # the system that rated it, the outcome it rates where the row names an endpoint, and the row's
+  # key as printed where the row names anything else (a component, a subgroup, an arm, a
+  # comparator, a device, a regimen). No system, no value and no kind of row is enumerated: a
+  # second guideline brings its own, and a value is never mapped onto another system's.
   # An entry states its outcome, its value, or both: an outcome the source lists without a
   # rating is recorded as the outcome alone (the row reads "nicht erfasst"), never left out;
-  # an entry with neither says nothing and is refused
+  # an entry with neither says nothing and is refused, whatever its key
   evidence_entry:
     type: object
     required: [system]
@@ -161,9 +165,11 @@ $defs:
       - required: [value]
     additionalProperties: false
     properties:
-      outcome: {$ref: '#/$defs/concept_ref'}   # absent where the source rates the whole recommendation
-      value:   {$ref: '#/$defs/text'}          # the system's own word, source language, never translated; absent where the source lists the outcome unrated
-      system:  {$ref: '#/$defs/slug'}          # grade, oxford_loe, esc_loe, … — an open string, never an enum; required with or without a value: the system whose table lists the outcome
+      outcome: {$ref: '#/$defs/concept_ref'}   # the endpoint, a concept of facet `outcome` (validator); absent where the row names none
+      key:     {$ref: '#/$defs/text'}          # the row's key as printed where it names anything but the endpoint — never a kind, never a concept;
+                                               # beside `outcome` where the row names both; it keeps apart rows that would otherwise be one entry
+      value:   {$ref: '#/$defs/text'}          # the system's own word as printed (its case too), source language, never translated; absent where the source lists the row unrated
+      system:  {$ref: '#/$defs/slug'}          # grade, oxford_loe, esc_loe, … — an open string, never an enum; required with or without a value: the system whose table lists the row
   # the threshold a criterion or definition claim prints (spec §3.1): which quantity, compared how,
   # with which value — read off the page, never inferred, rounded or completed. The comparator list
   # is closed because it is mathematics, not a guideline's vocabulary; nothing else is enumerated:
@@ -374,9 +380,9 @@ $defs:
       consensus_share: {$ref: '#/$defs/text', x-provenance: required}
              # the share of agreement as printed, where the source prints one; beside `consensus`, within its
              # class's bounds (validator)
-      evidence:  # how certain the evidence is, per outcome, in the words of the system that rated it
+      evidence:  # how certain the evidence is, per printed row, in the words of the system that rated it
                  # (spec §3.1); absent or [] is "not recorded". A list even where the source states one
-                 # value (one entry, no `outcome`): never a scalar, and never reduced to one value
+                 # value (one entry, no `outcome`, no `key`): never a scalar, and never reduced to one value
         type: array
         uniqueItems: true
         items: {$ref: '#/$defs/evidence_entry'}

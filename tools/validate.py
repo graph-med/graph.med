@@ -53,6 +53,10 @@ rules a document schema cannot state because they span files:
     listed once, every word of a grade, wording, negated form, class name and
     bounds lies as a whole word in one of the quotes that give it, and those
     quotes are the source's own;
+  - an evidence row names its endpoint as `outcome` and anything else as its
+    printed `key` (spec §3.1): an entry's `outcome` is a concept of facet
+    `outcome`, so a component, a subgroup, an arm, a comparator, a device or a
+    regimen is never recorded as one;
 
 With --verify-quotes it also downloads each source (hash-checked, cached) and
 verifies every quote is a verbatim substring of `pdftotext -layout` on the cited
@@ -185,6 +189,7 @@ def main(argv=None) -> int:
     errors += check_scope_edges(broader, scope)
     errors += check_definitions(ids, entities, defined_by)
     errors += check_grading(ids, entities)
+    errors += check_evidence(ids, entities)
     if any(e.get("type") == "view" and "scope_root" in e for e in entities.values()):
         if errors:   # members are computed by the build's reader, which expects a pool that fits the schema
             print("the scope trees of views are checked once the errors below are fixed")
@@ -462,6 +467,27 @@ def check_grading(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
                 if outside:
                     errs.append(f"{rel}: {cid} prints the share {claim['consensus_share']!r}, outside the bounds of "
                                 f"{claim['consensus']!r} in the grading scheme of {own} ({', '.join(outside)})")
+    return errs
+
+
+def check_evidence(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
+    """A claim's evidence rows (spec §3.1): each is one row the source prints, keyed by its endpoint (`outcome`)
+    and, where the row names anything else, by its printed `key`. The schema cannot see a concept's facet, so this
+    is where an `outcome` is held to be an endpoint — a concept of facet `outcome` — and a row keyed by a component,
+    a subgroup, an arm, a comparator, a device or a regimen cannot pass that key off as one. That no two entries are
+    alike is the schema's (`uniqueItems`); the key is what keeps rows apart that would otherwise be one entry. No
+    system, value or kind of row is named here."""
+    errs: list[str] = []
+    for cid, claim in sorted(entities.items()):
+        if claim.get("type") != "claim" or not isinstance(claim.get("evidence"), list):
+            continue
+        for i, entry in enumerate(claim["evidence"]):
+            outcome = entry.get("outcome") if isinstance(entry, dict) else None
+            concept = entities.get(outcome) if isinstance(outcome, str) else None
+            if concept is not None and concept.get("facet") != "outcome":
+                errs.append(f"{ids[cid]}: {cid} evidence {i}: {outcome} is no endpoint (facet {concept.get('facet') or 'none'}); "
+                            f"a row naming a component, a subgroup, an arm, a comparator, a device or a regimen records it as "
+                            f"its printed `key`, its endpoint as `outcome`")
     return errs
 
 
