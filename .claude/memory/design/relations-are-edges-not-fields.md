@@ -23,5 +23,10 @@ exclude.
 
 **How to apply:** When a need looks like "add a reference field to an entity",
 add an edge kind instead. Let the build use `broader` only to group and fold
-patient groups, never to move a statement from a family to a member. Related:
+patient groups, never to move a statement from a family to a member. A
+hierarchy axis's placement `{concept: parent}` is not a relation stated as a
+field: once the axis is asserted it must pick an edge the pool holds, and the
+edge carries the provenance; the axis only chooses which edges draw its tree,
+and `broader` names no axis ([[grouping-axes-proposed-and-tested]], card
+#202). Related:
 [[document-structure-is-provenance]], [[two-layer-identity]].

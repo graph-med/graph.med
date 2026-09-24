@@ -221,11 +221,14 @@ On the site, a chapter is a **filter**: the `§` panel narrows the tree to what 
 section supports. It is never a node in the graph. What a chapter *means*
 clinically — an organ, a phase — is a grouping **axis**, and an axis is never built
 in: a physician proposes one for a guideline, a tool tests whether the pool can
-carry it and reports, a linking pass asserts what holds as edges and slot values
-with provenance, and only then does a view offer it as a way to fold the tree
-(`docs/graph-representation.md` §4.1). The next guideline, organised by stage or
-by symptom, proposes its own axes through the same steps. The patient groups
-themselves fold by the scope tree the view declares (above).
+carry it and reports, a linking pass asserts what holds, and only then does a view
+offer it as a way to fold the tree (`docs/graph-representation.md` §4.1). An axis
+lies over the pool rather than inside it: its own file says which statement has
+which value, or under which family each patient group hangs, choosing among the
+`broader` and scope edges the pool already holds. The next guideline, organised by
+stage or by symptom, proposes its own axes through the same steps. The patient
+groups themselves fold by the scope tree the view declares (above), which is drawn
+by the view's first axis.
 
 ### Views: the pool is one, the graphs are many
 
@@ -286,7 +289,7 @@ current leaning, so that nobody re-derives it. What was decided, and why, lives 
 | **claim** | one passage of one source and what it states: verbatim quote, page, grade, verb |
 | **statement** | a proposition in the pool's words, with slots; what claims support or contest |
 | **concept** | a thing statements talk about; has a facet; can be a special case of another (`broader`) |
-| **axis** | what a view's first question groups by — proposed by a person for a guideline, tested by a tool, asserted with provenance, then offered by the view; carried by a slot on statements or by `broader` edges naming it |
+| **axis** | what a view's first question groups by — proposed by a person for a guideline, tested by a tool, asserted by a linking pass, then offered by the view; an overlay on the pool: its placements give each statement a value (a dimension) or pick for each concept the `broader` or `in_scope_of` edge it hangs by (a hierarchy — the tree of patient groups a view opens with is one) |
 | **slot** | a statement's population, action, condition or outcome, filled with a concept (the condition with a list of them, all holding at once) |
 | **edge** | a typed link: `supports`/`contests` (claim → statement), `refines`/`supplements`/`limits` (claim → claim), `broader`, `in_scope_of` (concept → concept, the second only within one guideline's scope), `codes_as` (concept), `specializes`/`complements`/`conflicts` (statement → statement) |
 | **section** | where in its document a claim was found; on the claim only |

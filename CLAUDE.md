@@ -40,9 +40,9 @@ checks locally").
 
 `tools/axes.py` is the feasibility test of a grouping axis (`docs/graph-representation.md`
 §4.1): it applies one axis definition to one view and prints the report — coverage,
-disjointness, the unplaced remainder by name, depth — reading the places from the
-definition's `placements` while the axis is proposed and from the data once it is
-asserted. It writes nothing; the report goes verbatim into the pull request that
+disjointness, the unplaced remainder by name, depth, and for a hierarchy every placement
+no `broader` or `in_scope_of` edge carries — reading the places from the definition's
+`placements`, which an axis keeps once asserted. It writes nothing; the report goes verbatim into the pull request that
 asserts or withdraws the axis.
 
 ```bash

@@ -10,8 +10,9 @@ Where a claim sits in its document is recorded on the claim (`section`, next to
 (`outline`, complete, including sections with no recommendation). A chapter
 reaches the reader as a view filter, as a tree beside the graph, and — since
 2026-09-13 — as the built-in chapter grouping of the tree's switch, derived at
-build time from the claims' sections and the outline, the plain hierarchy
-staying the default. There is no `outlines/` namespace, no chapter node and no
+build time from the claims' sections and the outline, second after the view's
+tree of patient groups, which stays the default (since card #202 that tree is
+the view's first axis, [[grouping-axes-proposed-and-tested]]). There is no `outlines/` namespace, no chapter node and no
 edge to a chapter, and no axis entity for the outline. Decided 2026-09-10;
 applied in `docs/graph-representation.md` §6.7, §4 and §4.1,
 `docs/publication.md` §3.

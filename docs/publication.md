@@ -5,8 +5,8 @@
 > graph-and-sheet page with patient groups folded by family, the chapter tree and
 > the search with facet filters, short labels, direction glyphs, legend and judgement,
 > the order of the detail section (§3), entity pages and JSON (§4), source links
-> (§5), the grouping switch — Population · Kapitel · each axis the view declares
-> (§3, "The axis is the reader's choice") —, the scope tree and what applies
+> (§5), the grouping switch — the view's tree of patient groups · Kapitel · each
+> other axis the view declares (§3, "The axis is the reader's choice") —, the scope tree and what applies
 > generally, for a view that declares one (§3), and the deploy workflow with one
 > preview per open pull request (§6). Not built and not registered: cuts (§7),
 > pathway views, and everything under §8. The
@@ -168,12 +168,12 @@ it. Three choices keep the tree readable at ninety recommendations:
 - **The scope tree, where the view declares one.** A view with `anchor_slot` and
   `scope_root` (`graph-representation.md` §4) folds its patient groups by its
   scope tree: the `broader` edges and the scope edges (`in_scope_of`, §5) that
-  lead to the root. The first question's answers are then the concepts directly
+  lead to the root, as the first axis of its `group_by` chooses them (§4.1). The first question's answers are then the concepts directly
   below the root — the root itself is no answer, unless recommendations are
   anchored on it, and then it is one answer with nothing below it — and every
   level below folds as before, a scope edge's lower end a member group like a
-  `broader` one. Under every grouping but a hierarchy axis the same scope tree
-  folds the groups. Opening a group also reaches **what applies generally** to
+  `broader` one. Under every grouping but another hierarchy axis the same scope
+  tree folds the groups. Opening a group also reaches **what applies generally** to
   it: the recommendations anchored on the upper end of a scope edge its concept
   reaches, itself or through the groups above it. A path counts only when it
   ends in a scope edge, so along `broader` alone nothing moves. They are never
@@ -192,40 +192,44 @@ it. Three choices keep the tree readable at ninety recommendations:
   junction its `general`; the statement's JSON carries it on the card (zone 5).
   A view that declares no scope tree is drawn exactly as without this.
 - **The axis is the reader's choice.** What the tree groups by is an **axis**
-  (`graph-representation.md` §4.1). The families above the patient groups are
-  the plain hierarchy every view has; other axes exist once a person has
-  proposed them for the view and a linking pass has asserted them. The page
-  offers a switch whose first entry is the plain hierarchy, whose second is the
-  **chapters** of the view's sources — built in for every view, derived from the
-  claims' `section` and the sources' `outline` (`graph-representation.md` §6.7),
-  no axis entity behind it — and whose others are the axes the view declares in
-  `group_by`, in that order, and no other. Under the chapters the first
+  (`graph-representation.md` §4.1), and an axis exists once a person has
+  proposed it for the view and a linking pass has asserted it. The families
+  above the patient groups are the view's first axis, a hierarchy over its
+  anchor slot; a view without one shows its patient groups unfolded. The page
+  offers a switch whose first entry is that tree of patient groups, whose
+  second is the **chapters** of the view's sources — built in for every view,
+  derived from the claims' `section` and the sources' `outline`
+  (`graph-representation.md` §6.7), no axis entity behind it — and whose others
+  are the other axes the view declares in `group_by`, in that order, and no
+  other. Under the chapters the first
   question is "Welches Kapitel?", its answers the top-level sections in outline
   order, each with the number of recommendations supported from it or beneath
   it, a recommendation supported from two chapters under both; below each
   chapter the population question with the families that chapter touches. A
-  *dimension* axis (a slot on the statement — a phase, a setting) adds its own
-  question the same way, its answers the axis's values in the order declared;
+  *dimension* axis (a value it gives each statement — a phase, a setting) adds
+  its own question the same way, its answers the axis's values in the order declared;
   a *hierarchy* axis changes which concepts are the families of the question
   it folds and how it unfolds. None of them changes the shape of the tree, its
   folding, or where a recommendation hangs — the chapters are answers of a
   question the reader chose, never nodes in the pool and never the default
   shape. Whatever the chosen grouping cannot place is one answer, "not placed",
   last among that question's answers at every depth where it is asked, so
-  nothing disappears. The switch's words, the chapter question, the axis labels
-  and "not placed" come from the per-language table like the questions; the
-  build knows no axis by name. **How it looks.** The switch is a select in the
+  nothing disappears. The switch shows each axis's `label`; the chapter
+  question, "Kapitel", "not placed" and the word for unfolded patient groups
+  come from the per-language table like the questions; the build knows no axis
+  by name. **How it looks.** The switch is a select in the
   row of controls over the graph, after the search box: it shows the name of
-  the chosen grouping — "Population" for the plain hierarchy, "Kapitel" for the
-  chapters, then each axis's `label`, in the view's language — and opens the
+  the chosen grouping — the first axis's `label` ("Population" on the first
+  view), "Kapitel" for the chapters, then each other axis's `label`, in the
+  view's language — and opens the
   list on a tap. On a phone the row wraps and the switch takes the second line
   beside the facet filter, wide enough for an axis's label. A chapter's answer
   is its number and title, cut to the box rule's sixty characters with an
-  ellipsis only when longer; a dimension axis's question is its short label in
-  the per-language question form ("Welche Phase?"). The choice is part of the
-  URL, `?by=<grouping>` before the `#<entity id>` deep link — `section` for the
-  chapters, else the axis id; absent for the plain hierarchy, and an unknown
-  value falls back to it — so a link to a grouped view is shareable and a deep
+  ellipsis only when longer; a dimension axis's question is the `question` it
+  declares, and without one its short label in the per-language question form
+  ("Welche Phase?"). The choice is part of the URL, `?by=<grouping>` before the
+  `#<entity id>` deep link — `section` for the chapters, else the axis id;
+  absent for the first grouping, and an unknown value falls back to it — so a link to a grouped view is shareable and a deep
   link unfolds to its target under the chosen grouping.
   Switching keeps the chapter, the search, the facet and the selected entity;
   the reset button keeps the axis, because it undoes narrowing and the axis
@@ -331,7 +335,7 @@ lists the four words with their colours. Timing
   | 2 | Judgement | none | supporting claims; whether a contesting claim exists | never |
   | 3 | Wording | `Wortlaut der Empfehlung` | `claim.label` per supporting claim | never |
   | 4 | Evidence | `Evidenz` | the supporting claims' `evidence`, per outcome; else `Evidenz: nicht erfasst` | never |
-  | 5 | Applies to | `Gilt für` | the `population`, `condition`, `action` slots, then every slot a dimension axis adds, named by that axis's `short_label` (else `label`) | no slot filled |
+  | 5 | Applies to | `Gilt für` | the `population`, `condition`, `action` slots, then the value of every dimension axis that places the statement, named by that axis's `short_label` (else `label`) | no slot filled |
   | 6 | Body text | `Hinweise aus dem Begleittext` | `limits`, `refines`, `supplements` | never (empty state) |
   | 7 | Contradiction | `Widersprechende Empfehlung(en)` | `contests` | no contesting claim |
   | 8 | Citation | `Beleg` | the supporting claims' `source`, the source's title | never |
@@ -383,8 +387,9 @@ lists the four words with their colours. Timing
      needs no script and survives printing.
   5. **Applies to.** The slots as rows: `Eingriff` (population, with the
      families it belongs to below it), `Bedingung` (condition), `Maßnahme`
-     (action), then one row for every slot a dimension axis adds that the
-     statement fills, in the order of the slot keys, named by the axis's
+     (action), then one row for every dimension axis that gives the
+     statement a value (its placement, `graph-representation.md` §4.1), in the
+     order of the axes' slot keys, named by the axis's
      `short_label` (else `label`) and never by the slot key or a word of the
      build's table — so a dimension asserted later appears without a code
      change, and two statements under one population that differ only in a

@@ -8,7 +8,9 @@ metadata:
 A view may declare `anchor_slot` (a statement slot) and `scope_root` (a
 concept). Each member statement then has exactly one **anchor**, the concept
 in that slot, and every anchor reaches the root along `broader` and
-`in_scope_of`. `broader` keeps only what is true whatever guideline you read;
+`in_scope_of` — along the ones the view's first axis picks, a hierarchy over
+the anchor slot that must stand first in its `group_by` and draws the scope
+tree (card #202, [[grouping-axes-proposed-and-tested]]). `broader` keeps only what is true whatever guideline you read;
 what a guideline stipulates for its own scope ("within this guideline, this
 counts as tumour surgery") is a **scope edge** `in_scope_of`, modelling with a
 rationale, whose optional `condition` is a concept reference — absent means
