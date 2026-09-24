@@ -24,10 +24,6 @@
    rationale: "Eine Leberresektion, durch Indikation, Komplexität oder Elektivität eingegrenzt."}]
 - [concepts/kolorektale-resektion, broader, concepts/kolorektale-chirurgie, {source: modelling, as_of: "2026-09-10", lang: de,
    rationale: "Die kolorektale Resektion ist der Eingriff der kolorektalen Chirurgie."}]
-- [concepts/kolonresektion-oder-anteriore-rektumresektion, broader, concepts/kolorektale-resektion, {source: modelling, as_of: "2026-09-23", lang: de,
-   rationale: "Die Kolonresektion und die (tiefe) anteriore Rektumresektion, die Empfehlung 7.12 aufzählt, sind kolorektale Resektionen, und zwar elektive: die Leitlinie gilt nur für Patienten, die sich einer elektiven Operation eines gastrointestinalen oder hepatopankreatobiliären Malignoms unterziehen (2.1.2 Adressaten), sodass 7.12 wie jede ihrer Empfehlungen elektive Eingriffe meint. Den Zugang, den 7.12 nennt, trägt nicht das Konzept, sondern der Slot `zugang` der Aussage (axes/zugang); deshalb hat das Konzept nur diesen einen Elternknoten."}]
-- [concepts/tiefe-anteriore-rektumresektion, broader, concepts/kolorektale-resektion, {source: modelling, as_of: "2026-09-10", lang: de,
-   rationale: "Die tiefe anteriore Rektumresektion ist eine kolorektale Resektion."}]
 - [concepts/rektumanastomose, broader, concepts/kolorektale-anastomose, {source: modelling, as_of: "2026-09-10", lang: de,
    rationale: "Die Anastomose zum Rektum ist eine der Anastomosen nach Rektum- oder Kolonresektion."}]
 - [concepts/antianginoese-nitrattherapie, broader, concepts/kardiale-dauermedikation, {source: modelling, as_of: "2026-09-10", lang: de,

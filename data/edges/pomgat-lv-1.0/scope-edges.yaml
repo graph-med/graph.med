@@ -3,7 +3,7 @@
 # whatever guideline one reads. All modelling with a rationale; `condition` names the circumstance under
 # which the membership holds, its absence means unconditional. They form the scope tree of
 # views/pomgat-lv-1.0, which ends in its scope_root, the guideline's patient target group (2.1.2, p. 17).
-# Written by WP-0031 (card #190); the first seven were broader edges until then.
+# Written by WP-0031 (card #190); nine of them were broader edges until then.
 
 # ── the five scope stipulations, moved out of broader-edges.yaml (decision G of #141): that these
 # groups are operations of a gastrointestinal tumour is a setting of this guideline; the rationale is
@@ -17,14 +17,23 @@
 - [concepts/pankreas-und-leberchirurgie, in_scope_of, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-24", lang: de,
    rationale: "Im Geltungsbereich der Leitlinie (Kapitel 4.2) ist die Pankreas- und Leberchirurgie Tumorchirurgie des Gastrointestinaltraktes."}]
 - [concepts/elektiver-abdominalchirurgischer-tumoreingriff, in_scope_of, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-24", lang: de,
-   rationale: "Im Geltungsbereich der Leitlinie ist der elektive abdominalchirurgische Tumoreingriff eine Operation eines gastrointestinalen Tumors; das Konzept wurde aus Kapitel 4 und 5 mit dieser Bedeutung geprägt."}]
+   rationale: "Im Geltungsbereich der Leitlinie ist der elektive abdominalchirurgische Tumoreingriff eine Operation eines gastrointestinalen Tumors; das Konzept wurde für die Empfehlungen der Abschnitte 5.1 und 5.2 und für 7.25 und 7.28 mit dieser Bedeutung geprägt, die von abdominalchirurgischen Eingriffen allgemein sprechen."}]
 
 # ── the two situations after an operation, moved out of broader-edges.yaml: a situation is not a
-# special case of the operation (spec §4.1, edge cases); the guideline treats it under the operation
+# special case of the operation (spec §4.1, edge cases); each hangs under the operation the guideline
+# treats it under — the colorectal anastomosis under the resection (6.2.2), no longer beside it
 - [concepts/magenschlauch-rekonstruktion, in_scope_of, concepts/oesophagusresektion, {source: modelling, as_of: "2026-09-24", lang: de,
    rationale: "Die Situation nach Ösophagektomie mit Magenschlauchrekonstruktion; das Konzept dient als Population der Empfehlung 6.12 und gehört zur Ösophagusresektion, deren Rekonstruktionsschritt es ist. Eine Situation, kein Sonderfall der Resektion: die Leitlinie führt sie unter den Ösophagusresektionen (6.2.1)."}]
-- [concepts/kolorektale-anastomose, in_scope_of, concepts/kolorektale-chirurgie, {source: modelling, as_of: "2026-09-24", lang: de,
-   rationale: "Die Anastomose nach Kolon- oder Rektumresektion ist eine Situation der kolorektalen Chirurgie, keine Resektion; deshalb neben, nicht unter der Resektion. Eine Situation, kein Sonderfall der kolorektalen Chirurgie: die Leitlinie führt sie unter den kolorektalen Resektionen (6.2.2)."}]
+- [concepts/kolorektale-anastomose, in_scope_of, concepts/kolorektale-resektion, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "Die Anastomose nach Kolon- oder Rektumresektion ist eine Situation nach der kolorektalen Resektion, kein Sonderfall von ihr; deshalb kein broader. Die Leitlinie behandelt sie unter den kolorektalen Resektionen (6.2.2), und dort steht sie im Geltungsbereich der Leitlinie."}]
+
+# ── two further stipulations, moved out of broader-edges.yaml on the judge's finding (beyond #141's five):
+# their target is the *elective* colorectal resection, and "elective" holds only inside the guideline
+# (2.1.2), so "X is a Y" is true only in its scope
+- [concepts/kolonresektion-oder-anteriore-rektumresektion, in_scope_of, concepts/kolorektale-resektion, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "Die Kolonresektion und die (tiefe) anteriore Rektumresektion, die Empfehlung 7.12 aufzählt, sind kolorektale Resektionen, und zwar elektive: die Leitlinie gilt nur für Patienten, die sich einer elektiven Operation eines gastrointestinalen oder hepatopankreatobiliären Malignoms unterziehen (2.1.2 Adressaten), sodass 7.12 wie jede ihrer Empfehlungen elektive Eingriffe meint. Den Zugang, den 7.12 nennt, trägt nicht das Konzept, sondern der Slot `zugang` der Aussage (axes/zugang); deshalb hat das Konzept nur diesen einen Elternknoten. Eine Stipulation des Geltungsbereichs, kein allgemeiner Sonderfall: außerhalb der Leitlinie ist eine Kolon- oder Rektumresektion nicht notwendig elektiv."}]
+- [concepts/tiefe-anteriore-rektumresektion, in_scope_of, concepts/kolorektale-resektion, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "Die tiefe anteriore Rektumresektion ist eine kolorektale Resektion. Im Geltungsbereich der Leitlinie ist sie eine elektive (2.1.2: Patienten, die sich einer elektiven Operation unterziehen), außerhalb nicht notwendig."}]
 
 # ── the five organ families under the operation of a gastrointestinal tumour: inside this guideline's
 # scope each is such an operation, outside it each has benign indications too, which is why they were
