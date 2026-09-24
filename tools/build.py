@@ -272,6 +272,26 @@ def filled(st: dict) -> list[tuple[str, str]]:
     return [(slot, cid) for slot in (st.get("slots") or {}) for cid in fillers(st, slot)]
 
 
+def places(value) -> list[str]:
+    """The concepts one placement of an axis names (spec §4.1): one, or several where a proposal's rule
+    yields more, and the same when written `{place, rationale}`. Whatever reads a placement reads it
+    through this — the validator, the feasibility tool and the site."""
+    if isinstance(value, dict):
+        value = value.get("place")
+    return list(value) if isinstance(value, list) else [value] if value else []
+
+
+def asserted_for(axis: dict, view_id: str) -> bool:
+    """Whether an axis is asserted for one view — the only state in which it groups that view."""
+    return any(e.get("view") == view_id and e.get("status") == "asserted" for e in axis.get("views") or [] if isinstance(e, dict))
+
+
+def asserted(axis: dict) -> bool:
+    """Whether an axis is asserted for any view: then its placements are held to one place each, a hierarchy's
+    to edges of the pool, and a dimension's are the values its statements have (spec §4.1)."""
+    return any(e.get("status") == "asserted" for e in axis.get("views") or [] if isinstance(e, dict))
+
+
 def the_one(st: dict, slot: str) -> str | None:
     """The one concept of a slot, where the site shows one — the tree's answer to the condition question,
     a row of the card. How several conditions are shown is not designed yet (docs/publication.md §3

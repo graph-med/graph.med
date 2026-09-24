@@ -13,18 +13,21 @@ rules a document schema cannot state because they span files:
   - edges are unique per (from, kind, to, discriminator);
   - a view id is not a namespace name (views are served at the site root);
   - a claim's `section` names an entry of its source's `outline` (spec §6.7);
-  - `broader` edges form no cycle (spec §5), within one axis or across them;
-  - the grouping axes hold together (spec §4.1): a dimension axis declares a slot
-    no statement has of its own and no other axis declares, a hierarchy axis
-    folds one the statements have; an axis's `values` are concepts of facet
-    `qualifier`; a statement's extra slot is declared by a dimension axis and
-    holds one of its `values`; `axis` on a `broader` edge names a hierarchy
-    axis, and a concept has one parent per axis unless the axis says `several`;
-    a view's `group_by` names axes asserted for that view; placements resolve;
+  - `broader` edges form no cycle (spec §5);
+  - the grouping axes hold together (spec §4.1), an axis being an overlay whose
+    placements are the grouping: a dimension axis keys its values by a slot no
+    statement has of its own and no other axis declares, a hierarchy axis folds
+    one the statements have; an axis's `values` are concepts of facet
+    `qualifier`; placements resolve, and a dimension's are among its `values`;
+    once an axis is asserted for any view, it places each statement or concept
+    once (unless a hierarchy says `several`), and every hierarchy placement is a
+    `broader` or `in_scope_of` edge the pool holds — the axis chooses, the pool
+    states; a view's `group_by` names axes asserted for that view;
   - a view that declares a scope tree holds together (spec §4, §5), the four rules
     of the scope tree: (1) its `anchor_slot` is one of the statement's own slots
-    and every member statement fills it with exactly one concept; (2) every such
-    anchor reaches the view's `scope_root` along `broader` and `in_scope_of`;
+    and every member statement fills it with exactly one concept; (2) the first
+    entry of its `group_by` is a hierarchy axis over that slot, asserted for the
+    view, and every anchor reaches the view's `scope_root` along its placements;
     (3) a scope edge's `condition` is a concept and every scope edge has a
     rationale (the schema and the reference check carry this one); (4)
     `in_scope_of` forms no cycle, alone or with `broader`, and never doubles a
@@ -163,7 +166,7 @@ def main(argv=None) -> int:
                     elif edge[1] == "defined_by":
                         defined_by.append((rel, i, edge[0], edge[2], edge[3]))
 
-    errors += check_axes(schema, ids, entities, broader)
+    errors += check_axes(schema, ids, entities, broader, scope)
     errors += check_scope_edges(broader, scope)
     errors += check_definitions(ids, entities, defined_by)
     if any(e.get("type") == "view" and "scope_root" in e for e in entities.values()):
@@ -190,14 +193,22 @@ def main(argv=None) -> int:
 
 
 def check_axes(schema: dict, ids: dict[str, str], entities: dict[str, dict],
-               broader: list[tuple[str, int, str, str, dict]]) -> list[str]:
+               broader: list[tuple[str, int, str, str, dict]],
+               scope: list[tuple[str, int, str, str, dict]]) -> list[str]:
     """Grouping axes (spec §4.1) and the `broader` hierarchy (spec §5): what the axis
-    definitions, the edges, the statements and the views owe each other. The
-    statement's own slots are read from the schema, so no slot is named here."""
+    definitions, the edges, the statements and the views owe each other. An axis is an
+    overlay — its placements are the grouping, before and after assertion — so what
+    changes at assertion is what they must be: one place each (unless a hierarchy says
+    `several`), and for a hierarchy an edge the pool already holds, which also keeps an
+    axis free of cycles, the edges having none. The statement's own slots are read from
+    the schema, so no slot is named here."""
+    sys.path.insert(0, str(ROOT / "tools"))
+    from build import asserted, places   # noqa: E402 — one reading of a placement for the validator, the tool and the site
     errs: list[str] = []
     core = list(schema["$defs"]["statement"]["properties"]["slots"]["properties"])
     axes = {eid: e for eid, e in entities.items() if e.get("type") == "axis"}
     by_slot: dict[str, str] = {}   # a dimension's slot key → the one axis declaring it
+    held = {(frm, to) for _, _, frm, to, _ in broader + scope}   # what a hierarchy placement may pick
 
     for aid, ax in sorted(axes.items()):
         rel, carrier, slot = ids[aid], ax.get("carrier"), ax.get("slot")
@@ -219,50 +230,32 @@ def check_axes(schema: dict, ids: dict[str, str], entities: dict[str, dict],
                 if entry.get("view") in seen:
                     errs.append(f"{rel}: {aid} lists {entry.get('view')} twice under views; one entry per view")
                 seen.add(entry.get("view"))
+        fixed = asserted(ax)
         for key, val in (ax.get("placements") or {}).items():   # keys are not walked as references
             if key not in ids:
                 errs.append(f"{rel}: placement {key} of {aid} does not resolve")
+            where = places(val)
             if carrier == "dimension":
-                for place in (val if isinstance(val, list) else [val]):
+                for place in where:
                     if place not in (ax.get("values") or []):
                         errs.append(f"{rel}: placement of {key} in {aid} is {place}, not one of its values")
+            if not fixed:
+                continue   # a proposal may name parents the pool lacks, and several places: that is what it measures
+            if len(where) > 1 and not (carrier == "hierarchy" and ax.get("several")):
+                errs.append(f"{rel}: {aid} is asserted and places {key} {len(where)} times; an asserted axis places each once"
+                            + (" unless it says `several`" if carrier == "hierarchy" else ""))
+            if carrier == "hierarchy":
+                for parent in where:
+                    if (key, parent) not in held:
+                        errs.append(f"{rel}: {aid} is asserted and places {key} under {parent}, but the pool holds no "
+                                    f"broader or in_scope_of edge between them; the axis chooses an edge, it states none")
 
-    # a statement's extra slot is one a dimension axis declares, holding one of its values
-    for sid, st in sorted(entities.items()):
-        if st.get("type") != "statement" or not isinstance(st.get("slots"), dict):
-            continue
-        for key, value in st["slots"].items():
-            if key in core:
-                continue
-            if key not in by_slot:
-                errs.append(f"{ids[sid]}: statement {sid} has slot {key!r}, which no dimension axis declares")
-            elif value not in (axes[by_slot[key]].get("values") or []):
-                errs.append(f"{ids[sid]}: slot {key!r} of {sid} holds {value}, not a value of {by_slot[key]}")
-
-    # broader is a hierarchy (spec §5): no cycle, within one axis or across them; `axis`
-    # names a hierarchy axis, and one parent per axis unless the axis says `several`
-    per_axis: dict[str | None, dict[str, list[str]]] = {}
-    for rel, i, frm, to, props in broader:
-        axis = props.get("axis")
-        if axis in axes and axes[axis].get("carrier") != "hierarchy":
-            errs.append(f"{rel} at {i}: axis {axis} is a dimension; only a hierarchy axis is a respect of broader")
-        per_axis.setdefault(axis, {}).setdefault(frm, []).append(to)
-    within: set[frozenset] = set()
-    for axis, graph in sorted(per_axis.items(), key=lambda kv: (kv[0] is not None, kv[0] or "")):
-        for cycle in cycles(graph):
-            within.add(frozenset(cycle))
-            errs.append(f"broader edges{f' on {axis}' if axis else ''} form a cycle: {' -> '.join(cycle)}")
-        if axis is not None and not axes.get(axis, {}).get("several"):
-            for frm, tos in sorted(graph.items()):
-                if len(tos) > 1:
-                    errs.append(f"{frm} has {len(tos)} broader concepts on {axis} ({', '.join(sorted(tos))}); the axis does not allow several")
-    everything: dict[str, list[str]] = {}
-    for graph in per_axis.values():
-        for frm, tos in graph.items():
-            everything.setdefault(frm, []).extend(tos)
-    for cycle in cycles(everything):
-        if frozenset(cycle) not in within:
-            errs.append(f"broader edges form a cycle across axes: {' -> '.join(cycle)}")
+    # broader is a hierarchy (spec §5): no cycle
+    graph: dict[str, list[str]] = {}
+    for _, _, frm, to, _ in broader:
+        graph.setdefault(frm, []).append(to)
+    for cycle in cycles(graph):
+        errs.append(f"broader edges form a cycle: {' -> '.join(cycle)}")
 
     # a view offers only axes asserted for it
     for vid, view in sorted(entities.items()):
@@ -337,18 +330,16 @@ def check_definitions(ids: dict[str, str], entities: dict[str, dict],
 def check_scope_views(schema: dict, ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
     """Rules (1) and (2) of the scope tree (spec §4), for each view that declares `scope_root`:
     its `anchor_slot` is one of the statement's own slots, read from the schema, so no slot is
-    named here; every member statement fills it with exactly one concept; every anchor reaches the
-    `scope_root` along `broader` and `in_scope_of`. Members are the build's (`members_of`), one
-    membership computation for the validator, the tool and the site."""
+    named here; every member statement fills it with exactly one concept; the first entry of its
+    `group_by` is a hierarchy axis over that slot, asserted for the view — the axis that draws the
+    scope tree (spec §4.1 "4. Shown") —, and every anchor reaches the `scope_root` along that axis's
+    placements. That each placement is an edge of the pool check_axes has said. Members are the
+    build's (`members_of`), one membership computation for the validator, the tool and the site."""
     sys.path.insert(0, str(ROOT / "tools"))
-    from build import Pool, fillers, members_of   # noqa: E402 — imported only when a view declares a scope tree
+    from build import Pool, asserted_for, fillers, members_of, places   # noqa: E402 — imported only when a view declares a scope tree
     errs: list[str] = []
     core = list(schema["$defs"]["statement"]["properties"]["slots"]["properties"])
     pool = Pool(schema)
-    up: dict[str, list[str]] = {}
-    for frm, kind, to, _ in pool.edges:
-        if kind in ("broader", "in_scope_of"):
-            up.setdefault(frm, []).append(to)
     for vid, view in sorted(entities.items()):
         if view.get("type") != "view" or "scope_root" not in view:
             continue
@@ -356,6 +347,12 @@ def check_scope_views(schema: dict, ids: dict[str, str], entities: dict[str, dic
         if slot not in core:
             errs.append(f"{rel}: anchor_slot {slot!r} is not one of the statement's own slots ({', '.join(core)})")
             continue
+        first = pool.entities.get(((view.get("group_by") or [None])[0]) or "")
+        if not (first and first.get("carrier") == "hierarchy" and first.get("slot") == slot and asserted_for(first, vid)):
+            errs.append(f"{rel}: declares scope_root, so the first entry of its group_by must be a hierarchy axis over "
+                        f"{slot!r} asserted for {vid} — the axis that draws its scope tree (spec §4.1)")
+            continue
+        up = {c: places(v) for c, v in (first.get("placements") or {}).items()}
         try:
             members = members_of(view, pool)
         except SystemExit as exc:
@@ -378,7 +375,7 @@ def check_scope_views(schema: dict, ids: dict[str, str], entities: dict[str, dic
             if len(anchors) != 1:
                 errs.append(f"{ids[sid]}: statement {sid} has {len(anchors)} concepts in {slot!r}, the anchor slot of {vid}; it needs exactly one")
             elif not reach(anchors[0]):
-                errs.append(f"{ids[sid]}: the anchor {anchors[0]} of {sid} does not reach {root}, the scope_root of {vid}, along broader and in_scope_of")
+                errs.append(f"{ids[sid]}: the anchor {anchors[0]} of {sid} does not reach {root}, the scope_root of {vid}, along the placements of {first['id']}")
     return errs
 
 
