@@ -21,6 +21,15 @@ rules a document schema cannot state because they span files:
     holds one of its `values`; `axis` on a `broader` edge names a hierarchy
     axis, and a concept has one parent per axis unless the axis says `several`;
     a view's `group_by` names axes asserted for that view; placements resolve;
+  - a view that declares a scope tree holds together (spec §4, §5), the four rules
+    of the scope tree: (1) its `anchor_slot` is one of the statement's own slots
+    and every member statement fills it with exactly one concept; (2) every such
+    anchor reaches the view's `scope_root` along `broader` and `in_scope_of`;
+    (3) a scope edge's `condition` is a concept and every scope edge has a
+    rationale (the schema and the reference check carry this one); (4)
+    `in_scope_of` forms no cycle, alone or with `broader`, and never doubles a
+    `broader` edge between the same two concepts. A view without `scope_root`
+    is not checked for (1) and (2);
 
 With --verify-quotes it also downloads each source (hash-checked, cached) and
 verifies every quote is a verbatim substring of `pdftotext -layout` on the cited
@@ -129,6 +138,7 @@ def main(argv=None) -> int:
     ref_pattern = re.compile(rf"^({'|'.join(map(re.escape, namespaces))})/")
     seen_edges: set[tuple] = set()
     broader: list[tuple[str, int, str, str, dict]] = []   # (file, index, from, to, props)
+    scope: list[tuple[str, int, str, str, dict]] = []     # the same, for in_scope_of
     for rel, doc, _ in docs:
         for path, value in walk(doc):
             if isinstance(value, str) and ref_pattern.match(value) and value.split("#")[0] not in ids:
@@ -142,8 +152,16 @@ def main(argv=None) -> int:
                     seen_edges.add(key)
                     if edge[1] == "broader":
                         broader.append((rel, i, edge[0], edge[2], edge[3]))
+                    elif edge[1] == "in_scope_of":
+                        scope.append((rel, i, edge[0], edge[2], edge[3]))
 
     errors += check_axes(schema, ids, entities, broader)
+    errors += check_scope_edges(broader, scope)
+    if any(e.get("type") == "view" and "scope_root" in e for e in entities.values()):
+        if errors:   # members are computed by the build's reader, which expects a pool that fits the schema
+            print("the scope trees of views are checked once the errors below are fixed")
+        else:
+            errors += check_scope_views(schema, ids, entities)
 
     n_entities, n_edges = len(ids), len(seen_edges)
     print(f"checked {n_entities} entities and {n_edges} edges against schema {schema.get('x-version')}")
@@ -247,6 +265,84 @@ def check_axes(schema: dict, ids: dict[str, str], entities: dict[str, dict],
             status = {e.get("view"): e.get("status") for e in axes[axis].get("views") or [] if isinstance(e, dict)}.get(vid)
             if status != "asserted":
                 errs.append(f"{ids[vid]}: group_by names {axis}, which is {status or 'not proposed'} for {vid}; only an asserted axis groups a view")
+    return errs
+
+
+def check_scope_edges(broader: list[tuple[str, int, str, str, dict]],
+                      scope: list[tuple[str, int, str, str, dict]]) -> list[str]:
+    """Rule (4) of the scope tree (spec §5): `in_scope_of` forms no cycle — on its own or together
+    with `broader`, since a view walks both to its root — and never repeats a `broader` edge between
+    the same two concepts, which would state one relation twice with two meanings. Rule (3) needs
+    no code here: the schema gives every scope edge a rationale and a `condition` of the shape of
+    a concept reference, and the reference check resolves it."""
+    errs: list[str] = []
+    pairs = {(frm, to) for _, _, frm, to, _ in broader}
+    graph: dict[str, list[str]] = {}
+    for rel, i, frm, to, _ in scope:
+        if (frm, to) in pairs:
+            errs.append(f"{rel} at {i}: {frm} in_scope_of {to} doubles a broader edge between the same concepts; one of the two is wrong")
+        graph.setdefault(frm, []).append(to)
+    alone: set[frozenset] = set()
+    for cycle in cycles(graph):
+        alone.add(frozenset(cycle))
+        errs.append(f"in_scope_of edges form a cycle: {' -> '.join(cycle)}")
+    if scope:   # a cycle of broader alone is reported by check_axes
+        sub: dict[str, list[str]] = {}
+        for _, _, frm, to, _ in broader:
+            sub.setdefault(frm, []).append(to)
+        alone |= {frozenset(c) for c in cycles(sub)}
+        both = {c: graph.get(c, []) + sub.get(c, []) for c in set(graph) | set(sub)}
+        for cycle in cycles(both):
+            if frozenset(cycle) not in alone:
+                errs.append(f"in_scope_of and broader edges form a cycle together: {' -> '.join(cycle)}")
+    return errs
+
+
+def check_scope_views(schema: dict, ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
+    """Rules (1) and (2) of the scope tree (spec §4), for each view that declares `scope_root`:
+    its `anchor_slot` is one of the statement's own slots, read from the schema, so no slot is
+    named here; every member statement fills it with exactly one concept; every anchor reaches the
+    `scope_root` along `broader` and `in_scope_of`. Members are the build's (`members_of`), one
+    membership computation for the validator, the tool and the site."""
+    sys.path.insert(0, str(ROOT / "tools"))
+    from build import Pool, fillers, members_of   # noqa: E402 — imported only when a view declares a scope tree
+    errs: list[str] = []
+    core = list(schema["$defs"]["statement"]["properties"]["slots"]["properties"])
+    pool = Pool(schema)
+    up: dict[str, list[str]] = {}
+    for frm, kind, to, _ in pool.edges:
+        if kind in ("broader", "in_scope_of"):
+            up.setdefault(frm, []).append(to)
+    for vid, view in sorted(entities.items()):
+        if view.get("type") != "view" or "scope_root" not in view:
+            continue
+        rel, slot, root = ids[vid], view.get("anchor_slot"), view["scope_root"]
+        if slot not in core:
+            errs.append(f"{rel}: anchor_slot {slot!r} is not one of the statement's own slots ({', '.join(core)})")
+            continue
+        try:
+            members = members_of(view, pool)
+        except SystemExit as exc:
+            errs.append(f"{rel}: its scope tree cannot be checked: {exc}")
+            continue
+        reaches: dict[str, bool] = {}
+        def reach(cid: str) -> bool:
+            if cid not in reaches:
+                seen, queue = {cid}, [cid]
+                while queue and root not in seen:
+                    for nxt in up.get(queue.pop(), []):
+                        if nxt not in seen:
+                            seen.add(nxt); queue.append(nxt)
+                reaches[cid] = root in seen
+            return reaches[cid]
+        for sid, st in sorted(members.items()):
+            if st.get("type") != "statement":
+                continue
+            anchors = fillers(st, slot)
+            if len(anchors) != 1:
+                errs.append(f"{ids[sid]}: statement {sid} has {len(anchors)} concepts in {slot!r}, the anchor slot of {vid}; it needs exactly one")
+            elif not reach(anchors[0]):
+                errs.append(f"{ids[sid]}: the anchor {anchors[0]} of {sid} does not reach {root}, the scope_root of {vid}, along broader and in_scope_of")
     return errs
 
 

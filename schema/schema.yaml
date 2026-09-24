@@ -9,11 +9,13 @@
 # file under data/ against the definition `x-layout` assigns to it, then checks the
 # few rules a document schema cannot state: ids resolve across files, claim ids are
 # the hash of their anchor, edges are unique, a claim's section is in its source's
-# outline, `broader` has no cycles, and the grouping axes hold together (spec §4.1:
+# outline, `broader` has no cycles, the grouping axes hold together (spec §4.1:
 # a statement's extra slot is declared by one dimension axis and holds one of its
 # values, `axis` on an edge names a hierarchy axis with no cycle within it, a view's
-# `group_by` is asserted for it). CI runs it on every pull request and push to
-# main (.github/workflows/validate.yml).
+# `group_by` is asserted for it), and a view that declares a scope tree holds
+# together (spec §4, §5: each member statement has one anchor, every anchor reaches
+# the view's `scope_root`, `in_scope_of` has no cycle and doubles no `broader`).
+# CI runs it on every pull request and push to main (.github/workflows/validate.yml).
 #
 # Keywords prefixed `x-` are this project's annotations; JSON Schema validators
 # ignore them, tools/validate.py and the spec read them.
@@ -21,7 +23,7 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 $id: https://graph.med/schema/schema.yaml
 title: graph.med pool
-x-version: 0.8.0
+x-version: 0.9.0
 
 # ── layout: which definition each data file validates against ────────────────
 # (data/README.md). Globs are relative to the repository root. `one_per_file`
@@ -410,6 +412,15 @@ $defs:
         minItems: 1
         uniqueItems: true
         items: {$ref: '#/$defs/axis_ref'}
+      anchor_slot:  # the statement slot that holds each member statement's anchor — the guideline's
+                    # primary index (spec §4, §4.1 question 1): one of the statement's own slots (validator)
+        $ref: '#/$defs/slot_key'
+      scope_root:   # the concept at the top of the view's scope tree — the guideline's own scope,
+                    # declared, never inferred (spec §4, §5 `in_scope_of`); every anchor reaches it (validator)
+        $ref: '#/$defs/uncoded_concept_ref'
+    dependentRequired:   # a scope tree is declared whole: the slot it is read over and its root
+      anchor_slot: [scope_root]
+      scope_root:  [anchor_slot]
 
   # ── grouping axes (spec §4.1) ─────────────────────────────────────────────
   # By what a view groups the answers to a question is an axis, and no axis is built in:
@@ -502,6 +513,7 @@ $defs:
       as_of:         {$ref: '#/$defs/date'}
       guard:         {}
       axis:          {$ref: '#/$defs/axis_ref'}   # broader only: the respect in which the subsumption holds (spec §4.1)
+      condition:     {$ref: '#/$defs/concept_ref'}   # in_scope_of only: under which circumstance the membership holds; absent = unconditional (spec §5)
     dependentRequired:
       rationale: [lang]
   modelling_edge_props:
@@ -517,7 +529,7 @@ $defs:
     maxItems: 4
     prefixItems:
       - $ref: '#/$defs/entity_ref'
-      - enum: [supports, contests, refines, supplements, limits, codes_as, broader,
+      - enum: [supports, contests, refines, supplements, limits, codes_as, broader, in_scope_of,
                sequence, branch, about, specializes, complements, conflicts]
       - $ref: '#/$defs/entity_ref'
       - $ref: '#/$defs/edge_props'
@@ -542,6 +554,17 @@ $defs:
       # that a concept has one parent per axis unless the axis says `several`
       - if: {prefixItems: [true, true, true, {required: [axis]}]}
         then: {prefixItems: [true, {const: broader}]}
+      # scope — "counts, within the scope of the view whose `scope_root` it leads to, as a case of":
+      # a membership one guideline stipulates for its own scope, which `broader` (true whatever
+      # guideline you read) cannot hold (spec §5). Between uncoded concepts, modelling with a
+      # rationale; an optional `condition` says under which circumstance, absent = unconditional.
+      # The validator checks that it forms no cycle, alone or with `broader`, and doubles no `broader`
+      - if: {prefixItems: [true, {const: in_scope_of}]}
+        then:
+          prefixItems: [{$ref: '#/$defs/uncoded_concept_ref'}, true, {$ref: '#/$defs/uncoded_concept_ref'},
+                        {$ref: '#/$defs/modelling_edge_props'}]
+      - if: {prefixItems: [true, true, true, {required: [condition]}]}
+        then: {prefixItems: [true, {const: in_scope_of}]}
       # structure — among structural nodes, and from them to statements
       - if: {prefixItems: [true, {const: sequence}]}
         then: {prefixItems: [{$ref: '#/$defs/structural_ref'}, true, {$ref: '#/$defs/structural_ref'}]}
