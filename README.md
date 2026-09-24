@@ -152,18 +152,36 @@ contested. Concepts are minted only after searching for an existing one, and
 where a classification has a code for it, the code becomes a node of its own,
 linked by a `codes_as` edge, so that two guidelines meet on the same code.
 
-Concepts also carry the one hierarchy in the pool:
+Concepts also carry a hierarchy:
 
 ```yaml
 - [concepts/kolorektale-resektion, broader, concepts/kolorektale-chirurgie, {source: modelling, as_of: "2026-09-10", lang: de,
    rationale: "Die kolorektale Resektion ist der Eingriff der kolorektalen Chirurgie."}]
 ```
 
-`broader` means "is a special case of". It lets the site fold thirty-six patient
-groups into ten families. It carries **no evidence and no inheritance**: a
-recommendation for colorectal resection says nothing about its minimally invasive
-variant unless the guideline says so. Where the guideline is silent, the gap stays
-visible. That rule is what keeps the graph from improvising.
+`broader` means "is a special case of", and only what is true whatever guideline
+you read. It carries **no evidence and no inheritance**: a recommendation for
+colorectal resection says nothing about a narrower resection unless the
+guideline says so. Where the guideline is silent, the gap stays visible. That
+rule is what keeps the graph from improvising.
+
+What a guideline stipulates for its own scope is a second kind of edge:
+
+```yaml
+- [concepts/leberresektion, in_scope_of, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "Im Geltungsbereich der Leitlinie (2.1.2: …) ist die Leberresektion eine Operation eines gastrointestinalen Tumors; …"}]
+```
+
+A liver resection is not in general the operation of a gastrointestinal tumour —
+it has benign indications — but inside POMGAT it is, so what POMGAT recommends
+for gastrointestinal tumour surgery as such is addressed to it too. `in_scope_of`
+may carry a `condition` (a medication group counts only *during* an operation in
+the guideline's scope). The view names the concept its scope ends in — POMGAT's
+patient target group, quoted from page 17 — and every patient group reaches it
+along `broader` and `in_scope_of`: the **scope tree**, which folds thirty-six
+patient groups under five answers to the first question. Open liver resection and
+the site shows its own recommendation and, set apart and marked, the ones that
+apply generally; it never merges them.
 
 #### The body text — what qualifies a recommendation
 
@@ -205,8 +223,8 @@ in: a physician proposes one for a guideline, a tool tests whether the pool can
 carry it and reports, a linking pass asserts what holds as edges and slot values
 with provenance, and only then does a view offer it as a way to fold the tree
 (`docs/graph-representation.md` §4.1). The next guideline, organised by stage or
-by symptom, proposes its own axes through the same steps; the families the site
-folds by today are the first axis.
+by symptom, proposes its own axes through the same steps. The patient groups
+themselves fold by the scope tree the view declares (above).
 
 ### Views: the pool is one, the graphs are many
 

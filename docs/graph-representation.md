@@ -11,7 +11,8 @@
 > entity, the validator's axis rules, the feasibility report (`tools/axes.py`),
 > one dimension axis asserted on the first source and offered by its view, and
 > the chapters as the built-in grouping. The scope tree (§4, §5 `in_scope_of`) is
-> in the schema and the validator, and no view declares one yet. Everything else described as checked or
+> in the schema and the validator, and the first view declares one, rooted in its
+> guideline's patient target group. Everything else described as checked or
 > computed — the canonical form and content hashes (§2), staleness (§5, §8),
 > attestations and review state (§8), view cuts (§4), the derived statement
 > properties (§3.3) — is not implemented yet, and the automated review (§8.1) is
@@ -583,7 +584,10 @@ modality). A physician proposes two axes.
   phase axis's business. The report says what a physician suspected: half the
   guideline speaks of gastrointestinal tumour surgery as such, and a region
   axis leaves that half in "not placed". Whether that is useful is the
-  proposer's call, not the tool's.
+  proposer's call, not the tool's. For this view it was answered by the scope
+  tree (§4): once the organ families and the generic groups hang under the
+  guideline's own scope, one tree places both halves, and the region was
+  withdrawn for the view.
 
 *A guideline organised by stage* (an oncological entity, chapters by UICC
 stage). The stage is what its chapters are keyed on, so by the first question
@@ -594,7 +598,7 @@ stage a population concept names; and a dimension "Therapielinie"
 (first-line, second-line, …). Nothing
 in the mechanism, the schema or the build changes; its view declares both in
 `group_by`, and its switch shows "Stadium" and "Therapielinie" where the
-first source's shows "Phase" and "Region".
+first source's shows "Phase".
 
 *A guideline organised by leading symptom* (an emergency guideline, chapters
 "Brustschmerz", "Dyspnoe", …). The symptom is the population's *presentation*,

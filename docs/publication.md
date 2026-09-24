@@ -155,8 +155,10 @@ it. Three choices keep the tree readable at ninety recommendations:
   the family and adds no text the build does not already have.
 - **Answers in order of weight, families first.** The patient groups are the
   population concepts and the families above them (`broader` edges,
-  `graph-representation.md` §5): the first question's answers are the ten roots
-  (*Leberresektion*, *Kolorektale Chirurgie*, …), each with the number of
+  `graph-representation.md` §5): the first question's answers are the roots of
+  that hierarchy — or, in a view with a scope tree (below), the groups directly
+  under its root: for the first view *Operation eines gastrointestinalen
+  Tumors*, *Kardiale Dauermedikation*, … — each with the number of
   recommendations anywhere below it, heaviest first. Opening a family shows its own
   recommendations and its member groups, each folded until opened in turn; closing
   it folds everything below. A recommendation hangs from the group it was made
