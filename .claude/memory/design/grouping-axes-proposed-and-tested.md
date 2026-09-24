@@ -38,7 +38,10 @@ an axis carries a report a reviewer can check. The worked example on the first
 source showed why the measures are what they are: a region axis places 20 of
 36 population concepts but only 42 of 90 statements, because the generic
 "gastrointestinal tumour operation" carries 24 — coverage by concept alone
-would have hidden that.
+would have hidden that. The region was withdrawn for that view on 2026-09-24
+(WP-0031, card #190): the view's scope tree places the organ families and the
+generic groups in one tree, which the region, one parent per concept and no
+place for the generic half, could not.
 
 **How to apply:** Never add an axis name to the schema, the validator or
 `tools/` ([[generic-over-guidelines]] applies to the data model too); the

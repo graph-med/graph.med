@@ -13,14 +13,22 @@ what a guideline stipulates for its own scope ("within this guideline, this
 counts as tumour surgery") is a **scope edge** `in_scope_of`, modelling with a
 rationale, whose optional `condition` is a concept reference — absent means
 unconditional. The root is the guideline's own scope, declared on the view,
-never inferred. What anchor, subgroup, dimension and condition are is decided
+never inferred, and sourced where the guideline states its scope. What anchor, subgroup, dimension and condition are is decided
 per statement by four questions in order: (1) the guideline's primary index →
 anchor; (2) a thing in its own right that is a special case of another ("X is
 a Y", changing *which* thing is present) → subgroup, `broader` or, if true only
 inside the guideline, a scope edge; (3) free combination with every anchor
 value from a closed, named list → dimension; (4) otherwise → condition.
 Decided on card #141 (WP-0031, decisions C–H, 2026-09-21, with the physician);
-applied in `docs/graph-representation.md` §4, §4.1, §5 and schema 0.9.0.
+applied in `docs/graph-representation.md` §4, §4.1, §5 and schema 0.9.0, and
+on `views/pomgat-lv-1.0` by card #190: the root is the guideline's patient
+target group, quoted from its section 2.1.2 (p. 17); the organ families, the
+generic groups and the situations after an operation are unconditional scope
+edges, the organ families under "Operation eines gastrointestinalen Tumors" and
+that under the root; the four groups that are no operation (a medication, a
+risk profile, an access, a wider group of operations) hang under the root with
+the condition "during an elective operation of the scope". The first question
+went from ten answers to five, and all 90 statements reach the root.
 
 **Why:** the concept hierarchy mixed subsumption with scope stipulations —
 rationales beginning "Im Geltungsbereich der Leitlinie", one edge whose
