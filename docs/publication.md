@@ -36,7 +36,7 @@ begins with `https://graph.med/`. Publication makes that literal: every identifi
 the pool resolves.
 
 ```
-graph.med/                          index: the views, the sources they draw on
+graph.med/                          index: one entry per view — the only page where the views meet
 graph.med/<view-id>                 a view, floating — the filter as of the last build
 graph.med/<view-id>@<n>             a cut of that view (deferred, §7)
 graph.med/<namespace>/<entity-id>   any entity: statements/…, concepts/…, claims/<source>/<hash>, sources/…
@@ -63,6 +63,23 @@ data change, and a change to the build only where its source brings something th
 build does not yet read from data — a language without a words table, a scope tree
 over a slot other than `population`. A source's grading scheme is data: its grades,
 wordings and consensus classes are read from the source (§3).
+
+**The index is where the graphs meet, and the only place they do.** Each graph stays
+separate: no view links another, and the index combines nothing — each entry is one
+view as its filter draws it, built from the view and its sources and naming no
+guideline, so that a reader picks one. An entry gives the title as the source prints
+it, in the source's language (`lang`); what the graph holds — its recommendations
+(the statements), the patient groups a reader meets in its tree (the junctions of its
+first grouping, each concept once) and the claims they rest on; while it holds no
+claim, that none has been extracted, and while it holds claims but no statement, that
+none has been linked yet; the link to the graph; and, for each source, its register
+number where the source records one (`awmf_register`), a link to the source's page
+and its licence line. A source's version and date stand in its title as printed; the
+schema has no field for either. The entry is one link, its title, stretched over the
+entry; the source's lines lie apart from it, so that the source's page can be reached
+and its licence read. The entries sit side by side where the width allows and one
+under the other on a phone. Every word the index adds is page chrome, from the view
+layer's table (§3 "Language").
 
 ---
 
@@ -619,12 +636,12 @@ language the tables do not cover fails the build, naming the language and the
 missing keys, so that no English word ever stands on a German card. The detail
 sections of a concept, a claim and a source, and the entity page's link to its
 JSON (§4), take their words from the same table in the entity's own language.
-**The page's own chrome is the reader's, not the source's.** The legend and the
-sheet's one hint are German, whatever the view's source language, from a table of
-the view layer — one file per language under `tools/site/words/`, read by the
-build and never published — and the build, the schema, the data and every
-identifier, key and comment behind them stay English: only what the viewer reads
-is German. A German and an English site are a later phase; they will be a second
+**The page's own chrome is the reader's, not the source's.** The legend, the
+sheet's one hint and the index's words (§2) are German, whatever the view's source
+language, from a table of the view layer — one file per language under
+`tools/site/words/`, read by the build and never published — and the build, the
+schema, the data and every identifier, key and comment behind them stay English:
+only what the viewer reads is German. A German and an English site are a later phase; they will be a second
 table, not a second template. The rest of the page chrome — header, footer,
 counter, the controls' titles — is still English (§8). Translation of content is a
 build-layer concern and can be added without a data change
@@ -737,11 +754,11 @@ cut-publication).
 - **Branch guards** — yes/no and value-range branches come with authored pathways
   (`branch` edges carry a `guard`); the derived tree has only slot answers.
 - **The page chrome outside the legend** — the counter, the chapter panel's
-  "all", the controls' titles, header and footer are English; the legend and the
-  sheet's hint are German from the view layer's table (§3 "Language"); the
-  questions and the direction words inside the graph, and every word of the
-  sheet — the statement card and the other entities' sections — are in the
-  source language. The maintainer decided on German now and a German and an
+  "all", the controls' titles, header and footer are English; the legend, the
+  sheet's hint and the index's words are German from the view layer's table
+  (§3 "Language"); the questions and the direction words inside the graph, and
+  every word of the sheet — the statement card and the other entities' sections —
+  are in the source language. The maintainer decided on German now and a German and an
   English site in a later phase; nothing selects a page language yet.
 - **Translation** — a build-layer projection, not started.
 - **Other projections** — FHIR, RDF, diagram formats (`graph-representation.md` §13).
