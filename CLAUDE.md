@@ -64,10 +64,12 @@ uv run tools/build.py --base /preview/pr12/ --preview 12   # as the preview of p
 
 Open `site/index.html` in a browser to see a change. Templates and the client script
 live in `tools/site/`, the page chrome's words in `tools/site/words/` (not published). Inside the sandbox, where there is no browser,
-`uv run tools/screenshot.py <view-id>` renders a view page in a Chromium container
-on the sandbox's Docker daemon, writes a PNG under `/tmp/graph.med/screenshots/`
-and reports what overlaps (the `screenshot` skill describes the actions it can
-take first). Deployment to
+`uv run tools/screenshot.py <path>` renders a page — a view id, an entity page
+such as `statements/<id>`, or `/` for the index; `--full` for the whole scrolled
+page — in a Chromium container on the sandbox's Docker daemon, writes a PNG under
+`/tmp/graph.med/screenshots/` and reports what overlaps on a view page, and on
+any other page whether it overflows horizontally (the `screenshot` skill
+describes the actions it can take first). Deployment to
 GitHub Pages is a workflow file, committed by a person
 (`.github/workflows/pages.yml`): validate, build, deploy on every push to `main`,
 and one preview per open pull request at `graph.med/preview/pr<N>/`, rebuilt from
@@ -157,7 +159,7 @@ each piece loads when it is relevant rather than all of it, always:
     ├── handover/                end a session: open questions, the handover comment on each card
     ├── process-work-package/    process the listed cards: coordinate, one worker each
     ├── project-board/           the work board (a GitHub project): read always, write with permission
-    └── screenshot/              look at a view page in a real browser before proposing it
+    └── screenshot/              look at a page of the site in a real browser before proposing it
 ```
 
 Rules without a `paths:` scope load at the start of every session; the two that have
@@ -182,7 +184,7 @@ nothing, names no guideline, and its attestations wait for the schema.
 it — an extraction, a linking pass, a schema change, a build feature, a docs
 change, tooling — one worker, branch and pull request each, the session
 coordinating; each ends with a pull request and a handover comment on the card.
-`screenshot` renders a view page in a browser container so a build change is looked
+`screenshot` renders a page of the site in a browser container so a build change is looked
 at, not only built. `project-board` is the work board, `planning-graph.med`
 (Todo, In Progress, Done), through `tools/board.py`: read always, written only
 with the maintainer's permission (ADR-0004). Add another only for another such task — then say in the pull request what it
