@@ -1,9 +1,14 @@
 # The first view: everything in the pool drawn from the POMGAT guideline —
 # published at graph.med/pomgat-lv-1.0 (docs/publication.md §2). Its switch offers the
 # perioperative phase (spec §4.1 "4. Shown"), asserted for this view by WP-0009.
+# Its statements are keyed on the procedure (spec §4.1, question 1), so the population is the
+# anchor; the scope tree ends in the guideline's own patient target group (2.1.2, p. 17), whose
+# groups the scope edges in data/edges/pomgat-lv-1.0/scope-edges.yaml hang there (WP-0031).
 id: views/pomgat-lv-1.0
 type: view
 view_kind: selection
 filter:
   sources: [sources/pomgat-lv-1.0]
 group_by: [axes/phase]
+anchor_slot: population
+scope_root: concepts/elektive-operation-gi-oder-hpb-malignom

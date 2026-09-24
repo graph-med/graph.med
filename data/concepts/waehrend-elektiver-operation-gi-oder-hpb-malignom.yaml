@@ -1,0 +1,14 @@
+# The condition of the scope edges that hang a group which is not itself an operation of the guideline's
+# scope under its scope root (spec §5 `in_scope_of`): the group concerns the guideline only then.
+id: concepts/waehrend-elektiver-operation-gi-oder-hpb-malignom
+type: concept
+lang: de
+label: Während einer elektiven Operation eines gastrointestinalen oder hepatopankreatobiliären Malignoms
+short_label: "Während einer elektiven OP eines GI- oder HPB-Malignoms"
+facet: patient_state
+definition: Der Patient unterzieht sich einer elektiven Operation aufgrund eines gastrointestinalen oder
+  hepatopankreatobiliären Malignoms, der Operation der Patientenzielgruppe der Leitlinie.
+source: modelling
+provenance:
+  definition:
+    - {at: sources/pomgat-lv-1.0#page=17, quote: "eines gastrointestinalen oder hepatopankreatobiliären Malignoms einer elektiven"}

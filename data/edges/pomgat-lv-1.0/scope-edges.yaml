@@ -1,0 +1,63 @@
+# scope edges (spec §5 `in_scope_of`): "counts, within the scope of this guideline, as a case of" —
+# what the guideline stipulates for its own scope and `broader` cannot hold, because it is not true
+# whatever guideline one reads. All modelling with a rationale; `condition` names the circumstance under
+# which the membership holds, its absence means unconditional. They form the scope tree of
+# views/pomgat-lv-1.0, which ends in its scope_root, the guideline's patient target group (2.1.2, p. 17).
+# Written by WP-0031 (card #190); the first seven were broader edges until then.
+
+# ── the five scope stipulations, moved out of broader-edges.yaml (decision G of #141): that these
+# groups are operations of a gastrointestinal tumour is a setting of this guideline; the rationale is
+# kept and names the scope (the first, fourth and fifth named it already)
+- [concepts/operation-oberer-gastrointestinaltrakt, in_scope_of, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "Im Geltungsbereich der Leitlinie (Kapitel 5.6.1) bezeichnet das Konzept Tumoroperationen am oberen Gastrointestinaltrakt."}]
+- [concepts/tumorresektion-oberer-gi-trakt-und-pankreas, in_scope_of, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "Tumorresektionen des oberen Gastrointestinaltraktes und des Pankreas sind Operationen gastrointestinaler Tumoren. Das gilt im Geltungsbereich der Leitlinie, die das Pankreas zu den gastrointestinalen Tumoren zählt (2.1.2: gastrointestinale oder hepatopankreatobiliäre Malignome), nicht allgemein."}]
+- [concepts/nicht-kolorektale-viszeralonkologische-resektion, in_scope_of, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "Die nicht-kolorektale viszeralonkologische Resektion (Ösophagus, Magen, Pankreas, Leber) ist eine Operation eines gastrointestinalen Tumors. Das gilt im Geltungsbereich der Leitlinie, die Pankreas und Leber zu den gastrointestinalen Tumoren zählt (2.1.2: gastrointestinale oder hepatopankreatobiliäre Malignome), nicht allgemein."}]
+- [concepts/pankreas-und-leberchirurgie, in_scope_of, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "Im Geltungsbereich der Leitlinie (Kapitel 4.2) ist die Pankreas- und Leberchirurgie Tumorchirurgie des Gastrointestinaltraktes."}]
+- [concepts/elektiver-abdominalchirurgischer-tumoreingriff, in_scope_of, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "Im Geltungsbereich der Leitlinie ist der elektive abdominalchirurgische Tumoreingriff eine Operation eines gastrointestinalen Tumors; das Konzept wurde aus Kapitel 4 und 5 mit dieser Bedeutung geprägt."}]
+
+# ── the two situations after an operation, moved out of broader-edges.yaml: a situation is not a
+# special case of the operation (spec §4.1, edge cases); the guideline treats it under the operation
+- [concepts/magenschlauch-rekonstruktion, in_scope_of, concepts/oesophagusresektion, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "Die Situation nach Ösophagektomie mit Magenschlauchrekonstruktion; das Konzept dient als Population der Empfehlung 6.12 und gehört zur Ösophagusresektion, deren Rekonstruktionsschritt es ist. Eine Situation, kein Sonderfall der Resektion: die Leitlinie führt sie unter den Ösophagusresektionen (6.2.1)."}]
+- [concepts/kolorektale-anastomose, in_scope_of, concepts/kolorektale-chirurgie, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "Die Anastomose nach Kolon- oder Rektumresektion ist eine Situation der kolorektalen Chirurgie, keine Resektion; deshalb neben, nicht unter der Resektion. Eine Situation, kein Sonderfall der kolorektalen Chirurgie: die Leitlinie führt sie unter den kolorektalen Resektionen (6.2.2)."}]
+
+# ── the five organ families under the operation of a gastrointestinal tumour: inside this guideline's
+# scope each is such an operation, outside it each has benign indications too, which is why they were
+# never linked by broader (memory concept-hierarchy-depth). Along these edges a group reaches what the
+# guideline recommends for the operation of a gastrointestinal tumour as such (#141, outcome)
+- [concepts/oesophagusresektion, in_scope_of, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "Im Geltungsbereich der Leitlinie (2.1.2: Operation aufgrund eines gastrointestinalen oder hepatopankreatobiliären Malignoms) ist die Ösophagusresektion eine Operation eines gastrointestinalen Tumors; außerhalb hat sie auch benigne Indikationen."}]
+- [concepts/gastrektomie-oder-magenteilresektion, in_scope_of, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "Im Geltungsbereich der Leitlinie (2.1.2: Operation aufgrund eines gastrointestinalen oder hepatopankreatobiliären Malignoms) ist die Gastrektomie oder Magenteilresektion eine Operation eines gastrointestinalen Tumors; außerhalb hat sie auch benigne Indikationen."}]
+- [concepts/pankreasresektion, in_scope_of, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "Im Geltungsbereich der Leitlinie (2.1.2: Operation aufgrund eines gastrointestinalen oder hepatopankreatobiliären Malignoms) ist die Pankreasresektion eine Operation eines gastrointestinalen Tumors; außerhalb hat sie auch benigne Indikationen, und das Pankreas zählt nicht allgemein zum Gastrointestinaltrakt."}]
+- [concepts/leberresektion, in_scope_of, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "Im Geltungsbereich der Leitlinie (2.1.2: Operation aufgrund eines gastrointestinalen oder hepatopankreatobiliären Malignoms) ist die Leberresektion eine Operation eines gastrointestinalen Tumors; außerhalb hat sie auch benigne Indikationen, und die Leber zählt nicht allgemein zum Gastrointestinaltrakt."}]
+- [concepts/kolorektale-chirurgie, in_scope_of, concepts/gastrointestinale-tumoroperation, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "Im Geltungsbereich der Leitlinie (2.1.2: Operation aufgrund eines gastrointestinalen oder hepatopankreatobiliären Malignoms) ist die kolorektale Chirurgie Tumorchirurgie des Gastrointestinaltraktes; außerhalb hat sie auch benigne Indikationen."}]
+
+# ── the operation of a gastrointestinal tumour under the scope root, unconditionally: it is the
+# guideline's operation, but not a special case of it in general (a tumour need not be malignant, an
+# operation need not be elective), so a scope edge, not broader
+- [concepts/gastrointestinale-tumoroperation, in_scope_of, concepts/elektive-operation-gi-oder-hpb-malignom, {source: modelling, as_of: "2026-09-24", lang: de,
+   rationale: "Im Geltungsbereich der Leitlinie ist die Operation eines gastrointestinalen Tumors die elektive Operation aufgrund eines gastrointestinalen oder hepatopankreatobiliären Malignoms, der sich ihre Patientenzielgruppe unterzieht (2.1.2); allgemein ist nicht jeder Tumor maligne und nicht jede Operation elektiv."}]
+
+# ── the four groups that are not an operation of the scope, under the root with the condition
+# "during an operation within the scope" (decision E of #141)
+- [concepts/kardiale-dauermedikation, in_scope_of, concepts/elektive-operation-gi-oder-hpb-malignom, {source: modelling, as_of: "2026-09-24", lang: de,
+   condition: concepts/waehrend-elektiver-operation-gi-oder-hpb-malignom,
+   rationale: "Eine kardiale Dauermedikation ist keine Operation; die Leitlinie empfiehlt für sie nur, wenn sich der Patient einer Operation in ihrem Geltungsbereich unterzieht (2.1.2)."}]
+- [concepts/perioperatives-risikoprofil, in_scope_of, concepts/elektive-operation-gi-oder-hpb-malignom, {source: modelling, as_of: "2026-09-24", lang: de,
+   condition: concepts/waehrend-elektiver-operation-gi-oder-hpb-malignom,
+   rationale: "Ein perioperatives Risikoprofil ist keine Operation; die Leitlinie empfiehlt für es nur, wenn sich der Patient einer Operation in ihrem Geltungsbereich unterzieht (2.1.2)."}]
+- [concepts/mediane-laparotomie, in_scope_of, concepts/elektive-operation-gi-oder-hpb-malignom, {source: modelling, as_of: "2026-09-24", lang: de,
+   condition: concepts/waehrend-elektiver-operation-gi-oder-hpb-malignom,
+   rationale: "Die mediane Laparotomie ist ein Zugang, der auch bei anderen Operationen gewählt wird; die Leitlinie empfiehlt für sie als Zugang einer Operation in ihrem Geltungsbereich (2.1.2)."}]
+- [concepts/abdomineller-oder-thorakaler-eingriff, in_scope_of, concepts/elektive-operation-gi-oder-hpb-malignom, {source: modelling, as_of: "2026-09-24", lang: de,
+   condition: concepts/waehrend-elektiver-operation-gi-oder-hpb-malignom,
+   rationale: "Der abdominelle oder thorakale Eingriff ist weiter als der Geltungsbereich der Leitlinie: sie überträgt die Evidenz dieser weiteren Gruppe auf die Operationen in ihrem Geltungsbereich (2.1.2). Als Sonderfall gelesen wäre die Richtung falsch, als Geltungskante mit dieser Voraussetzung ist sie richtig."}]

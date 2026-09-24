@@ -1,5 +1,5 @@
 # The anatomical region as a hierarchy respect over the population slot (spec §4.1), proposed by
-# the physician for views/pomgat-lv-1.0 and applied by WP-0009. One parent per concept.
+# the physician for views/pomgat-lv-1.0 and applied by WP-0009, withdrawn for it by WP-0031. One parent per concept.
 id: axes/region
 type: axis
 lang: de
@@ -23,7 +23,9 @@ rule: >-
   geführt und ist, solange die Achse nur einen Elternknoten erlaubt, nicht platziert.
 proposed_by: physician
 views:
-  - {view: views/pomgat-lv-1.0, status: proposed, since: "2026-09-13"}
+  # withdrawn by WP-0031 (card #190): the view folds its patient groups by its scope tree, which places the
+  # organ families and the generic groups the region left unplaced in one tree; the report is in that pull request
+  - {view: views/pomgat-lv-1.0, status: withdrawn, since: "2026-09-24"}
 placements:
   # Ösophagus
   concepts/onkologische-oesophagusresektion: concepts/oesophagusresektion
