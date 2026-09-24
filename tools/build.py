@@ -58,6 +58,10 @@ GRADES = ("A", "B", "0", "EK")   # the guideline's own scale, in order: the lett
 # system's. A system not in the table is a valid state that costs the range, never the build. A display order,
 # not a fact about the world, which is why it lives here and not in the schema (WP-0025).
 EVIDENCE_SCALES = {"grade": ("hoch", "moderat", "niedrig", "sehr niedrig")}
+# The language of the page's own chrome — the legend, and the hint on the sheet's home — chosen for the reader,
+# not by the data (docs/publication.md §3, "Language"). Its words are the view layer's: one table per language
+# under tools/site/words/, read here and never copied into assets/; this file holds no word of it.
+PAGE_LANG = "de"
 CARD_SLOTS = ("population", "condition", "action")   # the rows of zone 5 "Gilt für", in order; `outcome` is the dimension the certainty varies along (zone 4), not a row here
 # The only words the build adds inside the graph, in the view's source language (docs/publication.md §3):
 # the two questions whose answers are the population and condition slots, the question a dimension axis
@@ -276,6 +280,61 @@ def verbs_by_grade(statements: list[dict], pool) -> dict[str, str]:
             if c["edge"] == "supports" and c.get("grade") and c.get("verb"):
                 seen[c["grade"]].add(c["verb"])
     return {g: next(iter(v)) for g, v in seen.items() if len(v) == 1}
+
+
+def page_words(lang: str) -> dict:
+    """The view layer's table of the page chrome's words in `lang` (tools/site/words/<lang>.json). A language
+    without a table stops the build, as the card's words do."""
+    path = SITE_SRC / "words" / f"{lang}.json"
+    if not path.exists():
+        raise SystemExit(f"no page words for language {lang!r} — add {path.relative_to(ROOT)}")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def grade_order(g: str):
+    """A grade letter's place in GRADES, a letter outside it after them — the order the box and the legend write."""
+    return (GRADES.index(g) if g in GRADES else len(GRADES), g)
+
+
+def worded_verb(claims: list[dict], implied: dict[str, str]) -> str | None:
+    """The verb a box writes as a word after its grade letter: only where some supporting claim's grade does not
+    determine its verb in this view (`implied`, from verbs_by_grade), and never when the claims disagree on it
+    (verb_of). One rule for the box and for the legend, which names the letters it applies to."""
+    carried = all(implied.get(c.get("grade")) == c["verb"] for c in claims if c["edge"] == "supports" and c.get("verb"))
+    return None if carried else verb_of(claims)
+
+
+def legend_of(statements: list[dict], groupings: list[dict], pool) -> dict:
+    """The keys a view's legend shows (docs/publication.md §3, "The legend"): what the view draws, and nothing
+    else — computed from its trees under every grouping and from its statements' claims, never declared. Each
+    entry is a structural key; the words are the view layer's (tools/site/words/<lang>.json)."""
+    implied = verbs_by_grade(statements, pool)   # the same computation as the boxes' verb word
+    nodes = [n for g in groupings for n in g["nodes"]]
+    kinds = {e["kind"] for g in groupings for e in g["edges"]}
+    types = {n["type"] for n in nodes}
+    boxes = [n for n in nodes if n["type"] == "statement"]
+    directions = {n.get("direction") for n in boxes}
+    grades: set = set()
+    worded: set = set()
+    for st in statements:
+        claims = pool.claims_for(st["id"])
+        sup = [c for c in claims if c["edge"] == "supports"]
+        grades |= {c["grade"] for c in sup if c.get("grade")}
+        if worded_verb(claims, implied):   # the letters under which this box writes its verb
+            worded |= {c["grade"] for c in sup if c.get("grade") and c.get("verb") and implied.get(c["grade"]) != c["verb"]}
+    return {
+        "forms": [t for t in ("question", "junction", "statement", "aim") if t in types],
+        "folded": "question" in types,   # a question the reader closed: grey and dashed
+        "open": "junction" in types,     # a patient group the reader opened: filled
+        "directions": [{"word": w, "glyph": g} for w, g in DIRECTION_GLYPH.items() if w in directions],
+        "undirected": None in directions,   # a statement without a direction (a fact): the page's colours, with a border
+        "grades": sorted(grades, key=grade_order),
+        "verb_grades": sorted(worded, key=grade_order),
+        "states": [s for s, on in (("contested", any(n.get("contested") for n in boxes)),
+                                   ("related", "relation" in kinds),
+                                   ("general", any(n.get("general") for n in nodes))) if on],
+        "edges": [k for k in ("answer", "flow", "aim") if k in kinds],
+    }
 
 
 # ── the pool ────────────────────────────────────────────────────────────────
@@ -756,10 +815,9 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
         # differ — shown, never composed); the verb as a word, only where the letters do not already carry it —
         # some supporting claim's grade does not determine its verb in this view (verbs_by_grade) — and never when
         # the claims disagree on it; then the short form
-        letters = "/".join(sorted(grades, key=lambda g: (GRADES.index(g) if g in GRADES else len(GRADES), g)))
+        letters = "/".join(sorted(grades, key=grade_order))
         verb = verb_of(claims)
-        carried = all(implied.get(c.get("grade")) == c["verb"] for c in claims if c["edge"] == "supports" and c.get("verb"))
-        stamp = " ".join(filter(None, [d["glyph"] if d else None, letters, None if carried else verb]))
+        stamp = " ".join(filter(None, [d["glyph"] if d else None, letters, worded_verb(claims, implied)]))
         sid = add(st["id"], ref=st["id"], type="statement", lang=st["lang"],
                   label=(stamp + " · " if stamp else "") + (st.get("short_label") or st["label"]), full=st["label"],
                   direction=d["word"] if d else None, verb=verb, facets=sorted({f for f in (facet(c) for _, c in pool.filled(st)) if f}),
@@ -1103,6 +1161,7 @@ def main(argv=None) -> int:
 
     views = []
     view_tpl = env.get_template("view.html")
+    page = page_words(PAGE_LANG)
     for view in sorted(pool.of_type("view"), key=lambda v: v["id"]):
         vid = view["id"].split("/", 1)[1]
         members = memberships[view["id"]]
@@ -1121,11 +1180,12 @@ def main(argv=None) -> int:
                 # every concept the view's statements hold, derived or stated, with its rules — the keys of a card's row (zone 5)
                 "concepts": {cid: derivation_of(pool, cid) for m in members.values() if m["type"] == "statement"
                              for _, cid in pool.filled(m) if cid in pool.entities}}
+        data["legend"] = legend_of([m for m in members.values() if m["type"] == "statement"], groupings, pool)   # what the view draws, keyed
         if scope:   # the origin of what the page shows for each concept, own or applying generally, for a reader of the JSON
             data["scope"] = {k: scope[k] for k in ("anchor_slot", "root", "concepts")}
         (out / vid).mkdir(parents=True, exist_ok=True)
         (out / vid / "index.html").write_text(
-            view_tpl.render(view=view, vid=vid, title=title, sources=sources, counts=counts, scope=bool(scope),
+            view_tpl.render(view=view, vid=vid, title=title, sources=sources, counts=counts, legend=data["legend"], page=page, page_lang=PAGE_LANG,
                             graph_json=dumps(data).replace("</", "<\\/")), encoding="utf-8")   # safe inside <script>
         (out / (vid + ".json")).write_text(dumps(data), encoding="utf-8")
         views.append({"vid": vid, "title": title, "sources": sources, "counts": counts})
