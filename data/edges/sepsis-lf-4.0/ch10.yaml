@@ -29,9 +29,11 @@
 - [claims/sepsis-lf-4.0/7575c5ee, refines, claims/sepsis-lf-4.0/62b37e0e, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "R: „Patienten mit Asplenie“ — wer zur Gruppe gehört: Patienten mit einer anatomischen oder funktionellen Asplenie."}]
 - [claims/sepsis-lf-4.0/8dd5c346, refines, claims/sepsis-lf-4.0/62b37e0e, {source: modelling, as_of: "2026-09-25", lang: de,
-   rationale: "R: „mit einem entsprechenden Notfallpass“ — welcher: ein Asplenie-Notfallpass; K: eine Antwort je Glied des Satzes, Glied 1 von 2."}]
+   rationale: "R: „mit einem entsprechenden Notfallpass“ — welcher: ein Asplenie-Notfallpass; K: eine Antwort je Glied des Satzes, Glied 1 von 3."}]
+- [claims/sepsis-lf-4.0/4a209224, supplements, claims/sepsis-lf-4.0/62b37e0e, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "S: „mit einer Antibiotika-Standby Prophylaxe ausgestattet werden“ — eine weitere Maßnahme für dieselben Patienten mit Asplenie: statt der stand by-Prophylaxe eine Dauerprophylaxe mit Penicillin, im Notfallpass empfohlen. R hält nicht (eine Dauerprophylaxe ist nicht, wofür „Antibiotika-Standby Prophylaxe“ steht), L nimmt keinen Fall heraus; K: Glied 2 von 3, die erste Alternative des „oder“."}]
 - [claims/sepsis-lf-4.0/455cc7b4, refines, claims/sepsis-lf-4.0/62b37e0e, {source: modelling, as_of: "2026-09-25", lang: de,
-   rationale: "R: „Antibiotika-Standby Prophylaxe“ — welcher Wirkstoff: Amoxicillin/Clavulansäure als stand by-Prophylaxe, oder eine Dauerprophylaxe mit Penicillin, im Notfallpass empfohlen; K: Glied 2 von 2."}]
+   rationale: "R: „Antibiotika-Standby Prophylaxe“ — welcher Wirkstoff: Amoxicillin/Clavulansäure (bessere Wirksamkeit bei H. influenzae), im Notfallpass empfohlen; K: Glied 3 von 3, die zweite Alternative des „oder“."}]
 - [claims/sepsis-lf-4.0/a3ba9224, refines, claims/sepsis-lf-4.0/361c4595, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "R: „die Umsetzung der Empfehlungen der Ständigen Impfkommission (STIKO)“ — bei wem und wann: bei Patienten, die eine Sepsis oder septischen Schock überlebt haben, im Rahmen der Nachsorge den Impfstatus überprüfen und komplettieren, insbesondere die jährliche Influenzaimpfung."}]
 # between statements (spec §5.1 N1): statement → statement, within chapter 10

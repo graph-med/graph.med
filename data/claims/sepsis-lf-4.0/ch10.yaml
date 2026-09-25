@@ -155,7 +155,7 @@
   source:
     at: sources/sepsis-lf-4.0#page=138
     quote: "Ein besonders hohes Risiko für die Entwicklung einer Sepsis haben Patienten mit einer anato-"
-# body text, p. 138 (section 10.2): refines 10.4; member 1 of 2 of its sentence, another action than member 2 (K)
+# body text, p. 138 (section 10.2): refines 10.4; member 1 of 3 of its sentence, another action than members 2 and 3 (K)
 - id: claims/sepsis-lf-4.0/8dd5c346
   type: claim
   lang: de
@@ -167,13 +167,26 @@
   source:
     at: sources/sepsis-lf-4.0#page=138
     quote: "sollten mit einem Asplenie-Notfallpass (erhältlich unter www.asplenie-net.org/) ausgestattet"
-# body text, p. 138 (section 10.2): refines 10.4; member 2 of 2 of its sentence (K); „Antibiotikapro-phylaxe“ joined
+# body text, p. 138 (section 10.2): supplements 10.4; member 2 of 3 of its sentence, the first alternative of its „oder“ — another action than the
+# standby prophylaxis 10.4 names (K), so R fails for „Antibiotika-Standby Prophylaxe“ and it is a measure for the same patients instead (S)
+- id: claims/sepsis-lf-4.0/4a209224
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "10.2"
+  label: "in dem auch eine Dauerprophylaxe mit Penicillin … empfohlen wird."
+  verb: "empfehlen"
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=138
+    quote: "in dem auch eine Dauerprophylaxe mit Penicillin"
+# body text, p. 138 (section 10.2): refines 10.4; member 3 of 3 of its sentence, the second alternative of its „oder“ (K); „Antibiotikapro-phylaxe“ joined
 - id: claims/sepsis-lf-4.0/455cc7b4
   type: claim
   lang: de
   kind: recommendation
   section: "10.2"
-  label: "in dem auch eine Dauerprophylaxe mit Penicillin oder eine stand by – Antibiotikaprophylaxe Amoxicillin/Clavulansäure (bessere Wirksamkeit bei H. influenzae) empfohlen wird."
+  label: "in dem auch … eine stand by – Antibiotikaprophylaxe Amoxicillin/Clavulansäure (bessere Wirksamkeit bei H. influenzae) empfohlen wird."
   verb: "empfehlen"
   direction: "for"
   source:
