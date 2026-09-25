@@ -36,7 +36,7 @@ begins with `https://graph.med/`. Publication makes that literal: every identifi
 the pool resolves.
 
 ```
-graph.med/                          index: one entry per view — the only page where the views meet
+graph.med/                          index: a graph with one answer per view — the only page where the views meet
 graph.med/<view-id>                 a view, floating — the filter as of the last build
 graph.med/<view-id>@<n>             a cut of that view (deferred, §7)
 graph.med/<namespace>/<entity-id>   any entity: statements/…, concepts/…, claims/<source>/<hash>, sources/…
@@ -65,21 +65,36 @@ over a slot other than `population`. A source's grading scheme is data: its grad
 wordings and consensus classes are read from the source (§3).
 
 **The index is where the graphs meet, and the only place they do.** Each graph stays
-separate: no view links another, and the index combines nothing — each entry is one
-view as its filter draws it, built from the view and its sources and naming no
-guideline, so that a reader picks one. An entry gives the title as the source prints
-it, in the source's language (`lang`); what the graph holds — its recommendations
-(the statements), the patient groups a reader meets in its tree (the junctions of its
-first grouping, each concept once) and the claims they rest on; while it holds no
-claim, that none has been extracted, and while it holds claims but no statement, that
-none has been linked yet; the link to the graph; and, for each source, its register
-number where the source records one (`awmf_register`), a link to the source's page
-and its licence line. A source's version and date stand in its title as printed; the
-schema has no field for either. The entry is one link, its title, stretched over the
-entry; the source's lines lie apart from it, so that the source's page can be reached
-and its licence read. The entries sit side by side where the width allows and one
-under the other on a phone. Every word the index adds is page chrome, from the view
-layer's table (§3 "Language").
+separate: no view links another, and the index combines nothing — it is built from the
+views and their sources and names no guideline, so that a third guideline is a third
+answer by a data change alone. **It is a graph like theirs**, a graph and a sheet
+(§3), drawn by the same renderer: one question, *Welche Leitlinie?*, with one answer
+per view, each leading to a box that names its guideline — its title as the source
+prints it, in the source's language (`lang`); its register number where the source
+records one (`awmf_register`); and what the graph holds: its recommendations (the
+statements), the patient groups a reader meets in its tree (the junctions of its first
+grouping, each concept once) and the claims they rest on, or, while it holds no claim,
+that none has been extracted, and while it holds claims but no statement, that none has
+been linked yet. A source has no short title of its own, so the box shows the title as
+printed, as a view's root box does. Each guideline's patient groups are not drawn here:
+that would repeat the views outside them and begin a view combining two sources. The
+tree is small, so it is drawn at a size a phone reads — a box takes the width the
+canvas leaves beside the question, within bounds — and always whole.
+
+Tapping a box selects it as on a view page: the rest fades, and its **entry** opens in
+the sheet beside the graph, on a phone in the strip at the bottom edge (its title and
+what the graph holds) that raises the sheet. The entry gives the title as printed —
+a source's version and date stand in it; the schema has no field for either —, what the
+graph holds, and for each source its register number, a link to the source's page and
+its licence line; the entry is one link to the graph, its title stretched over it with
+*Graph öffnen* below, and the source's lines lie apart from it, so that the source's
+page can be reached and its licence read. The deep link is the view's id
+(`graph.med/#views/<view-id>`). The sheet's home is the page's text and every entry,
+in the page's HTML: the graph is read from them, so that the page reads the same without
+the script and with a screen reader, and without the script the sheet is the page, the
+entries side by side where the width allows and one under the other on a phone. Every
+word the index adds — the question included — is page chrome, from the view layer's
+table (§3 "Language").
 
 ---
 
@@ -192,7 +207,9 @@ decision-graph-derivation):
 dagre layout, self-hosted under `assets/vendor/` (MIT, pinned, no third-party
 request): boxes have a fixed width and grow to their wrapped text, the layered
 layout has no overlaps, edge labels are placed, and touch pan and pinch come with
-it. Three choices keep the tree readable at ninety recommendations:
+it. The index draws its one question with the same library, forms and colours, and
+opens a tapped box's entry in the same sheet and peek strip (§2). Three choices keep
+the tree readable at ninety recommendations:
 
 - **Left to right.** A rank is a column, so the widest rank becomes a tall column
   that pans vertically — natural on a phone and on a desktop — and the whole tree is
