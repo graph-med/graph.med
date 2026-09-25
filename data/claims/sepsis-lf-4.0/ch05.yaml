@@ -1,0 +1,605 @@
+# Chapter 5 „Beatmungstherapie“ of sources/sepsis-lf-4.0, physical pages 73–87 (card #223): the 17 sentences of
+# boxes 5.1–5.16, each a claim (spec §3.1), with grade, verb, direction, consensus and evidence rows as printed; then
+# the body-text places that pass spec §5.1, by page. Quotes are verbatim on one line of `pdftotext -layout`; ids are
+# sha256("<at>|<quote>")[:8].
+- id: claims/sepsis-lf-4.0/1ae066ff
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '5.1'
+  section: '5.1'
+  label: "Wir empfehlen, Patienten mit Sepsis oder septischem Schock und ARDS mit einem Tidalvolumen um 6 ml/kg IBW (4-8ml/kg IBW) zu beatmen."
+  grade: Stark
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/mortalitaet, value: "Moderat", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=73
+    quote: "Wir empfehlen, Patienten mit Sepsis oder septischem Schock"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=73, quote: "Stark"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=73, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=73, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=73, quote: "Mortalität:"}
+# „mit einem mit VT“ as printed; the page's two „Mortalität:“ lines (5.2, 5.3) are told apart by box and row order (#215)
+- id: claims/sepsis-lf-4.0/205e64f4
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '5.2'
+  section: '5.1'
+  label: "Wir empfehlen, Patienten mit Sepsis oder septischem Schock ohne ARDS mit einem mit VT von 6-8 ml/kg IBW zu beatmen."
+  grade: Stark
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/mortalitaet, value: "Moderat", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=74
+    quote: "Wir empfehlen, Patienten mit Sepsis oder septischem Schock"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=74, quote: "Stark"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=74, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=74, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=74, quote: "Mortalität:"}
+- id: claims/sepsis-lf-4.0/ca65764e
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '5.3'
+  section: '5.1'
+  label: "Wir schlagen vor, bei der invasiven Beatmung von Patienten mit Sepsis oder septischem Schock und akuter respiratorischer Insuffizienz den Plateaudruck (Pplat) ≤ 30 cmH2O zu halten."
+  grade: Schwach
+  verb: schlagen vor
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/mortalitaet, value: "Moderat", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=74
+    quote: "Wir schlagen vor, bei der invasiven Beatmung von Patienten mit"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=74, quote: "Schwach"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=74, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=74, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=74, quote: "Mortalität:"}
+# the page's two „Mortalität:“ lines (5.4, 5.5) are told apart by box and row order (#215)
+- id: claims/sepsis-lf-4.0/a2832b8b
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '5.4'
+  section: '5.1'
+  label: "Wir schlagen vor, bei der invasiven Beatmung von Patienten mit Sepsis oder septischem Schock und ARDS eine inspiratorische Druckdifferenz von ≤ 14 cmH2O anzustreben."
+  grade: Schwach
+  verb: schlagen vor
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/mortalitaet, value: "Niedrig", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=75
+    quote: "Wir schlagen vor, bei der invasiven Beatmung von Patienten mit"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=75, quote: "Schwach"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=75, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=75, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=75, quote: "Mortalität:"}
+- id: claims/sepsis-lf-4.0/c2281f0d
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '5.5'
+  section: '5.2'
+  label: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem Schock und mildem ARDS eine orientierende Einstellung des PEEP mit Hilfe der FiO2/niedrig-PEEP Tabelle des ARDS-Netzwerks zu erwägen."
+  grade: Schwach
+  verb: schlagen vor
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/mortalitaet, value: "Niedrig", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=75
+    quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=75, quote: "Schwach"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=75, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=75, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=75, quote: "Mortalität:"}
+- id: claims/sepsis-lf-4.0/cb87ecda
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '5.6'
+  section: '5.2'
+  label: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock und moderatem oder schwerem ARDS die Anwendung eines höheren PEEP."
+  grade: Stark
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/mortalitaet, value: "Hoch", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=76
+    quote: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=76, quote: "Stark"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=76, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=76, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=76, quote: "Mortalität:"}
+# „einer in der Tabelle vorgeschlagenen bettseitigen Methoden“ as printed; the table is Tabelle 5 (pp. 78–79)
+- id: claims/sepsis-lf-4.0/be5e1c51
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '5.7'
+  section: '5.2'
+  label: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem Schock und moderatem oder schwerem ARDS die Einstellung des PEEP mit Hilfe einer in der Tabelle vorgeschlagenen bettseitigen Methoden zu individualisieren."
+  grade: Schwach
+  verb: schlagen vor
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/mortalitaet, value: "Sehr niedrig", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=77
+    quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=77, quote: "Schwach"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=77, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=77, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=77, quote: "Mortalität:"}
+# „Wir schlagen vor bei“ without a comma, as printed
+- id: claims/sepsis-lf-4.0/34d03f4b
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '5.8'
+  section: '5.3'
+  label: "Wir schlagen vor bei invasiv beatmeten Patienten mit Sepsis oder septischem Schock eine SaO2 bzw. SpO2 von 92 %-96 % bzw. eine paO2 zwischen 70-90 mmHg (9,3-12 kPa) anzustreben."
+  grade: Schwach
+  verb: schlagen vor
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/mortalitaet, value: "Sehr niedrig", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=80
+    quote: "Wir schlagen vor bei invasiv beatmeten Patienten mit Sepsis"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=80, quote: "Schwach"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=80, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=80, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=80, quote: "Mortalität:"}
+- id: claims/sepsis-lf-4.0/ade3eef5
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '5.9'
+  section: '5.4'
+  label: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock KEINE Durchführung von prolongierten (> 60 s) Rekrutierungsmanövern."
+  grade: Stark
+  verb: empfehlen
+  direction: against
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/mortalitaet, value: "Moderat", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=81
+    quote: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=81, quote: "Stark"}
+    direction: {at: sources/sepsis-lf-4.0#page=81, quote: "KEINE Durchführung von prolongierten (> 60 s) Rekrutierungs-"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=81, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=81, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=81, quote: "Mortalität:"}
+- id: claims/sepsis-lf-4.0/d571be31
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '5.10'
+  section: '5.4'
+  label: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem Schock KEINE routinemäßige Durchführung von kurzen (< 60 s) Rekrutierungsmanövern durchzuführen."
+  grade: Schwach
+  verb: schlagen vor
+  direction: against
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/mortalitaet, value: "Niedrig", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=82
+    quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=82, quote: "Schwach"}
+    direction: {at: sources/sepsis-lf-4.0#page=82, quote: "Schock KEINE routinemäßige Durchführung von kurzen (< 60 s)"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=82, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=82, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=82, quote: "Mortalität:"}
+- id: claims/sepsis-lf-4.0/f3096588
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '5.11'
+  section: '5.5'
+  label: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem Schock frühzeitig (innerhalb der ersten 48 Stunden nach Intubation) eine unterstützende Beatmung zur Ermöglichung von Spontanatmung unabhängig von Ursache und Art der zugrundeliegenden respiratorischen Insuffizienz einzusetzen."
+  grade: Schwach
+  verb: schlagen vor
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/mortalitaet, value: "Sehr niedrig", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=83
+    quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=83, quote: "Schwach"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=83, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=83, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=83, quote: "Mortalität:"}
+# a rule inside the box sentence, „(PaO2/FiO2 100-300)“, stays in this claim without a threshold (#213 item 3; open question rule-claim-granularity)
+- id: claims/sepsis-lf-4.0/7aa857fe
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '5.12'
+  section: '5.6'
+  label: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem Schock und milder bis moderater akuter hypoxämischer respiratorischer Insuffizienz (PaO2/FiO2 100-300) primär eine nichtinvasive Atmungsunterstützung (NIV, CPAP oder HFNO) anzuwenden."
+  grade: Schwach
+  verb: schlagen vor
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/mortalitaet, value: "Niedrig", system: grade}
+    - {outcome: concepts/verweildauer-intensivstation, value: "Niedrig", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=84
+    quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=84, quote: "Schwach"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=84, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=84, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=84, quote: "Mortalität:"}
+      - {at: sources/sepsis-lf-4.0#page=84, quote: "Intensiv-Liegedauer:"}
+# a rule inside the box sentence, „länger als 24 Stunden invasiv beatmet“, stays in this claim without a threshold (#213 item 3)
+- id: claims/sepsis-lf-4.0/59f06067
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '5.13'
+  section: '5.7'
+  label: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock, die länger als 24 Stunden invasiv beatmet wurden, ein Protokoll zur Entwöhnung von der invasiven Beatmung (Weaning-Protokoll) anzuwenden, um standardisiert die Bewertung der Entwöhnungsbereitschaft (Readiness to Wean) zu evaluieren, die Spontanatmungsversuche (Spontaneous Breathing Trial) durchzuführen und die Kriterien zur Beendigung der invasiven Beatmung bzw. Extubation/Dekanülierung zu überprüfen."
+  grade: Stark
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/beatmungsdauer, value: "Moderat", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=85
+    quote: "Wir empfehlen bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=85, quote: "Stark"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=85, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=85, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=85, quote: "Beatmungsdauer:"}
+# a rule inside the box sentence, „(PaO2/FiO2 < 150 mmHg)“, stays in this claim without a threshold (#213 item 3); Oxford level for the whole box (#215)
+- id: claims/sepsis-lf-4.0/d75eafe7
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '5.14'
+  section: '5.8'
+  label: "Wir empfehlen, bei invasiv beatmeten Patienten mit Sepsis oder septischem Schock und ARDS sowie Einschränkung der arteriellen Oxygenierung (PaO2/FiO2 < 150 mmHg) eine Bauchlagerung durchzuführen."
+  grade: Stark
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {value: "1", system: oxford_loe}
+  source:
+    at: sources/sepsis-lf-4.0#page=86
+    quote: "Wir empfehlen, bei invasiv beatmeten Patienten mit Sepsis oder"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=86, quote: "Stark"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=86, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=86, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=86, quote: "Evidenzgrad: 1"}
+      - {at: sources/sepsis-lf-4.0#page=147, quote: "nach GRADE und Oxford 2011 gekennzeichnet."}
+# 5.15, first sentence; both sentences carry the box's Oxford level (#215)
+- id: claims/sepsis-lf-4.0/6c4a6eff
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '5.15'
+  section: '5.8'
+  label: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock eine Bauchlagerung über mindestens 12 Stunden, vorzugsweise 16 Stunden durchzuführen."
+  grade: Stark
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {value: "1", system: oxford_loe}
+  source:
+    at: sources/sepsis-lf-4.0#page=86
+    quote: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=86, quote: "Stark"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=86, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=86, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=86, quote: "Evidenzgrad: 1"}
+      - {at: sources/sepsis-lf-4.0#page=147, quote: "nach GRADE und Oxford 2011 gekennzeichnet."}
+# 5.15, second sentence; its first words share a layout line with the end of the first
+- id: claims/sepsis-lf-4.0/9b9d02bb
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '5.15'
+  section: '5.8'
+  label: "Wir empfehlen die Bauchlagerung frühzeitig zu erwägen und nach Indikationsstellung unverzüglich umzusetzen."
+  grade: Stark
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {value: "1", system: oxford_loe}
+  source:
+    at: sources/sepsis-lf-4.0#page=86
+    quote: "Wir empfehlen die Bauchlagerung"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=86, quote: "Stark"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=86, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=86, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=86, quote: "Evidenzgrad: 1"}
+      - {at: sources/sepsis-lf-4.0#page=147, quote: "nach GRADE und Oxford 2011 gekennzeichnet."}
+# the row prints „Mortalität“ without a colon; the word also stands in the page's body text (#215)
+- id: claims/sepsis-lf-4.0/5ec1345c
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '5.16'
+  section: '5.9'
+  label: "Wir schlagen vor, den Einsatz einer veno-venösen ECMO bei Patienten mit Sepsis oder septischem Schock und schwerem ARDS nur nach Ausschöpfen der konservativen Therapiemaßnahmen, einschließlich der Durchführung einer Bauchlagerung und fortbestehender schwerer Gasaustauschstörung zu erwägen."
+  grade: Schwach
+  verb: schlagen vor
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/mortalitaet, value: "Sehr niedrig", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=87
+    quote: "Wir schlagen vor, den Einsatz einer veno-venösen ECMO bei Pa-"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=87, quote: "Schwach"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=87, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=87, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=87, quote: "Mortalität"}
+
+# ── body text (spec §5.1): kind by form, never graded; its edge is in data/edges/sepsis-lf-4.0/ch05.yaml ──
+# p. 75, the first answer of its sentence (§5.1 K): the bound of „mildem ARDS“ (R → 5.5); the rule of concepts/mildes-ards
+- id: claims/sepsis-lf-4.0/389a1238
+  type: claim
+  lang: de
+  kind: criterion
+  section: '5.2'
+  label: "Patienten mit mildem ARDS (P/F Ratio 201-300)"
+  threshold:
+    {quantity: concepts/pao2-fio2-verhaeltnis, comparator: "between", value: "201-300"}
+  source:
+    at: sources/sepsis-lf-4.0#page=75
+    quote: "Patienten mit mildem ARDS (P/F Ratio 201-300)"
+# p. 75, the second answer of the same sentence (§5.1 K): the values the table's setting stands for (R → 5.5); no threshold, a PEEP says how
+- id: claims/sepsis-lf-4.0/4fd97fa9
+  type: claim
+  lang: de
+  kind: criterion
+  section: '5.2'
+  label: "Die niedrig-PEEP-FiO2-Tabelle führt bei Patienten mit mildem ARDS (P/F Ratio 201-300) typischerweise zu PEEP-Werten zwischen 5 und 8 cmH2O, sofern ein PaO2 zwischen 60 und 90 mmHg angestrebt wird."
+  source:
+    at: sources/sepsis-lf-4.0#page=75
+    quote: "scherweise zu PEEP-Werten zwischen 5 und 8 cmH2O, sofern ein PaO2 zwischen 60 und 90"
+# Tabelle 4, which box 5.5 names: one answer, one claim (#213 item 2); no threshold, a PEEP setting says how
+- id: claims/sepsis-lf-4.0/0bf02939
+  type: claim
+  lang: de
+  kind: criterion
+  section: '5.2'
+  label: "Tabelle 4: ARDS Netzwerk Tabelle \"lower PEEP/higher FiO2\": FiO2 0,3 – PEEP 5; 0,4 – 5; 0,4 – 8; 0,5 – 8; 0,5 – 10; 0,6 – 10; 0,7 – 10; 0,7 – 12; 0,7 – 14; 0,8 – 14; 0,9 – 14; 0,9 – 16; 0,9 – 18; 1 – 18-24"
+  source:
+    at: sources/sepsis-lf-4.0#page=76
+    quote: "Tabelle 4: ARDS Netzwerk Tabelle \"lower PEEP/higher FiO2\""
+# p. 76, reported from a meta-analysis: passes G2 by its exception, a value the wording of 5.6 and 5.7 („moderatem oder schwerem ARDS“) needs and the guideline gives nowhere else; the rule of concepts/moderates-oder-schweres-ards
+- id: claims/sepsis-lf-4.0/078149f2
+  type: claim
+  lang: de
+  kind: criterion
+  section: '5.2'
+  label: "Patienten mit moderatem bis schwerem ARDS (P/F < 201 mmHg)"
+  threshold:
+    {quantity: concepts/pao2-fio2-verhaeltnis, comparator: "<", value: "201", unit: mmHg}
+  source:
+    at: sources/sepsis-lf-4.0#page=76
+    quote: "bis schwerem ARDS (P/F < 201 mmHg)"
+# Tabelle 5, row 1 of 7 (the table box 5.7 names): its column „Empfohlenes Vorgehen“ instructs; no verb, the head is not the row's wording; Literatur column left out
+- id: claims/sepsis-lf-4.0/d0b901fb
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '5.2'
+  label: "PEEP/FiO2-Tabelle: Oxygenierung (PaO2/FiO2-Verhältnis / ersatzweise SpO2/FiO2); Ersteinstellung nach Niedrig-PEEP/FiO2-Tabelle, bei PaO2/FiO2-Verhältnis < 200 Wechsel auf Hoch-PEEP/FiO2-Tabelle. Bei klinischer Verbesserung (z. B. PaO2/FiO2-Anstieg > 25 mmHg) Hoch-PEEP-Strategie beibehalten, andernfalls PEEP-Absenkung erwägen"
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=78
+    quote: "Ersteinstellung nach Niedrig-PEEP/FiO2-Tabelle, bei PaO2/FiO2-Verhältnis"
+  provenance:
+    direction: {at: sources/sepsis-lf-4.0#page=78, quote: "Empfohlenes Vorgehen zur PEEP-Einstellung"}
+# Tabelle 5, row 2 of 7 (the table box 5.7 names): its column „Empfohlenes Vorgehen“ instructs; no verb, the head is not the row's wording; Literatur column left out
+- id: claims/sepsis-lf-4.0/0b66edc5
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '5.2'
+  label: "Quasistatische Druck-Volumen-Kurve: Globale Compliance; Bestimmung der volumenabhängigen Compliance mittels quasistatischer Druck-Volumen-Kurve (\"Low-Flow-Kurve\"); Beatmung im Bereich der besten Compliance (PEEP 2 mbar oberhalb des \"unteren Inflektionspunktes\" des inspiratorischen Teils der Low-Flow-Kurve einstellen)"
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=78
+    quote: "Bestimmung der volumenabhängigen Compliance mittels quasistatischer"
+  provenance:
+    direction: {at: sources/sepsis-lf-4.0#page=78, quote: "Empfohlenes Vorgehen zur PEEP-Einstellung"}
+# Tabelle 5, row 3 of 7 (the table box 5.7 names): its column „Empfohlenes Vorgehen“ instructs; no verb, the head is not the row's wording; Literatur column left out
+- id: claims/sepsis-lf-4.0/49942e5d
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '5.2'
+  label: "Dekrementeller PEEP-Trial: Globale Compliance; Schrittweise Absenkung des PEEP (dekrementeller PEEP-Trial) beginnend bei 24 mbar (soweit hämodynamisch toleriert) bis ca. 5 mbar unter Messung der globalen Compliance des respiratorischen Systems (CRS). Absenkungsschritte von 2-3 mbar, kleines VT und DeltaP, PEEP-Einstellung im Bereich der besten Compliance (niedrigster PEEP der einen Abfall der CRS verhindert)."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=78
+    quote: "Schrittweise Absenkung des PEEP (dekrementeller PEEP-Trial) beginnend"
+  provenance:
+    direction: {at: sources/sepsis-lf-4.0#page=78, quote: "Empfohlenes Vorgehen zur PEEP-Einstellung"}
+# Tabelle 5, row 4 of 7 (the table box 5.7 names): its column „Empfohlenes Vorgehen“ instructs; no verb, the head is not the row's wording; Literatur column left out
+- id: claims/sepsis-lf-4.0/0e1e8b85
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '5.2'
+  label: "Dekrementeller PEEP-Trial: Regionale Complianceänderungen, ermittelt mit Elektrischer Impedanz-tomographie (EIT): Überdehnung (regionaler Complianceverlust bei höherem PEEP) vs. Alveolarkollaps (regionaler Complianceverlust bei niedrigerem PEEP); Dekrementeller PEEP-Trial unter druckkontrollierter Beatmung mit konstant niedrigem DeltaP (z. B. 10-12 mbar) unter Monitoring mit EIT, PEEP-Absenkungsschritte von 2-3 mbar; Auswertung von regionaler Überdehnung und Alveolarkollaps anhand regionaler Complianceänderungen. PEEP-Einstellung so, dass sowohl Überdehnung als auch Alveolarkollaps minimiert, z. B. auf den Kreuzungspunkt von Überdehnung und Kollaps."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=78
+    quote: "Dekrementeller PEEP-Trial unter druckkontrollierter Beatmung mit kon-"
+  provenance:
+    direction: {at: sources/sepsis-lf-4.0#page=78, quote: "Empfohlenes Vorgehen zur PEEP-Einstellung"}
+# Tabelle 5, row 5 of 7 (the table box 5.7 names): its column „Empfohlenes Vorgehen“ instructs; no verb, the head is not the row's wording; Literatur column left out
+- id: claims/sepsis-lf-4.0/a8edfc60
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '5.2'
+  label: "Inkrementeller PEEP-Trial: Globale Compliance; PEEP ausgehend von 5 mbar in Schritten von 2 mbar erhöhen, solange die Compliance zunimmt. PEEP-Einstellung auf den Wert mit der höchsten globalen Compliance"
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=79
+    quote: "PEEP ausgehend von 5 mbar in Schritten von 2 mbar erhöhen, solange"
+  provenance:
+    direction: {at: sources/sepsis-lf-4.0#page=78, quote: "Empfohlenes Vorgehen zur PEEP-Einstellung"}
+# Tabelle 5, row 6 of 7 (the table box 5.7 names): its column „Empfohlenes Vorgehen“ instructs; no verb, the head is not the row's wording; Literatur column left out
+- id: claims/sepsis-lf-4.0/1e4db4d3
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '5.2'
+  label: "Ösophagusdruckmessung: Endexspiratorischer transpulmonaler Druck; Bei negativen endexspiratorischen transpulmonalen Drücken (PTPe) PEEP-Erhöhung, bei positiven PTPe PEEP-Senkung, Ziel: PTPe = 0 (±2)"
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=79
+    quote: "Bei negativen endexspiratorischen transpulmonalen Drücken (PTPe)"
+  provenance:
+    direction: {at: sources/sepsis-lf-4.0#page=78, quote: "Empfohlenes Vorgehen zur PEEP-Einstellung"}
+# Tabelle 5, row 7 of 7 (the table box 5.7 names): its column „Empfohlenes Vorgehen“ instructs; no verb, the head is not the row's wording; Literatur column left out
+- id: claims/sepsis-lf-4.0/1dda15fe
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '5.2'
+  label: "Lungen-Ultraschall: Reaeration Score; Summations-Score aus 12 Regionen der Lungen (6 pro Thoraxhälfte). Score: normaler Ultraschall-Muster=0, gut abtrennbarer B-Linien=1, zusammenfließende B-Linien=2, Konsolidierungsmuster=3"
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=79
+    quote: "Summations-Score aus 12 Regionen der Lungen (6 pro Thoraxhälfte)."
+  provenance:
+    direction: {at: sources/sepsis-lf-4.0#page=78, quote: "Empfohlenes Vorgehen zur PEEP-Einstellung"}
+# p. 82: the exception to 5.10 (L); „kann“ is the AWMF wording POMGAT's scheme defines as open, so it reads abwägen
+- id: claims/sepsis-lf-4.0/33aabf71
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '5.4'
+  label: "Dennoch kann in Einzelfällen unter individueller Nutzen-Risiko-Abwägung ein solches Manöver durchgeführt werden."
+  verb: kann
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=82
+    quote: "kann in Einzelfällen unter individueller Nutzen-Risiko-Abwägung ein solches Manöver"
+# p. 86: the technique „Bauchlage“ stands for (R → 5.14 and both sentences of 5.15); no threshold, it says how
+- id: claims/sepsis-lf-4.0/d9f6747f
+  type: claim
+  lang: de
+  kind: criterion
+  section: '5.8'
+  label: "Bei der Bauchlage wird der Patient um 180° in seiner Längsachse gedreht."
+  source:
+    at: sources/sepsis-lf-4.0#page=86
+    quote: "Bauchlage wird der Patient um 180° in seiner Längsachse gedreht."

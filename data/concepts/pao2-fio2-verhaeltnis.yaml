@@ -1,0 +1,8 @@
+# The quantity of the thresholds of chapter 5 of sources/sepsis-lf-4.0 (card #223): printed as „P/F Ratio“ (p. 75),
+# „P/F“ (p. 76), „PaO2/FiO2“ (5.12, 5.14) and „PaO2/FiO2-Verhältnis“ (Tabelle 5, p. 78), the label taken from the last.
+id: concepts/pao2-fio2-verhaeltnis
+type: concept
+lang: de
+label: "PaO2/FiO2-Verhältnis"
+facet: finding
+source: modelling
