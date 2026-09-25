@@ -1,0 +1,10 @@
+# Sepsis S3, 2.3: convention row 11; „Erwachsenen“ is the guideline's scope and gives no condition (card #218).
+id: statements/laktatmessung-bei-verdacht-auf-sepsis
+type: statement
+lang: de
+label: "Bei Erwachsenen mit Verdacht auf Sepsis wird empfohlen, eine Messung des Laktats im Blut durchzuführen."
+short_label: "Laktat im Blut messen bei Verdacht auf Sepsis"
+slots:
+  population: concepts/verdacht-auf-sepsis
+  action: concepts/messung-des-laktats-im-blut
+source: modelling

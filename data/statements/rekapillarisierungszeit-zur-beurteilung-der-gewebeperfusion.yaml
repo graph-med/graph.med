@@ -1,0 +1,10 @@
+# Sepsis S3, 2.10: convention row 4 (card #218).
+id: statements/rekapillarisierungszeit-zur-beurteilung-der-gewebeperfusion
+type: statement
+lang: de
+label: "Bei Patienten mit septischem Schock wird vorgeschlagen, die Rekapillarisierungszeit zur Beurteilung der Gewebeperfusion zu nutzen."
+short_label: "Rekapillarisierungszeit zur Perfusionsbeurteilung"
+slots:
+  population: concepts/septischer-schock
+  action: concepts/rekapillarisierungszeit-zur-beurteilung-der-gewebeperfusion
+source: modelling

@@ -1,0 +1,10 @@
+# Sepsis S3, 2.7: convention row 1 (card #218).
+id: statements/vasopressoren-periphervenoes
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock wird vorgeschlagen, Vasopressoren auch periphervenös zu applizieren, um den MAP auf ≥ 65 mmHg anzuheben, und nicht auf die Anlage eines ZVK zu warten."
+short_label: "Vasopressoren auch periphervenös, nicht auf ZVK warten"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/periphervenoese-applikation-von-vasopressoren
+source: modelling

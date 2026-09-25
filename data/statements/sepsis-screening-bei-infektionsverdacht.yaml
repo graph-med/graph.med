@@ -1,0 +1,11 @@
+# Sepsis S3, 2.2: convention rows 11 and 16 (card #218).
+id: statements/sepsis-screening-bei-infektionsverdacht
+type: statement
+lang: de
+label: "Bei Patienten außerhalb der Intensivstation, bei denen der Verdacht auf eine Infektion besteht, wird empfohlen, regelmäßig ein geeignetes Screeninginstrument anzuwenden, um eine Sepsis frühzeitig zu erkennen."
+short_label: "Regelmäßiges Sepsis-Screening bei Infektionsverdacht"
+slots:
+  population: concepts/verdacht-auf-eine-infektion
+  action: concepts/regelmaessige-anwendung-eines-screeninginstruments
+  condition: [concepts/ausserhalb-der-intensivstation]
+source: modelling

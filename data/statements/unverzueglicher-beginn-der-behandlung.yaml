@@ -1,0 +1,10 @@
+# Sepsis S3, 2.4: „Sepsis und septischer Schock“ is the standing disjunction, the root (convention row 2) (card #218).
+id: statements/unverzueglicher-beginn-der-behandlung
+type: statement
+lang: de
+label: "Sepsis und septischer Schock sind medizinische Notfälle; es wird empfohlen, mit der Behandlung und der hämodynamischen Stabilisierung unverzüglich zu beginnen."
+short_label: "Behandlung und Stabilisierung unverzüglich beginnen"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/unverzueglicher-beginn-der-behandlung-und-haemodynamischen-stabilisierung
+source: modelling

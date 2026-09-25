@@ -1,0 +1,11 @@
+# Sepsis S3, 2.6: convention row 9 (card #218).
+id: statements/map-zielwert-65-mmhg
+type: statement
+lang: de
+label: "Bei Patienten mit septischem Schock, die Vasopressoren benötigen, wird für den mittleren arteriellen Druck (MAP) ein anfänglicher Zielwert in Höhe von 65 mmHg empfohlen (im Vergleich zu höheren Werten)."
+short_label: "Anfänglicher MAP-Zielwert 65 mmHg bei Vasopressorbedarf"
+slots:
+  population: concepts/septischer-schock
+  action: concepts/anfaenglicher-map-zielwert-65-mmhg
+  condition: [concepts/vasopressorbedarf]
+source: modelling

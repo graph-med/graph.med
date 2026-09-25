@@ -1,0 +1,8 @@
+# The action of 2.5 (p. 29). Card #218.
+id: concepts/kristalloide-loesung-30-ml-kg-in-den-ersten-3-stunden
+type: concept
+lang: de
+label: "Intravenöse kristalloide Lösung, als Richtwert 30 mL/kg innerhalb der ersten 3 Stunden"
+short_label: "30 mL/kg kristalloide Lösung in den ersten 3 Stunden"
+facet: intervention
+source: modelling

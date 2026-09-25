@@ -1,0 +1,10 @@
+# Sepsis S3, 2.11: convention row 1 (card #218).
+id: statements/dynamische-variablen-zur-fluessigkeitssteuerung
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock wird vorgeschlagen, bevorzugt dynamische gegenüber statischen Variablen zu verwenden, um eine Flüssigkeitstherapie zu steuern."
+short_label: "Dynamische statt statischer Variablen zur Steuerung"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/dynamische-variablen-zur-steuerung-der-fluessigkeitstherapie
+source: modelling

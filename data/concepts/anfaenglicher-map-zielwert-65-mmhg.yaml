@@ -1,0 +1,8 @@
+# The action of 2.6 (p. 30). Card #218.
+id: concepts/anfaenglicher-map-zielwert-65-mmhg
+type: concept
+lang: de
+label: "Anfänglicher Zielwert für den mittleren arteriellen Druck (MAP) in Höhe von 65 mmHg"
+short_label: "Anfänglicher MAP-Zielwert 65 mmHg"
+facet: intervention
+source: modelling
