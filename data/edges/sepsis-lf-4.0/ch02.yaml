@@ -1,0 +1,122 @@
+# Edges minted with chapter 2 of sources/sepsis-lf-4.0 (card #218), all modelling: the supports edges of its
+# box sentences, the defined_by edges #217's ledger gives this card, the body-text edges of spec §5.1 (the
+# rationale names the clause and the term as printed), and the cross-statement edges within the chapter.
+
+# evidence (spec §5): claim → statement
+- [claims/sepsis-lf-4.0/30d30cf1, supports, statements/qualitaetssicherungsprogramm-sepsis, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 2.1: „Wir empfehlen Krankenhäusern ein Qualitätssicherungsprogramm zum Thema Sepsis, einschließlich …“ — der Satz der Empfehlung, den die Aussage wiedergibt."}]
+- [claims/sepsis-lf-4.0/e938350b, supports, statements/sepsis-screening-bei-infektionsverdacht, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 2.2: „Wir empfehlen bei Patienten außerhalb der Intensivstation, bei denen …“ — der Satz der Empfehlung, den die Aussage wiedergibt."}]
+- [claims/sepsis-lf-4.0/8048426b, supports, statements/laktatmessung-bei-verdacht-auf-sepsis, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 2.3: „Wir empfehlen bei Erwachsenen mit Verdacht auf Sepsis eine …“ — der Satz der Empfehlung, den die Aussage wiedergibt."}]
+- [claims/sepsis-lf-4.0/c4165747, supports, statements/unverzueglicher-beginn-der-behandlung, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 2.4, Satz 1: „Sepsis und septischer Schock sind medizinische Notfälle.“ — eine Tatsache, die den Grund der Empfehlung in Satz 2 gibt (spec §3.1)."}]
+- [claims/sepsis-lf-4.0/2ab92a83, supports, statements/unverzueglicher-beginn-der-behandlung, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 2.4, Satz 2: „Wir empfehlen, dass mit der Behandlung und der hämodynamischen Stabilisierung unverzüglich begonnen wird.“"}]
+- [claims/sepsis-lf-4.0/17699f98, supports, statements/initiale-kristalloide-loesung-30-ml-kg, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 2.5: „Wir schlagen vor, bei Patienten mit Sepsis-induzierter Hypoperfusion oder …“ — der Satz der Empfehlung, den die Aussage wiedergibt."}]
+- [claims/sepsis-lf-4.0/0bc177c9, supports, statements/map-zielwert-65-mmhg, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 2.6: „Wir empfehlen bei Patienten mit septischem Schock, die Vasopressoren …“ — der Satz der Empfehlung, den die Aussage wiedergibt."}]
+- [claims/sepsis-lf-4.0/7241a536, supports, statements/vasopressoren-periphervenoes, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 2.7: „Wir schlagen vor, bei Patienten mit Sepsis oder septischem …“ — der Satz der Empfehlung, den die Aussage wiedergibt."}]
+- [claims/sepsis-lf-4.0/a12a35b2, supports, statements/fluessigkeitsgaben-nach-bolus-nur-bei-hypoperfusion, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 2.8: „Wir empfehlen, bei Patienten mit Sepsis oder septischem Schock, …“ — der Satz der Empfehlung, den die Aussage wiedergibt."}]
+- [claims/sepsis-lf-4.0/216fafdb, supports, statements/laktatgesteuerte-fluessigkeitstherapie, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 2.9: „Wir schlagen vor, bei Patienten mit Sepsis oder septischem …“ — der Satz der Empfehlung, den die Aussage wiedergibt."}]
+- [claims/sepsis-lf-4.0/8da55724, supports, statements/rekapillarisierungszeit-zur-beurteilung-der-gewebeperfusion, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 2.10: „Wir schlagen vor, bei Patienten mit septischem Schock die …“ — der Satz der Empfehlung, den die Aussage wiedergibt."}]
+- [claims/sepsis-lf-4.0/77b81e6f, supports, statements/dynamische-variablen-zur-fluessigkeitssteuerung, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 2.11: „Wir schlagen vor, bei Patienten mit Sepsis oder septischem …“ — der Satz der Empfehlung, den die Aussage wiedergibt."}]
+- [claims/sepsis-lf-4.0/2a1f1568, supports, statements/echokardiographie-herzfunktion-und-volumenstatus, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 2.12: „Wir schlagen vor, bei Patienten mit Sepsis oder septischem …“ — der Satz der Empfehlung, den die Aussage wiedergibt."}]
+# definition (spec §3.2, §5): one defined_by edge per concept, to the claim at the top of its rule
+- [concepts/sepsis, defined_by, claims/sepsis-lf-4.0/aef24406, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "„Eine Sepsis ist eine akut lebensbedrohliche Organdysfunktion, hervorgerufen durch eine inadäquate Wirtsantwort auf eine Infektion.“ — Definition 1, Satz 1 (S. 22): was eine Sepsis ist, in der als Definition markierten Box."}]
+- [concepts/sepsis-assoziierte-organdysfunktion, defined_by, claims/sepsis-lf-4.0/9f6a5a73, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "„Für die Diagnose einer Sepsis-assoziierten Organdysfunktion ist ein Anstieg des … SOFA Score um ≥ 2 Punkte zu verwenden.“ — Definition 1, Satz 2 (S. 22): das Kriterium, das die Organdysfunktion begründet."}]
+- [concepts/septischer-schock, defined_by, claims/sepsis-lf-4.0/0562e201, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "„Ein septischer Schock ist definiert als …“ — Definition 2 (S. 23): die Textstelle, die ihre beiden Teile, die Hypotension mit Vasopressorbedarf (MAP ≥ 65 mmHg) und den Laktatwert > 2 mmol/l, mit „Gleichzeitig“ verknüpft."}]
+- [concepts/sepsis-induzierte-hypoperfusion, defined_by, claims/sepsis-lf-4.0/59b8533d, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "„Eine Sepsis-induzierte Hypoperfusion kann sich durch … manifestieren“ und „Klinische Hinweise für eine Hypoperfusion können u. a. … sein“ (S. 29): die Textstelle, die ihre Manifestationen und klinischen Hinweise nennt; wie beide sie begründen, sagt sie nicht."}]
+# body text (spec §5.1): claim → claim
+- [claims/sepsis-lf-4.0/2db7c5a7, refines, claims/sepsis-lf-4.0/30d30cf1, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „Qualitätssicherungsprogramm zum Thema Sepsis“ — was die Programme beinhalten sollten: Screening-Tools, SOPs und Aufklärungsprogramme zur Sensibilisierung der Sepsis-Behandlung (neu: die Aufklärungsprogramme)."}]
+- [claims/sepsis-lf-4.0/904b58c8, refines, claims/sepsis-lf-4.0/30d30cf1, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „Qualitätssicherungsprogramm zum Thema Sepsis“ — worauf die Strategien zur Qualitätssicherung im Idealfall fußen: eine interdisziplinäre Kooperation zwischen allen Fachgebieten."}]
+- [claims/sepsis-lf-4.0/595e21fa, refines, claims/sepsis-lf-4.0/e938350b, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „geeignetes Screeninginstrument“ — der SOFA-Score ist in der klinischen Routine außerhalb der Intensivstation zum bettseitigen Screening ungeeignet."}]
+- [claims/sepsis-lf-4.0/406a4ffb, refines, claims/sepsis-lf-4.0/e938350b, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „geeignetes Screeninginstrument“ — eine Kombination von mehreren Sepsis-Screening-Tools erscheint geeignet, um möglichst viele Patienten zu identifizieren."}]
+- [claims/sepsis-lf-4.0/d5bc28e1, refines, claims/sepsis-lf-4.0/e938350b, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „geeignetes Screeninginstrument“ — ein Screeninginstrument, dessen Limitiationen (hinsichtlich Sensitivität und Spezifität) bekannt sind."}]
+- [claims/sepsis-lf-4.0/121b30e3, refines, claims/sepsis-lf-4.0/e938350b, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „geeignetes Screeninginstrument“ — die Kombination von mehreren Sepsis-Screening-Tools oder die Ergänzung mit Laborwerten erscheint vorteilhaft."}]
+- [claims/sepsis-lf-4.0/7148edad, refines, claims/sepsis-lf-4.0/8048426b, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „Messung des Laktats im Blut“ — auch mittels Point-of-Care Geräten: sie spart Zeit, die Werte korrelieren sehr gut mit dem Serumlaktat."}]
+- [claims/sepsis-lf-4.0/9e52d995, refines, claims/sepsis-lf-4.0/2ab92a83, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „der hämodynamischen Stabilisierung“ — wann sie entscheidend ist: bei Vorliegen einer Sepsis-induzierten Gewebehypoperfusion oder eines septischen Schocks."}]
+- [claims/sepsis-lf-4.0/10bd8fdf, refines, claims/sepsis-lf-4.0/17699f98, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „Sepsis-induzierter Hypoperfusion“ — woran sie sich manifestieren kann: akute Organdysfunktion und/oder Verringerung des Blutdrucks sowie Erhöhung des Serumlaktats."}]
+- [claims/sepsis-lf-4.0/2e230520, refines, claims/sepsis-lf-4.0/17699f98, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „Sepsis-induzierter Hypoperfusion“ — ihre klinischen Hinweise: u. a. Marmorierung der Extremitäten, Rückgang der Diurese oder eine verlängerte Rekapillarisierungszeit (> 3 s)."}]
+- [claims/sepsis-lf-4.0/09fc5c7e, refines, claims/sepsis-lf-4.0/17699f98, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „30 mL/kg“ — bezogen auf das Standardkörpergewicht; im Übrigen wiederholt der Satz die Empfehlung und zählt nur für diesen Wert (G3)."}]
+- [claims/sepsis-lf-4.0/2410ccc3, supplements, claims/sepsis-lf-4.0/2ab92a83, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "S: „mit der Behandlung und der hämodynamischen Stabilisierung“ — eine weitere Maßnahme: die erforderlichen Maßnahmen, unabhängig vom Behandlungsort, immer kritisch überprüfen."}]
+- [claims/sepsis-lf-4.0/2410ccc3, supplements, claims/sepsis-lf-4.0/17699f98, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "S: „30 mL/kg intravenöse kristalloide Lösung“ — eine weitere Maßnahme: die erforderlichen Maßnahmen, unabhängig vom Behandlungsort, immer kritisch überprüfen."}]
+- [claims/sepsis-lf-4.0/0aa8f006, supplements, claims/sepsis-lf-4.0/17699f98, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "S: „30 mL/kg intravenöse kristalloide Lösung“ — der nächste Schritt: eine weitere Flüssigkeitsgabe im Verlauf immer gegen das Risiko der Flüssigkeitsüberladung abwägen."}]
+- [claims/sepsis-lf-4.0/7a763237, supplements, claims/sepsis-lf-4.0/17699f98, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "S: „intravenöse kristalloide Lösung“ — eine Maßnahme daneben: intravaskulären Volumenstatus und Organperfusion kontinuierlich neu bewerten, um eine Unter- oder Übertherapie mit Flüssigkeit zu vermeiden."}]
+- [claims/sepsis-lf-4.0/33c881ba, refines, claims/sepsis-lf-4.0/7241a536, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „Vasopressoren auch periphervenös zu applizieren“ — für welche Zeit: nur für einen kurzen Zeitraum."}]
+- [claims/sepsis-lf-4.0/4f7d2322, refines, claims/sepsis-lf-4.0/7241a536, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „periphervenös“ — welcher Zugang: der Größe 20 G oder größer; K: eine Antwort je Glied des Satzes, Glied 1 von 2."}]
+- [claims/sepsis-lf-4.0/a5735752, refines, claims/sepsis-lf-4.0/7241a536, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „periphervenös“ — wo der Zugang liegt: so proximal wie möglich; K: eine Antwort je Glied des Satzes, Glied 2 von 2."}]
+- [claims/sepsis-lf-4.0/29dc623a, refines, claims/sepsis-lf-4.0/7241a536, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „Vasopressoren“ — welcher Wirkstoff, wann und wo: möglichst frühzeitig Noradrenalin, auch außerhalb der Intensivstation."}]
+- [claims/sepsis-lf-4.0/29dc623a, refines, claims/sepsis-lf-4.0/0bc177c9, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „Vasopressoren“ — welcher Wirkstoff und wann: möglichst frühzeitig Noradrenalin, auch außerhalb der Intensivstation, „um den angestrebten Mitteldruck zu erzielen“, den anfänglichen MAP-Zielwert der Empfehlung."}]
+- [claims/sepsis-lf-4.0/6e2bb749, refines, claims/sepsis-lf-4.0/7241a536, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „Vasopressoren auch periphervenös zu applizieren“ — welcher Wirkstoff: Noradrenalin, auch über einen periphervenösen Zugang."}]
+- [claims/sepsis-lf-4.0/269b31f7, supplements, claims/sepsis-lf-4.0/0bc177c9, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "S: „für den mittleren arteriellen Druck (MAP) einen anfänglichen Zielwert“ — eine Maßnahme daneben: im septischen Schock frühzeitig eine invasive Blutdruckmessung etablieren."}]
+- [claims/sepsis-lf-4.0/269b31f7, supplements, claims/sepsis-lf-4.0/7241a536, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "S: „um den MAP auf ≥ 65 mmHg anzuheben“ — eine Maßnahme daneben: im septischen Schock frühzeitig eine invasive Blutdruckmessung etablieren."}]
+- [claims/sepsis-lf-4.0/a5a4df37, refines, claims/sepsis-lf-4.0/a12a35b2, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „Flüssigkeitsgaben nach dem initialen Bolus“ — in welcher Phase wie viel: in der Initialphase möglichst rasch, anschließend zurückhaltend, sobald sich der Patient stabilisiert."}]
+- [claims/sepsis-lf-4.0/446c957b, limits, claims/sepsis-lf-4.0/a12a35b2, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "L: „nur fortzusetzen, wenn weiterhin Zeichen einer Hypoperfusion vorliegen“ — nimmt die Fälle heraus, in denen nicht davon auszugehen ist, dass der Patient von einer weiteren Volumengabe profitieren wird."}]
+- [claims/sepsis-lf-4.0/92eacff5, supplements, claims/sepsis-lf-4.0/216fafdb, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "S: „eine erhöhte Laktatkonzentration im Blut“ — eine Maßnahme daneben: den Serumlaktatspiegel im klinischen Kontext und unter Berücksichtigung anderer Ursachen für ein erhöhtes Laktat bewerten."}]
+- [claims/sepsis-lf-4.0/10e6fd29, refines, claims/sepsis-lf-4.0/216fafdb, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „eine erhöhte Laktatkonzentration im Blut zu senken“ — bei erhöhten Laktatwerten infolge einer Gewebehypoperfusion, mit dem Ziel ihrer Normalisierung."}]
+- [claims/sepsis-lf-4.0/a064371e, refines, claims/sepsis-lf-4.0/a12a35b2, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „wiederholte Kontrollen des hämodynamischen Status“ — eine detaillierte Beurteilung des intravasalen Flüssigkeitsstatus und der Organperfusion, kontinuierlich wiederholt hinsichtlich des Ansprechens auf die Behandlung."}]
+- [claims/sepsis-lf-4.0/61ef9da3, refines, claims/sepsis-lf-4.0/a12a35b2, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „wiederholte Kontrollen des hämodynamischen Status“ — was eine wiederholte Beurteilung beinhalten sollte: klinische Untersuchung, die verfügbaren physiologischen Variablen und weitere Überwachungsmaßnahmen."}]
+- [claims/sepsis-lf-4.0/c9907a30, refines, claims/sepsis-lf-4.0/77b81e6f, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „statischen Variablen“ — der zentrale Venendruck als statischer Vorlastparameter, zur Steuerung der Flüssigkeitstherapie aufgegeben."}]
+- [claims/sepsis-lf-4.0/dc6aba07, refines, claims/sepsis-lf-4.0/77b81e6f, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „dynamische … Variablen“ — welche Techniken: Schlagvolumenvariation, Pulsdruckkurvenvariation in Reaktion auf Flüssigkeitsbolusgaben oder den passiven Beinhebeversuch."}]
+- [claims/sepsis-lf-4.0/847c6787, refines, claims/sepsis-lf-4.0/2a1f1568, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „eine Echokardiographie“ — transthorakal (TTE) und transösophageal (TEE), insbesondere bei kardialer Dysfunktion im septischen Schock."}]
+- [claims/sepsis-lf-4.0/8048bab3, refines, claims/sepsis-lf-4.0/2a1f1568, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „zur Beurteilung … des Volumenstatus“ — mittels Durchmesser und Atemvariabilität der V. cava inferior, für entsprechend erfahrene Untersucher."}]
+- [claims/sepsis-lf-4.0/89bebbc1, supplements, claims/sepsis-lf-4.0/2a1f1568, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "S: „zur Beurteilung der Herzfunktion und des Volumenstatus“ — eine Maßnahme daneben: makrohämodynamische Größen kombiniert mit klinischen und laborchemischen Zeichen der mikrovaskulären Perfusion betrachten."}]
+# cross-statement semantics (spec §5): statement → statement, within chapter 2
+- [statements/sepsis-screening-bei-infektionsverdacht, complements, statements/qualitaetssicherungsprogramm-sepsis, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 2.1 schließt „eines Sepsis-Screenings“ ein; Empfehlung 2.2 sagt, bei wem und wie: regelmäßig, mit einem geeigneten Screeninginstrument, bei Patienten außerhalb der Intensivstation mit Verdacht auf eine Infektion."}]
+- [statements/initiale-kristalloide-loesung-30-ml-kg, specializes, statements/unverzueglicher-beginn-der-behandlung, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Die initiale Flüssigkeitsgabe der Empfehlung 2.5 ist, wie S. 29 sagt, „Teil dieser Notfallbehandlung“: die Form, in der die hämodynamische Stabilisierung der Empfehlung 2.4 bei Sepsis-induzierter Hypoperfusion oder septischem Schock beginnt."}]
+- [statements/vasopressoren-periphervenoes, complements, statements/map-zielwert-65-mmhg, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 2.7: Vasopressoren auch periphervenös, „um den MAP auf ≥ 65 mmHg anzuheben“ — der Zugangsweg, auf dem der MAP-Zielwert der Empfehlung 2.6 ohne Warten auf einen ZVK erreicht wird."}]
+- [statements/fluessigkeitsgaben-nach-bolus-nur-bei-hypoperfusion, complements, statements/initiale-kristalloide-loesung-30-ml-kg, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 2.8: „Flüssigkeitsgaben nach dem initialen Bolus“ — was auf die initiale Flüssigkeitsgabe der Empfehlung 2.5 folgt."}]
+- [statements/dynamische-variablen-zur-fluessigkeitssteuerung, complements, statements/laktatgesteuerte-fluessigkeitstherapie, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlungen 2.9 und 2.11 nennen je eine Grundlage, die Flüssigkeitstherapie „zu steuern“: die Laktatkonzentration im Blut und dynamische Variablen."}]
+- [statements/rekapillarisierungszeit-zur-beurteilung-der-gewebeperfusion, complements, statements/laktatgesteuerte-fluessigkeitstherapie, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 2.10: die Rekapillarisierungszeit „zur Beurteilung der Gewebeperfusion“ — neben dem Laktat der Empfehlung 2.9, das S. 34 ein „Surrogat für die Gewebeperfusion“ nennt."}]

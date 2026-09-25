@@ -1,0 +1,8 @@
+# A measured quantity, named by the threshold that bounds it (spec §3.1): „eine verlängerte
+# Rekapillarisierungszeit (> 3 s)“, a clinical sign of hypoperfusion on p. 29. Card #218.
+id: concepts/rekapillarisierungszeit
+type: concept
+lang: de
+label: "Rekapillarisierungszeit"
+facet: finding
+source: modelling

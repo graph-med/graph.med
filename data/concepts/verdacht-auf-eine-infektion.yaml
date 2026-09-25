@@ -1,0 +1,8 @@
+# The population of 2.2 („bei Patienten außerhalb der Intensivstation, bei denen der Verdacht auf eine
+# Infektion besteht“, p. 25): a group wider than the target group (convention row 11). Stated. Card #218.
+id: concepts/verdacht-auf-eine-infektion
+type: concept
+lang: de
+label: "Verdacht auf eine Infektion"
+facet: patient_state
+source: modelling

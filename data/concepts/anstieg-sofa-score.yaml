@@ -1,0 +1,9 @@
+# A measured quantity, named by the threshold that bounds it (spec §3.1): the rise of the SOFA score in
+# Definition 1's criterion (p. 22), labelled as printed there. Card #218.
+id: concepts/anstieg-sofa-score
+type: concept
+lang: de
+label: "Anstieg des Sequential Organ Failure Assessment (SOFA) Score"
+short_label: "Anstieg des SOFA-Scores"
+facet: finding
+source: modelling

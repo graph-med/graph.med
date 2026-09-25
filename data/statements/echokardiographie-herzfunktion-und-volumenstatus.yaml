@@ -1,0 +1,10 @@
+# Sepsis S3, 2.12: convention row 1 (card #218).
+id: statements/echokardiographie-herzfunktion-und-volumenstatus
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock wird vorgeschlagen, eine Echokardiographie zur Beurteilung der Herzfunktion und des Volumenstatus durchzuführen."
+short_label: "Echokardiographie: Herzfunktion und Volumenstatus"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/echokardiographie-zur-beurteilung-der-herzfunktion-und-des-volumenstatus
+source: modelling

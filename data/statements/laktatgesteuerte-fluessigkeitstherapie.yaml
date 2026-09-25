@@ -1,0 +1,10 @@
+# Sepsis S3, 2.9: convention row 1 (card #218).
+id: statements/laktatgesteuerte-fluessigkeitstherapie
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock wird vorgeschlagen, die Flüssigkeitstherapie mit dem Ziel zu steuern, eine erhöhte Laktatkonzentration im Blut zu senken."
+short_label: "Flüssigkeitstherapie laktatgesteuert"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/laktatgesteuerte-fluessigkeitstherapie
+source: modelling

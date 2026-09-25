@@ -1,0 +1,8 @@
+# The population of 2.5 („bei Patienten mit Sepsis-induzierter Hypoperfusion oder septischem Schock“, p. 29):
+# one concept naming the alternatives (convention row 5; spec §3.2). Stated. Card #218.
+id: concepts/sepsis-induzierte-hypoperfusion-oder-septischer-schock
+type: concept
+lang: de
+label: "Sepsis-induzierte Hypoperfusion oder septischer Schock"
+facet: patient_state
+source: modelling

@@ -1,0 +1,8 @@
+# The action of 2.12 (p. 36). Card #218.
+id: concepts/echokardiographie-zur-beurteilung-der-herzfunktion-und-des-volumenstatus
+type: concept
+lang: de
+label: "Echokardiographie zur Beurteilung der Herzfunktion und des Volumenstatus"
+short_label: "Echokardiographie: Herzfunktion und Volumenstatus"
+facet: intervention
+source: modelling

@@ -1,0 +1,7 @@
+# The endpoint of 2.3's evidence row („Diagnostische Genauigkeit:“, p. 28), #215. Card #218.
+id: concepts/diagnostische-genauigkeit
+type: concept
+lang: de
+label: "Diagnostische Genauigkeit"
+facet: outcome
+source: modelling

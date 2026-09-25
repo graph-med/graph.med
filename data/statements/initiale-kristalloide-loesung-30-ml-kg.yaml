@@ -1,0 +1,10 @@
+# Sepsis S3, 2.5: convention row 5, one concept naming the alternatives (card #218).
+id: statements/initiale-kristalloide-loesung-30-ml-kg
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis-induzierter Hypoperfusion oder septischem Schock wird vorgeschlagen, innerhalb der ersten 3 Stunden als Richtwert 30 mL/kg intravenöse kristalloide Lösung zu verabreichen."
+short_label: "30 mL/kg Kristalloide in den ersten 3 Stunden"
+slots:
+  population: concepts/sepsis-induzierte-hypoperfusion-oder-septischer-schock
+  action: concepts/kristalloide-loesung-30-ml-kg-in-den-ersten-3-stunden
+source: modelling
