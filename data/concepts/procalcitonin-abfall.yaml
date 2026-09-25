@@ -1,0 +1,9 @@
+# A measured quantity, named by the threshold that bounds it (spec §3.1): the fall of procalcitonin in
+# "wenn Procalcitonin um mehr als 80 % des Spitzenwertes abfällt" (p. 56, section 3.5; card #221),
+# relative to concepts/procalcitonin-spitzenwert.
+id: concepts/procalcitonin-abfall
+type: concept
+lang: de
+label: Procalcitonin-Abfall
+facet: finding
+source: modelling
