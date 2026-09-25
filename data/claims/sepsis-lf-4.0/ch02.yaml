@@ -338,16 +338,70 @@
   source:
     at: sources/sepsis-lf-4.0#page=29
     quote: "Eine Sepsis-induzierte Hypoperfusion kann sich durch eine"
-# body text, p. 29 (section 2.4): refines 2.5; a part of the rule above
+# body text, p. 29 (section 2.4): refines 2.5; a part of the rule above, itself joining its parts (spec §3.1: operators nest through claims)
 - id: claims/sepsis-lf-4.0/10bd8fdf
   type: claim
   lang: de
   kind: criterion
   section: "2.4"
   label: "Eine Sepsis-induzierte Hypoperfusion kann sich durch eine akute Organdysfunktion und/oder eine Verringerung des Blutdrucks sowie eine Erhöhung des Serumlaktats manifestieren."
+  combination:
+    operator: all_of
+    of: [claims/sepsis-lf-4.0/72c17e32, claims/sepsis-lf-4.0/28142480]
+    connective: "sowie"
+    source:
+      - {at: "sources/sepsis-lf-4.0#page=29", quote: "akute Organdysfunktion und/oder eine Verringerung des Blutdrucks sowie eine Erhöhung des"}
+    rationale: "„… eine akute Organdysfunktion und/oder eine Verringerung des Blutdrucks sowie eine Erhöhung des Serumlaktats“: „sowie“ verbindet eine Ebene über dem „und/oder“: die Gruppe aus Organdysfunktion und/oder Blutdruckabfall mit der Erhöhung des Serumlaktats, die dazu vorliegt (UND). „kann sich … manifestieren“ sagt, wie sich die Hypoperfusion zeigen kann."
   source:
     at: sources/sepsis-lf-4.0#page=29
     quote: "akute Organdysfunktion und/oder eine Verringerung des Blutdrucks sowie eine Erhöhung des"
+# p. 29: the inner group of 10bd8fdf's combination, itself joining two parts; reached through the combination (N5)
+- id: claims/sepsis-lf-4.0/72c17e32
+  type: claim
+  lang: de
+  kind: criterion
+  section: "2.4"
+  label: "eine akute Organdysfunktion und/oder eine Verringerung des Blutdrucks"
+  combination:
+    operator: any_of
+    of: [claims/sepsis-lf-4.0/6a984f3a, claims/sepsis-lf-4.0/2a247ac1]
+    connective: "und/oder"
+    source:
+      - {at: "sources/sepsis-lf-4.0#page=29", quote: "akute Organdysfunktion und/oder eine Verringerung des Blutdrucks"}
+    rationale: "„eine akute Organdysfunktion und/oder eine Verringerung des Blutdrucks“: „und/oder“ lässt jede der beiden für sich oder beide zusammen gelten (ODER, beide eingeschlossen)."
+  source:
+    at: sources/sepsis-lf-4.0#page=29
+    quote: "akute Organdysfunktion und/oder eine Verringerung des Blutdrucks"
+# p. 29: a part of 72c17e32's combination, reached through it (N5)
+- id: claims/sepsis-lf-4.0/6a984f3a
+  type: claim
+  lang: de
+  kind: criterion
+  section: "2.4"
+  label: "akute Organdysfunktion"
+  source:
+    at: sources/sepsis-lf-4.0#page=29
+    quote: "akute Organdysfunktion"
+# p. 29: a part of 72c17e32's combination, reached through it (N5)
+- id: claims/sepsis-lf-4.0/2a247ac1
+  type: claim
+  lang: de
+  kind: criterion
+  section: "2.4"
+  label: "Verringerung des Blutdrucks"
+  source:
+    at: sources/sepsis-lf-4.0#page=29
+    quote: "eine Verringerung des Blutdrucks"
+# p. 29: a part of 10bd8fdf's combination, reached through it (N5); no value printed, so no threshold; the word „Serumlaktats“ is on the next line
+- id: claims/sepsis-lf-4.0/28142480
+  type: claim
+  lang: de
+  kind: criterion
+  section: "2.4"
+  label: "Erhöhung des Serumlaktats"
+  source:
+    at: sources/sepsis-lf-4.0#page=29
+    quote: "eine Erhöhung des"
 # body text, p. 29 (section 2.4): refines 2.5; a part of the rule above, itself joining its three signs
 - id: claims/sepsis-lf-4.0/2e230520
   type: claim
@@ -552,7 +606,7 @@
   source:
     at: sources/sepsis-lf-4.0#page=32
     quote: "zudem sollte der periphere Venenzugang so proximal wie"
-# body text, p. 32 (section 2.4): refines 2.7; „möglichichst“ as printed
+# body text, p. 32 (section 2.4): refines 2.6 and 2.7 (both carry „Vasopressoren“); „möglichichst“ as printed
 - id: claims/sepsis-lf-4.0/29dc623a
   type: claim
   lang: de

@@ -77,6 +77,8 @@
    rationale: "R: „periphervenös“ — wo der Zugang liegt: so proximal wie möglich; K: eine Antwort je Glied des Satzes, Glied 2 von 2."}]
 - [claims/sepsis-lf-4.0/29dc623a, refines, claims/sepsis-lf-4.0/7241a536, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "R: „Vasopressoren“ — welcher Wirkstoff, wann und wo: möglichst frühzeitig Noradrenalin, auch außerhalb der Intensivstation."}]
+- [claims/sepsis-lf-4.0/29dc623a, refines, claims/sepsis-lf-4.0/0bc177c9, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „Vasopressoren“ — welcher Wirkstoff und wann: möglichst frühzeitig Noradrenalin, auch außerhalb der Intensivstation, „um den angestrebten Mitteldruck zu erzielen“, den anfänglichen MAP-Zielwert der Empfehlung."}]
 - [claims/sepsis-lf-4.0/6e2bb749, refines, claims/sepsis-lf-4.0/7241a536, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "R: „Vasopressoren auch periphervenös zu applizieren“ — welcher Wirkstoff: Noradrenalin, auch über einen periphervenösen Zugang."}]
 - [claims/sepsis-lf-4.0/269b31f7, supplements, claims/sepsis-lf-4.0/0bc177c9, {source: modelling, as_of: "2026-09-25", lang: de,
