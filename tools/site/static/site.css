@@ -39,10 +39,17 @@ h3 { font-size: .95rem; margin: 1rem 0 .4rem; color: var(--mute); text-transform
 ol.claims { list-style: none; padding: 0; margin: 0; }
 .foot { padding: 1rem; color: var(--mute); font-size: .8rem; border-top: 1px solid var(--line); }
 
-/* the index (docs/publication.md §2): one entry per graph — the only place the graphs meet — side by side where the
-   width allows, so that a reader compares them before choosing. The title is the entry's one link, stretched over the
-   entry; the pill below it only shows the action (the link names the graph), and the source's lines — its register
-   number, its page, its licence — lie on a surface of their own above the stretch, selectable and linked apart */
+/* the index (docs/publication.md §2): the only place the graphs meet, a view page's graph and sheet — the graph a
+   question and a box per graph (home.js), the sheet's home the page's text and one entry per graph, a tapped box its
+   entry alone. The title is the entry's one link, stretched over the entry; the pill below it only shows the action
+   (the link names the graph), and the source's lines — its register number, its page, its licence — lie on a surface
+   of their own above the stretch, selectable and linked apart. Without the graph — no script (the page sets `js` on
+   the root before it is painted), or a graph that could not be drawn (home.js sets `flat`) — the sheet is the page,
+   laid out like any other, its hint (tap a box) gone, the entries side by side where the width allows */
+main.home .sheet h1 { margin-top: .4rem; }
+:root:not(.js) main.view.home, main.view.home.flat { display: block; height: auto; max-width: 52rem; margin: 0 auto; padding: 0 1rem 2rem; }
+:root:not(.js) main.home .graph-wrap, main.home.flat .graph-wrap, :root:not(.js) main.home .sheet .hint, main.home.flat .sheet .hint { display: none; }
+:root:not(.js) main.home .sheet, main.home.flat .sheet { border: 0; padding: .6rem 0 0; }
 .home .lead, .graphs-lead { max-width: 42rem; }
 .graphs-lead { margin: 0 0 1rem; }
 ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
