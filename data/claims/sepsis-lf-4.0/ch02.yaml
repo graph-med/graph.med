@@ -1,0 +1,834 @@
+# Chapter 2 of sources/sepsis-lf-4.0, „Screening und Erstmassnahmen“ (physical pages 21–36), card #218:
+# every sentence of Definitions 1–2 and of boxes 2.1–2.12 (spec §3.1, one claim per sentence, recommendation_no
+# and section read separately), the top claim of Definition 2's rule (#204), and the body-text places that pass
+# spec §5.1 with the parts of the p. 29 rule they reach. Quotes verbatim as printed on one pdftotext -layout line.
+
+# Definition 1, p. 22 — sentence 1 of 2: what a sepsis is; concepts/sepsis is defined_by it (#217 ledger); supports no statement (spec §3.1)
+- id: claims/sepsis-lf-4.0/aef24406
+  type: claim
+  lang: de
+  kind: definition
+  recommendation_no: "Definition 1"
+  section: "2.2"
+  label: "Eine Sepsis ist eine akut lebensbedrohliche Organdysfunktion, hervorgerufen durch eine inadäquate Wirtsantwort auf eine Infektion."
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=22
+    quote: "Eine Sepsis ist eine akut lebensbedrohliche Organdysfunktion,"
+  provenance:
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=22", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=22", quote: "Konsensstärke: 100 %"}
+# Definition 1, p. 22 — sentence 2 of 2: what establishes a Sepsis-assoziierte Organdysfunktion, a criterion in a marked definition (spec §3.1); the claim's own quote breaks before the value, the two lines after print it
+- id: claims/sepsis-lf-4.0/9f6a5a73
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: "Definition 1"
+  section: "2.2"
+  label: "Für die Diagnose einer Sepsis-assoziierten Organdysfunktion ist ein Anstieg des Sequential Organ Failure Assessment (SOFA) Score um ≥ 2 Punkte zu verwenden."
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  threshold: {quantity: "concepts/anstieg-sofa-score", comparator: "≥", value: "2", unit: "Punkte"}
+  source:
+    at: sources/sepsis-lf-4.0#page=22
+    quote: "Für die Diagnose einer Sepsis-assoziierten Organdys-"
+  provenance:
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=22", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=22", quote: "Konsensstärke: 100 %"}
+    threshold:
+      - {at: "sources/sepsis-lf-4.0#page=22", quote: "funktion ist ein Anstieg des Sequential Organ Failure Assess-"}
+      - {at: "sources/sepsis-lf-4.0#page=22", quote: "ment (SOFA) Score um ≥ 2 Punkte zu verwenden."}
+# Definition 2, p. 23 — sentence 1 of 2, a part of the rule for concepts/septischer-schock (#213 checklist); the threshold is the MAP the vasopressor therapy is to reach, as printed (hard case 3, flagged for the physician)
+- id: claims/sepsis-lf-4.0/97c78ec7
+  type: claim
+  lang: de
+  kind: definition
+  recommendation_no: "Definition 2"
+  section: "2.2"
+  label: "Ein septischer Schock ist definiert als eine trotz adäquater Volumentherapie persistierende arterielle Hypotension mit der Notwendigkeit einer Therapie mit Vasopressoren, um einen mittleren arteriellen Blutdruck von ≥ 65 mmHg zu erreichen."
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  threshold: {quantity: "concepts/mittlerer-arterieller-blutdruck", comparator: "≥", value: "65", unit: "mmHg"}
+  source:
+    at: sources/sepsis-lf-4.0#page=23
+    quote: "Ein septischer Schock ist definiert als eine trotz adäquater Volu-"
+  provenance:
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=23", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=23", quote: "Konsensstärke: 100 %"}
+    threshold:
+      - {at: "sources/sepsis-lf-4.0#page=23", quote: "wendigkeit einer Therapie mit Vasopressoren, um einen mittle-"}
+      - {at: "sources/sepsis-lf-4.0#page=23", quote: "ren arteriellen Blutdruck von ≥ 65 mmHg zu erreichen."}
+# Definition 2, p. 23 — sentence 2 of 2, the other part of the rule; its first word is hyphenated over the line break („Gleichzei-“ / „tig“)
+- id: claims/sepsis-lf-4.0/4cefa23c
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: "Definition 2"
+  section: "2.2"
+  label: "Gleichzeitig muss der Laktatwert im Blut > 2 mmol/l betragen."
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  threshold: {quantity: "concepts/laktat-im-blut", comparator: ">", value: "2", unit: "mmol/l"}
+  source:
+    at: sources/sepsis-lf-4.0#page=23
+    quote: "tig muss der Laktatwert im Blut > 2 mmol/l betragen."
+  provenance:
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=23", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=23", quote: "Konsensstärke: 100 %"}
+# Definition 2, p. 23 — the top of the rule concepts/septischer-schock is defined_by (#204): the passage as a whole, joining its two sentences; counted apart from the box sentences
+- id: claims/sepsis-lf-4.0/0562e201
+  type: claim
+  lang: de
+  kind: definition
+  recommendation_no: "Definition 2"
+  section: "2.2"
+  label: "Ein septischer Schock ist definiert als eine trotz adäquater Volumentherapie persistierende arterielle Hypotension mit der Notwendigkeit einer Therapie mit Vasopressoren, um einen mittleren arteriellen Blutdruck von ≥ 65 mmHg zu erreichen. Gleichzeitig muss der Laktatwert im Blut > 2 mmol/l betragen."
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  combination:
+    operator: all_of
+    of: [claims/sepsis-lf-4.0/97c78ec7, claims/sepsis-lf-4.0/4cefa23c]
+    connective: "Gleichzei- … tig"
+    source:
+      - {at: "sources/sepsis-lf-4.0#page=23", quote: "ren arteriellen Blutdruck von ≥ 65 mmHg zu erreichen. Gleichzei-"}
+      - {at: "sources/sepsis-lf-4.0#page=23", quote: "tig muss der Laktatwert im Blut > 2 mmol/l betragen."}
+    rationale: "„Gleichzeitig muss …“ verlangt beide Teile zugleich (UND): die trotz adäquater Volumentherapie persistierende Hypotension mit Vasopressorbedarf und den Laktatwert > 2 mmol/l. Das Wort ist am Zeilenende getrennt („Gleichzei-“ … „tig“). Die Leitlinie liest ihre Definition auf derselben Seite ebenso: „(mittlerer arterieller Blutdruck von ≥ 65 mmHg UND Laktatwert > 2 mmol/l)“."
+  source:
+    at: sources/sepsis-lf-4.0#page=23
+    quote: "ren arteriellen Blutdruck von ≥ 65 mmHg zu erreichen. Gleichzei-"
+  provenance:
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=23", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=23", quote: "Konsensstärke: 100 %"}
+# Empfehlung 2.1, p. 24 (section 2.3); rated per component (#215)
+- id: claims/sepsis-lf-4.0/30d30cf1
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "2.1"
+  section: "2.3"
+  label: "Wir empfehlen Krankenhäusern ein Qualitätssicherungsprogramm zum Thema Sepsis, einschließlich eines Sepsis-Screenings für akut erkrankte Hochrisikopatienten und Standardarbeitsanweisungen (SOPs) für die Behandlung."
+  grade: "Stark"
+  verb: "empfehlen"
+  direction: "for"
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  evidence:
+    - {key: "Sepsis-Screening", value: "Moderat", system: "grade"}
+    - {key: "SOP", value: "Sehr niedrig", system: "grade"}
+  source:
+    at: sources/sepsis-lf-4.0#page=24
+    quote: "Wir empfehlen Krankenhäusern ein Qualitätssicherungspro-"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=24", quote: "Stark"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=24", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=24", quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: "sources/sepsis-lf-4.0#page=24", quote: "Sepsis-Screening:"}
+      - {at: "sources/sepsis-lf-4.0#page=24", quote: "SOP:"}
+# body text, p. 24 (section 2.3): refines 2.1
+- id: claims/sepsis-lf-4.0/2db7c5a7
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "2.3"
+  label: "Diese Programme sollten Screening-Tools, Standardarbeitsanweisungen (SOPs) und Aufklärungsprogramme zur Sensibilisierung der Sepsis-Behandlung beinhalten."
+  verb: "sollte"
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=24
+    quote: "Diese Programme sollten Screening-"
+# body text, p. 24 (section 2.3): refines 2.1
+- id: claims/sepsis-lf-4.0/904b58c8
+  type: claim
+  lang: de
+  kind: fact
+  section: "2.3"
+  label: "Strategien zur Qualitätssicherung fußen im Idealfall auf einer interdisziplinären Kooperation zwischen allen Fachgebieten."
+  source:
+    at: sources/sepsis-lf-4.0#page=24
+    quote: "Strategien zur Qualitätssicherung fußen im"
+# body text, p. 25 (section 2.3): a decline on 2.1's question (#213 item 6), a gap notice without an edge
+- id: claims/sepsis-lf-4.0/4ecf229c
+  type: claim
+  lang: de
+  kind: gap_notice
+  section: "2.3"
+  label: "Somit kann keine einzelne Maßnahme explizit empfohlen werden."
+  source:
+    at: sources/sepsis-lf-4.0#page=25
+    quote: "Somit kann keine einzelne Maß-"
+# Empfehlung 2.2, p. 25 (section 2.3)
+- id: claims/sepsis-lf-4.0/e938350b
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "2.2"
+  section: "2.3"
+  label: "Wir empfehlen bei Patienten außerhalb der Intensivstation, bei denen der Verdacht auf eine Infektion besteht, regelmäßig ein geeignetes Screeninginstrument anzuwenden, um eine Sepsis frühzeitig zu erkennen."
+  grade: "Stark"
+  verb: "empfehlen"
+  direction: "for"
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: "concepts/mortalitaet", value: "Sehr niedrig", system: "grade"}
+  source:
+    at: sources/sepsis-lf-4.0#page=25
+    quote: "Wir empfehlen bei Patienten außerhalb der Intensivstation, bei"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=25", quote: "Stark"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=25", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=25", quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: "sources/sepsis-lf-4.0#page=25", quote: "Mortalität:"}
+# body text, p. 26 (section 2.3): refines 2.2
+- id: claims/sepsis-lf-4.0/595e21fa
+  type: claim
+  lang: de
+  kind: fact
+  section: "2.3"
+  label: "Der SOFA-Score, der sechs Organsysteme nach vier Schweregraden der Organdysfunktion einstuft, ist jedoch aufwändig zu ermitteln und daher in der klinischen Routine außerhalb der Intensivstation zum bettseitigen Screening ungeeignet."
+  source:
+    at: sources/sepsis-lf-4.0#page=26
+    quote: "Der SOFA-Score, der sechs Organsysteme nach"
+# body text, p. 27 (section 2.3): refines 2.2
+- id: claims/sepsis-lf-4.0/406a4ffb
+  type: claim
+  lang: de
+  kind: fact
+  section: "2.3"
+  label: "Daher erscheint eine Kombination von mehreren Sepsis-Screening-Tools geeignet, um möglichst viele Patienten zu identifizieren."
+  source:
+    at: sources/sepsis-lf-4.0#page=27
+    quote: "Daher erscheint eine Kombination von mehreren Sepsis-Screening-Tools geeignet"
+# body text, p. 27 (section 2.3): refines 2.2; „Limitiationen“ as printed
+- id: claims/sepsis-lf-4.0/d5bc28e1
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "2.3"
+  label: "Wir schlagen vor, ein Screeninginstrument anzuwenden, dessen Limitiationen (hinsichtlich Sensitivität und Spezifität) bekannt sind."
+  verb: "schlagen vor"
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=27
+    quote: "Wir schlagen vor, ein Screeninginstrument anzuwenden, dessen Limitiationen (hinsichtlich"
+# body text, p. 27 (section 2.3): refines 2.2
+- id: claims/sepsis-lf-4.0/121b30e3
+  type: claim
+  lang: de
+  kind: fact
+  section: "2.3"
+  label: "Die Kombination von mehreren Sepsis-Screening-Tools oder die Ergänzung mit Laborwerten erscheint vorteilhaft."
+  source:
+    at: sources/sepsis-lf-4.0#page=27
+    quote: "Die Kombination von mehreren Sepsis-Screening-"
+# Empfehlung 2.3, p. 28 (section 2.3)
+- id: claims/sepsis-lf-4.0/8048426b
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "2.3"
+  section: "2.3"
+  label: "Wir empfehlen bei Erwachsenen mit Verdacht auf Sepsis eine Messung des Laktats im Blut durchzuführen."
+  grade: "Stark"
+  verb: "empfehlen"
+  direction: "for"
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: "concepts/diagnostische-genauigkeit", value: "Sehr niedrig", system: "grade"}
+  source:
+    at: sources/sepsis-lf-4.0#page=28
+    quote: "Wir empfehlen bei Erwachsenen mit Verdacht auf Sepsis eine"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=28", quote: "Stark"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=28", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=28", quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: "sources/sepsis-lf-4.0#page=28", quote: "Diagnostische"}
+# body text, p. 28 (section 2.3): refines 2.3 (the same sentence on p. 23, section 2.2, stays on the page: G1)
+- id: claims/sepsis-lf-4.0/7148edad
+  type: claim
+  lang: de
+  kind: fact
+  section: "2.3"
+  label: "Durch die Laktatmessung mittels Point-of-Care Geräten kann Zeit eingespart werden, die Werte korrelieren sehr gut mit dem Serumlaktat."
+  source:
+    at: sources/sepsis-lf-4.0#page=28
+    quote: "Durch die Laktatmessung mittels Point-of-Care Geräten"
+# Empfehlung 2.4, p. 28 — sentence 1 of 2, a fact: no grade (spec §3.1); supports sentence 2's statement, whose reason it gives
+- id: claims/sepsis-lf-4.0/c4165747
+  type: claim
+  lang: de
+  kind: fact
+  recommendation_no: "2.4"
+  section: "2.4"
+  label: "Sepsis und septischer Schock sind medizinische Notfälle."
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=28
+    quote: "Sepsis und septischer Schock sind medizinische Notfälle."
+  provenance:
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=28", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=28", quote: "Konsensstärke: 100 %"}
+# Empfehlung 2.4, p. 28 — sentence 2 of 2
+- id: claims/sepsis-lf-4.0/2ab92a83
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "2.4"
+  section: "2.4"
+  label: "Wir empfehlen, dass mit der Behandlung und der hämodynamischen Stabilisierung unverzüglich begonnen wird."
+  grade: "EK"
+  verb: "empfehlen"
+  direction: "for"
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=28
+    quote: "empfehlen, dass mit der Behandlung und der hämodynami-"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=28", quote: "EK"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=28", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=28", quote: "Konsensstärke: 100 %"}
+# body text, p. 29 (section 2.4): refines 2.4
+- id: claims/sepsis-lf-4.0/9e52d995
+  type: claim
+  lang: de
+  kind: fact
+  section: "2.4"
+  label: "Neben der frühzeitigen antiinfektiven Therapie und möglichen Fokussanierung ist eine frühzeitige hämodynamische Stabilisierung bei Vorliegen einer Sepsis-induzierten Gewebehypoperfusion oder eines septischen Schocks entscheidend."
+  source:
+    at: sources/sepsis-lf-4.0#page=29
+    quote: "mische Stabilisierung bei Vorliegen einer Sepsis-induzierten Gewebehypoperfusion oder eines"
+# body text, p. 29 (section 2.4): the top of the rule concepts/sepsis-induzierte-hypoperfusion is defined_by; not itself an answer of §5.1, so no body-text edge (N5)
+- id: claims/sepsis-lf-4.0/59b8533d
+  type: claim
+  lang: de
+  kind: criterion
+  section: "2.4"
+  label: "Eine Sepsis-induzierte Hypoperfusion kann sich durch eine akute Organdysfunktion und/oder eine Verringerung des Blutdrucks sowie eine Erhöhung des Serumlaktats manifestieren. Klinische Hinweise für eine Hypoperfusion können u. a. eine Marmorierung der Extremitäten, Rückgang der Diurese oder eine verlängerte Rekapillarisierungszeit (> 3 s) sein."
+  combination:
+    operator: not_stated
+    of: [claims/sepsis-lf-4.0/10bd8fdf, claims/sepsis-lf-4.0/2e230520]
+    rationale: "Die beiden Sätze nennen, woran sich eine Sepsis-induzierte Hypoperfusion zeigt (Manifestationen) und welche klinischen Hinweise es gibt, ohne zu sagen, wie beide zusammen sie begründen; „u. a.“ lässt die Liste der Hinweise offen."
+  source:
+    at: sources/sepsis-lf-4.0#page=29
+    quote: "Eine Sepsis-induzierte Hypoperfusion kann sich durch eine"
+# body text, p. 29 (section 2.4): refines 2.5; a part of the rule above
+- id: claims/sepsis-lf-4.0/10bd8fdf
+  type: claim
+  lang: de
+  kind: criterion
+  section: "2.4"
+  label: "Eine Sepsis-induzierte Hypoperfusion kann sich durch eine akute Organdysfunktion und/oder eine Verringerung des Blutdrucks sowie eine Erhöhung des Serumlaktats manifestieren."
+  source:
+    at: sources/sepsis-lf-4.0#page=29
+    quote: "akute Organdysfunktion und/oder eine Verringerung des Blutdrucks sowie eine Erhöhung des"
+# body text, p. 29 (section 2.4): refines 2.5; a part of the rule above, itself joining its three signs
+- id: claims/sepsis-lf-4.0/2e230520
+  type: claim
+  lang: de
+  kind: criterion
+  section: "2.4"
+  label: "Klinische Hinweise für eine Hypoperfusion können u. a. eine Marmorierung der Extremitäten, Rückgang der Diurese oder eine verlängerte Rekapillarisierungszeit (> 3 s) sein."
+  combination:
+    operator: any_of
+    of: [claims/sepsis-lf-4.0/8e060e0a, claims/sepsis-lf-4.0/048766ab, claims/sepsis-lf-4.0/e3e51742]
+    connective: "oder"
+    source:
+      - {at: "sources/sepsis-lf-4.0#page=29", quote: "morierung der Extremitäten, Rückgang der Diurese oder eine verlängerte Rekapillarisierungs-"}
+    rationale: "„… Marmorierung der Extremitäten, Rückgang der Diurese oder eine verlängerte Rekapillarisierungszeit (> 3 s)“: jeder der drei Hinweise kann für sich auf eine Hypoperfusion hinweisen (ODER); „u. a.“ sagt, dass die Liste nicht abschließend ist."
+  source:
+    at: sources/sepsis-lf-4.0#page=29
+    quote: "Klinische Hinweise für eine Hypoperfusion können u. a. eine Mar-"
+# p. 29: a sign of H2's list, reached through its combination (N5)
+- id: claims/sepsis-lf-4.0/8e060e0a
+  type: claim
+  lang: de
+  kind: criterion
+  section: "2.4"
+  label: "Marmorierung der Extremitäten"
+  source:
+    at: sources/sepsis-lf-4.0#page=29
+    quote: "morierung der Extremitäten"
+# p. 29: a sign of H2's list, reached through its combination (N5)
+- id: claims/sepsis-lf-4.0/048766ab
+  type: claim
+  lang: de
+  kind: criterion
+  section: "2.4"
+  label: "Rückgang der Diurese"
+  source:
+    at: sources/sepsis-lf-4.0#page=29
+    quote: "Rückgang der Diurese"
+# p. 29: a sign of H2's list, reached through its combination (N5); the value is printed on the next line
+- id: claims/sepsis-lf-4.0/e3e51742
+  type: claim
+  lang: de
+  kind: criterion
+  section: "2.4"
+  label: "verlängerte Rekapillarisierungszeit (> 3 s)"
+  threshold: {quantity: "concepts/rekapillarisierungszeit", comparator: ">", value: "3", unit: "s"}
+  source:
+    at: sources/sepsis-lf-4.0#page=29
+    quote: "eine verlängerte Rekapillarisierungs-"
+  provenance:
+    threshold:
+      - {at: "sources/sepsis-lf-4.0#page=29", quote: "eine verlängerte Rekapillarisierungs-"}
+      - {at: "sources/sepsis-lf-4.0#page=29", quote: "zeit (> 3 s) sein."}
+# Empfehlung 2.5, p. 29 (section 2.4)
+- id: claims/sepsis-lf-4.0/17699f98
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "2.5"
+  section: "2.4"
+  label: "Wir schlagen vor, bei Patienten mit Sepsis-induzierter Hypoperfusion oder septischem Schock innerhalb der ersten 3 Stunden als Richtwert 30 mL/kg intravenöse kristalloide Lösung zu verabreichen."
+  grade: "EK"
+  verb: "schlagen vor"
+  direction: "for"
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=29
+    quote: "Wir schlagen vor, bei Patienten mit Sepsis-induzierter Hy-"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=29", quote: "EK"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=29", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=29", quote: "Konsensstärke: 100 %"}
+# body text, p. 29 (section 2.4): refines 2.5, counting only for „(Standardkörpergewicht)“ (G3, hard case 8)
+- id: claims/sepsis-lf-4.0/09fc5c7e
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "2.4"
+  label: "Als Teil dieser Notfallbehandlung empfehlen wir, bei der initialen Flüssigkeitstherapie mit 30 ml/kg (Standardkörpergewicht) kristalloider Lösung innerhalb der ersten 3 Stunden zu beginnen."
+  verb: "empfehlen"
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=29
+    quote: "Als Teil dieser Notfallbehandlung empfehlen wir, bei der initialen Flüssigkeitstherapie mit 30"
+# body text, p. 29 (section 2.4): supplements 2.4 and 2.5; quoted by its instructing member, the first member reports studies (G2)
+- id: claims/sepsis-lf-4.0/2410ccc3
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "2.4"
+  label: "Allerdings zeigen Studien, dass die empfohlenen Maßnahmen in Notaufnahmen nur unzureichend erfolgen, daher sollten die erforderlichen Maßnahmen, unabhängig vom Behandlungsort, immer kritisch überprüft werden."
+  verb: "sollte"
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=29
+    quote: "daher sollten die erforderlichen Maßnahmen, unabhängig vom Behand-"
+# body text, p. 30 (section 2.4): supplements 2.5; „muss“ is no declared scheme's wording, so no verb
+- id: claims/sepsis-lf-4.0/0aa8f006
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "2.4"
+  label: "Diese Flüssigkeitsgabe muss aber immer gegen das Risiko der Flüssigkeitsüberladung abgewogen werden."
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=30
+    quote: "keitsgabe muss aber immer gegen das Risiko der Flüssigkeitsüberladung abgewogen werden."
+# body text, p. 30 (section 2.4): supplements 2.5
+- id: claims/sepsis-lf-4.0/7a763237
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "2.4"
+  label: "Daher ist es von zentraler Bedeutung den Zustand des Patienten mittels sorgfältiger Beurteilung des intravaskulären Volumenstatus und der Organperfusion kontinuierlich neu zu bewerten, um eine Unter- oder Übertherapie mit Flüssigkeit zu vermeiden."
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=30
+    quote: "es von zentraler Bedeutung den Zustand des Patienten mittels sorgfältiger Beurteilung des"
+# Empfehlung 2.6, p. 30 (section 2.4)
+- id: claims/sepsis-lf-4.0/0bc177c9
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "2.6"
+  section: "2.4"
+  label: "Wir empfehlen bei Patienten mit septischem Schock, die Vasopressoren benötigen, für den mittleren arteriellen Druck (MAP) einen anfänglichen Zielwert in Höhe von 65 mmHg (im Vergleich zu höheren Werten)."
+  grade: "Stark"
+  verb: "empfehlen"
+  direction: "for"
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: "concepts/mortalitaet", value: "Moderat", system: "grade"}
+  source:
+    at: sources/sepsis-lf-4.0#page=30
+    quote: "Wir empfehlen bei Patienten mit septischem Schock, die Vaso-"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=30", quote: "Stark"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=30", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=30", quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: "sources/sepsis-lf-4.0#page=30", quote: "Mortalität:"}
+# Empfehlung 2.7, p. 31 (section 2.4); the box prints „≥ 65 mmHg“ where the digest (p. 3–12) prints „> 65 mmHg“ (#210 Decision 2)
+- id: claims/sepsis-lf-4.0/7241a536
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "2.7"
+  section: "2.4"
+  label: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem Schock, Vasopressoren auch periphervenös zu applizieren, um den MAP auf ≥ 65 mmHg anzuheben und nicht auf die Anlage eines ZVK zu warten."
+  grade: "EK"
+  verb: "schlagen vor"
+  direction: "for"
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=31
+    quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=31", quote: "EK"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=31", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=31", quote: "Konsensstärke: 100 %"}
+# body text, p. 32 (section 2.4): refines 2.7
+- id: claims/sepsis-lf-4.0/33c881ba
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "2.4"
+  label: "Allerdings sollten die peripher-venöse Vasopressortherapie nur für einen kurzen Zeitraum erfolgen, da mit längerer Infusionsdauer Komplikationen zunehmen."
+  verb: "sollte"
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=32
+    quote: "Allerdings sollten die peripher-venöse Vasopressortherapie nur für einen kurzen Zeitraum er-"
+# body text, p. 32 (section 2.4): refines 2.7; member 1 of 2 of its sentence, another answer and another wording than member 2 (K)
+- id: claims/sepsis-lf-4.0/4f7d2322
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "2.4"
+  label: "Es wird ein Zugang der Größe 20 G oder größer empfohlen"
+  verb: "empfehlen"
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=32
+    quote: "Größe 20 G oder größer empfohlen"
+# body text, p. 32 (section 2.4): refines 2.7; member 2 of 2 of its sentence (K)
+- id: claims/sepsis-lf-4.0/a5735752
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "2.4"
+  label: "zudem sollte der periphere Venenzugang so proximal wie möglich platziert werden."
+  verb: "sollte"
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=32
+    quote: "zudem sollte der periphere Venenzugang so proximal wie"
+# body text, p. 32 (section 2.4): refines 2.7; „möglichichst“ as printed
+- id: claims/sepsis-lf-4.0/29dc623a
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "2.4"
+  label: "Daher sollte eine möglichichst frühzeitige Gabe von Noradrenalin auch außerhalb der Intensivstation angestrebt werden, um den angestrebten Mitteldruck zu erzielen."
+  verb: "sollte"
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=32
+    quote: "Daher sollte eine möglichichst frühzeitige Gabe von Noradrenalin auch außerhalb der"
+# body text, p. 32 (section 2.4): refines 2.7
+- id: claims/sepsis-lf-4.0/6e2bb749
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "2.4"
+  label: "Noradrenalin kann in dieser Notfallsituation auch über einen periphervenösen Zugang appliziert werden."
+  verb: "kann"
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=32
+    quote: "lin kann in dieser Notfallsituation auch über einen periphervenösen Zugang appliziert werden."
+# body text, p. 32 (section 2.4, before the heading of 2.5): supplements 2.6 and 2.7
+- id: claims/sepsis-lf-4.0/269b31f7
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "2.4"
+  label: "Eine invasive Blutdruckmessung sollte im septischen Schock frühzeitig etabliert werden."
+  verb: "sollte"
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=32
+    quote: "Eine invasive Blutdruckmessung sollte im septischen Schock frühzeitig etabliert werden."
+# Empfehlung 2.8, p. 32 (section 2.5); its status line prints „Stand :2025“
+- id: claims/sepsis-lf-4.0/a12a35b2
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "2.8"
+  section: "2.5"
+  label: "Wir empfehlen, bei Patienten mit Sepsis oder septischem Schock, Flüssigkeitsgaben nach dem initialen Bolus durch wiederholte Kontrollen des hämodynamischen Status zu begleiten und nur fortzusetzen, wenn weiterhin Zeichen einer Hypoperfusion vorliegen."
+  grade: "EK"
+  verb: "empfehlen"
+  direction: "for"
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=32
+    quote: "Wir empfehlen, bei Patienten mit Sepsis oder septischem Schock,"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=32", quote: "EK"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=32", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=32", quote: "Konsensstärke: 100 %"}
+# Empfehlung 2.9, p. 33 (section 2.5); „Mortalität:“ is printed twice on the page, this box's row is the first (#215 rule 3)
+- id: claims/sepsis-lf-4.0/216fafdb
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "2.9"
+  section: "2.5"
+  label: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem Schock, die Flüssigkeitstherapie mit dem Ziel zu steuern, eine erhöhte Laktatkonzentration im Blut zu senken."
+  grade: "Schwach"
+  verb: "schlagen vor"
+  direction: "for"
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: "concepts/mortalitaet", value: "Niedrig", system: "grade"}
+  source:
+    at: sources/sepsis-lf-4.0#page=33
+    quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=33", quote: "Schwach"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=33", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=33", quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: "sources/sepsis-lf-4.0#page=33", quote: "Mortalität:"}
+# Empfehlung 2.10, p. 33 (section 2.5); its row is the page's second „Mortalität:“ (#215 rule 3)
+- id: claims/sepsis-lf-4.0/8da55724
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "2.10"
+  section: "2.5"
+  label: "Wir schlagen vor, bei Patienten mit septischem Schock die Rekapillarisierungszeit zur Beurteilung der Gewebeperfusion zu nutzen."
+  grade: "Schwach"
+  verb: "schlagen vor"
+  direction: "for"
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: "concepts/mortalitaet", value: "Sehr niedrig", system: "grade"}
+  source:
+    at: sources/sepsis-lf-4.0#page=33
+    quote: "Wir schlagen vor, bei Patienten mit septischem Schock die Reka-"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=33", quote: "Schwach"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=33", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=33", quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: "sources/sepsis-lf-4.0#page=33", quote: "Mortalität:"}
+# body text, p. 33 (section 2.5): refines 2.8
+- id: claims/sepsis-lf-4.0/a5a4df37
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "2.5"
+  label: "Dies sollte in der Initialphase der Versorgung möglichst rasch und anschließend zurückhaltend erfolgen, sobald sich der Patient stabilisiert."
+  verb: "sollte"
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=33
+    quote: "Initialphase der Versorgung möglichst rasch und anschließend zurückhaltend erfolgen, sobald"
+# body text, p. 33 (section 2.5): limits 2.8 (hard case 11; the statement lacks the second circumstance, N3)
+- id: claims/sepsis-lf-4.0/446c957b
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "2.5"
+  label: "Nach der initialen Volumentherapie sollte die intravenöse Flüssigkeitsgabe nur weiter fortgeführt werden, wenn der Patient Zeichen einer Gewebeminderperfusion zeigt und davon auszugehen ist, dass der Patient von einer weiteren Volumengabe profitieren wird."
+  verb: "sollte"
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=33
+    quote: "Nach der initialen Volumentherapie sollte die intravenöse Flüssigkeitsgabe nur weiter fortge-"
+# body text, p. 34 (section 2.5): supplements 2.9
+- id: claims/sepsis-lf-4.0/92eacff5
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "2.5"
+  label: "Der Serumlaktatspiegel sollte daher im klinischen Kontext und unter Berücksichtigung anderer Ursachen für ein erhöhtes Laktat berücksichtigt werden."
+  verb: "sollte"
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=34
+    quote: "daher im klinischen Kontext und unter Berücksichtigung anderer Ursachen für ein erhöhtes"
+# body text, p. 34 (section 2.5): refines 2.9
+- id: claims/sepsis-lf-4.0/10e6fd29
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "2.5"
+  label: "Bei Patienten bei denen erhöhte Laktatwerte infolge einer Gewebehypoperfusion vorliegen, sollte eine Normalisierung der Laktatwerte angestrebt werden."
+  verb: "sollte"
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=34
+    quote: "infolge einer Gewebehypoperfusion vorliegen, sollte eine Normalisierung der Laktatwerte an-"
+# Empfehlung 2.11, p. 35 (section 2.5); „zu verwenden ,“ as printed
+- id: claims/sepsis-lf-4.0/77b81e6f
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "2.11"
+  section: "2.5"
+  label: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem Schock, bevorzugt dynamische gegenüber statischen Variablen zu verwenden , um eine Flüssigkeitstherapie zu steuern."
+  grade: "Schwach"
+  verb: "schlagen vor"
+  direction: "for"
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: "concepts/mortalitaet", value: "Sehr niedrig", system: "grade"}
+  source:
+    at: sources/sepsis-lf-4.0#page=35
+    quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=35", quote: "Schwach"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=35", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=35", quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: "sources/sepsis-lf-4.0#page=35", quote: "Mortalität:"}
+# body text, p. 35 (section 2.5): refines 2.8
+- id: claims/sepsis-lf-4.0/a064371e
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "2.5"
+  label: "Eines der wichtigsten Prinzipien, das in Bezug auf die komplexe Behandlungsplanung dieser Patienten berücksichtigt werden muss, ist die Notwendigkeit einer detaillierten Beurteilung des intravasalen Flüssigkeitsstatus und der Organperfusion mit kontinuierlich zu wiederholenden Kontrollen hinsichtlich des Ansprechens auf die Behandlung."
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=35
+    quote: "Eines der wichtigsten Prinzipien, das in Bezug auf die komplexe Behandlungsplanung dieser"
+# body text, p. 35 (section 2.5): refines 2.8
+- id: claims/sepsis-lf-4.0/61ef9da3
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "2.5"
+  label: "Eine wiederholte Beurteilung sollte eine gründliche klinische Untersuchung und Bewertung der verfügbaren physiologischen Variablen (Herzfrequenz, Blutdruck, arterielle und zentralvenöse Sauerstoffsättigung, Atemfrequenz, Pulskonturanalyse, Temperatur, Urinausscheidung, Rekapillarisierungszeit und sonstige Variablen je nach Verfügbarkeit) beinhalten, sowie weitere nicht-invasive und invasive Überwachungsmaßnahmen, sofern derartige Maßnahmen zur Verfügung stehen."
+  verb: "sollte"
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=35
+    quote: "Eine wiederholte Beurteilung sollte eine gründliche klinische Untersuchung und Bewertung"
+# body text, p. 35 (section 2.5): refines 2.11
+- id: claims/sepsis-lf-4.0/c9907a30
+  type: claim
+  lang: de
+  kind: fact
+  section: "2.5"
+  label: "Der zentrale Venendruck als statischer Vorlastparameter zur Steuerung der Flüssigkeitstherapie wurde aufgegeben, weil die Fähigkeit zur Prognose der Volumenreagibilität limitiert ist, wenn der zentrale Venendruck innerhalb eines relativ normalen Wertebereichs (8-12 mmHg) liegt."
+  source:
+    at: sources/sepsis-lf-4.0#page=35
+    quote: "Der zentrale Venendruck als statischer Vorlastparameter zur Steuerung"
+# body text, p. 35 (section 2.5): refines 2.11
+- id: claims/sepsis-lf-4.0/dc6aba07
+  type: claim
+  lang: de
+  kind: criterion
+  section: "2.5"
+  label: "Diese Techniken umfassen die Schlagvolumenvariation (SVV) oder die Pulsdruckkurvenvariation (PPV) in Reaktion auf Flüssigkeitsbolusgaben oder den passiven Beinhebeversuch (passive leg raising; PLR)."
+  source:
+    at: sources/sepsis-lf-4.0#page=35
+    quote: "Schlagvolumenvariation (SVV) oder die Pulsdruckkurvenvariation (PPV) in Reaktion auf Flüs-"
+# Empfehlung 2.12, p. 36 (section 2.5)
+- id: claims/sepsis-lf-4.0/2a1f1568
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "2.12"
+  section: "2.5"
+  label: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem Schock eine Echokardiographie zur Beurteilung der Herzfunktion und des Volumenstatus durchzuführen."
+  grade: "EK"
+  verb: "schlagen vor"
+  direction: "for"
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=36
+    quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=36", quote: "EK"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=36", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=36", quote: "Konsensstärke: 100 %"}
+# body text, p. 36 (section 2.5): refines 2.12
+- id: claims/sepsis-lf-4.0/847c6787
+  type: claim
+  lang: de
+  kind: fact
+  section: "2.5"
+  label: "Insbesondere bei kardialer Dysfunktion im septischen Schock sind transthorakale Echokardiographie (TTE) und transösophageale Echokardiographie (TEE) essentieller Bestandteil der Diagnostik."
+  source:
+    at: sources/sepsis-lf-4.0#page=36
+    quote: "Insbesondere bei kardialer Dysfunktion im septischen Schock sind transthorakale Echo-"
+# body text, p. 36 (section 2.5): refines 2.12
+- id: claims/sepsis-lf-4.0/8048bab3
+  type: claim
+  lang: de
+  kind: fact
+  section: "2.5"
+  label: "Im Rahmen der Echokardiographie ist für entsprechend erfahrene Untersucher eine Beurteilung des Durchmessers und der Atemvariabilität der V. cava inferior geeignet, zusätzliche Hinweise auf einen Volumenmangel zu liefern."
+  source:
+    at: sources/sepsis-lf-4.0#page=36
+    quote: "cher eine Beurteilung des Durchmessers und der Atemvariabilität der V. cava inferior geeig-"
+# body text, p. 36 (section 2.5): supplements 2.12
+- id: claims/sepsis-lf-4.0/89bebbc1
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "2.5"
+  label: "Aktuell wird vor diesem Hintergrund eine kombinierte Betrachtung makrohämodynamischer Größen mit klinischen und laborchemischen Zeichen der Verbesserung der mikrovaskulären Perfusion favorisiert."
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=36
+    quote: "Aktuell wird vor diesem Hintergrund eine kombinierte Betrachtung makrohämodyna-"

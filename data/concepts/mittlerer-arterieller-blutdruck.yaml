@@ -1,0 +1,8 @@
+# A measured quantity, named by the threshold that bounds it (spec §3.1): the MAP of Definition 2 (p. 23),
+# which the vasopressor therapy is to bring to ≥ 65 mmHg. Labelled as printed there. Card #218.
+id: concepts/mittlerer-arterieller-blutdruck
+type: concept
+lang: de
+label: "Mittlerer arterieller Blutdruck"
+facet: finding
+source: modelling
