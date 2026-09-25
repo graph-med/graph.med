@@ -1,0 +1,12 @@
+# broader edges (spec §5): "is a special case of", between concepts that fill a population or condition slot of a
+# statement in views/sepsis-lf-4.0, all modelling with a rationale, only what holds whatever guideline one reads —
+# what holds only inside the guideline's scope is a scope edge (scope-edges.yaml). They group and fold; nothing is
+# inherited along them. Written by card #228 where the view's first axis (axes/sepsis-population) needs an edge and
+# the pool lacks it: a form or a severity under the disease it is a special case of. The ARDS family and ARDS under
+# the acute respiratory insufficiency are card #223's, in ch05.yaml, and are reused, not repeated here; the families
+# of concepts that fill no population or condition slot are card #227's, in cross-chapter.yaml. No broader edge runs
+# from a concept the first source uses.
+- [concepts/therapierefraktaerer-septischer-schock, broader, concepts/septischer-schock, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Ein therapierefraktärer septischer Schock (4.11, S. 70) ist ein septischer Schock, in jeder Leitlinie: eine Form des Krankheitsbilds."}]
+- [concepts/milde-bis-moderate-akute-hypoxaemische-respiratorische-insuffizienz, broader, concepts/akute-respiratorische-insuffizienz, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Eine milde bis moderate akute hypoxämische respiratorische Insuffizienz (5.12, S. 84) ist eine akute respiratorische Insuffizienz, in jeder Leitlinie: eine Form (hypoxämisch) und ein Schweregrad des Krankheitsbilds."}]

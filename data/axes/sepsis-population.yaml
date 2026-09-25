@@ -1,10 +1,11 @@
-# The tree of patient groups proposed for views/sepsis-lf-4.0, as a hierarchy axis over its anchor slot
-# (spec §4.1 "4. Shown"): for each population concept and each family above one, the one edge of the pool
-# it hangs by, up to the view's scope root, the guideline's patient target group
-# (concepts/erwachsene-mit-sepsis-oder-septischem-schock, 1.3, p. 20). Proposed by card #217 on the
-# maintainer's answers to its questions 2 and 3, the anchor slot being the agent's proposal (question 1);
-# no placements yet. The linking pass that writes the guideline's broader and scope edges (card #228)
-# places, tests (tools/axes.py) and asserts it, and lists it first in the view's group_by.
+# The tree of patient groups views/sepsis-lf-4.0 opens with, as a hierarchy axis over its anchor slot (spec §4.1
+# "4. Shown"): it chooses, for each population concept and each family above one, the one edge of the pool it
+# hangs by, up to the view's scope_root, the guideline's patient target group
+# (concepts/erwachsene-mit-sepsis-oder-septischem-schock, 1.3, p. 20), which has no place of its own. Proposed by
+# card #217 on the maintainer's answers to its questions 2 and 3, the anchor slot being the agent's proposal
+# (question 1); placed, tested (tools/axes.py) and asserted for the view by card #228, whose pull request carries
+# the report. Every placement is an edge in data/edges/sepsis-lf-4.0/ (scope-edges.yaml, broader-edges.yaml, and
+# the ARDS family of ch05.yaml).
 id: axes/sepsis-population
 type: axis
 lang: de
@@ -26,11 +27,32 @@ rule: >-
   septischem Schock und <X>“ nennt, X ein Zustand des Patienten: ARDS, AKI, …); mit der Bedingung
   „Bei Sepsis oder septischem Schock“ für eine Gruppe, deren Patienten nicht alle eine Sepsis oder
   einen septischen Schock haben (Verdacht auf eine Infektion, Verdacht auf Sepsis, Sepsis-Überlebende,
-  Asplenie). Ein Schweregrad oder eine Form hängt an dem Krankheitsbild, dessen
-  Sonderfall sie ist (mildes ARDS unter ARDS, therapierefraktärer septischer Schock unter septischem
-  Schock), und hat ein Konzept mehrere solche Kanten, an der zum engsten. Ein Konzept hängt an genau
+  Asplenie, die Gruppe der Prävention der Sepsis). Ein Schweregrad oder eine Form hängt an dem
+  Krankheitsbild, dessen Sonderfall sie ist (mildes ARDS unter ARDS, therapierefraktärer septischer
+  Schock unter septischem Schock), und hat ein Konzept mehrere solche Kanten, an der zum engsten. Ein Konzept hängt an genau
   einer Kante; die Wurzel selbst hat keinen Platz. Fehlt einem Konzept die Kante, wird zuerst sie in
   den Pool geschrieben, mit eigener Begründung, und dann der Platz.
 proposed_by: agent
 views:
-  - {view: views/sepsis-lf-4.0, status: proposed, since: "2026-09-24"}
+  - {view: views/sepsis-lf-4.0, status: asserted, since: "2026-09-25"}
+placements:   # concept: parent — each an edge of the pool, grouped by the kind of that edge
+  # along broader (6)
+  concepts/ards: concepts/akute-respiratorische-insuffizienz
+  concepts/milde-bis-moderate-akute-hypoxaemische-respiratorische-insuffizienz: concepts/akute-respiratorische-insuffizienz
+  concepts/mildes-ards: concepts/ards
+  concepts/moderates-oder-schweres-ards: concepts/ards
+  concepts/schweres-ards: concepts/moderates-oder-schweres-ards
+  concepts/therapierefraktaerer-septischer-schock: concepts/septischer-schock
+  # along in_scope_of, without a condition (6)
+  concepts/akute-nierenschaedigung: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  concepts/akute-respiratorische-insuffizienz: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  concepts/lebensbedrohliche-veraenderungen-fluessigkeits-saeure-basen-elektrolythaushalt: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  concepts/sepsis: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  concepts/sepsis-induzierte-hypoperfusion-oder-septischer-schock: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  concepts/septischer-schock: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  # along in_scope_of, with the condition concepts/bei-sepsis-oder-septischem-schock (5)
+  concepts/asplenie: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  concepts/praevention-der-sepsis: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  concepts/sepsis-ueberlebende: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  concepts/verdacht-auf-eine-infektion: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  concepts/verdacht-auf-sepsis: concepts/erwachsene-mit-sepsis-oder-septischem-schock
