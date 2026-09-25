@@ -1,0 +1,8 @@
+# The action box 4.12 advises against using routinely (p. 71): "β-Blocker zur Herzfrequenzsenkung NICHT
+# routinemäßig anzuwenden". The purpose and "routinemäßig" stay in the statement's label.
+id: concepts/beta-blocker
+type: concept
+lang: de
+label: β-Blocker
+facet: medication
+source: modelling

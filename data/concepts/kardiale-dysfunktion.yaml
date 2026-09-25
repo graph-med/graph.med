@@ -1,0 +1,7 @@
+# A condition of box 4.9 (p. 68): "Hinweise für eine kardiale Dysfunktion", one of its four conditions.
+id: concepts/kardiale-dysfunktion
+type: concept
+lang: de
+label: Kardiale Dysfunktion
+facet: finding
+source: modelling

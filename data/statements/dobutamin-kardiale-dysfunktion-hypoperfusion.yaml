@@ -1,0 +1,12 @@
+id: statements/dobutamin-kardiale-dysfunktion-hypoperfusion
+type: statement
+lang: de
+label: Bei Patienten mit Sepsis oder septischem Schock, bei denen Hinweise für eine kardiale Dysfunktion mit persistierender
+  Hypoperfusion trotz angemessenem Flüssigkeitsstatus und arteriellem Blutdruck bestehen, wird vorgeschlagen, Dobutamin
+  zu verwenden.
+short_label: "Dobutamin bei kardialer Dysfunktion mit Hypoperfusion"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/dobutamin
+  condition: [concepts/kardiale-dysfunktion, concepts/hypoperfusion, concepts/angemessener-fluessigkeitsstatus, concepts/angemessener-arterieller-blutdruck]
+source: modelling

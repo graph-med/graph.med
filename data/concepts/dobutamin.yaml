@@ -1,0 +1,7 @@
+# The action of box 4.9 (p. 68): "Dobutamin zu verwenden".
+id: concepts/dobutamin
+type: concept
+lang: de
+label: Dobutamin
+facet: medication
+source: modelling

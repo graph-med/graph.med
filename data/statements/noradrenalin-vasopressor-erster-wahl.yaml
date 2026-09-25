@@ -1,0 +1,9 @@
+id: statements/noradrenalin-vasopressor-erster-wahl
+type: statement
+lang: de
+label: Bei Patienten mit Sepsis oder septischem Schock wird Noradrenalin als Vasopressor erster Wahl empfohlen.
+short_label: "Noradrenalin als Vasopressor erster Wahl"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/noradrenalin
+source: modelling

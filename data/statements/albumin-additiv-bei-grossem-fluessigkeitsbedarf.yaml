@@ -1,0 +1,11 @@
+id: statements/albumin-additiv-bei-grossem-fluessigkeitsbedarf
+type: statement
+lang: de
+label: Bei Patienten mit Sepsis oder septischem Schock wird vorgeschlagen, Albumin additiv zu balancierten Kristalloiden zu
+  verabreichen, wenn große Mengen an Flüssigkeit benötigt werden, um eine hämodynamische Stabilität zu erreichen.
+short_label: "Albumin additiv bei großem Flüssigkeitsbedarf"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/albumin
+  condition: [concepts/grosse-mengen-an-fluessigkeit-benoetigt]
+source: modelling

@@ -1,0 +1,8 @@
+# The condition of box 4.11's first sentence (p. 70), labelled with its negation as printed (#217's convention,
+# row 10). It is linked to no concept of cardiogenic shock, because the schema has no negation.
+id: concepts/ohne-einen-zusaetzlichen-kardiogenen-schock
+type: concept
+lang: de
+label: Ohne einen zusätzlichen kardiogenen Schock
+facet: patient_state
+source: modelling

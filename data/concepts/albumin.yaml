@@ -1,0 +1,8 @@
+# The action of box 4.2 (p. 58): "Albumin additiv zu balancierten Kristalloiden zu verabreichen"; the addition
+# stays in the statement's label.
+id: concepts/albumin
+type: concept
+lang: de
+label: Albumin
+facet: medication
+source: modelling

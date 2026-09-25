@@ -1,0 +1,9 @@
+id: statements/keine-gelatine-sepsis
+type: statement
+lang: de
+label: Bei Patienten mit Sepsis oder septischem Schock wird vorgeschlagen, Gelatine nicht anzuwenden.
+short_label: "Gelatine nicht anwenden"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/gelatine
+source: modelling
