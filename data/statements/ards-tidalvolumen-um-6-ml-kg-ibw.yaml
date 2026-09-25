@@ -1,0 +1,10 @@
+# Box 5.1 of sources/sepsis-lf-4.0 (card #223).
+id: statements/ards-tidalvolumen-um-6-ml-kg-ibw
+type: statement
+lang: de
+label: "Patienten mit Sepsis oder septischem Schock und ARDS werden mit einem Tidalvolumen um 6 ml/kg IBW (4-8 ml/kg IBW) beatmet."
+short_label: "Tidalvolumen um 6 ml/kg IBW (4-8 ml/kg IBW)"
+slots:
+  population: concepts/ards
+  action: concepts/tidalvolumen-um-6-ml-kg-ibw
+source: modelling

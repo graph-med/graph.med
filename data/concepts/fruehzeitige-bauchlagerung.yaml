@@ -1,0 +1,8 @@
+# The action of 5.15's second sentence (p. 86), as printed: one prescription of timing in two steps (card #223).
+id: concepts/fruehzeitige-bauchlagerung
+type: concept
+lang: de
+label: "Bauchlagerung frühzeitig erwägen und nach Indikationsstellung unverzüglich umsetzen"
+short_label: "Bauchlagerung früh erwägen, unverzüglich umsetzen"
+facet: intervention
+source: modelling

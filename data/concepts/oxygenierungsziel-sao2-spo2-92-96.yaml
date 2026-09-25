@@ -1,0 +1,8 @@
+# The action of 5.8 (p. 80), as printed (card #223). A target says how: no threshold.
+id: concepts/oxygenierungsziel-sao2-spo2-92-96
+type: concept
+lang: de
+label: "SaO2 bzw. SpO2 von 92 %-96 % bzw. paO2 zwischen 70-90 mmHg (9,3-12 kPa) anstreben"
+short_label: "Ziel SaO2/SpO2 92-96 % bzw. paO2 70-90 mmHg"
+facet: intervention
+source: modelling

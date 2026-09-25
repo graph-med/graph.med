@@ -1,0 +1,10 @@
+# Box 5.10 of sources/sepsis-lf-4.0 (card #223).
+id: statements/keine-routinemaessigen-kurzen-rekrutierungsmanoever
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock werden kurze (< 60 s) Rekrutierungsmanöver nicht routinemäßig durchgeführt."
+short_label: "Keine routinemäßigen kurzen Rekrutierungsmanöver"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/kurze-rekrutierungsmanoever-routinemaessig
+source: modelling

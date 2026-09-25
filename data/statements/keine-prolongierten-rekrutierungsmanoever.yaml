@@ -1,0 +1,10 @@
+# Box 5.9 of sources/sepsis-lf-4.0 (card #223).
+id: statements/keine-prolongierten-rekrutierungsmanoever
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock werden keine prolongierten (> 60 s) Rekrutierungsmanöver durchgeführt."
+short_label: "Keine prolongierten Rekrutierungsmanöver (> 60 s)"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/prolongierte-rekrutierungsmanoever
+source: modelling

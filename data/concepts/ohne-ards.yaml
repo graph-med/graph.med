@@ -1,0 +1,8 @@
+# The condition of 5.2 (p. 74), „ohne ARDS“ (card #223; #217's convention row 10): a negation as printed. Never a
+# member of the ARDS family and never linked to concepts/ards, because the schema has no negation.
+id: concepts/ohne-ards
+type: concept
+lang: de
+label: "Ohne ARDS"
+facet: patient_state
+source: modelling

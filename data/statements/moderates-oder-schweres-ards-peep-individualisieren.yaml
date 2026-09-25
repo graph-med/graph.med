@@ -1,0 +1,10 @@
+# Box 5.7 of sources/sepsis-lf-4.0 (card #223).
+id: statements/moderates-oder-schweres-ards-peep-individualisieren
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock und moderatem oder schwerem ARDS wird die Einstellung des PEEP mit Hilfe einer bettseitigen Methode (Tabelle 5) individualisiert."
+short_label: "PEEP mit bettseitiger Methode individualisieren"
+slots:
+  population: concepts/moderates-oder-schweres-ards
+  action: concepts/individualisierte-peep-einstellung
+source: modelling

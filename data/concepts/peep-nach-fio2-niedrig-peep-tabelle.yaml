@@ -1,0 +1,8 @@
+# The action of 5.5 (p. 75), as printed (card #223); the table is Tabelle 4 (p. 76).
+id: concepts/peep-nach-fio2-niedrig-peep-tabelle
+type: concept
+lang: de
+label: "Orientierende Einstellung des PEEP mit Hilfe der FiO2/niedrig-PEEP Tabelle des ARDS-Netzwerks"
+short_label: "PEEP nach FiO2/niedrig-PEEP-Tabelle (ARDS-Netzwerk)"
+facet: intervention
+source: modelling
