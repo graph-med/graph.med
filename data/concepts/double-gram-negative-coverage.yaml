@@ -1,0 +1,8 @@
+# The action box 3.5 advises against (p. 42). Minted by card #219 for views/sepsis-lf-4.0.
+id: concepts/double-gram-negative-coverage
+type: concept
+lang: de
+label: "Routinemäßige, initiale Therapie mit zwei verschiedenen gegen gramnegative Erreger wirksamen Substanzen („double gram-negative coverage“)"
+short_label: "Double gram-negative coverage"
+facet: intervention
+source: modelling

@@ -1,0 +1,10 @@
+# Box 3.1, third sentence (p. 37). Card #219.
+id: statements/weitere-probenmaterialien-von-infektionsfoci
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock weitere Probenmaterialien von möglichen Infektionsfoci gewinnen (Abstrich, Punktat, Biopsie etc.)."
+short_label: "Weitere Proben von möglichen Infektionsfoci"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/gewinnung-weiterer-probenmaterialien-von-infektionsfoci
+source: modelling

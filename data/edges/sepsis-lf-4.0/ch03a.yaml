@@ -1,0 +1,438 @@
+# Edges minted with the claims of sections 3.1-3.3 of sources/sepsis-lf-4.0 (card #219): each box claim
+# supports its statement (spec §3.1), each body-text claim carries the edge spec §5.1 gives it (the
+# gap notice on p. 43 none), and the statements of one box, or of 3.4 and 3.5, are related (§5.1 N1).
+# No defined_by edge: the part's condition concepts are stated (#213 checklist, #217 ledger).
+- - claims/sepsis-lf-4.0/917388c0
+  - supports
+  - statements/blutkultur-sets-vor-antibiotikatherapie
+  - source: modelling
+    rationale: "Box 3.1, Satz 1: die Empfehlung selbst."
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/eceb4ffe
+  - supports
+  - statements/blutkultur-sets-vor-antibiotikatherapie
+  - source: modelling
+    rationale: "Box 3.1, Satz 2 (Kriterium): „Dies gilt auch für Patienten, die bereits eine antibiotische Vorbehandlung erhalten haben“ erweitert den Personenkreis von Satz 1 (#213 Checkliste)."
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/0ad5e98a
+  - supports
+  - statements/weitere-probenmaterialien-von-infektionsfoci
+  - source: modelling
+    rationale: "Box 3.1, Satz 3: die Empfehlung selbst."
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/23faf2be
+  - supports
+  - statements/probengewinnung-ohne-wesentliche-verzoegerung-der-therapie
+  - source: modelling
+    rationale: "Box 3.1, Satz 4: „Diese darf zu keiner wesentlichen zeitlichen Verzögerung … führen“, eine Empfehlung mit eigener Aussage (#213 Checkliste)."
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/74d560f7
+  - supports
+  - statements/antiinfektiva-bei-sepsis-so-schnell-wie-moeglich
+  - source: modelling
+    rationale: "Box 3.2: „bei Patienten mit Sepsis … so schnell wie möglich“, das erste Ziel des einen Satzes."
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/74d560f7
+  - supports
+  - statements/antiinfektiva-bei-septischem-schock-innerhalb-einer-stunde
+  - source: modelling
+    rationale: "Box 3.2: „bei Patienten mit einem septischen Schock idealerweise innerhalb einer Stunde“, das zweite Ziel des einen Satzes."
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/f8da3ebf
+  - supports
+  - statements/zeitnahe-diagnostik-bei-verdacht-auf-sepsis-ohne-schock
+  - source: modelling
+    rationale: "Box 3.3, Satz 1: die Empfehlung selbst."
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/b6e05dd8
+  - supports
+  - statements/antiinfektiva-innerhalb-von-drei-stunden-bei-fortbestehendem-verdacht
+  - source: modelling
+    rationale: "Box 3.3, Satz 2: „Falls der Verdacht auf eine zugrundeliegende Infektion weiter besteht“, für die Gruppe von Satz 1."
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/2c07bc69
+  - supports
+  - statements/initiale-antiinfektive-therapie-mit-einem-oder-mehreren-antibiotika
+  - source: modelling
+    rationale: "Box 3.4: die Empfehlung selbst."
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/bf42c546
+  - supports
+  - statements/antiinfektive-therapie-nach-fokus-mre-besiedlung-und-anamnese
+  - source: modelling
+    rationale: "Box 3.4, Bemerkung: eine Empfehlung mit eigener Aussage (#213 Checkliste)."
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/298f0d47
+  - supports
+  - statements/keine-routinemaessige-double-gram-negative-coverage
+  - source: modelling
+    rationale: "Box 3.5: die Empfehlung selbst."
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/445ac8e6
+  - supports
+  - statements/keine-antimykotische-therapie-bei-niedrigem-pilzrisiko
+  - source: modelling
+    rationale: "Box 3.6, Satz 1: „mit einem niedrigen Risiko für eine Pilzinfektion KEINE antimykotische Therapie“."
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/47a9dba5
+  - supports
+  - statements/empirische-antimykotische-therapie-bei-hohem-pilzrisiko
+  - source: modelling
+    rationale: "Box 3.6, Satz 2: „mit einem hohen Risiko für eine Pilzinfektion eine empirische antimykotische Therapie“."
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/f9276737
+  - supports
+  - statements/beta-laktam-antibiotika-prolongiert-oder-kontinuierlich
+  - source: modelling
+    rationale: "Box 3.7: die Empfehlung selbst."
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/2a73459c
+  - supports
+  - statements/stabilitaet-bei-kontinuierlicher-infusion-beachten
+  - source: modelling
+    rationale: "Box 3.7, Bemerkung: eine Empfehlung mit eigener Aussage (#213 Checkliste)."
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/d4536593
+  - refines
+  - claims/sepsis-lf-4.0/917388c0
+  - source: modelling
+    rationale: "R: Patienten mit Sepsis oder septischem Schock — wer zur Gruppe gehört: auch alle Patienten mit Verdacht auf Sepsis; Blutkulturen zum Nachweis von Bakterien oder Hefepilzen"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/1b633b3d
+  - refines
+  - claims/sepsis-lf-4.0/0ad5e98a
+  - source: modelling
+    rationale: "R: Gewinnung von weiteren Probenmaterialien — wann: ebenfalls vor Beginn der antiinfektiven Therapie, sofern ohne wesentliche zeitliche Verzögerung möglich"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/05a8d393
+  - refines
+  - claims/sepsis-lf-4.0/0ad5e98a
+  - source: modelling
+    rationale: "R: weiteren Probenmaterialien — welche: Urin, Atemwegssekret, Wundsekret, Eiter, Liquor und andere Körperflüssigkeiten"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/79e2bf55
+  - limits
+  - claims/sepsis-lf-4.0/0ad5e98a
+  - source: modelling
+    rationale: "L: weiteren Probenmaterialien von möglichen Infektionsfoci — deutet die Anamnese oder klinische Untersuchung eindeutig auf eine Lokalisation, sind Materialien anderer Lokalisationen (außer Blutkulturen) im Allgemeinen nicht notwendig"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/1a1590e6
+  - refines
+  - claims/sepsis-lf-4.0/917388c0
+  - source: modelling
+    rationale: "R: mindestens 2 Blutkultur-Sets — welches Blutvolumen: 40-60 ml Blut"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/8c4ecd3c
+  - refines
+  - claims/sepsis-lf-4.0/917388c0
+  - source: modelling
+    rationale: "R: Blutkultur-Sets zu entnehmen — Technik: alle erforderlichen Blutkulturen zeitgleich aus derselben Punktionsstelle"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/8a3f8c67
+  - refines
+  - claims/sepsis-lf-4.0/917388c0
+  - source: modelling
+    rationale: "R: mindestens 2 Blutkultur-Sets — bei Verdacht auf eine Katheter-assoziierte Infektion mindestens eines aus dem Katheter und mindestens eines aus der peripheren Vene"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/f0844f0f
+  - refines
+  - claims/sepsis-lf-4.0/0ad5e98a
+  - source: modelling
+    rationale: "R: Probenmaterialien von möglichen Infektionsfoci — bei Verdacht auf eine Katheter-assoziierte Infektion die Katheterspitze, wozu der Katheter entfernt wird"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/aede2acc
+  - supplements
+  - claims/sepsis-lf-4.0/917388c0
+  - source: modelling
+    rationale: "S: Blutkultur-Sets — molekularbiologische Nachweisverfahren können die kulturelle Erregerdiagnostik aus Blut ergänzen"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/aede2acc
+  - supplements
+  - claims/sepsis-lf-4.0/0ad5e98a
+  - source: modelling
+    rationale: "S: weiteren Probenmaterialien — molekularbiologische Nachweisverfahren können die kulturelle Erregerdiagnostik aus anderen Probenmaterialien ergänzen"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/f2c9ee67
+  - refines
+  - claims/sepsis-lf-4.0/74d560f7
+  - source: modelling
+    rationale: "R: so schnell wie möglich — idealerweise innerhalb einer Stunde, nach diesem Satz auch bei Sepsis, nicht nur beim septischen Schock"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/f3eac060
+  - refines
+  - claims/sepsis-lf-4.0/b6e05dd8
+  - source: modelling
+    rationale: "R: innerhalb von drei Stunden — ab wann: nach Erkennen der Sepsis oder dem Eintreffen in der Notaufnahme (G2-Ausnahme: ein Wert, den der Wortlaut braucht und nicht gibt, aus den Studien berichtet, da die Leitlinie keinen gibt)"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/1edfac75
+  - limits
+  - claims/sepsis-lf-4.0/b6e05dd8
+  - source: modelling
+    rationale: "L: Verabreichung der antiinfektiven Therapie — bei systemischen entzündlichen Reaktionen ohne Infektion nicht indiziert"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/0489abc9
+  - supplements
+  - claims/sepsis-lf-4.0/2c07bc69
+  - source: modelling
+    rationale: "S: initiale antiinfektive Therapie — der nächste Schritt: im weiteren Verlauf anhand der mikrobiologischen Ergebnisse Umstellung auf eine gezielte antiinfektive Therapie"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/fcc41714
+  - refines
+  - claims/sepsis-lf-4.0/bf42c546
+  - source: modelling
+    rationale: "R: vermuteten Infektionsfokus, MRE-Besiedlung und Anamnese — die wichtigsten patientenbezogenen Faktoren der Auswahl"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/7954d8ea
+  - supplements
+  - claims/sepsis-lf-4.0/bf42c546
+  - source: modelling
+    rationale: "S: ausgerichtet — außerdem Dauer der Hospitalisierung, lokale Pathogenprävalenz und Resistenzmuster berücksichtigen"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/a4de0c56
+  - supplements
+  - claims/sepsis-lf-4.0/bf42c546
+  - source: modelling
+    rationale: "S: ausgerichtet — auch Medikamentenunverträglichkeiten, Interaktionen und Toxizität berücksichtigen"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/1b410595
+  - supplements
+  - claims/sepsis-lf-4.0/2c07bc69
+  - source: modelling
+    rationale: "S: um alle wesentlichen Bakterien zu erfassen — bei bestimmten klinischen Konstellationen zusätzlich invasive Candidiasis, toxisches Schocksyndrom und selten auftretende Pathogene in Betracht ziehen"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/e2521686
+  - refines
+  - claims/sepsis-lf-4.0/2c07bc69
+  - source: modelling
+    rationale: "R: alle wesentlichen Bakterien — bei Sepsis aufgrund einer ambulant erworbenen Pneumonie auch „atypische“ Erreger"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/3e4854c7
+  - refines
+  - claims/sepsis-lf-4.0/2c07bc69
+  - source: modelling
+    rationale: "R: alle wesentlichen Bakterien — bei Neutropenie ein besonders breites Spektrum, auch resistente gramnegative Bakterien, VRE und Candida spp."
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/de331b1f
+  - refines
+  - claims/sepsis-lf-4.0/2c07bc69
+  - source: modelling
+    rationale: "R: mit einem Antibiotikum oder mehreren Antibiotika — ein pathogenspezifischer Wirkstoff zusätzlich, wenn ein spezifisches Risiko besteht"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/e7177a2d
+  - refines
+  - claims/sepsis-lf-4.0/bf42c546
+  - source: modelling
+    rationale: "R: MRE-Besiedlung — bei bekannter MRSA Besiedlung oder Risikofaktoren dafür Ergänzung um einen Wirkstoff mit Aktivität gegen MRSA"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/f14e8504
+  - refines
+  - claims/sepsis-lf-4.0/47a9dba5
+  - source: modelling
+    rationale: "R: hohen Risiko für eine Pilzinfektion — beispielsweise Patienten mit Fieber in Neutropenie und fehlendem Ansprechen auf eine mehrtägige Antibiotikatherapie"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/c3bbd352
+  - refines
+  - claims/sepsis-lf-4.0/445ac8e6
+  - source: modelling
+    rationale: "R: Risiko für eine Pilzinfektion — bei hämato-onkologischen Patienten auch an eine Aspergillus-Infektion denken"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/c3bbd352
+  - refines
+  - claims/sepsis-lf-4.0/47a9dba5
+  - source: modelling
+    rationale: "R: Risiko für eine Pilzinfektion — bei hämato-onkologischen Patienten auch an eine Aspergillus-Infektion denken"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/f6300b85
+  - supplements
+  - claims/sepsis-lf-4.0/47a9dba5
+  - source: modelling
+    rationale: "S: empirische antimykotische Therapie — bei der Auswahl des Wirkstoffs Schweregrad und kürzliche antimykotische Exposition berücksichtigen"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/3a9d0458
+  - refines
+  - claims/sepsis-lf-4.0/47a9dba5
+  - source: modelling
+    rationale: "R: empirische antimykotische Therapie — welcher Wirkstoff: Echinocandine bevorzugen"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/73ec84ad
+  - refines
+  - claims/sepsis-lf-4.0/47a9dba5
+  - source: modelling
+    rationale: "R: empirische antimykotische Therapie — die Ausnahme von den Echinocandinen: pulmonaler Fokus, bei dem Schimmelpilze vorherrschen"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/e065bcda
+  - supplements
+  - claims/sepsis-lf-4.0/47a9dba5
+  - source: modelling
+    rationale: "S: empirische antimykotische Therapie — bei Unverträglichkeit, resistenter Candida-Vorbesiedlung oder Verdacht auf „Nicht-Aspergillus“-Spezies ein infektiologisches oder mikrobiologisches Konsil"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/08cd54b4
+  - refines
+  - claims/sepsis-lf-4.0/445ac8e6
+  - source: modelling
+    rationale: "R: Risiko für eine Pilzinfektion — Tabelle 3, Risikofaktoren für Candida-Sepsis"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/08cd54b4
+  - refines
+  - claims/sepsis-lf-4.0/47a9dba5
+  - source: modelling
+    rationale: "R: Risiko für eine Pilzinfektion — Tabelle 3, Risikofaktoren für Candida-Sepsis"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/e68f36cf
+  - refines
+  - claims/sepsis-lf-4.0/445ac8e6
+  - source: modelling
+    rationale: "R: Risiko für eine Pilzinfektion — Tabelle 3, Risikofaktoren für invasive Schimmelpilzinfektionen"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/e68f36cf
+  - refines
+  - claims/sepsis-lf-4.0/47a9dba5
+  - source: modelling
+    rationale: "R: Risiko für eine Pilzinfektion — Tabelle 3, Risikofaktoren für invasive Schimmelpilzinfektionen"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/3eb5147d
+  - refines
+  - claims/sepsis-lf-4.0/445ac8e6
+  - source: modelling
+    rationale: "R: Risiko für eine Pilzinfektion — der Beginn einer empirischen Therapie hängt von der Anzahl der Risikofaktoren und der lokalen Epidemiologie ab"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/3eb5147d
+  - refines
+  - claims/sepsis-lf-4.0/47a9dba5
+  - source: modelling
+    rationale: "R: Risiko für eine Pilzinfektion — der Beginn einer empirischen Therapie hängt von der Anzahl der Risikofaktoren und der lokalen Epidemiologie ab"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/ce65fd5f
+  - refines
+  - claims/sepsis-lf-4.0/f9276737
+  - source: modelling
+    rationale: "R: prolongierte oder kontinuierliche Infusion (nach initialem Bolus) — unmittelbar im Anschluss an die Kurzinfusion, über 3-4 bzw. 24 Stunden"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/ce65fd5f
+  - refines
+  - claims/sepsis-lf-4.0/2a73459c
+  - source: modelling
+    rationale: "R: kontinuierlichen Infusion — über 24 Stunden, unmittelbar im Anschluss an die Kurzinfusion"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/9271422f
+  - limits
+  - claims/sepsis-lf-4.0/f9276737
+  - source: modelling
+    rationale: "L: kontinuierliche Infusion — ohne regelmäßige und zeitnahe Kontrolle der Blutspiegel (TDM) vor allem bei hoher MHK und/oder augmented renal clearance problematisch"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/c160b7a4
+  - refines
+  - claims/sepsis-lf-4.0/9271422f
+  - source: modelling
+    rationale: "R: „augmented renal clearance“ — E: vom Leitlinientext durch „=“ markierte Definition, zu jedem Claim der Quelle mit diesem Begriff; er steht nur auf S. 51"
+    lang: de
+    as_of: '2026-09-25'
+- - statements/weitere-probenmaterialien-von-infektionsfoci
+  - complements
+  - statements/blutkultur-sets-vor-antibiotikatherapie
+  - source: modelling
+    rationale: "Box 3.1: „Wie empfehlen die Gewinnung von weiteren Probenmaterialien …“ — weitere Proben neben den Blutkultur-Sets"
+    lang: de
+    as_of: '2026-09-25'
+- - statements/probengewinnung-ohne-wesentliche-verzoegerung-der-therapie
+  - complements
+  - statements/weitere-probenmaterialien-von-infektionsfoci
+  - source: modelling
+    rationale: "Box 3.1: „Diese darf zu keiner wesentlichen zeitlichen Verzögerung der antiinfektiven Therapie führen.“ — die Bedingung, unter der die weiteren Probenmaterialien gewonnen werden"
+    lang: de
+    as_of: '2026-09-25'
+- - statements/antiinfektiva-bei-septischem-schock-innerhalb-einer-stunde
+  - specializes
+  - statements/antiinfektiva-bei-sepsis-so-schnell-wie-moeglich
+  - source: modelling
+    rationale: "Box 3.2: „so schnell wie möglich, bei Patienten mit einem septischen Schock idealerweise innerhalb einer Stunde“ — das engere Zeitziel für den septischen Schock"
+    lang: de
+    as_of: '2026-09-25'
+- - statements/antiinfektiva-innerhalb-von-drei-stunden-bei-fortbestehendem-verdacht
+  - complements
+  - statements/zeitnahe-diagnostik-bei-verdacht-auf-sepsis-ohne-schock
+  - source: modelling
+    rationale: "Box 3.3: „zunächst eine zeitnahe weitere Diagnostik … Falls der Verdacht … weiter besteht“ — der nächste Schritt nach der Diagnostik"
+    lang: de
+    as_of: '2026-09-25'
+- - statements/antiinfektive-therapie-nach-fokus-mre-besiedlung-und-anamnese
+  - complements
+  - statements/initiale-antiinfektive-therapie-mit-einem-oder-mehreren-antibiotika
+  - source: modelling
+    rationale: "Box 3.4, Bemerkung: „Die antiinfektive Therapie sollte nach dem vermuteten Infektionsfokus, MRE-Besiedlung und Anamnese ausgerichtet werden.“ — wie die initiale Therapie gewählt wird"
+    lang: de
+    as_of: '2026-09-25'
+- - statements/keine-routinemaessige-double-gram-negative-coverage
+  - specializes
+  - statements/initiale-antiinfektive-therapie-mit-einem-oder-mehreren-antibiotika
+  - source: modelling
+    rationale: "Box 3.4 „mit einem Antibiotikum oder mehreren Antibiotika“; Box 3.5 für Patienten ohne erhöhtes Risiko für multiresistente Erreger KEINE routinemäßige Kombination zweier gegen gramnegative Erreger wirksamer Substanzen — der Sonderfall der Kombinationstherapie"
+    lang: de
+    as_of: '2026-09-25'
+- - statements/keine-antimykotische-therapie-bei-niedrigem-pilzrisiko
+  - complements
+  - statements/empirische-antimykotische-therapie-bei-hohem-pilzrisiko
+  - source: modelling
+    rationale: "Box 3.6: zwei Sätze unter einem Grad — KEINE antimykotische Therapie bei niedrigem, eine empirische bei hohem Risiko für eine Pilzinfektion: die beiden Seiten derselben Frage"
+    lang: de
+    as_of: '2026-09-25'
+- - statements/stabilitaet-bei-kontinuierlicher-infusion-beachten
+  - complements
+  - statements/beta-laktam-antibiotika-prolongiert-oder-kontinuierlich
+  - source: modelling
+    rationale: "Box 3.7, Bemerkung: „Bei einer kontinuierlichen Infusion ist auf die physikalisch-chemische Stabilität des Wirkstoffs zu achten.“ — was bei der kontinuierlichen Infusion zu beachten ist"
+    lang: de
+    as_of: '2026-09-25'

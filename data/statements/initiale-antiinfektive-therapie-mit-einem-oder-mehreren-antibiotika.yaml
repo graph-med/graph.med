@@ -1,0 +1,10 @@
+# Box 3.4 (p. 42). Card #219.
+id: statements/initiale-antiinfektive-therapie-mit-einem-oder-mehreren-antibiotika
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock eine initiale antiinfektive Therapie mit einem Antibiotikum oder mehreren Antibiotika durchführen, um alle wesentlichen Bakterien zu erfassen."
+short_label: "Initiale Antibiotika gegen alle wesentlichen Bakterien"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/initiale-antiinfektive-therapie-mit-einem-oder-mehreren-antibiotika
+source: modelling

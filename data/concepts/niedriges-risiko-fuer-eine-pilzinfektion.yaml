@@ -1,0 +1,8 @@
+# A condition of box 3.6, first sentence (p. 47; #217 convention, row 8). Stated (#213 checklist): the
+# guideline gives no rule for it. Minted by card #219 for views/sepsis-lf-4.0.
+id: concepts/niedriges-risiko-fuer-eine-pilzinfektion
+type: concept
+lang: de
+label: "Niedriges Risiko für eine Pilzinfektion"
+facet: patient_state
+source: modelling

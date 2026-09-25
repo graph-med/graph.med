@@ -1,0 +1,10 @@
+# Box 3.7 (p. 50). Card #219.
+id: statements/beta-laktam-antibiotika-prolongiert-oder-kontinuierlich
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock Beta-Laktam-Antibiotika als prolongierte oder kontinuierliche Infusion (nach initialem Bolus) verabreichen."
+short_label: "Beta-Laktame prolongiert oder kontinuierlich infundieren"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/beta-laktam-antibiotika-als-prolongierte-oder-kontinuierliche-infusion
+source: modelling

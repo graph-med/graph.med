@@ -1,0 +1,9 @@
+# The action of box 3.1, third sentence (p. 37); the condition of its fourth ("Diese darf …"). Minted by card
+# #219 for views/sepsis-lf-4.0.
+id: concepts/gewinnung-weiterer-probenmaterialien-von-infektionsfoci
+type: concept
+lang: de
+label: "Gewinnung von weiteren Probenmaterialien von möglichen Infektionsfoci (Abstrich, Punktat, Biopsie etc.)"
+short_label: "Weitere Probenmaterialien von Infektionsfoci"
+facet: intervention
+source: modelling

@@ -1,0 +1,8 @@
+# The action of box 3.6's second sentence (p. 47: "eine empirische antimykotische Therapie"). Minted by card
+# #219 for views/sepsis-lf-4.0.
+id: concepts/empirische-antimykotische-therapie
+type: concept
+lang: de
+label: "Empirische antimykotische Therapie"
+facet: intervention
+source: modelling

@@ -1,0 +1,10 @@
+# Box 3.2 (p. 39), its first target: "bei Patienten mit Sepsis" (#217 convention, row 3). Card #219.
+id: statements/antiinfektiva-bei-sepsis-so-schnell-wie-moeglich
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis intravenöse Antiinfektiva so schnell wie möglich verabreichen."
+short_label: "Sepsis: Antiinfektiva so schnell wie möglich"
+slots:
+  population: concepts/sepsis
+  action: concepts/intravenoese-antiinfektiva-so-schnell-wie-moeglich
+source: modelling

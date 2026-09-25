@@ -1,0 +1,8 @@
+# A condition of box 3.7's Bemerkung (p. 50: "Bei einer kontinuierlichen Infusion"), a treatment the patient
+# receives (#217 convention, row 7). Minted by card #219 for views/sepsis-lf-4.0.
+id: concepts/kontinuierliche-infusion
+type: concept
+lang: de
+label: "Kontinuierliche Infusion"
+facet: intervention
+source: modelling

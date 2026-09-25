@@ -1,0 +1,9 @@
+# A condition of box 3.3, second sentence (p. 39: "Falls der Verdacht auf eine zugrundeliegende Infektion
+# weiter besteht"; #217 convention, row 8). Minted by card #219 for views/sepsis-lf-4.0.
+id: concepts/verdacht-auf-zugrundeliegende-infektion-besteht-weiter
+type: concept
+lang: de
+label: "Verdacht auf eine zugrundeliegende Infektion besteht weiter"
+short_label: "Infektionsverdacht besteht weiter"
+facet: patient_state
+source: modelling

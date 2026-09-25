@@ -1,0 +1,10 @@
+# Box 3.1, first and second sentence (p. 37). Card #219.
+id: statements/blutkultur-sets-vor-antibiotikatherapie
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock vor Beginn der Antibiotikatherapie mindestens 2 Blutkultur-Sets entnehmen, auch nach antibiotischer Vorbehandlung."
+short_label: "Mind. 2 Blutkultur-Sets vor Antibiotikatherapie"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/entnahme-blutkultur-sets-vor-antibiotikatherapie
+source: modelling

@@ -1,0 +1,8 @@
+# Box 3.2 (p. 39), its target for patients with septic shock. Minted by card #219 for views/sepsis-lf-4.0.
+id: concepts/intravenoese-antiinfektiva-idealerweise-innerhalb-einer-stunde
+type: concept
+lang: de
+label: "Verabreichung von intravenösen Antiinfektiva idealerweise innerhalb einer Stunde"
+short_label: "Antiinfektiva idealerweise innerhalb einer Stunde"
+facet: intervention
+source: modelling

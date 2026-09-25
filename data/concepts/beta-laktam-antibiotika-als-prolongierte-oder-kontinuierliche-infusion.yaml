@@ -1,0 +1,8 @@
+# The action of box 3.7 (p. 50). Minted by card #219 for views/sepsis-lf-4.0.
+id: concepts/beta-laktam-antibiotika-als-prolongierte-oder-kontinuierliche-infusion
+type: concept
+lang: de
+label: "Beta-Laktam-Antibiotika als prolongierte oder kontinuierliche Infusion (nach initialem Bolus)"
+short_label: "Beta-Laktame als prolongierte/kontinuierliche Infusion"
+facet: intervention
+source: modelling

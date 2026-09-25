@@ -1,0 +1,9 @@
+# A condition of box 3.6, second sentence (p. 47; #217 convention, row 8). Stated (#213 checklist): Tabelle 3
+# lists the factors, but p. 47 says there is no consensus on which combination makes a high risk, so no
+# defined_by edge. Minted by card #219 for views/sepsis-lf-4.0.
+id: concepts/hohes-risiko-fuer-eine-pilzinfektion
+type: concept
+lang: de
+label: "Hohes Risiko für eine Pilzinfektion"
+facet: patient_state
+source: modelling
