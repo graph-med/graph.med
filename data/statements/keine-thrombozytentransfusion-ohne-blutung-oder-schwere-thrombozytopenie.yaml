@@ -2,7 +2,7 @@ id: statements/keine-thrombozytentransfusion-ohne-blutung-oder-schwere-thrombozy
 type: statement
 lang: de
 label: "Bei Patienten mit Sepsis oder septischem Schock keine Thrombozytentransfusion, es sei denn, es liegt eine relevante Blutung oder eine schwere Thrombozytopenie vor (< 10.000/µl)."
-short_label: "Keine Thrombozyten ohne Blutung oder < 10.000/µl"
+short_label: "Keine Thrombozyten ohne relevante Blutung oder < 10.000/µl"
 slots:
   population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
   action: concepts/thrombozytentransfusion
