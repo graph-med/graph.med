@@ -1,0 +1,16 @@
+# The population of 10.1, 10.2 and both sentences of 10.3 (pp. 136–137): the one wider group the
+# guideline brings into scope for prevention (the maintainer's decision of 2026-09-25, section 1), labelled
+# as p. 19 prints it; flagged for the physician. 10.3's second sentence names the staff in its action and
+# protects these patients. Stated. Card #226; card #228 hangs it under the root by in_scope_of and reads its
+# condition.
+id: concepts/praevention-der-sepsis
+type: concept
+lang: de
+label: "Prävention der Sepsis"
+facet: patient_state
+definition: "Patienten, die vor Infektionen, die zu einer Sepsis führen können, und vor einer Sepsis zu schützen sind: die Gruppe, an die sich die Empfehlungen zur Prävention der Sepsis richten."
+source:
+  - {at: "sources/sepsis-lf-4.0#page=19", quote: "lungen zur Prävention der Sepsis."}
+  - {at: "sources/sepsis-lf-4.0#page=135", quote: "Zur Prävention von nosokomialen Infektionen, die zu einer Sepsis führen können, wie auch zur"}
+provenance:
+  definition: modelling

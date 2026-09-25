@@ -1,0 +1,30 @@
+# Edges minted with chapter 9 of sources/sepsis-lf-4.0 (card #226), all modelling: the supports edges of its
+# box sentences, the body-text edges of spec §5.1 (the rationale names the clause and the term as printed), and
+# the cross-statement edges within the chapter. No defined_by: #217's ledger gives this card none, and no concept
+# of these pages is established by a rule.
+
+# evidence (spec §5): claim → statement
+- [claims/sepsis-lf-4.0/7df6bb0f, supports, statements/behandlungsziele-und-prognose-besprechen, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 9.1: „Wir empfehlen, dass die Behandlungsziele und die Prognose …“ — der Satz der Empfehlung, den die Aussage wiedergibt."}]
+- [claims/sepsis-lf-4.0/a6595aa3, supports, statements/behandlungsziele-frueh-festlegen, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 9.2: „Wir schlagen vor, bei Patienten mit Sepsis oder septischem …“ — der Satz der Empfehlung, den die Aussage wiedergibt."}]
+- [claims/sepsis-lf-4.0/f8ca0c0d, supports, statements/information-ueber-selbsthilfe-gruppen, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 9.3: „Wir empfehlen, dass Sepsis-Überlebende und deren Angehörige …“ — der Satz der Empfehlung, den die Aussage wiedergibt."}]
+- [claims/sepsis-lf-4.0/36bf7239, supports, statements/pics-hinweis-im-entlassbericht, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 9.4: „Wir empfehlen, dass bei Sepsis-Überlebenden im Entlassbericht …“ — der Satz der Empfehlung, den die Aussage wiedergibt."}]
+# body text (spec §5.1): claim → claim
+- [claims/sepsis-lf-4.0/c2736efa, refines, claims/sepsis-lf-4.0/a6595aa3, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „innerhalb von 72 Stunden“ — ab wann: ab dem Zeitpunkt der Aufnahme auf der Intensivstation. G2: aus den Studien berichtet, aber ein Wert, den der Wortlaut der Empfehlung braucht und nicht gibt und den die Leitlinie sonst nirgends nennt (die Ausnahme von G2); im Übrigen beschreibt der Satz Wirkungen (N2) und zählt nur für diesen Wert."}]
+- [claims/sepsis-lf-4.0/2888eb14, refines, claims/sepsis-lf-4.0/f8ca0c0d, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „informiert werden“ — wann und durch wen: im Entlassmanagement, das Krankenhäuser nach § 39 Absatz 1a SGB V zu gewährleisten haben; „Dazu gehört auch der Verweis auf die Teilnahme in Selbsthilfe-Gruppen“."}]
+- [claims/sepsis-lf-4.0/fbb8cc1d, refines, claims/sepsis-lf-4.0/f8ca0c0d, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „Beratungsangebot von Selbsthilfe-Gruppen“ — welches Angebot: die Patientenorganisation Deutsche Sepsis-Hilfe e. V. (DSH), die Sepsis-Überlebende und Angehörige über eine kostenlose Hotline telefonisch oder per E-mail individuell berät."}]
+- [claims/sepsis-lf-4.0/f55ab716, refines, claims/sepsis-lf-4.0/f8ca0c0d, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „informiert werden“ — womit: Informationsmaterialien der DSH in barrierearmer Sprache, die den Akutkrankenhäusern auch als Informationsbroschüren zur Verfügung gestellt werden können."}]
+- [claims/sepsis-lf-4.0/bda2c4bd, refines, claims/sepsis-lf-4.0/36bf7239, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „Post-Intensive-Care-Syndrom (PICS)“ — welche Erkrankungen es am häufigsten umfasst: neu aufgetretene neurokognitive Einschränkungen, Critical illness Polyneuropathie und -myopathie (CIP/CIM), posttraumatische Belastungsstörung (PTBS)."}]
+# between statements (spec §5.1 N1): statement → statement, within chapter 9
+- [statements/behandlungsziele-frueh-festlegen, complements, statements/behandlungsziele-und-prognose-besprechen, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlungen 9.1 und 9.2 betreffen dieselben Behandlungsziele derselben Patienten: 9.2 sagt, wann sie festgelegt werden („möglichst früh (innerhalb von 72 Stunden)“), 9.1, dass sie mit den Patienten bzw. deren Angehörigen/Betreuern besprochen werden. Keine ersetzt die andere."}]
+- [statements/pics-hinweis-im-entlassbericht, complements, statements/information-ueber-selbsthilfe-gruppen, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Abbildung 1 (S. 133), ein Textblock für Entlassungsberichte bei Sepsis-Überlebenden, verbindet beide: den Hinweis auf das Risiko eines PICS (9.4) und die Bitte, auf die Kontaktaufnahme mit Selbsthilfegruppen hinzuweisen (9.3). Dieselbe Population, beide im Entlassmanagement (9.2.6); keine ersetzt die andere."}]

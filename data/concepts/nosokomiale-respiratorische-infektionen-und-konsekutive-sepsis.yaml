@@ -1,0 +1,10 @@
+# The aim of 10.3's second sentence (p. 137), „um Patienten vor nosokomialen respiratorischen
+# Infektionen und konsekutiver Sepsis zu schützen“: one outcome as printed, the infections and the sepsis
+# they lead to. Card #226.
+id: concepts/nosokomiale-respiratorische-infektionen-und-konsekutive-sepsis
+type: concept
+lang: de
+label: "Nosokomiale respiratorische Infektionen und konsekutive Sepsis"
+short_label: "Nosokomiale respiratorische Infektionen und Sepsis"
+facet: outcome
+source: modelling

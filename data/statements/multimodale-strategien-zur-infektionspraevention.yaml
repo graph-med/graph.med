@@ -1,0 +1,11 @@
+# Sepsis S3, 10.2: prevention; its population is the prevention group (decision of 2026-09-25, section 1). Card
+# #226.
+id: statements/multimodale-strategien-zur-infektionspraevention
+type: statement
+lang: de
+label: "Es wird empfohlen, multimodale Strategien zur Implementierung von Infektionspräventionsmaßnahmen (z. B. bei intravasalen Kathetern) einzusetzen."
+short_label: "Multimodale Strategien zur Infektionsprävention"
+slots:
+  population: concepts/praevention-der-sepsis
+  action: concepts/multimodale-strategien-zur-implementierung-von-infektionspraeventionsmassnahmen
+source: modelling

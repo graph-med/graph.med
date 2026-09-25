@@ -1,0 +1,9 @@
+# The action of 10.3's second sentence (p. 137): the staff are named in the action as printed, never
+# a concept of their own (decision of 2026-09-25, section 1; convention row 13). Card #226.
+id: concepts/jaehrliche-impfung-des-medizinischen-personals-gegen-influenza-und-covid-19
+type: concept
+lang: de
+label: "Jährliche Impfung des medizinischen Personals gegen Influenza und COVID-19"
+short_label: "Jährliche Influenza-/COVID-19-Impfung des Personals"
+facet: intervention
+source: modelling

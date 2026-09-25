@@ -1,0 +1,8 @@
+# The population of 10.4 (p. 137), „Patienten mit Asplenie“: a group outside sepsis (convention
+# row 15). Stated. Card #226; card #228 hangs it under the root by in_scope_of.
+id: concepts/asplenie
+type: concept
+lang: de
+label: "Asplenie"
+facet: patient_state
+source: modelling
