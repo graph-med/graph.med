@@ -1,4 +1,4 @@
-# Box 5.11 of sources/sepsis-lf-4.0 (card #223); „nach Intubation“ read as invasive ventilation, a condition by #217 row 7 (flagged in the pull request).
+# Box 5.11 of sources/sepsis-lf-4.0 (card #223); „nach Intubation“ is the time of the action, which its concept carries, not a circumstance of the patients: no condition.
 id: statements/fruehe-unterstuetzende-beatmung-spontanatmung
 type: statement
 lang: de
@@ -7,5 +7,4 @@ short_label: "Früh unterstützende Beatmung mit Spontanatmung"
 slots:
   population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
   action: concepts/fruehe-unterstuetzende-beatmung-spontanatmung
-  condition: [concepts/invasive-beatmung]
 source: modelling

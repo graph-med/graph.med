@@ -2,8 +2,8 @@
 id: statements/mildes-ards-peep-nach-niedrig-peep-tabelle
 type: statement
 lang: de
-label: "Bei Patienten mit Sepsis oder septischem Schock und mildem ARDS wird der PEEP orientierend mit Hilfe der FiO2/niedrig-PEEP Tabelle des ARDS-Netzwerks eingestellt."
-short_label: "PEEP nach FiO2/niedrig-PEEP-Tabelle"
+label: "Bei Patienten mit Sepsis oder septischem Schock und mildem ARDS wird eine orientierende Einstellung des PEEP mit Hilfe der FiO2/niedrig-PEEP Tabelle des ARDS-Netzwerks erwogen."
+short_label: "PEEP nach FiO2/niedrig-PEEP-Tabelle erwägen"
 slots:
   population: concepts/mildes-ards
   action: concepts/peep-nach-fio2-niedrig-peep-tabelle
