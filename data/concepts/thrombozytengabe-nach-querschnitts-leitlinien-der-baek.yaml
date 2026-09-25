@@ -1,0 +1,9 @@
+# The action of 8.4's second sentence (p. 109): to follow the delegated guideline (hard case 7), whose content is not
+# extracted (#210 Scope).
+id: concepts/thrombozytengabe-nach-querschnitts-leitlinien-der-baek
+type: concept
+lang: de
+label: "Gabe von Thrombozyten nach Vorgaben der „Querschnitts-Leitlinien zur Therapie mit Blutkomponenten und Plasmaderivaten“ der BÄK"
+short_label: "Thrombozytengabe nach Querschnitts-Leitlinien der BÄK"
+facet: intervention
+source: modelling

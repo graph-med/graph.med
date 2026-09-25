@@ -1,0 +1,9 @@
+# The condition of 8.13 (p. 120). A rule printed inside a box sentence stays in its claim and the concept stays
+# stated, its label carrying the rule as printed (#213 item 3; open question rule-claim-granularity).
+id: concepts/oberer-blutzuckerspiegel-ab-180-mg-dl
+type: concept
+lang: de
+label: "Oberer Blutzuckerspiegel von ≥ 180 mg/dl (≥ 10 mmol/l)"
+short_label: "Blutzucker ≥ 180 mg/dl (≥ 10 mmol/l)"
+facet: finding
+source: modelling

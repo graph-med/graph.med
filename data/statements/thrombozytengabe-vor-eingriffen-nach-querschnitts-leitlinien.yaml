@@ -1,0 +1,10 @@
+id: statements/thrombozytengabe-vor-eingriffen-nach-querschnitts-leitlinien
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock vor operativen Eingriffen, zentralvenösen Punktionen bzw. Zugängen oder Liquorpunktion die Gabe von Thrombozyten nach Vorgaben der Querschnitts-Leitlinien der BÄK."
+short_label: "Thrombozyten vor Eingriffen nach BÄK-Vorgaben"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/thrombozytengabe-nach-querschnitts-leitlinien-der-baek
+  condition: [concepts/vor-operativen-eingriffen-zentralvenoesen-punktionen-oder-liquorpunktion]
+source: modelling

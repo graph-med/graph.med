@@ -1,0 +1,759 @@
+# Claims of card #225 from chapter 8 of sources/sepsis-lf-4.0, „Weitere Massnahmen“ (pp. 105–126): boxes
+# 8.1–8.17 (spec §3.1, one claim per sentence, #212 grade, verb and consensus, #215 evidence rows), the
+# body text that passes spec §5.1 and the declines (gap notices, no edge; #213's checklist), and the parts
+# of the rules this card's concepts reach by defined_by (#204). Ids: sha256("<at>|<quote>")[:8].
+
+- id: claims/sepsis-lf-4.0/4801815e
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '8.1'
+  section: '8.1'
+  label: "Wir schlagen vor, Hydrokortison mit oder ohne Fludrokortison bei Patienten mit septischem Schock mit anhaltendem Vasopressorbedarf trotz ausreichender Volumengabe einzusetzen."
+  grade: Schwach
+  verb: schlagen vor
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/kurzzeit-mortalitaet-28-30-tage, value: Moderat, system: grade}
+    - {outcome: concepts/langzeit-mortalitaet-90-180-tage, value: Niedrig, system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=105
+    quote: "Wir schlagen vor, Hydrokortison mit oder ohne Fludrokortison"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=105, quote: "Schwach"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=105, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=105, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=105, quote: "Kurzzeit-Mortalität"}
+      - {at: sources/sepsis-lf-4.0#page=105, quote: "Langzeit-Mortalität"}
+# Bemerkung 1: the value S1's agents stand for (#213 item 1); supports S1's statement. A dose says how, not for whom:
+# no threshold (spec §3.1). No evidence rows (#215).
+- id: claims/sepsis-lf-4.0/3097e066
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: '8.1'
+  section: '8.1'
+  label: "Die empfohlene Dosierung für Hydrokortison beträgt 200 mg/d i.v., für Fludrokortison 1 x 50 µg/d enteral."
+  consensus: starker_konsens
+  consensus_share: 100 %
+  source:
+    at: sources/sepsis-lf-4.0#page=105
+    quote: "Die empfohlene Dosierung für Hydrokortison beträgt 200"
+  provenance:
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=105, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=105, quote: "Konsensstärke: 100 %"}
+# Bemerkung 2: a marked definition („Als … wird … bezeichnet“); no statement, reached by
+# concepts/anhaltender-vasopressorbedarf's defined_by edge. The duration is the period over which the dose is given,
+# recorded as the threshold's `when` as printed (one threshold, spec §3.1). No evidence rows.
+- id: claims/sepsis-lf-4.0/3ebc5588
+  type: claim
+  lang: de
+  kind: definition
+  recommendation_no: '8.1'
+  section: '8.1'
+  label: "Als „anhaltender Vasopressorbedarf“ wird die Gabe von Noradrenalin ≥ 0,25 µg∙kg-1min-1 über mindestens vier Stunden bezeichnet."
+  consensus: starker_konsens
+  consensus_share: 100 %
+  threshold: {quantity: concepts/noradrenalindosis, comparator: "≥", value: "0,25", unit: "µg∙kg-1min-1", when: "über mindestens vier Stunden"}
+  source:
+    at: sources/sepsis-lf-4.0#page=105
+    quote: "Als „anhaltender Vasopressorbedarf“ wird die Gabe von"
+  provenance:
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=105, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=105, quote: "Konsensstärke: 100 %"}
+    threshold:
+      - {at: sources/sepsis-lf-4.0#page=105, quote: "Noradrenalin ≥ 0,25 µg∙kg-1min-1 über mindestens vier"}
+      - {at: sources/sepsis-lf-4.0#page=105, quote: "Stunden bezeichnet."}
+- id: claims/sepsis-lf-4.0/cb0c0066
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '8.2'
+  section: '8.2.1'
+  label: "Wir empfehlen, bei Patienten mit Sepsis oder septischem Schock die Indikation zur Gabe von Erythrozytenkonzentraten bei einem Hb-Wert von < 4,34 mmol/L (< 7.0 g/dl) oder beim Vorliegen physiologischer Transfusionskriterien zu stellen."
+  grade: Stark
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/mortalitaet-nach-30-tagen, value: Moderat, system: grade}
+    - {outcome: concepts/mortalitaet-nach-90-tagen, value: Niedrig, system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=107
+    quote: "Wir empfehlen, bei Patienten mit Sepsis oder septischem Schock"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=107, quote: "Stark"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=107, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=107, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=107, quote: "Mortalität (30 Tage):"}
+      - {at: sources/sepsis-lf-4.0#page=107, quote: "Mortalität (90 Tage):"}
+- id: claims/sepsis-lf-4.0/8b72475e
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '8.3'
+  section: '8.2.3'
+  label: "Wir empfehlen, bei Patienten mit Sepsis oder septischem Schock therapeutisches Plasma NICHT zur Behandlung eines Volumenmangels, sondern ausschließlich entsprechend den Indikationen der „Querschnitts-Leitlinien zur Therapie mit Blut-komponenten und Plasmaderivaten“ der BÄK einzusetzen."
+  grade: EK
+  verb: empfehlen
+  direction: against
+  consensus: starker_konsens
+  consensus_share: 100 %
+  source:
+    at: sources/sepsis-lf-4.0#page=109
+    quote: "Wir empfehlen, bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=109, quote: "EK"}
+    direction: {at: sources/sepsis-lf-4.0#page=109, quote: "Schock therapeutisches Plasma NICHT zur Behandlung eines Vo-"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=109, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=109, quote: "Konsensstärke: 100 %"}
+- id: claims/sepsis-lf-4.0/4608676a
+  type: claim
+  lang: de
+  kind: criterion
+  section: '8.2.3'
+  label: "In Deutschland sind vier Arten Therapeutischen Plasmas verfügbar: gefrorenes Frischplasma (GFP), Solvent-Detergent-behandeltes Plasma (SDP), Methylenblau-Licht-behandeltes Plasma (MLP) und lyophilisiertes Humanplasma (LHP)."
+  source:   # p. 109: which agents 8.3's „therapeutisches Plasma“ covers. R → 8.3.
+    at: sources/sepsis-lf-4.0#page=109
+    quote: "In Deutschland sind vier Arten Therapeutischen Plasmas verfügbar: gefrorenes Frischplasma"
+# p. 109: the indications 8.3 delegates to („entsprechend den Indikationen der „Querschnitts-Leitlinien …“ der BÄK“),
+# reported from expert opinion. G2's exception: a value the recommendation's wording needs and does not give, and the
+# guideline gives none. R → 8.3. Its parenthesis is the rule of concepts/dokumentierte-gerinnungsstoerung, extracted
+# below (hard case 11).
+- id: claims/sepsis-lf-4.0/2c7403a2
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '8.2.3'
+  label: "Empfehlungen basieren auf Expertenmeinungen und besagen, dass Plasma bei dokumentierter Gerinnungsstörung (Quick < 50 %, APTT > 45 s und/oder Fibrinogen < 1 g/l) sowie aktiver Blutung oder geplanten Eingriffen gegeben werden kann."
+  verb: kann
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=109
+    quote: "fehlungen basieren auf Expertenmeinungen und besagen, dass Plasma bei dokumentierter"
+  provenance:
+    verb: {at: sources/sepsis-lf-4.0#page=109, quote: "tung oder geplanten Eingriffen gegeben werden kann. 1 ml Plasma/kg Körpergewicht erhöht"}
+    direction: {at: sources/sepsis-lf-4.0#page=109, quote: "tung oder geplanten Eingriffen gegeben werden kann. 1 ml Plasma/kg Körpergewicht erhöht"}
+# p. 109: the rule of „dokumentierter Gerinnungsstörung“, the top of its combination (spec §3.1, #204); reached by
+# defined_by, no body-text edge (N5): the claim of the whole sentence, above, carries the answer's edge.
+- id: claims/sepsis-lf-4.0/2eda54e9
+  type: claim
+  lang: de
+  kind: criterion
+  section: '8.2.3'
+  label: "dokumentierter Gerinnungsstörung (Quick < 50 %, APTT > 45 s und/oder Fibrinogen < 1 g/l)"
+  combination:
+    operator: any_of
+    of: [claims/sepsis-lf-4.0/bfd83404, claims/sepsis-lf-4.0/9557cc84, claims/sepsis-lf-4.0/bbcb1066]
+    connective: "und/oder"
+    source: {at: sources/sepsis-lf-4.0#page=109, quote: "Gerinnungsstörung (Quick < 50 %, APTT > 45 s und/oder Fibrinogen < 1 g/l)"}
+    rationale: "„(Quick < 50 %, APTT > 45 s und/oder Fibrinogen < 1 g/l)“: „und/oder“ schließt die Aufzählung der drei Werte; jeder genügt allein, mehrere dürfen zusammen vorliegen (ODER)."
+  source:
+    at: sources/sepsis-lf-4.0#page=109
+    quote: "Gerinnungsstörung (Quick < 50 %, APTT > 45 s und/oder Fibrinogen < 1 g/l)"
+# a part of the combination of „dokumentierter Gerinnungsstörung“; its own quote prints the threshold.
+- id: claims/sepsis-lf-4.0/bfd83404
+  type: claim
+  lang: de
+  kind: criterion
+  section: '8.2.3'
+  label: "Quick < 50 %"
+  threshold: {quantity: concepts/quickwert, comparator: "<", value: "50", unit: "%"}
+  source:
+    at: sources/sepsis-lf-4.0#page=109
+    quote: "Quick < 50 %"
+# a part of the combination of „dokumentierter Gerinnungsstörung“; its own quote prints the threshold.
+- id: claims/sepsis-lf-4.0/9557cc84
+  type: claim
+  lang: de
+  kind: criterion
+  section: '8.2.3'
+  label: "APTT > 45 s"
+  threshold: {quantity: concepts/aptt, comparator: ">", value: "45", unit: "s"}
+  source:
+    at: sources/sepsis-lf-4.0#page=109
+    quote: "APTT > 45 s"
+# a part of the combination of „dokumentierter Gerinnungsstörung“; its own quote prints the threshold.
+- id: claims/sepsis-lf-4.0/bbcb1066
+  type: claim
+  lang: de
+  kind: criterion
+  section: '8.2.3'
+  label: "Fibrinogen < 1 g/l"
+  threshold: {quantity: concepts/fibrinogen, comparator: "<", value: "1", unit: "g/l"}
+  source:
+    at: sources/sepsis-lf-4.0#page=109
+    quote: "Fibrinogen < 1 g/l"
+- id: claims/sepsis-lf-4.0/580b46af
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '8.4'
+  section: '8.2.4'
+  label: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem Schock KEINE Thrombozytentransfusion durchzuführen, es sei denn, es liegt eine relevante Blutung oder eine schwere Thrombozytopenie vor (< 10.000/µl)."
+  grade: EK
+  verb: schlagen vor
+  direction: against
+  consensus: starker_konsens
+  consensus_share: 100 %
+  source:
+    at: sources/sepsis-lf-4.0#page=109
+    quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=109, quote: "EK"}
+    direction: {at: sources/sepsis-lf-4.0#page=109, quote: "Schock KEINE Thrombozytentransfusion durchzuführen, es sei"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=109, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=109, quote: "Konsensstärke: 100 %"}
+- id: claims/sepsis-lf-4.0/38d544ef
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '8.4'
+  section: '8.2.4'
+  label: "Vor operativen Eingriffen, zentralvenösen Punktionen bzw. Zugängen oder Liquorpunktion soll die Gabe nach Vorgaben der „Querschnitts-Leitlinien zur Therapie mit Blutkomponenten und Plasmaderivaten“ der BÄK erfolgen."
+  grade: EK
+  verb: soll
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  source:
+    at: sources/sepsis-lf-4.0#page=109
+    quote: "Vor operativen Eingriffen, zent-"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=109, quote: "EK"}
+    verb: {at: sources/sepsis-lf-4.0#page=109, quote: "ralvenösen Punktionen bzw. Zugängen oder Liquorpunktion soll"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=109, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=109, quote: "Konsensstärke: 100 %"}
+- id: claims/sepsis-lf-4.0/68c18cb2
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '8.5'
+  section: '8.3'
+  label: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem Schock intravenöse Immunglobuline NICHT anzuwenden."
+  grade: Schwach
+  verb: schlagen vor
+  direction: against
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/mortalitaet, value: Sehr niedrig, system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=110
+    quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=110, quote: "Schwach"}
+    direction: {at: sources/sepsis-lf-4.0#page=110, quote: "Schock intravenöse Immunglobuline NICHT anzuwenden."}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=110, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=110, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=110, quote: "Mortalität:"}
+- id: claims/sepsis-lf-4.0/29610429
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '8.6'
+  section: '8.4.1'
+  label: "Wir empfehlen, dass bei Patienten mit Sepsis oder septischem Schock unselektive Adsorptionsverfahren NICHT eingesetzt werden."
+  grade: Stark
+  verb: empfehlen
+  direction: against
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/mortalitaet, key: "oXiris®", value: Sehr niedrig, system: grade}
+    - {outcome: concepts/mortalitaet, key: "CytoSorb®", value: Moderat, system: grade}
+    - {outcome: concepts/mortalitaet, key: "CPFA", value: Sehr niedrig, system: grade}
+    - {outcome: concepts/mortalitaet, key: "HA 330", value: Sehr niedrig, system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=111
+    quote: "Wir empfehlen, dass bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=111, quote: "Stark"}
+    direction: {at: sources/sepsis-lf-4.0#page=111, quote: "Schock unselektive Adsorptionsverfahren NICHT eingesetzt wer-"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=111, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=111, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=111, quote: "Mortalität oXiris®:"}
+      - {at: sources/sepsis-lf-4.0#page=111, quote: "Mortalität CytoSorb®:"}
+      - {at: sources/sepsis-lf-4.0#page=111, quote: "Mortalität CPFA:"}
+      - {at: sources/sepsis-lf-4.0#page=111, quote: "Mortalität HA 330:"}
+- id: claims/sepsis-lf-4.0/8a4a3bca
+  type: claim
+  lang: de
+  kind: criterion
+  section: '8.4.1'
+  label: "Diese Verfahren umfassen eine heterogene Gruppe, die sowohl reine Adsorptionsverfahren aus dem Vollblut (z. B. Cytosorb®), als auch kombinierte Verfahren aus Nierenersatz und Adsorption des zuvor separierten Plasmas einschließen (z. B. CPFA, coupled plasma filtration adsorption)."
+  source:   # pp. 111–112: which procedures 8.6's „unselektive Adsorptionsverfahren“ covers. R → 8.6.
+    at: sources/sepsis-lf-4.0#page=111
+    quote: "Diese Verfahren umfassen eine heterogene Gruppe, die sowohl reine Adsorptionsverfahren"
+- id: claims/sepsis-lf-4.0/32c9452d
+  type: claim
+  lang: de
+  kind: criterion
+  section: '8.4.1'
+  label: "HA330 ist ebenfalls ein unselektiver Hämoperfusionsadsorber, welcher in den letzten Jahren vermehrt im deutschsprachigen Raum zur Blutreinigung in der Sepsis eingesetzt wird."
+  source:   # p. 112: a further device the term covers. R → 8.6.
+    at: sources/sepsis-lf-4.0#page=112
+    quote: "HA330 ist ebenfalls ein unselektiver Hämoperfusionsadsorber, welcher in den letzten Jahren"
+- id: claims/sepsis-lf-4.0/3367ef2e
+  type: claim
+  lang: de
+  kind: gap_notice
+  recommendation_no: '8.7'
+  section: '8.4.2'
+  label: "Wir können bei Patienten mit Sepsis oder septischem Schock weder für noch gegen den Einsatz einer Polymyxin-B-Hämoperfusion eine Empfehlung aussprechen."
+  grade: EK
+  consensus: starker_konsens
+  consensus_share: 100 %
+  source:
+    at: sources/sepsis-lf-4.0#page=112
+    quote: "Wir können bei Patienten mit Sepsis oder septischem Schock"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=112, quote: "EK"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=112, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=112, quote: "Konsensstärke: 100 %"}
+- id: claims/sepsis-lf-4.0/af0386b5
+  type: claim
+  lang: de
+  kind: gap_notice
+  recommendation_no: '8.8'
+  section: '8.4.3'
+  label: "Wir können bei Patienten mit Sepsis oder septischem Schock weder für noch gegen den Einsatz einer Plasmapherese eine Empfehlung aussprechen."
+  grade: EK
+  consensus: starker_konsens
+  consensus_share: 100 %
+  source:
+    at: sources/sepsis-lf-4.0#page=114
+    quote: "Wir können bei Patienten mit Sepsis oder septischem Schock"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=114, quote: "EK"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=114, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=114, quote: "Konsensstärke: 100 %"}
+- id: claims/sepsis-lf-4.0/c3b54491
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '8.9'
+  section: '8.5'
+  label: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock eine pharmakologische Prophylaxe einer venösen Thromboembolie (VTE) mittels niedermolekularen Heparins (NMH)."
+  grade: Stark
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/tiefe-beinvenenthrombose, value: Moderat, system: grade}
+    - {outcome: concepts/lungenembolie, value: Niedrig, system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=115
+    quote: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=115, quote: "Stark"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=115, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=115, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=115, quote: "Tiefe BVT:"}
+      - {at: sources/sepsis-lf-4.0#page=115, quote: "LAE:"}
+- id: claims/sepsis-lf-4.0/3df63bfa
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '8.10'
+  section: '8.5'
+  label: "Wir schlagen vor, bei hochgradig eingeschränkter Nierenfunktion und/oder septischem Schock mit hohem Vasopressorbedarf entweder niedermolekulares Heparin (NMH) unter engmaschigen anti-Xa Kontrollen oder unfraktioniertes Heparin (UFH) einzusetzen."
+  grade: EK
+  verb: schlagen vor
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  source:
+    at: sources/sepsis-lf-4.0#page=116
+    quote: "Wir schlagen vor, bei hochgradig eingeschränkter Nierenfunk-"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=116, quote: "EK"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=116, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=116, quote: "Konsensstärke: 100 %"}
+# p. 116: a measure beside 8.9's NMH for patients with impaired renal function. S → 8.9. The CrCl value is
+# „insbesondere“, not the rule of 8.10's „hochgradig eingeschränkter Nierenfunktion“ (hard case 12).
+- id: claims/sepsis-lf-4.0/e4f16f7c
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '8.5'
+  label: "Der Einsatz von NMH bei eingeschränkter Nierenfunktion sollte immer engmaschig evaluiert werden, insbesondere bei einer Kreatintin-Clearance (CrCl) < 30 ml/min, da es hier vermehrt zu Akkumulationen kommen kann."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=116
+    quote: "Der Einsatz von NMH bei eingeschränk-"
+  provenance:
+    verb: {at: sources/sepsis-lf-4.0#page=116, quote: "ter Nierenfunktion sollte immer engmaschig evaluiert werden, insbesondere bei einer Krea-"}
+    direction: {at: sources/sepsis-lf-4.0#page=116, quote: "ter Nierenfunktion sollte immer engmaschig evaluiert werden, insbesondere bei einer Krea-"}
+- id: claims/sepsis-lf-4.0/14c07bbb
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '8.5'
+  label: "Das Therapiemonitoring sollte in diesen Fällen mittels anti-Xa Spiegelbestimmungen erfolgen, um überschießende Wirkspiegel frühzeitig zu detektieren."
+  verb: sollte
+  direction: for
+  source:   # p. 116: the monitoring „in diesen Fällen“ (NMH with impaired renal function). S → 8.9.
+    at: sources/sepsis-lf-4.0#page=116
+    quote: "Das Therapiemonitoring sollte in diesen Fällen mittels anti-Xa Spiegelbestimmungen erfolgen,"
+# pp. 116–117: a decline in the guideline's own voice on the NMH dose, 8.9's question (#213 item 6): a gap notice
+# without an edge.
+- id: claims/sepsis-lf-4.0/7a993656
+  type: claim
+  lang: de
+  kind: gap_notice
+  section: '8.5'
+  label: "Konträr zu dem 2024 publizierten „First Update der European Guidelines on Perioperative Venous Thromboembolism Prophylaxis“, welches sich dieser Empfehlung anschloss, geben die Autoren der S3-Leitlinie hier bewusst keine Empfehlung ab."
+  source:
+    at: sources/sepsis-lf-4.0#page=117
+    quote: "anschloss, geben die Autoren der S3-Leitlinie hier bewusst keine Empfehlung ab. Grund dafür"
+- id: claims/sepsis-lf-4.0/918ad0c8
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '8.11'
+  section: '8.5'
+  label: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem Schock, eine intermittierende pneumatische Kompression als VTE-Prophylaxe einzusetzen, wenn eine pharmakologische VTE-Prophylaxe kontraindiziert ist."
+  grade: Schwach
+  verb: schlagen vor
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/venoese-thromboembolie, value: Sehr niedrig, system: grade}
+    - {outcome: concepts/tiefe-venenthrombose, value: Niedrig, system: grade}
+    - {outcome: concepts/lungenembolie, value: Niedrig, system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=117
+    quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=117, quote: "Schwach"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=117, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=117, quote: "Konsensstärke: 100 %"}
+    evidence:   # the first row prints the word „Sehr niedrig“ over the symbols ⊕⊕⊝⊝, which read Niedrig: the word is recorded (#215)
+      - {at: sources/sepsis-lf-4.0#page=117, quote: "Inzidenz venöser"}
+      - {at: sources/sepsis-lf-4.0#page=117, quote: "Inzidenz tiefer"}
+      - {at: sources/sepsis-lf-4.0#page=117, quote: "Inzidenz von"}
+# p. 118: IPC in combination with a pharmacological VTE prophylaxis for selected high-risk patients is decided
+# individually by the team: a measure beside 8.9's prophylaxis (hard case 9). S → 8.9. No verb a declared scheme
+# defines („muss“).
+- id: claims/sepsis-lf-4.0/01fe1a1f
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '8.5'
+  label: "Ob ausgewählte Hochrisikopatienten von einer solchen Kombination profitieren, lässt sich aufgrund der aktuellen Datenlage nicht abschließend beurteilen und muss daher individuell vom jeweiligen Behandlungsteam entschieden werden."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=118
+    quote: "Ob ausgewählte Hochrisikopatienten von einer solchen Kombination profi-"
+- id: claims/sepsis-lf-4.0/42cf7005
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '8.12'
+  section: '8.6'
+  label: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock bezüglich der Analgesie und Sedierung den Empfehlungen der DAS-Leitlinie zu folgen."
+  grade: EK
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  source:
+    at: sources/sepsis-lf-4.0#page=118
+    quote: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=118, quote: "EK"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=118, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=118, quote: "Konsensstärke: 100 %"}
+- id: claims/sepsis-lf-4.0/0f8653b6
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '8.13'
+  section: '8.7'
+  label: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock den Beginn einer Insulintherapie bei einem oberen Blutzuckerspiegel von ≥ 180 mg/dl (≥ 10 mmol/l)."
+  grade: Stark
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/hypoglykaemie, key: "110-144 mg/dl vgl. 144-180 mg/dl", value: Moderat, system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=120
+    quote: "Wir empfehlen bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=120, quote: "Stark"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=120, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=120, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=120, quote: "(110-144 mg/dl vgl."}
+- id: claims/sepsis-lf-4.0/954220f1
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '8.14'
+  section: '8.8'
+  label: "Wir empfehlen, dass Patienten mit Sepsis oder septischem Schock nur bei vorliegenden Risikofaktoren für gastrointestinale (GI) Blutungen eine Stressulkusprophylaxe erhalten."
+  grade: Stark
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/klinisch-relevante-obere-gi-blutungen, value: Hoch, system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=121
+    quote: "Wir empfehlen, dass Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=121, quote: "Stark"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=121, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=121, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=121, quote: "Klinisch relevante"}
+- id: claims/sepsis-lf-4.0/e8e24cb6
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '8.15'
+  section: '8.8'
+  label: "Wir empfehlen, dass Patienten mit Sepsis oder septischem Schock mit vorliegenden Risikofaktoren für gastrointestinale (GI) Blutungen eine Stressulkusprophylaxe mit Protonenpumpeninhibitoren erhalten."
+  grade: Stark
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/klinisch-relevante-obere-gi-blutungen, value: Moderat, system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=122
+    quote: "Wir empfehlen, dass Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=122, quote: "Stark"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=122, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=122, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=122, quote: "Klinisch relevante"}
+# p. 122 (#213 item 7): one criterion, the three factors being the cases of one group; R → 8.14 and 8.15, and the top
+# of the rule of concepts/risikofaktoren-fuer-gastrointestinale-blutungen. Each „definiert als“ defines its item where
+# it stands, not the term (no E edge).
+- id: claims/sepsis-lf-4.0/7fe8bedb
+  type: claim
+  lang: de
+  kind: criterion
+  section: '8.8'
+  label: "Patienten mit Sepsis oder septischem Schock weisen häufig einen oder mehrere der 3 unabhängigen Risikofaktoren (respiratorische Insuffizienz definiert als maschinelle Beatmung > 48 h, Gerinnungsstörung definiert als INR > 1,5 oder Thrombozytenzahl < 50 000/mm3, akutes Nierenversagen) für das Auftreten einer klinisch signifikanten stressbedingten Blutung auf, die mit erhöhter Morbidität und Mortalität assoziiert sein kann."
+  combination:
+    operator: any_of
+    of: [claims/sepsis-lf-4.0/f07908ba, claims/sepsis-lf-4.0/c9c4878d, claims/sepsis-lf-4.0/5b297b31]
+    connective: "einen oder mehrere"
+    source: {at: sources/sepsis-lf-4.0#page=122, quote: "Patienten mit Sepsis oder septischem Schock weisen häufig einen oder mehrere der 3 unab-"}
+    rationale: "„einen oder mehrere der 3 unabhängigen Risikofaktoren“: jeder der drei Faktoren genügt allein, mehrere dürfen zusammen vorliegen (ODER)."
+  source:
+    at: sources/sepsis-lf-4.0#page=122
+    quote: "Patienten mit Sepsis oder septischem Schock weisen häufig einen oder mehrere der 3 unab-"
+- id: claims/sepsis-lf-4.0/f07908ba
+  type: claim
+  lang: de
+  kind: definition
+  section: '8.8'
+  label: "respiratorische Insuffizienz definiert als maschinelle Beatmung > 48 h"
+  threshold: {quantity: concepts/beatmungsdauer, comparator: ">", value: "48", unit: "h"}
+  source:   # a part of p. 122's combination: the first factor, defined where it stands.
+    at: sources/sepsis-lf-4.0#page=122
+    quote: "respiratorische Insuffizienz definiert als maschinelle Beat-"
+  provenance:
+    threshold:
+      - {at: sources/sepsis-lf-4.0#page=122, quote: "respiratorische Insuffizienz definiert als maschinelle Beat-"}
+      - {at: sources/sepsis-lf-4.0#page=122, quote: "mung > 48 h, Gerinnungsstörung definiert als"}
+# a part of p. 122's combination, itself any_of over two values (#204); the rule of concepts/gerinnungsstoerung.
+- id: claims/sepsis-lf-4.0/c9c4878d
+  type: claim
+  lang: de
+  kind: definition
+  section: '8.8'
+  label: "Gerinnungsstörung definiert als INR > 1,5 oder Thrombozytenzahl < 50 000/mm3"
+  combination:
+    operator: any_of
+    of: [claims/sepsis-lf-4.0/2e76f244, claims/sepsis-lf-4.0/6aec1633]
+    connective: "oder"
+    source: {at: sources/sepsis-lf-4.0#page=122, quote: "Gerinnungsstörung definiert als INR > 1,5 oder Thrombozytenzahl < 50"}
+    rationale: "„INR > 1,5 oder Thrombozytenzahl < 50 000/mm3“: „oder“ verbindet zwei Werte, von denen jeder allein die Gerinnungsstörung ausmacht (ODER)."
+  source:
+    at: sources/sepsis-lf-4.0#page=122
+    quote: "Gerinnungsstörung definiert als INR > 1,5 oder Thrombozytenzahl < 50"
+# a part of the combination of „Gerinnungsstörung“; its own quote prints the threshold, no unit printed.
+- id: claims/sepsis-lf-4.0/2e76f244
+  type: claim
+  lang: de
+  kind: criterion
+  section: '8.8'
+  label: "INR > 1,5"
+  threshold: {quantity: concepts/inr, comparator: ">", value: "1,5"}
+  source:
+    at: sources/sepsis-lf-4.0#page=122
+    quote: "INR > 1,5"
+- id: claims/sepsis-lf-4.0/6aec1633
+  type: claim
+  lang: de
+  kind: criterion
+  section: '8.8'
+  label: "Thrombozytenzahl < 50 000/mm3"
+  threshold: {quantity: concepts/thrombozytenzahl, comparator: "<", value: "50 000", unit: "/mm3"}
+  source:   # a part of the combination of „Gerinnungsstörung“; the value breaks across the line as printed.
+    at: sources/sepsis-lf-4.0#page=122
+    quote: "Thrombozytenzahl < 50"
+  provenance:
+    threshold:
+      - {at: sources/sepsis-lf-4.0#page=122, quote: "oder Thrombozytenzahl < 50"}
+      - {at: sources/sepsis-lf-4.0#page=122, quote: "000/mm3, akutes Nierenversagen)"}
+- id: claims/sepsis-lf-4.0/5b297b31
+  type: claim
+  lang: de
+  kind: criterion
+  section: '8.8'
+  label: "akutes Nierenversagen"
+  source:   # a part of p. 122's combination: the third factor, no value printed.
+    at: sources/sepsis-lf-4.0#page=122
+    quote: "akutes Nierenversagen)"
+- id: claims/sepsis-lf-4.0/c0278d86
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '8.16'
+  section: '8.9'
+  label: "Wir empfehlen, bei Patienten mit Sepsis oder septischem Schock hochdosiertes Vitamin C – weder als Monotherapie noch als Kombinationstherapie mit Hydrocortison und hochdosiertem Vitamin B1 (Thiamin) – NICHT zu verwenden."
+  grade: Stark
+  verb: empfehlen
+  direction: against
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/mortalitaet-nach-90-tagen, key: "HAT", value: Sehr niedrig, system: grade}
+    - {outcome: concepts/mortalitaet-nach-30-tagen, key: "Monotherapie Vitamin C", value: Sehr niedrig, system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=124
+    quote: "Wir empfehlen, bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=124, quote: "Stark"}
+    direction: {at: sources/sepsis-lf-4.0#page=124, quote: "siertem Vitamin B1 (Thiamin) – NICHT zu verwenden."}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=124, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=124, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=124, quote: "HAT486:"}
+      - {at: sources/sepsis-lf-4.0#page=124, quote: "Vitamin C487:"}
+- id: claims/sepsis-lf-4.0/5a8b2f2b
+  type: claim
+  lang: de
+  kind: criterion
+  section: '8.9'
+  label: "Es sei an dieser Stelle darauf verwiesen, dass sich diese Empfehlung auf die hochdosierte intravenöse Vitamin C-Therapie bezieht."
+  source:   # p. 125: which route 8.16's „hochdosiertes Vitamin C“ stands for. R → 8.16.
+    at: sources/sepsis-lf-4.0#page=125
+    quote: "Es sei an dieser Stelle darauf verwiesen, dass sich diese Empfehlung auf die hochdosierte in-"
+# p. 125: what the term does not cover — a substitution is no high dose, so no case is taken out. R → 8.16.
+- id: claims/sepsis-lf-4.0/d47626f0
+  type: claim
+  lang: de
+  kind: criterion
+  section: '8.9'
+  label: "Die Substitution des empfohlenen Tagesbedarfs von Vitaminen (und Spurenelementen) für gesunde Erwachsene bei nicht-bilanzierter enteraler oder (rein) parenteraler Ernährung, im Rahmen der medizinischen Ernährungstherapie kritisch kranker Patienten mit Sepsis oder septischem Schock, bleibt davon unberührt."
+  source:
+    at: sources/sepsis-lf-4.0#page=125
+    quote: "Die Substitution des empfohlenen Tagesbedarfs von"
+- id: claims/sepsis-lf-4.0/9b7703dd
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '8.17'
+  section: '8.10'
+  label: "Wir schlagen vor, bei Patienten mit septischem Schock Natriumbicarbonat alleinig zum Zwecke einer Verbesserung der Hämodynamik NICHT zu verwenden."
+  grade: EK
+  verb: schlagen vor
+  direction: against
+  consensus: starker_konsens
+  consensus_share: 100 %
+  source:
+    at: sources/sepsis-lf-4.0#page=125
+    quote: "Wir schlagen vor, bei Patienten mit septischem Schock Natrium-"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=125, quote: "EK"}
+    direction: {at: sources/sepsis-lf-4.0#page=125, quote: "dynamik NICHT zu verwenden."}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=125, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=125, quote: "Konsensstärke: 100 %"}
+# p. 126: a decline in the guideline's voice („wir“) on 8.17's question for another population (#213 item 6): a gap
+# notice without an edge.
+- id: claims/sepsis-lf-4.0/b8834e22
+  type: claim
+  lang: de
+  kind: gap_notice
+  section: '8.10'
+  label: "Zusammenfassend ist die Evidenz basierend auf den vorhandenen Daten zum Einsatz bei AKI gering und wir sprechen daher keine generelle Empfehlung für den Einsatz von Natriumbicarbonat in dieser Subgruppe aus."
+  source:
+    at: sources/sepsis-lf-4.0#page=126
+    quote: "gering und wir sprechen daher keine generelle Empfehlung für den Einsatz von Natriumbicar-"
+# p. 126 (hard case 10, for the physician): takes the patients with metabolic acidosis (pH ≤ 7,2) and AKI (Grad 2 oder
+# 3) out of 8.17's „NICHT“ into an individual decision. L → 8.17 (the first of R, L, S that holds; S the alternative).
+# The pH is no threshold: a recommendation carries none.
+- id: claims/sepsis-lf-4.0/f5de57b4
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '8.10'
+  label: "Basierend auf den genannten Daten sollte bei Patienten mit septischen Schock, metabolischer Azidose mit einem pH ≤ 7,2, und einem AKI (Grad 2 oder 3) die Gabe individuell mit Abwägung von Nebenwirkungen und potentiellen Nutzen erfolgen."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=126
+    quote: "Basierend auf den genannten Daten sollte bei Patienten mit"

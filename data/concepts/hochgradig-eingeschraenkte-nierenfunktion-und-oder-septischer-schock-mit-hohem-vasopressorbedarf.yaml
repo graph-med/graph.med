@@ -1,0 +1,10 @@
+# The one condition of 8.10 (p. 116), one concept for the source's „und/oder“ (the maintainer's decision of
+# 2026-09-25, section 1). Stated: „hochgradig eingeschränkter Nierenfunktion“ and „hohem Vasopressorbedarf“ have no
+# rule in the guideline (hard case 12; p. 116's CrCl < 30 ml/min is given for „eingeschränkter“, as „insbesondere“).
+id: concepts/hochgradig-eingeschraenkte-nierenfunktion-und-oder-septischer-schock-mit-hohem-vasopressorbedarf
+type: concept
+lang: de
+label: "Hochgradig eingeschränkte Nierenfunktion und/oder septischer Schock mit hohem Vasopressorbedarf"
+short_label: "Hochgradig eingeschränkte Niere/hoher Vasopressorbedarf"
+facet: patient_state
+source: modelling

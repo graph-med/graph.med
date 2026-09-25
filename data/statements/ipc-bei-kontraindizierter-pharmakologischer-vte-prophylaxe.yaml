@@ -1,0 +1,10 @@
+id: statements/ipc-bei-kontraindizierter-pharmakologischer-vte-prophylaxe
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock eine intermittierende pneumatische Kompression als VTE-Prophylaxe, wenn eine pharmakologische VTE-Prophylaxe kontraindiziert ist."
+short_label: "IPC, wenn pharmakologische VTE-Prophylaxe kontraindiziert"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/intermittierende-pneumatische-kompression
+  condition: [concepts/pharmakologische-vte-prophylaxe-kontraindiziert]
+source: modelling

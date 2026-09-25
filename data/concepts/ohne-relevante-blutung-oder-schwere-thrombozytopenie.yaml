@@ -1,0 +1,10 @@
+# The condition of 8.4's first sentence (p. 109): its exception „es sei denn, es liegt eine relevante Blutung oder
+# eine schwere Thrombozytopenie vor (< 10.000/µl)“, one concept labelled with the negation (#217 row 10), never linked
+# to what it negates. Stated: the value stays in the label (#213 item 3); „relevante Blutung“ is not defined.
+id: concepts/ohne-relevante-blutung-oder-schwere-thrombozytopenie
+type: concept
+lang: de
+label: "Ohne relevante Blutung oder schwere Thrombozytopenie (< 10.000/µl)"
+short_label: "Ohne relevante Blutung oder Thrombozytopenie < 10.000/µl"
+facet: patient_state
+source: modelling

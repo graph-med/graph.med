@@ -1,0 +1,7 @@
+# A measured quantity, named by p. 109's threshold „APTT > 45 s“.
+id: concepts/aptt
+type: concept
+lang: de
+label: "APTT"
+facet: finding
+source: modelling

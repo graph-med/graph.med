@@ -1,0 +1,9 @@
+# Named by 7.1 (p. 103). Derived: its one defined_by edge reaches p. 104, „Die metabolische Toleranz wird dabei
+# insbesondere über die Glukosekonzentration und den resultierenden Insulinbedarf definiert“ — no threshold: the page
+# prints no value, and 8.13's ≥ 180 mg/dl is not imported through the cross-reference (hard case 2).
+id: concepts/metabolische-toleranz
+type: concept
+lang: de
+label: "Metabolische Toleranz"
+facet: finding
+source: modelling

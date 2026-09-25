@@ -1,0 +1,8 @@
+# The action of 8.9 (p. 115).
+id: concepts/vte-prophylaxe-mit-nmh
+type: concept
+lang: de
+label: "Pharmakologische Prophylaxe einer venösen Thromboembolie (VTE) mittels niedermolekularen Heparins (NMH)"
+short_label: "VTE-Prophylaxe mit NMH"
+facet: intervention
+source: modelling

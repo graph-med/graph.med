@@ -1,0 +1,21 @@
+# Edges of card #225 from chapter 7 of sources/sepsis-lf-4.0 (pp. 103–104), all modelling.
+# evidence (spec §3.1): the claim of box 7.1 supports its statement
+- [claims/sepsis-lf-4.0/72050068, supports, statements/fruehe-ernaehrung-nach-haemodynamischer-stabilisierung, {source: modelling}]
+
+# body text (spec §5.1): p. 104, section 7
+- [claims/sepsis-lf-4.0/d1690c44, refines, claims/sepsis-lf-4.0/72050068, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: metabolischen Toleranz — „Die metabolische Toleranz wird dabei insbesondere über die Glukosekonzentration und den resultierenden Insulinbedarf definiert“."}]
+- [claims/sepsis-lf-4.0/d353eda9, refines, claims/sepsis-lf-4.0/72050068, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: gastrointestinalen Toleranz — „die gastrointestinale Toleranz u.a. anhand von klinisch-abdomineller und/oder bildgebender Diagnostik“."}]
+- [claims/sepsis-lf-4.0/db2289ef, supplements, claims/sepsis-lf-4.0/72050068, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "S: Monitoring der gastrointestinalen und metabolischen Toleranz — „Anhand des Monitorings … wird die enterale und/oder parenterale Kalorien- und Proteinzufuhr im weiteren Verlauf gesteuert“: der nächste Schritt."}]
+
+# defined_by (spec §3.2, §5): the concepts whose rules card #225 owns, one edge each, to the top of the rule
+- [concepts/metabolische-toleranz, defined_by, claims/sepsis-lf-4.0/d1690c44, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "„metabolische Toleranz“ — „wird dabei insbesondere über die Glukosekonzentration und den resultierenden Insulinbedarf definiert“ (S. 104); ohne Schwellenwert."}]
+- [concepts/gastrointestinale-toleranz, defined_by, claims/sepsis-lf-4.0/d353eda9, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "„gastrointestinale Toleranz“ — „u.a. anhand von klinisch-abdomineller und/oder bildgebender Diagnostik“ (S. 104); ohne Schwellenwert."}]
+
+# cross-statement semantics (spec §5): 7.1 and 8.13, both this card's (card #225, Outcome 5)
+- [statements/insulintherapie-ab-blutzucker-180-mg-dl, complements, statements/fruehe-ernaehrung-nach-haemodynamischer-stabilisierung, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "S. 104: die metabolische Toleranz der Ernährung (7.1) wird „über die Glukosekonzentration und den resultierenden Insulinbedarf definiert (s. auch Empfehlung 8.13)“ — der Beginn der Insulintherapie (8.13) tritt zum Monitoring der Ernährung hinzu."}]

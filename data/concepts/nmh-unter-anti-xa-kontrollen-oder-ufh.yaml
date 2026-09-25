@@ -1,0 +1,8 @@
+# The action of 8.10 (p. 116), one concept for the source's „entweder … oder“.
+id: concepts/nmh-unter-anti-xa-kontrollen-oder-ufh
+type: concept
+lang: de
+label: "Niedermolekulares Heparin (NMH) unter engmaschigen anti-Xa Kontrollen oder unfraktioniertes Heparin (UFH)"
+short_label: "NMH unter anti-Xa-Kontrollen oder UFH"
+facet: medication
+source: modelling

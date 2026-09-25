@@ -1,0 +1,10 @@
+# The condition of 8.2 (p. 107), one concept for the source's „oder“ (spec §3.2). A rule printed inside a box sentence
+# stays in its claim and the concept stays stated, its label carrying the rule as printed (#213 item 3; open question
+# rule-claim-granularity); „physiologischer Transfusionskriterien“ is not defined by the guideline.
+id: concepts/hb-wert-unter-4-34-mmol-l-oder-physiologische-transfusionskriterien
+type: concept
+lang: de
+label: "Hb-Wert von < 4,34 mmol/L (< 7.0 g/dl) oder Vorliegen physiologischer Transfusionskriterien"
+short_label: "Hb < 4,34 mmol/L (< 7.0 g/dl) oder physiologische Kriterien"
+facet: finding
+source: modelling

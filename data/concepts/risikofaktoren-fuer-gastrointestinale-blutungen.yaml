@@ -1,0 +1,9 @@
+# The condition of 8.14 and 8.15 (pp. 121–122). Derived: its one defined_by edge reaches p. 122's „einen oder mehrere
+# der 3 unabhängigen Risikofaktoren (…)“, which combines the three factors (#213 item 7, #204).
+id: concepts/risikofaktoren-fuer-gastrointestinale-blutungen
+type: concept
+lang: de
+label: "Risikofaktoren für gastrointestinale (GI) Blutungen"
+short_label: "Risikofaktoren für GI-Blutungen"
+facet: patient_state
+source: modelling
