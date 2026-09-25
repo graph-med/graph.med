@@ -1,0 +1,144 @@
+# Chapter 9 of sources/sepsis-lf-4.0, „Behandlungsziele und Spätfolgen“ (physical pages 127–134), card #226:
+# every sentence of boxes 9.1–9.4 (spec §3.1, one claim per sentence, recommendation_no and section read
+# separately; all EK, no evidence rows), and the body-text places that pass spec §5.1. Sections 9, 9.2,
+# 9.2.1–9.2.5 and 9.2.7 hold no box, so nothing of theirs passes G1 (#213 item 4). Quotes verbatim as printed
+# on one pdftotext -layout line.
+
+# Box 9.1, p. 127 (section 9.1), its one sentence; it names no patient group, only the conversation partners (hard case 1)
+- id: claims/sepsis-lf-4.0/7df6bb0f
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "9.1"
+  section: "9.1"
+  label: "Wir empfehlen, dass die Behandlungsziele und die Prognose mit den Patienten bzw. deren Angehörigen/Betreuern besprochen werden."
+  grade: "EK"
+  verb: "empfehlen"
+  direction: "for"
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=127
+    quote: "Wir empfehlen, dass die Behandlungsziele und die Prognose"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=127", quote: "EK"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=127", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=127", quote: "Konsensstärke: 100 %"}
+# Box 9.2, p. 127 (section 9.1; box against section, hard case 11), its one sentence; „innerhalb von 72 Stunden“ is a prescribed time, not a threshold (hard case 2)
+- id: claims/sepsis-lf-4.0/a6595aa3
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "9.2"
+  section: "9.1"
+  label: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem Schock, die Behandlungsziele möglichst früh (innerhalb von 72 Stunden) festzulegen."
+  grade: "EK"
+  verb: "schlagen vor"
+  direction: "for"
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=127
+    quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=127", quote: "EK"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=127", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=127", quote: "Konsensstärke: 100 %"}
+# Box 9.3, p. 131 (section 9.2.6), its one sentence; „Angehö-rige“ joined in the label
+- id: claims/sepsis-lf-4.0/f8ca0c0d
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "9.3"
+  section: "9.2.6"
+  label: "Wir empfehlen, dass Sepsis-Überlebende und deren Angehörige über das Beratungsangebot von Selbsthilfe-Gruppen informiert werden."
+  grade: "EK"
+  verb: "empfehlen"
+  direction: "for"
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=131
+    quote: "Wir empfehlen, dass Sepsis-Überlebende und deren Angehö-"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=131", quote: "EK"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=131", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=131", quote: "Konsensstärke: 100 %"}
+# Box 9.4, p. 132 (section 9.2.6), its one sentence; „Entlassbe-richt“ joined, „Post-Intensive-“ / „Care-Syndrom“ a hard hyphen, kept
+- id: claims/sepsis-lf-4.0/36bf7239
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "9.4"
+  section: "9.2.6"
+  label: "Wir empfehlen, dass bei Sepsis-Überlebenden im Entlassbericht auf die Möglichkeit der Entwicklung eines Post-Intensive-Care-Syndrom (PICS) hingewiesen wird."
+  grade: "EK"
+  verb: "empfehlen"
+  direction: "for"
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=132
+    quote: "Wir empfehlen, dass bei Sepsis-Überlebenden im Entlassbe-"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=132", quote: "EK"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=132", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=132", quote: "Konsensstärke: 100 %"}
+# body text, p. 128 (section 9.1): refines 9.2 — the start of its 72 hours, a value the recommendation needs and does not give, reported from the studies (G2's exception; hard case 2); reference marks left out
+- id: claims/sepsis-lf-4.0/c2736efa
+  type: claim
+  lang: de
+  kind: fact
+  section: "9.1"
+  label: "Die Nutzung von Behandlungskonferenzen zur Identifizierung von Patientenverfügungen und von Behandlungszielen innerhalb von 72 Stunden ab dem Zeitpunkt der Aufnahme auf der Intensivstation fördert nachweislich die Kommunikation und die Verständigung zwischen der Familie des Patienten und dem Behandlungsteam, verbessert die Angehörigenzufriedenheit, verringert Stress, Ängste und Depressionen bei den Angehörigen, erleichtert die Entscheidungsfindung zur Sterbebegleitung und verkürzt die Aufenthaltsdauer auf der Intensivstation bei Patienten, die versterben."
+  source:
+    at: sources/sepsis-lf-4.0#page=128
+    quote: "zielen innerhalb von 72 Stunden ab dem Zeitpunkt der Aufnahme auf der Intensivstation för-"
+# body text, p. 131 (section 9.2.6): refines 9.3 — when and by whom survivors are pointed to self-help groups: in the discharge management hospitals owe (the sentence before)
+- id: claims/sepsis-lf-4.0/2888eb14
+  type: claim
+  lang: de
+  kind: fact
+  section: "9.2.6"
+  label: "Dazu gehört auch der Verweis auf die Teilnahme in Selbsthilfe-Gruppen (siehe: Patienteninformation zum Entlassmanagement, https://www.gkv-spitzenverband.de/)."
+  source:
+    at: sources/sepsis-lf-4.0#page=131
+    quote: "Dazu gehört auch der Verweis auf die Teilnahme"
+# body text, pp. 131–132 (section 9.2.6): refines 9.3 — which counselling offer; the sentence runs across the page break, its hotline number and e-mail address (in parentheses on p. 132) left out of the label and the quote (hard case 8)
+- id: claims/sepsis-lf-4.0/fbb8cc1d
+  type: claim
+  lang: de
+  kind: fact
+  section: "9.2.6"
+  label: "In Deutschland steht seit 2005 mit der Deutschen Sepsis-Hilfe e. V. (DSH) eine Patientenorganisation zur Verfügung, die Sepsis-Überlebende und Angehörige über eine kostenlose Hotline telefonisch oder per E-mail individuell berät."
+  source:
+    at: sources/sepsis-lf-4.0#page=131
+    quote: "In Deutschland steht seit 2005 mit der Deutschen Sepsis-Hilfe e. V. (DSH) eine Patientenorga-"
+# body text, p. 132 (section 9.2.6): refines 9.3 — by what means survivors and relatives are informed; its first syllable „In-“ stands on the line with the contact details, so the quote starts on the next line
+- id: claims/sepsis-lf-4.0/f55ab716
+  type: claim
+  lang: de
+  kind: fact
+  section: "9.2.6"
+  label: "Informationsmaterialien, die in barrierearmer Sprache verfasst sind, stehen auf der DSH website https://sepsis-hilfe.org/de/ zur Verfügung und können den Akutkrankenhäusern auch als Informationsbroschüren zur Verfügung gestellt werden."
+  source:
+    at: sources/sepsis-lf-4.0#page=132
+    quote: "formationsmaterialien, die in barrierearmer Sprache verfasst sind, stehen auf der DSH website"
+# body text, p. 132 (section 9.2.6): refines 9.4 — what the PICS it names comprises most often; reference marks left out
+- id: claims/sepsis-lf-4.0/bda2c4bd
+  type: claim
+  lang: de
+  kind: criterion
+  section: "9.2.6"
+  label: "Die häufigsten PICS-assoziierten Erkrankungen sind neu aufgetretene neurokognitive Einschränkungen, eine Critical illness Polyneuropathie und -myopathie (CIP/CIM) bzw. eine posttraumatische Belastungsstörung (PTBS)."
+  source:
+    at: sources/sepsis-lf-4.0#page=132
+    quote: "Die häufigsten PICS-assoziierten Erkrankungen sind neu aufgetretene neurokognitive Ein-"

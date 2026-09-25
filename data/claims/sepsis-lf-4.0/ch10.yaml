@@ -1,0 +1,193 @@
+# Chapter 10 of sources/sepsis-lf-4.0, „Präventionsmaßnahmen und Impfungen“ (physical pages 135–138), card
+# #226: every sentence of boxes 10.1–10.4 (spec §3.1, one claim per sentence, recommendation_no and section
+# read separately; all EK, no evidence rows — 10.3 and 10.4 print „Literatur: 568“ without a rating), and
+# the body-text places that pass spec §5.1. Quotes verbatim as printed on one pdftotext -layout line.
+
+# Box 10.1, p. 136 (section 10.1), its one sentence; „Ste-wardship“ and „Anti-infektiva“ joined
+- id: claims/sepsis-lf-4.0/5640dc77
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "10.1"
+  section: "10.1"
+  label: "Wir empfehlen die Implementierung eines Antimicrobial Stewardship (AMS)-Programms zur Sicherung einer rationalen Antiinfektiva-Anwendung im Krankenhaus."
+  grade: "EK"
+  verb: "empfehlen"
+  direction: "for"
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=136
+    quote: "Wir empfehlen die Implementierung eines Antimicrobial Ste-"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=136", quote: "EK"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=136", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=136", quote: "Konsensstärke: 100 %"}
+# Box 10.2, p. 136 (section 10.1; box against section, hard case 11), its one sentence
+- id: claims/sepsis-lf-4.0/b034478e
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "10.2"
+  section: "10.1"
+  label: "Wir empfehlen, multimodale Strategien zur Implementierung von Infektionspräventionsmaßnahmen (z. B. bei intravasalen Kathetern) einzusetzen."
+  grade: "EK"
+  verb: "empfehlen"
+  direction: "for"
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=136
+    quote: "Wir empfehlen, multimodale Strategien zur Implementierung"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=136", quote: "EK"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=136", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=136", quote: "Konsensstärke: 100 %"}
+# Box 10.3, p. 137 (section 10.2), sentence 1 of 2; its „insbesondere“ list is emphasis, not a restriction (hard case 3); „Haemo-philus“ joined
+- id: claims/sepsis-lf-4.0/361c4595
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "10.3"
+  section: "10.2"
+  label: "Wir empfehlen die Umsetzung der Empfehlungen der Ständigen Impfkommission (STIKO) am Robert Koch-Institut, insbesondere die Impfungen gegen Influenza, COVID-19, RSV (Respiratory Syncytialvirus), Pneumokokken, Meningokokken und Haemophilus influenzae B."
+  grade: "EK"
+  verb: "empfehlen"
+  direction: "for"
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=137
+    quote: "Wir empfehlen die Umsetzung der Empfehlungen der Ständigen"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=137", quote: "EK"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=137", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=137", quote: "Konsensstärke: 100 %"}
+# Box 10.3, p. 137 (section 10.2), sentence 2 of 2; it names the staff, who stay in the action (decision of 2026-09-25, section 1)
+- id: claims/sepsis-lf-4.0/53e868dd
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "10.3"
+  section: "10.2"
+  label: "Wir empfehlen für das medizinische Personal die jährliche Impfung gegen Influenza und COVID-19, um Patienten vor nosokomialen respiratorischen Infektionen und konsekutiver Sepsis zu schützen."
+  grade: "EK"
+  verb: "empfehlen"
+  direction: "for"
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=137
+    quote: "Wir empfehlen für das medizinische Personal die jährliche Imp-"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=137", quote: "EK"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=137", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=137", quote: "Konsensstärke: 100 %"}
+# Box 10.4, p. 137 (section 10.2), its one sentence with three coordinated actions: one claim (hard case 4); „STIKO-Emp-fehlungen“ joined
+- id: claims/sepsis-lf-4.0/62b37e0e
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "10.4"
+  section: "10.2"
+  label: "Wir empfehlen, dass Patienten mit Asplenie gemäß STIKO-Empfehlungen geimpft, mit einem entsprechenden Notfallpass und mit einer Antibiotika-Standby Prophylaxe ausgestattet werden."
+  grade: "EK"
+  verb: "empfehlen"
+  direction: "for"
+  consensus: "starker_konsens"
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=137
+    quote: "Wir empfehlen, dass Patienten mit Asplenie gemäß STIKO-Emp-"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=137", quote: "EK"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=137", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=137", quote: "Konsensstärke: 100 %"}
+# body text, p. 136 (section 10.1): refines 10.2 — what its multimodal strategies comprise, one group's parts, one claim (K)
+- id: claims/sepsis-lf-4.0/f073fc2b
+  type: claim
+  lang: de
+  kind: criterion
+  section: "10.1"
+  label: "Innerhalb von multimodalen Strategien werden verschiedene Implementierungsansätze (üblicherweise 5: Bereitstellung einer geeigneten Infrastruktur, Aus- und Weiterbildung, Monitoring von Infrastruktur, Prozessen und Ergebnisqualität, Kommunikation und Kulturwandel) zu einem Gesamtkonzept verbunden und beinhalten häufig Bundles oder Checklisten, die durch multidisziplinäre Teams entsprechend den lokalen Bedingungen entwickelt werden."
+  source:
+    at: sources/sepsis-lf-4.0#page=136
+    quote: "Innerhalb von multimodalen Strategien werden verschiedene Implementierungsansätze (üb-"
+# body text, p. 136 (section 10.1): refines 10.2 — for which infection prevention measures the strategies matter most, beyond the box's example; reference mark left out
+- id: claims/sepsis-lf-4.0/acd15f08
+  type: claim
+  lang: de
+  kind: criterion
+  section: "10.1"
+  label: "Solche multimodalen Strategien sind insbesondere bei der Verbesserung der Händehygiene-Compliance, der Reduktion von Zentraler Venenkatheter (ZVK)-assoziierten Blutstrominfektionen und Beatmungs-assoziierten Pneumonien relevant, aber auch bei der Senkung der Zahl von Infektionen mit Methicillin-resistentem Staphylococcus aureus (MRSA) und Clostridioides-difficile (C. difficile)."
+  source:
+    at: sources/sepsis-lf-4.0#page=136
+    quote: "len Strategien sind insbesondere bei der Verbesserung der Händehygiene-Compliance, der"
+# body text, p. 137 (section 10.2): refines 10.3's second sentence — when and with which vaccine; the rest repeats the recommendation (G3); reference mark left out
+- id: claims/sepsis-lf-4.0/9fd94c7c
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "10.2"
+  label: "Um vulnerable Patienten vor nosokomialer Influenza und einer COVID-19 Infektion, die mit einer relevanten Mortalität assoziiert ist, zu schützen, wird dem medizinischen Personal jährlich zu Beginn der Saison eine Impfung mit den jeweils empfohlenen Vakzinen empfohlen."
+  verb: "empfehlen"
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=137
+    quote: "lich zu Beginn der Saison eine Impfung mit den jeweils empfohlenen Vakzinen empfohlen."
+# body text, p. 138 (section 10.2): refines 10.4 — who is in its group
+- id: claims/sepsis-lf-4.0/7575c5ee
+  type: claim
+  lang: de
+  kind: fact
+  section: "10.2"
+  label: "Ein besonders hohes Risiko für die Entwicklung einer Sepsis haben Patienten mit einer anatomischen oder funktionellen Asplenie."
+  source:
+    at: sources/sepsis-lf-4.0#page=138
+    quote: "Ein besonders hohes Risiko für die Entwicklung einer Sepsis haben Patienten mit einer anato-"
+# body text, p. 138 (section 10.2): refines 10.4; member 1 of 2 of its sentence, another action than member 2 (K)
+- id: claims/sepsis-lf-4.0/8dd5c346
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "10.2"
+  label: "Diese sollten mit einem Asplenie-Notfallpass (erhältlich unter www.asplenie-net.org/) ausgestattet werden,"
+  verb: "sollte"
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=138
+    quote: "sollten mit einem Asplenie-Notfallpass (erhältlich unter www.asplenie-net.org/) ausgestattet"
+# body text, p. 138 (section 10.2): refines 10.4; member 2 of 2 of its sentence (K); „Antibiotikapro-phylaxe“ joined
+- id: claims/sepsis-lf-4.0/455cc7b4
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "10.2"
+  label: "in dem auch eine Dauerprophylaxe mit Penicillin oder eine stand by – Antibiotikaprophylaxe Amoxicillin/Clavulansäure (bessere Wirksamkeit bei H. influenzae) empfohlen wird."
+  verb: "empfehlen"
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=138
+    quote: "phylaxe Amoxicillin/Clavulansäure (bessere Wirksamkeit bei H. influenzae) empfohlen wird."
+# body text, p. 138 (section 10.2): refines 10.3's first sentence — for whom and when: survivors, in the follow-up
+- id: claims/sepsis-lf-4.0/a3ba9224
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "10.2"
+  label: "Daher sollte bei Patienten, die eine Sepsis oder septischen Schock überlebt haben, der Impfstatus im Rahmen der Nachsorge überprüft und komplettiert werden, dies gilt insbesondere für die jährliche Influenzaimpfung."
+  verb: "sollte"
+  direction: "for"
+  source:
+    at: sources/sepsis-lf-4.0#page=138
+    quote: "Daher sollte bei Patienten, die eine Sepsis oder septischen Schock überlebt haben,"
