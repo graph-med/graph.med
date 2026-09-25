@@ -3,7 +3,7 @@ id: statements/keine-routinemaessige-double-gram-negative-coverage
 type: statement
 lang: de
 label: "Bei Patienten mit Sepsis oder septischem Schock ohne erhöhtes Risiko für multiresistente Erreger KEINE routinemäßige, initiale Therapie mit zwei verschiedenen gegen gramnegative Erreger wirksamen Substanzen durchführen."
-short_label: "Ohne MRE-Risiko keine double gram-negative coverage"
+short_label: "Ohne erhöhtes MRE-Risiko keine routinemäßige double coverage"
 slots:
   population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
   action: concepts/double-gram-negative-coverage

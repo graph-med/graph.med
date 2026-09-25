@@ -4,7 +4,7 @@ id: statements/probengewinnung-ohne-wesentliche-verzoegerung-der-therapie
 type: statement
 lang: de
 label: "Die Gewinnung weiterer Probenmaterialien darf zu keiner wesentlichen zeitlichen Verzögerung der antiinfektiven Therapie führen."
-short_label: "Probengewinnung ohne Verzögerung der Therapie"
+short_label: "Probengewinnung ohne wesentliche Therapieverzögerung"
 slots:
   population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
   action: concepts/wesentliche-zeitliche-verzoegerung-der-antiinfektiven-therapie

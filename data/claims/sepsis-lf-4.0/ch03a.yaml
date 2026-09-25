@@ -506,6 +506,15 @@
   source:
     at: sources/sepsis-lf-4.0#page=43
     quote: "keiten, Interaktionen und Toxizität müssen berücksichtigt werden."
+- id: claims/sepsis-lf-4.0/a6e3e65d
+  type: claim
+  lang: de
+  kind: fact
+  section: '3.3'
+  label: "Die häufigsten Pathogene, die einen septischen Schock verursachen, sind gramnegative und grampositive Bakterien."
+  source:
+    at: sources/sepsis-lf-4.0#page=43
+    quote: "Die häufigsten Pathogene, die einen septischen Schock verursachen, sind gramnegative und"
 - id: claims/sepsis-lf-4.0/1b410595
   type: claim
   lang: de
@@ -544,6 +553,16 @@
   source:
     at: sources/sepsis-lf-4.0#page=43
     quote: "sichtigen sind, ist die Empfehlung einer universellen antiinfektiven Therapie bei einer Sepsis"
+- id: claims/sepsis-lf-4.0/ee505f8c
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.3'
+  label: "Eine Anpassung an die lokalen Gegebenheiten (Erregerepidemiologie, Resistenzsituation, Medikamenten-Verfügbarkeit) ist notwendig."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=43
+    quote: "Eine Anpassung an die lokalen Gegebenheiten (Erregerepidemiologie, Re-"
 - id: claims/sepsis-lf-4.0/de331b1f
   type: claim
   lang: de
@@ -554,6 +573,15 @@
   source:
     at: sources/sepsis-lf-4.0#page=43
     quote: "Die Ergänzung eines pathogenspezifischen Wirkstoffs zur Erweiterung des Spektrums ist ge-"
+- id: claims/sepsis-lf-4.0/41270b30
+  type: claim
+  lang: de
+  kind: fact
+  section: '3.3'
+  label: "Bei einer nosokomialen Pneumonie hingegen spielen atypische Erreger keine Rolle."
+  source:
+    at: sources/sepsis-lf-4.0#page=44
+    quote: "Bei einer nosokomialen Pneumonie hingegen spielen atypische Erreger keine"
 - id: claims/sepsis-lf-4.0/e7177a2d
   type: claim
   lang: de
@@ -583,6 +611,15 @@
   source:
     at: sources/sepsis-lf-4.0#page=48
     quote: "Bei diesen Patienten ist auch an die Möglichkeit einer Asper-"
+- id: claims/sepsis-lf-4.0/68e380db
+  type: claim
+  lang: de
+  kind: fact
+  section: '3.3'
+  label: "Bei Patienten, die aufgrund einer Influenza- oder COVID-19 beatmet werden müssen, kann im Verlauf (auch bei fehlenden klassischen Kriterien für eine Immunsuppression) eine invasive pulmonale Schimmelpilzinfektion auftreten."
+  source:
+    at: sources/sepsis-lf-4.0#page=48
+    quote: "Bei Patienten, die aufgrund einer Influenza- oder COVID-19 beat-"
 - id: claims/sepsis-lf-4.0/f6300b85
   type: claim
   lang: de
@@ -655,17 +692,48 @@
   source:
     at: sources/sepsis-lf-4.0#page=49
     quote: "Der Beginn einer empirischen Therapie hängt von der Anzahl der Risikofaktoren und der lokalen Epi-"
-- id: claims/sepsis-lf-4.0/ce65fd5f
+# one sentence, two alternatives with a duration each: a claim each (§5.1 K), each quoting its member
+- id: claims/sepsis-lf-4.0/78f42aa0
+  type: claim
+  lang: de
+  kind: criterion
+  section: '3.3'
+  label: "Eine Möglichkeit, die Wirksamkeit von Beta-Laktam-Antibiotika zu verbessern, ist die Verlängerung der Infusionsdauer auf 3-4 Stunden …"
+  source:
+    at: sources/sepsis-lf-4.0#page=50
+    quote: "otika zu verbessern, ist die Verlängerung der Infusionsdauer auf 3-4 Stunden"
+- id: claims/sepsis-lf-4.0/0051cf3b
+  type: claim
+  lang: de
+  kind: criterion
+  section: '3.3'
+  label: "Eine Möglichkeit, die Wirksamkeit von Beta-Laktam-Antibiotika zu verbessern, ist … die kontinuierliche Infusion über 24 Stunden."
+  source:
+    at: sources/sepsis-lf-4.0#page=50
+    quote: "nuierliche Infusion über 24 Stunden."
+# one sentence, two alternatives with a duration each („über 3-4 bzw. 24 Stunden“): a claim each (§5.1 K)
+- id: claims/sepsis-lf-4.0/043c28e6
   type: claim
   lang: de
   kind: recommendation
   section: '3.3'
-  label: "Unmittelbar im Anschluss an diese Kurzinfusion kann dann eine prolongierte oder kontinuierliche Infusion über 3-4 bzw. 24 Stunden durchgeführt werden."
+  label: "Unmittelbar im Anschluss an diese Kurzinfusion kann dann eine prolongierte … Infusion über 3-4 … Stunden durchgeführt werden."
   verb: kann
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=51
-    quote: "im Anschluss an diese Kurzinfusion kann dann eine prolongierte oder kontinuierliche Infusion"
+    quote: "im Anschluss an diese Kurzinfusion kann dann eine prolongierte"
+- id: claims/sepsis-lf-4.0/dbc01ecf
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.3'
+  label: "Unmittelbar im Anschluss an diese Kurzinfusion kann dann eine … kontinuierliche Infusion über … 24 Stunden durchgeführt werden."
+  verb: kann
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=51
+    quote: "oder kontinuierliche Infusion"
 - id: claims/sepsis-lf-4.0/9271422f
   type: claim
   lang: de
@@ -678,7 +746,7 @@
     quote: "Eine kontinuierliche Applikation ohne regel-"
   provenance:
     direction: {at: sources/sepsis-lf-4.0#page=51, quote: "problematisch, da es eventuell zu einer Unter-"}
-# a definition the page marks by „=“ (§5.1 E), a member of the sentence of b32 giving another answer (K); no threshold, no defined_by: no statement uses the term
+# a definition the page marks by „=“ (§5.1 E), a member of the sentence of claims/sepsis-lf-4.0/9271422f giving another answer (K); no threshold, no defined_by: no statement uses the term
 - id: claims/sepsis-lf-4.0/c160b7a4
   type: claim
   lang: de
@@ -688,3 +756,13 @@
   source:
     at: sources/sepsis-lf-4.0#page=51
     quote: "renal clearance“ = GFR ≥ 130 ml/min"
+- id: claims/sepsis-lf-4.0/d26d37a9
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.3'
+  label: "Generell ist ein TDM jedoch für Substanzen mit einer geringen therapeutischen Breite (z. B. Vancomycin oder Aminoglykoside) und Voriconazol erforderlich."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=51
+    quote: "ist ein TDM jedoch für Substanzen mit einer geringen therapeutischen Breite (z. B. Vancomy-"

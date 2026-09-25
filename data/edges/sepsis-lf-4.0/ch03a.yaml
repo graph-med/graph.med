@@ -226,6 +226,13 @@
     rationale: "S: ausgerichtet — auch Medikamentenunverträglichkeiten, Interaktionen und Toxizität berücksichtigen"
     lang: de
     as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/a6e3e65d
+  - refines
+  - claims/sepsis-lf-4.0/2c07bc69
+  - source: modelling
+    rationale: "R: alle wesentlichen Bakterien — die häufigsten Pathogene des septischen Schocks: gramnegative und grampositive Bakterien"
+    lang: de
+    as_of: '2026-09-25'
 - - claims/sepsis-lf-4.0/1b410595
   - supplements
   - claims/sepsis-lf-4.0/2c07bc69
@@ -247,11 +254,25 @@
     rationale: "R: alle wesentlichen Bakterien — bei Neutropenie ein besonders breites Spektrum, auch resistente gramnegative Bakterien, VRE und Candida spp."
     lang: de
     as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/ee505f8c
+  - supplements
+  - claims/sepsis-lf-4.0/bf42c546
+  - source: modelling
+    rationale: "S: ausgerichtet — eine Anpassung an die lokalen Gegebenheiten; neu gegenüber der Pathogenprävalenz und den Resistenzmustern (G3): die Medikamenten-Verfügbarkeit"
+    lang: de
+    as_of: '2026-09-25'
 - - claims/sepsis-lf-4.0/de331b1f
   - refines
   - claims/sepsis-lf-4.0/2c07bc69
   - source: modelling
     rationale: "R: mit einem Antibiotikum oder mehreren Antibiotika — ein pathogenspezifischer Wirkstoff zusätzlich, wenn ein spezifisches Risiko besteht"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/41270b30
+  - refines
+  - claims/sepsis-lf-4.0/2c07bc69
+  - source: modelling
+    rationale: "R: alle wesentlichen Bakterien — bei einer nosokomialen Pneumonie spielen atypische Erreger keine Rolle"
     lang: de
     as_of: '2026-09-25'
 - - claims/sepsis-lf-4.0/e7177a2d
@@ -280,6 +301,20 @@
   - claims/sepsis-lf-4.0/47a9dba5
   - source: modelling
     rationale: "R: Risiko für eine Pilzinfektion — bei hämato-onkologischen Patienten auch an eine Aspergillus-Infektion denken"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/68e380db
+  - refines
+  - claims/sepsis-lf-4.0/445ac8e6
+  - source: modelling
+    rationale: "R: Risiko für eine Pilzinfektion — bei Beatmung aufgrund einer Influenza oder COVID-19 eine invasive pulmonale Schimmelpilzinfektion, auch ohne klassische Kriterien für eine Immunsuppression"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/68e380db
+  - refines
+  - claims/sepsis-lf-4.0/47a9dba5
+  - source: modelling
+    rationale: "R: Risiko für eine Pilzinfektion — bei Beatmung aufgrund einer Influenza oder COVID-19 eine invasive pulmonale Schimmelpilzinfektion, auch ohne klassische Kriterien für eine Immunsuppression"
     lang: de
     as_of: '2026-09-25'
 - - claims/sepsis-lf-4.0/f6300b85
@@ -352,14 +387,42 @@
     rationale: "R: Risiko für eine Pilzinfektion — der Beginn einer empirischen Therapie hängt von der Anzahl der Risikofaktoren und der lokalen Epidemiologie ab"
     lang: de
     as_of: '2026-09-25'
-- - claims/sepsis-lf-4.0/ce65fd5f
+- - claims/sepsis-lf-4.0/78f42aa0
   - refines
   - claims/sepsis-lf-4.0/f9276737
   - source: modelling
-    rationale: "R: prolongierte oder kontinuierliche Infusion (nach initialem Bolus) — unmittelbar im Anschluss an die Kurzinfusion, über 3-4 bzw. 24 Stunden"
+    rationale: "R: prolongierte oder kontinuierliche Infusion — die prolongierte: Verlängerung der Infusionsdauer auf 3-4 Stunden"
     lang: de
     as_of: '2026-09-25'
-- - claims/sepsis-lf-4.0/ce65fd5f
+- - claims/sepsis-lf-4.0/0051cf3b
+  - refines
+  - claims/sepsis-lf-4.0/f9276737
+  - source: modelling
+    rationale: "R: prolongierte oder kontinuierliche Infusion — die kontinuierliche: über 24 Stunden"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/0051cf3b
+  - refines
+  - claims/sepsis-lf-4.0/2a73459c
+  - source: modelling
+    rationale: "R: kontinuierlichen Infusion — über 24 Stunden"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/043c28e6
+  - refines
+  - claims/sepsis-lf-4.0/f9276737
+  - source: modelling
+    rationale: "R: prolongierte oder kontinuierliche Infusion (nach initialem Bolus) — die prolongierte: unmittelbar im Anschluss an die Kurzinfusion, über 3-4 Stunden"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/dbc01ecf
+  - refines
+  - claims/sepsis-lf-4.0/f9276737
+  - source: modelling
+    rationale: "R: prolongierte oder kontinuierliche Infusion (nach initialem Bolus) — die kontinuierliche: unmittelbar im Anschluss an die Kurzinfusion, über 24 Stunden"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/dbc01ecf
   - refines
   - claims/sepsis-lf-4.0/2a73459c
   - source: modelling
@@ -378,6 +441,20 @@
   - claims/sepsis-lf-4.0/9271422f
   - source: modelling
     rationale: "R: „augmented renal clearance“ — E: vom Leitlinientext durch „=“ markierte Definition, zu jedem Claim der Quelle mit diesem Begriff; er steht nur auf S. 51"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/d26d37a9
+  - supplements
+  - claims/sepsis-lf-4.0/2c07bc69
+  - source: modelling
+    rationale: "S: initiale antiinfektive Therapie mit einem Antibiotikum oder mehreren Antibiotika — ein TDM für Substanzen mit einer geringen therapeutischen Breite (z. B. Vancomycin oder Aminoglykoside)"
+    lang: de
+    as_of: '2026-09-25'
+- - claims/sepsis-lf-4.0/d26d37a9
+  - supplements
+  - claims/sepsis-lf-4.0/47a9dba5
+  - source: modelling
+    rationale: "S: empirische antimykotische Therapie — ein TDM für Voriconazol"
     lang: de
     as_of: '2026-09-25'
 - - statements/weitere-probenmaterialien-von-infektionsfoci
