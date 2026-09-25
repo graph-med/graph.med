@@ -1,9 +1,0 @@
-# The action of box 3.8 (p. 51): "die antiinfektive Therapie täglich zu evaluieren und die Therapie
-# anzupassen" (card #221).
-id: concepts/taegliche-evaluation-und-anpassung-der-antiinfektiven-therapie
-type: concept
-lang: de
-label: Tägliche Evaluation und Anpassung der antiinfektiven Therapie
-short_label: "Antiinfektiva täglich evaluieren und anpassen"
-facet: intervention
-source: modelling

@@ -6,8 +6,16 @@
 # ── evidence: box claims → statements (spec §3.1) ─────────────────────────
 - - claims/sepsis-lf-4.0/19579c2a
   - supports
-  - statements/antiinfektive-therapie-taeglich-evaluieren-und-anpassen
+  - statements/antiinfektive-therapie-taeglich-evaluieren
   - source: modelling
+- - claims/sepsis-lf-4.0/19579c2a
+  - supports
+  - statements/antiinfektive-therapie-nach-erregernachweis-anpassen
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "Der Satz der Empfehlung 3.8 empfiehlt zwei Handlungen: „die antiinfektive Therapie täglich zu evaluieren“
+      und „die Therapie anzupassen, sobald …“; die Bedingungen gelten nur für die zweite, daher ein Statement je Handlung."
 - - claims/sepsis-lf-4.0/fedfb141
   - supports
   - statements/antibiotikatherapie-7-bis-10-tage
@@ -73,6 +81,14 @@
     rationale: "S: sobald ein plausibler Erregernachweis geführt werden konnte — was zu tun ist, wenn die mikrobiologische Diagnostik
       „keinen oder keinen plausiblen Erregernachweis erbringt“: eine Fokussierung auch basierend auf einem guten klinischen
       Ansprechen."
+- - claims/sepsis-lf-4.0/cbcef784
+  - supplements
+  - claims/sepsis-lf-4.0/19579c2a
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "S: die Therapie anzupassen — eine Maßnahme daneben: „Grundsätzlich wird die Nutzung von Antimicrobial Stewardship
+      (AMS)-Programmen zur Optimierung der antiinfektiven Therapie befürwortet“."
 - - claims/sepsis-lf-4.0/024a06b3
   - supplements
   - claims/sepsis-lf-4.0/19579c2a
@@ -189,7 +205,7 @@
     rationale: "Empfehlung 3.10 begrenzt mit der Messung von Serum-Procalcitonin die Dauer der Antibiotikatherapie, deren Regeldauer
       Empfehlung 3.9 mit 7 bis 10 Tagen angibt; nach S. 55–56 war der Nutzen der Procalcitonin-Steuerung auch in Untergruppen
       mit kürzerer „antimikrobieller Ausgangsdauer (7 bis10 Tage)“ nachweisbar."
-- - statements/antiinfektive-therapie-taeglich-evaluieren-und-anpassen
+- - statements/antiinfektive-therapie-taeglich-evaluieren
   - complements
   - statements/antibiotikatherapie-7-bis-10-tage
   - source: modelling
