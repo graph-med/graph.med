@@ -1,0 +1,10 @@
+# The action of 6.10 (p. 101). Derived: its one defined_by edge reaches p. 101's "Die Leitliniengruppe hat dabei
+# entschieden, die Grenze für hochvolumige Hämofiltration bei einer Dosis von ≥ 50ml/kg/h zu setzen"; p. 99 prints
+# "> 50 ml/kg/h" for the "Hochvolumen Dosis", a claim of its own. The conflict is flagged (card #224, hard case 2).
+id: concepts/kontinuierliche-hochvolumige-haemofiltration
+type: concept
+lang: de
+label: "Kontinuierliche hochvolumige (high-volume) Hämofiltration"
+short_label: "Kontinuierliche hochvolumige Hämofiltration"
+facet: intervention
+source: modelling

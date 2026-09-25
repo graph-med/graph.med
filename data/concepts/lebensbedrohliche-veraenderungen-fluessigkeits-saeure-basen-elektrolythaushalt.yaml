@@ -1,0 +1,12 @@
+# The population of 6.2 (p. 89), row 6 of card #217's convention ("Patienten mit Sepsis oder septischem Schock und
+# X", X a derangement), labelled as the box prints it. Derived: its one defined_by edge reaches the table of
+# p. 89 ("In der Tabelle werden lebensbedrohliche Veränderungen als absolute Indikationen … aufgeführt"), whose
+# four rows combine as the page leaves unsaid (not_stated). The table's Urämie row fits none of the three
+# categories the label names: flagged for the physician (card #224, hard case 1).
+id: concepts/lebensbedrohliche-veraenderungen-fluessigkeits-saeure-basen-elektrolythaushalt
+type: concept
+lang: de
+label: "Lebensbedrohliche Veränderungen des Flüssigkeits-, Säure-Basen- oder Elektrolythaushaltes"
+short_label: "Lebensbedrohlich: Flüssigkeit, Säure-Basen, Elektrolyte"
+facet: patient_state
+source: modelling

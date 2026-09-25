@@ -1,0 +1,11 @@
+# Empfehlung 6.3 (p. 90): row 1 (the target group) and row 8 ("wenn …", one condition) of card #217's convention.
+id: statements/nierenersatzverfahren-ohne-zuwarten-wenn-zu-erwarten
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock wird ein Nierenersatzverfahren ohne weiteres Zuwarten begonnen, wenn aufgrund der klinischen Situation, des Krankheitsverlaufes und/oder der Vorerkrankungen eine Nierenersatztherapie bei AKI zu erwarten ist."
+short_label: "Nierenersatz ohne Zuwarten, wenn er zu erwarten ist"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/beginn-nierenersatzverfahren-ohne-weiteres-zuwarten
+  condition: [concepts/nierenersatztherapie-bei-aki-zu-erwarten]
+source: modelling

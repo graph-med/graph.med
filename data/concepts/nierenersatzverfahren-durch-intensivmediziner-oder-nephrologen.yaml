@@ -1,0 +1,9 @@
+# The action of 6.1 (p. 89), addressed to staff: the setting and the staff stay in the action as printed, never a
+# concept of their own (the maintainer's decision of 2026-09-25, which here wins over row 16 of card #217).
+id: concepts/nierenersatzverfahren-durch-intensivmediziner-oder-nephrologen
+type: concept
+lang: de
+label: "Indizierung und Durchführung extrakorporaler Nierenersatzverfahren auf Intensivstationen ausschließlich durch Fachärzte mit der Zusatzbezeichnung „Intensivmedizin“ und/oder Nephrologen"
+short_label: "Nierenersatz nur durch Intensivmediziner/Nephrologen"
+facet: intervention
+source: modelling

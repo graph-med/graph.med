@@ -1,0 +1,9 @@
+# The action of 6.6's Bemerkung (p. 94), a recommendation sentence of the box with a statement of its own (card
+# #213's checklist).
+id: concepts/beruecksichtigung-individuelle-klinische-situation
+type: concept
+lang: de
+label: "Berücksichtigung der individuellen klinischen Situation bei der Auswahl des Verfahrens"
+short_label: "Individuelle klinische Situation bei Verfahrenswahl"
+facet: intervention
+source: modelling

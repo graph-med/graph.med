@@ -1,0 +1,10 @@
+# Empfehlung 6.2 (p. 89): row 6 of card #217's convention, the derangement is the population.
+id: statements/nierenersatztherapie-unverzueglich-bei-lebensbedrohlichen-veraenderungen
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock und lebensbedrohlichen Veränderungen des Flüssigkeits-, Säure-Basen- oder Elektrolythaushaltes wird unverzüglich mit einer Nierenersatztherapie begonnen."
+short_label: "Nierenersatz sofort bei lebensbedrohlichen Veränderungen"
+slots:
+  population: concepts/lebensbedrohliche-veraenderungen-fluessigkeits-saeure-basen-elektrolythaushalt
+  action: concepts/unverzueglicher-beginn-nierenersatztherapie
+source: modelling

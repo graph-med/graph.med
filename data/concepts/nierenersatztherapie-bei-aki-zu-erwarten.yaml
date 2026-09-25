@@ -1,0 +1,9 @@
+# A condition of 6.3 (p. 90): its "wenn …" clause, one concept (row 8 of card #217's convention; its
+# "und/oder" is one concept). The counterpart of 6.4's "Unklarheit, ob eine Nierenersatztherapie zu erwarten ist".
+id: concepts/nierenersatztherapie-bei-aki-zu-erwarten
+type: concept
+lang: de
+label: "Nierenersatztherapie bei AKI aufgrund der klinischen Situation, des Krankheitsverlaufes und/oder der Vorerkrankungen zu erwarten"
+short_label: "Nierenersatztherapie bei AKI zu erwarten"
+facet: finding
+source: modelling

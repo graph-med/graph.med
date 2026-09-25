@@ -1,0 +1,12 @@
+# Empfehlung 6.6 (p. 94), its Bemerkung: a recommendation sentence of the box with a statement of its own (#213's
+# checklist), for the population and condition of the sentence it follows.
+id: statements/verfahrenswahl-nach-individueller-klinischer-situation
+type: statement
+lang: de
+label: "Bei der Auswahl des Verfahrens zur Nierenersatztherapie der AKI wird die individuelle klinische Situation des Patienten berücksichtigt, die zu einer Bevorzugung eines kontinuierlichen oder intermittierenden Verfahrens führen kann."
+short_label: "Verfahrenswahl nach individueller klinischer Situation"
+slots:
+  population: concepts/akute-nierenschaedigung
+  action: concepts/beruecksichtigung-individuelle-klinische-situation
+  condition: [concepts/nierenersatztherapie]
+source: modelling

@@ -1,0 +1,11 @@
+# Empfehlung 6.6 (p. 94), sentence 1: row 6 (a) of card #217's convention, AKI the population, its treatment a condition.
+id: statements/kontinuierlich-oder-intermittierend-gleichwertig-bei-aki
+type: statement
+lang: de
+label: "Zur Nierenersatztherapie der AKI bei Patienten mit Sepsis können kontinuierliche oder intermittierende Verfahren gleichwertig eingesetzt werden."
+short_label: "Kontinuierlich oder intermittierend gleichwertig"
+slots:
+  population: concepts/akute-nierenschaedigung
+  action: concepts/kontinuierliche-oder-intermittierende-verfahren
+  condition: [concepts/nierenersatztherapie]
+source: modelling
