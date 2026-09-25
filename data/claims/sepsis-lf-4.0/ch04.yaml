@@ -366,20 +366,6 @@
   source:
     at: sources/sepsis-lf-4.0#page=68
     quote: "Die beste Möglichkeit, diese Art von Therapie zu steuern, besteht darin"
-- id: claims/sepsis-lf-4.0/bd1f665b
-  type: claim
-  lang: de
-  kind: recommendation
-  section: "4.3"
-  label: "Abweichend von den aktuellen SSC-Empfehlungen, wird die alternative Anwendung von Epinephrin nicht empfohlen."
-  verb: empfehlen
-  direction: against
-  source:
-    at: sources/sepsis-lf-4.0#page=69
-    quote: "Abweichend von den aktuellen SSC-Empfehlungen, wird die alternative Anwendung von Epi-"
-  provenance:
-    verb: {at: "sources/sepsis-lf-4.0#page=69", quote: "nephrin nicht empfohlen."}
-    direction: {at: "sources/sepsis-lf-4.0#page=69", quote: "nephrin nicht empfohlen."}
 - id: claims/sepsis-lf-4.0/e88e4fff
   type: claim
   lang: de

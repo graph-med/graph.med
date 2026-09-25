@@ -132,13 +132,6 @@
     rationale: "S: „Dobutamin zu verwenden“ — eine Maßnahme neben der Gabe: ihre Steuerung über die Reaktion der Perfusionsindizes auf den gemessenen Anstieg des HZV."
     lang: de
     as_of: "2026-09-25"
-- - claims/sepsis-lf-4.0/bd1f665b
-  - refines
-  - claims/sepsis-lf-4.0/106cc052
-  - source: modelling
-    rationale: "R: „Dobutamin zu verwenden“ — für welches Agens das Wort steht: Dobutamin, nicht die alternative Anwendung von Epinephrin, die die SSC-Empfehlungen zulassen."
-    lang: de
-    as_of: "2026-09-25"
 - - claims/sepsis-lf-4.0/c8d3aad9
   - supplements
   - claims/sepsis-lf-4.0/4a557139

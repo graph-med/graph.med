@@ -1,0 +1,9 @@
+# A condition of box 4.9 (p. 68): "Hinweise für eine kardiale Dysfunktion", one of its four conditions, labelled
+# as printed: the box asks for signs of a cardiac dysfunction, not for an established one (p. 68 names its
+# recognition a challenge, and "bestätigten oder vermuteten niedrigen HZV" admits the suspected case).
+id: concepts/hinweise-fuer-eine-kardiale-dysfunktion
+type: concept
+lang: de
+label: Hinweise für eine kardiale Dysfunktion
+facet: finding
+source: modelling
