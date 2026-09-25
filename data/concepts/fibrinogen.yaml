@@ -1,0 +1,7 @@
+# A measured quantity, named by p. 109's threshold „Fibrinogen < 1 g/l“ (the page's „Fibrinogenspiegel“).
+id: concepts/fibrinogen
+type: concept
+lang: de
+label: "Fibrinogen"
+facet: finding
+source: modelling

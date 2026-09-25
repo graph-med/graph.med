@@ -1,0 +1,7 @@
+# A measured quantity, named by p. 122's threshold „INR > 1,5“.
+id: concepts/inr
+type: concept
+lang: de
+label: "INR"
+facet: finding
+source: modelling
