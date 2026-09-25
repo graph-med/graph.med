@@ -3,7 +3,8 @@
    A graph like theirs, a graph and a sheet: one question, one answer per view, each a box naming its guideline,
    drawn by assets/home.js with the view page's renderer. The graph is read from this page: the sheet's home holds one
    entry per view (its `data-ref` the box, its `data-box` parts the box's lines in their order), so the page reads the
-   same without the script and with a screen reader, and a tapped box shows its entry alone. Every word the page adds
+   same without the script and with a screen reader, and a tapped box shows its entry alone; each entry's toggle
+   selects its box from the keyboard (shown only where the graph is drawn). Every word the page adds
    is the page chrome's, from the view layer's table (tools/site/words/); every other word is the data's, in its own
    language: the source's title as printed, its register number, its licence. #}
 {% set W = page.index %}
@@ -28,14 +29,18 @@
 <ul class="graph-list" aria-labelledby="graphs">
 {% for v in views %}
   <li class="graph-entry" data-ref="{{ v.id }}">
-    {# the title is the entry's one link to its graph, stretched over the entry; the source's lines lie above it #}
-    <h3 class="entry-title"><a href="{{ base }}{{ v.vid }}/"{% if v.lang %} lang="{{ v.lang }}"{% endif %} data-box="1">{{ v.title }}</a></h3>
+    {# the title is the entry's one link to its graph, stretched over the entry; the source's lines and the toggle
+       that selects the entry's box in the graph lie above it #}
+    <h3 class="entry-title"><a id="entry-{{ v.vid }}" href="{{ base }}{{ v.vid }}/"{% if v.lang %} lang="{{ v.lang }}"{% endif %} data-box="1">{{ v.title }}</a></h3>
     <p class="entry-holds" data-box="3">
     {%- if not v.holds.claim %}{{ W.empty }}
     {%- elif not v.holds.statement %}{{ W.unlinked | e | replace("{claims}", n("claim", v.holds.claim)) }}
     {%- else %}{{ W.holds | e | replace("{statements}", n("statement", v.holds.statement)) | replace("{groups}", n("group", v.holds.group)) | replace("{claims}", n("claim", v.holds.claim)) }}
     {%- endif %}</p>
-    <span class="entry-open" aria-hidden="true">{{ W.open }}</span>
+    <div class="entry-actions">
+      <span class="entry-open" aria-hidden="true">{{ W.open }}</span>
+      <button type="button" class="entry-select" aria-pressed="false" aria-describedby="entry-{{ v.vid }}">{{ W.select }}</button>
+    </div>
     <div class="entry-source">
     {% for s in v.sources %}
       <p class="entry-meta">

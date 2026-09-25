@@ -43,12 +43,15 @@ ol.claims { list-style: none; padding: 0; margin: 0; }
    question and a box per graph (home.js), the sheet's home the page's text and one entry per graph, a tapped box its
    entry alone. The title is the entry's one link, stretched over the entry; the pill below it only shows the action
    (the link names the graph), and the source's lines — its register number, its page, its licence — lie on a surface
-   of their own above the stretch, selectable and linked apart. Without the graph — no script (the page sets `js` on
-   the root before it is painted), or a graph that could not be drawn (home.js sets `flat`) — the sheet is the page,
-   laid out like any other, its hint (tap a box) gone, the entries side by side where the width allows */
+   of their own above the stretch, selectable and linked apart, as does the toggle beside the pill that selects the
+   entry's box in the graph (the keyboard's way to it; pressed, it wears the selected box's heavier border). Without
+   the graph — no script (the page sets `js` on the root before it is painted), or a graph that could not be drawn
+   (home.js sets `flat`) — the sheet is the page, laid out like any other, its hint (tap a box) and the toggles gone,
+   the entries side by side where the width allows */
 main.home .sheet h1 { margin-top: .4rem; }
 :root:not(.js) main.view.home, main.view.home.flat { display: block; height: auto; max-width: 52rem; margin: 0 auto; padding: 0 1rem 2rem; }
-:root:not(.js) main.home .graph-wrap, main.home.flat .graph-wrap, :root:not(.js) main.home .sheet .hint, main.home.flat .sheet .hint { display: none; }
+:root:not(.js) main.home .graph-wrap, main.home.flat .graph-wrap, :root:not(.js) main.home .sheet .hint, main.home.flat .sheet .hint,
+:root:not(.js) main.home .entry-select, main.home.flat .entry-select { display: none; }
 :root:not(.js) main.home .sheet, main.home.flat .sheet { border: 0; padding: .6rem 0 0; }
 .home .lead, .graphs-lead { max-width: 42rem; }
 .graphs-lead { margin: 0 0 1rem; }
@@ -65,8 +68,14 @@ ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1re
 }
 .entry-holds { margin: 0; padding: 0 1rem 1rem; font-size: .95rem; }
 .entry-holds b { font-variant-numeric: tabular-nums; }
-.entry-open { align-self: flex-start; margin: auto 1rem 1rem; display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.1rem;
+.entry-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin: auto 1rem 1rem; }
+.entry-open { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.1rem;
   border: 1px solid var(--accent); border-radius: 22px; background: var(--accent); color: var(--bg); font-size: .9rem; font-weight: 600; }
+.entry-select { position: relative; z-index: 1; display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.1rem;
+  border: 1px solid var(--mute); border-radius: 22px; background: var(--bg); color: var(--fg); font: inherit; font-size: .9rem; cursor: pointer; }
+.entry-select:hover { border-color: var(--fg); }
+.entry-select[aria-pressed="true"] { border-color: var(--fg); box-shadow: inset 0 0 0 1.5px var(--fg); font-weight: 600; }
+.entry-select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .graph-entry:has(.entry-title a:hover) { border-color: var(--fg); }
 .graph-entry:has(.entry-title a:hover) .entry-open { background: var(--fg); border-color: var(--fg); }
 .entry-source { position: relative; z-index: 1; padding: .2rem 1rem .8rem; background: var(--surface); border-top: 1px solid var(--line); color: var(--mute); font-size: .8rem; }
@@ -186,6 +195,12 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
   .peek .verdict .contested .glyph { font-weight: 400; }   /* a bold ⚠ falls to the emoji font, as in the card */
   .peek-close { display: none; flex: none; width: 52px; min-height: 48px; border: 0; background: none; color: var(--fg); font: inherit; font-size: 1.25rem; cursor: pointer; }
   .sheet.raised .peek-close { display: block; }
+  /* the index's strip carries its entry's link to the graph (home.js), so that a graph is two taps away; raised,
+     the entry below says it */
+  .peek-open { flex: none; align-self: center; display: inline-flex; align-items: center; min-height: 44px; margin: 0 1rem 0 .2rem; padding: 0 1rem;
+    border-radius: 22px; background: var(--accent); color: var(--bg); font-size: .9rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
+  .peek-open:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+  .sheet.raised .peek-open { display: none; }
 }
 
 /* chapters and search (docs/publication.md §3 "Chapters and search"): a hard filter and a soft highlight */

@@ -6,13 +6,15 @@
    (its data-ref), its lines the entry's [data-box] parts in their order, the first set apart — so that the page
    reads the same without this script and with a screen reader. Tapping a box selects it as on a view page: the
    rest fades, and its entry opens alone in the sheet beside or below the graph (on a phone, a peek strip at the
-   bottom edge that raises it); tapping the canvas or the question returns the sheet to its home. The tree is
+   bottom edge that carries the entry's link to its graph and raises the rest); tapping the canvas or the question
+   returns the sheet to its home. The keyboard's way to a box is its entry's own control, a toggle beside the link
+   to the graph: pressed, it selects the box; pressed again, it returns the sheet to its home. The tree is
    small and always whole, so it is drawn at a size a phone reads: a box takes the width the canvas leaves beside
    the question, within bounds, and the fit never zooms far past that size. */
 (function () {
   "use strict";
   var canvas = document.getElementById("graph"), sheet = document.getElementById("sheet"), main = canvas.closest("main");
-  var home = sheet.innerHTML, entries = {}, cy = null;
+  var home = sheet.innerHTML, entries = {}, cy = null, shown = "";   /* shown: the view whose entry the sheet shows alone, "" for its home */
   var PAD = 16, QUESTION = { w: 136, h: 96 }, RANK = 40, BOX = { min: 184, max: 300 }, ZOOM = { min: 0.75, max: 1.4 };
 
   function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
@@ -59,8 +61,9 @@
   }
 
   /* the sheet (graph.js): every fill starts at the top. Below 900 px an entry waits in a peek strip at the bottom
-     edge — its title and what the graph holds, taken from the entry itself — which raises the sheet over the graph;
-     the strip again, ✕ or Escape lowers it. A wide screen never shows it */
+     edge — its title and what the graph holds, and the entry's own link to its graph, all taken from the entry
+     itself — so that a graph is two taps away, the box and the link; the rest of the strip raises the sheet over the
+     graph, and the strip again, ✕ or Escape lowers it. A wide screen never shows it */
   function fill(html, entry) {
     sheet.innerHTML = html;
     sheet.classList.remove("peeking", "raised");
@@ -68,14 +71,16 @@
     if (title) {
       var bar = document.createElement("div"), peek = document.createElement("button"), close = document.createElement("button");
       var text = document.createElement("span"), t = document.createElement("span"), holds = sheet.querySelector(".entry-holds");
+      var word = sheet.querySelector(".entry-open"), go = null;
       bar.className = "peek-bar";
       peek.type = "button"; peek.className = "peek"; peek.setAttribute("aria-expanded", "false"); peek.setAttribute("aria-controls", "sheet");
       text.className = "peek-text"; t.className = "peek-title"; t.textContent = title.textContent.trim(); if (title.lang) t.lang = title.lang;
       text.appendChild(t);
       if (holds) { var v = document.createElement("span"); v.className = "verdict"; v.textContent = holds.textContent.replace(/\s+/g, " ").trim(); text.appendChild(v); }
       peek.appendChild(text);
+      if (word) { go = document.createElement("a"); go.className = "peek-open"; go.href = title.getAttribute("href"); go.textContent = word.textContent.trim(); }
       close.type = "button"; close.className = "peek-close"; close.setAttribute("aria-label", sheet.dataset.close || ""); close.textContent = "✕";
-      bar.appendChild(peek); bar.appendChild(close);
+      bar.appendChild(peek); if (go) bar.appendChild(go); bar.appendChild(close);
       sheet.insertBefore(bar, sheet.firstChild);
       sheet.classList.add("peeking");
     }
@@ -88,27 +93,42 @@
     sheet.scrollTop = 0;
   }
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && sheet.classList.contains("raised")) raise(false); });
+  /* the strip raises and lowers the sheet; an entry's toggle selects its box, or returns the sheet to its home when
+     its box is the one selected — the keyboard's way to what a tap does in the graph (graph.js: a node link). The
+     reader keeps their place: the focus goes to the same entry's toggle in what the sheet now shows, or, where that
+     waits behind the strip on a phone, to the strip's link to the graph; and on a phone the page returns to the graph */
   sheet.onclick = function (e) {
-    if (e.target.closest(".peek-close")) raise(false);
-    else if (e.target.closest(".peek")) raise(!sheet.classList.contains("raised"));
+    if (e.target.closest(".peek-close")) { raise(false); return; }
+    if (e.target.closest(".peek")) { raise(!sheet.classList.contains("raised")); return; }
+    var pick = e.target.closest(".entry-select"), entry = pick && pick.closest("[data-ref]");
+    if (!entry || !cy) return;
+    var ref = entry.dataset.ref, on = ref === shown;
+    select(on ? null : ref, true);
+    var again = null;
+    sheet.querySelectorAll("[data-ref]").forEach(function (x) { if (x.dataset.ref === ref) again = x.querySelector(".entry-select"); });
+    if (!again || !again.getClientRects().length) again = sheet.querySelector(".peek-open") || sheet.querySelector(".peek");
+    if (again) again.focus();
+    if (!on && window.innerWidth < 900) window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   /* selection: the box and the answer leading to it stay, the rest fades, and the sheet shows its entry alone;
-     nothing, or anything but a box, is the sheet's home. The hash is the deep link, the view's id */
+     nothing, or anything but a box, is the sheet's home. The hash is the deep link, the view's id. A selection that
+     changes nothing — the home again, the same box again — leaves the sheet as it is: its content, its scroll, the
+     strip raised or not (graph.js: open_) */
   function select(ref, push) {
     if (!cy) return;
+    var box = ref && entries[ref] ? cy.getElementById(ref) : cy.collection(), to = box.empty() ? "" : ref;
+    if (push) history.replaceState(null, "", to ? "#" + to : location.pathname + location.search);
+    if (to === shown) return;
+    shown = to;
     cy.elements().removeClass("dim picked");
-    var box = ref && entries[ref] ? cy.getElementById(ref) : cy.collection();
-    if (box.empty()) {
-      fill(home);
-      if (push) history.replaceState(null, "", location.pathname + location.search);
-      return;
-    }
+    if (!to) { fill(home); return; }
     cy.elements().not(box.union(box.predecessors())).addClass("dim");
     box.addClass("picked");
-    fill('<ul class="graph-list">' + entries[ref] + "</ul>", true);
-    if (push) history.replaceState(null, "", "#" + ref);
+    fill('<ul class="graph-list">' + entries[to] + "</ul>", true);
   }
+  /* the deep link as the hash names it; one that is not a well-formed escape names no view and selects nothing */
+  function hashRef() { try { return decodeURIComponent(location.hash.slice(1)); } catch (e) { return ""; } }
 
   function draw() {
     if (typeof cytoscape !== "function") throw new Error("library missing");
@@ -118,7 +138,9 @@
       var ref = entry.dataset.ref, lines = Array.prototype.slice.call(entry.querySelectorAll("[data-box]"))
         .sort(function (a, b) { return Number(a.dataset.box) - Number(b.dataset.box); })
         .map(function (el) { return el.textContent.replace(/\s+/g, " ").trim(); });
-      entries[ref] = entry.outerHTML;
+      var alone = entry.cloneNode(true), toggle = alone.querySelector(".entry-select");   /* alone in the sheet, its box is the one selected */
+      if (toggle) toggle.setAttribute("aria-pressed", "true");
+      entries[ref] = alone.outerHTML;
       elements.push({ data: { id: ref, type: "box", label: lines[0] + (lines.length > 1 ? "\n\n" + lines.slice(1).join("\n") : "") } });
       elements.push({ data: { id: "a:" + ref, source: "q", target: ref } });
     });
@@ -137,8 +159,8 @@
         if (canvas.clientWidth !== width) { width = canvas.clientWidth; cy.style().fromJson(stylesheet()).update(); layout(); } else fit();
       }, 150);
     });
-    window.addEventListener("hashchange", function () { select(decodeURIComponent(location.hash.slice(1)), false); });
-    select(decodeURIComponent(location.hash.slice(1)), false);
+    window.addEventListener("hashchange", function () { select(hashRef(), false); });
+    select(hashRef(), false);
   }
 
   /* a graph that cannot be drawn leaves the page as it reads without the script: the sheet alone */

@@ -65,6 +65,7 @@
       }
     },
     "open": "Graph öffnen",
+    "select": "Im Graphen zeigen",
     "awmf_register": "AWMF-Registernummer {nr}",
     "source": "Zur Quelle"
   }
