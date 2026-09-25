@@ -144,6 +144,7 @@ ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1re
 
 /* the sheet below the graph, and the entity page */
 .sheet { border-top: 2px solid var(--line); padding-top: .6rem; }
+.sheet .card + .card { margin-top: 1.2rem; padding-top: .6rem; border-top: 1px solid var(--line); }   /* several selected (an answer naming several conditions): a card each */
 .kind { margin: .2rem 0; color: var(--mute); font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; }
 .label { font-size: 1.15rem; margin: .2rem 0 .6rem; }
 dl.slots { display: grid; grid-template-columns: max-content 1fr; gap: .2rem .8rem; margin: 0 0 .5rem; }

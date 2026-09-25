@@ -38,9 +38,10 @@
 {# concepts that hold at once (spec §3.2) — a statement's conditions, the conditions of a scope path: each entry once, in
    the order stored, every entry after the first on a line of its own opened by the conjunction, so that no label's
    own "oder" reads across the join and nothing reads as if one of them sufficed. One entry is written as it always
-   was. `tag` is the element a later entry stands in: "div" where an entry holds a block (a row's rule), else "span" #}
-{% macro all_of(entries, tag="span") -%}
-{% for x in entries %}{% if loop.first %}{{ caller(x) }}{% else %}<{{ tag }} class="and"><span class="conj">{{ W("conjunction") }}</span> <{{ tag }} class="entry">{{ caller(x) }}</{{ tag }}></{{ tag }}>{% endif %}{% endfor %}
+   was. `tag` is the element a later entry stands in: "div" where an entry holds a block (a row's rule), else "span".
+   `close` is what closes the list — a bracket around it —, written after the last entry, on its line #}
+{% macro all_of(entries, tag="span", close="") -%}
+{% for x in entries %}{% if not loop.first %}<{{ tag }} class="and"><span class="conj">{{ W("conjunction") }}</span> <{{ tag }} class="entry">{% endif %}{{ caller(x) }}{% if loop.last %}{{ close }}{% endif %}{% if not loop.first %}</{{ tag }}></{{ tag }}>{% endif %}{% endfor %}
 {%- endmacro %}
 {% macro rules_of(x) -%}
 {% if x.derivation == "derived" %}<div class="rules">
@@ -118,7 +119,7 @@
 {% for role, s in c.geltung.items() %}{% if s %}{% set entries = [s] if s is mapping else s %}{% set s = entries[0] %}
   <dt>{% if s.axis %}<span lang="{{ s.axis.lang }}">{{ s.axis.label }}</span>{% else %}{{ W("slot." ~ role) }}{% endif %}</dt><dd>{% call(x) all_of(entries, "div") %}{% if x.linked %}<a class="node-link" data-node="{{ x.id }}" href="{{ base }}{{ x.id }}/" lang="{{ x.lang }}">{{ x.label }}</a> <span class="count">{{ W("slot.count").format(n=x.count) }}</span>{% else %}<span lang="{{ x.lang }}">{{ x.label }}</span>{% endif %}{% if x.families %}<small class="families"><span class="families-label">{{ W("slot.families") }}</span> {% for f in x.families %}<a class="node-link" data-node="{{ f.id }}" href="{{ base }}{{ f.id }}/" lang="{{ f.lang }}">{{ f.label }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</small>{% endif %}{{ rules_of(x) }}{% endcall %}</dd>
 {% if s.allgemein %}{% set direct = s.allgemein | selectattr("direct") | list %}{% if direct %}
-  <dt>{{ W("scope.general_for") }}</dt><dd class="general-for">{% for g in direct %}<span><a class="node-link" data-node="{{ g.id }}" href="{{ base }}{{ g.id }}/" lang="{{ g.lang }}">{{ g.label }}</a>{% if g.condition %} <small>({{ W("scope.condition") }}: {% call(x) all_of(g.condition) %}<span lang="{{ x.lang }}">{{ x.label }}</span>{% endcall %})</small>{% endif %}</span>{% endfor %}</dd>
+  <dt>{{ W("scope.general_for") }}</dt><dd class="general-for">{% for g in direct %}<span><a class="node-link" data-node="{{ g.id }}" href="{{ base }}{{ g.id }}/" lang="{{ g.lang }}">{{ g.label }}</a>{% if g.condition %} <small>({{ W("scope.condition") }}: {% call(x) all_of(g.condition, close=")") %}<span lang="{{ x.lang }}">{{ x.label }}</span>{% endcall %}</small>{% endif %}</span>{% endfor %}</dd>
 {% endif %}{% endif %}{% endif %}{% endfor %}
 </dl>
 </section>

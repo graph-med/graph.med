@@ -902,11 +902,15 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
         if nid not in seen:
             seen.add(nid); nodes.append({"id": nid, **kw})
         return nid
-    def edge(a, b, kind, label=None, ref=None, text=None):
+    def edge(a, b, kind, label=None, refs=()):
+        """An edge; an answer names its concepts in `refs`, one or more ids — a patient group, a value, the
+        conditions of one statement, all holding at once — by which the page selects and deep-links it and the
+        view JSON keeps them. A node stands for one entity, its `ref`."""
         e = {"from": a, "to": b, "kind": kind}
         if label: e["label"] = label
-        if ref: e["ref"] = ref
-        if kind == "answer" and (text or ref): e["text"] = text or text_of(ref)   # an answer is searchable by what it names, the way a node is
+        if refs:
+            e["refs"] = list(refs)
+            if kind == "answer": e["text"] = " ".join(text_of(r) for r in refs)   # an answer is searchable by what it names, the way a node is
         edges.append(e)
     label = lambda cid: members[cid]["label"] if cid in members else cid
     short = lambda cid: members[cid].get("short_label") or members[cid]["label"] if cid in members else cid   # boxes and answers show the short form
@@ -963,11 +967,9 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
                 edge(at, q, "flow")
             # one answer names every condition, as stored, so the box is reached once and never through one
             # of them alone (spec §3.2: they hold at once): each on its own line, every line after the first
-            # opened by the conjunction, so that no label's own "oder" reads across the join. Searchable by
-            # all of them; its ref is the one concept it names — naming several, it has none, and a tap
-            # opens the box it leads to (graph.js)
-            edge(q, sid, "answer", ("\n" + words["conjunction"] + " ").join(short(c) for c in conds),
-                 ref=conds[0] if len(conds) == 1 else None, text=" ".join(text_of(c) for c in conds))
+            # opened by the conjunction, so that no label's own "oder" reads across the join. Its refs are all
+            # of them, so that each condition is searched, selected and deep-linked wherever it is one (graph.js)
+            edge(q, sid, "answer", ("\n" + words["conjunction"] + " ").join(short(c) for c in conds), refs=conds)
         else:
             edge(at, sid, "flow")
         if again:
@@ -1027,7 +1029,7 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
             return q
         def junction(c, q):
             j = f"j:{prefix}{c}"
-            edge(q, j, "answer", short(c), ref=c)
+            edge(q, j, "answer", short(c), refs=[c])
             if j in seen:   # a group with two parents appears under both, built once
                 return
             general = [g["id"] for g in scope["concepts"].get(c, {}).get("general", [])] if tree else []
@@ -1060,7 +1062,7 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
             if not a["statements"]:
                 continue
             j = add(f"j:{a['id']}", ref=a["ref"], type="junction", label=str(len(a["statements"])), lang=a["lang"], group=a["label"], facets=a["facets"], text=a["text"])
-            edge(q, j, "answer", a["label"], ref=a["ref"] or None)
+            edge(q, j, "answer", a["label"], refs=[a["ref"]] if a["ref"] else [])
             hierarchy(j, a["statements"], f"{a['id']}:", None)
             placed.update(st["id"] for st in a["statements"])
         rest = [st for st in statements if st["id"] not in placed]
@@ -1302,7 +1304,8 @@ def main(argv=None) -> int:
         members = memberships[view["id"]]
         scope = scopes.get(view["id"])
         groupings = groupings_of(view, members, pool, scope)
-        refs = {n["ref"] for g in groupings for n in g["nodes"] if n.get("ref")} | {e["ref"] for g in groupings for e in g["edges"] if e.get("ref")}
+        # every entity the page can select, each with its details: what a node stands for, and every concept an answer names
+        refs = {n["ref"] for g in groupings for n in g["nodes"] if n.get("ref")} | {r for g in groupings for e in g["edges"] for r in e.get("refs", [])}
         sources = [members[s] for s in view["filter"]["sources"]]
         title = title_of(view, members)
         counts = {t: sum(1 for m in members.values() if m["type"] == t) for t in ("statement", "concept", "claim")}

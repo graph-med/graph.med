@@ -156,9 +156,14 @@ decision-graph-derivation):
   would invent an order the source does not give. The line per condition keeps
   a label's own "oder" (a disjunction is one concept) from reading across the
   join. One condition is the same rule with no conjunction: its answer names it,
-  as always. An answer naming one concept selects that concept when tapped;
-  one naming several has no concept of its own and selects the box it leads
-  to, whose card names each condition (zone 5). The search finds it by any of
+  as always. Every answer carries the ids of what it names, one or several
+  (`refs` in the view's JSON; a node stands for one entity, its `ref`), and a
+  condition is found wherever it is one of them, by one rule for one and for
+  several: tapping an answer selects every concept it names, wherever each
+  appears, and opens the details of each in the order named, a card after the
+  other (the strip on a phone names every title); a deep link or a link in the
+  section to one condition selects it wherever it is named, alone or with
+  others, the box it leads to included; the search finds the answer by any of
   them.
 - **Patient groups converge.** Statements sharing a population hang from one
   junction, so the tree shows at a glance what the guideline says for, say,
@@ -358,8 +363,9 @@ left so that it runs out below and to the right, never under the controls — an
 a **reset** button beside it that returns the page to its
 opening state — folded, no search, no facet, no chapter, nothing selected — so the
 way back from any search or filter is one tap. Tapping a node or an answer selects it: what leads to it and what
-follows it stay, everything else fades, and its details open in the **section
-below the graph** — on a wide screen, in a **column beside it**, the graph taking
+follows it stay — for an answer, the question it answers and the box it leads
+to —, everything else fades, and its details open in the **section below the
+graph** — on a wide screen, in a **column beside it**, the graph taking
 the full height; the graph stays where it is either way, so the reader keeps their
 place, and the section opens at its top, the title, on every selection — never in
 the middle of the card before it. **On a phone the details wait in a peek strip**
@@ -371,7 +377,8 @@ again or Escape lowers it. The page itself never scrolls: not on a tap, not on
 raising or lowering, and the graph is where the reader left it. The strip is
 built in the browser from the card's own title, band and chips, and a wide
 screen does not show it. Tapping the background clears. Tapping a concept linked in the section
-moves the graph there. Deep links carry `#<entity id>`, and `?by=<grouping>` when the tree is
+moves the graph there. Deep links carry `#<entity id>` — what an answer naming several
+concepts selects, their ids joined by a comma —, and `?by=<grouping>` when the tree is
 grouped by the chapters or an axis. There are no modal dialogs and no page
 loads needed to read a view; the entity pages (§4) exist for linking, not for reading.
 
