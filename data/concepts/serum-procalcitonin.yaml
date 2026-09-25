@@ -1,0 +1,8 @@
+# A measured quantity (spec §3.1): the procalcitonin value of box 3.10 ("Serum-Procalcitonin", p. 55),
+# bounded in "oder der Wert < 0,5 ng/ml beträgt" (p. 56, section 3.5; card #221).
+id: concepts/serum-procalcitonin
+type: concept
+lang: de
+label: Serum-Procalcitonin
+facet: finding
+source: modelling

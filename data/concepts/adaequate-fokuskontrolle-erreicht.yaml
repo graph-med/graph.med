@@ -1,0 +1,7 @@
+# A condition of box 3.10 (p. 55): "sofern eine adäquate Fokuskontrolle erreicht wurde" (card #221).
+id: concepts/adaequate-fokuskontrolle-erreicht
+type: concept
+lang: de
+label: Adäquate Fokuskontrolle erreicht
+facet: finding
+source: modelling

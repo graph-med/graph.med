@@ -1,0 +1,8 @@
+# The reference quantity of a relative threshold (spec §3.1): "des Spitzenwertes" in "wenn Procalcitonin
+# um mehr als 80 % des Spitzenwertes abfällt" (p. 56, section 3.5; card #221).
+id: concepts/procalcitonin-spitzenwert
+type: concept
+lang: de
+label: Procalcitonin-Spitzenwert
+facet: finding
+source: modelling

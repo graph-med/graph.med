@@ -1,0 +1,15 @@
+# Box 3.8 (p. 51, section 3.4), its second action, card #221. Population: the root (#217's convention,
+# row 1). The two circumstances after "sobald … und …" govern "die Therapie anzupassen" and are two
+# conditions (row 8; card #221, hard case 1). The daily evaluation of the same sentence holds without
+# them: statements/antiinfektive-therapie-taeglich-evaluieren, supported by the same claim.
+id: statements/antiinfektive-therapie-nach-erregernachweis-anpassen
+type: statement
+lang: de
+label: Bei Patienten mit Sepsis oder septischem Schock ist die antiinfektive Therapie anzupassen, sobald ein plausibler
+  Erregernachweis geführt werden konnte und die Antiinfektiva-Empfindlichkeit bekannt ist.
+short_label: "Antiinfektiva nach Erregernachweis anpassen"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/anpassung-der-antiinfektiven-therapie
+  condition: [concepts/plausibler-erregernachweis, concepts/antiinfektiva-empfindlichkeit-bekannt]
+source: modelling

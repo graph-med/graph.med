@@ -1,0 +1,215 @@
+# Edges minted with the claims of sources/sepsis-lf-4.0, sections 3.4–3.5 (pp. 51–56), card #221:
+# supports from the box claims (spec §3.1), the body-text relations (spec §5.1), and the edges between
+# the statements of these sections. No defined_by edge: #217's ledger assigns none to this part, and
+# no concept minted here is established by a rule.
+
+# ── evidence: box claims → statements (spec §3.1) ─────────────────────────
+- - claims/sepsis-lf-4.0/19579c2a
+  - supports
+  - statements/antiinfektive-therapie-taeglich-evaluieren
+  - source: modelling
+- - claims/sepsis-lf-4.0/19579c2a
+  - supports
+  - statements/antiinfektive-therapie-nach-erregernachweis-anpassen
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "Der Satz der Empfehlung 3.8 empfiehlt zwei Handlungen: „die antiinfektive Therapie täglich zu evaluieren“
+      und „die Therapie anzupassen, sobald …“; die Bedingungen gelten nur für die zweite, daher ein Statement je Handlung."
+- - claims/sepsis-lf-4.0/fedfb141
+  - supports
+  - statements/antibiotikatherapie-7-bis-10-tage
+  - source: modelling
+- - claims/sepsis-lf-4.0/e2707b32
+  - supports
+  - statements/therapiedauer-verlaengern
+  - source: modelling
+- - claims/sepsis-lf-4.0/ea4f6e8e
+  - supports
+  - statements/procalcitonin-zur-begrenzung-der-therapiedauer
+  - source: modelling
+- - claims/sepsis-lf-4.0/eda87650
+  - supports
+  - statements/procalcitonin-zur-begrenzung-der-therapiedauer
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "Die Bemerkung von 3.10 („Ausgenommen davon sind Patienten mit Infektionen, die eine längere Therapie erfordern
+      …“) schränkt den Satz ein, dem sie folgt; das Statement nennt die Ausnahme (#213, Punkt 1)."
+
+# ── body text of section 3.4 → box claims of 3.4 (spec §5.1) ──────────────
+- - claims/sepsis-lf-4.0/d50c6ba1
+  - refines
+  - claims/sepsis-lf-4.0/19579c2a
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "R: täglich zu evaluieren — der Leitlinientext sagt, worauf sich die tägliche Beurteilung richtet: „hinsichtlich
+      einer Fokussierung bzw. Beendigung der antimikrobiellen Therapie“. Der mögliche Schaden unnötig langer Therapien ist
+      Begründung und zählt nicht (G3)."
+- - claims/sepsis-lf-4.0/489900c8
+  - refines
+  - claims/sepsis-lf-4.0/19579c2a
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "R: die Therapie anzupassen — der Leitlinientext sagt, wofür das Wort steht: „eine Fokussierung der antiinfektiven
+      Therapie“, sobald ein plausibler Erregernachweis vorliegt."
+- - claims/sepsis-lf-4.0/0ec0c3a5
+  - refines
+  - claims/sepsis-lf-4.0/19579c2a
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "R: die Therapie anzupassen — was die Anpassung als Fokussierung beinhaltet: nicht-erforderliche antimikrobielle
+      Wirkstoffe absetzen, Breitspektrum- durch Schmalspektrum-Wirkstoffe und Kombinationstherapien, wenn möglich, durch Monotherapie
+      ersetzen (eine Antwort: die Bestandteile eines Worts)."
+- - claims/sepsis-lf-4.0/5d1fbffd
+  - refines
+  - claims/sepsis-lf-4.0/19579c2a
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "R: die Therapie anzupassen — wie angepasst wird: „Erregerspezifika wie z. B. für Staphylococcus aureus Infektionen
+      sind zu beachten“."
+- - claims/sepsis-lf-4.0/40e9c553
+  - supplements
+  - claims/sepsis-lf-4.0/19579c2a
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "S: sobald ein plausibler Erregernachweis geführt werden konnte — was zu tun ist, wenn die mikrobiologische Diagnostik
+      „keinen oder keinen plausiblen Erregernachweis erbringt“: eine Fokussierung auch basierend auf einem guten klinischen
+      Ansprechen."
+- - claims/sepsis-lf-4.0/cbcef784
+  - supplements
+  - claims/sepsis-lf-4.0/19579c2a
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "S: die Therapie anzupassen — eine Maßnahme daneben: „Grundsätzlich wird die Nutzung von Antimicrobial Stewardship
+      (AMS)-Programmen zur Optimierung der antiinfektiven Therapie befürwortet“."
+- - claims/sepsis-lf-4.0/024a06b3
+  - supplements
+  - claims/sepsis-lf-4.0/19579c2a
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "S: täglich zu evaluieren — der nächste Schritt, wenn ein anderer, plausibler und nicht-infektionsbedingter Grund
+      vorhanden und hinreichend wahrscheinlich keine Infektion vorliegt: die antiinfektive Therapie nicht fortsetzen."
+- - claims/sepsis-lf-4.0/024a06b3
+  - limits
+  - claims/sepsis-lf-4.0/fedfb141
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "L: eine Antibiotikatherapie in der Regel von 7 bis 10 Tagen durchzuführen — ein Umstand, in dem die Therapie
+      nicht fortzusetzen ist: ein anderer, plausibler und nicht-infektionsbedingter Grund für den klinischen Zustand, wenn hinreichend
+      wahrscheinlich keine Infektion vorliegt."
+- - claims/sepsis-lf-4.0/3d980554
+  - refines
+  - claims/sepsis-lf-4.0/19579c2a
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "R: plausibler Erregernachweis — welche Befunde das Wort umfasst: bei Blutkulturbefunden ist eine Infektion von
+      einer Kontamination abzugrenzen, insbesondere bei einmaligem Nachweis typischer Mikroorganismen des Hautmikrobioms mit
+      geringer Virulenz."
+- - claims/sepsis-lf-4.0/8838c4a8
+  - refines
+  - claims/sepsis-lf-4.0/19579c2a
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "R: plausibler Erregernachweis — Erreger des Haut- und Schleimhautmikrobioms wie Enterokokken oder Candida spp.
+      sind plausible Erreger, wenn sie aus Blutkulturen oder aus eigentlich sterilen Körperregionen isoliert werden."
+- - claims/sepsis-lf-4.0/b0a1ea4a
+  - refines
+  - claims/sepsis-lf-4.0/19579c2a
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "R: plausibler Erregernachweis — ein Nachweis dieser Erreger in respiratorischem Material ist „am ehesten Ausdruck
+      einer Kolonisation und nicht einer Infektion“, also kein plausibler Erregernachweis."
+- - claims/sepsis-lf-4.0/c4c17a1f
+  - refines
+  - claims/sepsis-lf-4.0/19579c2a
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "R: plausibler Erregernachweis — die Erreger, die bei Nachweis in der Blutkultur nahezu immer plausible Erreger
+      sind (eine Liste, eine Antwort; S. 52 sagt, sie sei nicht vollständig)."
+- - claims/sepsis-lf-4.0/5d90f587
+  - refines
+  - claims/sepsis-lf-4.0/e2707b32
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "R: bei nicht erfolgreicher Fokussanierung, bei bestimmten Erregern sowie speziellen Organinfektionen — für welche
+      Fälle die längere Therapie gilt: langsames klinisches Ansprechen, nicht sanierbare Infektionsherde, Bakteriämie mit
+      Staphylococcus aureus einschließlich MRSA, Candidämie bzw. invasive Candidiasis und andere Pilzinfektionen, einige Virusinfektionen,
+      Immundefizienz einschließlich Neutropenie (eine Liste, eine Antwort)."
+- - claims/sepsis-lf-4.0/acbb99bd
+  - refines
+  - claims/sepsis-lf-4.0/19579c2a
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "R: täglich zu evaluieren — worüber evaluiert wird: „ob eine Fortführung, eine Änderung oder eine Beendigung einer
+      antiinfektiven Therapie vorzunehmen ist“, auch bei schweren Infektionen."
+- - claims/sepsis-lf-4.0/075460f1
+  - supplements
+  - claims/sepsis-lf-4.0/19579c2a
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "S: die antiinfektive Therapie täglich zu evaluieren und … anzupassen — eine Maßnahme daneben: für besondere Fragestellungen
+      (z. B. S. aureus Bakteriämie) ein infektiologisches oder mikrobiologisches Konsil."
+
+# ── body text of section 3.5 → box claim of 3.5 (spec §5.1) ───────────────
+- - claims/sepsis-lf-4.0/c1418112
+  - refines
+  - claims/sepsis-lf-4.0/ea4f6e8e
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "R: um die Dauer der antiinfektiven Therapie zu begrenzen — der Wert, den der Wortlaut braucht und die Leitlinie
+      nirgends gibt, aus einem systematischen Review (G2-Ausnahme): Beendigung, wenn Procalcitonin um mehr als 80 % des Spitzenwertes
+      abfällt. K: eine Antwort je Schwellenwert, Alternative 1 von 2, durch „oder“ verbunden."
+- - claims/sepsis-lf-4.0/f695291d
+  - refines
+  - claims/sepsis-lf-4.0/ea4f6e8e
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "R: um die Dauer der antiinfektiven Therapie zu begrenzen — der Wert, den der Wortlaut braucht und die Leitlinie
+      nirgends gibt, aus einem systematischen Review (G2-Ausnahme): Beendigung, wenn der Procalcitonin-Wert < 0,5 ng/ml beträgt.
+      K: eine Antwort je Schwellenwert, Alternative 2 von 2, durch „oder“ verbunden."
+
+# ── cross-statement edges within sections 3.4–3.5 (spec §5; N1) ──────────
+- - statements/therapiedauer-verlaengern
+  - specializes
+  - statements/antibiotikatherapie-7-bis-10-tage
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "Der zweite Satz der Empfehlung 3.9 gilt für die Fälle „bei nicht erfolgreicher Fokussanierung, bei bestimmten
+      Erregern sowie speziellen Organinfektionen“ und verlängert dort die Therapie über die „in der Regel“ 7 bis 10 Tage des
+      ersten Satzes hinaus (N1)."
+- - statements/procalcitonin-zur-begrenzung-der-therapiedauer
+  - complements
+  - statements/antibiotikatherapie-7-bis-10-tage
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "Empfehlung 3.10 begrenzt mit der Messung von Serum-Procalcitonin die Dauer der Antibiotikatherapie, deren Regeldauer
+      Empfehlung 3.9 mit 7 bis 10 Tagen angibt; nach S. 55–56 war der Nutzen der Procalcitonin-Steuerung auch in Untergruppen
+      mit kürzerer „antimikrobieller Ausgangsdauer (7 bis10 Tage)“ nachweisbar."
+- - statements/antiinfektive-therapie-taeglich-evaluieren
+  - complements
+  - statements/antibiotikatherapie-7-bis-10-tage
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "Die tägliche Evaluation der Empfehlung 3.8 tritt zur Regeldauer der Empfehlung 3.9 hinzu: S. 54 fordert, „täglich
+      zu evaluieren, ob eine Fortführung, eine Änderung oder eine Beendigung einer antiinfektiven Therapie vorzunehmen ist“."
