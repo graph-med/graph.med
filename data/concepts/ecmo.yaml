@@ -1,0 +1,10 @@
+# A family across chapters of sources/sepsis-lf-4.0 (card #227): the veno-arterial ECMO of 4.11 (p. 70, chapter 4)
+# and the veno-venous ECMO of 5.16 (p. 87, chapter 5), each under it by `broader` in
+# data/edges/sepsis-lf-4.0/cross-chapter.yaml. The label expands "ECMO" as the abbreviations do (p. 153), which
+# are consulted for the expansion only.
+id: concepts/ecmo
+type: concept
+lang: de
+label: "Extrakorporale Membranoxygenierung (ECMO)"
+facet: intervention
+source: modelling

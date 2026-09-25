@@ -1,0 +1,10 @@
+# A family across chapters of sources/sepsis-lf-4.0 (card #227): the "intravenöse kristalloide Lösung" of 2.5
+# (p. 29, chapter 2) and the "balancierte Kristalloide" of 4.1 (p. 57, chapter 4), each under it by `broader` in
+# data/edges/sepsis-lf-4.0/cross-chapter.yaml. P. 57 speaks of "kristalloiden Lösungen" against colloids, and
+# of balanced solutions against 0,9 % NaCl.
+id: concepts/kristalloide-loesung
+type: concept
+lang: de
+label: "Kristalloide Lösung"
+facet: medication
+source: modelling

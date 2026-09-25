@@ -1,0 +1,10 @@
+# A family across chapters of sources/sepsis-lf-4.0 (card #227): the peripheral application of vasopressors of 2.7
+# (p. 31, chapter 2) and the vasopressors of 4.5 (Noradrenalin, p. 62), 4.6 (Vasopressin, p. 63) and 4.8
+# (Terlipressin, p. 67) in chapter 4, each under it by `broader` in data/edges/sepsis-lf-4.0/cross-chapter.yaml.
+# Labelled as p. 32 prints it ("Die periphervenöse Vasopressortherapie ist im Allgemeinen sicher.").
+id: concepts/vasopressortherapie
+type: concept
+lang: de
+label: "Vasopressortherapie"
+facet: intervention
+source: modelling

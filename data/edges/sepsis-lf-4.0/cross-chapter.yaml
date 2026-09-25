@@ -1,0 +1,61 @@
+# Edges between statements or concepts of two chapters of sources/sepsis-lf-4.0 (card #227), all modelling: what a
+# chapter part could not see, asserted once after all of them (card #210, Decision 6). Two kinds:
+#   - cross-statement semantics (spec §5), statement → statement, each rationale naming both boxes;
+#   - subsumption (spec §5 `broader`), the families across chapters of concepts that fill no population or condition
+#     slot of a statement in views/sepsis-lf-4.0 (those that do are card #228's, in broader-edges.yaml).
+# No `broader` edge runs from a concept the first source also uses (open question scope-edge-pinning); one into
+# concepts/mortalitaet, which both sources use, is allowed (card #217). Nothing is inherited along `broader`.
+
+# cross-statement semantics (spec §5): statement → statement, across chapters
+# 2.5 and 4.1: the physician's open question on card #227, specializes or complements. The reading taken is
+# complements: 4.1's population and its fluid therapy are wider than 2.5's, and 2.5 names no solution, so neither
+# is a special case of the other.
+- [statements/balancierte-kristalloide-erste-wahl-sepsis, complements, statements/initiale-kristalloide-loesung-30-ml-kg, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlungen 2.5 und 4.1: 2.5 sagt, wie viel kristalloide Lösung in den ersten 3 Stunden gegeben wird („als Richtwert 30 mL/kg“), 4.1, welche („balancierte Kristalloide als Flüssigkeitstherapie der ersten Wahl“); S. 57 spricht die Empfehlung für kristalloide Lösungen „im Rahmen der initialen Flüssigkeitstherapie“ aus und fragt dann, „welche kristalloide Lösung“ besser geeignet ist. Keine ersetzt die andere."}]
+- [statements/noradrenalin-vasopressor-erster-wahl, complements, statements/vasopressoren-periphervenoes, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlungen 2.7 und 4.5: 2.7 sagt, auf welchem Weg Vasopressoren gegeben werden (auch periphervenös, ohne auf einen ZVK zu warten), 4.5, welcher Vasopressor der erste ist (Noradrenalin); S. 32: „Noradrenalin kann in dieser Notfallsituation auch über einen periphervenösen Zugang appliziert werden.“ Keine ersetzt die andere."}]
+- [statements/vasopressin-ergaenzen-septischer-schock, complements, statements/map-zielwert-65-mmhg, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlungen 2.6 und 4.6: 2.6 nennt bei septischem Schock mit Vasopressorbedarf den anfänglichen MAP-Zielwert von 65 mmHg, 4.6 ergänzt Vasopressin, „wenn mit Noradrenalin alleine kein ausreichender Blutdruck erzielt werden kann“ — der Schritt, wenn dieser Blutdruck mit Noradrenalin allein nicht erreicht wird; S. 64: Vasopressin nicht „als Erstlinien-Vasopressor für die Unterstützung des MAP“."}]
+- [statements/dobutamin-kardiale-dysfunktion-hypoperfusion, complements, statements/echokardiographie-herzfunktion-und-volumenstatus, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlungen 2.12 und 4.9: die Echokardiographie „zur Beurteilung der Herzfunktion“ (2.12) liefert die „Hinweise für eine kardiale Dysfunktion“, bei denen 4.9 Dobutamin vorschlägt; S. 36: „Insbesondere bei kardialer Dysfunktion im septischen Schock sind … Echokardiographie … essentieller Bestandteil der Diagnostik“, S. 68: „Eine frühe und wiederholte echokardiographische Beurteilung von Patienten mit septischem Schock erscheint daher sinnvoll.“"}]
+- [statements/ams-programm-im-krankenhaus, complements, statements/antiinfektive-therapie-nach-erregernachweis-anpassen, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlungen 3.8 und 10.1: 3.8 passt die antiinfektive Therapie des einzelnen Patienten an, sobald ein plausibler Erregernachweis geführt ist, 10.1 empfiehlt dem Krankenhaus ein AMS-Programm „zur Sicherung einer rationalen Antiinfektiva-Anwendung“; S. 52, bei der Fokussierung der Therapie: „Grundsätzlich wird die Nutzung von Antimicrobial Stewardship (AMS)-Programmen zur Optimierung der antiinfektiven Therapie befürwortet.“ Keine ersetzt die andere."}]
+- [statements/ams-programm-im-krankenhaus, complements, statements/antibiotikatherapie-7-bis-10-tage, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlungen 3.9 und 10.1: 3.9 begrenzt die Antibiotikatherapie in der Regel auf 7 bis 10 Tage, 10.1 empfiehlt dem Krankenhaus ein AMS-Programm; S. 53: „Eine Begrenzung der Therapie auf die kürzest mögliche Dauer ist ein wichtiger Teil des Antimikrobiellen Stewardship“. Keine ersetzt die andere."}]
+
+# subsumption (spec §5): families across chapters of action and outcome concepts, "X is a Y" in any guideline
+# the ECMO procedures: 4.11 (chapter 4) and 5.16 (chapter 5)
+- [concepts/veno-arterielle-ecmo, broader, concepts/ecmo, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Die veno-arterielle ECMO ist eine ECMO: die Form, die den Kreislauf unterstützt (S. 70: „extrakorporalen Kreislaufunterstützung in Form einer veno-arteriellen ECMO“)."}]
+- [concepts/vv-ecmo, broader, concepts/ecmo, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Die veno-venöse ECMO ist eine ECMO: die Form, die den Gasaustausch unterstützt (5.16: bei „fortbestehender schwerer Gasaustauschstörung“)."}]
+# the crystalloid solutions: 2.5 (chapter 2) and 4.1 (chapter 4)
+- [concepts/balancierte-kristalloide, broader, concepts/kristalloide-loesung, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Balancierte Kristalloide sind kristalloide Lösungen (S. 57: „balancierten Lösungen (Ringer Lösung oder Plasma-Lyte A Lösung)“ im Vergleich zu 0,9 % NaCl)."}]
+- [concepts/kristalloide-loesung-30-ml-kg-in-den-ersten-3-stunden, broader, concepts/kristalloide-loesung, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Die Maßnahme der Empfehlung 2.5 ist intravenöse kristalloide Lösung, mit Menge (30 mL/kg) und Frist (die ersten 3 Stunden) als Richtwert: ein Sonderfall der kristalloiden Lösung."}]
+# the vasopressors: 2.7 (chapter 2) and 4.5, 4.6, 4.8 (chapter 4)
+- [concepts/periphervenoese-applikation-von-vasopressoren, broader, concepts/vasopressortherapie, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Die periphervenöse Applikation von Vasopressoren ist eine Vasopressortherapie auf einem bestimmten Zugangsweg (S. 32: „Die periphervenöse Vasopressortherapie ist im Allgemeinen sicher.“)."}]
+- [concepts/noradrenalin, broader, concepts/vasopressortherapie, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Noradrenalin ist ein Vasopressor (4.5: „Noradrenalin als Vasopressor erster Wahl“); seine Gabe ist eine Vasopressortherapie."}]
+- [concepts/vasopressin, broader, concepts/vasopressortherapie, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Vasopressin ist ein Vasopressor (S. 64: nicht „als Erstlinien-Vasopressor“, 4.6: ergänzend); seine Gabe ist eine Vasopressortherapie."}]
+- [concepts/terlipressin, broader, concepts/vasopressortherapie, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Terlipressin ist ein Vasopressor, ein synthetisches Analogon von Vasopressin (S. 67: „die Anwendung von Terlipressin als Vasopressor“); seine Gabe ist eine Vasopressortherapie."}]
+# the mortality time frames: #217's four (3.7, 4.1, 4.2, 6.3, 6.9, 6.10, 8.2, 8.16) and the variants of #222 (4.3) and
+# #225 (8.1), all directly under concepts/mortalitaet; none is nested under another (named in the pull request)
+- [concepts/mortalitaet-nach-90-tagen, broader, concepts/mortalitaet, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Die Mortalität nach 90 Tagen ist eine Mortalität, zu einem festen Zeitpunkt gemessen."}]
+- [concepts/mortalitaet-nach-30-tagen, broader, concepts/mortalitaet, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Die Mortalität nach 30 Tagen ist eine Mortalität, zu einem festen Zeitpunkt gemessen."}]
+- [concepts/mortalitaet-nach-28-tagen, broader, concepts/mortalitaet, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Die Mortalität nach 28 Tagen ist eine Mortalität, zu einem festen Zeitpunkt gemessen."}]
+- [concepts/mortalitaet-intensivstation, broader, concepts/mortalitaet, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Die Mortalität auf der Intensivstation (ICU) ist eine Mortalität, auf den Aufenthalt dort begrenzt."}]
+- [concepts/mortalitaet-mehr-als-28-tage, broader, concepts/mortalitaet, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Die Mortalität (> 28 Tage) ist eine Mortalität, nach mehr als 28 Tagen gemessen."}]
+- [concepts/kurzzeit-mortalitaet-28-30-tage, broader, concepts/mortalitaet, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Die Kurzzeit-Mortalität (28-30 Tage) ist eine Mortalität, in einem Zeitfenster gemessen."}]
+- [concepts/langzeit-mortalitaet-90-180-tage, broader, concepts/mortalitaet, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Die Langzeit-Mortalität (90-180 Tage) ist eine Mortalität, in einem Zeitfenster gemessen."}]
