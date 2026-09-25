@@ -1,0 +1,12 @@
+# Sepsis S3, 10.3, sentence 2: the staff are named in the action; its population is the patients it protects,
+# the prevention group (decision of 2026-09-25, section 1). Card #226.
+id: statements/jaehrliche-impfung-medizinisches-personal
+type: statement
+lang: de
+label: "Für das medizinische Personal wird die jährliche Impfung gegen Influenza und COVID-19 empfohlen, um Patienten vor nosokomialen respiratorischen Infektionen und konsekutiver Sepsis zu schützen."
+short_label: "Personal jährlich gegen Influenza und COVID-19 impfen"
+slots:
+  population: concepts/praevention-der-sepsis
+  action: concepts/jaehrliche-impfung-des-medizinischen-personals-gegen-influenza-und-covid-19
+  outcome: concepts/nosokomiale-respiratorische-infektionen-und-konsekutive-sepsis
+source: modelling

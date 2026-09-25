@@ -1,0 +1,13 @@
+# The population of 9.3 and 9.4 (pp. 131–132), „Sepsis-Überlebende“: a group wider than the target
+# group, the situation after the disease (convention row 12), and the same concept for p. 138's „Patienten,
+# die eine Sepsis oder septischen Schock überlebt haben“, its definition. Stated. Card #226; card #228 hangs
+# it under the root by in_scope_of.
+id: concepts/sepsis-ueberlebende
+type: concept
+lang: de
+label: "Sepsis-Überlebende"
+facet: patient_state
+definition: "Patienten, die eine Sepsis oder septischen Schock überlebt haben."
+source: modelling
+provenance:
+  definition: {at: "sources/sepsis-lf-4.0#page=138", quote: "Daher sollte bei Patienten, die eine Sepsis oder septischen Schock überlebt haben,"}

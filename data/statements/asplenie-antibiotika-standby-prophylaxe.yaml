@@ -1,0 +1,10 @@
+# Sepsis S3, 10.4, the third of its three coordinated actions: convention row 15 (hard case 4). Card #226.
+id: statements/asplenie-antibiotika-standby-prophylaxe
+type: statement
+lang: de
+label: "Bei Patienten mit Asplenie wird empfohlen, sie mit einer Antibiotika-Standby Prophylaxe auszustatten."
+short_label: "Antibiotika-Standby Prophylaxe bei Asplenie"
+slots:
+  population: concepts/asplenie
+  action: concepts/antibiotika-standby-prophylaxe
+source: modelling

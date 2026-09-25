@@ -1,0 +1,12 @@
+# Sepsis S3, 9.1: it names no patient group, only the conversation partners; its population is the root, the
+# patients of section 9.1, whose other box (9.2) names the target group (decision of 2026-09-25, section 1).
+# Card #226.
+id: statements/behandlungsziele-und-prognose-besprechen
+type: statement
+lang: de
+label: "Es wird empfohlen, dass die Behandlungsziele und die Prognose mit den Patienten bzw. deren Angehörigen/Betreuern besprochen werden."
+short_label: "Behandlungsziele und Prognose besprechen"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/besprechung-der-behandlungsziele-und-der-prognose
+source: modelling

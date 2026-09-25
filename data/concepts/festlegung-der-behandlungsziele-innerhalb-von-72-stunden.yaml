@@ -1,0 +1,9 @@
+# The action of 9.2 (p. 127), with the time it prescribes, which says when, not for whom (no
+# threshold; hard case 2). Card #226.
+id: concepts/festlegung-der-behandlungsziele-innerhalb-von-72-stunden
+type: concept
+lang: de
+label: "Festlegung der Behandlungsziele möglichst früh (innerhalb von 72 Stunden)"
+short_label: "Behandlungsziele innerhalb von 72 Stunden festlegen"
+facet: intervention
+source: modelling

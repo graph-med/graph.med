@@ -1,0 +1,10 @@
+# Sepsis S3, 9.3: convention row 12; „und deren Angehörige“ stays in the label. Card #226.
+id: statements/information-ueber-selbsthilfe-gruppen
+type: statement
+lang: de
+label: "Es wird empfohlen, dass Sepsis-Überlebende und deren Angehörige über das Beratungsangebot von Selbsthilfe-Gruppen informiert werden."
+short_label: "Über Beratung durch Selbsthilfe-Gruppen informieren"
+slots:
+  population: concepts/sepsis-ueberlebende
+  action: concepts/information-ueber-das-beratungsangebot-von-selbsthilfe-gruppen
+source: modelling

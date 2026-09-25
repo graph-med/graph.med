@@ -1,0 +1,10 @@
+# Sepsis S3, 10.4, the second of its three coordinated actions: convention row 15 (hard case 4). Card #226.
+id: statements/asplenie-notfallpass
+type: statement
+lang: de
+label: "Bei Patienten mit Asplenie wird empfohlen, sie mit einem entsprechenden Notfallpass auszustatten."
+short_label: "Notfallpass bei Asplenie"
+slots:
+  population: concepts/asplenie
+  action: concepts/notfallpass
+source: modelling
