@@ -9,7 +9,7 @@
    no wording by the scheme's description of it ("Expertenkonsens"); the consensus class by the name the scheme
    prints, with the share beside it where the claim prints one; the count of identical badges #}
 {% macro badge(b, count=1) -%}
-{% set w = badge_words(b) %}<span class="badge">{% if b.grade %}<b>{{ w.grade or W("grade").format(grade=b.grade) }}</b>{% endif %}{% if w.consensus or b.share %} <span>{% if w.consensus and b.share %}{{ W("consensus.share").format(name=w.consensus, share=b.share) }}{% else %}{{ w.consensus or b.share }}{% endif %}</span>{% endif %}{% if count > 1 %} ({{ count }}){% endif %}</span>
+{% set w = badge_words(b) %}<span class="badge">{% if b.grade %}<b>{{ w.grade or W("grade").format(grade=b.grade) }}</b>{% endif %}{% if w.consensus or b.share %}{% if b.grade %}<span class="sep" aria-hidden="true"> · </span>{% else %} {% endif %}<span>{% if w.consensus and b.share %}{{ W("consensus.share").format(name=w.consensus, share=b.share) }}{% else %}{{ w.consensus or b.share }}{% endif %}</span>{% endif %}{% if count > 1 %} ({{ count }}){% endif %}</span>
 {%- endmacro %}
 {% macro no_of(x) -%}
 {{ W("cite.no").format(nr=x.recommendation_no) if x.recommendation_no is numbered else x.recommendation_no }}
