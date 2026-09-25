@@ -1,0 +1,7 @@
+# The action box 4.10 advises against (p. 69): "Levosimendan NICHT einzusetzen".
+id: concepts/levosimendan
+type: concept
+lang: de
+label: Levosimendan
+facet: medication
+source: modelling

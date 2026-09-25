@@ -1,0 +1,11 @@
+id: statements/vasopressin-ergaenzen-septischer-schock
+type: statement
+lang: de
+label: Bei Patienten mit septischem Schock wird vorgeschlagen, Vasopressin zu ergänzen, wenn mit Noradrenalin alleine kein
+  ausreichender Blutdruck erzielt werden kann.
+short_label: "Vasopressin ergänzen, wenn Noradrenalin nicht ausreicht"
+slots:
+  population: concepts/septischer-schock
+  action: concepts/vasopressin
+  condition: [concepts/mit-noradrenalin-alleine-kein-ausreichender-blutdruck]
+source: modelling

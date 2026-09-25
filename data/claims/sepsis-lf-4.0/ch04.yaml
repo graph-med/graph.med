@@ -1,0 +1,525 @@
+# Chapter 4 "Kreislauftherapie" of sources/sepsis-lf-4.0 (physical pages 57–72), card #222.
+# Every sentence of the 12 boxes 4.1–4.12 is a claim (13), carrying the box's number, the section it lies in,
+# its grade and consensus as printed (#212) and its evidence row by row (#215); the body-text places that pass
+# spec §5.1 are claims without grade, consensus or number, their edges in data/edges/sepsis-lf-4.0/ch04.yaml.
+- id: claims/sepsis-lf-4.0/14c48a65
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "4.1"
+  section: "4.1"
+  label: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock balancierte Kristalloide als Flüssigkeitstherapie der ersten Wahl."
+  grade: Stark
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: "concepts/mortalitaet-nach-90-tagen", value: "Hoch", system: "grade"}
+  source:
+    at: sources/sepsis-lf-4.0#page=57
+    quote: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=57", quote: "Stark"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=57", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=57", quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: "sources/sepsis-lf-4.0#page=57", quote: "90-Tage-Mortalität"}
+- id: claims/sepsis-lf-4.0/7c6272b2
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "4.2"
+  section: "4.1"
+  label: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem Schock Albumin additiv zu balancierten Kristalloiden zu verabreichen, wenn große Mengen an Flüssigkeit benötigt werden, um eine hämodynamische Stabilität zu erreichen."
+  grade: Schwach
+  verb: schlagen vor
+  direction: for
+  consensus: konsens
+  consensus_share: "89 %"
+  evidence:
+    - {outcome: "concepts/mortalitaet-nach-28-tagen", value: "Moderat", system: "grade"}
+  source:
+    at: sources/sepsis-lf-4.0#page=58
+    quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=58", quote: "Schwach"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=58", quote: "Konsensstärke: 89 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 75-95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=58", quote: "Konsensstärke: 89 %"}
+    evidence:
+      - {at: "sources/sepsis-lf-4.0#page=58", quote: "28-Tage-Sterblichkeit:"}
+- id: claims/sepsis-lf-4.0/22296ddf
+  type: claim
+  lang: de
+  kind: gap_notice
+  section: "4.1"
+  label: "Aufgrund der begrenzten Datenlage kann kein Grenzwert für die kristalloide Infusion festgelegt werden, ab dem die additive Albumingabe in Betracht gezogen werden sollte."
+  source:
+    at: sources/sepsis-lf-4.0#page=59
+    quote: "grenzten Datenlage kann kein Grenzwert für die kristalloide Infusion festgelegt werden, ab"
+- id: claims/sepsis-lf-4.0/63c8d4bd
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.1"
+  label: "Auch ein erniedrigter Plasmaalbuminspiegel ohne anhaltenden Flüssigkeitsbedarf soll nicht als alleinige Indikation für die Albumingabe verwendet werden."
+  verb: soll
+  direction: against
+  source:
+    at: sources/sepsis-lf-4.0#page=59
+    quote: "maalbuminspiegel ohne anhaltenden Flüssigkeitsbedarf soll nicht als alleinige Indikation für"
+- id: claims/sepsis-lf-4.0/53f6ae72
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.1"
+  label: "Zusätzlich wurde in der Studie von Caironi et al. der Grenzwert von 30 g/l in der Interventionsgruppe angestrebt, weswegen der Plasmaalbuminspiegel bei der Therapieentscheidung berücksichtigt werden sollte."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=59
+    quote: "spiegel bei der Therapieentscheidung berücksichtigt werden sollte"
+- id: claims/sepsis-lf-4.0/87a1a76e
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "4.3"
+  section: "4.1"
+  label: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock Hydroxyethylstärke zur Flüssigkeitstherapie NICHT anzuwenden."
+  grade: Stark
+  verb: empfehlen
+  direction: against
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: "concepts/mortalitaet-mehr-als-28-tage", value: "Hoch", system: "grade"}
+  source:
+    at: sources/sepsis-lf-4.0#page=60
+    quote: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=60", quote: "Stark"}
+    direction: {at: "sources/sepsis-lf-4.0#page=60", quote: "Hydroxyethylstärke zur Flüssigkeitstherapie NICHT anzuwenden."}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=60", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=60", quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: "sources/sepsis-lf-4.0#page=60", quote: "Mortalität (> 28"}
+- id: claims/sepsis-lf-4.0/ac3e9621
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "4.4"
+  section: "4.1"
+  label: "Wir schlagen vor, bei Patienten mit Sepsis und septischem Schock Gelatine NICHT anzuwenden."
+  grade: Schwach
+  verb: schlagen vor
+  direction: against
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: "concepts/anaphylaxie", value: "Moderat", system: "grade"}
+  source:
+    at: sources/sepsis-lf-4.0#page=61
+    quote: "Wir schlagen vor, bei Patienten mit Sepsis und septischem"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=61", quote: "Schwach"}
+    direction: {at: "sources/sepsis-lf-4.0#page=61", quote: "Schock Gelatine NICHT anzuwenden."}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=61", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=61", quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: "sources/sepsis-lf-4.0#page=61", quote: "Anaphylaxie:"}
+- id: claims/sepsis-lf-4.0/0752b5db
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "4.5"
+  section: "4.2"
+  label: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock Noradrenalin als Vasopressor erster Wahl."
+  grade: Stark
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {key: "Dopamin", value: "Hoch", system: "grade"}
+    - {key: "Vasopressin", value: "Moderat", system: "grade"}
+    - {key: "Epinephrin", value: "Niedrig", system: "grade"}
+    - {key: "Selepressin", value: "Niedrig", system: "grade"}
+    - {key: "Angiotensin II", value: "Sehr niedrig", system: "grade"}
+  source:
+    at: sources/sepsis-lf-4.0#page=62
+    quote: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=62", quote: "Stark"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=62", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=62", quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: "sources/sepsis-lf-4.0#page=62", quote: "Dopamin:"}
+      - {at: "sources/sepsis-lf-4.0#page=62", quote: "Vasopressin:"}
+      - {at: "sources/sepsis-lf-4.0#page=62", quote: "Epinephrin:"}
+      - {at: "sources/sepsis-lf-4.0#page=62", quote: "Selepressin:"}
+      - {at: "sources/sepsis-lf-4.0#page=62", quote: "Angiotensin II:"}
+- id: claims/sepsis-lf-4.0/a053659c
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "4.6"
+  section: "4.2"
+  label: "Wir schlagen vor, bei Patienten mit septischem Schock Vasopressin zu ergänzen, wenn mit Noradrenalin alleine kein ausreichender Blutdruck erzielt werden kann."
+  grade: Schwach
+  verb: schlagen vor
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: "concepts/mortalitaet", value: "Moderat", system: "grade"}
+    - {outcome: "concepts/neuaufgetretene-organdysfunktion", value: "Moderat", system: "grade"}
+  source:
+    at: sources/sepsis-lf-4.0#page=63
+    quote: "Wir schlagen vor, bei Patienten mit septischem Schock Vasop-"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=63", quote: "Schwach"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=63", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=63", quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: "sources/sepsis-lf-4.0#page=63", quote: "Mortalität:"}
+      - {at: "sources/sepsis-lf-4.0#page=63", quote: "Neuaufgetretene"}
+- id: claims/sepsis-lf-4.0/9b6f149f
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.2"
+  label: "Höhere Dosen von Vasopressin sind mit einem erhöhten Risiko für kardiale und Splanchnikus-Ischämien verbunden und sind daher Situationen vorbehalten, in denen alternative Vasopressoren versagt haben."
+  source:
+    at: sources/sepsis-lf-4.0#page=64
+    quote: "Splanchnikus-Ischämien verbunden und sind daher Situationen vorbehalten"
+- id: claims/sepsis-lf-4.0/477b9693
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.2"
+  label: "Wir empfehlen nicht die Nutzung von Vasopressin als Erstlinien-Vasopressor für die Unterstützung des MAP …"
+  verb: empfehlen
+  direction: against
+  source:
+    at: sources/sepsis-lf-4.0#page=64
+    quote: "Wir empfehlen nicht die Nutzung von Vasopressin als Erstlinien-Vasopressor"
+- id: claims/sepsis-lf-4.0/72cf3557
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.2"
+  label: "Wir … würden zur Vorsicht raten, wenn es bei Patienten genutzt wird, die nicht euvolämisch sind oder höhere Dosen als 0,03 U/min erhalten."
+  source:
+    at: sources/sepsis-lf-4.0#page=64
+    quote: "würden zur Vorsicht raten, wenn es bei Patienten genutzt wird, die nicht"
+- id: claims/sepsis-lf-4.0/38bff292
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.2"
+  label: "Aufgrund der oben beschriebenen Verbesserung der Überlebensrate, besonders bei Patienten, die einen geringeren Noradrenalin-Bedarf hatten, erachtet es die Leitliniengruppe als sinnvoll ab einem Dosisbereich von 0,25-0,5 μg/kg/min für die Noradrenalinlaufrate Vasopressin zu ergänzen."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=65
+    quote: "0,25-0,5 μg/kg/min für die Noradrenalinlaufrate Vasopressin zu ergänzen."
+- id: claims/sepsis-lf-4.0/9fbcd8d6
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.2"
+  label: "Anmerkung: Alle Patienten, die eine Vasopressor-Therapie benötigen, sollten einen arteriellen Katheter erhalten, sobald dies praktisch umsetzbar ist, und die personellen Ressourcen vorhanden sind."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=65
+    quote: "Anmerkung: Alle Patienten, die eine Vasopressor-Therapie benötigen, sollten einen arteriellen"
+- id: claims/sepsis-lf-4.0/65892e52
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.2"
+  label: "Die arteriellen Katheter sollten entfernt werden, sobald keine hämodynamische Überwachung mehr benötigt wird, um das Komplikationsrisiko zu minimieren."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=65
+    quote: "Die arteriellen Katheter sollten entfernt werden, sobald keine hämodynamische Über-"
+- id: claims/sepsis-lf-4.0/429703f3
+  type: claim
+  lang: de
+  kind: gap_notice
+  recommendation_no: "4.7"
+  section: "4.2"
+  label: "Aufgrund der aktuellen Datenlage kann bei Patienten mit septischem Schock weder für noch gegen den Einsatz von Methylenblau eine Empfehlung ausgesprochen werden."
+  grade: EK
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=66
+    quote: "Aufgrund der aktuellen Datenlage kann bei Patienten mit septi-"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=66", quote: "EK"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=66", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=66", quote: "Konsensstärke: 100 %"}
+- id: claims/sepsis-lf-4.0/2eeb3f98
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "4.8"
+  section: "4.2"
+  label: "Wir schlagen vor, bei Patienten mit septischem Schock Terlipressin NICHT anzuwenden."
+  grade: Schwach
+  verb: schlagen vor
+  direction: against
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: "concepts/mortalitaet", value: "Niedrig", system: "grade"}
+  source:
+    at: sources/sepsis-lf-4.0#page=67
+    quote: "Wir schlagen vor, bei Patienten mit septischem Schock"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=67", quote: "Schwach"}
+    direction: {at: "sources/sepsis-lf-4.0#page=67", quote: "Terlipressin NICHT anzuwenden."}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=67", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=67", quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: "sources/sepsis-lf-4.0#page=67", quote: "Mortalität:"}
+- id: claims/sepsis-lf-4.0/106cc052
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "4.9"
+  section: "4.3"
+  label: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem Schock, bei denen Hinweise für eine kardiale Dysfunktion mit persistierender Hypoperfusion trotz angemessenem Flüssigkeitsstatus und arteriellem Blutdruck bestehen Dobutamin zu verwenden."
+  grade: Schwach
+  verb: schlagen vor
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: "concepts/mortalitaet", value: "Niedrig", system: "grade"}
+  source:
+    at: sources/sepsis-lf-4.0#page=68
+    quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=68", quote: "Schwach"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=68", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=68", quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: "sources/sepsis-lf-4.0#page=68", quote: "Mortalität:"}
+- id: claims/sepsis-lf-4.0/36617646
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.3"
+  label: "Eine frühe und wiederholte echokardiographische Beurteilung von Patienten mit septischem Schock erscheint daher sinnvoll."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=68
+    quote: "Eine frühe und wiederholte echokardi-"
+- id: claims/sepsis-lf-4.0/85b35f02
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.3"
+  label: "Begleitende Messungen des HZV in Kombination mit der parallelen Beurteilung von Perfusionsparametern sind zu bevorzugen."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=68
+    quote: "gleitende Messungen des HZV in Kombination mit der parallelen Beurteilung von Perfusions-"
+- id: claims/sepsis-lf-4.0/fb27e846
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.3"
+  label: "In dieser Situation stellt Dobutamin für Patienten mit einem bestätigten oder vermuteten niedrigen HZV, bei denen ein angemessener linksventrikulärer Füllungsdruck (oder die klinische Beurteilung einer angemessenen Flüssigkeitstherapie) sowie ein angemessener MAP vorliegt, die inotrope Therapie der ersten Wahl dar."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=68
+    quote: "Patienten mit einem bestätigten oder vermuteten niedrigen HZV, bei denen ein angemesse-"
+- id: claims/sepsis-lf-4.0/a27ab31b
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.3"
+  label: "Die beste Möglichkeit, diese Art von Therapie zu steuern, besteht darin, die Reaktion von Perfusionsindizes auf den (gemessenen) Anstieg des HZV zu monitorisieren."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=68
+    quote: "Die beste Möglichkeit, diese Art von Therapie zu steuern, besteht darin"
+- id: claims/sepsis-lf-4.0/e88e4fff
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "4.10"
+  section: "4.3"
+  label: "Wir schlagen vor, bei Patienten mit septischem Schock Levosimendan NICHT einzusetzen."
+  grade: Schwach
+  verb: schlagen vor
+  direction: against
+  consensus: konsens
+  consensus_share: "95 %"
+  evidence:
+    - {outcome: "concepts/mortalitaet", value: "Niedrig", system: "grade"}
+  source:
+    at: sources/sepsis-lf-4.0#page=69
+    quote: "Wir schlagen vor, bei Patienten mit septischem Schock"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=69", quote: "Schwach"}
+    direction: {at: "sources/sepsis-lf-4.0#page=69", quote: "Levosimendan NICHT einzusetzen."}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=69", quote: "Konsensstärke: 95 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 75-95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=69", quote: "Konsensstärke: 95 %"}
+    evidence:
+      - {at: "sources/sepsis-lf-4.0#page=69", quote: "Mortalität"}
+- id: claims/sepsis-lf-4.0/c8d08dc3
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "4.11"
+  section: "4.4"
+  label: "Der Einsatz einer veno-arteriellen ECMO bei Patienten mit einem therapierefraktären septischen Schock ohne einen zusätzlichen kardiogenen Schock kann NICHT empfohlen werden."
+  grade: EK
+  verb: empfehlen
+  direction: against
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=70
+    quote: "Der Einsatz einer veno-arteriellen ECMO bei Patienten mit einem"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=70", quote: "EK"}
+    verb: {at: "sources/sepsis-lf-4.0#page=70", quote: "kardiogenen Schock kann NICHT empfohlen werden."}
+    direction: {at: "sources/sepsis-lf-4.0#page=70", quote: "kardiogenen Schock kann NICHT empfohlen werden."}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=70", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=70", quote: "Konsensstärke: 100 %"}
+- id: claims/sepsis-lf-4.0/4a557139
+  type: claim
+  lang: de
+  kind: gap_notice
+  recommendation_no: "4.11"
+  section: "4.4"
+  label: "Aufgrund der aktuellen Datenlage kann weder für noch gegen den Einsatz einer veno-arteriellen ECMO bei Patienten mit einem therapierefraktären septischen und einem zusätzlichen kardiogenen Schock eine Empfehlung ausgesprochen werden."
+  grade: EK
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=70
+    quote: "Aufgrund der aktuellen Datenlage kann weder für noch gegen"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=70", quote: "EK"}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=70", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=70", quote: "Konsensstärke: 100 %"}
+- id: claims/sepsis-lf-4.0/c8d3aad9
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.4"
+  label: "Zusammenfassend ist die aktuelle Datenlage unzureichend, um eine Empfehlung zum Einsatz der veno-arteriellen ECMO zur hämodynamischen Stabilisierung von Patienten mit therapierefraktärem septischem Schock und kardialer Dysfunktion abzugeben, sodass der Einsatz, auch unter Berücksichtigung der vorhandenen Erfahrung und Ressourcen, individuell abgewogen werden sollte."
+  verb: sollte
+  source:
+    at: sources/sepsis-lf-4.0#page=71
+    quote: "unter Berücksichtigung der vorhandenen Erfahrung und Ressourcen, individuell abgewo-"
+  provenance:
+    verb: {at: "sources/sepsis-lf-4.0#page=71", quote: "gen werden sollte."}
+- id: claims/sepsis-lf-4.0/71e26f41
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "4.12"
+  section: "4.4"
+  label: "Wir empfehlen bei Patienten mit septischem Schock β-Blocker zur Herzfrequenzsenkung NICHT routinemäßig anzuwenden."
+  grade: EK
+  verb: empfehlen
+  direction: against
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=71
+    quote: "Wir empfehlen bei Patienten mit septischem Schock β-Blocker"
+  provenance:
+    grade: {at: "sources/sepsis-lf-4.0#page=71", quote: "EK"}
+    direction: {at: "sources/sepsis-lf-4.0#page=71", quote: "zur Herzfrequenzsenkung NICHT routinemäßig anzuwenden."}
+    consensus:
+      - {at: "sources/sepsis-lf-4.0#page=71", quote: "Konsensstärke: 100 %"}
+      - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: "sources/sepsis-lf-4.0#page=71", quote: "Konsensstärke: 100 %"}
+- id: claims/sepsis-lf-4.0/4abea81e
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.4"
+  label: "Die Anwendung kurzwirksamer Betablocker zur Therapie von Tachyarrhythmien z. B. im Rahmen von Vorhofflimmern bei septischen Patienten sollte davon gesondert betrachtet werden."
+  verb: sollte
+  source:
+    at: sources/sepsis-lf-4.0#page=72
+    quote: "chyarrhythmien z. B. im Rahmen von Vorhofflimmern bei septischen Patienten sollte davon"
+- id: claims/sepsis-lf-4.0/2615315c
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.4"
+  label: "Zur Therapie von supraventrikulären Arrhythmien ist die Gabe kurzwirksamer Betablocker weiterhin eine Option."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=72
+    quote: "Zur Therapie von supraventrikulären Arrhythmien ist die Gabe"
+- id: claims/sepsis-lf-4.0/fffe34fd
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.4"
+  label: "Vor Einleitung einer Therapie mit β-1-selektiven Betablockern bei tachykarden Herzrhythmusstörungen sollte jedoch ein adäquater Volumenstatus hergestellt … sein."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=72
+    quote: "sollte jedoch ein adäquater Volumenstatus hergestellt"
+- id: claims/sepsis-lf-4.0/93f8fade
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.4"
+  label: "Vor Einleitung einer Therapie mit β-1-selektiven Betablockern bei tachykarden Herzrhythmusstörungen sollte jedoch … eine Blutdruckstabilisierung durch Vasopressoren erfolgt sein."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=72
+    quote: "rung durch Vasopressoren erfolgt sein."
+  provenance:
+    verb: {at: "sources/sepsis-lf-4.0#page=72", quote: "sollte jedoch ein adäquater Volumenstatus hergestellt"}
+- id: claims/sepsis-lf-4.0/fd52700f
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.4"
+  label: "Die Anwendung sollte unter entsprechendem hämodynamischem Monitoring titriert erfolgen und auf eine Verbesserung der hämodynamischen Situation und Gewebeperfusion abzielen."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=72
+    quote: "Die Anwendung sollte unter entsprechendem hämo-"

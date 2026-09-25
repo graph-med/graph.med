@@ -1,0 +1,7 @@
+# The action box 4.4 advises against (p. 61): "Gelatine NICHT anzuwenden".
+id: concepts/gelatine
+type: concept
+lang: de
+label: Gelatine
+facet: medication
+source: modelling

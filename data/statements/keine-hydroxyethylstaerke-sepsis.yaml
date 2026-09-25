@@ -1,0 +1,10 @@
+id: statements/keine-hydroxyethylstaerke-sepsis
+type: statement
+lang: de
+label: Bei Patienten mit Sepsis oder septischem Schock wird empfohlen, Hydroxyethylstärke zur Flüssigkeitstherapie nicht
+  anzuwenden.
+short_label: "Keine Hydroxyethylstärke zur Flüssigkeitstherapie"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/hydroxyethylstaerke
+source: modelling

@@ -1,0 +1,8 @@
+# An evidence outcome of views/sepsis-lf-4.0 (card #222): the row "Neuaufgetretene Organdysfunktion:" of
+# box 4.6 (p. 63).
+id: concepts/neuaufgetretene-organdysfunktion
+type: concept
+lang: de
+label: Neuaufgetretene Organdysfunktion
+facet: outcome
+source: modelling
