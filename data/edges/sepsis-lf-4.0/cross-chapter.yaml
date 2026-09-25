@@ -30,16 +30,11 @@
    rationale: "Die veno-arterielle ECMO ist eine ECMO: die Form, die den Kreislauf unterstützt (S. 70: „extrakorporalen Kreislaufunterstützung in Form einer veno-arteriellen ECMO“)."}]
 - [concepts/vv-ecmo, broader, concepts/ecmo, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "Die veno-venöse ECMO ist eine ECMO: die Form, die den Gasaustausch unterstützt (5.16: bei „fortbestehender schwerer Gasaustauschstörung“)."}]
-# the vasopressors: 4.5, 4.6 and 4.8 (chapter 4), medications all three. 2.7's peripheral application (chapter 2) is
-# not a member: the route changes how a vasopressor is given, not which. No family of crystalloid solutions: 2.5's
-# 30 mL/kg is an intervention whose amount and time change how the solution is given, so 4.1's balanced
-# crystalloids would be its only member.
-- [concepts/noradrenalin, broader, concepts/vasopressor, {source: modelling, as_of: "2026-09-25", lang: de,
-   rationale: "Noradrenalin ist ein Vasopressor (4.5: „Noradrenalin als Vasopressor erster Wahl“)."}]
-- [concepts/vasopressin, broader, concepts/vasopressor, {source: modelling, as_of: "2026-09-25", lang: de,
-   rationale: "Vasopressin ist ein Vasopressor (S. 64: nicht „als Erstlinien-Vasopressor“, 4.6: ergänzend zu Noradrenalin)."}]
-- [concepts/terlipressin, broader, concepts/vasopressor, {source: modelling, as_of: "2026-09-25", lang: de,
-   rationale: "Terlipressin ist ein Vasopressor, ein synthetisches Analogon von Vasopressin (S. 67: „die Anwendung von Terlipressin als Vasopressor“)."}]
+# No family of vasopressors and none of crystalloid solutions. 2.7's peripheral application (chapter 2) changes how a
+# vasopressor is given, not which, and is a measure, not a drug; without it, Noradrenalin, Vasopressin and
+# Terlipressin (4.5, 4.6, 4.8) would form a family within chapter 4 alone, which is not this card's (named in the pull
+# request). 2.5's 30 mL/kg is a measure whose amount and time change how the solution is given, so 4.1's balanced
+# crystalloids would be the only member.
 # the mortality time frames: #217's four (3.7, 4.1, 4.2, 6.3, 6.9, 6.10, 8.2, 8.16) and the variants of #222 (4.3) and
 # #225 (8.1), all directly under concepts/mortalitaet; none is nested under another (named in the pull request)
 - [concepts/mortalitaet-nach-90-tagen, broader, concepts/mortalitaet, {source: modelling, as_of: "2026-09-25", lang: de,
