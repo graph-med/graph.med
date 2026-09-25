@@ -42,6 +42,7 @@ uv run tools/screenshot.py pomgat-lv-1.0 --phone \
     --do open=statements/drainage-komplexe-leberresektion-optional --do graph   # the graph under the selection
 uv run tools/screenshot.py statements/tap-block-mic-kolorektal --phone --full  # an entity page, the whole of it
 uv run tools/screenshot.py /                        # the index
+uv run tools/screenshot.py / --do key=Tab --do key=Tab --do key=Tab --do key=Enter   # the keyboard's way to a box
 ```
 
 The first argument is a **site path**: a view id, an entity page
@@ -54,10 +55,11 @@ The runner builds the site into a temporary directory with base path `/site/`,
 copies it and the driver into a fresh container, captures, copies the PNG out,
 and removes the container. Actions run in order before the capture and map onto
 the hooks `tools/site/static/graph.js` exposes as `window.graphmed`:
-all of them need a view page — on a page without a graph the run fails,
-naming the action, before anything is captured — except `wait`. The index
-draws a graph too (`tools/site/static/home.js`): it takes `open=<view id>` (a
-guideline's box tapped, its entry in the sheet), `sheet`, `graph` and `wait`.
+a view page takes every one. The index draws a graph too
+(`tools/site/static/home.js`) and takes `open=<view id>` (a guideline's box
+tapped, its entry in the sheet), `sheet`, `graph`, `key=<key>` and `wait`; any
+other page `key=<key>` and `wait`. An action the page does not take fails before
+anything runs, naming itself and what the page takes.
 `toggle=<concept id>` folds or unfolds a patient group, `open=<entity id>` is a
 deep link (unfold and select), `section=<number>` sets the chapter filter,
 `fold=<question node id>` folds or unfolds everything below a question,
@@ -69,7 +71,10 @@ group one tap at a time (the physician's extreme state), `fit` fits what is
 open, `reset` returns the page to its opening state, `sheet` and `graph` bring
 the details or the graph into view as a reader does — on a phone, where a
 selection waits in a peek strip, `sheet` raises the panel by tapping the strip
-and `graph` lowers it again; elsewhere they scroll the page to the section, `wait=<ms>` waits. `--dark`
+and `graph` lowers it again; elsewhere they scroll the page to the section,
+`key=<key>` presses a key as a keyboard does (`Tab`, `Enter`, `Escape`,
+modifiers joined by `+` as in `Shift+Tab`) — to check that a control is reached
+and works without a pointer —, `wait=<ms>` waits. `--dark`
 is a flag, not an action: the graph reads its colours from the stylesheet once,
 when it is drawn, so the theme is emulated before the page loads. On a view page the runner
 prints how many graph elements were shown, any page error — also when the
@@ -81,8 +86,11 @@ an answer it does not touch — the mechanical half of "nothing overlaps"
 pan that pushes nodes under the floating controls; look for that yourself.
 On every page it prints any page error and whether the page is wider than
 the viewport (`overflows horizontally: <w> px wide at <width>`, or
-`fits <width> px across`) — the mechanical half of "the page fits a phone" —
-and on a page without a graph how tall it is.
+`fits <width> px across`) — the mechanical half of "the page fits a phone" —,
+where the focus is when it is not on the page itself (`focus on <element>
+"<words>"`, and whether it is pressed: what the keys reached), and on a page
+without a graph how tall it is. A key that follows a link leaves the page; the
+run cannot capture what it opens under `file://`, so check a link by its `href`.
 
 Output goes under `/tmp/graph.med/screenshots/<branch>/` by default — a neutral
 path, never one derived from a home directory
