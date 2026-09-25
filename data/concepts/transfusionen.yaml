@@ -1,0 +1,7 @@
+# An evidence endpoint of 6.8 (p. 97), "Transfusionen403:", the reference mark left out.
+id: concepts/transfusionen
+type: concept
+lang: de
+label: "Transfusionen"
+facet: outcome
+source: modelling

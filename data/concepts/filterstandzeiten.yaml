@@ -1,0 +1,7 @@
+# An evidence endpoint of 6.8 (p. 97), "Filterstandzeiten402:", the reference mark left out.
+id: concepts/filterstandzeiten
+type: concept
+lang: de
+label: "Filterstandzeiten"
+facet: outcome
+source: modelling
