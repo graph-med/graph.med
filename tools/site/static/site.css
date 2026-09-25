@@ -291,6 +291,13 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card dl.slots dd .families { flex-basis: 100%; color: var(--mute); font-size: .85rem; }
 .card dl.slots dd .families-label { margin-right: .15rem; }   /* "gehört zu:" — broader categories, not further requirements */
 .card dl.slots dd .families .node-link { min-height: 32px; }
+/* concepts that hold at once (a statement's conditions, a scope path's): every entry after the first on a line of its
+   own, opened by the conjunction, so that no label's own "oder" reads across the join; in a row, the conjunction
+   stands in a column of its own and the entry beside it is laid out like the row's first */
+.card .and { display: block; }
+.card .and > .conj { font-weight: 600; }
+.card dl.slots dd > .and { flex-basis: 100%; display: flex; align-items: baseline; column-gap: .4rem; }
+.card dl.slots dd > .and > .entry { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; column-gap: .4rem; }
 .card ul.body li p { margin: .2rem 0; }
 /* what applies generally to a concept (docs/publication.md §3): set apart under its own heading, below the concept's
    own statements, each entry the statement, where it stands, the concept it was made for and the condition; and on

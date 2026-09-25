@@ -73,11 +73,13 @@ CARD_SLOTS = ("population", "condition", "action")   # the rows of zone 5 "Gilt 
 # the two questions whose answers are the population and condition slots, the question a dimension axis
 # adds where it declares none of its own (its short label filled in), the chapter question, the switch's
 # entries for the chapters and for the unfolded patient groups of a view with no hierarchy axis first in its
-# `group_by`, and the one answer for what a grouping cannot place (spec §4.1 "4. Shown"). Keyed by
-# structural key, never by an axis: the build knows no axis by name. Add a row per language; a view in a
-# language without one fails the build rather than falling back to another language.
+# `group_by`, the one answer for what a grouping cannot place (spec §4.1 "4. Shown"), and the conjunction
+# that joins the conditions of one answer, which all hold at once (spec §3.2). Keyed by structural key,
+# never by an axis: the build knows no axis by name. Add a row per language; a view in a language without
+# one fails the build rather than falling back to another language.
 WORDS = {"de": {"population": "Welche Population?", "condition": "Welche Bedingung?", "section": "Welches Kapitel?",
-                "axis": "Welche {label}?", "plain": "Population", "chapter": "Kapitel", "unplaced": "nicht zugeordnet"}}
+                "axis": "Welche {label}?", "plain": "Population", "chapter": "Kapitel", "unplaced": "nicht zugeordnet",
+                "conjunction": "und"}}
 CHAPTERS = "section"   # the URL token and grouping id of the built-in chapter grouping (`?by=section`)
 
 # The words of the statement card (docs/publication.md §3 "What the section shows"), and of the detail
@@ -94,6 +96,8 @@ CHAPTERS = "section"   # the URL token and grouping id of the built-in chapter g
 # `evidence.by_key`) have no pair: a range needs two values, so it never counts one (evidence_of()).
 CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", "zone.contested.one", "zone.contested.many",
              "zone.citation", "zone.more", "slot.population", "slot.condition", "slot.action", "slot.count", "slot.families",
+             # the word joining concepts that hold at once — a statement's conditions, the conditions of a scope path (spec §3.2)
+             "conjunction",
              "cite.open", "cite.quote", "cite.review.pending", "cite.no", "cite.page", "cite.section",
              "grade", "consensus.share",
              "marker.contested", "body.limits", "body.refines", "body.supplements", "body.empty",
@@ -123,8 +127,8 @@ CARD_WORDS = {"de": {
     "zone.wording": "Wortlaut der Empfehlung", "zone.evidence": "Evidenz", "zone.applies": "Gilt für",
     "zone.body_text": "Hinweise aus dem Begleittext", "zone.contested.one": "Widersprechende Empfehlung",
     "zone.contested.many": "Widersprechende Empfehlungen", "zone.citation": "Beleg", "zone.more": "Mehr zu dieser Aussage",
-    "slot.population": "Eingriff", "slot.condition": "Bedingung", "slot.action": "Maßnahme", "slot.count": "({n} Empfehlungen)",
-    "slot.families": "gehört zu:",
+    "slot.population": "Patientengruppe", "slot.condition": "Bedingung", "slot.action": "Maßnahme", "slot.count": "({n} Empfehlungen)",
+    "slot.families": "gehört zu:", "conjunction": "und",
     "cite.open": "In der Leitlinie öffnen", "cite.quote": "Suchtext kopieren", "cite.review.pending": "Klinische Begutachtung: ausstehend",
     "cite.no": "Empf. {nr}", "cite.page": "S. {nr}", "cite.section": "Abschnitt {nr}",
     "grade": "Grad {grade}", "consensus.share": "{name}, {share}",
@@ -417,14 +421,13 @@ def asserted(axis: dict) -> bool:
     return any(e.get("status") == "asserted" for e in axis.get("views") or [] if isinstance(e, dict))
 
 
-def the_one(st: dict, slot: str, slots: dict | None = None) -> str | None:
-    """The one concept of a slot, where the site shows one — the tree's answer to the condition question,
-    a row of the card. How several conditions are shown is not designed yet (docs/publication.md §3
-    draws one answer per statement), so the build stops at a statement with several rather than show one of them and drop the rest."""
-    cids = fillers(st, slot, slots)
-    if len(cids) > 1:
-        raise SystemExit(f"{st['id']}: {len(cids)} concepts in `{slot}`; the card and the tree show one, several are not built yet")
-    return cids[0] if cids else None
+def as_stored(st: dict, slot: str, value, slots: dict | None = None):
+    """`value` of each concept of a slot, in the shape the pool stores the slot: a list for a list slot —
+    `condition`, one entry or more, all holding at once (spec §3.2) —, the one value of any other, None
+    when the slot is empty. Whatever the site shows of a slot's concepts goes through this and fillers():
+    one shape for one condition and for several, never one of them in place of the rest."""
+    values = [value(cid) for cid in fillers(st, slot, slots)]
+    return values if isinstance((slots if slots is not None else st.get("slots") or {}).get(slot), list) else (values[0] if values else None)
 
 
 class Pool:
@@ -899,12 +902,11 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
         if nid not in seen:
             seen.add(nid); nodes.append({"id": nid, **kw})
         return nid
-    def edge(a, b, kind, label=None, ref=None):
+    def edge(a, b, kind, label=None, ref=None, text=None):
         e = {"from": a, "to": b, "kind": kind}
         if label: e["label"] = label
-        if ref:
-            e["ref"] = ref
-            if kind == "answer": e["text"] = text_of(ref)   # an answer is searchable by what it names, the way a node is
+        if ref: e["ref"] = ref
+        if kind == "answer" and (text or ref): e["text"] = text or text_of(ref)   # an answer is searchable by what it names, the way a node is
         edges.append(e)
     label = lambda cid: members[cid]["label"] if cid in members else cid
     short = lambda cid: members[cid].get("short_label") or members[cid]["label"] if cid in members else cid   # boxes and answers show the short form
@@ -931,7 +933,7 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
         sl = slots(st)
         claims = pool.claims_for(st["id"])
         grades = {(c["source"], c["grade"]) for c in claims if c["edge"] == "supports" and c.get("grade")}   # read in each claim's own scheme
-        cond, outc = the_one(st, "condition"), sl.get("outcome")
+        conds, outc = fillers(st, "condition"), sl.get("outcome")
         d = direction_of(claims)
         again = st["id"] in seen   # under two answers (two chapters): one node, hung from both, its aim and relations once
         # the box reads "✗ EK soll nicht · <short label>" (docs/publication.md §3): the direction's glyph, the
@@ -954,12 +956,18 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
                   # label), its claims' sentences and quotes (docs/publication.md §3)
                   text=" ".join(filter(None, [st["label"], st.get("short_label")] + [text_of(c) for _, c in pool.filled(st) if c in members]
                                               + [c.get("label") for c in claims] + [c.get("quote") for c in claims])))
-        if cond in members:  # a further question, asked within the patient group
+        if conds:  # a further question, asked within the patient group
             q = f"q:{at}:condition"
             if q not in seen:
                 add(q, type="question", lang=lang, label=words["condition"])
                 edge(at, q, "flow")
-            edge(q, sid, "answer", short(cond), ref=cond)
+            # one answer names every condition, as stored, so the box is reached once and never through one
+            # of them alone (spec §3.2: they hold at once): each on its own line, every line after the first
+            # opened by the conjunction, so that no label's own "oder" reads across the join. Searchable by
+            # all of them; its ref is the one concept it names — naming several, it has none, and a tap
+            # opens the box it leads to (graph.js)
+            edge(q, sid, "answer", ("\n" + words["conjunction"] + " ").join(short(c) for c in conds),
+                 ref=conds[0] if len(conds) == 1 else None, text=" ".join(text_of(c) for c in conds))
         else:
             edge(at, sid, "flow")
         if again:
@@ -1225,15 +1233,14 @@ def main(argv=None) -> int:
         concept = lambda cid: {"id": cid, "label": pool.entities[cid]["label"], "lang": pool.entities[cid]["lang"]} if cid in pool.entities \
             else {"id": cid, "label": cid, "lang": st["lang"]}   # a reference outside the pool (a terminology not imported) shows as its id
 
-        def slot_row(role):
-            """A row of zone 5: plain when the concept carries only this statement in that role, linked with the
-            count (this statement included) when it carries more; the population keeps its families below it.
-            A slot a dimension axis adds carries that axis, whose short label (else label) names the row."""
-            cid = the_one(st, role, slots)
-            if cid not in pool.entities:
-                return None
+        def slot_row(role, cid):
+            """One concept of a row of zone 5: plain when it carries only this statement in that role, linked with
+            the count (this statement included) when it carries more — a reference outside the pool (a terminology
+            not imported) plain, by its id, never dropped; the population keeps its families below it. A slot a
+            dimension axis adds carries that axis, whose short label (else label) names the row. The row of a list
+            slot (`condition`) holds one of these per entry, all holding at once (as_stored)."""
             n = pool.slot_uses[(role, cid)]
-            row = {**concept(cid), "count": n, "linked": n > 1, **derivation_of(pool, cid)}
+            row = {**concept(cid), "count": n, "linked": n > 1 and cid in pool.entities, **derivation_of(pool, cid)}
             if role == "population":
                 row["families"] = [{**f, "lang": pool.entities[f["id"]]["lang"]} for f in pool.families_of(cid)]
             general = general_for(st, role)   # the anchor of a view with a scope tree: to whom it applies generally too
@@ -1245,8 +1252,10 @@ def main(argv=None) -> int:
             return row
 
         passage = lambda b: {k: b.get(k) for k in ("id", "label", "lang", "page", "section", "link", "quote")}
-        # the card's slots, then every slot a dimension axis adds that the statement fills, by slot key (spec §4.1)
-        geltung = {role: slot_row(role) for role in list(CARD_SLOTS) + sorted(s for s in slots if s in dimension_axes and s not in CARD_SLOTS)}
+        # the card's slots, then every slot a dimension axis adds that the statement fills, by slot key (spec §4.1),
+        # each in the shape the pool stores it: the conditions a list, one row per condition
+        geltung = {role: as_stored(st, role, lambda cid, role=role: slot_row(role, cid), slots)
+                   for role in list(CARD_SLOTS) + sorted(s for s in slots if s in dimension_axes and s not in CARD_SLOTS)}
         cited = []   # zone 8: each source named once, its supporting claims' entries under it, in `sup`'s order
         for c in sup:
             if not cited or cited[-1]["id"] != c["source"]:
@@ -1265,7 +1274,7 @@ def main(argv=None) -> int:
             "leitlinientext": {k: [passage(b) for c in claims for b in c.get("body", []) if b["kind"] == k] for k in BODY_TEXT},
             "widerspruch": contests_of(claims),
             "beleg": {"sources": cited, "review": "pending"},   # the pool has no attestation yet; what a present one reads is a maintainer decision (WP-0024, open questions)
-            "mehr": {"id": st["id"], "slots": {slot: concept(the_one(st, slot, slots)) for slot in slots},
+            "mehr": {"id": st["id"], "slots": {slot: as_stored(st, slot, concept, slots) for slot in slots},
                      "related": related, "claims": [{"edge": c["edge"], "id": c["id"]} for c in claims], "source": st.get("source")},
         }
 

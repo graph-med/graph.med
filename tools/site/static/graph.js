@@ -202,8 +202,9 @@
        ten answers fanning out of one question do not pile up at the edges' midpoints. The label is
        anchored where the arrow meets the target's boundary; the margin moves its centre left by half
        its width (estimated from the text, capped at the wrap width) and a small gap, so it ends just
-       before the arrow and, with the rank separation below, never reaches the rank before */
-    var width = Math.min(170, 6.2 * (e.label || "").length);
+       before the arrow and, with the rank separation below, never reaches the rank before. An answer naming
+       several conditions has a line for each, so its widest line is measured */
+    var width = Math.min(170, 6.2 * Math.max.apply(null, (e.label || "").split("\n").map(function (l) { return l.length; })));
     elements.push({ data: { id: "e" + i, source: e.from, target: e.to, kind: e.kind, label: e.label || "", ref: e.ref || "", text: fold(e.text),
       lm: -(width / 2 + 10), turn: -200 } });   /* turn: where the edge's vertical run lies, set by route() after every layout */
   });
@@ -373,6 +374,8 @@
     if (t.isNode() && t.data("type") === "question") { foldQuestion(t); return; }
     var j = t.isNode() && t.data("type") === "junction" ? t : (t.isEdge() && t.data("kind") === "answer" && t.target().data("type") === "junction" ? t.target() : null);
     if (j) { toggle(j); }
+    /* an answer naming no one concept — several conditions at once — opens what it leads to: the box, whose card names each */
+    if (!ref && t.isEdge() && t.data("kind") === "answer") ref = t.target().data("ref");
     if (!ref) return;
     var eles = cy.elements("[ref = '" + ref + "']");
     select(eles, ref, true);

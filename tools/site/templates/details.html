@@ -35,6 +35,13 @@
 {%- else %}<span class="rule" lang="{{ r.lang }}">{% if r.threshold %}{% set t = r.threshold %}<span class="threshold"><span lang="{{ t.quantity.lang }}">{{ t.quantity.label }}</span> {% if t.comparator == "between" %}{{ W("comparator.between") }}{% else %}{{ t.comparator }}{% endif %} {{ t.value }}{% if t.unit %} {{ t.unit }}{% endif %}{% if t.relative_to %} × <span lang="{{ t.relative_to.lang }}">{{ t.relative_to.label }}</span>{% endif %}{% if t.when %} {{ t.when }}{% endif %}</span>{% else %}{{ r.label }}{% endif %}</span>
     <span class="cite">{{ where(r) }}{% if r.page or r.section %} · {% endif %}<a href="{{ base }}{{ r.id }}/">{{ W("rule.claim") }}</a></span>{% endif %}
 {%- endmacro %}
+{# concepts that hold at once (spec §3.2) — a statement's conditions, the conditions of a scope path: each entry once, in
+   the order stored, every entry after the first on a line of its own opened by the conjunction, so that no label's
+   own "oder" reads across the join and nothing reads as if one of them sufficed. One entry is written as it always
+   was. `tag` is the element a later entry stands in: "div" where an entry holds a block (a row's rule), else "span" #}
+{% macro all_of(entries, tag="span") -%}
+{% for x in entries %}{% if loop.first %}{{ caller(x) }}{% else %}<{{ tag }} class="and"><span class="conj">{{ W("conjunction") }}</span> <{{ tag }} class="entry">{{ caller(x) }}</{{ tag }}></{{ tag }}>{% endif %}{% endfor %}
+{%- endmacro %}
 {% macro rules_of(x) -%}
 {% if x.derivation == "derived" %}<div class="rules">
 <p class="derived">{{ W("derivation.rule") }}</p>
@@ -106,10 +113,12 @@
 <section class="zone applies" aria-labelledby="zone-applies-h">
 <h3 id="zone-applies-h">{{ W("zone.applies") }}</h3>
 <dl class="slots">
-{% for role, s in c.geltung.items() %}{% if s %}
-  <dt>{% if s.axis %}<span lang="{{ s.axis.lang }}">{{ s.axis.label }}</span>{% else %}{{ W("slot." ~ role) }}{% endif %}</dt><dd>{% if s.linked %}<a class="node-link" data-node="{{ s.id }}" href="{{ base }}{{ s.id }}/" lang="{{ s.lang }}">{{ s.label }}</a> <span class="count">{{ W("slot.count").format(n=s.count) }}</span>{% else %}<span lang="{{ s.lang }}">{{ s.label }}</span>{% endif %}{% if s.families %}<small class="families"><span class="families-label">{{ W("slot.families") }}</span> {% for f in s.families %}<a class="node-link" data-node="{{ f.id }}" href="{{ base }}{{ f.id }}/" lang="{{ f.lang }}">{{ f.label }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</small>{% endif %}{{ rules_of(s) }}</dd>
+{# a row per slot, in the shape the statement JSON stores it: one concept, or the conditions as a list, each
+   condition once and all of them joined as holding at once (all_of) — one code path for one and for several #}
+{% for role, s in c.geltung.items() %}{% if s %}{% set entries = [s] if s is mapping else s %}{% set s = entries[0] %}
+  <dt>{% if s.axis %}<span lang="{{ s.axis.lang }}">{{ s.axis.label }}</span>{% else %}{{ W("slot." ~ role) }}{% endif %}</dt><dd>{% call(x) all_of(entries, "div") %}{% if x.linked %}<a class="node-link" data-node="{{ x.id }}" href="{{ base }}{{ x.id }}/" lang="{{ x.lang }}">{{ x.label }}</a> <span class="count">{{ W("slot.count").format(n=x.count) }}</span>{% else %}<span lang="{{ x.lang }}">{{ x.label }}</span>{% endif %}{% if x.families %}<small class="families"><span class="families-label">{{ W("slot.families") }}</span> {% for f in x.families %}<a class="node-link" data-node="{{ f.id }}" href="{{ base }}{{ f.id }}/" lang="{{ f.lang }}">{{ f.label }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</small>{% endif %}{{ rules_of(x) }}{% endcall %}</dd>
 {% if s.allgemein %}{% set direct = s.allgemein | selectattr("direct") | list %}{% if direct %}
-  <dt>{{ W("scope.general_for") }}</dt><dd class="general-for">{% for g in direct %}<span><a class="node-link" data-node="{{ g.id }}" href="{{ base }}{{ g.id }}/" lang="{{ g.lang }}">{{ g.label }}</a>{% if g.condition %} <small>({{ W("scope.condition") }}: {% for x in g.condition %}<span lang="{{ x.lang }}">{{ x.label }}</span>{% if not loop.last %} · {% endif %}{% endfor %})</small>{% endif %}</span>{% endfor %}</dd>
+  <dt>{{ W("scope.general_for") }}</dt><dd class="general-for">{% for g in direct %}<span><a class="node-link" data-node="{{ g.id }}" href="{{ base }}{{ g.id }}/" lang="{{ g.lang }}">{{ g.label }}</a>{% if g.condition %} <small>({{ W("scope.condition") }}: {% call(x) all_of(g.condition) %}<span lang="{{ x.lang }}">{{ x.label }}</span>{% endcall %})</small>{% endif %}</span>{% endfor %}</dd>
 {% endif %}{% endif %}{% endif %}{% endfor %}
 </dl>
 </section>
@@ -160,7 +169,7 @@
 <summary><h3 id="zone-more-h">{{ W("zone.more") }}</h3></summary>
 <dl class="meta">
   <dt>id</dt><dd><code>{{ c.mehr.id }}</code></dd>
-{% for slot, s in c.mehr.slots.items() %}  <dt>{{ slot }}</dt><dd><a class="node-link" data-node="{{ s.id }}" href="{{ base }}{{ s.id }}/" lang="{{ s.lang }}">{{ s.label }}</a> <code>{{ s.id }}</code></dd>
+{% for slot, s in c.mehr.slots.items() %}  <dt>{{ slot }}</dt><dd>{% call(x) all_of([s] if s is mapping else s) %}<a class="node-link" data-node="{{ x.id }}" href="{{ base }}{{ x.id }}/" lang="{{ x.lang }}">{{ x.label }}</a> <code>{{ x.id }}</code>{% endcall %}</dd>
 {% endfor %}{% for r in c.mehr.related %}  <dt>{{ r.edge }}{% if r.from %} ←{% endif %}</dt><dd><a href="{{ base }}{{ r.to or r.from }}/" lang="{{ c.lang }}">{{ r.label }}</a> <code>{{ r.to or r.from }}</code></dd>
 {% endfor %}{% for x in c.mehr.claims %}  <dt>{{ x.edge }}</dt><dd><a href="{{ base }}{{ x.id }}/"><code>{{ x.id }}</code></a></dd>
 {% endfor %}  <dt>source</dt><dd><code>{{ c.mehr.source }}</code></dd>
@@ -198,7 +207,7 @@
 <section class="zone general" aria-labelledby="zone-general-h{{ loop.index }}">
 <h3 id="zone-general-h{{ loop.index }}">{{ W("concept.general") }} <span class="count">({{ v.n }})</span></h3>
 {% for grp in v.groups %}<div class="general">
-<p class="from">{{ W("slot." ~ v.slot) }}: <a class="node-link" data-node="{{ grp.anchor.id }}" href="{{ base }}{{ grp.anchor.id }}/" lang="{{ grp.anchor.lang }}">{{ grp.anchor.label }}</a>{% if grp.condition %}<br><span class="condition">{{ W("scope.condition") }}: {% for c in grp.condition %}<span lang="{{ c.lang }}">{{ c.label }}</span>{% if not loop.last %} · {% endif %}{% endfor %}</span>{% endif %}</p>
+<p class="from">{{ W("slot." ~ v.slot) }}: <a class="node-link" data-node="{{ grp.anchor.id }}" href="{{ base }}{{ grp.anchor.id }}/" lang="{{ grp.anchor.lang }}">{{ grp.anchor.label }}</a>{% if grp.condition %}<br><span class="condition">{{ W("scope.condition") }}: {% call(x) all_of(grp.condition) %}<span lang="{{ x.lang }}">{{ x.label }}</span>{% endcall %}</span>{% endif %}</p>
 <ul class="plain general">
 {% for x in grp.statements %}  <li><a class="node-link" data-node="{{ x.id }}" href="{{ base }}{{ x.id }}/" lang="{{ x.lang }}">{{ x.label }}</a> <span class="cite">{{ where(x, no=true) }}</span></li>
 {% endfor %}</ul>
