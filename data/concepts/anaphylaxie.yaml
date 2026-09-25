@@ -1,0 +1,7 @@
+# An evidence outcome of views/sepsis-lf-4.0 (card #222): the row "Anaphylaxie:" of box 4.4 (p. 61).
+id: concepts/anaphylaxie
+type: concept
+lang: de
+label: Anaphylaxie
+facet: outcome
+source: modelling
