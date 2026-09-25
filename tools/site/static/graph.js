@@ -140,7 +140,7 @@
      judgement and the grade — built from the card itself, so that no word or value is written here. Tapping the
      strip raises the panel over the graph; the strip again, ✕ or Escape lowers it. A wide screen never shows it.
      A selection of several entities (an answer naming several conditions) is a card for each, one after another:
-     the strip names every card's title, and each card after the first numbers the ids its template repeats. */
+     the strip names every card's title, one to a line, and each card after the first numbers the ids its template repeats. */
   function fill(html) {
     sheet.innerHTML = html;
     sheet.classList.remove("peeking", "raised");
@@ -159,10 +159,10 @@
       peek.type = "button"; peek.className = "peek"; peek.setAttribute("aria-expanded", "false"); peek.setAttribute("aria-controls", "sheet");
       var sw = document.createElement("span"), text = document.createElement("span"), t = document.createElement("span"), verdict = document.createElement("span");
       sw.className = "sw-band"; sw.setAttribute("aria-hidden", "true"); text.className = "peek-text";
-      t.className = "peek-title";
-      cards.forEach(function (c, i) {   /* each card's title in its own language, the next after a separator */
+      t.className = "peek-title" + (cards.length > 1 ? " several" : "");
+      cards.forEach(function (c) {   /* each card's title in its own language; several stand one to a line, each cut on its own */
         var s = document.createElement("span"), h = c.querySelector("h2.title, .label");
-        s.lang = c.lang; s.textContent = (i ? " · " : "") + (h ? h.textContent.trim() : "");
+        s.lang = c.lang; s.textContent = h ? h.textContent.trim() : "";
         t.appendChild(s);
       });
       verdict.className = "verdict"; verdict.lang = card.lang;

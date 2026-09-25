@@ -189,6 +189,8 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
   .peek .sw-band { flex: none; width: 1.3rem; height: 1.3rem; border-radius: .3rem; background: var(--band, var(--line)); }
   .peek-text { min-width: 0; display: flex; flex-direction: column; }
   .peek-title { font-weight: 600; font-size: .95rem; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .peek-title.several { white-space: normal; }   /* several cards: a title to a line, so that none hides another */
+  .peek-title.several > span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .peek .verdict { font-size: .85rem; line-height: 1.3; color: var(--mute); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .peek .verdict .answer { color: var(--fg); font-weight: 600; }
   .peek .verdict .glyph { font-weight: 400; }

@@ -161,7 +161,7 @@ decision-graph-derivation):
   condition is found wherever it is one of them, by one rule for one and for
   several: tapping an answer selects every concept it names, wherever each
   appears, and opens the details of each in the order named, a card after the
-  other (the strip on a phone names every title); a deep link or a link in the
+  other (the strip on a phone names every title, one to a line); a deep link or a link in the
   section to one condition selects it wherever it is named, alone or with
   others, the box it leads to included; the search finds the answer by any of
   them.
