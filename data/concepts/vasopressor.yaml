@@ -1,0 +1,11 @@
+# A family across chapters of sources/sepsis-lf-4.0 (card #227): the vasopressors of 4.5 (Noradrenalin, p. 62), 4.6
+# (Vasopressin, p. 63) and 4.8 (Terlipressin, p. 67), each under it by `broader` in
+# data/edges/sepsis-lf-4.0/cross-chapter.yaml. Labelled as the pages print it: "Noradrenalin als Vasopressor erster
+# Wahl" (4.5), "als Erstlinien-Vasopressor" (p. 64), "die Anwendung von Terlipressin als Vasopressor" (p. 67). A
+# medication, like its members; 2.7's peripheral application is how a vasopressor is given, not one, and is no member.
+id: concepts/vasopressor
+type: concept
+lang: de
+label: "Vasopressor"
+facet: medication
+source: modelling

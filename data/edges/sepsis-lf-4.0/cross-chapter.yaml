@@ -15,7 +15,7 @@
 - [statements/noradrenalin-vasopressor-erster-wahl, complements, statements/vasopressoren-periphervenoes, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "Empfehlungen 2.7 und 4.5: 2.7 sagt, auf welchem Weg Vasopressoren gegeben werden (auch periphervenös, ohne auf einen ZVK zu warten), 4.5, welcher Vasopressor der erste ist (Noradrenalin); S. 32: „Noradrenalin kann in dieser Notfallsituation auch über einen periphervenösen Zugang appliziert werden.“ Keine ersetzt die andere."}]
 - [statements/vasopressin-ergaenzen-septischer-schock, complements, statements/map-zielwert-65-mmhg, {source: modelling, as_of: "2026-09-25", lang: de,
-   rationale: "Empfehlungen 2.6 und 4.6: 2.6 nennt bei septischem Schock mit Vasopressorbedarf den anfänglichen MAP-Zielwert von 65 mmHg, 4.6 ergänzt Vasopressin, „wenn mit Noradrenalin alleine kein ausreichender Blutdruck erzielt werden kann“ — der Schritt, wenn dieser Blutdruck mit Noradrenalin allein nicht erreicht wird; S. 64: Vasopressin nicht „als Erstlinien-Vasopressor für die Unterstützung des MAP“."}]
+   rationale: "Empfehlungen 2.6 und 4.6: 2.6 nennt bei septischem Schock mit Vasopressorbedarf den anfänglichen MAP-Zielwert von 65 mmHg, 4.6 ergänzt Vasopressin, „wenn mit Noradrenalin alleine kein ausreichender Blutdruck erzielt werden kann“; S. 64: Vasopressin nicht „als Erstlinien-Vasopressor für die Unterstützung des MAP“. Die eine nennt das Ziel, die andere einen zweiten Vasopressor zu Noradrenalin; ob „ausreichend“ die 65 mmHg meint, sagen die Seiten nicht (S. 64–65 nennen für die Ergänzung eine Noradrenalinlaufrate von „0,25-0,5 μg/kg/min“). Keine ersetzt die andere."}]
 - [statements/dobutamin-kardiale-dysfunktion-hypoperfusion, complements, statements/echokardiographie-herzfunktion-und-volumenstatus, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "Empfehlungen 2.12 und 4.9: die Echokardiographie „zur Beurteilung der Herzfunktion“ (2.12) liefert die „Hinweise für eine kardiale Dysfunktion“, bei denen 4.9 Dobutamin vorschlägt; S. 36: „Insbesondere bei kardialer Dysfunktion im septischen Schock sind … Echokardiographie … essentieller Bestandteil der Diagnostik“, S. 68: „Eine frühe und wiederholte echokardiographische Beurteilung von Patienten mit septischem Schock erscheint daher sinnvoll.“"}]
 - [statements/ams-programm-im-krankenhaus, complements, statements/antiinfektive-therapie-nach-erregernachweis-anpassen, {source: modelling, as_of: "2026-09-25", lang: de,
@@ -23,26 +23,23 @@
 - [statements/ams-programm-im-krankenhaus, complements, statements/antibiotikatherapie-7-bis-10-tage, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "Empfehlungen 3.9 und 10.1: 3.9 begrenzt die Antibiotikatherapie in der Regel auf 7 bis 10 Tage, 10.1 empfiehlt dem Krankenhaus ein AMS-Programm; S. 53: „Eine Begrenzung der Therapie auf die kürzest mögliche Dauer ist ein wichtiger Teil des Antimikrobiellen Stewardship“. Keine ersetzt die andere."}]
 
-# subsumption (spec §5): families across chapters of action and outcome concepts, "X is a Y" in any guideline
+# subsumption (spec §5): families across chapters of action and outcome concepts, "X is a Y" in any guideline, where
+# the value changes which thing is present, not how it is done (§4.1, question 2); a member shares its family's facet
 # the ECMO procedures: 4.11 (chapter 4) and 5.16 (chapter 5)
 - [concepts/veno-arterielle-ecmo, broader, concepts/ecmo, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "Die veno-arterielle ECMO ist eine ECMO: die Form, die den Kreislauf unterstützt (S. 70: „extrakorporalen Kreislaufunterstützung in Form einer veno-arteriellen ECMO“)."}]
 - [concepts/vv-ecmo, broader, concepts/ecmo, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "Die veno-venöse ECMO ist eine ECMO: die Form, die den Gasaustausch unterstützt (5.16: bei „fortbestehender schwerer Gasaustauschstörung“)."}]
-# the crystalloid solutions: 2.5 (chapter 2) and 4.1 (chapter 4)
-- [concepts/balancierte-kristalloide, broader, concepts/kristalloide-loesung, {source: modelling, as_of: "2026-09-25", lang: de,
-   rationale: "Balancierte Kristalloide sind kristalloide Lösungen (S. 57: „balancierten Lösungen (Ringer Lösung oder Plasma-Lyte A Lösung)“ im Vergleich zu 0,9 % NaCl)."}]
-- [concepts/kristalloide-loesung-30-ml-kg-in-den-ersten-3-stunden, broader, concepts/kristalloide-loesung, {source: modelling, as_of: "2026-09-25", lang: de,
-   rationale: "Die Maßnahme der Empfehlung 2.5 ist intravenöse kristalloide Lösung, mit Menge (30 mL/kg) und Frist (die ersten 3 Stunden) als Richtwert: ein Sonderfall der kristalloiden Lösung."}]
-# the vasopressors: 2.7 (chapter 2) and 4.5, 4.6, 4.8 (chapter 4)
-- [concepts/periphervenoese-applikation-von-vasopressoren, broader, concepts/vasopressortherapie, {source: modelling, as_of: "2026-09-25", lang: de,
-   rationale: "Die periphervenöse Applikation von Vasopressoren ist eine Vasopressortherapie auf einem bestimmten Zugangsweg (S. 32: „Die periphervenöse Vasopressortherapie ist im Allgemeinen sicher.“)."}]
-- [concepts/noradrenalin, broader, concepts/vasopressortherapie, {source: modelling, as_of: "2026-09-25", lang: de,
-   rationale: "Noradrenalin ist ein Vasopressor (4.5: „Noradrenalin als Vasopressor erster Wahl“); seine Gabe ist eine Vasopressortherapie."}]
-- [concepts/vasopressin, broader, concepts/vasopressortherapie, {source: modelling, as_of: "2026-09-25", lang: de,
-   rationale: "Vasopressin ist ein Vasopressor (S. 64: nicht „als Erstlinien-Vasopressor“, 4.6: ergänzend); seine Gabe ist eine Vasopressortherapie."}]
-- [concepts/terlipressin, broader, concepts/vasopressortherapie, {source: modelling, as_of: "2026-09-25", lang: de,
-   rationale: "Terlipressin ist ein Vasopressor, ein synthetisches Analogon von Vasopressin (S. 67: „die Anwendung von Terlipressin als Vasopressor“); seine Gabe ist eine Vasopressortherapie."}]
+# the vasopressors: 4.5, 4.6 and 4.8 (chapter 4), medications all three. 2.7's peripheral application (chapter 2) is
+# not a member: the route changes how a vasopressor is given, not which. No family of crystalloid solutions: 2.5's
+# 30 mL/kg is an intervention whose amount and time change how the solution is given, so 4.1's balanced
+# crystalloids would be its only member.
+- [concepts/noradrenalin, broader, concepts/vasopressor, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Noradrenalin ist ein Vasopressor (4.5: „Noradrenalin als Vasopressor erster Wahl“)."}]
+- [concepts/vasopressin, broader, concepts/vasopressor, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Vasopressin ist ein Vasopressor (S. 64: nicht „als Erstlinien-Vasopressor“, 4.6: ergänzend zu Noradrenalin)."}]
+- [concepts/terlipressin, broader, concepts/vasopressor, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Terlipressin ist ein Vasopressor, ein synthetisches Analogon von Vasopressin (S. 67: „die Anwendung von Terlipressin als Vasopressor“)."}]
 # the mortality time frames: #217's four (3.7, 4.1, 4.2, 6.3, 6.9, 6.10, 8.2, 8.16) and the variants of #222 (4.3) and
 # #225 (8.1), all directly under concepts/mortalitaet; none is nested under another (named in the pull request)
 - [concepts/mortalitaet-nach-90-tagen, broader, concepts/mortalitaet, {source: modelling, as_of: "2026-09-25", lang: de,
