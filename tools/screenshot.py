@@ -9,6 +9,7 @@
     uv run tools/screenshot.py pomgat-lv-1.0 --phone --do open=statements/drainage-komplexe-leberresektion-optional --do graph
     uv run tools/screenshot.py statements/tap-block-mic-kolorektal --phone --full   # any page, the whole scrolled page
     uv run tools/screenshot.py /                                   # the index
+    uv run tools/screenshot.py / --phone --do open=views/pomgat-lv-1.0   # the index, a guideline's box tapped
 
 The page is a site path: a view id, an entity page (statements/<id>, concepts/<id>, axes/<id>,
 sources/<id>, …), or / for the index; a trailing slash and index.html may be left out.
@@ -19,8 +20,9 @@ image pulls pass the proxy: the page is rendered by Chromium inside a container
 tools/screenshot.js so that the layout can settle before the capture. The site is
 built into a temporary directory with base path /site/ and copied into the container;
 nothing is installed in the sandbox and nothing is mounted. Actions run in order
-before the capture, and all but wait need a view page (one with the graph; elsewhere the run fails
-naming the action): by=<grouping> (choose the grouping: "" for the view's first, section for the
+before the capture, and all but wait need a page with a graph (elsewhere the run fails naming the
+action) — a view page takes every one, the index open=<view id> (select a guideline's box), sheet and
+graph: by=<grouping> (choose the grouping: "" for the view's first, section for the
 chapters, or an axis id),
 toggle=<concept id> (fold or unfold that patient group; under an axis the junction id in full,
 j:<value>:<concept id>),
@@ -32,10 +34,10 @@ list), all (every patient group open), fit (fit what is open), reset (the openin
 sheet (scroll the page to the graph or to the sheet: on a phone they stack), wait=<ms>. --full captures
 the whole scrolled page instead of the viewport. --dark renders the page in the dark theme: the graph
 reads its colours from the stylesheet once, when drawn, so the theme is emulated before the
-page loads rather than switched by an action. On a view page the runner prints how many elements
-are shown and how many pairs of nodes and answers overlap — the mechanical half of "nothing
-overlaps"; on any other page, whether it is wider than the viewport — the mechanical half of "the
-page fits a phone"; on both, any page error.
+page loads rather than switched by an action. On a page with a graph the runner prints how many
+elements are shown and how many pairs of nodes and answers overlap — the mechanical half of "nothing
+overlaps"; on every page, whether it is wider than the viewport — the mechanical half of "the page
+fits a phone" — and any page error.
 The container name and the output directory default to the current branch, so that
 sessions working in parallel (one git worktree each, ADR-0002 and the
 process-work-package skill) on the one Docker daemon do not remove each other's container or PNG.

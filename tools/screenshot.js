@@ -1,8 +1,10 @@
 /* Runs inside zenika/alpine-chrome:with-puppeteer (tools/screenshot.py copies it in): open a page
-   of the built site at file:///site/<path>, and on a view page wait for the graph to lay out and run
-   the requested actions through window.graphmed (the hooks tools/site/static/graph.js exposes);
-   capture the viewport, or the whole page with spec.full. Any other page (an entity page, the index)
-   takes no view action: one fails with its name before the capture. */
+   of the built site at file:///site/<path>, and on a page with a graph wait for it to lay out and run
+   the requested actions through window.graphmed (the hooks tools/site/static/graph.js exposes on a
+   view page; home.js on the index exposes `open`, so the index takes open=<view id>, sheet, graph and
+   wait); capture the viewport, or the whole page with spec.full. Any other page (an entity page)
+   takes no view action: one fails with its name before the capture. Every page reports whether it
+   is wider than the viewport. */
 const puppeteer = require("/usr/src/app/node_modules/puppeteer");
 const spec = JSON.parse(process.argv[2]);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -103,7 +105,7 @@ const ANYWHERE = new Set(["wait"]);   /* the one action a page without the graph
     });
     return pairs;
   });
-  console.log(`${shown} elements shown, ${overlaps.length} overlapping pairs` + (errors.length ? `; page errors: ${errors.join(" | ")}` : ""));
+  console.log(`${shown} elements shown, ${overlaps.length} overlapping pairs; ${await across(page)}` + (errors.length ? `; page errors: ${errors.join(" | ")}` : ""));
   overlaps.slice(0, 40).forEach(p => console.log("  " + p));
   await browser.close();
 })().catch(e => { console.error("screenshot failed: " + e.message + (errors.length ? "; page errors: " + errors.join(" | ") : "")); process.exit(1); });
@@ -118,7 +120,15 @@ async function other(browser, page) {
   await sleep(300);
   for (const [action, value] of spec.actions) if (action === "wait") await sleep(Number(value) || 500);
   await page.screenshot(spec.full ? { path: "/tmp/shot.png", fullPage: true } : { path: "/tmp/shot.png" });
-  const [wide, view, tall] = await page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth, document.documentElement.scrollHeight]);
-  console.log(`no graph; ${wide > view ? `overflows horizontally: ${wide} px wide at ${view}` : `fits ${view} px across`}, ${tall} px tall` + (errors.length ? `; page errors: ${errors.join(" | ")}` : ""));
+  const tall = await page.evaluate(() => document.documentElement.scrollHeight);
+  console.log(`no graph; ${await across(page)}, ${tall} px tall` + (errors.length ? `; page errors: ${errors.join(" | ")}` : ""));
   await browser.close();
+}
+
+/* whether the page is wider than the viewport — the mechanical half of "the page fits a phone". Measured against
+   the width asked for as well: a phone's layout viewport (innerWidth) widens to a page that overflows it */
+async function across(page) {
+  const [wide, inner] = await page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
+  const view = Math.min(inner, spec.width);
+  return wide > view ? `overflows horizontally: ${wide} px wide at ${view}` : `fits ${view} px across`;
 }

@@ -54,8 +54,10 @@ The runner builds the site into a temporary directory with base path `/site/`,
 copies it and the driver into a fresh container, captures, copies the PNG out,
 and removes the container. Actions run in order before the capture and map onto
 the hooks `tools/site/static/graph.js` exposes as `window.graphmed`:
-all of them need a view page — on a page without the graph the run fails,
-naming the action, before anything is captured — except `wait`.
+all of them need a view page — on a page without a graph the run fails,
+naming the action, before anything is captured — except `wait`. The index
+draws a graph too (`tools/site/static/home.js`): it takes `open=<view id>` (a
+guideline's box tapped, its entry in the sheet), `sheet`, `graph` and `wait`.
 `toggle=<concept id>` folds or unfolds a patient group, `open=<entity id>` is a
 deep link (unfold and select), `section=<number>` sets the chapter filter,
 `fold=<question node id>` folds or unfolds everything below a question,
@@ -77,10 +79,10 @@ of nodes and answers whose boxes intersect, and every edge drawn across a node o
 an answer it does not touch — the mechanical half of "nothing overlaps"
 (`docs/publication.md` §3). It cannot see what a hand does on a phone, such as a
 pan that pushes nodes under the floating controls; look for that yourself.
-On any other page it prints any page error and whether the page is wider than
+On every page it prints any page error and whether the page is wider than
 the viewport (`overflows horizontally: <w> px wide at <width>`, or
-`fits <width> px across`) and how tall it is — the mechanical half of "the page
-fits a phone".
+`fits <width> px across`) — the mechanical half of "the page fits a phone" —
+and on a page without a graph how tall it is.
 
 Output goes under `/tmp/graph.med/screenshots/<branch>/` by default — a neutral
 path, never one derived from a home directory

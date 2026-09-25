@@ -71,8 +71,8 @@ live in `tools/site/`, the page chrome's words in `tools/site/words/` (not publi
 `uv run tools/screenshot.py <path>` renders a page — a view id, an entity page
 such as `statements/<id>`, or `/` for the index; `--full` for the whole scrolled
 page — in a Chromium container on the sandbox's Docker daemon, writes a PNG under
-`/tmp/graph.med/screenshots/` and reports what overlaps on a view page, and on
-any other page whether it overflows horizontally (the `screenshot` skill
+`/tmp/graph.med/screenshots/` and reports what overlaps on a page with a graph (a
+view, the index), and on every page whether it overflows horizontally (the `screenshot` skill
 describes the actions it can take first). Deployment to
 GitHub Pages is a workflow file, committed by a person
 (`.github/workflows/pages.yml`): validate, build, deploy on every push to `main`,
