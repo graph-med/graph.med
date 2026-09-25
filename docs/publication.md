@@ -82,14 +82,21 @@ tree is small, so it is drawn at a size a phone reads — a box takes the width 
 canvas leaves beside the question, within bounds — and always whole.
 
 Tapping a box selects it as on a view page: the rest fades, and its **entry** opens in
-the sheet beside the graph, on a phone in the strip at the bottom edge (its title and
-what the graph holds) that raises the sheet. The entry gives the title as printed —
+the sheet beside the graph, on a phone in the strip at the bottom edge — its title and
+what the graph holds, which raise the sheet, and the entry's *Graph öffnen*, so that a
+graph is two taps away, the box and the link. The keyboard reaches a box through its
+entry: beside *Graph öffnen* a toggle, *Im Graphen zeigen*, selects the entry's box as a
+tap does and, pressed again, returns the sheet to its home, the focus staying on the
+entry (on a phone, on the strip's link); it is shown only where the graph is drawn. A
+selection that changes nothing — the home again, the same box again — leaves the sheet
+as it is. The entry gives the title as printed —
 a source's version and date stand in it; the schema has no field for either —, what the
 graph holds, and for each source its register number, a link to the source's page and
 its licence line; the entry is one link to the graph, its title stretched over it with
-*Graph öffnen* below, and the source's lines lie apart from it, so that the source's
-page can be reached and its licence read. The deep link is the view's id
-(`graph.med/#views/<view-id>`). The sheet's home is the page's text and every entry,
+*Graph öffnen* below, and the toggle and the source's lines lie apart from it, so that
+the source's page can be reached and its licence read. The deep link is the view's id
+(`graph.med/#views/<view-id>`); a hash that names no view, or is no well-formed escape,
+selects nothing. The sheet's home is the page's text and every entry,
 in the page's HTML: the graph is read from them, so that the page reads the same without
 the script and with a screen reader, and without the script the sheet is the page, the
 entries side by side where the width allows and one under the other on a phone. Every
