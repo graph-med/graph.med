@@ -1,0 +1,9 @@
+# The population of 5.3 (p. 74), „akuter respiratorischer Insuffizienz“ (card #223; #217's convention row 6). Stated:
+# the definition of „respiratorische Insuffizienz“ on p. 122 defines an item of a list where it stands (#213 item 7)
+# and is not applied here.
+id: concepts/akute-respiratorische-insuffizienz
+type: concept
+lang: de
+label: "Akute respiratorische Insuffizienz"
+facet: patient_state
+source: modelling

@@ -1,0 +1,11 @@
+# The population of 5.1, 5.4 and 5.14 (sources/sepsis-lf-4.0, chapter 5; card #223): „Patienten mit Sepsis oder
+# septischem Schock und ARDS“, a subgroup by #217's convention row 6. The guideline prints no severity for it; the
+# abbreviations expand it as „Acute Respiratory Distress Syndrome — Akutes Atemnotsyndrom“ (p. 152). The top of the
+# ARDS severity family (mildes ARDS, moderates oder schweres ARDS, schweres ARDS), whose broader edges are in
+# data/edges/sepsis-lf-4.0/ch05.yaml. Stated: the guideline prints no rule for ARDS itself.
+id: concepts/ards
+type: concept
+lang: de
+label: "ARDS"
+facet: patient_state
+source: modelling

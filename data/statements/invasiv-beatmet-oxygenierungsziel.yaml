@@ -1,0 +1,11 @@
+# Box 5.8 of sources/sepsis-lf-4.0 (card #223); „invasiv beatmeten“ a condition by #217 row 7.
+id: statements/invasiv-beatmet-oxygenierungsziel
+type: statement
+lang: de
+label: "Bei invasiv beatmeten Patienten mit Sepsis oder septischem Schock wird eine SaO2 bzw. SpO2 von 92 %-96 % bzw. ein paO2 zwischen 70-90 mmHg (9,3-12 kPa) angestrebt."
+short_label: "Ziel SaO2/SpO2 92-96 % bzw. paO2 70-90 mmHg"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/oxygenierungsziel-sao2-spo2-92-96
+  condition: [concepts/invasive-beatmung]
+source: modelling

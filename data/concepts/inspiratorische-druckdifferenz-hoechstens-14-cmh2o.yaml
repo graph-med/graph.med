@@ -1,0 +1,8 @@
+# The action of 5.4 (p. 75), as printed (card #223).
+id: concepts/inspiratorische-druckdifferenz-hoechstens-14-cmh2o
+type: concept
+lang: de
+label: "Inspiratorische Druckdifferenz von ≤ 14 cmH2O anstreben"
+short_label: "Inspiratorische Druckdifferenz ≤ 14 cmH2O"
+facet: intervention
+source: modelling

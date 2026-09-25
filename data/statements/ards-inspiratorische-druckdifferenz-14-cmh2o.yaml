@@ -1,0 +1,11 @@
+# Box 5.4 of sources/sepsis-lf-4.0 (card #223); population by #217 row 6, the invasive ventilation a condition by row 7.
+id: statements/ards-inspiratorische-druckdifferenz-14-cmh2o
+type: statement
+lang: de
+label: "Bei der invasiven Beatmung von Patienten mit Sepsis oder septischem Schock und ARDS wird eine inspiratorische Druckdifferenz von ≤ 14 cmH2O angestrebt."
+short_label: "Inspiratorische Druckdifferenz ≤ 14 cmH2O"
+slots:
+  population: concepts/ards
+  action: concepts/inspiratorische-druckdifferenz-hoechstens-14-cmh2o
+  condition: [concepts/invasive-beatmung]
+source: modelling

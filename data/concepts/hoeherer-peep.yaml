@@ -1,0 +1,7 @@
+# The action of 5.6 (p. 76), as printed (card #223).
+id: concepts/hoeherer-peep
+type: concept
+lang: de
+label: "Anwendung eines höheren PEEP"
+facet: intervention
+source: modelling

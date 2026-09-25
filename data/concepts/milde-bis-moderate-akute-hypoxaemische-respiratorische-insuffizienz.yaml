@@ -1,0 +1,9 @@
+# The population of 5.12 (p. 84), as printed with the rule inside the box sentence (card #223). The rule stays in the
+# box claim and the concept stays stated (#213 item 3; open question rule-claim-granularity).
+id: concepts/milde-bis-moderate-akute-hypoxaemische-respiratorische-insuffizienz
+type: concept
+lang: de
+label: "Milde bis moderate akute hypoxämische respiratorische Insuffizienz (PaO2/FiO2 100-300)"
+short_label: "Milde bis moderate akute hypoxämische Insuffizienz"
+facet: patient_state
+source: modelling

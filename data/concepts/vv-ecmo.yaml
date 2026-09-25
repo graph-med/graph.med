@@ -1,0 +1,8 @@
+# The action of 5.16 (p. 87), „Einsatz einer veno-venösen ECMO“ (card #223); „VV-ECMO“ in the abbreviations
+# (p. 155). Not the veno-arterial ECMO of 4.11.
+id: concepts/vv-ecmo
+type: concept
+lang: de
+label: "Veno-venöse ECMO"
+facet: intervention
+source: modelling

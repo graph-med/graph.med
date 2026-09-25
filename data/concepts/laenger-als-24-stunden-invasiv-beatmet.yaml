@@ -1,0 +1,8 @@
+# The condition of 5.13 (p. 85), „die länger als 24 Stunden invasiv beatmet wurden“, as printed with the rule inside
+# the box sentence (card #223). The rule stays in the box claim and the concept stays stated (#213 item 3).
+id: concepts/laenger-als-24-stunden-invasiv-beatmet
+type: concept
+lang: de
+label: "Länger als 24 Stunden invasiv beatmet"
+facet: patient_state
+source: modelling

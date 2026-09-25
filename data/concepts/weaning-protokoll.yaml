@@ -1,0 +1,8 @@
+# The action of 5.13 (p. 85), as printed (card #223).
+id: concepts/weaning-protokoll
+type: concept
+lang: de
+label: "Protokoll zur Entwöhnung von der invasiven Beatmung (Weaning-Protokoll)"
+short_label: "Weaning-Protokoll"
+facet: intervention
+source: modelling

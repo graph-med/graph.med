@@ -1,0 +1,154 @@
+# Edges of chapter 5 „Beatmungstherapie“ of sources/sepsis-lf-4.0 (card #223), all modelling: each box sentence's
+# supports edge; the body-text relations of spec §5.1; the defined_by edges of the two ARDS severities whose rule
+# the chapter prints; the ARDS family's broader edges within the chapter; and the cross-statement edges between
+# boxes of the chapter (§5.1 N1).
+
+# evidence — each box sentence supports its own statement (spec §3.1)
+- - claims/sepsis-lf-4.0/1ae066ff
+  - supports
+  - statements/ards-tidalvolumen-um-6-ml-kg-ibw
+  - source: modelling
+- - claims/sepsis-lf-4.0/205e64f4
+  - supports
+  - statements/ohne-ards-vt-6-8-ml-kg-ibw
+  - source: modelling
+- - claims/sepsis-lf-4.0/ca65764e
+  - supports
+  - statements/akute-respiratorische-insuffizienz-plateaudruck-30-cmh2o
+  - source: modelling
+- - claims/sepsis-lf-4.0/a2832b8b
+  - supports
+  - statements/ards-inspiratorische-druckdifferenz-14-cmh2o
+  - source: modelling
+- - claims/sepsis-lf-4.0/c2281f0d
+  - supports
+  - statements/mildes-ards-peep-nach-niedrig-peep-tabelle
+  - source: modelling
+- - claims/sepsis-lf-4.0/cb87ecda
+  - supports
+  - statements/moderates-oder-schweres-ards-hoeherer-peep
+  - source: modelling
+- - claims/sepsis-lf-4.0/be5e1c51
+  - supports
+  - statements/moderates-oder-schweres-ards-peep-individualisieren
+  - source: modelling
+- - claims/sepsis-lf-4.0/34d03f4b
+  - supports
+  - statements/invasiv-beatmet-oxygenierungsziel
+  - source: modelling
+- - claims/sepsis-lf-4.0/ade3eef5
+  - supports
+  - statements/keine-prolongierten-rekrutierungsmanoever
+  - source: modelling
+- - claims/sepsis-lf-4.0/d571be31
+  - supports
+  - statements/keine-routinemaessigen-kurzen-rekrutierungsmanoever
+  - source: modelling
+- - claims/sepsis-lf-4.0/f3096588
+  - supports
+  - statements/fruehe-unterstuetzende-beatmung-spontanatmung
+  - source: modelling
+- - claims/sepsis-lf-4.0/7aa857fe
+  - supports
+  - statements/hypoxaemische-insuffizienz-nichtinvasive-atmungsunterstuetzung
+  - source: modelling
+- - claims/sepsis-lf-4.0/59f06067
+  - supports
+  - statements/weaning-protokoll-nach-24-stunden-invasiver-beatmung
+  - source: modelling
+- - claims/sepsis-lf-4.0/d75eafe7
+  - supports
+  - statements/ards-bauchlagerung
+  - source: modelling
+- - claims/sepsis-lf-4.0/6c4a6eff
+  - supports
+  - statements/bauchlagerung-mindestens-12-stunden
+  - source: modelling
+- - claims/sepsis-lf-4.0/9b9d02bb
+  - supports
+  - statements/bauchlagerung-fruehzeitig
+  - source: modelling
+- - claims/sepsis-lf-4.0/5ec1345c
+  - supports
+  - statements/schweres-ards-vv-ecmo
+  - source: modelling
+
+# body-text relations (spec §5.1): the clause that decided each edge and the term as printed, in the rationale
+# p. 75: the sentence on mild ARDS gives two answers (§5.1 K), the bound of the group and the values of the table's setting
+- [claims/sepsis-lf-4.0/389a1238, refines, claims/sepsis-lf-4.0/c2281f0d, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: mildem ARDS — die Grenze „(P/F Ratio 201-300)“"}]
+- [claims/sepsis-lf-4.0/4fd97fa9, refines, claims/sepsis-lf-4.0/c2281f0d, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: orientierende Einstellung des PEEP mit Hilfe der FiO2/niedrig-PEEP Tabelle — typischerweise PEEP 5 bis 8 cmH2O bei einem angestrebten PaO2 zwischen 60 und 90 mmHg"}]
+# Tabelle 4 (p. 76), the table 5.5 names: one answer (#213 item 2)
+- [claims/sepsis-lf-4.0/0bf02939, refines, claims/sepsis-lf-4.0/c2281f0d, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: FiO2/niedrig-PEEP Tabelle des ARDS-Netzwerks"}]
+# p. 76: the bound of moderate to severe ARDS, reported from a study; G2's exception admits it (flagged for the physician)
+- [claims/sepsis-lf-4.0/078149f2, refines, claims/sepsis-lf-4.0/cb87ecda, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: moderatem oder schwerem ARDS — die Grenze „(P/F < 201 mmHg)“ (G2-Ausnahme: aus einer Meta-Analyse berichtet, die Leitlinie nennt sonst keine)"}]
+- [claims/sepsis-lf-4.0/078149f2, refines, claims/sepsis-lf-4.0/be5e1c51, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: moderatem oder schwerem ARDS — die Grenze „(P/F < 201 mmHg)“ (G2-Ausnahme: aus einer Meta-Analyse berichtet, die Leitlinie nennt sonst keine)"}]
+# Tabelle 5 (pp. 78–79), the table 5.7 names: each row another method, so another answer (#213 item 2)
+- [claims/sepsis-lf-4.0/d0b901fb, refines, claims/sepsis-lf-4.0/be5e1c51, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: bettseitigen Methoden — Tabelle 5, Zeile 1 von 7: PEEP/FiO2-Tabelle"}]
+- [claims/sepsis-lf-4.0/0b66edc5, refines, claims/sepsis-lf-4.0/be5e1c51, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: bettseitigen Methoden — Tabelle 5, Zeile 2 von 7: Quasistatische Druck-Volumen-Kurve"}]
+- [claims/sepsis-lf-4.0/49942e5d, refines, claims/sepsis-lf-4.0/be5e1c51, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: bettseitigen Methoden — Tabelle 5, Zeile 3 von 7: Dekrementeller PEEP-Trial (globale Compliance)"}]
+- [claims/sepsis-lf-4.0/0e1e8b85, refines, claims/sepsis-lf-4.0/be5e1c51, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: bettseitigen Methoden — Tabelle 5, Zeile 4 von 7: Dekrementeller PEEP-Trial (EIT)"}]
+- [claims/sepsis-lf-4.0/a8edfc60, refines, claims/sepsis-lf-4.0/be5e1c51, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: bettseitigen Methoden — Tabelle 5, Zeile 5 von 7: Inkrementeller PEEP-Trial"}]
+- [claims/sepsis-lf-4.0/1e4db4d3, refines, claims/sepsis-lf-4.0/be5e1c51, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: bettseitigen Methoden — Tabelle 5, Zeile 6 von 7: Ösophagusdruckmessung"}]
+- [claims/sepsis-lf-4.0/1dda15fe, refines, claims/sepsis-lf-4.0/be5e1c51, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: bettseitigen Methoden — Tabelle 5, Zeile 7 von 7: Lungen-Ultraschall"}]
+# p. 82: the exception to 5.10; the example sentence after it stays on the page (G3)
+- [claims/sepsis-lf-4.0/33aabf71, limits, claims/sepsis-lf-4.0/d571be31, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "L: in Einzelfällen unter individueller Nutzen-Risiko-Abwägung — KEINE routinemäßige Durchführung von kurzen (< 60 s) Rekrutierungsmanövern"}]
+# p. 86: what „Bauchlage“ stands for, to each claim of section 5.8 whose wording carries the term
+- [claims/sepsis-lf-4.0/d9f6747f, refines, claims/sepsis-lf-4.0/d75eafe7, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: Bauchlagerung — „Bei der Bauchlage wird der Patient um 180° in seiner Längsachse gedreht.“"}]
+- [claims/sepsis-lf-4.0/d9f6747f, refines, claims/sepsis-lf-4.0/6c4a6eff, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: Bauchlagerung — „Bei der Bauchlage wird der Patient um 180° in seiner Längsachse gedreht.“"}]
+- [claims/sepsis-lf-4.0/d9f6747f, refines, claims/sepsis-lf-4.0/9b9d02bb, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: Bauchlagerung — „Bei der Bauchlage wird der Patient um 180° in seiner Längsachse gedreht.“"}]
+
+# definition (spec §3.2, §5): the two ARDS severities whose rule the chapter prints, one edge each, to that claim
+- [concepts/mildes-ards, defined_by, claims/sepsis-lf-4.0/389a1238, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "„mildem ARDS (P/F Ratio 201-300)“ — die Klammer auf S. 75 nennt die Grenze des milden ARDS; eine andere Regel druckt die Leitlinie nicht."}]
+- [concepts/moderates-oder-schweres-ards, defined_by, claims/sepsis-lf-4.0/078149f2, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "„moderatem bis schwerem ARDS (P/F < 201 mmHg)“ — die Klammer auf S. 76 nennt die Grenze, aus der Meta-Analyse berichtet; die Leitlinie druckt sonst keine (G2-Ausnahme)."}]
+
+# subsumption (spec §5): the ARDS severity family within chapter 5, and ARDS under the acute respiratory insufficiency
+# of 5.3 (#217's ledger note for #223); one parent each, the narrowest; „ohne ARDS“ is no member
+- [concepts/mildes-ards, broader, concepts/ards, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Ein mildes ARDS ist ein ARDS: ein Schweregrad des Krankheitsbilds."}]
+- [concepts/moderates-oder-schweres-ards, broader, concepts/ards, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Ein moderates oder schweres ARDS ist ein ARDS: zwei Schweregrade des Krankheitsbilds, als eine Gruppe genannt."}]
+- [concepts/schweres-ards, broader, concepts/moderates-oder-schweres-ards, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Ein schweres ARDS ist einer der beiden Schweregrade, die „moderates oder schweres ARDS“ nennt; das ist die engste Gruppe darüber."}]
+- [concepts/ards, broader, concepts/akute-respiratorische-insuffizienz, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Das ARDS ist eine Form der akuten respiratorischen Insuffizienz, in jeder Leitlinie."}]
+
+# cross-statement semantics (spec §5): what one box of the chapter says of another (§5.1 N1)
+- - statements/schweres-ards-vv-ecmo
+  - complements
+  - statements/ards-bauchlagerung
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "Empfehlung 5.16 setzt „die Durchführung einer Bauchlagerung“ voraus, die 5.14 empfiehlt: die VV-ECMO erst nach Ausschöpfen der konservativen Therapie einschließlich der Bauchlagerung."
+- - statements/bauchlagerung-mindestens-12-stunden
+  - complements
+  - statements/ards-bauchlagerung
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "Empfehlung 5.15 sagt, wie lange die Bauchlagerung durchgeführt wird, die 5.14 empfiehlt; ihre Population nennt die Einschränkung von 5.14 (ARDS, PaO2/FiO2 < 150 mmHg) nicht."
+- - statements/bauchlagerung-fruehzeitig
+  - complements
+  - statements/bauchlagerung-mindestens-12-stunden
+  - source: modelling
+    lang: de
+    as_of: "2026-09-25"
+    rationale: "Der zweite Satz von 5.15 sagt, wann die Bauchlagerung des ersten Satzes erwogen und umgesetzt wird."

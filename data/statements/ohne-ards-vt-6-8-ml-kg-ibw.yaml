@@ -1,0 +1,11 @@
+# Box 5.2 of sources/sepsis-lf-4.0 (card #223); the condition „ohne ARDS“ is a negation as printed (#217 row 10).
+id: statements/ohne-ards-vt-6-8-ml-kg-ibw
+type: statement
+lang: de
+label: "Patienten mit Sepsis oder septischem Schock ohne ARDS werden mit einem VT von 6-8 ml/kg IBW beatmet."
+short_label: "Ohne ARDS: VT von 6-8 ml/kg IBW"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/vt-6-8-ml-kg-ibw
+  condition: [concepts/ohne-ards]
+source: modelling

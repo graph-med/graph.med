@@ -1,0 +1,10 @@
+# Box 5.15, first sentence of sources/sepsis-lf-4.0 (card #223); the population as printed: the box does not restate 5.14's restriction (flagged in the pull request).
+id: statements/bauchlagerung-mindestens-12-stunden
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock wird eine Bauchlagerung über mindestens 12 Stunden, vorzugsweise 16 Stunden, durchgeführt."
+short_label: "Bauchlagerung mindestens 12, vorzugsweise 16 Stunden"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/bauchlagerung-mindestens-12-stunden
+source: modelling

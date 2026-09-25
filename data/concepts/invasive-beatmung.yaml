@@ -1,0 +1,9 @@
+# A treatment the patient receives (card #223; #217's convention row 7): the condition of 5.3 and 5.4 („bei der
+# invasiven Beatmung von Patienten“), 5.8 and 5.14 („invasiv beatmeten Patienten“), and 5.11, read from
+# „innerhalb der ersten 48 Stunden nach Intubation“ (flagged). Its nature is the measure, its role there a condition.
+id: concepts/invasive-beatmung
+type: concept
+lang: de
+label: "Invasive Beatmung"
+facet: intervention
+source: modelling

@@ -1,0 +1,8 @@
+# The population of 5.5 (p. 75), „mildem ARDS“ (card #223). Derived: its defined_by edge reaches the p. 75
+# criterion „Patienten mit mildem ARDS (P/F Ratio 201-300)“.
+id: concepts/mildes-ards
+type: concept
+lang: de
+label: "Mildes ARDS"
+facet: patient_state
+source: modelling
