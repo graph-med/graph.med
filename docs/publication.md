@@ -36,7 +36,7 @@ begins with `https://graph.med/`. Publication makes that literal: every identifi
 the pool resolves.
 
 ```
-graph.med/                          index: the views, the sources they draw on
+graph.med/                          index: a graph with one answer per view — the only page where the views meet
 graph.med/<view-id>                 a view, floating — the filter as of the last build
 graph.med/<view-id>@<n>             a cut of that view (deferred, §7)
 graph.med/<namespace>/<entity-id>   any entity: statements/…, concepts/…, claims/<source>/<hash>, sources/…
@@ -63,6 +63,45 @@ data change, and a change to the build only where its source brings something th
 build does not yet read from data — a language without a words table, a scope tree
 over a slot other than `population`. A source's grading scheme is data: its grades,
 wordings and consensus classes are read from the source (§3).
+
+**The index is where the graphs meet, and the only place they do.** Each graph stays
+separate: no view links another, and the index combines nothing — it is built from the
+views and their sources and names no guideline, so that a third guideline is a third
+answer by a data change alone. **It is a graph like theirs**, a graph and a sheet
+(§3), drawn by the same renderer: one question, *Welche Leitlinie?*, with one answer
+per view, each leading to a box that names its guideline — its title as the source
+prints it, in the source's language (`lang`); its register number where the source
+records one (`awmf_register`); and what the graph holds: its recommendations (the
+statements), the patient groups a reader meets in its tree (the junctions of its first
+grouping, each concept once) and the claims they rest on, or, while it holds no claim,
+that none has been extracted, and while it holds claims but no statement, that none has
+been linked yet. A source has no short title of its own, so the box shows the title as
+printed, as a view's root box does. Each guideline's patient groups are not drawn here:
+that would repeat the views outside them and begin a view combining two sources. The
+tree is small, so it is drawn at a size a phone reads — a box takes the width the
+canvas leaves beside the question, within bounds — and always whole.
+
+Tapping a box selects it as on a view page: the rest fades, and its **entry** opens in
+the sheet beside the graph, on a phone in the strip at the bottom edge — its title and
+what the graph holds, which raise the sheet, and the entry's *Graph öffnen*, so that a
+graph is two taps away, the box and the link. The keyboard reaches a box through its
+entry: beside *Graph öffnen* a toggle, *Im Graphen zeigen*, selects the entry's box as a
+tap does and, pressed again, returns the sheet to its home, the focus staying on the
+entry (on a phone, on the strip's link); it is shown only where the graph is drawn. A
+selection that changes nothing — the home again, the same box again — leaves the sheet
+as it is. The entry gives the title as printed —
+a source's version and date stand in it; the schema has no field for either —, what the
+graph holds, and for each source its register number, a link to the source's page and
+its licence line; the entry is one link to the graph, its title stretched over it with
+*Graph öffnen* below, and the toggle and the source's lines lie apart from it, so that
+the source's page can be reached and its licence read. The deep link is the view's id
+(`graph.med/#views/<view-id>`); a hash that names no view, or is no well-formed escape,
+selects nothing. The sheet's home is the page's text and every entry,
+in the page's HTML: the graph is read from them, so that the page reads the same without
+the script and with a screen reader, and without the script the sheet is the page, the
+entries side by side where the width allows and one under the other on a phone. Every
+word the index adds — the question included — is page chrome, from the view layer's
+table (§3 "Language").
 
 ---
 
@@ -175,7 +214,9 @@ decision-graph-derivation):
 dagre layout, self-hosted under `assets/vendor/` (MIT, pinned, no third-party
 request): boxes have a fixed width and grow to their wrapped text, the layered
 layout has no overlaps, edge labels are placed, and touch pan and pinch come with
-it. Three choices keep the tree readable at ninety recommendations:
+it. The index draws its one question with the same library, forms and colours, and
+opens a tapped box's entry in the same sheet and peek strip (§2). Three choices keep
+the tree readable at ninety recommendations:
 
 - **Left to right.** A rank is a column, so the widest rank becomes a tall column
   that pans vertically — natural on a phone and on a desktop — and the whole tree is
@@ -619,12 +660,12 @@ language the tables do not cover fails the build, naming the language and the
 missing keys, so that no English word ever stands on a German card. The detail
 sections of a concept, a claim and a source, and the entity page's link to its
 JSON (§4), take their words from the same table in the entity's own language.
-**The page's own chrome is the reader's, not the source's.** The legend and the
-sheet's one hint are German, whatever the view's source language, from a table of
-the view layer — one file per language under `tools/site/words/`, read by the
-build and never published — and the build, the schema, the data and every
-identifier, key and comment behind them stay English: only what the viewer reads
-is German. A German and an English site are a later phase; they will be a second
+**The page's own chrome is the reader's, not the source's.** The legend, the
+sheet's one hint and the index's words (§2) are German, whatever the view's source
+language, from a table of the view layer — one file per language under
+`tools/site/words/`, read by the build and never published — and the build, the
+schema, the data and every identifier, key and comment behind them stay English:
+only what the viewer reads is German. A German and an English site are a later phase; they will be a second
 table, not a second template. The rest of the page chrome — header, footer,
 counter, the controls' titles — is still English (§8). Translation of content is a
 build-layer concern and can be added without a data change
@@ -737,11 +778,11 @@ cut-publication).
 - **Branch guards** — yes/no and value-range branches come with authored pathways
   (`branch` edges carry a `guard`); the derived tree has only slot answers.
 - **The page chrome outside the legend** — the counter, the chapter panel's
-  "all", the controls' titles, header and footer are English; the legend and the
-  sheet's hint are German from the view layer's table (§3 "Language"); the
-  questions and the direction words inside the graph, and every word of the
-  sheet — the statement card and the other entities' sections — are in the
-  source language. The maintainer decided on German now and a German and an
+  "all", the controls' titles, header and footer are English; the legend, the
+  sheet's hint and the index's words are German from the view layer's table
+  (§3 "Language"); the questions and the direction words inside the graph, and
+  every word of the sheet — the statement card and the other entities' sections —
+  are in the source language. The maintainer decided on German now and a German and an
   English site in a later phase; nothing selects a page language yet.
 - **Translation** — a build-layer projection, not started.
 - **Other projections** — FHIR, RDF, diagram formats (`graph-representation.md` §13).

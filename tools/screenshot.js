@@ -1,13 +1,17 @@
 /* Runs inside zenika/alpine-chrome:with-puppeteer (tools/screenshot.py copies it in): open a page
-   of the built site at file:///site/<path>, and on a view page wait for the graph to lay out and run
-   the requested actions through window.graphmed (the hooks tools/site/static/graph.js exposes);
-   capture the viewport, or the whole page with spec.full. Any other page (an entity page, the index)
-   takes no view action: one fails with its name before the capture. */
+   of the built site at file:///site/<path>, and on a page with a graph wait for it to lay out and run
+   the requested actions through window.graphmed (the hooks tools/site/static/graph.js exposes on a
+   view page; home.js on the index exposes `open` alone); capture the viewport, or the whole page with
+   spec.full. A view page takes every action; the index takes open=<view id>, sheet, graph, key=<key>
+   and wait; any other page (an entity page) key= and wait. Any other action fails with its name, and
+   what the page takes, before anything runs. Every page reports whether it is wider than the viewport,
+   and where the focus is when it is not on the page itself. */
 const puppeteer = require("/usr/src/app/node_modules/puppeteer");
 const spec = JSON.parse(process.argv[2]);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const errors = [];
-const ANYWHERE = new Set(["wait"]);   /* the one action a page without the graph takes */
+const ANYWHERE = new Set(["wait", "key"]);   /* what a page without the graph takes */
+const INDEX = new Set([...ANYWHERE, "open", "sheet", "graph"]);   /* what the index takes: its graph selects a guideline's box, and nothing else */
 (async () => {
   const browser = await puppeteer.launch({ executablePath: "/usr/bin/chromium-browser", args: ["--no-sandbox", "--disable-gpu", "--hide-scrollbars"] });
   const page = await browser.newPage();
@@ -16,11 +20,21 @@ const ANYWHERE = new Set(["wait"]);   /* the one action a page without the graph
   await page.setViewport({ width: spec.width, height: spec.height, deviceScaleFactor: spec.phone ? 2 : 1, isMobile: !!spec.phone, hasTouch: !!spec.phone });
   if (spec.dark) await page.emulateMediaFeatures([{ name: "prefers-color-scheme", value: "dark" }]);   /* before the load: the graph reads its colours once, when drawn */
   await page.goto(`file:///site/${spec.file}`, { waitUntil: "load" });
-  if (!(await page.evaluate(() => !!document.getElementById("graph")))) return other(browser, page);
+  /* a view page carries its graph's data; the index draws its graph from its own sheet */
+  const kind = await page.evaluate(() => !document.getElementById("graph") ? "other" : document.getElementById("graph-data") ? "view" : "index");
+  if (kind === "other") return other(browser, page);
+  if (kind === "index") refuse(INDEX, "the index", "open=<view id>, sheet, graph, key=<key> and wait");
   await page.waitForFunction(() => window.graphmed && window.graphmed.cy.nodes().not(".folded").length > 0, { timeout: 20000 });
   await sleep(900);
   for (const [action, value] of spec.actions) {
     if (action === "wait") { await sleep(Number(value) || 500); continue; }
+    if (action === "key") {
+      const before = page.url();
+      await press(page, value); await sleep(400);
+      if (page.url().split("#")[0] !== before.split("#")[0])   /* a key that follows a link leaves the page: nothing of it is captured */
+        throw new Error(`key=${value} followed a link to ${page.url().replace("file:///site/", "")}; a followed link cannot be captured, so stop the keys before it`);
+      continue;
+    }
     if (action === "graph" || action === "sheet") {   /* bring the graph or the details into view as a reader does */
       await page.evaluate(a => {
         /* on a phone a selection waits in a peek strip: `sheet` raises the panel by tapping it, `graph` lowers it again;
@@ -103,22 +117,68 @@ const ANYWHERE = new Set(["wait"]);   /* the one action a page without the graph
     });
     return pairs;
   });
-  console.log(`${shown} elements shown, ${overlaps.length} overlapping pairs` + (errors.length ? `; page errors: ${errors.join(" | ")}` : ""));
+  console.log(`${shown} elements shown, ${overlaps.length} overlapping pairs; ${await across(page)}${await focus(page)}` + (errors.length ? `; page errors: ${errors.join(" | ")}` : ""));
   overlaps.slice(0, 40).forEach(p => console.log("  " + p));
   await browser.close();
 })().catch(e => { console.error("screenshot failed: " + e.message + (errors.length ? "; page errors: " + errors.join(" | ") : "")); process.exit(1); });
+
+/* an action the page does not take fails before anything runs, naming itself and what the page takes */
+function refuse(takes, what, list) {
+  const needs = spec.actions.find(([a]) => !takes.has(a));
+  if (needs) throw new Error(`action ${needs[0]}${needs[1] ? "=" + needs[1] : ""} needs a view page; ${spec.file} is ${what}, which takes ${list}`);
+}
 
 /* a page without the graph: a view action fails, naming itself; otherwise the page settles, and the
    report is its page errors and whether it is wider than the viewport — the mechanical half of
    "the page fits a phone" (docs/publication.md) */
 async function other(browser, page) {
-  const needs = spec.actions.find(([a]) => !ANYWHERE.has(a));
-  if (needs) throw new Error(`action ${needs[0]}${needs[1] ? "=" + needs[1] : ""} needs a view page (the graph); ${spec.file} has none`);
+  refuse(ANYWHERE, "a page without a graph", "key=<key> and wait");
   await page.evaluate(() => document.fonts.ready);
   await sleep(300);
-  for (const [action, value] of spec.actions) if (action === "wait") await sleep(Number(value) || 500);
+  for (const [action, value] of spec.actions) {
+    if (action === "wait") await sleep(Number(value) || 500);
+    else if (action === "key") {
+      const before = page.url();
+      await press(page, value); await sleep(400);
+      if (page.url().split("#")[0] !== before.split("#")[0])
+        throw new Error(`key=${value} followed a link to ${page.url().replace("file:///site/", "")}; a followed link cannot be captured, so stop the keys before it`);
+    }
+  }
   await page.screenshot(spec.full ? { path: "/tmp/shot.png", fullPage: true } : { path: "/tmp/shot.png" });
-  const [wide, view, tall] = await page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth, document.documentElement.scrollHeight]);
-  console.log(`no graph; ${wide > view ? `overflows horizontally: ${wide} px wide at ${view}` : `fits ${view} px across`}, ${tall} px tall` + (errors.length ? `; page errors: ${errors.join(" | ")}` : ""));
+  const tall = await page.evaluate(() => document.documentElement.scrollHeight);
+  console.log(`no graph; ${await across(page)}, ${tall} px tall${await focus(page)}` + (errors.length ? `; page errors: ${errors.join(" | ")}` : ""));
   await browser.close();
+}
+
+/* key=<key>: a key pressed as a keyboard presses it — Tab, Enter, Escape, ArrowDown — with its modifiers joined by
+   "+" (Shift+Tab); the way to check that a control is reached and works without a pointer */
+async function press(page, value) {
+  const keys = String(value || "").split("+").filter(Boolean);
+  if (!keys.length) throw new Error("action key needs a key, e.g. key=Tab");
+  const last = keys.pop();
+  for (const k of keys) await page.keyboard.down(k);
+  await page.keyboard.press(last);
+  for (const k of keys.reverse()) await page.keyboard.up(k);
+}
+
+/* where the focus is, when it is not on the page itself: the element, its class, its words and whether it is
+   pressed — what a key= run reached */
+async function focus(page) {
+  const at = await page.evaluate(() => {
+    const el = document.activeElement;
+    if (!el || el === document.body || el === document.documentElement) return "";
+    const words = (el.getAttribute("aria-label") || el.textContent || "").replace(/\s+/g, " ").trim();
+    const pressed = el.getAttribute("aria-pressed");
+    return `${el.tagName.toLowerCase()}${el.className && typeof el.className === "string" ? "." + el.className.trim().split(/\s+/).join(".") : ""}`
+      + (words ? ` "${words.length > 60 ? words.slice(0, 57) + "…" : words}"` : "") + (pressed ? ` (pressed ${pressed})` : "");
+  });
+  return at ? `; focus on ${at}` : "";
+}
+
+/* whether the page is wider than the viewport — the mechanical half of "the page fits a phone". Measured against
+   the width asked for as well: a phone's layout viewport (innerWidth) widens to a page that overflows it */
+async function across(page) {
+  const [wide, inner] = await page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
+  const view = Math.min(inner, spec.width);
+  return wide > view ? `overflows horizontally: ${wide} px wide at ${view}` : `fits ${view} px across`;
 }
