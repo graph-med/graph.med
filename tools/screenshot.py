@@ -10,7 +10,7 @@
     uv run tools/screenshot.py statements/tap-block-mic-kolorektal --phone --full   # any page, the whole scrolled page
     uv run tools/screenshot.py /                                   # the index
     uv run tools/screenshot.py / --phone --do open=views/pomgat-lv-1.0   # the index, a guideline's box tapped
-    uv run tools/screenshot.py / --do key=Tab --do key=Tab --do key=Enter  # keys, as a keyboard presses them
+    uv run tools/screenshot.py / --do key=Tab --do key=Tab --do key=Tab --do key=Enter  # keys, as a keyboard presses them
 
 The page is a site path: a view id, an entity page (statements/<id>, concepts/<id>, axes/<id>,
 sources/<id>, …), or / for the index; a trailing slash and index.html may be left out.

@@ -28,7 +28,13 @@ const INDEX = new Set([...ANYWHERE, "open", "sheet", "graph"]);   /* what the in
   await sleep(900);
   for (const [action, value] of spec.actions) {
     if (action === "wait") { await sleep(Number(value) || 500); continue; }
-    if (action === "key") { await press(page, value); await sleep(400); continue; }
+    if (action === "key") {
+      const before = page.url();
+      await press(page, value); await sleep(400);
+      if (page.url().split("#")[0] !== before.split("#")[0])   /* a key that follows a link leaves the page: nothing of it is captured */
+        throw new Error(`key=${value} followed a link to ${page.url().replace("file:///site/", "")}; a followed link cannot be captured, so stop the keys before it`);
+      continue;
+    }
     if (action === "graph" || action === "sheet") {   /* bring the graph or the details into view as a reader does */
       await page.evaluate(a => {
         /* on a phone a selection waits in a peek strip: `sheet` raises the panel by tapping it, `graph` lowers it again;
@@ -131,7 +137,12 @@ async function other(browser, page) {
   await sleep(300);
   for (const [action, value] of spec.actions) {
     if (action === "wait") await sleep(Number(value) || 500);
-    else if (action === "key") { await press(page, value); await sleep(400); }
+    else if (action === "key") {
+      const before = page.url();
+      await press(page, value); await sleep(400);
+      if (page.url().split("#")[0] !== before.split("#")[0])
+        throw new Error(`key=${value} followed a link to ${page.url().replace("file:///site/", "")}; a followed link cannot be captured, so stop the keys before it`);
+    }
   }
   await page.screenshot(spec.full ? { path: "/tmp/shot.png", fullPage: true } : { path: "/tmp/shot.png" });
   const tall = await page.evaluate(() => document.documentElement.scrollHeight);
