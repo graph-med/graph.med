@@ -1,0 +1,8 @@
+# The action of box 3.9's first sentence (p. 53): "eine Antibiotikatherapie in der Regel von 7 bis 10
+# Tagen durchzuführen" (card #221). The duration says how, not for whom: it is the action, no threshold.
+id: concepts/antibiotikatherapie-von-7-bis-10-tagen
+type: concept
+lang: de
+label: Antibiotikatherapie von 7 bis 10 Tagen
+facet: intervention
+source: modelling

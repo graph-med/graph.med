@@ -1,0 +1,12 @@
+# A condition of box 3.10 (p. 55), from its Bemerkung: "Ausgenommen davon sind Patienten mit Infektionen,
+# die eine längere Therapie erfordern (z. B. S. aureus-Bakteriämie, Endokarditis, Candidämie)" (card
+# #221). A negation, labelled as printed (#217's convention, rows 8 and 10): never a member of a family
+# of those infections, and never linked to them, because the schema has no negation.
+id: concepts/ausgenommen-infektionen-die-eine-laengere-therapie-erfordern
+type: concept
+lang: de
+label: Ausgenommen Patienten mit Infektionen, die eine längere Therapie erfordern (z. B. S. aureus-Bakteriämie, Endokarditis,
+  Candidämie)
+short_label: "Ausgenommen Infektionen, die längere Therapie erfordern"
+facet: patient_state
+source: modelling
