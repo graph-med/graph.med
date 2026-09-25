@@ -1,0 +1,9 @@
+# A condition of box 3.5 (p. 42), a negation as printed (#217 convention, row 10). Minted by card #219 for
+# views/sepsis-lf-4.0.
+id: concepts/ohne-erhoehtes-risiko-fuer-multiresistente-erreger
+type: concept
+lang: de
+label: "ohne erhöhtes Risiko für multiresistente Erreger"
+short_label: "ohne erhöhtes Risiko für MRE"
+facet: patient_state
+source: modelling

@@ -1,0 +1,768 @@
+# Sections 3.1-3.3 of sources/sepsis-lf-4.0, "Infektion und antimikrobielle Therapie": physical pages 37
+# to 51, down to the heading of 3.4 at line 21 of p. 51 (card #219). Boxes 3.1-3.7 one claim per sentence
+# (spec §3.1, #213 checklist), then the body-text places that pass spec §5.1, in reading order. Tabelle 2
+# (pp. 45-46) stays on the page (G2). Typos are kept as printed: "Wie empfehlen", "Wir empfehlenbei",
+# "spätenstens", "Antinfektiva".
+- id: claims/sepsis-lf-4.0/917388c0
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '3.1'
+  section: '3.1'
+  label: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock vor Beginn der Antibiotikatherapie mindestens 2 Blutkultur-Sets zu entnehmen."
+  grade: EK
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=37
+    quote: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=37, quote: "EK"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=37, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=37, quote: "Konsensstärke: 100 %"}
+- id: claims/sepsis-lf-4.0/eceb4ffe
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: '3.1'
+  section: '3.1'
+  label: "Dies gilt auch für Patienten, die bereits eine antibiotische Vorbehandlung erhalten haben."
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=37
+    quote: "Dies gilt auch für Patienten, die bereits eine anti-"
+  provenance:
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=37, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=37, quote: "Konsensstärke: 100 %"}
+- id: claims/sepsis-lf-4.0/0ad5e98a
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '3.1'
+  section: '3.1'
+  label: "Wie empfehlen die Gewinnung von weiteren Probenmaterialien von möglichen Infektionsfoci (Abstrich, Punktat, Biopsie etc.)."
+  grade: EK
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=37
+    quote: "Wie empfehlen die Gewinnung von weiteren Probenmaterialien"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=37, quote: "EK"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=37, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=37, quote: "Konsensstärke: 100 %"}
+- id: claims/sepsis-lf-4.0/23faf2be
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '3.1'
+  section: '3.1'
+  label: "Diese darf zu keiner wesentlichen zeitlichen Verzögerung der antiinfektiven Therapie führen."
+  grade: EK
+  direction: against
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=37
+    quote: "Diese darf zu keiner wesentlichen zeitlichen Verzögerung der"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=37, quote: "EK"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=37, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=37, quote: "Konsensstärke: 100 %"}
+- id: claims/sepsis-lf-4.0/74d560f7
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '3.2'
+  section: '3.2'
+  label: "Wir empfehlenbei Patienten mit Sepsis, dass die Verabreichung von intravenösen Antiinfektiva so schnell wie möglich, bei Patienten mit einem septischen Schock idealerweise innerhalb einer Stunde erfolgt."
+  grade: Stark
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {key: "Septischer Schock", value: "Niedrig", system: grade}
+    - {key: "Sepsis ohne Schock", value: "Sehr niedrig", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=39
+    quote: "Wir empfehlenbei Patienten mit Sepsis, dass die Verabreichung"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=39, quote: "Stark"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=39, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=39, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=39, quote: "Septischer Schock:"}
+      - {at: sources/sepsis-lf-4.0#page=39, quote: "Sepsis ohne Schock:"}
+- id: claims/sepsis-lf-4.0/f8da3ebf
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '3.3'
+  section: '3.2'
+  label: "Wir schlagen vor, bei einem Verdacht auf eine Sepsis ohne Schocksymptomatik zunächst eine zeitnahe weitere Diagnostik durchzuführen."
+  grade: EK
+  verb: schlagen vor
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=39
+    quote: "Wir schlagen vor, bei einem Verdacht auf eine Sepsis ohne"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=39, quote: "EK"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=39, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=39, quote: "Konsensstärke: 100 %"}
+- id: claims/sepsis-lf-4.0/b6e05dd8
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '3.3'
+  section: '3.2'
+  label: "Falls der Verdacht auf eine zugrundeliegende Infektion weiter besteht, sollte die Verabreichung der antiinfektiven Therapie innerhalb von drei Stunden erfolgen."
+  grade: EK
+  verb: sollte
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=39
+    quote: "Falls der Verdacht auf eine zugrundeliegende In-"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=39, quote: "EK"}
+    verb: {at: sources/sepsis-lf-4.0#page=39, quote: "fektion weiter besteht, sollte die Verabreichung der antiinfekti-"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=39, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=39, quote: "Konsensstärke: 100 %"}
+- id: claims/sepsis-lf-4.0/2c07bc69
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '3.4'
+  section: '3.3'
+  label: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock eine initiale antiinfektive Therapie mit einem Antibiotikum oder mehreren Antibiotika durchzuführen, um alle wesentlichen Bakterien zu erfassen."
+  grade: Stark
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: concepts/mortalitaet, value: "Niedrig", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=42
+    quote: "Wir empfehlen bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=42, quote: "Stark"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=42, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=42, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=42, quote: "Mortalität:"}
+- id: claims/sepsis-lf-4.0/bf42c546
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '3.4'
+  section: '3.3'
+  label: "Die antiinfektive Therapie sollte nach dem vermuteten Infektionsfokus, MRE-Besiedlung und Anamnese ausgerichtet werden."
+  grade: Stark
+  verb: sollte
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: concepts/mortalitaet, value: "Niedrig", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=42
+    quote: "Die antiinfektive Therapie sollte nach dem vermuteten Infekti-"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=42, quote: "Stark"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=42, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=42, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=42, quote: "Mortalität:"}
+- id: claims/sepsis-lf-4.0/298f0d47
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '3.5'
+  section: '3.3'
+  label: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem Schock ohne erhöhtes Risiko für multiresistente Erreger KEINE routinemäßige, initiale Therapie mit zwei verschiedenen gegen gramnegative Erreger wirksamen Substanzen („double gram-negative coverage“) durchzuführen."
+  grade: Schwach
+  verb: schlagen vor
+  direction: against
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: concepts/mortalitaet, value: "Sehr niedrig", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=42
+    quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=42, quote: "Schwach"}
+    direction: {at: sources/sepsis-lf-4.0#page=42, quote: "Schock ohne erhöhtes Risiko für multiresistente Erreger KEINE"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=42, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=42, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=42, quote: "Mortalität:"}
+- id: claims/sepsis-lf-4.0/445ac8e6
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '3.6'
+  section: '3.3'
+  label: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem Schock mit einem niedrigen Risiko für eine Pilzinfektion KEINE antimykotische Therapie durchzuführen."
+  grade: Schwach
+  verb: schlagen vor
+  direction: against
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {key: "Für empirische Therapie", value: "Niedrig", system: grade}
+    - {key: "Für keine empirische Therapie", value: "Niedrig", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=47
+    quote: "Schock mit einem niedrigen Risiko für eine Pilzinfektion KEINE"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=47, quote: "Schwach"}
+    verb: {at: sources/sepsis-lf-4.0#page=47, quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=47, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=47, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=47, quote: "Für empirische"}
+      - {at: sources/sepsis-lf-4.0#page=47, quote: "Für keine empirische"}
+- id: claims/sepsis-lf-4.0/47a9dba5
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '3.6'
+  section: '3.3'
+  label: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem Schock mit einem hohen Risiko für eine Pilzinfektion eine empirische antimykotische Therapie durchzuführen."
+  grade: Schwach
+  verb: schlagen vor
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {key: "Für empirische Therapie", value: "Niedrig", system: grade}
+    - {key: "Für keine empirische Therapie", value: "Niedrig", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=47
+    quote: "Schock mit einem hohen Risiko für eine Pilzinfektion eine empi-"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=47, quote: "Schwach"}
+    verb: {at: sources/sepsis-lf-4.0#page=47, quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=47, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=47, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=47, quote: "Für empirische"}
+      - {at: sources/sepsis-lf-4.0#page=47, quote: "Für keine empirische"}
+- id: claims/sepsis-lf-4.0/f9276737
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '3.7'
+  section: '3.3'
+  label: "Wir empfehlen, bei Patienten mit Sepsis oder septischem Schock Beta-Laktam-Antibiotika als prolongierte oder kontinuierliche Infusion (nach initialem Bolus) zu verabreichen."
+  grade: Stark
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: concepts/mortalitaet-nach-90-tagen, value: "Hoch", system: grade}
+    - {outcome: concepts/mortalitaet-intensivstation, value: "Hoch", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=50
+    quote: "Wir empfehlen, bei Patienten mit Sepsis oder septischem Schock"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=50, quote: "Stark"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=50, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=50, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=50, quote: "90-Tage Mortalität:"}
+      - {at: sources/sepsis-lf-4.0#page=50, quote: "ICU Mortalität:"}
+- id: claims/sepsis-lf-4.0/2a73459c
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '3.7'
+  section: '3.3'
+  label: "Bei einer kontinuierlichen Infusion ist auf die physikalisch-chemische Stabilität des Wirkstoffs zu achten."
+  grade: Stark
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: concepts/mortalitaet-nach-90-tagen, value: "Hoch", system: grade}
+    - {outcome: concepts/mortalitaet-intensivstation, value: "Hoch", system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=50
+    quote: "Bei einer kontinuierlichen Infusion ist auf die physikalisch-chemi-"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=50, quote: "Stark"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=50, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=50, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=50, quote: "90-Tage Mortalität:"}
+      - {at: sources/sepsis-lf-4.0#page=50, quote: "ICU Mortalität:"}
+- id: claims/sepsis-lf-4.0/d4536593
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.1'
+  label: "Bei allen Patienten mit Verdacht auf Sepsis werden vor Beginn der antiinfektiven Therapie Blutkulturen zum Nachweis von Bakterien oder Hefepilzen entnommen, da diese Substanzen das Wachstum von Mikroorganismen verlangsamen oder verhindern können."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=37
+    quote: "Bei allen Patienten mit Verdacht auf"
+- id: claims/sepsis-lf-4.0/1b633b3d
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.1'
+  label: "Die Entnahme dieser Proben soll ebenfalls vor Beginn der antiinfektiven Therapie erfolgen, sofern dies ohne wesentliche zeitliche Verzögerung möglich ist."
+  verb: soll
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=37
+    quote: "Die Entnahme dieser Proben soll ebenfalls vor Beginn der antiinfektiven Therapie er-"
+- id: claims/sepsis-lf-4.0/05a8d393
+  type: claim
+  lang: de
+  kind: criterion
+  section: '3.1'
+  label: "Geeignetes Probenmaterial umfasst Urin, Atemwegssekret, Wundsekret, Eiter, Liquor und andere Körperflüssigkeiten."
+  source:
+    at: sources/sepsis-lf-4.0#page=37
+    quote: "material umfasst Urin, Atemwegssekret, Wundsekret, Eiter, Liquor und andere Körperflüssig-"
+- id: claims/sepsis-lf-4.0/79e2bf55
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.1'
+  label: "Wenn die Anamnese oder klinische Untersuchung eindeutig auf eine spezifische anatomische Lokalisation des Infektionsherdes hindeutet, sind Materialien von anderen Lokalisationen (mit Ausnahme der Blutkulturen) im Allgemeinen nicht notwendig."
+  direction: against
+  source:
+    at: sources/sepsis-lf-4.0#page=37
+    quote: "Wenn die Anamnese oder klinische Untersuchung eindeutig auf eine spezifische ana-"
+  provenance:
+    direction: {at: sources/sepsis-lf-4.0#page=37, quote: "tionen (mit Ausnahme der Blutkulturen) im Allgemeinen nicht notwendig."}
+- id: claims/sepsis-lf-4.0/1a1590e6
+  type: claim
+  lang: de
+  kind: criterion
+  section: '3.1'
+  label: "Um ein ausreichend großes Blutvolumen zu gewinnen, werden mindestens zwei Blutkultur-Sets benötigt (40-60 ml Blut)."
+  source:
+    at: sources/sepsis-lf-4.0#page=37
+    quote: "ausreichend großes Blutvolumen zu gewinnen, werden mindestens zwei Blutkultur-Sets be-"
+- id: claims/sepsis-lf-4.0/8c4ecd3c
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.1'
+  label: "Alle erforderlichen Blutkulturen können zeitgleich aus derselben Punktionsstelle entnommen werden."
+  verb: kann
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=37
+    quote: "Alle erforderlichen Blutkulturen können zeitgleich aus derselben Punktionsstelle entnommen"
+- id: claims/sepsis-lf-4.0/8a3f8c67
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.1'
+  label: "Bei septischen Patienten mit Verdacht auf eine Katheter-assoziierte Infektion werden mindestens eines der Blutkultur-Sets aus dem Katheter, und mindestens eines der Sets aus der peripheren Vene, entnommen."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=38
+    quote: "Bei septischen Patienten mit Verdacht auf eine Katheter-assoziierte Infektion werden mindes-"
+- id: claims/sepsis-lf-4.0/f0844f0f
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.1'
+  label: "Zur weiteren mikrobiologischen Untersuchung wird der Katheter entfernt und die Katheterspitze mikrobiologisch untersucht."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=38
+    quote: "Zur weiteren mikrobiologischen Untersuchung wird der Katheter"
+- id: claims/sepsis-lf-4.0/aede2acc
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.1'
+  label: "Molekularbiologische Nachweisverfahren (z. B. Multiplex PCR, Next-Generation Sequencing) können die kulturelle Erregerdiagnostik (aus Blut und anderen Probenmaterialien) ergänzen."
+  verb: kann
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=38
+    quote: "Molekularbiologische Nachweisverfahren (z. B. Multiplex PCR, Next-Generation Sequencing)"
+  provenance:
+    verb: {at: sources/sepsis-lf-4.0#page=38, quote: "können die kulturelle Erregerdiagnostik (aus Blut und anderen Probenmaterialien) ergänzen."}
+- id: claims/sepsis-lf-4.0/f2c9ee67
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.2'
+  label: "Der septische Schock und die Sepsis sind als Notfall einzuschätzen und die antiinfektive Therapie ist schnellstmöglich zu beginnen (idealerweise innerhalb einer Stunde)."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=39
+    quote: "schnellstmöglich zu beginnen (idealerweise innerhalb einer Stunde)."
+- id: claims/sepsis-lf-4.0/f3eac060
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.2'
+  label: "Diese Ergebnisse zeigen, dass Antibiotika spätenstens innerhalb von 3 Stunden nach Erkennen der Sepsis oder dem Eintreffen in der Notaufnahme verabreicht werden sollten, unabhängig davon, ob ein Schock vorliegt oder nicht."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=41
+    quote: "Diese Ergebnisse zeigen, dass Antibiotika spätenstens in-"
+  provenance:
+    verb: {at: sources/sepsis-lf-4.0#page=41, quote: "verabreicht werden sollten, unabhängig davon, ob ein Schock vorliegt oder nicht."}
+- id: claims/sepsis-lf-4.0/1edfac75
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.2'
+  label: "Bei systemischen entzündlichen Reaktionen ohne Infektion ist eine antiinfektive Therapie nicht indiziert."
+  direction: against
+  source:
+    at: sources/sepsis-lf-4.0#page=41
+    quote: "Bei systemischen entzündlichen Reaktionen ohne Infektion ist eine antiinfektive Therapie"
+  provenance:
+    direction: {at: sources/sepsis-lf-4.0#page=41, quote: "nicht indiziert."}
+- id: claims/sepsis-lf-4.0/0489abc9
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.3'
+  label: "Im weiteren Verlauf ist anhand von mikrobiologischen Untersuchungsergebnissen eine Umstellung auf eine gezielte antiinfektive Therapie durchzuführen."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=43
+    quote: "Im weiteren Verlauf ist anhand von mikrobiologischen Untersuchungs-"
+- id: claims/sepsis-lf-4.0/fcc41714
+  type: claim
+  lang: de
+  kind: criterion
+  section: '3.3'
+  label: "Zu den wichtigsten patientenbezogenen Faktoren gehören: die Lokalisation der Infektion, die zugrundeliegenden Begleiterkrankungen, das Vorliegen einer Immunsuppression, eine kürzlich bekannt gewordene Infektion oder Kolonisierung mit spezifischen Pathogenen, sowie eine Behandlung mit Antinfektiva innerhalb der letzten drei Monate."
+  source:
+    at: sources/sepsis-lf-4.0#page=43
+    quote: "entenbezogenen Faktoren gehören: die Lokalisation der Infektion, die zugrundeliegenden Be-"
+- id: claims/sepsis-lf-4.0/7954d8ea
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.3'
+  label: "Außerdem müssen Faktoren wie die Dauer der Hospitalisierung zum Zeitpunkt der Infektion (z. B. ambulant erworben versus nosokomial), die lokale Pathogenprävalenz und die Resistenzmuster dieser Pathogene, sowohl auf regionaler Ebene als auch im Krankenhaus, berücksichtigt werden."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=43
+    quote: "Außerdem müssen Faktoren wie die Dauer der Hos-"
+- id: claims/sepsis-lf-4.0/a4de0c56
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.3'
+  label: "Auch Medikamentenunverträglichkeiten, Interaktionen und Toxizität müssen berücksichtigt werden."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=43
+    quote: "keiten, Interaktionen und Toxizität müssen berücksichtigt werden."
+- id: claims/sepsis-lf-4.0/a6e3e65d
+  type: claim
+  lang: de
+  kind: fact
+  section: '3.3'
+  label: "Die häufigsten Pathogene, die einen septischen Schock verursachen, sind gramnegative und grampositive Bakterien."
+  source:
+    at: sources/sepsis-lf-4.0#page=43
+    quote: "Die häufigsten Pathogene, die einen septischen Schock verursachen, sind gramnegative und"
+- id: claims/sepsis-lf-4.0/1b410595
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.3'
+  label: "Bei bestimmten klinischen Konstellationen sind eine invasive Candidiasis, ein toxisches Schocksyndrom und auch selten auftretende Pathogene in Betracht zu ziehen."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=43
+    quote: "Bei bestimmten klinischen Konstellationen sind eine invasive Candi-"
+- id: claims/sepsis-lf-4.0/e2521686
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.3'
+  label: "Weiterhin sind bei Sepsis aufgrund einer ambulant erworbenen Pneumonie neben den typischen Erregern (z. B. Pneumokokken, Haemophilus influenzae, S. aureus, Enterobacterales) auch „atypische“ Erreger (Legionellen, Mykoplasmen, Chlamydien und Coxiellen) zu berücksichtigen."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=43
+    quote: "Weiterhin sind bei Sepsis aufgrund einer ambulant erworbenen Pneumonie neben"
+- id: claims/sepsis-lf-4.0/3e4854c7
+  type: claim
+  lang: de
+  kind: fact
+  section: '3.3'
+  label: "Patienten mit Neutropenie haben ein Risiko für ein besonders breites Spektrum an potenziellen Pathogenen, zu denen auch resistente gramnegative Bakterien, Vancomycin-resistente Enterokokken (VRE) und Candida spp. gehören."
+  source:
+    at: sources/sepsis-lf-4.0#page=43
+    quote: "Patienten mit Neutropenie haben ein Risiko für ein besonders breites"
+- id: claims/sepsis-lf-4.0/69260e79
+  type: claim
+  lang: de
+  kind: gap_notice
+  section: '3.3'
+  label: "Angesichts der vielen Faktoren, die bei der Wahl eines geeigneten Antiinfektivums zu berücksichtigen sind, ist die Empfehlung einer universellen antiinfektiven Therapie bei einer Sepsis nicht möglich."
+  source:
+    at: sources/sepsis-lf-4.0#page=43
+    quote: "sichtigen sind, ist die Empfehlung einer universellen antiinfektiven Therapie bei einer Sepsis"
+- id: claims/sepsis-lf-4.0/ee505f8c
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.3'
+  label: "Eine Anpassung an die lokalen Gegebenheiten (Erregerepidemiologie, Resistenzsituation, Medikamenten-Verfügbarkeit) ist notwendig."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=43
+    quote: "Eine Anpassung an die lokalen Gegebenheiten (Erregerepidemiologie, Re-"
+- id: claims/sepsis-lf-4.0/de331b1f
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.3'
+  label: "Die Ergänzung eines pathogenspezifischen Wirkstoffs zur Erweiterung des Spektrums ist gerechtfertigt, wenn ein spezifisches Risiko besteht."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=43
+    quote: "Die Ergänzung eines pathogenspezifischen Wirkstoffs zur Erweiterung des Spektrums ist ge-"
+- id: claims/sepsis-lf-4.0/41270b30
+  type: claim
+  lang: de
+  kind: fact
+  section: '3.3'
+  label: "Bei einer nosokomialen Pneumonie hingegen spielen atypische Erreger keine Rolle."
+  source:
+    at: sources/sepsis-lf-4.0#page=44
+    quote: "Bei einer nosokomialen Pneumonie hingegen spielen atypische Erreger keine"
+- id: claims/sepsis-lf-4.0/e7177a2d
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.3'
+  label: "Bei bekannter MRSA Besiedlung oder Risikofaktoren für eine MRSA Besiedlung ist die antiinfektive Therapie um Daptomycin (nicht bei Pneumonie), Linezolid, Vancomycin, Teicoplanin oder einen anderen Wirkstoff mit Aktivität gegen MRSA zu ergänzen."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=44
+    quote: "Bei bekannter MRSA Besiedlung oder Risikofaktoren für eine MRSA Besiedlung ist die"
+- id: claims/sepsis-lf-4.0/f14e8504
+  type: claim
+  lang: de
+  kind: fact
+  section: '3.3'
+  label: "Während Patienten mit Sepsis oder septischem Schock im Allgemeinen nicht von einer empirischen antimykotischen Therapie profitieren, könnte dies bei Patienten mit einem hohen Risiko für eine Pilzinfektion der Fall sein (beispielsweise Patienten mit Fieber in Neutropenie und fehlendem Ansprechen auf eine mehrtägige Antibiotikatherapie)."
+  source:
+    at: sources/sepsis-lf-4.0#page=47
+    quote: "siko für eine Pilzinfektion der Fall sein (beispielsweise Patienten mit Fieber in Neutropenie und"
+- id: claims/sepsis-lf-4.0/c3bbd352
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.3'
+  label: "Bei diesen Patienten ist auch an die Möglichkeit einer Aspergillus-Infektion zu denken."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=48
+    quote: "Bei diesen Patienten ist auch an die Möglichkeit einer Asper-"
+- id: claims/sepsis-lf-4.0/68e380db
+  type: claim
+  lang: de
+  kind: fact
+  section: '3.3'
+  label: "Bei Patienten, die aufgrund einer Influenza- oder COVID-19 beatmet werden müssen, kann im Verlauf (auch bei fehlenden klassischen Kriterien für eine Immunsuppression) eine invasive pulmonale Schimmelpilzinfektion auftreten."
+  source:
+    at: sources/sepsis-lf-4.0#page=48
+    quote: "Bei Patienten, die aufgrund einer Influenza- oder COVID-19 beat-"
+- id: claims/sepsis-lf-4.0/f6300b85
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.3'
+  label: "Die Auswahl des spezifischen Wirkstoffs hat den Schweregrad der Erkrankung und eine eventuelle kürzliche Exposition gegenüber antimykotischen Medikamenten zu berücksichtigen."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=48
+    quote: "Die Auswahl des spezifischen Wirkstoffs hat den Schweregrad der Erkrankung und eine even-"
+- id: claims/sepsis-lf-4.0/3a9d0458
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.3'
+  label: "Bei der kalkulierten antimykotischen Therapie der Sepsis sind Echinocandine zu bevorzugen."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=48
+    quote: "der kalkulierten antimykotischen Therapie der Sepsis sind Echinocandine zu bevorzugen."
+- id: claims/sepsis-lf-4.0/73ec84ad
+  type: claim
+  lang: de
+  kind: criterion
+  section: '3.3'
+  label: "Eine Ausnahme besteht bei einem pulmonalen Fokus, bei dem Candida spp. typischerweise keine Rolle spielen und Schimmelpilze vorherrschen."
+  source:
+    at: sources/sepsis-lf-4.0#page=48
+    quote: "Ausnahme besteht bei einem pulmonalen Fokus, bei dem Candida spp. typischerweise keine"
+- id: claims/sepsis-lf-4.0/e065bcda
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.3'
+  label: "Bei Unverträglichkeit, bekannter Vorbesiedlung mit resistenten Candida-Spezies oder Verdacht auf eine pulmonale Infektion mit „Nicht-Aspergillus“-Spezies wird dringend ein infektiologisches oder mikrobiologisches Konsil empfohlen."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=48
+    quote: "Bei Unverträglichkeit, bekannter Vorbesied-"
+  provenance:
+    verb: {at: sources/sepsis-lf-4.0#page=48, quote: "wird dringend ein infektiologisches oder mikrobiologisches Konsil emp-"}
+# Tabelle 3 (p. 49), its left column: one group's cases, one claim (§5.1 K); quoted by its head cell
+- id: claims/sepsis-lf-4.0/08cd54b4
+  type: claim
+  lang: de
+  kind: criterion
+  section: '3.3'
+  label: "Risikofaktoren für Candida-Sepsis: Candida-Besiedlung an mehreren Stellen; Surrogatmarker wie der Serum-Beta-D-Glucan-Assay; Neutropenie; Immunsuppression; Schwere der Erkrankung (hoher APACHE-Score); Längere Verweildauer auf der Intensivstation; Zentrale Venenkatheter und andere intravaskuläre devices; Drogenabusus (Injektion); Vollständige parenterale Ernährung; Breitbandantibiotika; Perforationen des Gastrointestinaltrakts und Anastomosenlecks; Gastrointestinale oder hepatobiliäre Notoperationen; Akutes Nierenversagen und Hämodialyse; Schwere thermische Verletzungen; Vorausgegangene Operationen"
+  source:
+    at: sources/sepsis-lf-4.0#page=49
+    quote: "Risikofaktoren für Candida-Sepsis"
+# Tabelle 3 (p. 49), its right column; no threshold: the < 200/µl stays in the label (#213 checklist)
+- id: claims/sepsis-lf-4.0/e68f36cf
+  type: claim
+  lang: de
+  kind: criterion
+  section: '3.3'
+  label: "Risikofaktor für invasive Schimmelpilzinfektionen: Neutropenie; Surrogatmarker wie Serum oder Bronchoalveoläre Lavage Galactomannan Assay; Hämatopoetische Stammzelltransplantation; Organtransplantation; Hochdosierte Kortikosteroidtherapie; Immun-Modifier; Influenza; COVID-19; Moderate bis schwere HIV Infektion mit CD4-Zellen < 200/µl; Solide Tumoren"
+  source:
+    at: sources/sepsis-lf-4.0#page=49
+    quote: "Risikofaktor für invasive Schimmelpilzinfek-"
+# the first note under Tabelle 3, a sentence (#213 checklist)
+- id: claims/sepsis-lf-4.0/3eb5147d
+  type: claim
+  lang: de
+  kind: fact
+  section: '3.3'
+  label: "Der Beginn einer empirischen Therapie hängt von der Anzahl der Risikofaktoren und der lokalen Epidemiologie ab."
+  source:
+    at: sources/sepsis-lf-4.0#page=49
+    quote: "Der Beginn einer empirischen Therapie hängt von der Anzahl der Risikofaktoren und der lokalen Epi-"
+# one sentence, two alternatives with a duration each: a claim each (§5.1 K), each quoting its member
+- id: claims/sepsis-lf-4.0/78f42aa0
+  type: claim
+  lang: de
+  kind: criterion
+  section: '3.3'
+  label: "Eine Möglichkeit, die Wirksamkeit von Beta-Laktam-Antibiotika zu verbessern, ist die Verlängerung der Infusionsdauer auf 3-4 Stunden …"
+  source:
+    at: sources/sepsis-lf-4.0#page=50
+    quote: "otika zu verbessern, ist die Verlängerung der Infusionsdauer auf 3-4 Stunden"
+- id: claims/sepsis-lf-4.0/0051cf3b
+  type: claim
+  lang: de
+  kind: criterion
+  section: '3.3'
+  label: "Eine Möglichkeit, die Wirksamkeit von Beta-Laktam-Antibiotika zu verbessern, ist … die kontinuierliche Infusion über 24 Stunden."
+  source:
+    at: sources/sepsis-lf-4.0#page=50
+    quote: "nuierliche Infusion über 24 Stunden."
+# one sentence, two alternatives with a duration each („über 3-4 bzw. 24 Stunden“): a claim each (§5.1 K)
+- id: claims/sepsis-lf-4.0/043c28e6
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.3'
+  label: "Unmittelbar im Anschluss an diese Kurzinfusion kann dann eine prolongierte … Infusion über 3-4 … Stunden durchgeführt werden."
+  verb: kann
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=51
+    quote: "im Anschluss an diese Kurzinfusion kann dann eine prolongierte"
+- id: claims/sepsis-lf-4.0/dbc01ecf
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.3'
+  label: "Unmittelbar im Anschluss an diese Kurzinfusion kann dann eine … kontinuierliche Infusion über … 24 Stunden durchgeführt werden."
+  verb: kann
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=51
+    quote: "oder kontinuierliche Infusion"
+- id: claims/sepsis-lf-4.0/9271422f
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.3'
+  label: "Eine kontinuierliche Applikation ohne regelmäßige und zeitnahe (d. h. Ergebnismitteilung ≤ 24 h) Kontrolle der Blutspiegel (TDM) ist vor allem bei hoher MHK des Erregers und/oder bei gesteigerter Antibiotika Clearance („augmented renal clearance“ = GFR ≥ 130 ml/min) problematisch, da es eventuell zu einer Unterschreitung der PK/PD-Ziele führt."
+  direction: against
+  source:
+    at: sources/sepsis-lf-4.0#page=51
+    quote: "Eine kontinuierliche Applikation ohne regel-"
+  provenance:
+    direction: {at: sources/sepsis-lf-4.0#page=51, quote: "problematisch, da es eventuell zu einer Unter-"}
+# a definition the page marks by „=“ (§5.1 E), a member of the sentence of claims/sepsis-lf-4.0/9271422f giving another answer (K); no threshold, no defined_by: no statement uses the term
+- id: claims/sepsis-lf-4.0/c160b7a4
+  type: claim
+  lang: de
+  kind: definition
+  section: '3.3'
+  label: "„augmented renal clearance“ = GFR ≥ 130 ml/min"
+  source:
+    at: sources/sepsis-lf-4.0#page=51
+    quote: "renal clearance“ = GFR ≥ 130 ml/min"
+- id: claims/sepsis-lf-4.0/d26d37a9
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.3'
+  label: "Generell ist ein TDM jedoch für Substanzen mit einer geringen therapeutischen Breite (z. B. Vancomycin oder Aminoglykoside) und Voriconazol erforderlich."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=51
+    quote: "ist ein TDM jedoch für Substanzen mit einer geringen therapeutischen Breite (z. B. Vancomy-"

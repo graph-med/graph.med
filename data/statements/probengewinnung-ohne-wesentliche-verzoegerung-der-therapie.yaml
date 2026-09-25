@@ -1,0 +1,12 @@
+# Box 3.1, fourth sentence (p. 37); what it says of the third is the complements edge (spec §5.1 N1). Card
+# #219.
+id: statements/probengewinnung-ohne-wesentliche-verzoegerung-der-therapie
+type: statement
+lang: de
+label: "Die Gewinnung weiterer Probenmaterialien darf zu keiner wesentlichen zeitlichen Verzögerung der antiinfektiven Therapie führen."
+short_label: "Probengewinnung ohne wesentliche Therapieverzögerung"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/wesentliche-zeitliche-verzoegerung-der-antiinfektiven-therapie
+  condition: [concepts/gewinnung-weiterer-probenmaterialien-von-infektionsfoci]
+source: modelling

@@ -1,0 +1,11 @@
+# Box 3.6, second sentence (p. 47). Card #219.
+id: statements/empirische-antimykotische-therapie-bei-hohem-pilzrisiko
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock mit einem hohen Risiko für eine Pilzinfektion eine empirische antimykotische Therapie durchführen."
+short_label: "Hohes Pilzrisiko: empirische antimykotische Therapie"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/empirische-antimykotische-therapie
+  condition: [concepts/hohes-risiko-fuer-eine-pilzinfektion]
+source: modelling

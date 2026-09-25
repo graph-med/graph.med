@@ -1,0 +1,11 @@
+# Box 3.4, its Bemerkung (p. 42), a sentence of recommendation form with a statement of its own (#213
+# checklist). Card #219.
+id: statements/antiinfektive-therapie-nach-fokus-mre-besiedlung-und-anamnese
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock die antiinfektive Therapie nach dem vermuteten Infektionsfokus, MRE-Besiedlung und Anamnese ausrichten."
+short_label: "Therapie nach Fokus, MRE-Besiedlung und Anamnese"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/ausrichtung-antiinfektiver-therapie-nach-fokus-mre-besiedlung-anamnese
+source: modelling

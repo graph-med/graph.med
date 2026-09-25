@@ -1,0 +1,11 @@
+# Box 3.6, first sentence (p. 47). Card #219.
+id: statements/keine-antimykotische-therapie-bei-niedrigem-pilzrisiko
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock mit einem niedrigen Risiko für eine Pilzinfektion KEINE antimykotische Therapie durchführen."
+short_label: "Niedriges Pilzrisiko: keine antimykotische Therapie"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/antimykotische-therapie
+  condition: [concepts/niedriges-risiko-fuer-eine-pilzinfektion]
+source: modelling

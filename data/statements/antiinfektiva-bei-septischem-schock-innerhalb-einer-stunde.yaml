@@ -1,0 +1,11 @@
+# Box 3.2 (p. 39), its second target: "bei Patienten mit einem septischen Schock" (#217 convention, row 4).
+# Card #219.
+id: statements/antiinfektiva-bei-septischem-schock-innerhalb-einer-stunde
+type: statement
+lang: de
+label: "Bei Patienten mit septischem Schock intravenöse Antiinfektiva idealerweise innerhalb einer Stunde verabreichen."
+short_label: "Schock: Antiinfektiva idealerweise in einer Stunde"
+slots:
+  population: concepts/septischer-schock
+  action: concepts/intravenoese-antiinfektiva-idealerweise-innerhalb-einer-stunde
+source: modelling

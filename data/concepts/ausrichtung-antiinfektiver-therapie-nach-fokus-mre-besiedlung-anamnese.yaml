@@ -1,0 +1,8 @@
+# The action of box 3.4's Bemerkung (p. 42). Minted by card #219 for views/sepsis-lf-4.0.
+id: concepts/ausrichtung-antiinfektiver-therapie-nach-fokus-mre-besiedlung-anamnese
+type: concept
+lang: de
+label: "Ausrichtung der antiinfektiven Therapie nach dem vermuteten Infektionsfokus, MRE-Besiedlung und Anamnese"
+short_label: "Ausrichtung nach Fokus, MRE-Besiedlung und Anamnese"
+facet: intervention
+source: modelling

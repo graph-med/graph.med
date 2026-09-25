@@ -1,0 +1,13 @@
+# Box 3.3, second sentence (p. 39). It names no group of its own and continues the first sentence's, so it
+# takes that sentence's population and condition, and adds its own "Falls …" clause (#217 convention, row 8).
+# Card #219.
+id: statements/antiinfektiva-innerhalb-von-drei-stunden-bei-fortbestehendem-verdacht
+type: statement
+lang: de
+label: "Bei Verdacht auf eine Sepsis ohne Schocksymptomatik die antiinfektive Therapie innerhalb von drei Stunden verabreichen, falls der Verdacht auf eine zugrundeliegende Infektion weiter besteht."
+short_label: "Verdacht besteht weiter: Antiinfektiva in drei Stunden"
+slots:
+  population: concepts/verdacht-auf-sepsis
+  action: concepts/antiinfektive-therapie-innerhalb-von-drei-stunden
+  condition: [concepts/ohne-schocksymptomatik, concepts/verdacht-auf-zugrundeliegende-infektion-besteht-weiter]
+source: modelling
