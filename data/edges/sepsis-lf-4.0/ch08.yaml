@@ -1,0 +1,78 @@
+# Edges of card #225 from chapter 8 of sources/sepsis-lf-4.0 (pp. 105–126), all modelling.
+# evidence (spec §3.1): each recommendation-form box sentence supports its own statement; 8.1's Bemerkung 1 (the
+# dose) supports 8.1's. The gap notices 8.7 and 8.8, 8.1's Bemerkung 2 (a definition) and the body text support none
+- [claims/sepsis-lf-4.0/4801815e, supports, statements/hydrokortison-bei-septischem-schock-mit-anhaltendem-vasopressorbedarf, {source: modelling}]
+- [claims/sepsis-lf-4.0/3097e066, supports, statements/hydrokortison-bei-septischem-schock-mit-anhaltendem-vasopressorbedarf, {source: modelling}]
+- [claims/sepsis-lf-4.0/cb0c0066, supports, statements/erythrozytenkonzentrate-bei-hb-unter-7-g-dl-oder-physiologischen-kriterien, {source: modelling}]
+- [claims/sepsis-lf-4.0/8b72475e, supports, statements/kein-therapeutisches-plasma-bei-volumenmangel, {source: modelling}]
+- [claims/sepsis-lf-4.0/580b46af, supports, statements/keine-thrombozytentransfusion-ohne-blutung-oder-schwere-thrombozytopenie, {source: modelling}]
+- [claims/sepsis-lf-4.0/38d544ef, supports, statements/thrombozytengabe-vor-eingriffen-nach-querschnitts-leitlinien, {source: modelling}]
+- [claims/sepsis-lf-4.0/68c18cb2, supports, statements/keine-intravenoesen-immunglobuline-bei-sepsis, {source: modelling}]
+- [claims/sepsis-lf-4.0/29610429, supports, statements/keine-unselektiven-adsorptionsverfahren-bei-sepsis, {source: modelling}]
+- [claims/sepsis-lf-4.0/c3b54491, supports, statements/vte-prophylaxe-mit-nmh-bei-sepsis, {source: modelling}]
+- [claims/sepsis-lf-4.0/3df63bfa, supports, statements/nmh-mit-anti-xa-kontrollen-oder-ufh-bei-niereninsuffizienz-oder-hohem-vasopressorbedarf, {source: modelling}]
+- [claims/sepsis-lf-4.0/918ad0c8, supports, statements/ipc-bei-kontraindizierter-pharmakologischer-vte-prophylaxe, {source: modelling}]
+- [claims/sepsis-lf-4.0/42cf7005, supports, statements/analgesie-und-sedierung-nach-das-leitlinie-bei-sepsis, {source: modelling}]
+- [claims/sepsis-lf-4.0/0f8653b6, supports, statements/insulintherapie-ab-blutzucker-180-mg-dl, {source: modelling}]
+- [claims/sepsis-lf-4.0/954220f1, supports, statements/stressulkusprophylaxe-nur-bei-risikofaktoren-fuer-gi-blutungen, {source: modelling}]
+- [claims/sepsis-lf-4.0/e8e24cb6, supports, statements/stressulkusprophylaxe-mit-ppi-bei-risikofaktoren-fuer-gi-blutungen, {source: modelling}]
+- [claims/sepsis-lf-4.0/c0278d86, supports, statements/kein-hochdosiertes-vitamin-c-bei-sepsis, {source: modelling}]
+- [claims/sepsis-lf-4.0/9b7703dd, supports, statements/kein-natriumbicarbonat-zur-verbesserung-der-haemodynamik, {source: modelling}]
+
+# body text (spec §5.1): section 8.2.3, p. 109
+- [claims/sepsis-lf-4.0/4608676a, refines, claims/sepsis-lf-4.0/8b72475e, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: therapeutisches Plasma — die vier in Deutschland verfügbaren Arten (GFP, SDP, MLP, LHP)."}]
+- [claims/sepsis-lf-4.0/2c7403a2, refines, claims/sepsis-lf-4.0/8b72475e, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: Indikationen der „Querschnitts-Leitlinien …“ der BÄK — Plasma „bei dokumentierter Gerinnungsstörung … sowie aktiver Blutung oder geplanten Eingriffen“; aus Expertenmeinungen berichtet, ein Wert, den die Empfehlung braucht und nicht nennt (G2, Ausnahme)."}]
+
+# body text (spec §5.1): section 8.4.1, pp. 111–112
+- [claims/sepsis-lf-4.0/8a4a3bca, refines, claims/sepsis-lf-4.0/29610429, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: unselektive Adsorptionsverfahren — „reine Adsorptionsverfahren aus dem Vollblut … als auch kombinierte Verfahren aus Nierenersatz und Adsorption“."}]
+- [claims/sepsis-lf-4.0/32c9452d, refines, claims/sepsis-lf-4.0/29610429, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: unselektive Adsorptionsverfahren — „HA330 ist ebenfalls ein unselektiver Hämoperfusionsadsorber“."}]
+
+# body text (spec §5.1): section 8.5, pp. 116–118; the decline of p. 117 is a gap notice without an edge
+- [claims/sepsis-lf-4.0/e4f16f7c, supplements, claims/sepsis-lf-4.0/c3b54491, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "S: niedermolekularen Heparins (NMH) — „bei eingeschränkter Nierenfunktion … immer engmaschig evaluiert“, insbesondere bei CrCl < 30 ml/min: eine Maßnahme neben der Prophylaxe."}]
+- [claims/sepsis-lf-4.0/14c07bbb, supplements, claims/sepsis-lf-4.0/c3b54491, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "S: niedermolekularen Heparins (NMH) — „Das Therapiemonitoring sollte in diesen Fällen mittels anti-Xa Spiegelbestimmungen erfolgen“."}]
+- [claims/sepsis-lf-4.0/01fe1a1f, supplements, claims/sepsis-lf-4.0/c3b54491, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "S: pharmakologische Prophylaxe einer venösen Thromboembolie — IPC in Kombination bei ausgewählten Hochrisikopatienten „muss daher individuell vom jeweiligen Behandlungsteam entschieden werden“."}]
+
+# body text (spec §5.1): section 8.8, p. 122; the parts of its rule carry no edge (N5)
+- [claims/sepsis-lf-4.0/7fe8bedb, refines, claims/sepsis-lf-4.0/954220f1, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: Risikofaktoren für gastrointestinale (GI) Blutungen — „einen oder mehrere der 3 unabhängigen Risikofaktoren (…)“."}]
+- [claims/sepsis-lf-4.0/7fe8bedb, refines, claims/sepsis-lf-4.0/e8e24cb6, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: Risikofaktoren für gastrointestinale (GI) Blutungen — „einen oder mehrere der 3 unabhängigen Risikofaktoren (…)“."}]
+
+# body text (spec §5.1): section 8.9, p. 125
+- [claims/sepsis-lf-4.0/5a8b2f2b, refines, claims/sepsis-lf-4.0/c0278d86, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: hochdosiertes Vitamin C — „die hochdosierte intravenöse Vitamin C-Therapie“."}]
+- [claims/sepsis-lf-4.0/d47626f0, refines, claims/sepsis-lf-4.0/c0278d86, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: hochdosiertes Vitamin C — die Substitution des empfohlenen Tagesbedarfs „bleibt davon unberührt“: sie ist keine Hochdosis."}]
+
+# body text (spec §5.1): section 8.10, p. 126; the decline before it is a gap notice without an edge
+- [claims/sepsis-lf-4.0/f5de57b4, limits, claims/sepsis-lf-4.0/9b7703dd, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "L: Natriumbicarbonat … NICHT zu verwenden — bei „metabolischer Azidose mit einem pH ≤ 7,2, und einem AKI (Grad 2 oder 3)“ „sollte … die Gabe individuell mit Abwägung“ erfolgen: die Ausnahme vom „NICHT“."}]
+
+# defined_by (spec §3.2, §5): the concepts whose rules card #225 owns, one edge each, to the top of the rule
+- [concepts/anhaltender-vasopressorbedarf, defined_by, claims/sepsis-lf-4.0/3ebc5588, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "„anhaltender Vasopressorbedarf“ — „Als … wird die Gabe von Noradrenalin ≥ 0,25 µg∙kg-1min-1 über mindestens vier Stunden bezeichnet“ (Empfehlung 8.1, Bemerkung)."}]
+- [concepts/dokumentierte-gerinnungsstoerung, defined_by, claims/sepsis-lf-4.0/2eda54e9, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "„dokumentierter Gerinnungsstörung“ — die Klammer „(Quick < 50 %, APTT > 45 s und/oder Fibrinogen < 1 g/l)“ (S. 109), mit „und/oder“ verknüpft."}]
+- [concepts/gerinnungsstoerung, defined_by, claims/sepsis-lf-4.0/c9c4878d, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "„Gerinnungsstörung“ — „definiert als INR > 1,5 oder Thrombozytenzahl < 50 000/mm3“ (S. 122), am Ort der Aufzählung definiert."}]
+- [concepts/risikofaktoren-fuer-gastrointestinale-blutungen, defined_by, claims/sepsis-lf-4.0/7fe8bedb, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "„Risikofaktoren für gastrointestinale (GI) Blutungen“ — „einen oder mehrere der 3 unabhängigen Risikofaktoren (…)“ (S. 122): die Textstelle, die die drei Faktoren nennt und verknüpft."}]
+
+# cross-statement semantics (spec §5; §5.1 N1): statement → statement within chapter 8
+- [statements/thrombozytengabe-vor-eingriffen-nach-querschnitts-leitlinien, complements, statements/keine-thrombozytentransfusion-ohne-blutung-oder-schwere-thrombozytopenie, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 8.4: „Vor operativen Eingriffen, … soll die Gabe nach Vorgaben der „Querschnitts-Leitlinien …“ der BÄK erfolgen“ — was vor Eingriffen gilt, wo der erste Satz keine Transfusion vorschlägt."}]
+- [statements/kein-hochdosiertes-vitamin-c-bei-sepsis, complements, statements/hydrokortison-bei-septischem-schock-mit-anhaltendem-vasopressorbedarf, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 8.16: hochdosiertes Vitamin C „weder als Monotherapie noch als Kombinationstherapie mit Hydrocortison und hochdosiertem Vitamin B1“ — das Hydrokortison der Empfehlung 8.1 wird nicht um hochdosiertes Vitamin C ergänzt."}]
+- [statements/nmh-mit-anti-xa-kontrollen-oder-ufh-bei-niereninsuffizienz-oder-hohem-vasopressorbedarf, specializes, statements/vte-prophylaxe-mit-nmh-bei-sepsis, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 8.10: „bei hochgradig eingeschränkter Nierenfunktion und/oder septischem Schock mit hohem Vasopressorbedarf entweder … NMH unter engmaschigen anti-Xa Kontrollen oder … UFH“ — der Sonderfall der pharmakologischen VTE-Prophylaxe (8.9) für diese Patienten."}]
+- [statements/ipc-bei-kontraindizierter-pharmakologischer-vte-prophylaxe, complements, statements/vte-prophylaxe-mit-nmh-bei-sepsis, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 8.11: IPC, „wenn eine pharmakologische VTE-Prophylaxe kontraindiziert ist“ — die Alternative, wenn die Prophylaxe der Empfehlung 8.9 nicht angewendet werden kann."}]
+- [statements/stressulkusprophylaxe-mit-ppi-bei-risikofaktoren-fuer-gi-blutungen, specializes, statements/stressulkusprophylaxe-nur-bei-risikofaktoren-fuer-gi-blutungen, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 8.15: die Stressulkusprophylaxe „mit Protonenpumpeninhibitoren“ — womit die Prophylaxe bei vorliegenden Risikofaktoren (8.14) erfolgt."}]

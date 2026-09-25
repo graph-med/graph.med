@@ -1,0 +1,9 @@
+# The action of 7.1 (p. 103); „enterale oder parenterale“ is one concept (hard case 1). „frühe“ has no value from the
+# guideline: the studies of p. 103 give two windows (48 h; 24–96 h), which the G2 exception cannot choose between.
+id: concepts/fruehe-enterale-oder-parenterale-ernaehrung
+type: concept
+lang: de
+label: "Frühe enterale oder parenterale Ernährung unter Monitoring der gastrointestinalen und metabolischen Toleranz"
+short_label: "Frühe enterale oder parenterale Ernährung"
+facet: intervention
+source: modelling

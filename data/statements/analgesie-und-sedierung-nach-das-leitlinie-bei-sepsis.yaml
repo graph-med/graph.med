@@ -1,0 +1,9 @@
+id: statements/analgesie-und-sedierung-nach-das-leitlinie-bei-sepsis
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock bezüglich der Analgesie und Sedierung den Empfehlungen der DAS-Leitlinie folgen."
+short_label: "Analgesie und Sedierung nach DAS-Leitlinie"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/analgesie-und-sedierung-nach-das-leitlinie
+source: modelling

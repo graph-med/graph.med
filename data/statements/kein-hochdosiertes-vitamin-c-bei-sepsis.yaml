@@ -1,0 +1,9 @@
+id: statements/kein-hochdosiertes-vitamin-c-bei-sepsis
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock kein hochdosiertes Vitamin C, weder als Monotherapie noch als Kombinationstherapie mit Hydrocortison und hochdosiertem Vitamin B1 (Thiamin)."
+short_label: "Kein hochdosiertes Vitamin C, mono oder kombiniert"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/hochdosiertes-vitamin-c-als-monotherapie-oder-kombinationstherapie
+source: modelling

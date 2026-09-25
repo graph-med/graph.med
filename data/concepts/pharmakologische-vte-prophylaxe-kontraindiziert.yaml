@@ -1,0 +1,8 @@
+# The condition of 8.11 (p. 117), „wenn eine pharmakologische VTE-Prophylaxe kontraindiziert ist“ (#217 row 8).
+# Stated.
+id: concepts/pharmakologische-vte-prophylaxe-kontraindiziert
+type: concept
+lang: de
+label: "Pharmakologische VTE-Prophylaxe kontraindiziert"
+facet: patient_state
+source: modelling

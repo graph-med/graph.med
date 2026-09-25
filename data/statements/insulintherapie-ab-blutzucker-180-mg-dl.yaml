@@ -1,0 +1,10 @@
+id: statements/insulintherapie-ab-blutzucker-180-mg-dl
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock der Beginn einer Insulintherapie bei einem oberen Blutzuckerspiegel von ≥ 180 mg/dl (≥ 10 mmol/l)."
+short_label: "Insulintherapie ab Blutzucker ≥ 180 mg/dl"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/beginn-einer-insulintherapie
+  condition: [concepts/oberer-blutzuckerspiegel-ab-180-mg-dl]
+source: modelling

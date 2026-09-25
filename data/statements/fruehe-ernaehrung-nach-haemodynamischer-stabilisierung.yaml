@@ -1,0 +1,10 @@
+id: statements/fruehe-ernaehrung-nach-haemodynamischer-stabilisierung
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock nach hämodynamischer Stabilisierung eine frühe enterale oder parenterale Ernährung unter Monitoring der gastrointestinalen und metabolischen Toleranz."
+short_label: "Frühe enterale oder parenterale Ernährung"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/fruehe-enterale-oder-parenterale-ernaehrung
+  condition: [concepts/nach-haemodynamischer-stabilisierung]
+source: modelling

@@ -1,0 +1,10 @@
+id: statements/erythrozytenkonzentrate-bei-hb-unter-7-g-dl-oder-physiologischen-kriterien
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock die Indikation zur Gabe von Erythrozytenkonzentraten bei einem Hb-Wert von < 4,34 mmol/L (< 7.0 g/dl) oder beim Vorliegen physiologischer Transfusionskriterien."
+short_label: "Erythrozyten bei Hb < 7.0 g/dl oder physiol. Kriterien"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/gabe-von-erythrozytenkonzentraten
+  condition: [concepts/hb-wert-unter-4-34-mmol-l-oder-physiologische-transfusionskriterien]
+source: modelling

@@ -1,0 +1,10 @@
+id: statements/stressulkusprophylaxe-nur-bei-risikofaktoren-fuer-gi-blutungen
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock eine Stressulkusprophylaxe nur bei vorliegenden Risikofaktoren für gastrointestinale (GI) Blutungen."
+short_label: "Stressulkusprophylaxe nur bei GI-Blutungsrisiko"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/stressulkusprophylaxe
+  condition: [concepts/risikofaktoren-fuer-gastrointestinale-blutungen]
+source: modelling

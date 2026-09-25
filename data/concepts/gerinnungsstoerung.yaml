@@ -1,0 +1,9 @@
+# p. 122, a risk factor for gastrointestinal bleeding. Derived: its one defined_by edge reaches „Gerinnungsstörung
+# definiert als INR > 1,5 oder Thrombozytenzahl < 50 000/mm3“, the item defined where it stands (#213 item 7). The
+# rule reaches no concept outside card #225. Not concepts/dokumentierte-gerinnungsstoerung (p. 109).
+id: concepts/gerinnungsstoerung
+type: concept
+lang: de
+label: "Gerinnungsstörung"
+facet: finding
+source: modelling

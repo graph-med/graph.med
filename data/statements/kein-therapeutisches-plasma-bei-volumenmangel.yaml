@@ -1,0 +1,10 @@
+id: statements/kein-therapeutisches-plasma-bei-volumenmangel
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock therapeutisches Plasma nicht zur Behandlung eines Volumenmangels, sondern ausschließlich entsprechend den Indikationen der Querschnitts-Leitlinien der BÄK."
+short_label: "Kein Plasma bei Volumenmangel, nur nach BÄK-Indikationen"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/therapeutisches-plasma
+  condition: [concepts/volumenmangel]
+source: modelling

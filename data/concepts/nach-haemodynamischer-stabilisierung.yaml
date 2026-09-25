@@ -1,0 +1,8 @@
+# The condition of 7.1 (p. 103), „nach hämodynamischer Stabilisierung“ (#217 row 8: „nach …“). Stated: the box defines
+# no stabilisation; p. 104 refers to chapters 4.1 and 2.2 for it.
+id: concepts/nach-haemodynamischer-stabilisierung
+type: concept
+lang: de
+label: "Nach hämodynamischer Stabilisierung"
+facet: patient_state
+source: modelling

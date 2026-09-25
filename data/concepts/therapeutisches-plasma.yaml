@@ -1,0 +1,7 @@
+# The action of 8.3 (p. 109); p. 109 names the four kinds available in Germany.
+id: concepts/therapeutisches-plasma
+type: concept
+lang: de
+label: "Therapeutisches Plasma"
+facet: intervention
+source: modelling

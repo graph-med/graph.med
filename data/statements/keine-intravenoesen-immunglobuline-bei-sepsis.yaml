@@ -1,0 +1,9 @@
+id: statements/keine-intravenoesen-immunglobuline-bei-sepsis
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock keine intravenösen Immunglobuline."
+short_label: "Keine intravenösen Immunglobuline"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/intravenoese-immunglobuline
+source: modelling

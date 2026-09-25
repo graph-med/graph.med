@@ -1,0 +1,9 @@
+# p. 109, in the voice of the expert opinion it reports. Derived: its one defined_by edge reaches „(Quick < 50 %, APTT
+# > 45 s und/oder Fibrinogen < 1 g/l)“, any_of over three values. Not concepts/gerinnungsstoerung, whose rule p. 122
+# prints (hard case 11: two concepts, never one concept with two rules).
+id: concepts/dokumentierte-gerinnungsstoerung
+type: concept
+lang: de
+label: "Dokumentierte Gerinnungsstörung"
+facet: finding
+source: modelling

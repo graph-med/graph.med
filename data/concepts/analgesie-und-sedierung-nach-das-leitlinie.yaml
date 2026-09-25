@@ -1,0 +1,9 @@
+# The action of 8.12 (p. 118): to follow the delegated guideline (hard case 7), whose content (p. 119) is not
+# extracted: it fails spec §5.1 G2.
+id: concepts/analgesie-und-sedierung-nach-das-leitlinie
+type: concept
+lang: de
+label: "Analgesie und Sedierung nach den Empfehlungen der DAS-Leitlinie"
+short_label: "Analgesie und Sedierung nach DAS-Leitlinie"
+facet: intervention
+source: modelling

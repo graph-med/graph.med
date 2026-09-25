@@ -1,0 +1,8 @@
+# The condition of 8.4's second sentence (p. 109): the procedures ahead, one concept for the source's „oder“.
+id: concepts/vor-operativen-eingriffen-zentralvenoesen-punktionen-oder-liquorpunktion
+type: concept
+lang: de
+label: "Vor operativen Eingriffen, zentralvenösen Punktionen bzw. Zugängen oder Liquorpunktion"
+short_label: "Vor OP, zentralvenöser Punktion oder Liquorpunktion"
+facet: procedure
+source: modelling
