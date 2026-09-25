@@ -126,7 +126,8 @@ decision-graph-derivation):
        ╱ Gastrektomie ╲ Kolorektale Resektion …  answers on the edges (population slot)
       ●                ●                          junction per group
       │                ├──── ◇ Welche Bedingung? question (ours)
-      │                │       ╲ Amylase < …     answer on the edge (condition slot)
+      │                │       ╲ Amylase < …     answer on the edge (condition slot;
+      │                │                         several conditions: one answer, "und")
    ┌──┴────────┐   ┌───┴───────┐ ┌───┴───────┐
    │ recommend.│   │ recommend.│ │ recommend.│    the statements — boxes coloured by
    └─────┬─────┘   └───────────┘ └───────────┘    direction (für · gegen · abwägen · Lücke),
@@ -137,13 +138,33 @@ decision-graph-derivation):
 ```
 
 - **The questions are ours; every answer is data.** "Welche Population?" and
-  "Welche Bedingung?" are the only text the build adds, in the view's source
-  language (a language the build has no words for fails the build; nothing falls
-  back to English). Each answer on an edge is a
+  "Welche Bedingung?" are the only text the build adds, with the conjunction
+  below, in the view's source language (a language the build has no words for
+  fails the build; nothing falls back to English). Each answer on an edge is a
   population or condition concept; each box is a statement with its claims' grade;
   each aim an outcome concept. Nothing else is invented — in particular no yes/no
   branches and no ordering between conditions, which is what authored pathways will
   add (`graph-representation.md` §5, `branch` edges with a `guard`).
+- **Several conditions are one answer.** A statement's conditions hold at once
+  (`graph-representation.md` §3.2), so the condition question answers a statement
+  with several by **one** answer naming all of them, in the order stored, each
+  by its short form on a line of its own and every line after the first opened
+  by the conjunction from the build's words table (`und`): `Invasive Beatmung` /
+  `und ARDS` / `und PaO2/FiO2 < 150`. The box is reached exactly once, and never
+  through one condition alone — one answer per condition would draw a path to
+  the box that names one of them, as if it sufficed; asking one after another
+  would invent an order the source does not give. The line per condition keeps
+  a label's own "oder" (a disjunction is one concept) from reading across the
+  join. One condition is the same rule with no conjunction: its answer names it,
+  as always. Every answer carries the ids of what it names, one or several
+  (`refs` in the view's JSON; a node stands for one entity, its `ref`), and a
+  condition is found wherever it is one of them, by one rule for one and for
+  several: tapping an answer selects every concept it names, wherever each
+  appears, and opens the details of each in the order named, a card after the
+  other (the strip on a phone names every title, one to a line); a deep link or a link in the
+  section to one condition selects it wherever it is named, alone or with
+  others, the box it leads to included; the search finds the answer by any of
+  them.
 - **Patient groups converge.** Statements sharing a population hang from one
   junction, so the tree shows at a glance what the guideline says for, say,
   colorectal resection. A condition is asked within its group.
@@ -265,7 +286,8 @@ the tree readable at ninety recommendations:
   sheet lists them apart from the group's own, under "Allgemein geltende
   Empfehlungen": grouped by the concept each was made for, with the condition of
   the scope edges on the way ("Voraussetzung", every condition on the path holding
-  at once; of several paths the one with the fewest conditions counts), then each
+  at once and joined as zone 5 joins a statement's; of several paths the one with
+  the fewest conditions counts), then each
   recommendation with its number, page and section. The statement card names the
   other side in zone 5. The origin is data, not only rendering: the view's JSON
   carries `scope` — its anchor slot, its root, and per concept `own` (the
@@ -341,8 +363,9 @@ left so that it runs out below and to the right, never under the controls — an
 a **reset** button beside it that returns the page to its
 opening state — folded, no search, no facet, no chapter, nothing selected — so the
 way back from any search or filter is one tap. Tapping a node or an answer selects it: what leads to it and what
-follows it stay, everything else fades, and its details open in the **section
-below the graph** — on a wide screen, in a **column beside it**, the graph taking
+follows it stay — for an answer, the question it answers and the box it leads
+to —, everything else fades, and its details open in the **section below the
+graph** — on a wide screen, in a **column beside it**, the graph taking
 the full height; the graph stays where it is either way, so the reader keeps their
 place, and the section opens at its top, the title, on every selection — never in
 the middle of the card before it. **On a phone the details wait in a peek strip**
@@ -354,7 +377,8 @@ again or Escape lowers it. The page itself never scrolls: not on a tap, not on
 raising or lowering, and the graph is where the reader left it. The strip is
 built in the browser from the card's own title, band and chips, and a wide
 screen does not show it. Tapping the background clears. Tapping a concept linked in the section
-moves the graph there. Deep links carry `#<entity id>`, and `?by=<grouping>` when the tree is
+moves the graph there. Deep links carry `#<entity id>` — what an answer naming several
+concepts selects, their ids joined by a comma —, and `?by=<grouping>` when the tree is
 grouped by the chapters or an axis. There are no modal dialogs and no page
 loads needed to read a view; the entity pages (§4) exist for linking, not for reading.
 
@@ -384,7 +408,8 @@ kind:
 - **A search box** is a *soft highlight*: it matches the label, short label,
   slot concepts and claim text of statements, the labels of patient groups, and
   the answers on the edges — a condition is an edge, not a node, and must be found
-  all the same — without regard to case or diacritics; matches keep their colour
+  all the same, an answer naming several by each of them — without regard to case
+  or diacritics; matches keep their colour
   and everything else fades without disappearing, so "Leber" shows every branch
   the liver occurs in and, just as usefully, where it does not. A counter reads "n
   matches in m sections". Hiding would destroy the overview the search exists to
@@ -514,7 +539,7 @@ glyph. Timing
      `Dopamin | Hoch`, `oXiris® | Mortalität | Sehr niedrig`: the key is never
      shown as an endpoint. A table without a key reads as above, and a row
      of the statement JSON carries `key` only where its entry has one.
-  5. **Applies to.** The slots as rows: `Eingriff` (population, with the
+  5. **Applies to.** The slots as rows: `Patientengruppe` (population, with the
      families it belongs to below it, after `gehört zu:`, so that they read as
      broader categories and not as further requirements), `Bedingung` (condition), `Maßnahme`
      (action), then one row for every dimension axis that gives the
@@ -536,6 +561,29 @@ glyph. Timing
      `outcome` slot has no row: an endpoint is the dimension the certainty
      varies along, which is zone 4's business; the slot stays in the schema and
      the data and is listed under zone 9.
+
+     **The row's word is the slot's, never a graph's.** `Patientengruppe` is
+     the word the page already uses for what the population slot holds — the
+     legend keys the junction a statement hangs from as a patient group, and the
+     index reads the trees "von der Patientengruppe über die Bedingung zur
+     Empfehlung" — and it holds for an operation (`Gastrektomie`) and a state
+     (`Septischer Schock`) alike. The label of the view's first axis cannot
+     name the row: the card belongs to the statement, not to a view — it is the
+     same on the entity page, which has no view, and in every view the
+     statement is in.
+
+     **Several conditions, each once, all at once.** The `Bedingung` row names
+     every condition of the statement, in the order stored, each with its own
+     link or count and, where it is derived, its own rule under it (below);
+     every condition after the first stands on a line of its own opened by the
+     conjunction (`und`), in a column of its own, so that the row says that all
+     of them must hold and no label's own "oder" reads across the join. No
+     condition is dropped, shortened into another or shown alone; one condition
+     is the same row without a conjunction. A reference outside the pool (a
+     terminology not imported) is named by its id, plain, never left out. The
+     statement JSON keeps each slot in the shape the pool stores it: `geltung`
+     and zone 9's slots hold the conditions as a list, one row per condition,
+     for one condition too, and every other slot as its one row.
 
      **A derived concept shows its rule.** Under a row whose concept is
      derived (`graph-representation.md` §3.2: it has a `defined_by` edge) — the

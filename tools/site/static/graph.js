@@ -138,11 +138,19 @@
      the middle of the next card. Below 900 px a selection leaves the page where it is: the details wait in a peek
      strip at the bottom edge, carrying what the card's band carries — the direction colour, the title, the
      judgement and the grade — built from the card itself, so that no word or value is written here. Tapping the
-     strip raises the panel over the graph; the strip again, ✕ or Escape lowers it. A wide screen never shows it. */
+     strip raises the panel over the graph; the strip again, ✕ or Escape lowers it. A wide screen never shows it.
+     A selection of several entities (an answer naming several conditions) is a card for each, one after another:
+     the strip names every card's title, one to a line, and each card after the first numbers the ids its template repeats. */
   function fill(html) {
     sheet.innerHTML = html;
     sheet.classList.remove("peeking", "raised");
-    var card = sheet.querySelector(".card"), title = card && card.querySelector("h2.title, .label");
+    var cards = Array.prototype.slice.call(sheet.querySelectorAll(".card")), card = cards[0], title = card && card.querySelector("h2.title, .label");
+    cards.forEach(function (c, i) {
+      if (i) c.querySelectorAll("[id], [aria-labelledby]").forEach(function (el) {
+        if (el.id) el.id += "-" + i;
+        if (el.hasAttribute("aria-labelledby")) el.setAttribute("aria-labelledby", el.getAttribute("aria-labelledby") + "-" + i);
+      });
+    });
     if (card && title) {
       var band = card.querySelector(".zone.judgement"), dir = "";
       if (band) band.classList.forEach(function (c) { if (c.indexOf("dir-") === 0) dir = c; });
@@ -151,7 +159,12 @@
       peek.type = "button"; peek.className = "peek"; peek.setAttribute("aria-expanded", "false"); peek.setAttribute("aria-controls", "sheet");
       var sw = document.createElement("span"), text = document.createElement("span"), t = document.createElement("span"), verdict = document.createElement("span");
       sw.className = "sw-band"; sw.setAttribute("aria-hidden", "true"); text.className = "peek-text";
-      t.className = "peek-title"; t.textContent = title.textContent.trim(); t.lang = card.lang;
+      t.className = "peek-title" + (cards.length > 1 ? " several" : "");
+      cards.forEach(function (c) {   /* each card's title in its own language; several stand one to a line, each cut on its own */
+        var s = document.createElement("span"), h = c.querySelector("h2.title, .label");
+        s.lang = c.lang; s.textContent = h ? h.textContent.trim() : "";
+        t.appendChild(s);
+      });
       verdict.className = "verdict"; verdict.lang = card.lang;
       var answer = band && band.querySelector(".line1 .answer"), parts = [];
       if (answer && answer.textContent.trim()) {
@@ -193,7 +206,7 @@
   var elements = [], types = {};
   tree.nodes.forEach(function (n) { types[n.id] = n.type; });
   tree.nodes.forEach(function (n) {
-    elements.push({ data: { id: n.id, ref: n.ref || "", type: n.type, label: n.label || "", group: n.group || "",
+    elements.push({ data: { id: n.id, refs: n.ref ? [n.ref] : [], type: n.type, label: n.label || "", group: n.group || "",
       direction: n.direction || "", contested: n.contested ? 1 : 0,
       sections: n.sections || [], text: fold(n.text), facets: n.facets || [], general: n.general || [] } });
   });
@@ -202,9 +215,10 @@
        ten answers fanning out of one question do not pile up at the edges' midpoints. The label is
        anchored where the arrow meets the target's boundary; the margin moves its centre left by half
        its width (estimated from the text, capped at the wrap width) and a small gap, so it ends just
-       before the arrow and, with the rank separation below, never reaches the rank before */
-    var width = Math.min(170, 6.2 * (e.label || "").length);
-    elements.push({ data: { id: "e" + i, source: e.from, target: e.to, kind: e.kind, label: e.label || "", ref: e.ref || "", text: fold(e.text),
+       before the arrow and, with the rank separation below, never reaches the rank before. An answer naming
+       several conditions has a line for each, so its widest line is measured */
+    var width = Math.min(170, 6.2 * Math.max.apply(null, (e.label || "").split("\n").map(function (l) { return l.length; })));
+    elements.push({ data: { id: "e" + i, source: e.from, target: e.to, kind: e.kind, label: e.label || "", refs: e.refs || [], text: fold(e.text),
       lm: -(width / 2 + 10), turn: -200 } });   /* turn: where the edge's vertical run lies, set by route() after every layout */
   });
 
@@ -346,14 +360,28 @@
     closed[q.id()] = force === undefined ? !closed[q.id()] : force;
     relayout(closed[q.id()] ? q.closedNeighborhood() : q.union(q.successors()));
   }
+  /* what leads to a selection and what follows it, and what it is shown with. An answer is an edge, and Cytoscape walks
+     from nodes only — an edge has no predecessors, successors or neighbours of its own —, so an edge is walked back
+     from its source and on from its target, and shown with both: the question it answers and the box it leads to */
+  function before(eles) { var from = eles.nodes().union(eles.edges().sources()); return eles.union(from).union(from.predecessors()); }
+  function after(eles) { var to = eles.nodes().union(eles.edges().targets()); return eles.union(to).union(to.successors()); }
+  function near(eles) { return eles.closedNeighborhood().union(eles.edges().connectedNodes()); }
   function unfoldTo(eles) {   /* a deep link or a search reaches its target through every folded question on the way */
     var changed = false;
-    eles.union(eles.predecessors()).filter("node[type = 'question']").forEach(function (q) { if (closed[q.id()]) { delete closed[q.id()]; changed = true; } });
+    before(eles).filter("node[type = 'question']").forEach(function (q) { if (closed[q.id()]) { delete closed[q.id()]; changed = true; } });
     return changed;
   }
 
-  /* selection: what leads to the element and what follows it stays; the rest fades; the sheet fills */
-  function select(eles, ref, push) {
+  /* what the page selects by: the entities an element names — a node the one it stands for, an answer each concept
+     it names (a patient group, a value, a statement's conditions, which hold at once), none for a question. The
+     elements naming any of `refs` are where each of them appears, so a condition is found wherever it is one of an
+     answer's conditions: by a tap, a deep link, a link in the section, a step */
+  function naming(refs) {
+    return cy.elements().filter(function (e) { return e.data("refs").some(function (r) { return refs.indexOf(r) >= 0; }); });
+  }
+  /* selection: what leads to the elements and what follows them stays; the rest fades; the sheet fills with the details
+     of each entity selected, in the order named, and the URL carries their ids, joined by a comma */
+  function select(eles, refs, push) {
     related(null); general(null);
     cy.elements().removeClass("dim picked");
     if (!eles || eles.empty()) {
@@ -361,42 +389,44 @@
       if (push) history.replaceState(null, "", location.pathname + location.search);
       return;
     }
-    var keep = eles.union(eles.predecessors()).union(eles.successors());
+    var keep = before(eles).union(after(eles));
     cy.elements().not(keep).addClass("dim");
     eles.addClass("picked");
     related(eles); general(eles);
-    fill(data.html[ref] || home);
-    if (push) history.replaceState(null, "", "#" + ref);
+    fill(refs.map(function (r) { return data.html[r] || ""; }).join("") || home);
+    if (push) history.replaceState(null, "", "#" + refs.join(","));
   }
+  /* a tap selects what the element names, wherever each appears (naming): a box its statement, a group its concept,
+     an answer every concept it names — one or several, by one rule */
   cy.on("tap", "node, edge", function (evt) {
-    var t = evt.target, ref = t.data("ref");
+    var t = evt.target, refs = t.data("refs");
     if (t.isNode() && t.data("type") === "question") { foldQuestion(t); return; }
     var j = t.isNode() && t.data("type") === "junction" ? t : (t.isEdge() && t.data("kind") === "answer" && t.target().data("type") === "junction" ? t.target() : null);
     if (j) { toggle(j); }
-    if (!ref) return;
-    var eles = cy.elements("[ref = '" + ref + "']");
-    select(eles, ref, true);
-    if (!j) fit(eles.closedNeighborhood().not(".folded"), 40);
+    if (!refs.length) return;
+    var eles = naming(refs);
+    select(eles, refs, true);
+    if (!j) fit(near(eles).not(".folded"), 40);
   });
   cy.on("tap", function (evt) { if (evt.target === cy) select(null, null, true); });
   /* the page's own handlers are assigned, not added, so that a redraw under another axis replaces them */
   document.getElementById("fit").onclick = function () { fit(cy.elements().not(".folded"), 20); };
   window.onresize = function () { cy.resize(); };
 
-  function open_(ref, push) {
-    var eles = ref ? cy.elements("[ref = '" + ref + "']") : cy.collection();
+  function open_(hash, push) {   /* a deep link: the ids of what is selected, joined by a comma (select) */
+    var refs = hash ? hash.split(",") : [], eles = naming(refs);
     if (eles.empty()) { relayout(cy.elements()); return; }
-    var groups = eles.union(eles.predecessors()).filter("[type = 'junction']");
+    var groups = before(eles).filter("[type = 'junction']");
     groups.forEach(function (j) { open[j.id()] = true; });
     unfoldTo(eles);
-    relayout(eles.closedNeighborhood());
-    select(eles, ref, push);
+    relayout(near(eles));
+    select(eles, refs, push);
   }
   sheet.onclick = function (e) {
     if (e.target.closest(".peek-close")) { raise(false); return; }
     if (e.target.closest(".peek")) { raise(!sheet.classList.contains("raised")); return; }
     var a = e.target.closest("a.node-link");
-    if (a && cy.elements("[ref = '" + a.dataset.node + "']").nonempty()) { e.preventDefault(); open_(a.dataset.node, true); if (window.innerWidth < 900) window.scrollTo({ top: 0, behavior: "smooth" }); }
+    if (a && naming([a.dataset.node]).nonempty()) { e.preventDefault(); open_(a.dataset.node, true); if (window.innerWidth < 900) window.scrollTo({ top: 0, behavior: "smooth" }); }
   };
 
   /* the chapter tree: every section of the outline with the number of recommendations
@@ -500,9 +530,9 @@
     if (laying) { laying.one("layoutstop", function () { step(dir); }); return; }
     var list = ordered(), len = list.length;
     if (!len) return;
-    var i = position(list), n = list[dir < 0 ? (i < 0 ? len - 1 : (i + len - 1) % len) : (i + 1) % len], ref = n.data("ref");   /* from no place: the first, or the last when stepping back */
+    var i = position(list), n = list[dir < 0 ? (i < 0 ? len - 1 : (i + len - 1) % len) : (i + 1) % len], refs = n.data("refs");   /* from no place: the first, or the last when stepping back */
     cursor = n.id();
-    if (ref) select(cy.elements("[ref = '" + ref + "']"), ref, true); else { select(null, null, true); n.addClass("picked"); }   /* a chapter node has no entity behind it */
+    if (refs.length) select(naming(refs), refs, true); else { select(null, null, true); n.addClass("picked"); }   /* a chapter node has no entity behind it */
     fit(n.closedNeighborhood().not(".folded"), 40);
     counter();
   }

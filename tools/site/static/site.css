@@ -144,6 +144,7 @@ ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1re
 
 /* the sheet below the graph, and the entity page */
 .sheet { border-top: 2px solid var(--line); padding-top: .6rem; }
+.sheet .card + .card { margin-top: 1.2rem; padding-top: .6rem; border-top: 1px solid var(--line); }   /* several selected (an answer naming several conditions): a card each */
 .kind { margin: .2rem 0; color: var(--mute); font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; }
 .label { font-size: 1.15rem; margin: .2rem 0 .6rem; }
 dl.slots { display: grid; grid-template-columns: max-content 1fr; gap: .2rem .8rem; margin: 0 0 .5rem; }
@@ -188,6 +189,8 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
   .peek .sw-band { flex: none; width: 1.3rem; height: 1.3rem; border-radius: .3rem; background: var(--band, var(--line)); }
   .peek-text { min-width: 0; display: flex; flex-direction: column; }
   .peek-title { font-weight: 600; font-size: .95rem; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .peek-title.several { white-space: normal; }   /* several cards: a title to a line, so that none hides another */
+  .peek-title.several > span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .peek .verdict { font-size: .85rem; line-height: 1.3; color: var(--mute); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .peek .verdict .answer { color: var(--fg); font-weight: 600; }
   .peek .verdict .glyph { font-weight: 400; }
@@ -291,6 +294,13 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card dl.slots dd .families { flex-basis: 100%; color: var(--mute); font-size: .85rem; }
 .card dl.slots dd .families-label { margin-right: .15rem; }   /* "gehört zu:" — broader categories, not further requirements */
 .card dl.slots dd .families .node-link { min-height: 32px; }
+/* concepts that hold at once (a statement's conditions, a scope path's): every entry after the first on a line of its
+   own, opened by the conjunction, so that no label's own "oder" reads across the join; in a row, the conjunction
+   stands in a column of its own and the entry beside it is laid out like the row's first */
+.card .and { display: block; }
+.card .and > .conj { font-weight: 600; }
+.card dl.slots dd > .and { flex-basis: 100%; display: flex; align-items: baseline; column-gap: .4rem; }
+.card dl.slots dd > .and > .entry { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; column-gap: .4rem; }
 .card ul.body li p { margin: .2rem 0; }
 /* what applies generally to a concept (docs/publication.md §3): set apart under its own heading, below the concept's
    own statements, each entry the statement, where it stands, the concept it was made for and the condition; and on
