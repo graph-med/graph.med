@@ -1,0 +1,9 @@
+# A quantity, named by the thresholds that bound it (spec §3.1): "Hochvolumen Dosis … > 50 ml/kg/h" (p. 99) and
+# "bei einer Dosis von ≥ 50ml/kg/h" (p. 101); labelled as section 6.6 names it ("Adäquate Dosis eines
+# Nierenersatzverfahrens", p. 98).
+id: concepts/dosis-nierenersatzverfahren
+type: concept
+lang: de
+label: "Dosis eines Nierenersatzverfahrens"
+facet: finding
+source: modelling

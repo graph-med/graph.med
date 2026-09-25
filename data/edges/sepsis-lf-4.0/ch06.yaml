@@ -1,0 +1,84 @@
+# Edges of card #224 (chapter 6 of sources/sepsis-lf-4.0): the supports edges of the box claims, the body-text
+# edges of spec §5.1 (rationale: the clause and the term as printed), the two defined_by edges #217's ledger
+# assigns to #224, and the cross-statement edges within the chapter (§5.1 N1). All modelling.
+# evidence: each box sentence of recommendation form supports its statement
+- [claims/sepsis-lf-4.0/e98e2366, supports, statements/nierenersatzverfahren-nur-durch-intensivmediziner-oder-nephrologen, {source: modelling}]
+- [claims/sepsis-lf-4.0/107e01da, supports, statements/nierenersatztherapie-unverzueglich-bei-lebensbedrohlichen-veraenderungen, {source: modelling}]
+- [claims/sepsis-lf-4.0/0daf9a85, supports, statements/nierenersatzverfahren-ohne-zuwarten-wenn-zu-erwarten, {source: modelling}]
+- [claims/sepsis-lf-4.0/681660e4, supports, statements/konservative-massnahmen-wenn-nierenersatz-unklar, {source: modelling}]
+- [claims/sepsis-lf-4.0/79e67dc9, supports, statements/diffusive-oder-konvektive-verfahren-gleichwertig, {source: modelling}]
+- [claims/sepsis-lf-4.0/fdb52a43, supports, statements/kontinuierlich-oder-intermittierend-gleichwertig-bei-aki, {source: modelling}]
+- [claims/sepsis-lf-4.0/60d81464, supports, statements/verfahrenswahl-nach-individueller-klinischer-situation, {source: modelling}]
+- [claims/sepsis-lf-4.0/398ceb7f, supports, statements/kontinuierlich-oder-verlaengert-intermittierend-bei-instabilitaet, {source: modelling}]
+- [claims/sepsis-lf-4.0/0c90ec27, supports, statements/citrat-oder-heparin-antikoagulation-gleichwertig, {source: modelling}]
+- [claims/sepsis-lf-4.0/64062a0d, supports, statements/mittlere-dosis-kontinuierliches-nierenersatzverfahren, {source: modelling}]
+- [claims/sepsis-lf-4.0/4972092d, supports, statements/keine-hochvolumige-haemofiltration, {source: modelling}]
+# body text (spec §5.1)
+- [claims/sepsis-lf-4.0/4a2772c0, supplements, claims/sepsis-lf-4.0/e98e2366, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "S: „extrakorporale Nierenersatzverfahren … indiziert und durchgeführt“ — eine Maßnahme daneben: die Nierenersatztherapie in das ganzheitliche Behandlungskonzept der Intensivpatienten integrieren."}]
+- [claims/sepsis-lf-4.0/18302780, supplements, claims/sepsis-lf-4.0/e98e2366, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "S: „extrakorporale Nierenersatzverfahren … indiziert und durchgeführt“ — eine Maßnahme daneben: darauf achten, dass die Nierenersatztherapie kompatibel zu anderen apparativen Organunterstützungssystemen angewendet wird."}]
+- [claims/sepsis-lf-4.0/ed376099, refines, claims/sepsis-lf-4.0/107e01da, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „lebensbedrohlichen Veränderungen des Flüssigkeits-, Säure-Basen- oder Elektrolythaushaltes“ — die Tabelle der absoluten Indikationen nennt die Fälle (Hyperkaliämie, Azidose, Volumenüberladung, Urämie)."}]
+- [claims/sepsis-lf-4.0/dd250a50, refines, claims/sepsis-lf-4.0/0daf9a85, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „wenn aufgrund der klinischen Situation, des Krankheitsverlaufes und/oder der Vorerkrankungen eine Nierenersatztherapie bei AKI zu erwarten ist“ — das KDIGO-Stadium allein ist keine valide Entscheidungsgrundlage für den Beginn."}]
+- [claims/sepsis-lf-4.0/4d47d586, refines, claims/sepsis-lf-4.0/79e67dc9, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „diffusive Nierenersatzverfahren oder konvektive Verfahren“ — Dialyseverfahren sind die diffusiven, Filtrationsverfahren die konvektiven."}]
+- [claims/sepsis-lf-4.0/99d65948, refines, claims/sepsis-lf-4.0/fdb52a43, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „kontinuierliche oder intermittierende Verfahren“ — kontinuierliche Nierenersatztherapie (CRRT), intermittierende Nierenersatztherapie/Hämodialyse (IHD) oder prolongierte intermittierende Nierenersatztherapie (PIRRT)."}]
+- [claims/sepsis-lf-4.0/99d65948, refines, claims/sepsis-lf-4.0/60d81464, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „kontinuierliche oder intermittierende Verfahren“ — kontinuierliche Nierenersatztherapie (CRRT), intermittierende Nierenersatztherapie/Hämodialyse (IHD) oder prolongierte intermittierende Nierenersatztherapie (PIRRT)."}]
+- [claims/sepsis-lf-4.0/99d65948, refines, claims/sepsis-lf-4.0/398ceb7f, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „kontinuierliches oder verlängert intermittierendes Verfahren“ — kontinuierliche Nierenersatztherapie (CRRT) oder prolongierte intermittierende Nierenersatztherapie (PIRRT)."}]
+- [claims/sepsis-lf-4.0/e2d0dbcf, refines, claims/sepsis-lf-4.0/fdb52a43, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „kontinuierlich“ — eine CRRT läuft unter idealen Bedingungen 24 Stunden pro Tag unterbrechungsfrei."}]
+- [claims/sepsis-lf-4.0/e2d0dbcf, refines, claims/sepsis-lf-4.0/60d81464, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „kontinuierlich“ — eine CRRT läuft unter idealen Bedingungen 24 Stunden pro Tag unterbrechungsfrei."}]
+- [claims/sepsis-lf-4.0/e2d0dbcf, refines, claims/sepsis-lf-4.0/398ceb7f, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „kontinuierlich“ — eine CRRT läuft unter idealen Bedingungen 24 Stunden pro Tag unterbrechungsfrei."}]
+- [claims/sepsis-lf-4.0/60905670, refines, claims/sepsis-lf-4.0/fdb52a43, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „intermittierend“ — eine IHD wird in der Regel für 4-6 Stunden pro Tag durchgeführt."}]
+- [claims/sepsis-lf-4.0/60905670, refines, claims/sepsis-lf-4.0/60d81464, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „intermittierend“ — eine IHD wird in der Regel für 4-6 Stunden pro Tag durchgeführt."}]
+- [claims/sepsis-lf-4.0/fdc9e90f, refines, claims/sepsis-lf-4.0/60d81464, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: individuelle klinische Situation — insbesondere Hirndruck, Leberversagen, Flüssigkeitsüberschuss, Thrombopenie und die hämodynamische Stabilität."}]
+- [claims/sepsis-lf-4.0/dc3f9570, refines, claims/sepsis-lf-4.0/398ceb7f, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „hämodynamisch instabilen Patienten“ — die Subgruppe der hämodynamisch, deutlich instabilen Patienten; die Wiederholung zählt nur für „deutlich“ (G3)."}]
+- [claims/sepsis-lf-4.0/3e456edd, refines, claims/sepsis-lf-4.0/0c90ec27, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „systemische Heparin-Antikoagulation“ — unfraktioniertes Heparin (aktueller Standard bei der intermittierenden Hämodialyse) oder fraktioniertes Heparin."}]
+- [claims/sepsis-lf-4.0/9d26bfa0, limits, claims/sepsis-lf-4.0/0c90ec27, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "L: „systemische Heparin-Antikoagulation“ — nicht bei Heparin-induzierter Thrombozytopenie Typ II; dann Argatroban oder Danaparoid."}]
+- [claims/sepsis-lf-4.0/0c3e3bc9, limits, claims/sepsis-lf-4.0/0c90ec27, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "L: „gleichwertig“ — bei Kontraindikationen gegen Heparin (z. B. HIT) und bei erhöhtem Blutungsrisiko ist die regionale Citrat-Antikoagulation anzuwenden."}]
+- [claims/sepsis-lf-4.0/5cbcc48a, limits, claims/sepsis-lf-4.0/0c90ec27, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "L: „regionale Citrat-Antikoagulation“ — nicht bei ausgeprägter, progredienter Laktatazidose im Rahmen eines Schocks oder schwerem Leberversagen."}]
+- [claims/sepsis-lf-4.0/06a52d81, supplements, claims/sepsis-lf-4.0/0c90ec27, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "S: „regionale Citrat-Antikoagulation“ — daneben ein enges Monitoring der Citrat-Akkumulation."}]
+- [claims/sepsis-lf-4.0/2f1a8ce1, limits, claims/sepsis-lf-4.0/0c90ec27, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "L: „regionale Citrat-Antikoagulation“ — eine enggefasste Indikationsstellung aufgrund der komplexen metabolischen Situation."}]
+- [claims/sepsis-lf-4.0/fb55313d, refines, claims/sepsis-lf-4.0/64062a0d, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „Dosis“ (für ein kontinuierliches Nierenersatzverfahren) — primär über die Menge des Effluats definiert."}]
+- [claims/sepsis-lf-4.0/d948f8e7, refines, claims/sepsis-lf-4.0/64062a0d, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „Dosis“ — für die CVVH (Substituatmenge + ggf. Citratflüssigkeit) + Volumenentzug /kgKG in ml/kg/h; Antwort 1 von 3."}]
+- [claims/sepsis-lf-4.0/a252cd87, refines, claims/sepsis-lf-4.0/64062a0d, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „Dosis“ — für die CVVHD (Dialysatfluss + Volumenentzug) /kgKG in ml/kg/h; Antwort 2 von 3."}]
+- [claims/sepsis-lf-4.0/6834bd41, refines, claims/sepsis-lf-4.0/64062a0d, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „Dosis“ — für die CVVHDF ((Substituatmenge + ggf. Citratflüssigkeit) + Dialysatfluss + Volumenentzug) /kgKG in ml/kg/h; Antwort 3 von 3."}]
+- [claims/sepsis-lf-4.0/dadd79ec, refines, claims/sepsis-lf-4.0/4972092d, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „hochvolumige (high-volume)“ — Hochvolumen Dosis > 50 ml/kg/h; eine andere Schwelle für denselben Begriff als S. 101 („≥ 50ml/kg/h“), der Widerspruch ist benannt."}]
+- [claims/sepsis-lf-4.0/b13497d6, refines, claims/sepsis-lf-4.0/64062a0d, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „eine mittlere Dosis von 20-25 ml/kg/h … zu verabreichen“ — die Zieldosis; verschrieben wird etwas höher (z. B. 25-30 ml/h/kg)."}]
+- [claims/sepsis-lf-4.0/863077be, refines, claims/sepsis-lf-4.0/4972092d, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „hochvolumige (high-volume) Hämofiltration“ — die Grenze bei einer Dosis von ≥ 50ml/kg/h; S. 99 druckt „> 50 ml/kg/h“ (eigener Claim), der Widerspruch ist benannt."}]
+# defined_by (spec §3.2, §5): one edge per derived concept, to the claim at the top of its rule
+- [concepts/lebensbedrohliche-veraenderungen-fluessigkeits-saeure-basen-elektrolythaushalt, defined_by, claims/sepsis-lf-4.0/ed376099, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "„lebensbedrohlichen Veränderungen des Flüssigkeits-, Säure-Basen- oder Elektrolythaushaltes“ — „In der Tabelle werden lebensbedrohliche Veränderungen als absolute Indikationen für eine Nierenersatztherapie (NET) aufgeführt“: die Tabelle, deren vier Zeilen die Fälle nennen; wie sie sich verbinden, sagt die Seite nicht (not_stated). Die Zeile Urämie gehört zu keiner der drei Kategorien, die der Begriff nennt."}]
+- [concepts/kontinuierliche-hochvolumige-haemofiltration, defined_by, claims/sepsis-lf-4.0/863077be, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "„hochvolumige (high-volume) Hämofiltration“ — „Die Leitliniengruppe hat dabei entschieden, die Grenze für hochvolumige Hämofiltration bei einer Dosis von ≥ 50ml/kg/h zu setzen“ (S. 101): die Grenze, die die Leitlinie selbst für den Begriff der Empfehlung setzt. S. 99 druckt für die „Hochvolumen Dosis“ „> 50 ml/kg/h“ (eigener Claim, ohne Kante zum Begriff); keine Textstelle verbindet beide, der Widerspruch ist benannt."}]
+# cross-statement semantics (spec §5): what one box says of another (§5.1 N1)
+- [statements/konservative-massnahmen-wenn-nierenersatz-unklar, complements, statements/nierenersatzverfahren-ohne-zuwarten-wenn-zu-erwarten, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlungen 6.3 und 6.4: „wenn … eine Nierenersatztherapie bei AKI zu erwarten ist“ und „Unklarheit, ob eine Nierenersatztherapie zu erwarten ist“ — der andere Fall derselben Frage, wann ein Nierenersatzverfahren begonnen wird."}]
+- [statements/kontinuierlich-oder-verlaengert-intermittierend-bei-instabilitaet, specializes, statements/kontinuierlich-oder-intermittierend-gleichwertig-bei-aki, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlungen 6.6 und 6.7: bei „hämodynamisch instabilen Patienten“ ein „kontinuierliches oder verlängert intermittierendes Verfahren“ statt „kontinuierliche oder intermittierende Verfahren gleichwertig“ — der Sonderfall der allgemeinen Aussage; S. 96: „in der Subgruppe der hämodynamisch, deutlich instabilen Patienten“."}]
+- [statements/verfahrenswahl-nach-individueller-klinischer-situation, complements, statements/kontinuierlich-oder-intermittierend-gleichwertig-bei-aki, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 6.6, Bemerkung: „Bei der Auswahl des Verfahrens soll jedoch die individuelle klinische Situation des Patienten berücksichtigt werden“ — was bei der Wahl zwischen den gleichwertigen Verfahren zu beachten ist."}]

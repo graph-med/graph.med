@@ -1,0 +1,12 @@
+# Empfehlung 6.7 (p. 95): row 6 (a) (AKI the population, its treatment a condition) and row 8 (the adjective
+# "hämodynamisch instabilen", a condition) of card #217's convention.
+id: statements/kontinuierlich-oder-verlaengert-intermittierend-bei-instabilitaet
+type: statement
+lang: de
+label: "Bei hämodynamisch instabilen Patienten mit Sepsis und Nierenersatztherapie bei AKI wird ein kontinuierliches oder verlängert intermittierendes Verfahren eingesetzt."
+short_label: "Instabil: kontinuierlich oder verlängert intermittierend"
+slots:
+  population: concepts/akute-nierenschaedigung
+  action: concepts/kontinuierliches-oder-verlaengert-intermittierendes-verfahren
+  condition: [concepts/haemodynamisch-instabil, concepts/nierenersatztherapie]
+source: modelling

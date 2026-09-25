@@ -1,0 +1,8 @@
+# A measured quantity, named by the threshold that bounds it (spec §3.1): the "Hyperkaliämie" row of the table on
+# p. 89, "> 6.0 mmol/l".
+id: concepts/kalium
+type: concept
+lang: de
+label: "Kalium"
+facet: finding
+source: modelling

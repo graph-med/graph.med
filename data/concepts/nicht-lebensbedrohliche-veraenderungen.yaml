@@ -1,0 +1,8 @@
+# A condition of 6.4 (p. 90), printed as a circumstance (the maintainer's decision of 2026-09-25). A negation,
+# labelled as printed (row 10 of card #217's convention): never linked to the concept it negates.
+id: concepts/nicht-lebensbedrohliche-veraenderungen
+type: concept
+lang: de
+label: "Nicht-lebensbedrohliche Veränderungen"
+facet: patient_state
+source: modelling

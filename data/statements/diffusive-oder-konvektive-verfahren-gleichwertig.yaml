@@ -1,0 +1,11 @@
+# Empfehlung 6.5 (p. 93): row 3 ("Patienten mit Sepsis") and row 7 ("und Indikation zur Nierenersatztherapie").
+id: statements/diffusive-oder-konvektive-verfahren-gleichwertig
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis und Indikation zur Nierenersatztherapie werden diffusive Nierenersatzverfahren oder konvektive Verfahren bzw. eine Kombination aus diffusiven und konvektiven Verfahren gleichwertig eingesetzt."
+short_label: "Diffusiv, konvektiv oder kombiniert gleichwertig"
+slots:
+  population: concepts/sepsis
+  action: concepts/diffusive-oder-konvektive-verfahren
+  condition: [concepts/indikation-zur-nierenersatztherapie]
+source: modelling

@@ -1,0 +1,11 @@
+# The population of chapter 6 of views/sepsis-lf-4.0 (card #224, minted as #217's ledger assigns it): the state
+# whose treatment the chapter's recommendations name — 6.6 "zur Nierensatztherapie der AKI bei Patienten mit
+# Sepsis" (p. 94) and 6.7 "Nierenersatztherapie bei AKI" (p. 95), row 6 (a) of #217's convention — and, by the
+# maintainer's decision of 2026-09-25, of 6.1, which serves the patients receiving renal replacement therapy.
+# P. 88 names it "akuter Nierenschädigung (Acute Kidney Injury – AKI)". Stated: the chapter prints no rule for it.
+id: concepts/akute-nierenschaedigung
+type: concept
+lang: de
+label: "Akute Nierenschädigung (AKI)"
+facet: patient_state
+source: modelling

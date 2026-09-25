@@ -1,0 +1,11 @@
+# Empfehlung 6.9 (p. 100): row 1 and row 7 ("für ein kontinuierliches Nierenersatzverfahren") of card #217's convention.
+id: statements/mittlere-dosis-kontinuierliches-nierenersatzverfahren
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock wird für ein kontinuierliches Nierenersatzverfahren eine mittlere Dosis von 20-25 ml/kg/h über die geplante Behandlungsdauer verabreicht."
+short_label: "Kontinuierlicher Nierenersatz: Dosis 20-25 ml/kg/h"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/mittlere-dosis-20-25-ml-kg-h
+  condition: [concepts/kontinuierliches-nierenersatzverfahren]
+source: modelling

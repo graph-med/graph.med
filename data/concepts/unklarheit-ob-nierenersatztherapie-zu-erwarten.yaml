@@ -1,0 +1,8 @@
+# A condition of 6.4 (p. 90), printed as a circumstance (the maintainer's decision of 2026-09-25); the
+# counterpart of 6.3's condition.
+id: concepts/unklarheit-ob-nierenersatztherapie-zu-erwarten
+type: concept
+lang: de
+label: "Unklarheit, ob eine Nierenersatztherapie zu erwarten ist"
+facet: finding
+source: modelling
