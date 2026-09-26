@@ -1,0 +1,7 @@
+# The action box 4.3 advises against (p. 60): "Hydroxyethylstärke zur Flüssigkeitstherapie NICHT anzuwenden".
+id: concepts/hydroxyethylstaerke
+type: concept
+lang: de
+label: Hydroxyethylstärke
+facet: medication
+source: modelling

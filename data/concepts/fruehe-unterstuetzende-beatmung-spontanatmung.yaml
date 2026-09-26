@@ -1,0 +1,8 @@
+# The action of 5.11 (p. 83), as printed (card #223). The 48 hours say when, not for whom: no threshold.
+id: concepts/fruehe-unterstuetzende-beatmung-spontanatmung
+type: concept
+lang: de
+label: "Frühzeitig (innerhalb der ersten 48 Stunden nach Intubation) unterstützende Beatmung zur Ermöglichung von Spontanatmung"
+short_label: "Früh unterstützende Beatmung mit Spontanatmung"
+facet: intervention
+source: modelling

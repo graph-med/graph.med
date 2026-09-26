@@ -1,0 +1,10 @@
+# Sepsis S3, 9.2: convention row 1. Card #226.
+id: statements/behandlungsziele-frueh-festlegen
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock wird vorgeschlagen, die Behandlungsziele möglichst früh (innerhalb von 72 Stunden) festzulegen."
+short_label: "Behandlungsziele innerhalb von 72 Stunden festlegen"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/festlegung-der-behandlungsziele-innerhalb-von-72-stunden
+source: modelling

@@ -1,0 +1,7 @@
+# An evidence outcome of 8.13 (p. 120); the row's comparison „(110-144 mg/dl vgl. 144-180 mg/dl)“ is its key (#215).
+id: concepts/hypoglykaemie
+type: concept
+lang: de
+label: "Hypoglykämie"
+facet: outcome
+source: modelling

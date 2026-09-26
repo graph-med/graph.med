@@ -1,0 +1,7 @@
+# An evidence endpoint of 6.3, 6.4, 6.5 and 6.9 (pp. 90, 93, 100), "Renale Erholung:".
+id: concepts/renale-erholung
+type: concept
+lang: de
+label: "Renale Erholung"
+facet: outcome
+source: modelling

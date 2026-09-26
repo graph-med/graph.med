@@ -1,0 +1,8 @@
+# The treatment of the AKI named in 6.6 (p. 94) and 6.7 (p. 95), a condition of both (row 6 (a) of card #217's
+# convention: the state is the population, its treatment a condition).
+id: concepts/nierenersatztherapie
+type: concept
+lang: de
+label: "Nierenersatztherapie"
+facet: intervention
+source: modelling

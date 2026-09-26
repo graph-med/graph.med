@@ -1,0 +1,8 @@
+# The action of box 3.1, first sentence (p. 37). Minted by card #219 for views/sepsis-lf-4.0.
+id: concepts/entnahme-blutkultur-sets-vor-antibiotikatherapie
+type: concept
+lang: de
+label: "Entnahme von mindestens 2 Blutkultur-Sets vor Beginn der Antibiotikatherapie"
+short_label: "Mind. 2 Blutkultur-Sets vor Antibiotikatherapie"
+facet: intervention
+source: modelling

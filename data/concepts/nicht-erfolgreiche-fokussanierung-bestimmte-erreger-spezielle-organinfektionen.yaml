@@ -1,0 +1,11 @@
+# The condition of box 3.9's second sentence (p. 53): "Bei nicht erfolgreicher Fokussanierung, bei
+# bestimmten Erregern sowie speziellen Organinfektionen" (card #221). One concept: any one of the three
+# suffices, so "sowie" joins alternatives here, and an alternative of the source is one concept (spec
+# §3.2; card #221, hard case 2). The label keeps the source's "sowie".
+id: concepts/nicht-erfolgreiche-fokussanierung-bestimmte-erreger-spezielle-organinfektionen
+type: concept
+lang: de
+label: Nicht erfolgreiche Fokussanierung, bestimmte Erreger sowie spezielle Organinfektionen
+short_label: "Erfolglose Fokussanierung, best. Erreger, Organinfektion"
+facet: patient_state
+source: modelling

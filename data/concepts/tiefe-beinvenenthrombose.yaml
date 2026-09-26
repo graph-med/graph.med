@@ -1,0 +1,9 @@
+# An evidence outcome of 8.9 (p. 115), printed „Tiefe BVT“. A near-duplicate of concepts/tiefe-venenthrombose (8.11,
+# p. 117; the text of p. 116 reports 8.9's meta-analysis as „tiefen Venenthrombosen (TVT)“), kept apart because a leg
+# vein thrombosis is the narrower term; named for review, never merged silently (hard case 8).
+id: concepts/tiefe-beinvenenthrombose
+type: concept
+lang: de
+label: "Tiefe Beinvenenthrombose (BVT)"
+facet: outcome
+source: modelling

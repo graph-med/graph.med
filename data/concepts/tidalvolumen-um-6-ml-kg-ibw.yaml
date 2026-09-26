@@ -1,0 +1,8 @@
+# The action of 5.1 (p. 73), as printed (card #223). The volume says how, not for whom: no threshold.
+id: concepts/tidalvolumen-um-6-ml-kg-ibw
+type: concept
+lang: de
+label: "Beatmung mit einem Tidalvolumen um 6 ml/kg IBW (4-8ml/kg IBW)"
+short_label: "Tidalvolumen um 6 ml/kg IBW (4-8 ml/kg IBW)"
+facet: intervention
+source: modelling

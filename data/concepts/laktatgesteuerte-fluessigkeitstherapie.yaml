@@ -1,0 +1,8 @@
+# The action of 2.9 (p. 33); the short label as p. 34 prints it („eine laktatgesteuerte Therapie“). Card #218.
+id: concepts/laktatgesteuerte-fluessigkeitstherapie
+type: concept
+lang: de
+label: "Steuerung der Flüssigkeitstherapie mit dem Ziel, eine erhöhte Laktatkonzentration im Blut zu senken"
+short_label: "Laktatgesteuerte Flüssigkeitstherapie"
+facet: intervention
+source: modelling

@@ -1,0 +1,11 @@
+# Box 3.7, its Bemerkung (p. 50), with a statement of its own (#213 checklist). Card #219.
+id: statements/stabilitaet-bei-kontinuierlicher-infusion-beachten
+type: statement
+lang: de
+label: "Bei einer kontinuierlichen Infusion auf die physikalisch-chemische Stabilität des Wirkstoffs achten."
+short_label: "Kontinuierliche Infusion: Wirkstoffstabilität beachten"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/beachtung-physikalisch-chemische-stabilitaet-des-wirkstoffs
+  condition: [concepts/kontinuierliche-infusion]
+source: modelling

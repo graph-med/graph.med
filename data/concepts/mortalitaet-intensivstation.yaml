@@ -1,0 +1,8 @@
+# An evidence outcome of views/sepsis-lf-4.0, a ledger concept (card #217): one concept whatever the
+# spelling — "ICU Mortalität" (3.7, p. 50), "Mortalität (ICU)" (6.10, p. 101).
+id: concepts/mortalitaet-intensivstation
+type: concept
+lang: de
+label: Mortalität (ICU)
+facet: outcome
+source: modelling

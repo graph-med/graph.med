@@ -1,0 +1,7 @@
+# An evidence endpoint of 6.8 (p. 97), "Blutungsrate403:", the reference mark left out.
+id: concepts/blutungsrate
+type: concept
+lang: de
+label: "Blutungsrate"
+facet: outcome
+source: modelling

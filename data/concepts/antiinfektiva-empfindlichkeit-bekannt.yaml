@@ -1,0 +1,8 @@
+# A condition of box 3.8 (p. 51): "und die Antiinfektiva-Empfindlichkeit bekannt ist" (card #221), the
+# second entry beside concepts/plausibler-erregernachweis.
+id: concepts/antiinfektiva-empfindlichkeit-bekannt
+type: concept
+lang: de
+label: Antiinfektiva-Empfindlichkeit bekannt
+facet: finding
+source: modelling

@@ -1,0 +1,12 @@
+# The action of 10.3's first sentence („die Umsetzung der Empfehlungen der Ständigen
+# Impfkommission (STIKO)“, p. 137) and of 10.4's vaccination („gemäß STIKO-Empfehlungen geimpft“, p. 137):
+# one meaning, one concept, labelled as 10.4 prints it. Card #226.
+id: concepts/impfung-gemaess-stiko-empfehlungen
+type: concept
+lang: de
+label: "Impfung gemäß STIKO-Empfehlungen"
+facet: intervention
+definition: "Umsetzung der Empfehlungen der Ständigen Impfkommission (STIKO) am Robert Koch-Institut."
+source: modelling
+provenance:
+  definition: [{at: "sources/sepsis-lf-4.0#page=137", quote: "Wir empfehlen die Umsetzung der Empfehlungen der Ständigen"}, {at: "sources/sepsis-lf-4.0#page=137", quote: "Impfkommission (STIKO) am Robert Koch-Institut, insbesondere"}]

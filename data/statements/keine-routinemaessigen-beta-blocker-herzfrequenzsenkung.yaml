@@ -1,0 +1,9 @@
+id: statements/keine-routinemaessigen-beta-blocker-herzfrequenzsenkung
+type: statement
+lang: de
+label: Bei Patienten mit septischem Schock wird empfohlen, β-Blocker zur Herzfrequenzsenkung nicht routinemäßig anzuwenden.
+short_label: "β-Blocker zur Herzfrequenzsenkung nicht routinemäßig"
+slots:
+  population: concepts/septischer-schock
+  action: concepts/beta-blocker
+source: modelling

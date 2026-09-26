@@ -1,0 +1,14 @@
+# Empfehlung 6.4 (p. 90) names no patient group: its population is the root (the maintainer's decision of
+# 2026-09-25), its two printed circumstances, joined by "und", two conditions. Row 6 read: the box prints no state X
+# beside the target group, and its circumstances stay conditions, so the root; with 6.3, the other case of the same
+# question, it stays under the one group. The alternative, AKI (the chapter's patients), is flagged.
+id: statements/konservative-massnahmen-wenn-nierenersatz-unklar
+type: statement
+lang: de
+label: "Bei nicht-lebensbedrohlichen Veränderungen und Unklarheit, ob eine Nierenersatztherapie zu erwarten ist, werden konservative Maßnahmen zur Vermeidung eines Nierenersatzverfahrens unter regelmäßiger Reevaluation durchgeführt."
+short_label: "Konservativ mit Reevaluation, wenn Nierenersatz unklar"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/konservative-massnahmen-zur-vermeidung-nierenersatzverfahren
+  condition: [concepts/nicht-lebensbedrohliche-veraenderungen, concepts/unklarheit-ob-nierenersatztherapie-zu-erwarten]
+source: modelling

@@ -1,0 +1,10 @@
+# Box 5.12 of sources/sepsis-lf-4.0 (card #223).
+id: statements/hypoxaemische-insuffizienz-nichtinvasive-atmungsunterstuetzung
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock und milder bis moderater akuter hypoxämischer respiratorischer Insuffizienz (PaO2/FiO2 100-300) wird primär eine nichtinvasive Atmungsunterstützung (NIV, CPAP oder HFNO) angewendet."
+short_label: "Primär nichtinvasive Atmungsunterstützung"
+slots:
+  population: concepts/milde-bis-moderate-akute-hypoxaemische-respiratorische-insuffizienz
+  action: concepts/nichtinvasive-atmungsunterstuetzung
+source: modelling

@@ -1,0 +1,10 @@
+# Empfehlung 6.8 (p. 97): row 1 of card #217's convention; the extracorporeal circuit stays in the action as printed.
+id: statements/citrat-oder-heparin-antikoagulation-gleichwertig
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock werden eine regionale Citrat-Antikoagulation oder eine systemische Heparin-Antikoagulation des extrakorporalen Blutkreislaufs gleichwertig eingesetzt."
+short_label: "Citrat- oder Heparin-Antikoagulation gleichwertig"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/citrat-oder-heparin-antikoagulation
+source: modelling

@@ -1,0 +1,10 @@
+id: statements/balancierte-kristalloide-erste-wahl-sepsis
+type: statement
+lang: de
+label: Bei Patienten mit Sepsis oder septischem Schock werden balancierte Kristalloide als Flüssigkeitstherapie der ersten
+  Wahl empfohlen.
+short_label: "Balancierte Kristalloide als Flüssigkeit erster Wahl"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/balancierte-kristalloide
+source: modelling

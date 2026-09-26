@@ -1,0 +1,171 @@
+id: sources/sepsis-lf-4.0
+type: source
+lang: de
+title: "S3-Leitlinie: Sepsis – Prävention, Diagnose, Therapie und Nachsorge – Update 2025, Langfassung, Version 4.0,
+  Stand 30.04.2025"
+awmf_register: "079-001"
+url: https://register.awmf.org/assets/guidelines/079-001l_S3_Sepsis-Praevention-Diagnose-Therapie-Nachsorge_2025-07.pdf
+content_hash: sha256:0dcaf595d547c925326a3c00908a192ee4338ed38f3698f4c19d90e2def19b9d
+media_type: application/pdf
+license: "Deutsche Sepsis-Gesellschaft e. V. (federführend) et al., publiziert im AWMF-Register (079-001); das Dokument
+  nennt keine Lizenz — referenced at its public URL, never rehosted"
+structure: [versorgungspfad, modalitaetsbezogen]   # chapters 2–10 from screening through therapy by modality to follow-up and prevention
+grading_scheme:   # spec §3.1: Tabellen 7 and 8 (p. 148) and the count on p. 3, quoted cell by cell
+  grades:   # the legend's order: Tabelle 7's rows, then EK, which fixes no wording
+    - grade: Stark
+      description: Starke Empfehlung
+      verb: empfehlen
+      negated: empfehlen nicht
+      source:
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "Starke Empfehlung"}
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "Wir empfehlen/ empfehlen"}
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "nicht"}
+        - {at: sources/sepsis-lf-4.0#page=24, quote: "Stark"}
+      rationale: "Die Kästen drucken den Empfehlungsgrad als „Stark“ (hier Empfehlung 2.1); Tabelle 7 nummeriert ihn 1 und
+        beschreibt ihn als „Starke Empfehlung“, ausgedrückt „Wir empfehlen/ empfehlen nicht“."
+    - grade: Schwach
+      description: Schwache Empfehlung
+      verb: schlagen vor
+      negated: schlagen nicht vor
+      source:
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "Schwache Empfeh-"}
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "Wir schlagen vor/ schlagen"}
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "nicht vor"}
+        - {at: sources/sepsis-lf-4.0#page=35, quote: "Schwach"}
+      rationale: "Die Kästen drucken den Empfehlungsgrad als „Schwach“ (hier Empfehlung 2.11); Tabelle 7 nummeriert ihn 2 und
+        beschreibt ihn als „Schwache Empfehlung“, ausgedrückt „Wir schlagen vor/ schlagen nicht vor“. Tabelle 7 kennt keine
+        offene Empfehlung: auch der schwache Grad ist für oder gegen (⇑/⇓)."
+    - grade: EK
+      description: Expertenkonsens
+      source:
+        - {at: sources/sepsis-lf-4.0#page=3, quote: "Davon wurden 2 als Statements, 29 als Expertenkonsens und 57 als"}
+        - {at: sources/sepsis-lf-4.0#page=29, quote: "EK"}
+      rationale: "Die Langfassung schreibt „EK“ nirgends aus. S. 3 zählt von 88 PICO-Fragen 29 als Expertenkonsens konsentiert,
+        und 29 Kästen drucken „EK“, wo die übrigen „Empfehlungsgrad:“ mit „Stark“ oder „Schwach“ drucken (hier Empfehlung
+        2.5). Ihre Stärke trägt allein die Formulierung: 25 dieser Kästen drucken „Wir empfehlen“ oder „Wir schlagen vor“,
+        Empfehlung 4.11 druckt „kann NICHT empfohlen werden“, und 4.7, 4.11, 8.7 und 8.8 sprechen „weder für noch gegen“
+        eine Empfehlung aus. EK fixiert darum keine Formulierung und steht nach den Graden."
+  consensus:   # Tabelle 8, by which „Die Konsensstärke wurde gemäß Tabelle 8 klassifiziert.“ (p. 148); the boxes print the share
+    - class: starker_konsens
+      name: Starker Konsens
+      bounds: "> 95 % der Stimmberechtigten"
+      above: 95
+      source:
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "Starker Konsens"}
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    - class: konsens
+      name: Konsens
+      bounds: "> 75-95 % der Stimmberechtigten"
+      above: 75
+      at_most: 95
+      source:
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "Konsens"}
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "> 75-95 % der Stimmberechtigten"}
+      rationale: "„> 75-95 %“ reicht bis einschließlich 95 %, denn „Starker Konsens“ beginnt erst über 95 %: 95 % ist Konsens."
+    - class: mehrheitliche_zustimmung
+      name: Mehrheitliche Zustimmung
+      bounds: "> 50-75 % der Stimmberechtigten"
+      above: 50
+      at_most: 75
+      source:
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "Mehrheitliche Zustimmung"}
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "> 50-75 % der Stimmberechtigten"}
+      rationale: "„> 50-75 %“ reicht bis einschließlich 75 %, denn „Konsens“ beginnt erst über 75 %."
+    - class: keine_mehrheitliche_zustimmung
+      name: Keine mehrheitliche Zustimmung
+      bounds: "< 50 % der Stimmberechtigten"
+      below: 50
+      source:
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "Keine mehrheitliche Zustimmung"}
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "< 50 % der Stimmberechtigten"}
+outline:   # every numbered entry of the table of contents (pp. 13–16), physical page = printed page; its seven
+           # unnumbered entries (pp. 2, 3, 3, 17, 18, 152, 157) carry no section number and are left out
+  - {section: "1", title: "Geltungsbereich und Zweck", page: 19}
+  - {section: "1.1", title: "Zielsetzung und Fragestellung", page: 19}
+  - {section: "1.2", title: "Versorgungsbereich", page: 20}
+  - {section: "1.3", title: "Patient*innenzielgruppe", page: 20}
+  - {section: "1.4", title: "Adressaten", page: 20}
+  - {section: "1.5", title: "Weitere Dokumente zu dieser Leitlinie", page: 20}
+  - {section: "2", title: "Screening und Erstmassnahmen", page: 21}
+  - {section: "2.1", title: "Einleitung", page: 21}
+  - {section: "2.2", title: "Definition der Sepsis", page: 21}
+  - {section: "2.3", title: "Screening", page: 24}
+  - {section: "2.4", title: "Initiale hämodynamische Stabilisierung", page: 28}
+  - {section: "2.5", title: "Flüssigkeitstherapie", page: 32}
+  - {section: "3", title: "Infektion und antimikrobielle Therapie", page: 37}
+  - {section: "3.1", title: "Diagnose der Infektion", page: 37}
+  - {section: "3.2", title: "Beginn der antimikrobiellen Therapie", page: 39}
+  - {section: "3.3", title: "Wahl der antimikrobiellen Therapie", page: 42}
+  - {section: "3.4", title: "Dauer der antimikrobiellen Therapie", page: 51}
+  - {section: "3.5", title: "Deeskalation der antimikrobiellen Therapie", page: 55}
+  - {section: "4", title: "Kreislauftherapie", page: 57}
+  - {section: "4.1", title: "Flüssigkeitstherapie", page: 57}
+  - {section: "4.2", title: "Vasoaktive Substanzen", page: 62}
+  - {section: "4.3", title: "Inotropika", page: 68}
+  - {section: "4.4", title: "Veno-arterielle ECMO", page: 70}
+  - {section: "5", title: "Beatmungstherapie", page: 73}
+  - {section: "5.1", title: "Beatmungseinstellungen", page: 73}
+  - {section: "5.2", title: "PEEP Einstellung", page: 75}
+  - {section: "5.3", title: "Inspiratorische Sauerstoffkonzentration, FiO2", page: 80}
+  - {section: "5.4", title: "Rekrutierungsmanöver", page: 81}
+  - {section: "5.5", title: "Spontanatmung", page: 83}
+  - {section: "5.6", title: "Nicht invasive Atmungsunterstützung", page: 84}
+  - {section: "5.7", title: "Weaning", page: 85}
+  - {section: "5.8", title: "Bauchlagerung", page: 86}
+  - {section: "5.9", title: "ECMO", page: 87}
+  - {section: "6", title: "Nierenersatztherapie", page: 88}
+  - {section: "6.1", title: "Indizierung und Durchführung einer extrakorporalen Nierenersatztherapie bei Intensivpatienten", page: 88}
+  - {section: "6.2", title: "Start der Nierenersatztherapie bei AKI in der Intensivmedizin", page: 89}
+  - {section: "6.3", title: "Diffusion versus Konvektion", page: 92}
+  - {section: "6.4", title: "Kontinuierliche versus intermittierende Nierenersatzverfahren", page: 94}
+  - {section: "6.5", title: "Regionale- und systemische Antikoagulation", page: 96}
+  - {section: "6.6", title: "Adäquate Dosis eines Nierenersatzverfahrens", page: 98}
+  - {section: "7", title: "Ernährungstherapie", page: 103}
+  - {section: "8", title: "Weitere Massnahmen", page: 105}
+  - {section: "8.1", title: "Kortikosteroide", page: 105}
+  - {section: "8.2", title: "Blutprodukte", page: 107}
+  - {section: "8.2.1", title: "Erythrozyten", page: 107}
+  - {section: "8.2.2", title: "Erythropoetin", page: 108}
+  - {section: "8.2.3", title: "Plasmapräparate", page: 109}
+  - {section: "8.2.4", title: "Thrombozyten", page: 109}
+  - {section: "8.3", title: "Immunglobuline", page: 110}
+  - {section: "8.4", title: "Blutreinigung", page: 111}
+  - {section: "8.4.1", title: "Unselektive Adsorptionsverfahren", page: 111}
+  - {section: "8.4.2", title: "Polymyxin-B-Hämoperfusion", page: 112}
+  - {section: "8.4.3", title: "Therapeutischer Plasmaaustausch / Plasmapherese", page: 114}
+  - {section: "8.5", title: "Antikoagulation und Thromboseprophylaxe", page: 115}
+  - {section: "8.6", title: "Delirmanagement, Analgesie, Sedierung", page: 118}
+  - {section: "8.7", title: "Glukosemanagement", page: 120}
+  - {section: "8.8", title: "Stressulkusprophylaxe", page: 121}
+  - {section: "8.9", title: "Vitamine", page: 124}
+  - {section: "8.10", title: "Bikarbonat", page: 125}
+  - {section: "9", title: "Behandlungsziele und Spätfolgen", page: 127}
+  - {section: "9.1", title: "Behandlungsziele und Palliativversorgung", page: 127}
+  - {section: "9.2", title: "Entlassmanagement und Nachsorge von Spätfolgen", page: 129}
+  - {section: "9.2.1", title: "Post-Intensive Care Syndrom (PICS)", page: 129}
+  - {section: "9.2.2", title: "Delir", page: 129}
+  - {section: "9.2.3", title: "Kognitive Dysfunktion", page: 129}
+  - {section: "9.2.4", title: "Posttraumatische Belastungsstörung", page: 130}
+  - {section: "9.2.5", title: "Critical-illness-Polyneuropathie / Critical-illness-Myopathie (CIP/CIM)", page: 130}
+  - {section: "9.2.6", title: "Entlassmanagement", page: 131}
+  - {section: "9.2.7", title: "Nachsorgeprogramme und Rehabilitation", page: 133}
+  - {section: "10", title: "Präventionsmaßnahmen und Impfungen", page: 135}
+  - {section: "10.1", title: "Maßnahmen zur Infektionsprävention", page: 135}
+  - {section: "10.2", title: "Impfungen", page: 136}
+  - {section: "11", title: "Wichtige Forschungsfragen", page: 139}
+  - {section: "12", title: "Zusammensetzung der Leitliniengruppe", page: 139}
+  - {section: "12.1", title: "Leitlinienkoordinator/Ansprechpartner", page: 139}
+  - {section: "12.2", title: "Beteiligte Fachgesellschaften und Organisationen", page: 140}
+  - {section: "12.3", title: "Patientenbeteiligung", page: 144}
+  - {section: "12.4", title: "Methodische Begleitung", page: 145}
+  - {section: "13", title: "Informationen zu dieser Leitlinie", page: 145}
+  - {section: "13.1", title: "Methodische Grundlagen", page: 145}
+  - {section: "13.2", title: "Systematische Recherche und Auswahl der Evidenz", page: 145}
+  - {section: "13.3", title: "Kritische Bewertung der Evidenz", page: 147}
+  - {section: "13.4", title: "Strukturierte Konsensfindung", page: 147}
+  - {section: "13.5", title: "Empfehlungsgraduierung und Feststellung der Konsensstärke", page: 147}
+  - {section: "14", title: "Redaktionelle Unabhängigkeit", page: 148}
+  - {section: "14.1", title: "Finanzierung der Leitlinie", page: 148}
+  - {section: "14.2", title: "Darlegung von Interessen und Umgang mit Interessenkonflikten", page: 149}
+  - {section: "15", title: "Verabschiedung durch die Vorstände der herausgebenden Fachgesellschaften/Organisationen", page: 149}
+  - {section: "16", title: "Gültigkeitsdauer und Aktualisierungsverfahren", page: 151}

@@ -1,0 +1,10 @@
+# Box 5.6 of sources/sepsis-lf-4.0 (card #223).
+id: statements/moderates-oder-schweres-ards-hoeherer-peep
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock und moderatem oder schwerem ARDS wird ein höherer PEEP angewendet."
+short_label: "Höherer PEEP"
+slots:
+  population: concepts/moderates-oder-schweres-ards
+  action: concepts/hoeherer-peep
+source: modelling

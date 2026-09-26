@@ -1,0 +1,8 @@
+# An evidence outcome, one concept whatever the spelling: „LAE“ (8.9, p. 115) and „Inzidenz von Lungenembolien“ (8.11,
+# p. 117); p. 117 writes „Lungenarterienembolien (LAE)“.
+id: concepts/lungenembolie
+type: concept
+lang: de
+label: "Lungenembolie (LAE)"
+facet: outcome
+source: modelling

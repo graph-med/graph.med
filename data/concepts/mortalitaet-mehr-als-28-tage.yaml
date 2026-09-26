@@ -1,0 +1,9 @@
+# An evidence outcome of views/sepsis-lf-4.0 (card #222): the row "Mortalität (> 28 Tage):" of box 4.3
+# (p. 60), its time frame part of the endpoint (card #215). #217's ledger leaves it to this chapter: not
+# the "Mortalität (28-Tage)" of 4.2 and 6.10 (concepts/mortalitaet-nach-28-tagen).
+id: concepts/mortalitaet-mehr-als-28-tage
+type: concept
+lang: de
+label: Mortalität (> 28 Tage)
+facet: outcome
+source: modelling

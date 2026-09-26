@@ -1,0 +1,11 @@
+id: statements/keine-va-ecmo-ohne-kardiogenen-schock
+type: statement
+lang: de
+label: Der Einsatz einer veno-arteriellen ECMO bei Patienten mit einem therapierefraktären septischen Schock ohne einen
+  zusätzlichen kardiogenen Schock kann nicht empfohlen werden.
+short_label: "Keine veno-arterielle ECMO ohne kardiogenen Schock"
+slots:
+  population: concepts/therapierefraktaerer-septischer-schock
+  action: concepts/veno-arterielle-ecmo
+  condition: [concepts/ohne-einen-zusaetzlichen-kardiogenen-schock]
+source: modelling

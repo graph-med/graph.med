@@ -1,0 +1,16 @@
+# The second view: everything in the pool drawn from the sepsis guideline — published at
+# graph.med/sepsis-lf-4.0 (docs/publication.md §2). A separate graph: no view combines it with
+# another source, and the site's index is where the two meet. Its statements are keyed on the patient
+# group (spec §4.1, question 1; card #217), so the population is the anchor; the scope tree ends in the
+# guideline's own patient target group (1.3, p. 20), whose groups the scope edges in
+# data/edges/sepsis-lf-4.0/scope-edges.yaml hang there, and is drawn by the first axis of group_by,
+# axes/sepsis-population, asserted for this view by card #228. Its switch offers that tree first, then
+# the chapters (spec §4.1 "4. Shown").
+id: views/sepsis-lf-4.0
+type: view
+view_kind: selection
+filter:
+  sources: [sources/sepsis-lf-4.0]
+group_by: [axes/sepsis-population]
+anchor_slot: population
+scope_root: concepts/erwachsene-mit-sepsis-oder-septischem-schock

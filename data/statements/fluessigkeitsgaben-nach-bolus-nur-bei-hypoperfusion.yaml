@@ -1,0 +1,11 @@
+# Sepsis S3, 2.8: convention rows 1 and 8; the ledger's stated Hypoperfusion (card #218).
+id: statements/fluessigkeitsgaben-nach-bolus-nur-bei-hypoperfusion
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock wird empfohlen, Flüssigkeitsgaben nach dem initialen Bolus durch wiederholte Kontrollen des hämodynamischen Status zu begleiten und nur fortzusetzen, wenn weiterhin Zeichen einer Hypoperfusion vorliegen."
+short_label: "Flüssigkeit nach Bolus nur bei Hypoperfusion fortsetzen"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/fluessigkeitsgaben-nach-dem-initialen-bolus
+  condition: [concepts/hypoperfusion]
+source: modelling

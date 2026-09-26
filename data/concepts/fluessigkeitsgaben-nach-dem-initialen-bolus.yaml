@@ -1,0 +1,8 @@
+# The action of 2.8 (p. 32). Card #218.
+id: concepts/fluessigkeitsgaben-nach-dem-initialen-bolus
+type: concept
+lang: de
+label: "Flüssigkeitsgaben nach dem initialen Bolus, begleitet durch wiederholte Kontrollen des hämodynamischen Status"
+short_label: "Flüssigkeitsgaben nach dem initialen Bolus"
+facet: intervention
+source: modelling

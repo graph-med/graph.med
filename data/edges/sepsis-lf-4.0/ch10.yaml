@@ -1,0 +1,45 @@
+# Edges minted with chapter 10 of sources/sepsis-lf-4.0 (card #226), all modelling: the supports edges of its
+# box sentences (10.4's one claim supports the three statements of its three coordinated actions, hard case 4),
+# the body-text edges of spec §5.1 (the rationale names the clause and the term as printed), and the
+# cross-statement edges within the chapter. No defined_by: #217's ledger gives this card none, and no concept
+# of these pages is established by a rule.
+
+# evidence (spec §5): claim → statement
+- [claims/sepsis-lf-4.0/5640dc77, supports, statements/ams-programm-im-krankenhaus, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 10.1: „Wir empfehlen die Implementierung eines Antimicrobial Stewardship (AMS)-Programms …“ — der Satz der Empfehlung, den die Aussage wiedergibt."}]
+- [claims/sepsis-lf-4.0/b034478e, supports, statements/multimodale-strategien-zur-infektionspraevention, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 10.2: „Wir empfehlen, multimodale Strategien zur Implementierung …“ — der Satz der Empfehlung, den die Aussage wiedergibt."}]
+- [claims/sepsis-lf-4.0/361c4595, supports, statements/impfungen-gemaess-stiko, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 10.3, Satz 1: „Wir empfehlen die Umsetzung der Empfehlungen der Ständigen Impfkommission (STIKO) …“"}]
+- [claims/sepsis-lf-4.0/53e868dd, supports, statements/jaehrliche-impfung-medizinisches-personal, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 10.3, Satz 2: „Wir empfehlen für das medizinische Personal die jährliche Impfung gegen Influenza und COVID-19, …“"}]
+- [claims/sepsis-lf-4.0/62b37e0e, supports, statements/asplenie-impfung-gemaess-stiko, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 10.4: „… dass Patienten mit Asplenie gemäß STIKO-Empfehlungen geimpft …“ — die erste der drei Maßnahmen, die der eine Satz verbindet; jede ist eine Aussage für sich, die kleinste Einheit, die für sich gestützt oder bestritten werden kann (spec §3.2)."}]
+- [claims/sepsis-lf-4.0/62b37e0e, supports, statements/asplenie-notfallpass, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 10.4: „… mit einem entsprechenden Notfallpass … ausgestattet werden“ — die zweite der drei Maßnahmen, die der eine Satz verbindet (spec §3.2)."}]
+- [claims/sepsis-lf-4.0/62b37e0e, supports, statements/asplenie-antibiotika-standby-prophylaxe, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 10.4: „… mit einer Antibiotika-Standby Prophylaxe ausgestattet werden“ — die dritte der drei Maßnahmen, die der eine Satz verbindet (spec §3.2)."}]
+# body text (spec §5.1): claim → claim
+- [claims/sepsis-lf-4.0/f073fc2b, refines, claims/sepsis-lf-4.0/b034478e, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „multimodale Strategien“ — was sie umfassen: üblicherweise 5 Implementierungsansätze (Infrastruktur, Aus- und Weiterbildung, Monitoring, Kommunikation und Kulturwandel), zu einem Gesamtkonzept verbunden, häufig mit Bundles oder Checklisten multidisziplinärer Teams."}]
+- [claims/sepsis-lf-4.0/acd15f08, refines, claims/sepsis-lf-4.0/b034478e, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „Infektionspräventionsmaßnahmen (z. B. bei intravasalen Kathetern)“ — bei welchen die multimodalen Strategien insbesondere relevant sind: Händehygiene-Compliance, ZVK-assoziierte Blutstrominfektionen, Beatmungs-assoziierte Pneumonien, Infektionen mit MRSA und C. difficile."}]
+- [claims/sepsis-lf-4.0/9fd94c7c, refines, claims/sepsis-lf-4.0/53e868dd, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „die jährliche Impfung gegen Influenza und COVID-19“ — wann und womit: jährlich zu Beginn der Saison, mit den jeweils empfohlenen Vakzinen; im Übrigen wiederholt der Satz die Empfehlung und zählt nur dafür (G3)."}]
+- [claims/sepsis-lf-4.0/7575c5ee, refines, claims/sepsis-lf-4.0/62b37e0e, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „Patienten mit Asplenie“ — wer zur Gruppe gehört: Patienten mit einer anatomischen oder funktionellen Asplenie."}]
+- [claims/sepsis-lf-4.0/8dd5c346, refines, claims/sepsis-lf-4.0/62b37e0e, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „mit einem entsprechenden Notfallpass“ — welcher: ein Asplenie-Notfallpass; K: eine Antwort je Glied des Satzes, Glied 1 von 3."}]
+- [claims/sepsis-lf-4.0/4a209224, supplements, claims/sepsis-lf-4.0/62b37e0e, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "S: „mit einer Antibiotika-Standby Prophylaxe ausgestattet werden“ — eine weitere Maßnahme für dieselben Patienten mit Asplenie: statt der stand by-Prophylaxe eine Dauerprophylaxe mit Penicillin, im Notfallpass empfohlen. R hält nicht (eine Dauerprophylaxe ist nicht, wofür „Antibiotika-Standby Prophylaxe“ steht), L nimmt keinen Fall heraus; K: Glied 2 von 3, die erste Alternative des „oder“."}]
+- [claims/sepsis-lf-4.0/455cc7b4, refines, claims/sepsis-lf-4.0/62b37e0e, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „Antibiotika-Standby Prophylaxe“ — welcher Wirkstoff: Amoxicillin/Clavulansäure (bessere Wirksamkeit bei H. influenzae), im Notfallpass empfohlen; K: Glied 3 von 3, die zweite Alternative des „oder“."}]
+- [claims/sepsis-lf-4.0/a3ba9224, refines, claims/sepsis-lf-4.0/361c4595, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: „die Umsetzung der Empfehlungen der Ständigen Impfkommission (STIKO)“ — bei wem und wann: bei Patienten, die eine Sepsis oder septischen Schock überlebt haben, im Rahmen der Nachsorge den Impfstatus überprüfen und komplettieren, insbesondere die jährliche Influenzaimpfung."}]
+# between statements (spec §5.1 N1): statement → statement, within chapter 10
+- [statements/asplenie-impfung-gemaess-stiko, specializes, statements/impfungen-gemaess-stiko, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 10.4: Patienten mit Asplenie „gemäß STIKO-Empfehlungen geimpft“ — die Umsetzung der STIKO-Empfehlungen der Empfehlung 10.3 für die Gruppe, von der S. 138 sagt: „Ein besonders hohes Risiko für die Entwicklung einer Sepsis haben Patienten mit einer anatomischen oder funktionellen Asplenie.“"}]
+- [statements/asplenie-notfallpass, complements, statements/asplenie-impfung-gemaess-stiko, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 10.4 verbindet in einem Satz die Impfung gemäß STIKO-Empfehlungen und die Ausstattung mit einem entsprechenden Notfallpass für dieselben Patienten: die Maßnahmen treten zueinander hinzu, keine ersetzt die andere."}]
+- [statements/asplenie-antibiotika-standby-prophylaxe, complements, statements/asplenie-notfallpass, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "Empfehlung 10.4 nennt die Antibiotika-Standby Prophylaxe neben dem Notfallpass; S. 138: der Asplenie-Notfallpass, „in dem auch eine … stand by – Antibiotikaprophylaxe … empfohlen wird“. Keine ersetzt die andere."}]

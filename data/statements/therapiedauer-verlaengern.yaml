@@ -1,0 +1,14 @@
+# Box 3.9, second sentence (p. 53, section 3.4), card #221. Population: the root, which the box's first
+# sentence names for both. Its three triggers, joined by "sowie", are alternatives, one of which suffices:
+# one condition concept (card #221, hard case 2).
+id: statements/therapiedauer-verlaengern
+type: statement
+lang: de
+label: Bei Patienten mit Sepsis oder septischem Schock ist die Therapiedauer bei nicht erfolgreicher Fokussanierung, bei bestimmten
+  Erregern sowie speziellen Organinfektionen zu verlängern.
+short_label: "Therapie verlängern (Fokus, Erreger, Organinfektion)"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/verlaengerung-der-therapiedauer
+  condition: [concepts/nicht-erfolgreiche-fokussanierung-bestimmte-erreger-spezielle-organinfektionen]
+source: modelling

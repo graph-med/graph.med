@@ -1,0 +1,8 @@
+# The action of 5.14 (p. 86) (card #223). What the term stands for is the p. 86 body-text claim „Bei der Bauchlage
+# wird der Patient um 180° in seiner Längsachse gedreht.“ (refines).
+id: concepts/bauchlagerung
+type: concept
+lang: de
+label: "Bauchlagerung"
+facet: intervention
+source: modelling

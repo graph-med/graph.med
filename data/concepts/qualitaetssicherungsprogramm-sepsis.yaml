@@ -1,0 +1,9 @@
+# The action of 2.1 (p. 24), recommended to hospitals („Wir empfehlen Krankenhäusern …“); the hospital stays
+# in the statement's label, never a concept of its own. Card #218.
+id: concepts/qualitaetssicherungsprogramm-sepsis
+type: concept
+lang: de
+label: "Qualitätssicherungsprogramm zum Thema Sepsis, einschließlich eines Sepsis-Screenings für akut erkrankte Hochrisikopatienten und Standardarbeitsanweisungen (SOPs) für die Behandlung"
+short_label: "Qualitätssicherungsprogramm zum Thema Sepsis"
+facet: intervention
+source: modelling

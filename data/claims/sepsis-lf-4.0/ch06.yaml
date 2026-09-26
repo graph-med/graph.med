@@ -1,0 +1,619 @@
+# Claims of card #224: chapter 6 "Nierenersatztherapie" of sources/sepsis-lf-4.0, physical pages 88–102, in page
+# order. Every sentence of a box is a claim (spec §3.1; card #213's checklist); body-text places pass spec §5.1
+# (their edges in data/edges/sepsis-lf-4.0/ch06.yaml); evidence rows per #215; nothing translated.
+# p. 88, 6.1 — body text: instructs ("muss … integriert werden"; no scheme's wording, so no verb); S → 6.1
+- id: claims/sepsis-lf-4.0/4a2772c0
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.1"
+  label: "Daher muss die Nierenersatztherapie in das ganzheitliche Behandlungskonzept der Intensivpatienten integriert werden."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=88
+    quote: "therapie in das ganzheitliche Behandlungskonzept der Intensivpatienten integriert werden."
+# p. 88, 6.1 — body text: instructs ("ist … darauf zu achten"); S → 6.1
+- id: claims/sepsis-lf-4.0/18302780
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.1"
+  label: "Hierbei ist auch darauf zu achten, dass die Nierenersatztherapie kompatibel zu anderen apparativen Organunterstützungssystemen angewendet wird."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=88
+    quote: "Hierbei ist auch darauf zu achten, dass die Nierenersatztherapie kompatibel zu anderen appa-"
+# Empfehlung 6.1, p. 89 — EK: no evidence rows
+- id: claims/sepsis-lf-4.0/e98e2366
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.1"
+  section: "6.1"
+  label: "Wir empfehlen, dass extrakorporale Nierenersatzverfahren auf Intensivstationen ausschließlich durch Fachärzte mit der Zusatzbezeichnung „Intensivmedizin“ und/oder Nephrologen indiziert und durchgeführt werden."
+  grade: EK
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=89
+    quote: "Wir empfehlen, dass extrakorporale Nierenersatzverfahren auf"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=89, quote: EK}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=89, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=89, quote: "Konsensstärke: 100 %"}
+# p. 89, 6.2 — the table's row 1, a part of the table claim's rule; no edge (§5.1 N5)
+- id: claims/sepsis-lf-4.0/43a162a1
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.2"
+  label: "Hyperkaliämie: > 6.0 mmol/l; therapieresistent (ohne NET)"
+  threshold: {quantity: concepts/kalium, comparator: ">", value: "6.0", unit: mmol/l}
+  source:
+    at: sources/sepsis-lf-4.0#page=89
+    quote: "Hyperkaliämie"
+  provenance:
+    threshold: {at: sources/sepsis-lf-4.0#page=89, quote: "> 6.0 mmol/l"}
+# p. 89, 6.2 — the table's row 2, a part; no edge (§5.1 N5). The "und" of its Anmerkungen cell stays in the label (one part per row, #213)
+- id: claims/sepsis-lf-4.0/f0647559
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.2"
+  label: "Azidose: pH < 7,2; therapieresistent (ohne NET) und durch AKI bedingt"
+  threshold: {quantity: concepts/ph, comparator: "<", value: "7,2"}
+  source:
+    at: sources/sepsis-lf-4.0#page=89
+    quote: "Azidose"
+  provenance:
+    threshold: {at: sources/sepsis-lf-4.0#page=89, quote: "pH < 7,2"}
+# p. 89, 6.2 — the table's row 3, a part; no threshold printed; no edge (§5.1 N5)
+- id: claims/sepsis-lf-4.0/df7bd3d0
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.2"
+  label: "Volumenüberladung: Ödeme, pulmonalvenöse Stauung; Therapieresistent (ohne NET)"
+  source:
+    at: sources/sepsis-lf-4.0#page=89
+    quote: "Volumenüberladung"
+# p. 89, 6.2 — the table's row 4, a part; no threshold printed; no edge (§5.1 N5). Fits none of the three
+# categories 6.2 names (Flüssigkeits-, Säure-Basen-, Elektrolythaushalt): flagged for the physician
+- id: claims/sepsis-lf-4.0/1aad3f95
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.2"
+  label: "Urämie: Klinik; u. a. Bewusstseinsstörungen"
+  source:
+    at: sources/sepsis-lf-4.0#page=89
+    quote: "Urämie"
+# p. 89, 6.2 — the uncaptioned table, one claim (#213 item 2): its rows are the cases one group comprises.
+# R → 6.2; the top of the rule of 6.2's population (defined_by), its four rows the parts
+- id: claims/sepsis-lf-4.0/ed376099
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.2"
+  label: "Absolute Indikationen: Hyperkaliämie > 6.0 mmol/l, therapieresistent (ohne NET); Azidose pH < 7,2, therapieresistent (ohne NET) und durch AKI bedingt; Volumenüberladung Ödeme, pulmonalvenöse Stauung, Therapieresistent (ohne NET); Urämie Klinik, u. a. Bewusstseinsstörungen"
+  combination:
+    operator: not_stated
+    of: [claims/sepsis-lf-4.0/43a162a1, claims/sepsis-lf-4.0/f0647559, claims/sepsis-lf-4.0/df7bd3d0, claims/sepsis-lf-4.0/1aad3f95]
+    rationale: "Die Tabelle „Absolute Indikationen | Richtwerte | Anmerkungen“ listet vier Zeilen ohne Bindewort; ob eine Zeile genügt oder mehrere vorliegen müssen, sagt die Seite nicht."
+  source:
+    at: sources/sepsis-lf-4.0#page=89
+    quote: "Absolute Indikationen"
+# Empfehlung 6.2, p. 89 — EK: no evidence rows
+- id: claims/sepsis-lf-4.0/107e01da
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.2"
+  section: "6.2"
+  label: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock und lebensbedrohlichen Veränderungen des Flüssigkeits-, Säure-Basen- oder Elektrolythaushaltes unverzüglich mit einer Nierenersatztherapie zu beginnen."
+  grade: EK
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  source:
+    at: sources/sepsis-lf-4.0#page=89
+    quote: "Wir empfehlen bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=89, quote: EK}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=89, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=89, quote: "Konsensstärke: 100 %"}
+# Empfehlung 6.3, p. 90 — the first row prints "Mortalität (nach 30 Tagen):" over two lines; quoted by its unique line (#215)
+- id: claims/sepsis-lf-4.0/0daf9a85
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.3"
+  section: "6.2"
+  label: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem Schock ein Nierenersatzverfahren ohne weiteres Zuwarten zu beginnen, wenn aufgrund der klinischen Situation, des Krankheitsverlaufes und/oder der Vorerkrankungen eine Nierenersatztherapie bei AKI zu erwarten ist."
+  grade: Schwach
+  verb: schlagen vor
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: concepts/mortalitaet-nach-30-tagen, value: Moderat, system: grade}
+    - {outcome: concepts/renale-erholung, value: Niedrig, system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=90
+    quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=90, quote: Schwach}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=90, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=90, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=90, quote: "(nach 30 Tagen):"}
+      - {at: sources/sepsis-lf-4.0#page=90, quote: "Renale Erholung:"}
+# Empfehlung 6.4, p. 90 — "Renale Erholung:" repeats on the page (6.3); the page, the box and the row order locate it (#215)
+- id: claims/sepsis-lf-4.0/681660e4
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.4"
+  section: "6.2"
+  label: "Wir schlagen vor, bei nicht-lebensbedrohlichen Veränderungen und Unklarheit, ob eine Nierenersatztherapie zu erwarten ist, konservative Maßnahmen zur Vermeidung eines Nierenersatzverfahrens unter regelmäßiger Reevaluation durchzuführen."
+  grade: Schwach
+  verb: schlagen vor
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: concepts/mortalitaet, value: Moderat, system: grade}
+    - {outcome: concepts/renale-erholung, value: Niedrig, system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=90
+    quote: "Wir schlagen vor, bei nicht-lebensbedrohlichen Veränderungen"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=90, quote: Schwach}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=90, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=90, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=90, quote: "Mortalität:"}
+      - {at: sources/sepsis-lf-4.0#page=90, quote: "Renale Erholung:"}
+# p. 91, 6.2 — body text: R → 6.3. P. 92's "Es kann zusammengefasst werden, dass die KDIGO-Kriterien allein …"
+# repeats it after a summary word (G3) and stays on the page
+- id: claims/sepsis-lf-4.0/dd250a50
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.2"
+  label: "Das KDIGO-Stadium (Kreatinin, Diuresemenge) allein scheint keine valide Entscheidungsgrundlage für den Beginn eines Nierenersatzverfahrens zu sein."
+  source:
+    at: sources/sepsis-lf-4.0#page=91
+    quote: "KDIGO-Stadium: Das KDIGO-Stadium (Kreatinin, Diuresemenge) allein scheint keine valide"
+# p. 92, 6.3 — body text: which technique "diffusive" and "konvektive" stand for; R → 6.5
+- id: claims/sepsis-lf-4.0/4d47d586
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.3"
+  label: "Verwenden Dialyseverfahren die Diffusion als treibende Kraft zur Entfernung von Stoffen aus dem Blut, kommt bei Filtrationsverfahren der Konvektion die entscheidende Bedeutung zu."
+  source:
+    at: sources/sepsis-lf-4.0#page=92
+    quote: "bei Filtrationsverfahren der Konvektion die entscheidende Bedeutung zu."
+# Empfehlung 6.5, p. 93
+- id: claims/sepsis-lf-4.0/79e67dc9
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.5"
+  section: "6.3"
+  label: "Wir schlagen vor, bei Patienten mit einer Sepsis und Indikation zur Nierenersatztherapie diffusive Nierenersatzverfahren oder konvektive Verfahren bzw. eine Kombination aus diffusiven und konvektiven Verfahren gleichwertig einzusetzen."
+  grade: Schwach
+  verb: schlagen vor
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: concepts/mortalitaet, value: Sehr niedrig, system: grade}
+    - {outcome: concepts/renale-erholung, value: Sehr niedrig, system: grade}
+    - {outcome: concepts/schwerwiegende-unerwuenschte-ereignisse, value: Sehr niedrig, system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=93
+    quote: "Wir schlagen vor, bei Patienten mit einer Sepsis und Indikation"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=93, quote: Schwach}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=93, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=93, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=93, quote: "Mortalität:"}
+      - {at: sources/sepsis-lf-4.0#page=93, quote: "Renale Erholung:"}
+      - {at: sources/sepsis-lf-4.0#page=93, quote: "SAE:"}
+# p. 94, 6.4 — body text: the procedures one term comprises (one claim, K); its "kann" is no recommendation,
+# so no verb. R → 6.6 (both sentences) and 6.7
+- id: claims/sepsis-lf-4.0/99d65948
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.4"
+  label: "Eine Nierenersatztherapie kann bei kritisch kranken Patienten als kontinuierliche Nierenersatztherapie (CRRT), intermittierende Nierenersatztherapie/Hämodialyse (IHD) oder als prolongierte intermittierende Nierenersatztherapie (Prolonged Intermittend Renal Replacement Therapy, PIRRT) durchgeführt werden."
+  source:
+    at: sources/sepsis-lf-4.0#page=94
+    quote: "Eine Nierenersatztherapie kann bei kritisch kranken Patienten als kontinuierliche Nierener-"
+# p. 94, 6.4 — body text, an unboxed "soll" (card #224 hard case 7): what "kontinuierlich" stands for; R → 6.6 (both), 6.7
+- id: claims/sepsis-lf-4.0/e2d0dbcf
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.4"
+  label: "Eine CRRT soll unter idealen Bedingungen 24 Stunden pro Tag unterbrechungsfrei laufen."
+  verb: soll
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=94
+    quote: "Eine CRRT soll unter idealen Bedingungen 24 Stunden pro Tag unterbrechungsfrei laufen."
+# p. 94, 6.4 — body text: what "intermittierend" stands for; R → 6.6 (both sentences)
+- id: claims/sepsis-lf-4.0/60905670
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.4"
+  label: "Eine IHD wird in der Regel für 4-6 Stunden pro Tag durchgeführt."
+  source:
+    at: sources/sepsis-lf-4.0#page=94
+    quote: "IHD wird in der Regel für 4-6 Stunden pro Tag durchgeführt."
+# Empfehlung 6.6, p. 94, sentence 1 — the typo "Nierensatztherapie" as printed
+- id: claims/sepsis-lf-4.0/fdb52a43
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.6"
+  section: "6.4"
+  label: "Wir schlagen vor, dass zur Nierensatztherapie der AKI bei Patienten mit Sepsis kontinuierliche oder intermittierende Verfahren gleichwertig eingesetzt werden können."
+  grade: Schwach
+  verb: schlagen vor
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: concepts/mortalitaet, key: CRRT vs. IHD, value: Niedrig, system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=94
+    quote: "Wir schlagen vor, dass zur Nierensatztherapie der AKI bei Pati-"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=94, quote: Schwach}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=94, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=94, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=94, quote: CRRT vs. IHD}
+# Empfehlung 6.6, p. 94, its Bemerkung — a recommendation sentence ("soll" under Schwach, #213 item 1), own
+# statement, so it carries the box's row (#215). The footnote mark "a" after "Situation" is left out of the label
+- id: claims/sepsis-lf-4.0/60d81464
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.6"
+  section: "6.4"
+  label: "Bei der Auswahl des Verfahrens soll jedoch die individuelle klinische Situation des Patienten berücksichtigt werden, die zu einer Bevorzugung eines kontinuierlichen oder intermittierenden Verfahrens führen kann."
+  grade: Schwach
+  verb: soll
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: concepts/mortalitaet, key: CRRT vs. IHD, value: Niedrig, system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=94
+    quote: "Bei der Auswahl des Verfahrens soll jedoch die individuelle klini-"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=94, quote: Schwach}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=94, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=94, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=94, quote: CRRT vs. IHD}
+# p. 94, 6.4 — footnote a under box 6.6: body text (#213 item 1), instructs ("sind … zu berücksichtigen");
+# R → 6.6's Bemerkung
+- id: claims/sepsis-lf-4.0/fdc9e90f
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.4"
+  label: "Bei den individuellen klinischen Situationen sind insbesondere klinische Besonderheiten, wie Hirndruck, Leberversagen, Flüssigkeitsüberschuss, Thrombopenie und die hämodynamische Stabilität zu berücksichtigen."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=94
+    quote: "Bei den individuellen klinischen Situationen sind insbesondere klinische Besonderheiten, wie Hirn-"
+# Empfehlung 6.7, p. 95 — the first row prints the word "Sehr niedrig" and the symbols ⊕⊕⊝⊝ (niedrig): the word
+# is recorded, the conflict named in the pull request (#215)
+- id: claims/sepsis-lf-4.0/398ceb7f
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.7"
+  section: "6.4"
+  label: "Wir schlagen vor, bei hämodynamisch instabilen Patienten mit Sepsis und Nierenersatztherapie bei AKI ein kontinuierliches oder verlängert intermittierendes Verfahren einzusetzen."
+  grade: Schwach
+  verb: schlagen vor
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: concepts/haemodynamische-instabilitaet, value: Sehr niedrig, system: grade}
+    - {outcome: concepts/hypotonie, value: Niedrig, system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=95
+    quote: "Wir schlagen vor, bei hämodynamisch instabilen Patienten mit"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=95, quote: Schwach}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=95, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=95, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=95, quote: "Hämodynamische In-"}
+      - {at: sources/sepsis-lf-4.0#page=95, quote: "Hypotonie:"}
+# p. 96, 6.4 — body text restating 6.7 with "empfehlen wir" (the box: "Wir schlagen vor"); counts only for what it
+# adds, "deutlich" instabil (G3): R → 6.7
+- id: claims/sepsis-lf-4.0/dc3f9570
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.4"
+  label: "Aus Gründen der einfacheren Steuerbarkeit, der höheren Gefahr eines Dysäquilibriums eines hocheffizienten intermittierenden Verfahrens und tradierter, klinischer Erfahrung empfehlen wir trotz geringer Evidenz in der Subgruppe der hämodynamisch, deutlich instabilen Patienten die Durchführung eines verlängerten oder kontinuierlichen Verfahrens (hämodynamische Instabilität als Indikationskriterium für eine CRRT)."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=96
+    quote: "ger Evidenz in der Subgruppe der hämodynamisch, deutlich instabilen Patienten die Durch-"
+  provenance:
+    verb: {at: sources/sepsis-lf-4.0#page=96, quote: "intermittierenden Verfahrens und tradierter, klinischer Erfahrung empfehlen wir trotz gerin-"}
+# p. 96, 6.5 — body text, the heparin sentence's first member (card #224 hard case 8): which agents; R → 6.8
+- id: claims/sepsis-lf-4.0/3e456edd
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.5"
+  label: "Die systemische Antikoagulation wird in der Regel durch unfraktioniertes Heparin (aktueller Standard bei der intermittierenden Hämodialyse) oder fraktioniertes Heparin erzielt"
+  source:
+    at: sources/sepsis-lf-4.0#page=96
+    quote: "systemische Antikoagulation wird in der Regel durch unfraktioniertes Heparin"
+# p. 96, 6.5 — body text, the heparin sentence's second member: HIT Typ II taken out of heparin, with the
+# alternative; L → 6.8
+- id: claims/sepsis-lf-4.0/9d26bfa0
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.5"
+  label: "Die systemische Antikoagulation wird … erzielt, alternativ – bei Vorliegen einer Heparin-induzierten-Thrombozytopenie Typ II – durch den direkten Thrombin Inhibitor Argatroban oder das Heparinoid Danaparoid."
+  source:
+    at: sources/sepsis-lf-4.0#page=96
+    quote: "bei Vorliegen einer Heparin-induzierten-Thrombozytopenie Typ II – durch den direkten"
+# Empfehlung 6.8, p. 97 — reference marks (402, 403) left out of the outcomes (#217's ledger)
+- id: claims/sepsis-lf-4.0/0c90ec27
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.8"
+  section: "6.5"
+  label: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock eine regionale Citrat-Antikoagulation oder eine systemische Heparin-Antikoagulation des extrakorporalen Blutkreislaufs gleichwertig einzusetzen."
+  grade: Stark
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: concepts/mortalitaet, value: Moderat, system: grade}
+    - {outcome: concepts/filterstandzeiten, value: Moderat, system: grade}
+    - {outcome: concepts/blutungsrate, value: Moderat, system: grade}
+    - {outcome: concepts/transfusionen, value: Niedrig, system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=97
+    quote: "Wir empfehlen bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=97, quote: Stark}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=97, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=97, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=97, quote: "Mortalität402:"}
+      - {at: sources/sepsis-lf-4.0#page=97, quote: "Filterstandzeiten402:"}
+      - {at: sources/sepsis-lf-4.0#page=97, quote: "Blutungsrate403:"}
+      - {at: sources/sepsis-lf-4.0#page=97, quote: "Transfusionen403:"}
+# p. 98, 6.5 — body text: instructs ("ist … anzuwenden"); two groups, one answer (one claim, K); L → 6.8
+- id: claims/sepsis-lf-4.0/0c3e3bc9
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.5"
+  label: "Der Einsatz von regionaler Citrat-Antikoagulation ist bei Patienten, bei denen der Einsatz von Heparin aufgrund von Kontraindikationen (z. B. HIT) nicht in Frage kommt, und bei Patienten mit erhöhtem Blutungsrisiko anzuwenden."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=98
+    quote: "Der Einsatz von regionaler Citrat-Antikoagulation ist bei Patienten, bei denen der Einsatz von"
+# p. 98, 6.5 — body text: L → 6.8 (a circumstance in which citrate is not to be used)
+- id: claims/sepsis-lf-4.0/5cbcc48a
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.5"
+  label: "Jedoch sollte bei einer ausgeprägten, progredienten Laktatazidose im Rahmen eines Schocks oder schwerem Leberversagen, aufgrund einer möglichen Citrat-Akkumulation, keine regionale Citrat-Antikoagulation angewendet werden."
+  verb: sollte
+  direction: against
+  source:
+    at: sources/sepsis-lf-4.0#page=98
+    quote: "Jedoch sollte bei einer ausgeprägten, progredienten Laktatazidose im Rahmen"
+  provenance:
+    direction: {at: sources/sepsis-lf-4.0#page=98, quote: keine regionale Citrat-Antikoagulation angewendet werden.}
+# p. 98, 6.5 — body text, the sentence's first action (card #224 hard case 7): S → 6.8
+- id: claims/sepsis-lf-4.0/06a52d81
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.5"
+  label: "Aufgrund der komplexen metabolischen Situation wird ein enges Monitoring der Citrat-Akkumulation … empfohlen (nicht graduiert)."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=98
+    quote: "wird ein enges Monitoring der Citrat-Akkumulation"
+  provenance:
+    verb: {at: sources/sepsis-lf-4.0#page=98, quote: "Indikationsstellung empfohlen (nicht graduiert)."}
+# p. 98, 6.5 — body text, the sentence's second action: L → 6.8
+- id: claims/sepsis-lf-4.0/2f1a8ce1
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.5"
+  label: "Aufgrund der komplexen metabolischen Situation wird … eine enggefasste Indikationsstellung empfohlen (nicht graduiert)."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=98
+    quote: "Indikationsstellung empfohlen (nicht graduiert)."
+# p. 98, 6.6 — body text, marked ("definiert"): what "Dosis" stands for; R → 6.9
+- id: claims/sepsis-lf-4.0/fb55313d
+  type: claim
+  lang: de
+  kind: definition
+  section: "6.6"
+  label: "Bei dem Dosisbegriff für kontinuierliche Verfahren wird die Dosis primär über die Menge des Effluats definiert."
+  source:
+    at: sources/sepsis-lf-4.0#page=98
+    quote: "wird die Dosis primär über die Menge des Effluats definiert."
+# p. 98, 6.6 — body text, the dose formula of item 1) ("X = …"); one answer per procedure (K); R → 6.9
+- id: claims/sepsis-lf-4.0/d948f8e7
+  type: claim
+  lang: de
+  kind: definition
+  section: "6.6"
+  label: "Kontinuierliche venovenöse Hämofiltration (CVVH): Dosis (ml/kg/h) = (Substituatmenge + ggf. Citratflüssigkeit) + Volumenentzug /kgKG"
+  source:
+    at: sources/sepsis-lf-4.0#page=98
+    quote: "Dosis (ml/kg/h) = (Substituatmenge + ggf. Citratflüssigkeit) + Volumenentzug /kgKG"
+# p. 99, 6.6 — body text, the dose formula of item 2); R → 6.9
+- id: claims/sepsis-lf-4.0/a252cd87
+  type: claim
+  lang: de
+  kind: definition
+  section: "6.6"
+  label: "Kontinuierliche venovenöse Hämodialyse (CVVHD): Dosis (ml/kg/h) = (Dialysatfluss + Volumenentzug) /kgKG"
+  source:
+    at: sources/sepsis-lf-4.0#page=99
+    quote: "Dosis (ml/kg/h) = (Dialysatfluss + Volumenentzug) /kgKG"
+# p. 99, 6.6 — body text, the dose formula of item 3); R → 6.9
+- id: claims/sepsis-lf-4.0/6834bd41
+  type: claim
+  lang: de
+  kind: definition
+  section: "6.6"
+  label: "Kontinuierliche venovenöse Hämodiafiltration (CVVHDF): Dosis (ml/kg/h) = ((Substituatmenge + ggf. Citratflüssigkeit) + Dialysatfluss + Volumenentzug) /kgKG"
+  source:
+    at: sources/sepsis-lf-4.0#page=99
+    quote: "Dosis (ml/kg/h) = ((Substituatmenge + ggf. Citratflüssigkeit) + Dialysatfluss +"
+# p. 99, 6.6 — body text, the third dose category: a threshold for 6.10's "hochvolumige"; R → 6.10. P. 101
+# prints "≥ 50ml/kg/h" for the same term (another claim): the conflict is flagged (card #224 hard case 2)
+- id: claims/sepsis-lf-4.0/dadd79ec
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.6"
+  label: "Hochvolumen Dosis (in der Literatur als high-volume CRRT beschrieben): > 50 ml/kg/h Filtratmenge/Dialysatmenge plus Ultrafiltratmenge."
+  threshold: {quantity: concepts/dosis-nierenersatzverfahren, comparator: ">", value: "50", unit: ml/kg/h}
+  source:
+    at: sources/sepsis-lf-4.0#page=99
+    quote: "Hochvolumen Dosis (in der Literatur als high-volume CRRT beschrieben): > 50 ml/kg/h Filt-"
+# Empfehlung 6.9, p. 100 — "mittlere Dosis von 20-25 ml/kg/h" is a dose, not a threshold (spec §3.1)
+- id: claims/sepsis-lf-4.0/64062a0d
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.9"
+  section: "6.6"
+  label: "Wir empfehlen, bei Patienten mit Sepsis oder septischem Schock für ein kontinuierliches Nierenersatzverfahren eine mittlere Dosis von 20-25 ml/kg/h über die geplante Behandlungsdauer zu verabreichen."
+  grade: Stark
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: concepts/mortalitaet-nach-30-tagen, value: Niedrig, system: grade}
+    - {outcome: concepts/renale-erholung, value: Moderat, system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=100
+    quote: "Wir empfehlen, bei Patienten mit Sepsis oder septischem Schock"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=100, quote: Stark}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=100, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=100, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=100, quote: "Mortalität (30 Tage)"}
+      - {at: sources/sepsis-lf-4.0#page=100, quote: "Renale Erholung:"}
+# p. 100, 6.6 — body text: which dose 6.9's value stands for (the target), "ml/h/kg" as printed; R → 6.9
+- id: claims/sepsis-lf-4.0/b13497d6
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.6"
+  label: "Im klinischen Alltag wird daher die verschriebene Dosis etwas höher gewählt (z. B. 25-30 ml/h/kg), um eine bestimmte Zieldosis (z. B. 20-25 ml/h/kg) zu erreichen."
+  source:
+    at: sources/sepsis-lf-4.0#page=100
+    quote: "was höher gewählt (z. B. 25-30 ml/h/kg), um eine bestimmte Zieldosis (z. B. 20-25 ml/h/kg) zu"
+# Empfehlung 6.10, p. 101
+- id: claims/sepsis-lf-4.0/4972092d
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.10"
+  section: "6.6"
+  label: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem Schock eine kontinuierliche hochvolumige (high-volume) Hämofiltration NICHT anzuwenden."
+  grade: Schwach
+  verb: schlagen vor
+  direction: against
+  consensus: starker_konsens
+  consensus_share: "100 %"
+  evidence:
+    - {outcome: concepts/mortalitaet-intensivstation, value: Niedrig, system: grade}
+    - {outcome: concepts/mortalitaet-nach-28-tagen, value: Niedrig, system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=101
+    quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=101, quote: Schwach}
+    direction: {at: sources/sepsis-lf-4.0#page=101, quote: filtration NICHT anzuwenden.}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=101, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=101, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=101, quote: "Mortalität (ICU)"}
+      - {at: sources/sepsis-lf-4.0#page=101, quote: "Mortalität (28-Tage)"}
+# p. 101, 6.6 — body text: the guideline group's own limit for 6.10's term; R → 6.10, and the rule its concept
+# reaches (defined_by). P. 99 prints "> 50 ml/kg/h": the conflict is flagged (card #224 hard case 2)
+- id: claims/sepsis-lf-4.0/863077be
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.6"
+  label: "Die Leitliniengruppe hat dabei entschieden, die Grenze für hochvolumige Hämofiltration bei einer Dosis von ≥ 50ml/kg/h zu setzen."
+  threshold: {quantity: concepts/dosis-nierenersatzverfahren, comparator: "≥", value: "50", unit: ml/kg/h}
+  source:
+    at: sources/sepsis-lf-4.0#page=101
+    quote: "gruppe hat dabei entschieden, die Grenze für hochvolumige Hämofiltration bei einer Dosis"
+  provenance:
+    threshold:
+      - {at: sources/sepsis-lf-4.0#page=101, quote: "gruppe hat dabei entschieden, die Grenze für hochvolumige Hämofiltration bei einer Dosis"}
+      - {at: sources/sepsis-lf-4.0#page=101, quote: "von ≥ 50ml/kg/h zu setzen."}

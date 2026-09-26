@@ -1,0 +1,16 @@
+# The scope root proposed for views/sepsis-lf-4.0 (spec §4 `scope_root`): the guideline's patient target
+# group as its section 1.3 names it (p. 20), with the age its section 1.1 gives (p. 19) — sourced, not a
+# collector coined for the tree. One concept, by the maintainer's answer to card #217's question 3: it is
+# also the population of every recommendation that prints "Patienten mit Sepsis oder septischem Schock",
+# and of 2.4 and 4.4, which print "Sepsis und septischer Schock". Stated: no passage of the guideline
+# combines Definitions 1 and 2, so it has no defined_by edge (card #204).
+id: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+type: concept
+lang: de
+label: Erwachsene Patienten mit Sepsis oder septischem Schock
+short_label: "Erwachsene mit Sepsis oder septischem Schock"
+facet: patient_state
+definition: Erwachsene (>18 Jahre) Patienten mit Sepsis oder septischem Schock.
+source:
+  - {at: sources/sepsis-lf-4.0#page=20, quote: "Diese Leitlinie bezieht sich auf erwachsene Patienten mit Sepsis oder septischem Schock."}
+  - {at: sources/sepsis-lf-4.0#page=19, quote: "Die Leitlinie bezieht sich auf erwachsene (>18 Jahre) Patienten mit Sepsis oder septischem"}

@@ -1,0 +1,12 @@
+# Sepsis S3, 10.1: prevention, addressed to the hospital, which stays in the label; its population is the
+# prevention group (decision of 2026-09-25, section 1). Card #226.
+id: statements/ams-programm-im-krankenhaus
+type: statement
+lang: de
+label: "Es wird empfohlen, im Krankenhaus ein Antimicrobial Stewardship (AMS)-Programm zu implementieren, zur Sicherung einer rationalen Antiinfektiva-Anwendung."
+short_label: "AMS-Programm im Krankenhaus implementieren"
+slots:
+  population: concepts/praevention-der-sepsis
+  action: concepts/antimicrobial-stewardship-programm
+  outcome: concepts/rationale-antiinfektiva-anwendung
+source: modelling

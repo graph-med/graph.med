@@ -1,0 +1,10 @@
+# Empfehlung 6.10 (p. 101): row 1 of card #217's convention.
+id: statements/keine-hochvolumige-haemofiltration
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock wird keine kontinuierliche hochvolumige (high-volume) Hämofiltration angewendet."
+short_label: "Keine hochvolumige Hämofiltration"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/kontinuierliche-hochvolumige-haemofiltration
+source: modelling

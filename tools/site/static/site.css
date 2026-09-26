@@ -36,11 +36,54 @@ h1 { font-size: 1.4rem; margin: 1rem 0 .5rem; }
 h2 { font-size: 1.1rem; margin: 1.5rem 0 .5rem; }
 h3 { font-size: .95rem; margin: 1rem 0 .4rem; color: var(--mute); text-transform: uppercase; letter-spacing: .04em; }
 .lead { color: var(--mute); }
-ul.plain, ul.cards, ol.claims { list-style: none; padding: 0; margin: 0; }
-ul.plain li { padding: .45rem 0; border-top: 1px solid var(--line); }
-ul.cards li a { display: block; padding: .8rem; border: 1px solid var(--line); border-radius: .6rem; text-decoration: none; color: var(--fg); margin-bottom: .6rem; }
-ul.cards small, ul.plain small { display: block; color: var(--mute); }
+ol.claims { list-style: none; padding: 0; margin: 0; }
 .foot { padding: 1rem; color: var(--mute); font-size: .8rem; border-top: 1px solid var(--line); }
+
+/* the index (docs/publication.md §2): the only place the graphs meet, a view page's graph and sheet — the graph a
+   question and a box per graph (home.js), the sheet's home the page's text and one entry per graph, a tapped box its
+   entry alone. The title is the entry's one link, stretched over the entry; the pill below it only shows the action
+   (the link names the graph), and the source's lines — its register number, its page, its licence — lie on a surface
+   of their own above the stretch, selectable and linked apart, as does the toggle beside the pill that selects the
+   entry's box in the graph (the keyboard's way to it; pressed, it wears the selected box's heavier border). Without
+   the graph — no script (the page sets `js` on the root before it is painted), or a graph that could not be drawn
+   (home.js sets `flat`) — the sheet is the page, laid out like any other, its hint (tap a box) and the toggles gone,
+   the entries side by side where the width allows */
+main.home .sheet h1 { margin-top: .4rem; }
+:root:not(.js) main.view.home, main.view.home.flat { display: block; height: auto; max-width: 52rem; margin: 0 auto; padding: 0 1rem 2rem; }
+:root:not(.js) main.home .graph-wrap, main.home.flat .graph-wrap, :root:not(.js) main.home .sheet .hint, main.home.flat .sheet .hint,
+:root:not(.js) main.home .entry-select, main.home.flat .entry-select { display: none; }
+:root:not(.js) main.home .sheet, main.home.flat .sheet { border: 0; padding: .6rem 0 0; }
+.home .lead, .graphs-lead { max-width: 42rem; }
+.graphs-lead { margin: 0 0 1rem; }
+ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
+.graph-entry { position: relative; display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: .6rem; background: var(--bg); overflow: hidden; }
+.entry-title { margin: 0; padding: 1rem 1rem .5rem; font-size: 1.1rem; line-height: 1.35; font-weight: 600; color: var(--fg); text-transform: none; letter-spacing: 0; overflow-wrap: anywhere; hyphens: auto; }
+.entry-title a { color: inherit; text-decoration: none; }
+.entry-title a::after { content: ""; position: absolute; inset: 0; }   /* the whole entry opens the graph */
+.entry-title a:focus-visible { outline: none; }
+.entry-title a:focus-visible::after { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: .6rem; }
+@supports selector(:has(a)) {   /* the ring around the whole entry, the source's surface included, where the browser can say so */
+  .entry-title a:focus-visible::after { outline: none; }
+  .graph-entry:has(.entry-title a:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+}
+.entry-holds { margin: 0; padding: 0 1rem 1rem; font-size: .95rem; }
+.entry-holds b { font-variant-numeric: tabular-nums; }
+.entry-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin: auto 1rem 1rem; }
+.entry-open { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.1rem;
+  border: 1px solid var(--accent); border-radius: 22px; background: var(--accent); color: var(--bg); font-size: .9rem; font-weight: 600; }
+.entry-select { position: relative; z-index: 1; display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.1rem;
+  border: 1px solid var(--mute); border-radius: 22px; background: var(--bg); color: var(--fg); font: inherit; font-size: .9rem; cursor: pointer; }
+.entry-select:hover { border-color: var(--fg); }
+.entry-select[aria-pressed="true"] { border-color: var(--fg); box-shadow: inset 0 0 0 1.5px var(--fg); font-weight: 600; }
+.entry-select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.graph-entry:has(.entry-title a:hover) { border-color: var(--fg); }
+.graph-entry:has(.entry-title a:hover) .entry-open { background: var(--fg); border-color: var(--fg); }
+.entry-source { position: relative; z-index: 1; padding: .2rem 1rem .8rem; background: var(--surface); border-top: 1px solid var(--line); color: var(--mute); font-size: .8rem; }
+.entry-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0 1rem; margin: 0; }
+.entry-meta a { display: inline-flex; align-items: center; min-height: 44px; }   /* touch target */
+.entry-meta .entry-source-title { flex-basis: 100%; padding-top: .6rem; color: var(--fg); }   /* a view of several sources names each */
+.entry-licence { margin: 0 0 .3rem; }
+.entry-licence + .entry-meta { border-top: 1px solid var(--line); margin-top: .4rem; }   /* a view of several sources: one block each */
 
 /* the graph: one decision tree in a fixed viewport, drawn by Cytoscape.js. The wrapper is a grid of three
    rows — the controls, the free space, the legend — and the canvas spans all three, so that everything the page
@@ -101,6 +144,7 @@ ul.cards small, ul.plain small { display: block; color: var(--mute); }
 
 /* the sheet below the graph, and the entity page */
 .sheet { border-top: 2px solid var(--line); padding-top: .6rem; }
+.sheet .card + .card { margin-top: 1.2rem; padding-top: .6rem; border-top: 1px solid var(--line); }   /* several selected (an answer naming several conditions): a card each */
 .kind { margin: .2rem 0; color: var(--mute); font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; }
 .label { font-size: 1.15rem; margin: .2rem 0 .6rem; }
 dl.slots { display: grid; grid-template-columns: max-content 1fr; gap: .2rem .8rem; margin: 0 0 .5rem; }
@@ -145,6 +189,8 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
   .peek .sw-band { flex: none; width: 1.3rem; height: 1.3rem; border-radius: .3rem; background: var(--band, var(--line)); }
   .peek-text { min-width: 0; display: flex; flex-direction: column; }
   .peek-title { font-weight: 600; font-size: .95rem; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .peek-title.several { white-space: normal; }   /* several cards: a title to a line, so that none hides another */
+  .peek-title.several > span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .peek .verdict { font-size: .85rem; line-height: 1.3; color: var(--mute); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .peek .verdict .answer { color: var(--fg); font-weight: 600; }
   .peek .verdict .glyph { font-weight: 400; }
@@ -152,6 +198,12 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
   .peek .verdict .contested .glyph { font-weight: 400; }   /* a bold ⚠ falls to the emoji font, as in the card */
   .peek-close { display: none; flex: none; width: 52px; min-height: 48px; border: 0; background: none; color: var(--fg); font: inherit; font-size: 1.25rem; cursor: pointer; }
   .sheet.raised .peek-close { display: block; }
+  /* the index's strip carries its entry's link to the graph (home.js), so that a graph is two taps away; raised,
+     the entry below says it */
+  .peek-open { flex: none; align-self: center; display: inline-flex; align-items: center; min-height: 44px; margin: 0 1rem 0 .2rem; padding: 0 1rem;
+    border-radius: 22px; background: var(--accent); color: var(--bg); font-size: .9rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
+  .peek-open:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+  .sheet.raised .peek-open { display: none; }
 }
 
 /* chapters and search (docs/publication.md §3 "Chapters and search"): a hard filter and a soft highlight */
@@ -242,6 +294,13 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card dl.slots dd .families { flex-basis: 100%; color: var(--mute); font-size: .85rem; }
 .card dl.slots dd .families-label { margin-right: .15rem; }   /* "gehört zu:" — broader categories, not further requirements */
 .card dl.slots dd .families .node-link { min-height: 32px; }
+/* concepts that hold at once (a statement's conditions, a scope path's): every entry after the first on a line of its
+   own, opened by the conjunction, so that no label's own "oder" reads across the join; in a row, the conjunction
+   stands in a column of its own and the entry beside it is laid out like the row's first */
+.card .and { display: block; }
+.card .and > .conj { font-weight: 600; }
+.card dl.slots dd > .and { flex-basis: 100%; display: flex; align-items: baseline; column-gap: .4rem; }
+.card dl.slots dd > .and > .entry { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; column-gap: .4rem; }
 .card ul.body li p { margin: .2rem 0; }
 /* what applies generally to a concept (docs/publication.md §3): set apart under its own heading, below the concept's
    own statements, each entry the statement, where it stands, the concept it was made for and the condition; and on
@@ -261,14 +320,18 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card div.grouped .from .count, .card ul.grouped .edge-kind { color: var(--mute); font-size: .85rem; }
 .card ul.grouped li { padding: .3rem 0; }
 .card ul.grouped .edge-kind.none { color: var(--fg); font-style: italic; }
-/* a derived concept's rules, under its row of zone 5 and on its page: the line saying it is derived, then each rule —
-   its thresholds or its sentence, the page and the claim's link on a line of their own below */
+/* a derived concept's rule, under its row of zone 5 and on its page: the line saying it is derived, then the rule as a
+   tree. A node that combines parts is its operator line — the operator in words, the connective as printed, the page
+   and the claim's link — with its parts nested under it behind a line of their own, one level per combination; any
+   other node is its threshold or its sentence, the page and the claim's link on a line of their own below */
 .card .rules { flex-basis: 100%; margin: .15rem 0 .3rem; padding-left: .6rem; border-left: 2px solid var(--line); }
 .card .rules p.derived { margin: 0 0 .15rem; color: var(--mute); font-size: .85rem; font-style: italic; }
-.card .rules ul.rule-list { margin: 0; }
+.card .rules p.op { margin: 0; }
+.card .rules p.op > .cite { display: block; }
+.card .rules ul.rule-list { margin: .15rem 0 0; padding-left: .6rem; border-left: 2px solid var(--line); }
 .card .rules ul.rule-list li { margin: 0; padding: .3rem 0; border-top: 0; }
-.card .rules ul.rule-list li + li { border-top: 1px dashed var(--line); }   /* alternatives, one apart from the next */
-.card .rules ul.rule-list li > span { display: block; }
+.card .rules ul.rule-list li + li { border-top: 1px dashed var(--line); }   /* the parts, one apart from the next */
+.card .rules .rule-tree > span, .card .rules ul.rule-list li > span { display: block; }
 .card .rules .threshold { white-space: normal; }
 .card .rules .cite a { min-height: 32px; }
 /* zone 7: the contesting claims, each with the contested colour beside it, its heading in that colour */

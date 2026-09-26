@@ -1,0 +1,64 @@
+# Claims of card #225 from chapter 7 of sources/sepsis-lf-4.0, „Ernährungstherapie“ (pp. 103–104):
+# box 7.1 (spec §3.1, one claim per sentence, #212 grade, verb and consensus, #215 evidence rows) and the
+# body text of section 7 that passes spec §5.1 (#213's checklist). Ids: sha256("<at>|<quote>")[:8].
+
+- id: claims/sepsis-lf-4.0/72050068
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '7.1'
+  section: '7'
+  label: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem Schock nach hämodynamischer Stabilisierung, eine frühe enterale oder parenterale Ernährung unter Monitoring der gastrointestinalen und metabolischen Toleranz durchzuführen."
+  grade: Schwach
+  verb: schlagen vor
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:
+    - {outcome: concepts/mortalitaet, value: Niedrig, system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=103
+    quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=103, quote: "Schwach"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=103, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=103, quote: "Konsensstärke: 100 %"}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=103, quote: "Mortalität:"}
+# p. 104: the first member of the sentence, marked by „definiert“ (§3.1 kind). Body text (§5.1): R → 7.1, and the rule
+# of concepts/metabolische-toleranz (defined_by, no threshold: the page prints no value).
+- id: claims/sepsis-lf-4.0/d1690c44
+  type: claim
+  lang: de
+  kind: definition
+  section: '7'
+  label: "Die metabolische Toleranz wird dabei insbesondere über die Glukosekonzentration und den resultierenden Insulinbedarf definiert (s. auch Empfehlung 8.13)"
+  source:
+    at: sources/sepsis-lf-4.0#page=104
+    quote: "Die metabolische Toleranz wird dabei insbesondere über die Glu-"
+# p. 104: the second member of the same sentence, one answer each (§5.1 K). It shares the sentence's „definiert“
+# („die gastrointestinale Toleranz [wird] u.a. anhand von … [definiert]“), so the source marks it as a definition like
+# the first (§3.1 kind). R → 7.1, and the rule of concepts/gastrointestinale-toleranz (defined_by, no threshold).
+- id: claims/sepsis-lf-4.0/d353eda9
+  type: claim
+  lang: de
+  kind: definition
+  section: '7'
+  label: "die gastrointestinale Toleranz u.a. anhand von klinisch-abdomineller und/oder bildgebender Diagnostik"
+  source:
+    at: sources/sepsis-lf-4.0#page=104
+    quote: "die gastrointestinale Toleranz u.a. anhand von klinisch-abdomineller und/oder bildge-"
+# p. 104: instructs the next step of 7.1's monitoring („wird … gesteuert“); no verb a declared scheme defines. S →
+# 7.1.
+- id: claims/sepsis-lf-4.0/db2289ef
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '7'
+  label: "Anhand des Monitorings der metabolischen und gastrointestinalen Toleranz wird die enterale und/oder parenterale Kalorien- und Proteinzufuhr im weiteren Verlauf gesteuert."
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=104
+    quote: "Anhand des Monitorings der metabolischen und gastrointestinalen To-"

@@ -1,0 +1,7 @@
+# The action of 5.3 (p. 74), as printed (card #223). The pressure says how: no threshold.
+id: concepts/plateaudruck-hoechstens-30-cmh2o
+type: concept
+lang: de
+label: "Plateaudruck (Pplat) ≤ 30 cmH2O halten"
+facet: intervention
+source: modelling

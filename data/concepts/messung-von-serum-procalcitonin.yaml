@@ -1,0 +1,8 @@
+# The action of box 3.10 (p. 55): "die Messung von Serum-Procalcitonin, um die Dauer der antiinfektiven
+# Therapie zu begrenzen" (card #221). The measured quantity is concepts/serum-procalcitonin.
+id: concepts/messung-von-serum-procalcitonin
+type: concept
+lang: de
+label: Messung von Serum-Procalcitonin
+facet: intervention
+source: modelling

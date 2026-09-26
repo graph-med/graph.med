@@ -1,0 +1,10 @@
+# Sepsis S3, 9.4: convention row 12. Card #226.
+id: statements/pics-hinweis-im-entlassbericht
+type: statement
+lang: de
+label: "Es wird empfohlen, dass bei Sepsis-Überlebenden im Entlassbericht auf die Möglichkeit der Entwicklung eines Post-Intensive-Care-Syndrom (PICS) hingewiesen wird."
+short_label: "Im Entlassbericht auf PICS hinweisen"
+slots:
+  population: concepts/sepsis-ueberlebende
+  action: concepts/hinweis-auf-pics-im-entlassbericht
+source: modelling

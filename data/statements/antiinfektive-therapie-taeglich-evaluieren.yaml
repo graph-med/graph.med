@@ -1,0 +1,14 @@
+# Box 3.8 (p. 51, section 3.4), its first action, card #221. Population: the root, "Patienten mit Sepsis
+# oder septischem Schock" (#217's convention, row 1). The sentence's "sobald … und …" follows "die
+# Therapie anzupassen" and governs that action alone; the daily evaluation holds without it, so it is a
+# statement of its own beside statements/antiinfektive-therapie-nach-erregernachweis-anpassen, and the
+# one claim of 3.8 supports both.
+id: statements/antiinfektive-therapie-taeglich-evaluieren
+type: statement
+lang: de
+label: Bei Patienten mit Sepsis oder septischem Schock ist die antiinfektive Therapie täglich zu evaluieren.
+short_label: "Antiinfektiva täglich evaluieren"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/taegliche-evaluation-der-antiinfektiven-therapie
+source: modelling

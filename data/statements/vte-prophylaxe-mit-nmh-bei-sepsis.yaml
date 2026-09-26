@@ -1,0 +1,9 @@
+id: statements/vte-prophylaxe-mit-nmh-bei-sepsis
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock eine pharmakologische Prophylaxe einer venösen Thromboembolie (VTE) mittels niedermolekularen Heparins (NMH)."
+short_label: "VTE-Prophylaxe mit NMH"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/vte-prophylaxe-mit-nmh
+source: modelling

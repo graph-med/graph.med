@@ -1,0 +1,8 @@
+# The action of 5.10 (p. 82), as printed (card #223).
+id: concepts/kurze-rekrutierungsmanoever-routinemaessig
+type: concept
+lang: de
+label: "Routinemäßige Durchführung von kurzen (< 60 s) Rekrutierungsmanövern"
+short_label: "Routinemäßige kurze Rekrutierungsmanöver (< 60 s)"
+facet: intervention
+source: modelling

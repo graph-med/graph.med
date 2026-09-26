@@ -1,0 +1,10 @@
+id: statements/nmh-mit-anti-xa-kontrollen-oder-ufh-bei-niereninsuffizienz-oder-hohem-vasopressorbedarf
+type: statement
+lang: de
+label: "Bei hochgradig eingeschränkter Nierenfunktion und/oder septischem Schock mit hohem Vasopressorbedarf entweder niedermolekulares Heparin (NMH) unter engmaschigen anti-Xa Kontrollen oder unfraktioniertes Heparin (UFH)."
+short_label: "NMH mit anti-Xa-Kontrollen oder UFH"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/nmh-unter-anti-xa-kontrollen-oder-ufh
+  condition: [concepts/hochgradig-eingeschraenkte-nierenfunktion-und-oder-septischer-schock-mit-hohem-vasopressorbedarf]
+source: modelling

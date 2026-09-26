@@ -1,0 +1,10 @@
+id: statements/hydrokortison-bei-septischem-schock-mit-anhaltendem-vasopressorbedarf
+type: statement
+lang: de
+label: "Hydrokortison mit oder ohne Fludrokortison bei Patienten mit septischem Schock mit anhaltendem Vasopressorbedarf trotz ausreichender Volumengabe."
+short_label: "Hydrokortison ± Fludro bei anhaltendem Vasopressorbedarf"
+slots:
+  population: concepts/septischer-schock
+  action: concepts/hydrokortison-mit-oder-ohne-fludrokortison
+  condition: [concepts/anhaltender-vasopressorbedarf, concepts/ausreichende-volumengabe]
+source: modelling

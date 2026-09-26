@@ -1,0 +1,11 @@
+# Box 5.16 of sources/sepsis-lf-4.0 (card #223); two conditions joined by „und“ (#217 row 8).
+id: statements/schweres-ards-vv-ecmo
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock und schwerem ARDS wird der Einsatz einer veno-venösen ECMO nur nach Ausschöpfen der konservativen Therapiemaßnahmen, einschließlich der Durchführung einer Bauchlagerung, und bei fortbestehender schwerer Gasaustauschstörung erwogen."
+short_label: "VV-ECMO nach Ausschöpfen konservativer Therapie"
+slots:
+  population: concepts/schweres-ards
+  action: concepts/vv-ecmo
+  condition: [concepts/ausschoepfen-der-konservativen-therapiemassnahmen, concepts/fortbestehende-schwere-gasaustauschstoerung]
+source: modelling

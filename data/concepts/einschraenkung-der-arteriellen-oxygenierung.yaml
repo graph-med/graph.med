@@ -1,0 +1,9 @@
+# A condition of 5.14 (p. 86), as printed with the rule inside the box sentence (card #223; #217's convention row
+# 6 (b)). The rule stays in the box claim and the concept stays stated (#213 item 3).
+id: concepts/einschraenkung-der-arteriellen-oxygenierung
+type: concept
+lang: de
+label: "Einschränkung der arteriellen Oxygenierung (PaO2/FiO2 < 150 mmHg)"
+short_label: "Eingeschränkte Oxygenierung (PaO2/FiO2 < 150 mmHg)"
+facet: finding
+source: modelling

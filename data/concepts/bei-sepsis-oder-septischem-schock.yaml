@@ -1,0 +1,15 @@
+# The condition of the scope edges that hang a group wider than the guideline's target group under the scope
+# root of views/sepsis-lf-4.0 (spec §5 `in_scope_of`; data/edges/sepsis-lf-4.0/scope-edges.yaml): a group whose
+# patients do not all have a sepsis or a septic shock — the suspected cases, the survivors, the patients with
+# asplenia, the patients to be protected by prevention — belongs to the target group only then. Proposed by card
+# #217 (question 5), minted by card #228; flagged for the physician.
+id: concepts/bei-sepsis-oder-septischem-schock
+type: concept
+lang: de
+label: Bei Sepsis oder septischem Schock
+facet: patient_state
+definition: Der Patient hat eine Sepsis oder einen septischen Schock, wie die Patient*innenzielgruppe der Leitlinie.
+source: modelling
+provenance:
+  definition:
+    - {at: sources/sepsis-lf-4.0#page=20, quote: "Diese Leitlinie bezieht sich auf erwachsene Patienten mit Sepsis oder septischem Schock."}

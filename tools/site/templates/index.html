@@ -1,24 +1,64 @@
 {% extends "base.html" %}
-{% set lead = "Source-anchored claims, linked into statements and concepts, drawn as graphs. Every identifier on this site resolves; every quote links to the page it was taken from." %}
-{% block title %}graph.med — a collaborative public medical knowledge graph{% endblock %}
-{% block description %}{{ lead }}{% endblock %}
+{# The index (docs/publication.md §2): where the views meet, and the only page where they do — no view links another.
+   A graph like theirs, a graph and a sheet: one question, one answer per view, each a box naming its guideline,
+   drawn by assets/home.js with the view page's renderer. The graph is read from this page: the sheet's home holds one
+   entry per view (its `data-ref` the box, its `data-box` parts the box's lines in their order), so the page reads the
+   same without the script and with a screen reader, and a tapped box shows its entry alone; each entry's toggle
+   selects its box from the keyboard (shown only where the graph is drawn). Every word the page adds
+   is the page chrome's, from the view layer's table (tools/site/words/); every other word is the data's, in its own
+   language: the source's title as printed, its register number, its licence. #}
+{% set W = page.index %}
+{% block title %}{{ W.title }}{% endblock %}
+{% block description %}{{ W.lead }}{% endblock %}
+{% block mainclass %}view home{% endblock %}
+{# a page that can run the script says so before it is painted: without it there is no graph, and the sheet is the
+   page (site.css, `:root:not(.js) main.home`) #}
+{% block head %}<script>document.documentElement.classList.add("js");</script>{% endblock %}
+{# a count and its word, the pair chosen by the count (`one` for 1, else `many`) #}
+{% macro n(key, count) %}<b>{{ count }}</b> {{ W.counts[key].one if count == 1 else W.counts[key].many }}{% endmacro %}
 {% block main %}
-<h1>A collaborative public medical knowledge graph</h1>
-<p class="lead">{{ lead }}</p>
-<h2>Views</h2>
-<ul class="cards">
+<section class="graph-wrap" lang="{{ page_lang }}">
+  <div id="graph" role="img" aria-label="{{ W.question }}" data-question="{{ W.question }}"></div>
+</section>
+<section class="sheet" id="sheet" aria-live="polite" lang="{{ page_lang }}" data-close="{{ page.sheet.close }}">
+<h1>{{ W.heading }}</h1>
+<p class="lead">{{ W.lead }}</p>
+<p class="hint">{{ page.sheet.hint }}</p>
+<h2 id="graphs">{{ W.graphs }}</h2>
+<p class="graphs-lead">{{ W.graphs_lead }}</p>
+<ul class="graph-list" aria-labelledby="graphs">
 {% for v in views %}
-  <li><a href="{{ base }}{{ v.vid }}/">
-    <strong>{{ v.vid }}</strong>
-    <span lang="{{ v.sources[0].lang }}">{{ v.title }}</span>
-    <small>{{ v.counts.statement }} statements · {{ v.counts.concept }} concepts · {{ v.counts.claim }} claims</small>
-  </a></li>
+  <li class="graph-entry" data-ref="{{ v.id }}">
+    {# the title is the entry's one link to its graph, stretched over the entry; the source's lines and the toggle
+       that selects the entry's box in the graph lie above it #}
+    <h3 class="entry-title"><a id="entry-{{ v.vid }}" href="{{ base }}{{ v.vid }}/"{% if v.lang %} lang="{{ v.lang }}"{% endif %} data-box="1">{{ v.title }}</a></h3>
+    <p class="entry-holds" data-box="3">
+    {%- if not v.holds.claim %}{{ W.empty }}
+    {%- elif not v.holds.statement %}{{ W.unlinked | e | replace("{claims}", n("claim", v.holds.claim)) }}
+    {%- else %}{{ W.holds | e | replace("{statements}", n("statement", v.holds.statement)) | replace("{groups}", n("group", v.holds.group)) | replace("{claims}", n("claim", v.holds.claim)) }}
+    {%- endif %}</p>
+    <div class="entry-actions">
+      <span class="entry-open" aria-hidden="true">{{ W.open }}</span>
+      <button type="button" class="entry-select" aria-pressed="false" aria-describedby="entry-{{ v.vid }}">{{ W.select }}</button>
+    </div>
+    <div class="entry-source">
+    {% for s in v.sources %}
+      <p class="entry-meta">
+        {% if v.sources | length > 1 %}<span class="entry-source-title" lang="{{ s.lang }}">{{ s.title }}</span>{% endif %}
+        {% if s.awmf_register %}<span data-box="2">{{ W.awmf_register | replace("{nr}", s.awmf_register) }}</span>{% endif %}
+        <a href="{{ base }}{{ s.id }}/">{{ W.source }}</a>
+      </p>
+      <p class="entry-licence">{{ s.license }}</p>
+    {% endfor %}
+    </div>
+  </li>
 {% endfor %}
 </ul>
-<h2>Sources</h2>
-<ul class="plain">
-{% for s in sources %}
-  <li><a href="{{ base }}{{ s.id }}/" lang="{{ s.lang }}">{{ s.title }}</a><br><small>{{ s.license }}</small></li>
-{% endfor %}
-</ul>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="{{ base }}assets/vendor/cytoscape-3.30.2.min.js?v={{ commit }}"></script>
+<script src="{{ base }}assets/vendor/dagre-0.8.5.min.js?v={{ commit }}"></script>
+<script src="{{ base }}assets/vendor/cytoscape-dagre-2.5.0.js?v={{ commit }}"></script>
+<script src="{{ base }}assets/home.js?v={{ commit }}"></script>
 {% endblock %}

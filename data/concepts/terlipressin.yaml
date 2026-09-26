@@ -1,0 +1,7 @@
+# The action box 4.8 advises against (p. 67): "Terlipressin NICHT anzuwenden".
+id: concepts/terlipressin
+type: concept
+lang: de
+label: Terlipressin
+facet: medication
+source: modelling

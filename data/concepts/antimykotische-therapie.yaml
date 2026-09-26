@@ -1,0 +1,8 @@
+# The action box 3.6's first sentence advises against (p. 47: "KEINE antimykotische Therapie"). Minted by card
+# #219 for views/sepsis-lf-4.0.
+id: concepts/antimykotische-therapie
+type: concept
+lang: de
+label: "Antimykotische Therapie"
+facet: intervention
+source: modelling

@@ -1,0 +1,7 @@
+# The action of box 3.9's second sentence (p. 53): "ist die Therapiedauer zu verlängern" (card #221).
+id: concepts/verlaengerung-der-therapiedauer
+type: concept
+lang: de
+label: Verlängerung der Therapiedauer
+facet: intervention
+source: modelling

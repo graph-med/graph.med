@@ -1,0 +1,8 @@
+# A condition of 6.5 (p. 93): "Patienten mit einer Sepsis und Indikation zur Nierenersatztherapie", a treatment the
+# patient is indicated for (row 7 of card #217's convention).
+id: concepts/indikation-zur-nierenersatztherapie
+type: concept
+lang: de
+label: "Indikation zur Nierenersatztherapie"
+facet: finding
+source: modelling

@@ -1,0 +1,9 @@
+# The population of 5.16 (p. 87), „schwerem ARDS“ (card #223). Stated: the guideline prints no bound of its own for
+# severe ARDS (the „kleiner 150 mmHg“ on p. 86 is the PROSEVA study's, and 5.14's „(PaO2/FiO2 < 150 mmHg)“ restricts
+# the oxygenation, not the severity).
+id: concepts/schweres-ards
+type: concept
+lang: de
+label: "Schweres ARDS"
+facet: patient_state
+source: modelling

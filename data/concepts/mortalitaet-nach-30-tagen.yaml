@@ -1,0 +1,10 @@
+# An evidence outcome of views/sepsis-lf-4.0, a ledger concept (card #217): one concept whatever the
+# spelling — "Mortalität (nach 30 Tagen)" (6.3, p. 90), "Mortalität (30 Tage)" (6.9, p. 100; 8.2,
+# p. 107), "30d-Mortalität" (8.16, p. 124). Not concepts/mortalitaet-30-tage, the first source's
+# postoperative mortality (card #210, Decision 7).
+id: concepts/mortalitaet-nach-30-tagen
+type: concept
+lang: de
+label: Mortalität (30 Tage)
+facet: outcome
+source: modelling

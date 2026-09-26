@@ -1,6 +1,6 @@
 ---
 name: judge
-description: The automated review of docs/graph-representation.md §8.1. Reads what a branch adds to the pool — claims, statements, body-text edges, hierarchy edges, the placements of grouping axes, and the pages they cite — against its ground, and reports consistent, disputed, undecidable and noticed. Read-only, writes nothing, names no guideline. The coordinator runs it on a diff that touches data/, after the validator and before the pull request.
+description: The automated review of docs/graph-representation.md §8.1. Reads what a branch adds to the pool — claims, statements, body-text edges, hierarchy edges, the placements of grouping axes, the entries of a source's grading scheme, and the pages they cite — against its ground, and reports consistent, disputed, undecidable and noticed. Read-only, writes nothing, names no guideline. The coordinator runs it on a diff that touches data/, after the validator and before the pull request.
 tools: Read, Grep, Glob, Bash
 model: inherit
 ---
@@ -31,7 +31,9 @@ git diff origin/main...HEAD -- data/
 ```
 
 The subjects of a run are every claim, statement and edge the diff adds or
-changes; every statement whose `supports`/`contests` edges the diff changes;
+changes; every entry the diff adds or changes under a source's
+`grading_scheme` (asked question 1, against the method table it quotes);
+every statement whose `supports`/`contests` edges the diff changes;
 every placement the diff adds or changes under `placements` in
 `data/axes/<id>.yaml` (an axis is an overlay: its placements are the
 grouping, spec §4.1); and every page a claim of the diff cites
@@ -74,9 +76,13 @@ is the unit, and its sentences are the claims.
 `uv run tools/validate.py` ran before you. It checked the schema, that every
 reference resolves, that each claim's id hashes from its locator and quote,
 that edges are unique, that `broader` and `in_scope_of` form no cycle and a
-scope edge doubles no `broader`, that an asserted axis places each statement or
+scope edge doubles no `broader`, that a concept has one `defined_by` edge and
+each piece of a combination's connective lies in one of its quotes, that an asserted axis places each statement or
 concept once and each hierarchy placement is an edge of the pool, that a
-dimension's values are among its declared ones, and (with `--verify-quotes`)
+dimension's values are among its declared ones, that a claim's grade and
+consensus are of its source's `grading_scheme`, its verb one a declared scheme
+defines, a printed share within its class's bounds, and every word of a
+scheme in the entry's quotes, and (with `--verify-quotes`)
 that each quote is a substring of the page. You do not recompute ids, do not test quotes as
 substrings, do not check the schema. A substring is mechanical; "as printed"
 is a reading, and the reading is your job.
@@ -84,12 +90,28 @@ is a reading, and the reading is your job.
 ## The six questions
 
 1. **A claim against its page.** Is the `label` the one sentence at the quote
-   — one sentence, not the whole marked recommendation? Does `kind` follow
+   — one sentence, not the whole marked recommendation; for a table, the row
+   or group spec §5.1 K names? Does `kind` follow
    the sentence's form? Are
-   `grade`, `verb`, `direction`, `consensus`, `recommendation_no` and
-   `section` as printed at that place, and is none supplied where the page
-   prints none? Is every number in the label the number on the page? A
-   body-text claim carries no `grade` and no `consensus`.
+   `grade`, `verb`, `direction`, `consensus`, `consensus_share`,
+   `recommendation_no` and `section` as printed at that place — a box's
+   grade and consensus reaching its sentences as spec §3.1 says, a consensus
+   class the one the source's table gives the printed share —, and is none
+   supplied where the page prints none? Is every number in the label the number on the page? A
+   body-text claim carries no `grade` and no `consensus`. A `threshold` is
+   the quantity, comparator, value, unit and time point the page prints, one
+   per claim. A claim with a `combination` quotes the passage its parts come
+   from, and each part is one member the passage joins, a narrower place in
+   the sentence. Is the `connective` what the page prints between them? Does
+   `of` hold every member it joins and no other? Is the `operator` the
+   reading the connective bears in its sentence, never decided by the word
+   alone ("und" between groups each counting on its own is `any_of`)? Is a
+   list the page gives without saying how it combines marked `not_stated`
+   rather than read? Of an entry of a source's `grading_scheme` ask the same
+   against the method table it quotes: is each grade, wording, negated form
+   and class as the table prints it, in the table's order? Is `open` set only
+   where the table makes the grade an open recommendation, and `modelling`
+   only for a form the source prints nowhere?
 2. **A statement against its supporting claims.** Does the `label` assert
    nothing absent from every supporting claim, and nothing a supporting claim
    contradicts? Does each slot name what the claims' sentences name in that
@@ -105,11 +127,14 @@ is a reading, and the reading is your job.
 4. **A page against the pool.** For every cited page, read it the other way
    round: does every sentence of every recommendation the source marks on it
    have a claim, sharing its number where the source numbers it? Does every
-   body-text sentence that passes the rule's gate have a claim with its edge?
-   Is every alternative of an enumeration a claim of its own? Does every
-   claim of a marked recommendation support or contest a statement, and does
-   every body-text claim carry its edge? List each sentence that should be a
-   claim and is not, verbatim, with page, the marked recommendation it
+   body-text place (a sentence, a footnote, a table's row) that passes the
+   rule's gate have a claim with its edge? Is every alternative of an
+   enumeration a claim of its own? Is every claim of a marked recommendation
+   linked as spec §3.1 says (a statement it supports or contests; a
+   definition's concept by `defined_by`; a gap notice unlinked), and does
+   every body-text claim carry its edge (except a decline, §5.1 G4, and the
+   top or a part of a combination that is not itself an answer, §5.1 N 5)?
+   List each place that should be a claim and is not, verbatim, with page, the marked recommendation it
    belongs to and the test it passes.
    The page is the scope: you do not read pages the diff does not cite. A
    sentence that begins on the cited page belongs to it: read on to the end

@@ -1,0 +1,8 @@
+# The action of 8.17 (p. 125), its purpose as printed.
+id: concepts/natriumbicarbonat-zur-verbesserung-der-haemodynamik
+type: concept
+lang: de
+label: "Natriumbicarbonat alleinig zum Zwecke einer Verbesserung der Hämodynamik"
+short_label: "Natriumbicarbonat allein zur Hämodynamik"
+facet: medication
+source: modelling

@@ -1,0 +1,10 @@
+id: statements/stressulkusprophylaxe-mit-ppi-bei-risikofaktoren-fuer-gi-blutungen
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock mit vorliegenden Risikofaktoren für gastrointestinale (GI) Blutungen eine Stressulkusprophylaxe mit Protonenpumpeninhibitoren."
+short_label: "Stressulkusprophylaxe mit PPI bei GI-Blutungsrisiko"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/stressulkusprophylaxe-mit-protonenpumpeninhibitoren
+  condition: [concepts/risikofaktoren-fuer-gastrointestinale-blutungen]
+source: modelling

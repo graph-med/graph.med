@@ -1,0 +1,7 @@
+# A measured quantity, named by p. 109's threshold „Quick < 50 %“; the page prints „Quickwert“ two lines below.
+id: concepts/quickwert
+type: concept
+lang: de
+label: "Quickwert"
+facet: finding
+source: modelling

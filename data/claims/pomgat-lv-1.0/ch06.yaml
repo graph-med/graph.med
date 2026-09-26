@@ -322,8 +322,8 @@
   kind: criterion
   section: "6.1.3"
   label: Amylase-Konzentration im Drainagesekret unter 5000 U/L am ersten postop. Tag
-  thresholds:   # as printed (spec §3.1); provenance: the claim's own quote prints all of it
-    - {quantity: concepts/amylase-drainagesekret, comparator: "<", value: "5000", unit: "U/L", when: "am ersten postop. Tag"}
+  threshold:   # as printed (spec §3.1); provenance: the claim's own quote prints all of it
+    {quantity: concepts/amylase-drainagesekret, comparator: "<", value: "5000", unit: "U/L", when: "am ersten postop. Tag"}
   source:
     at: sources/pomgat-lv-1.0#page=64
     quote: unter 5000 U/L am ersten postop. Tag
@@ -352,31 +352,74 @@
   kind: criterion
   section: "6.1.3"
   label: "Amylase-Konzentration im Drainagesekret unter 5000 U/L am postop. Tag 1 und 3 sowie Drainagemenge unter 300 ml/Tag"
-  thresholds:   # as printed (spec §3.1); both hold at once — one rule, two values
-    - {quantity: concepts/amylase-drainagesekret, comparator: "<", value: "5000", unit: "U/L", when: "am postop. Tag 1 und 3"}
-    - {quantity: concepts/drainagemenge, comparator: "<", value: "300", unit: "ml/Tag"}
+  combination:   # as printed (spec §3.1): two values joined by „sowie“, each a claim with its threshold (#204)
+    operator: all_of
+    of: [claims/pomgat-lv-1.0/1864efc7, claims/pomgat-lv-1.0/556a520a]
+    connective: sowie
+    source: {at: sources/pomgat-lv-1.0#page=64, quote: "postop. Tag 1 und 3 sowie Drainagemenge unter 300 ml/Tag"}
+    rationale: "„… am postop. Tag 1 und 3 sowie Drainagemenge unter 300 ml/Tag“: „sowie“ verbindet die zwei Werte eines Kriteriums, die zusammen vorliegen müssen (UND)."
   source:
     at: sources/pomgat-lv-1.0#page=64
     quote: "postop. Tag 1 und 3 sowie Drainagemenge unter 300 ml/Tag"
-  provenance:   # the claim's own quote does not print "5000"; the line before it does
-    thresholds:
+- id: claims/pomgat-lv-1.0/1864efc7
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.1.3"
+  label: "Amylase-Konzentration im Drainagesekret unter 5000 U/L am postop. Tag 1 und 3"
+  threshold:   # as printed (spec §3.1); a part of 746f5608's combination
+    {quantity: concepts/amylase-drainagesekret, comparator: "<", value: "5000", unit: "U/L", when: "am postop. Tag 1 und 3"}
+  source:
+    at: sources/pomgat-lv-1.0#page=64
+    quote: "oder eine Amylase-Konzentration im Drainagesekret unter 5000 U/L am"
+  provenance:   # the claim's own quote breaks before the time point; the next line prints it
+    threshold:
       - {at: sources/pomgat-lv-1.0#page=64, quote: "oder eine Amylase-Konzentration im Drainagesekret unter 5000 U/L am"}
-      - {at: sources/pomgat-lv-1.0#page=64, quote: "postop. Tag 1 und 3 sowie Drainagemenge unter 300 ml/Tag"}
+      - {at: sources/pomgat-lv-1.0#page=64, quote: "postop. Tag 1 und 3 sowie"}
+- id: claims/pomgat-lv-1.0/556a520a
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.1.3"
+  label: "Drainagemenge unter 300 ml/Tag"
+  threshold:   # as printed (spec §3.1); a part of 746f5608's combination; the claim's own quote prints all of it
+    {quantity: concepts/drainagemenge, comparator: "<", value: "300", unit: "ml/Tag"}
+  source:
+    at: sources/pomgat-lv-1.0#page=64
+    quote: "Drainagemenge unter 300 ml/Tag"
 - id: claims/pomgat-lv-1.0/d1e946a1
   type: claim
   lang: de
   kind: criterion
   section: "6.1.3"
   label: "Amylase im Drainagesekret kleiner als das Dreifach der Serumkonzentration am postop. Tag 3"
-  thresholds:   # as printed (spec §3.1): relative, the value is the factor, no unit printed
-    - {quantity: concepts/amylase-drainagesekret, comparator: "<", value: "Dreifach", relative_to: concepts/amylase-serum, when: "am postop. Tag 3"}
+  threshold:   # as printed (spec §3.1): relative, the value is the factor, no unit printed
+    {quantity: concepts/amylase-drainagesekret, comparator: "<", value: "Dreifach", relative_to: concepts/amylase-serum, when: "am postop. Tag 3"}
   source:
     at: sources/pomgat-lv-1.0#page=64
     quote: "Amylase im Drainagesekret kleiner als das Dreifach der Serumkonzentration am"
   provenance:   # the claim's own quote breaks before the time point; the next line prints it
-    thresholds:
+    threshold:
       - {at: sources/pomgat-lv-1.0#page=64, quote: "Amylase im Drainagesekret kleiner als das Dreifach der Serumkonzentration am"}
       - {at: sources/pomgat-lv-1.0#page=64, quote: "postop. Tag 3 [161]"}
+- id: claims/pomgat-lv-1.0/8a8d15f3
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.1.3"
+  label: "Die gewählten Einschlusskriterien dieser RCTs sind nicht einheitlich, benutzen aber in allen Studien die Drainage-Amylase im früh-postoperativen Verlauf als Indikator eines geringen Risikos einer späteren Pankreasfistel; im Einzelnen waren dies entweder eine Amylase-Konzentration im Drainagesekret unter 5000 U/L am ersten postop. Tag, oder eine Amylase-Konzentration im Drainagesekret unter 5000 U/L am postop. Tag 1 und 3 sowie Drainagemenge unter 300 ml/Tag oder aber Amylase im Drainagesekret kleiner als das Dreifach der Serumkonzentration am postop. Tag 3"
+  combination:   # as printed (spec §3.1): the passage joining the three criteria; the top of the rule the defined_by edge reaches (#204)
+    operator: any_of
+    of: [claims/pomgat-lv-1.0/8349aa77, claims/pomgat-lv-1.0/746f5608, claims/pomgat-lv-1.0/d1e946a1]
+    connective: "entweder … oder … oder aber"
+    source:
+      - {at: sources/pomgat-lv-1.0#page=64, quote: "Risikos einer späteren Pankreasfistel; im Einzelnen waren dies entweder eine"}
+      - {at: sources/pomgat-lv-1.0#page=64, quote: "[160], oder eine Amylase-Konzentration"}
+      - {at: sources/pomgat-lv-1.0#page=64, quote: "Drainagemenge unter 300 ml/Tag [159] oder aber"}
+    rationale: "„entweder … oder … oder aber“ reiht drei Kriterien, deren jedes für sich das geringe Fistelrisiko anzeigt (ODER)."
+  source:
+    at: sources/pomgat-lv-1.0#page=64
+    quote: "Risikos einer späteren Pankreasfistel; im Einzelnen waren dies entweder eine"
 - id: claims/pomgat-lv-1.0/9bef0a78
   type: claim
   lang: de

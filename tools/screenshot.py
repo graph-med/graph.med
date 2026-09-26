@@ -9,6 +9,8 @@
     uv run tools/screenshot.py pomgat-lv-1.0 --phone --do open=statements/drainage-komplexe-leberresektion-optional --do graph
     uv run tools/screenshot.py statements/tap-block-mic-kolorektal --phone --full   # any page, the whole scrolled page
     uv run tools/screenshot.py /                                   # the index
+    uv run tools/screenshot.py / --phone --do open=views/pomgat-lv-1.0   # the index, a guideline's box tapped
+    uv run tools/screenshot.py / --do key=Tab --do key=Tab --do key=Tab --do key=Enter  # keys, as a keyboard presses them
 
 The page is a site path: a view id, an entity page (statements/<id>, concepts/<id>, axes/<id>,
 sources/<id>, …), or / for the index; a trailing slash and index.html may be left out.
@@ -19,8 +21,10 @@ image pulls pass the proxy: the page is rendered by Chromium inside a container
 tools/screenshot.js so that the layout can settle before the capture. The site is
 built into a temporary directory with base path /site/ and copied into the container;
 nothing is installed in the sandbox and nothing is mounted. Actions run in order
-before the capture, and all but wait need a view page (one with the graph; elsewhere the run fails
-naming the action): by=<grouping> (choose the grouping: "" for the view's first, section for the
+before the capture. A view page takes every one; the index takes open=<view id> (select a
+guideline's box), sheet, graph, key=<key> and wait; any other page key=<key> and wait. An action
+the page does not take fails before anything runs, naming itself and what the page takes.
+The actions: by=<grouping> (choose the grouping: "" for the view's first, section for the
 chapters, or an axis id),
 toggle=<concept id> (fold or unfold that patient group; under an axis the junction id in full,
 j:<value>:<concept id>),
@@ -28,14 +32,18 @@ fold=<question node id> (fold or unfold everything below that question, e.g.
 q:j:concepts/leberresektion:population), open=<entity id> (deep link: unfold and select),
 section=<number> (chapter filter), search=<text>, facet=<kind>, step=<n> (n steps through the
 matches, back when negative), chapters (open the chapter panel), chapters-scroll=<px> (scroll its
-list), all (every patient group open), fit (fit what is open), reset (the opening state), graph and
-sheet (scroll the page to the graph or to the sheet: on a phone they stack), wait=<ms>. --full captures
+list), legend (collapse or expand the legend), all (every patient group open), fit (fit what is
+open), reset (the opening state), graph and sheet (bring the graph or the sheet into view: on a phone
+a selection waits in a peek strip, which sheet raises and graph lowers; elsewhere the page scrolls to
+it), key=<key> (a key pressed as a keyboard presses it — Tab, Enter, Escape, with modifiers joined by
++ as in Shift+Tab — to check that a control is reached and works without a pointer), wait=<ms>. --full captures
 the whole scrolled page instead of the viewport. --dark renders the page in the dark theme: the graph
 reads its colours from the stylesheet once, when drawn, so the theme is emulated before the
-page loads rather than switched by an action. On a view page the runner prints how many elements
-are shown and how many pairs of nodes and answers overlap — the mechanical half of "nothing
-overlaps"; on any other page, whether it is wider than the viewport — the mechanical half of "the
-page fits a phone"; on both, any page error.
+page loads rather than switched by an action. On a page with a graph the runner prints how many
+elements are shown and how many pairs of nodes and answers overlap — the mechanical half of "nothing
+overlaps"; on every page, whether it is wider than the viewport — the mechanical half of "the page
+fits a phone" —, any page error, and where the focus is when it is not on the page itself (what the
+keys reached: the element, its words, whether it is pressed).
 The container name and the output directory default to the current branch, so that
 sessions working in parallel (one git worktree each, ADR-0002 and the
 process-work-package skill) on the one Docker daemon do not remove each other's container or PNG.

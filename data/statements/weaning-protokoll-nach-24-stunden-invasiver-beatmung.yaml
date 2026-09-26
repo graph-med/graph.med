@@ -1,0 +1,11 @@
+# Box 5.13 of sources/sepsis-lf-4.0 (card #223); „die länger als 24 Stunden invasiv beatmet wurden“ a condition by #217 row 7, its rule inside the box sentence.
+id: statements/weaning-protokoll-nach-24-stunden-invasiver-beatmung
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock, die länger als 24 Stunden invasiv beatmet wurden, wird ein Protokoll zur Entwöhnung von der invasiven Beatmung (Weaning-Protokoll) angewendet."
+short_label: "Weaning-Protokoll"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/weaning-protokoll
+  condition: [concepts/laenger-als-24-stunden-invasiv-beatmet]
+source: modelling

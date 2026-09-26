@@ -1,0 +1,10 @@
+# Box 5.15, second sentence of sources/sepsis-lf-4.0 (card #223); the population of its box, printed in the first sentence.
+id: statements/bauchlagerung-fruehzeitig
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock wird die Bauchlagerung frühzeitig erwogen und nach Indikationsstellung unverzüglich umgesetzt."
+short_label: "Bauchlagerung früh erwägen, unverzüglich umsetzen"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/fruehzeitige-bauchlagerung
+source: modelling

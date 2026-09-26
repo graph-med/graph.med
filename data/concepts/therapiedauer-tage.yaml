@@ -1,0 +1,10 @@
+# An evidence outcome of views/sepsis-lf-4.0 (card #221): the row "Therapiedauer (Tage):" of box 3.10
+# (p. 55), which #215 names an outcome concept. The same endpoint is the aim of 3.10's statement ("um die
+# Dauer der antiinfektiven Therapie zu begrenzen"), so one concept serves both.
+id: concepts/therapiedauer-tage
+type: concept
+lang: de
+label: Therapiedauer (Tage)
+facet: outcome
+definition: Dauer der antiinfektiven Therapie, in Tagen.
+source: modelling

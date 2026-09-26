@@ -1,0 +1,8 @@
+# The action of 6.6 (p. 94): one concept naming the alternatives the box sets as equal ("gleichwertig"), card
+# #224 hard case 3, flagged for the physician.
+id: concepts/kontinuierliche-oder-intermittierende-verfahren
+type: concept
+lang: de
+label: "Kontinuierliche oder intermittierende Verfahren"
+facet: intervention
+source: modelling

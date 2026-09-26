@@ -1,0 +1,8 @@
+# The condition of 8.3 (p. 109), „NICHT zur Behandlung eines Volumenmangels“: the circumstance in which the box
+# advises against therapeutic plasma. Stated.
+id: concepts/volumenmangel
+type: concept
+lang: de
+label: "Volumenmangel"
+facet: patient_state
+source: modelling

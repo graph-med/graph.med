@@ -1,0 +1,8 @@
+# The action of box 4.5 (p. 62): "Noradrenalin als Vasopressor erster Wahl". Named again in 4.6's condition,
+# through its own concept.
+id: concepts/noradrenalin
+type: concept
+lang: de
+label: Noradrenalin
+facet: medication
+source: modelling

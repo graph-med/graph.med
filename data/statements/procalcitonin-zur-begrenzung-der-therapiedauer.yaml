@@ -1,0 +1,18 @@
+# Box 3.10 (p. 55, section 3.5) and its Bemerkung, card #221. Population: the root (#217's convention,
+# row 1). "sofern eine adäquate Fokuskontrolle erreicht wurde" is a condition (row 8); the Bemerkung
+# restricts the sentence (#213 item 1), and the statement states the exception as a second condition,
+# a negation labelled as printed (row 10). The aim, "um die Dauer der antiinfektiven Therapie zu
+# begrenzen", is the outcome.
+id: statements/procalcitonin-zur-begrenzung-der-therapiedauer
+type: statement
+lang: de
+label: Bei Patienten mit Sepsis oder septischem Schock ist Serum-Procalcitonin zu messen, um die Dauer der antiinfektiven
+  Therapie zu begrenzen, sofern eine adäquate Fokuskontrolle erreicht wurde; ausgenommen sind Patienten mit Infektionen,
+  die eine längere Therapie erfordern (z. B. S. aureus-Bakteriämie, Endokarditis, Candidämie).
+short_label: "Procalcitonin zur Begrenzung der Therapiedauer"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/messung-von-serum-procalcitonin
+  condition: [concepts/adaequate-fokuskontrolle-erreicht, concepts/ausgenommen-infektionen-die-eine-laengere-therapie-erfordern]
+  outcome: concepts/therapiedauer-tage
+source: modelling

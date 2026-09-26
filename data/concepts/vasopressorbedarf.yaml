@@ -1,0 +1,9 @@
+# The condition of 2.6 („bei Patienten mit septischem Schock, die Vasopressoren benötigen“, p. 30), convention
+# row 9. Stated; not 8.1's „anhaltender Vasopressorbedarf“ nor 8.10's „hoher Vasopressorbedarf“ (#210
+# Decision 6). Card #218.
+id: concepts/vasopressorbedarf
+type: concept
+lang: de
+label: "Vasopressorbedarf"
+facet: patient_state
+source: modelling

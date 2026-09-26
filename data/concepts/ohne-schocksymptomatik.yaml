@@ -1,0 +1,8 @@
+# A condition of box 3.3 (p. 39), a negation as printed (#217 convention, row 10): never a member of a shock
+# family, never linked to one. Minted by card #219 for views/sepsis-lf-4.0.
+id: concepts/ohne-schocksymptomatik
+type: concept
+lang: de
+label: "ohne Schocksymptomatik"
+facet: patient_state
+source: modelling

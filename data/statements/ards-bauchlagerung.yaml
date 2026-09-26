@@ -1,0 +1,11 @@
+# Box 5.14 of sources/sepsis-lf-4.0 (card #223); #217 row 6 (b): ARDS the population, invasive ventilation and the restricted oxygenation two conditions.
+id: statements/ards-bauchlagerung
+type: statement
+lang: de
+label: "Bei invasiv beatmeten Patienten mit Sepsis oder septischem Schock und ARDS sowie Einschränkung der arteriellen Oxygenierung (PaO2/FiO2 < 150 mmHg) wird eine Bauchlagerung durchgeführt."
+short_label: "Bauchlagerung bei PaO2/FiO2 < 150 mmHg"
+slots:
+  population: concepts/ards
+  action: concepts/bauchlagerung
+  condition: [concepts/invasive-beatmung, concepts/einschraenkung-der-arteriellen-oxygenierung]
+source: modelling

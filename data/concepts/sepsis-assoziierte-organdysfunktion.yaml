@@ -1,0 +1,8 @@
+# The organ dysfunction Definition 1 names (p. 22): derived, card #218 writes its one defined_by edge to the
+# criterion sentence of Definition 1 (a rise of the SOFA score by ≥ 2 points), as the #213 checklist reads it.
+id: concepts/sepsis-assoziierte-organdysfunktion
+type: concept
+lang: de
+label: "Sepsis-assoziierte Organdysfunktion"
+facet: patient_state
+source: modelling

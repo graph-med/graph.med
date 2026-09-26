@@ -36,7 +36,7 @@ begins with `https://graph.med/`. Publication makes that literal: every identifi
 the pool resolves.
 
 ```
-graph.med/                          index: the views, the sources they draw on
+graph.med/                          index: a graph with one answer per view — the only page where the views meet
 graph.med/<view-id>                 a view, floating — the filter as of the last build
 graph.med/<view-id>@<n>             a cut of that view (deferred, §7)
 graph.med/<namespace>/<entity-id>   any entity: statements/…, concepts/…, claims/<source>/<hash>, sources/…
@@ -59,7 +59,49 @@ A **graph id**, as the maintainer calls it, is therefore a view id. The first vi
 are one per source document, e.g. `graph.med/pomgat-lv-1.0` for the POMGAT guideline:
 a `selection` view whose filter is that one source. A view is a data entity
 (`data/views/<view-id>.yaml`, schema `view`); adding a graph to the site is a reviewed
-data change, never a change to the build.
+data change, and a change to the build only where its source brings something the
+build does not yet read from data — a language without a words table, a scope tree
+over a slot other than `population`. A source's grading scheme is data: its grades,
+wordings and consensus classes are read from the source (§3).
+
+**The index is where the graphs meet, and the only place they do.** Each graph stays
+separate: no view links another, and the index combines nothing — it is built from the
+views and their sources and names no guideline, so that a third guideline is a third
+answer by a data change alone. **It is a graph like theirs**, a graph and a sheet
+(§3), drawn by the same renderer: one question, *Welche Leitlinie?*, with one answer
+per view, each leading to a box that names its guideline — its title as the source
+prints it, in the source's language (`lang`); its register number where the source
+records one (`awmf_register`); and what the graph holds: its recommendations (the
+statements), the patient groups a reader meets in its tree (the junctions of its first
+grouping, each concept once) and the claims they rest on, or, while it holds no claim,
+that none has been extracted, and while it holds claims but no statement, that none has
+been linked yet. A source has no short title of its own, so the box shows the title as
+printed, as a view's root box does. Each guideline's patient groups are not drawn here:
+that would repeat the views outside them and begin a view combining two sources. The
+tree is small, so it is drawn at a size a phone reads — a box takes the width the
+canvas leaves beside the question, within bounds — and always whole.
+
+Tapping a box selects it as on a view page: the rest fades, and its **entry** opens in
+the sheet beside the graph, on a phone in the strip at the bottom edge — its title and
+what the graph holds, which raise the sheet, and the entry's *Graph öffnen*, so that a
+graph is two taps away, the box and the link. The keyboard reaches a box through its
+entry: beside *Graph öffnen* a toggle, *Im Graphen zeigen*, selects the entry's box as a
+tap does and, pressed again, returns the sheet to its home, the focus staying on the
+entry (on a phone, on the strip's link); it is shown only where the graph is drawn. A
+selection that changes nothing — the home again, the same box again — leaves the sheet
+as it is. The entry gives the title as printed —
+a source's version and date stand in it; the schema has no field for either —, what the
+graph holds, and for each source its register number, a link to the source's page and
+its licence line; the entry is one link to the graph, its title stretched over it with
+*Graph öffnen* below, and the toggle and the source's lines lie apart from it, so that
+the source's page can be reached and its licence read. The deep link is the view's id
+(`graph.med/#views/<view-id>`); a hash that names no view, or is no well-formed escape,
+selects nothing. The sheet's home is the page's text and every entry,
+in the page's HTML: the graph is read from them, so that the page reads the same without
+the script and with a screen reader, and without the script the sheet is the page, the
+entries side by side where the width allows and one under the other on a phone. Every
+word the index adds — the question included — is page chrome, from the view layer's
+table (§3 "Language").
 
 ---
 
@@ -84,28 +126,49 @@ decision-graph-derivation):
        ╱ Gastrektomie ╲ Kolorektale Resektion …  answers on the edges (population slot)
       ●                ●                          junction per group
       │                ├──── ◇ Welche Bedingung? question (ours)
-      │                │       ╲ Amylase < …     answer on the edge (condition slot)
+      │                │       ╲ Amylase < …     answer on the edge (condition slot;
+      │                │                         several conditions: one answer, "und")
    ┌──┴────────┐   ┌───┴───────┐ ┌───┴───────┐
    │ recommend.│   │ recommend.│ │ recommend.│    the statements — boxes coloured by
    └─────┬─────┘   └───────────┘ └───────────┘    direction (für · gegen · abwägen · Lücke),
-         ┆ (dashed)                               its glyph, the grade a letter (A · B · 0 · EK),
-         ┆                                        the verb a word where the letter does not carry it;
+         ┆ (dashed)                               its glyph, the grade as printed (A · B · 0 · EK),
+         ┆                                        the verb a word where the grade does not carry it;
          ┆                                        dashed red border when contested
          ▷ aim                                    outcome slot
 ```
 
 - **The questions are ours; every answer is data.** "Welche Population?" and
-  "Welche Bedingung?" are the only text the build adds, in the view's source
-  language (a language the build has no words for fails the build; nothing falls
-  back to English). Each answer on an edge is a
+  "Welche Bedingung?" are the only text the build adds, with the conjunction
+  below, in the view's source language (a language the build has no words for
+  fails the build; nothing falls back to English). Each answer on an edge is a
   population or condition concept; each box is a statement with its claims' grade;
   each aim an outcome concept. Nothing else is invented — in particular no yes/no
   branches and no ordering between conditions, which is what authored pathways will
   add (`graph-representation.md` §5, `branch` edges with a `guard`).
+- **Several conditions are one answer.** A statement's conditions hold at once
+  (`graph-representation.md` §3.2), so the condition question answers a statement
+  with several by **one** answer naming all of them, in the order stored, each
+  by its short form on a line of its own and every line after the first opened
+  by the conjunction from the build's words table (`und`): `Invasive Beatmung` /
+  `und ARDS` / `und PaO2/FiO2 < 150`. The box is reached exactly once, and never
+  through one condition alone — one answer per condition would draw a path to
+  the box that names one of them, as if it sufficed; asking one after another
+  would invent an order the source does not give. The line per condition keeps
+  a label's own "oder" (a disjunction is one concept) from reading across the
+  join. One condition is the same rule with no conjunction: its answer names it,
+  as always. Every answer carries the ids of what it names, one or several
+  (`refs` in the view's JSON; a node stands for one entity, its `ref`), and a
+  condition is found wherever it is one of them, by one rule for one and for
+  several: tapping an answer selects every concept it names, wherever each
+  appears, and opens the details of each in the order named, a card after the
+  other (the strip on a phone names every title, one to a line); a deep link or a link in the
+  section to one condition selects it wherever it is named, alone or with
+  others, the box it leads to included; the search finds the answer by any of
+  them.
 - **Patient groups converge.** Statements sharing a population hang from one
   junction, so the tree shows at a glance what the guideline says for, say,
   colorectal resection. A condition is asked within its group.
-- **Forms tell the types apart, colour tells the direction, a letter the grade.**
+- **Forms tell the types apart, colour tells the direction, a token the grade.**
   Diamond, box, tag for question, recommendation, aim; the answers are bold edge
   labels written at the end of their edge, beside the group or box they lead to, so
   that many answers from one question do not pile up mid-edge; the aim a dashed
@@ -123,20 +186,26 @@ decision-graph-derivation):
   and the page's font stack (`--font`, the graph's too) names text faces that
   have it after the system face, so that no platform draws it from a colour emoji
   font — the selector alone did not keep Chromium from it where the system face
-  lacks the glyph. **The grade** follows as a
-  letter (A · B · 0 · EK, the guideline's own scale; every letter when the claims
-  differ). An EK box is coloured by its direction like every other recommendation
-  and marked "EK", not demoted. **The verb is a word where the letter does not
-  carry it.** The build computes, per view, which verbs the supporting claims say
-  under each grade letter: where a letter has exactly one, the letter determines
-  the verb and nothing is written; where it has more than one, a box whose
-  claims carry that letter writes its verb after it. The word carries its
-  negation — `soll nicht`, `sollte nicht` for a recommendation against — exactly
-  as the judgement writes it, so that box and card say the same thing. Nothing
-  about a grading scheme is known to the build: the rule reads the pool, so one
-  new claim can make a letter ambiguous and every box of that letter in the view
-  then writes its verb. Supporting claims that disagree on the verb give no word
-  (the verb, like the grade, is shown and never composed). **The border means
+  lacks the glyph. **The grade** follows as the
+  guideline prints it — `A · B · 0 · EK` in one, `Stark · Schwach · EK` in
+  another —, several in their scheme's order when the claims differ. The order,
+  like everything else about a grade, is read from the grading scheme the source
+  declares (`graph-representation.md` §3.1): the build knows no grade, verb or
+  consensus class by name. An EK box is coloured by its direction like every
+  other recommendation and marked "EK", not demoted. **The verb is a word where
+  the grade does not carry it.** The build computes, per grading scheme — the
+  grade names its scheme through its claim's source, so the grades of two
+  schemes are never pooled —, which verbs the supporting claims of that source
+  say under each grade: where a grade has exactly one, the grade determines the
+  verb and nothing is written; where it has more than one, a box whose claims
+  carry that grade writes its verb after it. The word carries its negation in
+  the form the scheme prints — `soll nicht`, `schlagen nicht vor` for a
+  recommendation against, never the verb with "nicht" appended — exactly as the
+  judgement writes it, so that box and card say the same thing. The rule reads
+  the claims, not the scheme's table, so one new claim can make a grade
+  ambiguous and every box of that grade then writes its verb. Supporting claims
+  that disagree on the verb give no word (the verb, like the grade, is shown and
+  never composed). **The border means
   state alone** — a contested box's dashed red border, and the selection; it
   carries no meaning of its own.
   **The legend** sits under the graph, at the bottom left, and keys what this
@@ -148,8 +217,8 @@ decision-graph-derivation):
   groups, laid out as a grid: *Form = Typ* (question, and a folded question;
   patient group, and an open one; recommendation; aim), *Zeichen + Farbe =
   Richtung* (a chip in the box's fill with the glyph inside it, and a box without
-  a direction), *Buchstabe = Grad* (the letters the boxes carry, and the letters
-  under which the verb is written as a word), *Rahmen = Zustand* (contested,
+  a direction), *Grad* (the grades the boxes carry, in their scheme's order, and
+  the grades under which the verb is written as a word), *Rahmen = Zustand* (contested,
   related to the selected box, applying generally to the selected group) and
   *Kanten* (answer, the way on, the aim). A chip carries a border that holds
   against the page in both themes, so that no key is told by a pastel alone.
@@ -166,7 +235,9 @@ decision-graph-derivation):
 dagre layout, self-hosted under `assets/vendor/` (MIT, pinned, no third-party
 request): boxes have a fixed width and grow to their wrapped text, the layered
 layout has no overlaps, edge labels are placed, and touch pan and pinch come with
-it. Three choices keep the tree readable at ninety recommendations:
+it. The index draws its one question with the same library, forms and colours, and
+opens a tapped box's entry in the same sheet and peek strip (§2). Three choices keep
+the tree readable at ninety recommendations:
 
 - **Left to right.** A rank is a column, so the widest rank becomes a tall column
   that pans vertically — natural on a phone and on a desktop — and the whole tree is
@@ -215,7 +286,8 @@ it. Three choices keep the tree readable at ninety recommendations:
   sheet lists them apart from the group's own, under "Allgemein geltende
   Empfehlungen": grouped by the concept each was made for, with the condition of
   the scope edges on the way ("Voraussetzung", every condition on the path holding
-  at once; of several paths the one with the fewest conditions counts), then each
+  at once and joined as zone 5 joins a statement's; of several paths the one with
+  the fewest conditions counts), then each
   recommendation with its number, page and section. The statement card names the
   other side in zone 5. The origin is data, not only rendering: the view's JSON
   carries `scope` — its anchor slot, its root, and per concept `own` (the
@@ -291,8 +363,9 @@ left so that it runs out below and to the right, never under the controls — an
 a **reset** button beside it that returns the page to its
 opening state — folded, no search, no facet, no chapter, nothing selected — so the
 way back from any search or filter is one tap. Tapping a node or an answer selects it: what leads to it and what
-follows it stay, everything else fades, and its details open in the **section
-below the graph** — on a wide screen, in a **column beside it**, the graph taking
+follows it stay — for an answer, the question it answers and the box it leads
+to —, everything else fades, and its details open in the **section below the
+graph** — on a wide screen, in a **column beside it**, the graph taking
 the full height; the graph stays where it is either way, so the reader keeps their
 place, and the section opens at its top, the title, on every selection — never in
 the middle of the card before it. **On a phone the details wait in a peek strip**
@@ -304,7 +377,8 @@ again or Escape lowers it. The page itself never scrolls: not on a tap, not on
 raising or lowering, and the graph is where the reader left it. The strip is
 built in the browser from the card's own title, band and chips, and a wide
 screen does not show it. Tapping the background clears. Tapping a concept linked in the section
-moves the graph there. Deep links carry `#<entity id>`, and `?by=<grouping>` when the tree is
+moves the graph there. Deep links carry `#<entity id>` — what an answer naming several
+concepts selects, their ids joined by a comma —, and `?by=<grouping>` when the tree is
 grouped by the chapters or an axis. There are no modal dialogs and no page
 loads needed to read a view; the entity pages (§4) exist for linking, not for reading.
 
@@ -334,7 +408,8 @@ kind:
 - **A search box** is a *soft highlight*: it matches the label, short label,
   slot concepts and claim text of statements, the labels of patient groups, and
   the answers on the edges — a condition is an edge, not a node, and must be found
-  all the same — without regard to case or diacritics; matches keep their colour
+  all the same, an answer naming several by each of them — without regard to case
+  or diacritics; matches keep their colour
   and everything else fades without disappearing, so "Leber" shows every branch
   the liver occurs in and, just as usefully, where it does not. A counter reads "n
   matches in m sections". Hiding would destroy the overview the search exists to
@@ -353,13 +428,19 @@ Once concepts carry a `facet`, the search gets facet filters (only procedures,
 only outcomes). Everything here runs in the browser on the view's JSON.
 
 **Direction, in four words.** A recommendation's direction is one of *für*,
-*gegen*, *abwägen*, *Lücke*, derived at build time from the supporting claims:
-`soll`/`sollte` with `direction: for` → für, with `against` → gegen; `kann` → abwägen,
-because in the AWMF scheme "kann" *is* the open recommendation, the guideline's own
-third category (the judgement adds the lean, "eher für" or "eher gegen"); `kind:
+*gegen*, *abwägen*, *Lücke*, derived at build time from the supporting claims, each
+read in its grading scheme (`graph-representation.md` §3.1): a claim whose verb is
+the wording of a grade the scheme declares `open` → abwägen, because an open
+recommendation is the guideline's own third category, neither for nor against — in
+the AWMF scheme grade 0, "kann" (the judgement adds the lean, "eher für" or "eher
+gegen"); any other recommendation → für with `direction: for`, gegen with
+`against` — `soll`, `sollte`, and a GRADE scheme's weak "schlagen vor" as much as its
+strong "empfehlen", since its table gives the weak grade an arrow up or down; `kind:
 gap_notice` → Lücke; claims that disagree in direction → abwägen; a fact has no
-direction. The box's colour and the judgement at the top of the details carry it; the
-glyph (✓ ✗ ⚖ ∅) stands on the box, before its grade letter, in the judgement and in
+direction. A verb another guideline's scheme defines (a *sollte* in a guideline
+graded by GRADE) is read in that scheme. The box's colour and the judgement at the
+top of the details carry it; the
+glyph (✓ ✗ ⚖ ∅) stands on the box, before its grade, in the judgement and in
 the legend; the legend lists the words this view has, each with its colour and
 glyph. Timing
 ("innerhalb von 24 Stunden") is not a direction; it stays in the label.
@@ -379,7 +460,7 @@ glyph. Timing
   | 1 | Title | none | `short_label`, else `label` | never |
   | 2 | Judgement | none | supporting claims; whether a contesting claim exists | never |
   | 3 | Wording | `Wortlaut der Empfehlung` | `claim.label` per supporting claim | never |
-  | 4 | Evidence | `Evidenz` | the supporting claims' `evidence`, per outcome; else `Evidenz: nicht erfasst` | never |
+  | 4 | Evidence | `Evidenz` | the supporting claims' `evidence`, per row; else `Evidenz: nicht erfasst` | never |
   | 5 | Applies to | `Gilt für` | the `population`, `condition`, `action` slots, then the value of every dimension axis that places the statement, named by that axis's `short_label` (else `label`) | no slot filled |
   | 6 | Body text | `Hinweise aus dem Begleittext` | `limits`, `refines`, `supplements` | never (empty state) |
   | 7 | Contradiction | `Widersprechende Empfehlung(en)` | `contests` | no contesting claim |
@@ -390,10 +471,17 @@ glyph. Timing
   2. **Judgement.** One band, a block filled with the direction colour, no
      heading; its lines share the left edge. Line 1, in the card's largest
      type: the glyph, the direction word and the verb as the claims say it —
-     "soll nicht" for a recommendation against, never the bare verb. Line 2:
-     one chip per supporting claim in claim order, its grade as text on the
-     chip's own light fill (`Grad A`, `Expertenkonsens`) and its consensus
-     beside it; identical pairs collapse to one chip with a count, `Grad A (2)`.
+     for a recommendation against the negated form its scheme prints, "soll
+     nicht", "schlagen nicht vor", never the bare verb. Line 2: one chip per
+     supporting claim in claim order, its grade as text on the chip's own light
+     fill — the grade as printed in the card's frame (`Grad A`, `Grad Stark`),
+     and a grade that fixes no wording, an expert consensus, by its scheme's
+     description of it (`Expertenkonsens`) — and its consensus beside it: the
+     class as the scheme names it (`Starker Konsens`) and, where the claim
+     prints the share of votes, the share after it (`Konsens, 95 %`);
+     identical chips collapse to one with a count, `Grad A (2)`. A chip is
+     read in its claim's own scheme: the same token from two schemes is two
+     chips.
      The chips wrap under line 1 and never squeeze it. **Their order is the
      order of zone 8's entries** — the only thing tying a chip to its citation.
      Only when a contesting claim exists, a third line under the chips,
@@ -415,9 +503,9 @@ glyph. Timing
 
      | State | What it renders |
      |---|---|
-     | One value | one line, no disclosure: `Evidenz: moderat (grade)` — the value and the system as the claim stores them |
-     | Per outcome | a native `<details>`, open: its `<summary>` reads `Evidenz: endpunktabhängig (4 Endpunkte, hoch bis sehr niedrig)`, under it a table `Endpunkt \| Sicherheit` in the guideline's order, never sorted, the system named once as the table's caption |
-     | Expert consensus only | one line: `Expertenkonsens, keine Evidenzbewertung` — every supporting claim `grade: EK` and none carrying an entry |
+     | One value | one line, no disclosure: `Evidenz: moderat (grade)` — the value and the system as the claim stores them; one entry with neither an outcome nor a key |
+     | Per row | a native `<details>`, open: its `<summary>` reads `Evidenz: endpunktabhängig (4 Endpunkte, hoch bis sehr niedrig)`, under it a table `Endpunkt \| Sicherheit` in the guideline's order, never sorted, the system named once as the table's caption; a table with keyed rows reads by its keys (below) |
+     | Expert consensus only | one line: `Expertenkonsens, keine Evidenzbewertung` — every supporting claim's grade one that fixes no wording in its scheme (`EK`, an expert consensus, `graph-representation.md` §3.1) and none carrying an entry |
      | Nothing recorded | one line: `Evidenz: nicht erfasst` — what is not recorded, never that the guideline says nothing |
 
      `endpunktabhängig` comes first in the summary line and the range follows
@@ -425,7 +513,11 @@ glyph. Timing
      exists and the range reads as what it is — a description of a set. The
      range is the highest and the lowest value present by the system's display
      order (`EVIDENCE_SCALES` in `tools/build.py`, keyed by system, read for
-     this and nothing else); a system the build has no order for keeps the
+     this and nothing else), matched without regard to case — a value is
+     stored as printed, and a box's `Moderat` and a method section's `moderat`
+     are one level — and named in the form that order holds (`moderat bis
+     sehr niedrig`), while each row shows its value as the claim stores it; a
+     system the build has no order for keeps the
      table and loses the range, `Evidenz: endpunktabhängig (4 Endpunkte)`, and
      never fails the build. Where some rows carry a value and others do not,
      those rows read `nicht erfasst` and the line counts only what is
@@ -433,7 +525,21 @@ glyph. Timing
      systems give one disclosure per system, never merged. Nothing is composed
      — no average, no worst case, no certainty in zone 2 — and the disclosure
      needs no script and survives printing.
-  5. **Applies to.** The slots as rows: `Eingriff` (population, with the
+
+     A source may key its rows by something other than an endpoint — a
+     component of the action, a subgroup, an arm, a comparator, a device, a
+     regimen —, and the entry then carries the row's printed `key`
+     (`graph-representation.md` §3.1). A table with such a row is read by its
+     keys: a first column `Bezug` holds each row's key (empty for a row
+     without one), the `Endpunkt` column follows only where some row names an
+     endpoint, and the summary line counts rows, not endpoints, with the same
+     range rule: `Evidenz: aufgeschlüsselt (2 Zeilen, moderat bis sehr
+     niedrig)`, `Evidenz: aufgeschlüsselt (5 Zeilen)`, `Evidenz:
+     aufgeschlüsselt (3 von 5 Zeilen erfasst)`. `Sepsis-Screening | Moderat`,
+     `Dopamin | Hoch`, `oXiris® | Mortalität | Sehr niedrig`: the key is never
+     shown as an endpoint. A table without a key reads as above, and a row
+     of the statement JSON carries `key` only where its entry has one.
+  5. **Applies to.** The slots as rows: `Patientengruppe` (population, with the
      families it belongs to below it, after `gehört zu:`, so that they read as
      broader categories and not as further requirements), `Bedingung` (condition), `Maßnahme`
      (action), then one row for every dimension axis that gives the
@@ -456,28 +562,61 @@ glyph. Timing
      varies along, which is zone 4's business; the slot stays in the schema and
      the data and is listed under zone 9.
 
-     **A derived concept shows its rules.** Under a row whose concept is
-     derived (`graph-representation.md` §3.2: it has `defined_by` edges) — the
-     anchor, a condition, any row, by one code path — a line says so:
-     `abgeleitet, nach der Regel`, or with several rules `abgeleitet, nach einer
-     der folgenden 3 Regeln`, the rules being alternatives. Each rule is then
-     one entry: the thresholds its claim prints, each as quantity, comparator,
-     value, unit and time point (`Amylase-Konzentration im Drainagesekret < 5000
-     U/L am ersten postop. Tag`), a relative one with `× <reference quantity>`,
-     several joined by `und` because they hold together; a rule without
-     thresholds shows its claim's sentence. Under each, its page and section
-     linked into the source and `Textstelle`, a link to the claim's page. A rule
-     without thresholds says nothing about a missing number: its sentence shows
-     whether one is printed, and nothing in the pool tells a quantity-like rule
-     ("lange OP-Zeit") from a categorical one ("koronare Herzkrankheit"), so the
-     card never claims "the guideline gives no threshold". A stated
-     concept's row is unchanged. In the statement JSON each row of `geltung`
-     carries `derivation` (`derived` or `stated`, computed from the edges) and
-     `rules` (per rule: the claim's `id`, `kind`, `label`, `page`, `section`,
-     `link`, `quote`, its `thresholds` with `quantity` and `relative_to`
-     resolved to `{id, label, lang}`); the view JSON
-     carries the same two keys for every concept its statements hold, under
-     `concepts`, and the concept's own JSON and page carry them too (§4). The
+     **The row's word is the slot's, never a graph's.** `Patientengruppe` is
+     the word the page already uses for what the population slot holds — the
+     legend keys the junction a statement hangs from as a patient group, and the
+     index reads the trees "von der Patientengruppe über die Bedingung zur
+     Empfehlung" — and it holds for an operation (`Gastrektomie`) and a state
+     (`Septischer Schock`) alike. The label of the view's first axis cannot
+     name the row: the card belongs to the statement, not to a view — it is the
+     same on the entity page, which has no view, and in every view the
+     statement is in.
+
+     **Several conditions, each once, all at once.** The `Bedingung` row names
+     every condition of the statement, in the order stored, each with its own
+     link or count and, where it is derived, its own rule under it (below);
+     every condition after the first stands on a line of its own opened by the
+     conjunction (`und`), in a column of its own, so that the row says that all
+     of them must hold and no label's own "oder" reads across the join. No
+     condition is dropped, shortened into another or shown alone; one condition
+     is the same row without a conjunction. A reference outside the pool (a
+     terminology not imported) is named by its id, plain, never left out. The
+     statement JSON keeps each slot in the shape the pool stores it: `geltung`
+     and zone 9's slots hold the conditions as a list, one row per condition,
+     for one condition too, and every other slot as its one row.
+
+     **A derived concept shows its rule.** Under a row whose concept is
+     derived (`graph-representation.md` §3.2: it has a `defined_by` edge) — the
+     anchor, a condition, any row, by one code path — a line says so,
+     `abgeleitet, nach der Regel`, and the rule the edge reaches follows as a
+     tree, nested where the source nests it. A claim that combines parts
+     (`graph-representation.md` §3.1) is a line with the operator in words —
+     `UND`, `ODER`, `mindestens 2 von 4`, `Verknüpfung nicht angegeben` — the
+     connective as printed (`„entweder … oder … oder aber“`), its page linked
+     into the source and `Textstelle`, a link to the claim's page; its parts
+     follow under it, set in by a line of their own, each such an entry in
+     turn. A combination that names no parts, a list the page gives without
+     saying how it combines, shows the claim's sentence under its line. No
+     operator is assumed anywhere: a claim without a combination is a single
+     rule. Any other claim is one entry: the threshold it prints, as quantity,
+     comparator, value, unit and time point (`Amylase-Konzentration im
+     Drainagesekret < 5000 U/L am ersten postop. Tag`), a relative one with `×
+     <reference quantity>`; a claim without a threshold shows its sentence.
+     Under it, its page and section linked into the source and `Textstelle`. A
+     claim without a threshold says nothing about a missing number: its
+     sentence shows whether one is printed, and nothing in the pool tells a
+     quantity-like rule ("lange OP-Zeit") from a categorical one ("koronare
+     Herzkrankheit"), so the card never claims "the guideline gives no
+     threshold". A stated concept's row is unchanged. In the statement JSON
+     each row of `geltung` carries `derivation` (`derived` or `stated`,
+     computed from the edge) and `rule`, the tree: per node the claim's `id`,
+     `kind`, `label`, `page`, `section`, `link`, `quote`, its `threshold` with
+     `quantity` and `relative_to` resolved to `{id, label, lang}`, and its
+     `combination` with `operator`, `n`, `connective`, `rationale`, the
+     connective's `pages` and `link`, and its parts under `of`, each a node;
+     the view JSON carries the same two keys for every concept its statements
+     hold, under `concepts`, and the concept's own JSON and page carry them
+     too (§4). The
      words come from the card's words table; nothing is per concept.
   6. **Body text.** Three groups in order of their effect on the decision, not
      by relation name: `Grenzt ein` (`limits`), `Präzisiert` (`refines`),
@@ -498,7 +637,11 @@ glyph. Timing
      marker in zone 2 announces.
   8. **Citation.** Each source named once, by its title, in the order of its
      first supporting claim; under it one entry per supporting claim from that
-     source: recommendation number, page, section, the verbatim quote, and two
+     source, in the guideline's order — by recommendation number, and a
+     recommendation number that is not a number ("Definition 1") by the page it
+     is printed on, after the numbered ones printed before it: recommendation
+     number (`Empf. 2.1`; one that is not a number as printed, `Definition 1`),
+     page, section, the verbatim quote, and two
      actions that do not look alike — `In der Leitlinie öffnen`, the primary
      one (the link into the cited page, §5), opening in a new tab and marked
      `↗`, so that following the citation keeps the reader's open groups,
@@ -565,12 +708,12 @@ language the tables do not cover fails the build, naming the language and the
 missing keys, so that no English word ever stands on a German card. The detail
 sections of a concept, a claim and a source, and the entity page's link to its
 JSON (§4), take their words from the same table in the entity's own language.
-**The page's own chrome is the reader's, not the source's.** The legend and the
-sheet's one hint are German, whatever the view's source language, from a table of
-the view layer — one file per language under `tools/site/words/`, read by the
-build and never published — and the build, the schema, the data and every
-identifier, key and comment behind them stay English: only what the viewer reads
-is German. A German and an English site are a later phase; they will be a second
+**The page's own chrome is the reader's, not the source's.** The legend, the
+sheet's one hint and the index's words (§2) are German, whatever the view's source
+language, from a table of the view layer — one file per language under
+`tools/site/words/`, read by the build and never published — and the build, the
+schema, the data and every identifier, key and comment behind them stay English:
+only what the viewer reads is German. A German and an English site are a later phase; they will be a second
 table, not a second template. The rest of the page chrome — header, footer,
 counter, the controls' titles — is still English (§8). Translation of content is a
 build-layer concern and can be added without a data change
@@ -584,9 +727,9 @@ Every entity gets a page whose content is the same as its sheet section, so that
 `graph.med/statements/<id>` is a working link from anywhere, and a JSON document
 next to it that carries the entity as stored plus its incoming and outgoing edges
 resolved to ids. The JSON is what a program uses; the page is what a person lands
-on. Both are generated; neither is authored. A derived concept's page lists its
-rules under its label, as zone 5 of the card does (§3), and its JSON carries
-`derivation` and `rules`. An axis's page is where a grouping shows as data, since
+on. Both are generated; neither is authored. A derived concept's page shows its
+rule under its label, as zone 5 of the card does (§3), and its JSON carries
+`derivation` and `rule`. An axis's page is where a grouping shows as data, since
 an axis lies over the pool rather than in it (`graph-representation.md` §4.1): its
 carrier, its rule, its own question where it declares one, its status and date per
 view, and its placements grouped by where they place — a dimension's statements
@@ -683,11 +826,11 @@ cut-publication).
 - **Branch guards** — yes/no and value-range branches come with authored pathways
   (`branch` edges carry a `guard`); the derived tree has only slot answers.
 - **The page chrome outside the legend** — the counter, the chapter panel's
-  "all", the controls' titles, header and footer are English; the legend and the
-  sheet's hint are German from the view layer's table (§3 "Language"); the
-  questions and the direction words inside the graph, and every word of the
-  sheet — the statement card and the other entities' sections — are in the
-  source language. The maintainer decided on German now and a German and an
+  "all", the controls' titles, header and footer are English; the legend, the
+  sheet's hint and the index's words are German from the view layer's table
+  (§3 "Language"); the questions and the direction words inside the graph, and
+  every word of the sheet — the statement card and the other entities' sections —
+  are in the source language. The maintainer decided on German now and a German and an
   English site in a later phase; nothing selects a page language yet.
 - **Translation** — a build-layer projection, not started.
 - **Other projections** — FHIR, RDF, diagram formats (`graph-representation.md` §13).

@@ -1,0 +1,12 @@
+# The action of 10.1 (p. 136), labelled as the box prints it; p. 135 names it also „Antibiotic
+# Stewardship (ABS)“, which the schema has no field for, so it stands in the definition (hard case 10). The
+# hospital stays in the statement's label (decision of 2026-09-25, section 1). Card #226.
+id: concepts/antimicrobial-stewardship-programm
+type: concept
+lang: de
+label: "Antimicrobial Stewardship (AMS)-Programm"
+facet: intervention
+definition: "Antibiotic Stewardship (ABS) bzw. Antimicrobial Stewardship (AMS)-Programm."
+source: modelling
+provenance:
+  definition: {at: "sources/sepsis-lf-4.0#page=135", quote: "fehlung zur Implementierung eines Antibiotic Stewardship (ABS) bzw. Antimicrobial Stewards-"}

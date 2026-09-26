@@ -5,7 +5,7 @@
     "groups": {
       "form": "Form = Typ",
       "direction": "Zeichen + Farbe = Richtung",
-      "grade": "Buchstabe = Grad",
+      "grade": "Grad",
       "state": "Rahmen = Zustand",
       "edges": "Kanten"
     },
@@ -37,6 +37,36 @@
     }
   },
   "sheet": {
-    "hint": "Ein Feld im Graphen antippen: hier erscheinen seine Details."
+    "hint": "Ein Feld im Graphen antippen: hier erscheinen seine Details.",
+    "close": "Details schließen"
+  },
+  "index": {
+    "title": "graph.med — ein gemeinsam gepflegter, öffentlicher medizinischer Wissensgraph",
+    "heading": "Ein gemeinsam gepflegter, öffentlicher medizinischer Wissensgraph",
+    "lead": "Textstellen aus Leitlinien, am Wortlaut ihrer Quelle verankert, verknüpft zu Empfehlungen und Begriffen und als Graphen gezeichnet. Jede Kennung auf dieser Website lässt sich aufrufen, und jedes Zitat führt zu der Seite, der es entnommen ist.",
+    "question": "Welche Leitlinie?",
+    "graphs": "Graphen",
+    "graphs_lead": "Jeder Graph zeichnet die Empfehlungen einer Leitlinie als Entscheidungsbaum, von der Patientengruppe über die Bedingung zur Empfehlung. Die Graphen stehen jeder für sich: Jeder zeigt nur, was seine Leitlinie sagt.",
+    "holds": "{statements} für {groups}, gestützt auf {claims}.",
+    "unlinked": "{claims} erfasst, noch keine Empfehlung verknüpft.",
+    "empty": "Noch keine Textstelle erfasst.",
+    "counts": {
+      "statement": {
+        "one": "Empfehlung",
+        "many": "Empfehlungen"
+      },
+      "group": {
+        "one": "Patientengruppe",
+        "many": "Patientengruppen"
+      },
+      "claim": {
+        "one": "Textstelle",
+        "many": "Textstellen"
+      }
+    },
+    "open": "Graph öffnen",
+    "select": "Im Graphen zeigen",
+    "awmf_register": "AWMF-Registernummer {nr}",
+    "source": "Zur Quelle"
   }
 }

@@ -1,0 +1,9 @@
+# The action box 3.1's fourth sentence advises against (p. 37: "darf zu keiner wesentlichen zeitlichen
+# Verzögerung … führen"). Minted by card #219 for views/sepsis-lf-4.0.
+id: concepts/wesentliche-zeitliche-verzoegerung-der-antiinfektiven-therapie
+type: concept
+lang: de
+label: "Wesentliche zeitliche Verzögerung der antiinfektiven Therapie"
+short_label: "Verzögerung der antiinfektiven Therapie"
+facet: intervention
+source: modelling

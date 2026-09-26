@@ -1,0 +1,9 @@
+# The condition of box 4.6 (p. 63): "wenn mit Noradrenalin alleine kein ausreichender Blutdruck erzielt werden
+# kann". Stated: the dose range on p. 65 lies in a sentence of recommendation form, which carries no threshold.
+id: concepts/mit-noradrenalin-alleine-kein-ausreichender-blutdruck
+type: concept
+lang: de
+label: Mit Noradrenalin alleine kein ausreichender Blutdruck
+short_label: "Blutdruck mit Noradrenalin alleine unzureichend"
+facet: finding
+source: modelling

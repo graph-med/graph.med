@@ -33,11 +33,30 @@ rules a document schema cannot state because they span files:
     `in_scope_of` forms no cycle, alone or with `broader`, and never doubles a
     `broader` edge between the same two concepts. A view without `scope_root`
     is not checked for (1) and (2);
-  - a derived concept's rules hold together (spec §3.1, §5): a `defined_by` edge
-    reaches a claim of kind `criterion` or `definition`, and one concept has at
-    most one such edge to one claim, discriminator or not; a threshold's
-    `quantity` and `relative_to` resolve like every reference, and a relative
-    threshold is relative to another quantity than the one it bounds;
+  - a derived concept's rule holds together (spec §3.1, §5): a concept has one
+    `defined_by` edge, discriminator or not — several rules combine on the claim it
+    reaches, as the page prints it, and a second edge would be a combination
+    nobody extracted —, to a claim of kind `criterion` or `definition`; a
+    `combination`'s parts are claims of those kinds from the claim's own source,
+    its connective's quotes are from that source too, each piece of the connective
+    lies in one of them, `at_least` counts no more parts than it names, and
+    combinations nest through claims without a cycle; a threshold's `quantity`
+    and `relative_to` resolve like every reference, and a relative threshold is
+    relative to another quantity than the one it bounds;
+  - a claim is read in its source's grading scheme (spec §3.1): its `grade` is
+    one its own source's `grading_scheme` lists and its `consensus` one of its
+    classes; its `verb` is a wording some declared scheme defines — its own
+    source's, or others that read it alike (open or not, one negated form); a
+    printed `consensus_share` shows a number, carries the class where its
+    source classes shares, and lies within that class's bounds where the scheme
+    reads them as numbers; within a scheme a grade, a wording and a class are
+    listed once, every word of a grade, wording, negated form, class name and
+    bounds lies as a whole word in one of the quotes that give it, and those
+    quotes are the source's own;
+  - an evidence row names its endpoint as `outcome` and anything else as its
+    printed `key` (spec §3.1): an entry's `outcome` is a concept of facet
+    `outcome`, so a component, a subgroup, an arm, a comparator, a device or a
+    regimen is never recorded as one;
 
 With --verify-quotes it also downloads each source (hash-checked, cached) and
 verifies every quote is a verbatim substring of `pdftotext -layout` on the cited
@@ -169,6 +188,8 @@ def main(argv=None) -> int:
     errors += check_axes(schema, ids, entities, broader, scope)
     errors += check_scope_edges(broader, scope)
     errors += check_definitions(ids, entities, defined_by)
+    errors += check_grading(ids, entities)
+    errors += check_evidence(ids, entities)
     if any(e.get("type") == "view" and "scope_root" in e for e in entities.values()):
         if errors:   # members are computed by the build's reader, which expects a pool that fits the schema
             print("the scope trees of views are checked once the errors below are fixed")
@@ -302,28 +323,171 @@ def check_scope_edges(broader: list[tuple[str, int, str, str, dict]],
 
 def check_definitions(ids: dict[str, str], entities: dict[str, dict],
                       defined_by: list[tuple[str, int, str, str, dict]]) -> list[str]:
-    """A derived concept's rules (spec §3.1, §3.2, §5). A `defined_by` edge reaches a claim of kind
-    `criterion` or `definition` — the passage that gives the rule, not a recommendation that uses the
-    term. One concept is defined by one claim once: several edges from a concept are alternatives,
-    and a second edge to the same claim, even with a discriminator, would count one rule twice.
-    A threshold's `relative_to` names another quantity than its `quantity`; that both resolve is the
-    reference check's, and that only criterion and definition claims carry thresholds the schema's.
-    No kind of concept, quantity or unit is named here."""
+    """A derived concept's rule (spec §3.1, §3.2, §5). A concept has one `defined_by` edge, to a claim of kind
+    `criterion` or `definition` — the passage that gives the rule, not a recommendation that uses the term.
+    Several rules of one concept are the parts of a `combination` on that claim, with the connective the page
+    prints; a second edge would join them by a default nobody read off the page, so it is refused, to the same
+    claim or another, discriminator or not. A combination's parts are criterion or definition claims of the
+    claim's own source, as are the quotes of its connective, and every piece of the connective ("entweder …
+    oder") lies in one of those quotes, so that --verify-quotes checks the words on the page; `at_least` names
+    at most as many as its parts; combinations nest through claims and never reach their own claim. That the
+    operator states its parts, connective and `n`, and that a combining claim prints no threshold, is the
+    schema's. A threshold's `relative_to` names another quantity than its `quantity`; that both resolve is the
+    reference check's. No operator word, kind of concept, quantity or unit of a guideline is named here."""
     errs: list[str] = []
-    seen: dict[tuple[str, str], str] = {}
+    rules = ("criterion", "definition")
+    first: dict[str, tuple[str, str]] = {}
     for rel, i, frm, to, _ in defined_by:
         kind = entities.get(to, {}).get("kind")
-        if to in entities and kind not in ("criterion", "definition"):
+        if to in entities and kind not in rules:
             errs.append(f"{rel} at {i}: {frm} defined_by {to}, a claim of kind {kind!r}; a rule is a criterion or a definition")
-        if (frm, to) in seen:
-            errs.append(f"{rel} at {i}: {frm} defined_by {to} repeats the edge in {seen[(frm, to)]}; one rule is one edge")
-        seen.setdefault((frm, to), f"{rel} at {i}")
+        if frm in first:
+            errs.append(f"{rel} at {i}: {frm} has a second defined_by edge (to {to}; the first, to {first[frm][1]}, is in "
+                        f"{first[frm][0]}); several rules combine on one claim as the page prints it (`combination`), never by a second edge")
+        first.setdefault(frm, (f"{rel} at {i}", to))
+    source_of = lambda at: str(at).split("#")[0]
+    graph: dict[str, list[str]] = {}
     for cid, claim in sorted(entities.items()):
-        if claim.get("type") != "claim" or not isinstance(claim.get("thresholds"), list):
+        if claim.get("type") != "claim":
             continue
-        for n, th in enumerate(claim["thresholds"]):
-            if isinstance(th, dict) and "relative_to" in th and th.get("relative_to") == th.get("quantity"):
-                errs.append(f"{ids[cid]}: threshold {n} of {cid} is relative to {th['quantity']}, its own quantity; a relative threshold names the quantity it is relative to")
+        th = claim.get("threshold")
+        if isinstance(th, dict) and "relative_to" in th and th.get("relative_to") == th.get("quantity"):
+            errs.append(f"{ids[cid]}: the threshold of {cid} is relative to {th['quantity']}, its own quantity; a relative threshold names the quantity it is relative to")
+        comb = claim.get("combination")
+        if not isinstance(comb, dict):
+            continue
+        rel, own = ids[cid], source_of((claim.get("source") or {}).get("at", ""))
+        parts = [p for p in comb.get("of") or [] if isinstance(p, str)]
+        graph[cid] = parts
+        for part in parts:
+            if part not in entities:
+                continue   # the reference check reports it
+            if entities[part].get("kind") not in rules:
+                errs.append(f"{rel}: the combination of {cid} names {part}, a claim of kind {entities[part].get('kind')!r}; a part is a criterion or a definition")
+            if source_of((entities[part].get("source") or {}).get("at", "")) != own:
+                errs.append(f"{rel}: the combination of {cid} names {part}, a claim of another source; a combination is read off one passage")
+        if comb.get("operator") == "at_least" and isinstance(comb.get("n"), int) and comb["n"] > len(parts):
+            errs.append(f"{rel}: the combination of {cid} asks for at least {comb['n']} of {len(parts)} parts")
+        refs = comb.get("source")
+        refs = [refs] if isinstance(refs, dict) else [r for r in refs or [] if isinstance(r, dict)]
+        for r in refs:
+            if source_of(r.get("at", "")) != own:
+                errs.append(f"{rel}: the connective of {cid} is quoted from {source_of(r.get('at', ''))}, not from its own source {own}")
+        if isinstance(comb.get("connective"), str):
+            for piece in (x.strip() for x in comb["connective"].split("…")):
+                if piece and not any(piece in str(r.get("quote", "")) for r in refs):
+                    errs.append(f"{rel}: the connective of {cid} prints {piece!r}, which none of its quotes contains")
+    for cycle in cycles(graph):
+        errs.append(f"combinations form a cycle through claims: {' -> '.join(cycle)}")
+    return errs
+
+
+def check_grading(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
+    """A claim's grade, verb and consensus in its source's grading scheme (spec §3.1, §6.5). A source declares the
+    scheme as data, quoted from its method table; the schema enumerates none of its words, so this is where a claim's
+    values are held to them. `grade` and `consensus` are its own source's; `verb` may be another guideline's wording
+    — recorded wherever a declared scheme defines it, read in its own source's scheme first, otherwise in the schemes
+    that define it, which must read it alike, or its direction would depend on which guideline one asked. A printed
+    share carries its class where the source classes shares, and lies within the class's bounds where the scheme
+    reads them as numbers. Within a scheme, each grade, wording and class is listed once, and every word of a grade,
+    wording, negated form, class name and bounds lies, as a whole word, in one of the quotes that give it — quotes
+    from the source itself — so that the words are the source's; a form marked `modelling` is not read against
+    quotes. That grade and verb agree is not checked: which grade a sentence carries is the rule of §3.1 and §5.1.
+    No grade, verb, class or scheme of any guideline is named here."""
+    errs: list[str] = []
+    source_of = lambda at: str(at).split("#")[0]
+    as_refs = lambda refs: [refs] if isinstance(refs, dict) else [r for r in refs or [] if isinstance(r, dict)] if isinstance(refs, list) else []
+    printed = lambda word, quote: re.search(rf"(?<!\w){re.escape(word)}(?!\w)", str(quote)) is not None
+    schemes: dict[str, dict] = {}
+    readings: dict[str, dict[str, tuple]] = {}   # a wording → {source: (open, negated)}
+    for sid, src in sorted(entities.items()):
+        if src.get("type") != "source" or not isinstance(src.get("grading_scheme"), dict):
+            continue
+        rel, scheme = ids[sid], src["grading_scheme"]
+        grades = [g for g in scheme.get("grades") or [] if isinstance(g, dict)]
+        classes = [c for c in scheme.get("consensus") or [] if isinstance(c, dict)]
+        schemes[sid] = {"grades": [g.get("grade") for g in grades], "verbs": {g["verb"] for g in grades if "verb" in g},
+                        "classes": {c.get("class"): c for c in classes}}
+        for field, entries, what in (("grade", grades, "grade"), ("verb", grades, "wording"), ("class", classes, "consensus class")):
+            values = [e[field] for e in entries if field in e]
+            for value in sorted({v for v in values if values.count(v) > 1}, key=str):
+                errs.append(f"{rel}: the grading scheme lists the {what} {value!r} more than once")
+        for entry, fields in [(g, ("grade", "verb", "negated")) for g in grades] + [(c, ("name", "bounds")) for c in classes]:
+            name = entry.get("grade", entry.get("class"))
+            quoted = as_refs(entry.get("source")) + [r for v in (entry.get("provenance") or {}).values() for r in as_refs(v)]
+            for other in sorted({source_of(r.get("at", "")) for r in quoted} - {sid}):
+                errs.append(f"{rel}: the grading scheme quotes {other} for {name!r}; a scheme is read off its own source")
+            for field in fields:
+                if field not in entry:
+                    continue
+                given = (entry.get("provenance") or {}).get(field, entry.get("source"))
+                if given == "modelling":
+                    continue
+                refs = as_refs(given)
+                missing = [w for w in str(entry[field]).split() if not any(printed(w, r.get("quote")) for r in refs)]
+                if missing:
+                    errs.append(f"{rel}: the {field} {entry[field]!r} of {name!r} in the grading scheme prints "
+                                f"{', '.join(map(repr, missing))}, which none of its quotes contains as a word")
+        for g in grades:
+            if "verb" in g:
+                readings.setdefault(g["verb"], {})[sid] = (bool(g.get("open")), g.get("negated"))
+    for cid, claim in sorted(entities.items()):
+        if claim.get("type") != "claim":
+            continue
+        rel, own = ids[cid], source_of((claim.get("source") or {}).get("at", ""))
+        scheme = schemes.get(own)
+        for field, listed in (("grade", "grades"), ("consensus", "classes")):
+            if field not in claim:
+                continue
+            if scheme is None:
+                errs.append(f"{rel}: {cid} carries {field} {claim[field]!r}, but {own} declares no grading scheme to read it in")
+            elif claim[field] not in scheme[listed]:
+                errs.append(f"{rel}: {cid} has {field} {claim[field]!r}, which the grading scheme of {own} does not list "
+                            f"({', '.join(map(str, scheme[listed])) or 'none'})")
+        if "verb" in claim and not (scheme and claim["verb"] in scheme["verbs"]):
+            others = readings.get(claim["verb"], {})
+            if not others:
+                errs.append(f"{rel}: {cid} has verb {claim['verb']!r}, which no declared grading scheme defines")
+            elif len(set(others.values())) > 1:
+                errs.append(f"{rel}: {cid} has verb {claim['verb']!r}, which {own} does not define and the grading schemes of "
+                            f"{', '.join(sorted(others))} read differently (open or not, or another negated form); "
+                            f"its reading would depend on which guideline one asked")
+        if "consensus_share" in claim:
+            number = re.search(r"\d+(?:[.,]\d+)?", str(claim["consensus_share"]))
+            cls = (scheme or {}).get("classes", {}).get(claim.get("consensus"))
+            if not number:
+                errs.append(f"{rel}: {cid} has consensus_share {claim['consensus_share']!r}, which prints no number")
+            elif scheme and scheme["classes"] and "consensus" not in claim:
+                errs.append(f"{rel}: {cid} prints a share, and the grading scheme of {own} classes shares; carry its class as `consensus` beside it")
+            elif cls:
+                share = float(number.group().replace(",", "."))
+                outside = [f"{k} {cls[k]}" for k, fits in (("above", lambda b: share > b), ("at_least", lambda b: share >= b),
+                                                           ("at_most", lambda b: share <= b), ("below", lambda b: share < b))
+                           if isinstance(cls.get(k), (int, float)) and not fits(cls[k])]
+                if outside:
+                    errs.append(f"{rel}: {cid} prints the share {claim['consensus_share']!r}, outside the bounds of "
+                                f"{claim['consensus']!r} in the grading scheme of {own} ({', '.join(outside)})")
+    return errs
+
+
+def check_evidence(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
+    """A claim's evidence rows (spec §3.1): each is one row the source prints, keyed by its endpoint (`outcome`)
+    and, where the row names anything else, by its printed `key`. The schema cannot see a concept's facet, so this
+    is where an `outcome` is held to be an endpoint — a concept of facet `outcome` — and a row keyed by a component,
+    a subgroup, an arm, a comparator, a device or a regimen cannot pass that key off as one. That no two entries are
+    alike is the schema's (`uniqueItems`); the key is what keeps rows apart that would otherwise be one entry. No
+    system, value or kind of row is named here."""
+    errs: list[str] = []
+    for cid, claim in sorted(entities.items()):
+        if claim.get("type") != "claim" or not isinstance(claim.get("evidence"), list):
+            continue
+        for i, entry in enumerate(claim["evidence"]):
+            outcome = entry.get("outcome") if isinstance(entry, dict) else None
+            concept = entities.get(outcome) if isinstance(outcome, str) else None
+            if concept is not None and concept.get("facet") != "outcome":
+                errs.append(f"{ids[cid]}: {cid} evidence {i}: {outcome} is no endpoint (facet {concept.get('facet') or 'none'}); "
+                            f"a row naming a component, a subgroup, an arm, a comparator, a device or a regimen records it as "
+                            f"its printed `key`, its endpoint as `outcome`")
     return errs
 
 

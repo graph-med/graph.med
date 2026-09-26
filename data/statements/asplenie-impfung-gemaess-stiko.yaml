@@ -1,0 +1,11 @@
+# Sepsis S3, 10.4, the first of its three coordinated actions: convention row 15. One sentence, one claim, three
+# statements, one per action (spec §3.2; hard case 4, flagged for the physician). Card #226.
+id: statements/asplenie-impfung-gemaess-stiko
+type: statement
+lang: de
+label: "Bei Patienten mit Asplenie wird empfohlen, sie gemäß STIKO-Empfehlungen zu impfen."
+short_label: "Impfung gemäß STIKO bei Asplenie"
+slots:
+  population: concepts/asplenie
+  action: concepts/impfung-gemaess-stiko-empfehlungen
+source: modelling

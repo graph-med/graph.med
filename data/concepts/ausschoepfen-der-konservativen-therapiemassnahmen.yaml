@@ -1,0 +1,10 @@
+# A condition of 5.16 (p. 87), „nur nach Ausschöpfen der konservativen Therapiemaßnahmen, einschließlich der
+# Durchführung einer Bauchlagerung“ (card #223; #217's convention row 8). The guideline names no conservative measure
+# but prone positioning.
+id: concepts/ausschoepfen-der-konservativen-therapiemassnahmen
+type: concept
+lang: de
+label: "Ausschöpfen der konservativen Therapiemaßnahmen, einschließlich der Durchführung einer Bauchlagerung"
+short_label: "Konservative Therapie ausgeschöpft (inkl. Bauchlagerung)"
+facet: patient_state
+source: modelling

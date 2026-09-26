@@ -1,0 +1,11 @@
+# Box 3.9, first sentence (p. 53, section 3.4), card #221. Population: the root (#217's convention, row
+# 1). "7 bis 10 Tagen" says how, not for whom: it is the action (card #221, hard case 2).
+id: statements/antibiotikatherapie-7-bis-10-tage
+type: statement
+lang: de
+label: Bei Patienten mit Sepsis oder septischem Schock ist eine Antibiotikatherapie in der Regel von 7 bis 10 Tagen durchzuführen.
+short_label: "Antibiotikatherapie in der Regel 7 bis 10 Tage"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/antibiotikatherapie-von-7-bis-10-tagen
+source: modelling

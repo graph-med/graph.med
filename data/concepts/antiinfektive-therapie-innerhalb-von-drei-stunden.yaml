@@ -1,0 +1,8 @@
+# The action of box 3.3, second sentence (p. 39). Minted by card #219 for views/sepsis-lf-4.0.
+id: concepts/antiinfektive-therapie-innerhalb-von-drei-stunden
+type: concept
+lang: de
+label: "Verabreichung der antiinfektiven Therapie innerhalb von drei Stunden"
+short_label: "Antiinfektive Therapie innerhalb von drei Stunden"
+facet: intervention
+source: modelling

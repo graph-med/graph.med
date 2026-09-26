@@ -1,0 +1,12 @@
+# Sepsis S3, 10.3, sentence 1: prevention; it names no group and delegates to the STIKO; its population is the
+# prevention group (decision of 2026-09-25, section 1). The „insbesondere“ list is emphasis, not a restriction
+# (hard case 3), and stays in the label. Card #226.
+id: statements/impfungen-gemaess-stiko
+type: statement
+lang: de
+label: "Es wird empfohlen, die Empfehlungen der Ständigen Impfkommission (STIKO) am Robert Koch-Institut umzusetzen, insbesondere die Impfungen gegen Influenza, COVID-19, RSV (Respiratory Syncytialvirus), Pneumokokken, Meningokokken und Haemophilus influenzae B."
+short_label: "Impfungen gemäß STIKO-Empfehlungen umsetzen"
+slots:
+  population: concepts/praevention-der-sepsis
+  action: concepts/impfung-gemaess-stiko-empfehlungen
+source: modelling

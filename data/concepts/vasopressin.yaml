@@ -1,0 +1,8 @@
+# The action of box 4.6 (p. 63): "Vasopressin zu ergänzen, wenn mit Noradrenalin alleine kein ausreichender
+# Blutdruck erzielt werden kann".
+id: concepts/vasopressin
+type: concept
+lang: de
+label: Vasopressin
+facet: medication
+source: modelling

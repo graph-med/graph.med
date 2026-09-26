@@ -1,0 +1,11 @@
+# Empfehlung 6.1 (p. 89), addressed to staff: its population is the patients the measure serves, those receiving
+# renal replacement therapy, AKI (the maintainer's decision of 2026-09-25); the setting and the staff stay in the action.
+id: statements/nierenersatzverfahren-nur-durch-intensivmediziner-oder-nephrologen
+type: statement
+lang: de
+label: "Extrakorporale Nierenersatzverfahren werden auf Intensivstationen ausschließlich durch Fachärzte mit der Zusatzbezeichnung „Intensivmedizin“ und/oder Nephrologen indiziert und durchgeführt."
+short_label: "Nierenersatz nur durch Intensivmediziner/Nephrologen"
+slots:
+  population: concepts/akute-nierenschaedigung
+  action: concepts/nierenersatzverfahren-durch-intensivmediziner-oder-nephrologen
+source: modelling

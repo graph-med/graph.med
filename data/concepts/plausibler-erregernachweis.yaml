@@ -1,0 +1,10 @@
+# A condition of box 3.8 (p. 51): "sobald ein plausibler Erregernachweis geführt werden konnte" (card
+# #221). Stated: the body text of p. 52 says which detections count as plausible, sentence by sentence
+# and without a connective; those sentences refine 3.8's claim (spec §5.1 R) and no defined_by edge is
+# written.
+id: concepts/plausibler-erregernachweis
+type: concept
+lang: de
+label: Plausibler Erregernachweis
+facet: finding
+source: modelling

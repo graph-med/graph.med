@@ -1,0 +1,6 @@
+id: concepts/serumkreatinin
+type: concept
+lang: de
+label: Serumkreatinin
+facet: finding
+source: modelling   # a measured quantity, named by the threshold that bounds it (spec §3.1)

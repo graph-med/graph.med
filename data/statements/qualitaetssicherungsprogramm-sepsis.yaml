@@ -1,0 +1,10 @@
+# Sepsis S3, 2.1: addressed to hospitals; its population is the patients the programme serves, the root (decision of 2026-09-25, section 1); the hospital stays in the label (card #218).
+id: statements/qualitaetssicherungsprogramm-sepsis
+type: statement
+lang: de
+label: "Krankenhäusern wird ein Qualitätssicherungsprogramm zum Thema Sepsis empfohlen, einschließlich eines Sepsis-Screenings für akut erkrankte Hochrisikopatienten und Standardarbeitsanweisungen (SOPs) für die Behandlung."
+short_label: "Qualitätssicherungsprogramm Sepsis im Krankenhaus"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/qualitaetssicherungsprogramm-sepsis
+source: modelling

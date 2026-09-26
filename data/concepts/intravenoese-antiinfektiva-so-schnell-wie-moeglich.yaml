@@ -1,0 +1,8 @@
+# Box 3.2 (p. 39), its target for patients with sepsis. Minted by card #219 for views/sepsis-lf-4.0.
+id: concepts/intravenoese-antiinfektiva-so-schnell-wie-moeglich
+type: concept
+lang: de
+label: "Verabreichung von intravenösen Antiinfektiva so schnell wie möglich"
+short_label: "Intravenöse Antiinfektiva so schnell wie möglich"
+facet: intervention
+source: modelling

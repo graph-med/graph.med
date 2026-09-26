@@ -1,0 +1,9 @@
+# The hypoperfusion of 2.5 (p. 29), a concept of its own beside the ledger's stated concepts/hypoperfusion
+# (#210 Decision 6): derived, card #218 writes its one defined_by edge to the top of the rule p. 29 prints
+# („kann sich durch … manifestieren“, „Klinische Hinweise … können u. a. … sein“).
+id: concepts/sepsis-induzierte-hypoperfusion
+type: concept
+lang: de
+label: "Sepsis-induzierte Hypoperfusion"
+facet: finding
+source: modelling

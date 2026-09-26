@@ -1,0 +1,9 @@
+# The population of 5.6 (p. 76) and 5.7 (p. 77), „moderatem oder schwerem ARDS“ (card #223): one concept naming the
+# alternatives (spec §3.2). Derived: its defined_by edge reaches the p. 76 criterion „(P/F < 201 mmHg)“, reported
+# from a meta-analysis and admitted by the G2 exception of spec §5.1 (flagged for the physician).
+id: concepts/moderates-oder-schweres-ards
+type: concept
+lang: de
+label: "Moderates oder schweres ARDS"
+facet: patient_state
+source: modelling

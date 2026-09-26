@@ -1,0 +1,9 @@
+# The action of 5.15's first sentence (p. 86), as printed: one prescription of duration, a minimum and a preference
+# (card #223).
+id: concepts/bauchlagerung-mindestens-12-stunden
+type: concept
+lang: de
+label: "Bauchlagerung über mindestens 12 Stunden, vorzugsweise 16 Stunden"
+short_label: "Bauchlagerung ≥ 12 Stunden, vorzugsweise 16 Stunden"
+facet: intervention
+source: modelling

@@ -1,0 +1,9 @@
+# The population of box 4.11 (p. 70), "Patienten mit einem therapierefraktären septischen Schock", minted by
+# its part as #217's convention (row 4) says. Stated: the guideline prints no rule for it. Card #228 writes its
+# broader edge to concepts/septischer-schock.
+id: concepts/therapierefraktaerer-septischer-schock
+type: concept
+lang: de
+label: Therapierefraktärer septischer Schock
+facet: patient_state
+source: modelling

@@ -1,0 +1,8 @@
+# A measured quantity, named by the threshold that bounds it (spec §3.1): the lactate of Definition 2
+# („der Laktatwert im Blut > 2 mmol/l“, p. 23), as #217's ledger names the candidate. Card #218.
+id: concepts/laktat-im-blut
+type: concept
+lang: de
+label: "Laktat im Blut"
+facet: finding
+source: modelling

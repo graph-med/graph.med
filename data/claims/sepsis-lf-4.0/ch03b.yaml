@@ -1,0 +1,316 @@
+# Claims of sources/sepsis-lf-4.0, sections 3.4–3.5 (physical pages 51 from the heading
+# "3.4 Dauer der antimikrobiellen Therapie", line 21, to 56), card #221. One claim per sentence of
+# boxes 3.8–3.10 (spec §3.1), then the body-text places that pass spec §5.1.
+
+# ── box 3.8, p. 51, section 3.4 ────────────────────────────────────────────
+- id: claims/sepsis-lf-4.0/19579c2a
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '3.8'
+  section: '3.4'
+  label: Wir empfehlen, bei Patienten mit Sepsis oder septischem Schock die antiinfektive Therapie täglich zu evaluieren
+    und die Therapie anzupassen, sobald ein plausibler Erregernachweis geführt werden konnte, und die Antiinfektiva-Empfindlichkeit
+    bekannt ist.
+  grade: EK
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  source:
+    at: sources/sepsis-lf-4.0#page=51
+    quote: Wir empfehlen, bei Patienten mit Sepsis oder septischem Schock
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=51, quote: EK}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=51, quote: 'Konsensstärke: 100 %'}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: '> 95 % der Stimmberechtigten'}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=51, quote: 'Konsensstärke: 100 %'}
+
+# ── box 3.9, p. 53, section 3.4: two sentences, 94 % (Konsens) ──────────────
+- id: claims/sepsis-lf-4.0/fedfb141
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '3.9'
+  section: '3.4'
+  label: Wir empfehlen bei Patienten mit Sepsis oder septischem Schock eine Antibiotikatherapie in der Regel von 7 bis 10
+    Tagen durchzuführen.
+  grade: EK
+  verb: empfehlen
+  direction: for
+  consensus: konsens
+  consensus_share: 94 %
+  source:
+    at: sources/sepsis-lf-4.0#page=53
+    quote: Wir empfehlen bei Patienten mit Sepsis oder septischem Schock
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=53, quote: EK}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=53, quote: 'Konsensstärke: 94 %'}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: '> 75-95 % der Stimmberechtigten'}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=53, quote: 'Konsensstärke: 94 %'}
+- id: claims/sepsis-lf-4.0/e2707b32
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '3.9'
+  section: '3.4'
+  label: Bei nicht erfolgreicher Fokussanierung, bei bestimmten Erregern sowie speziellen Organinfektionen ist die Therapiedauer
+    zu verlängern.
+  grade: EK   # the box's grade reaches every sentence of recommendation form (spec §3.1); no verb: "ist … zu verlängern" is no scheme's wording
+  direction: for
+  consensus: konsens
+  consensus_share: 94 %
+  source:
+    at: sources/sepsis-lf-4.0#page=53
+    quote: Bei nicht erfolgreicher Fokussanierung, bei bestimm-
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=53, quote: EK}
+    direction: {at: sources/sepsis-lf-4.0#page=53, quote: dauer zu verlängern.}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=53, quote: 'Konsensstärke: 94 %'}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: '> 75-95 % der Stimmberechtigten'}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=53, quote: 'Konsensstärke: 94 %'}
+
+# ── box 3.10, p. 55, section 3.5: one sentence and its Bemerkung ────────────
+- id: claims/sepsis-lf-4.0/ea4f6e8e
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '3.10'
+  section: '3.5'
+  label: Wir empfehlen bei Patienten mit Sepsis oder septischem Schock die Messung von Serum-Procalcitonin, um die Dauer der
+    antiinfektiven Therapie zu begrenzen, sofern eine adäquate Fokuskontrolle erreicht wurde.
+  grade: Stark
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  evidence:   # spec §3.1, one row as printed; only the box's own rating (p. 55's "niedrig" of one meta-analysis is body text, N2)
+    - {outcome: concepts/therapiedauer-tage, value: Moderat, system: grade}
+  source:
+    at: sources/sepsis-lf-4.0#page=55
+    quote: Wir empfehlen bei Patienten mit Sepsis oder septischem Schock
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=55, quote: Stark}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=55, quote: 'Konsensstärke: 100 %'}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: '> 95 % der Stimmberechtigten'}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=55, quote: 'Konsensstärke: 100 %'}
+    evidence:
+      - {at: sources/sepsis-lf-4.0#page=55, quote: 'Therapiedauer (Tage):'}
+- id: claims/sepsis-lf-4.0/eda87650
+  type: claim
+  lang: de
+  kind: criterion   # the cases the Bemerkung takes out of the sentence it follows (#213 item 1): no grade, no verb, no rows (#215)
+  recommendation_no: '3.10'
+  section: '3.5'
+  label: Ausgenommen davon sind Patienten mit Infektionen, die eine längere Therapie erfordern (z. B. S. aureus-Bakteriämie,
+    Endokarditis, Candidämie).
+  consensus: starker_konsens
+  consensus_share: 100 %
+  source:
+    at: sources/sepsis-lf-4.0#page=55
+    quote: Ausgenommen davon sind Patienten mit Infektionen, die eine
+  provenance:
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=55, quote: 'Konsensstärke: 100 %'}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: '> 95 % der Stimmberechtigten'}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=55, quote: 'Konsensstärke: 100 %'}
+
+# ── body text of section 3.4 (p. 51 from line 35, to p. 54): spec §5.1, never graded ──
+- id: claims/sepsis-lf-4.0/d50c6ba1
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.4'
+  label: Angesichts des potenziellen Schadens, der mit unnötig langen und breit wirksamen antimikrobiellen Therapien verbunden
+    sein kann, wird eine tägliche Beurteilung hinsichtlich einer Fokussierung bzw. Beendigung der antimikrobiellen Therapie
+    bei Patienten mit Sepsis oder septischem Schock empfohlen.
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=51
+    quote: wird eine tägliche Beurteilung hinsichtlich einer
+  provenance:   # the wording stands on the sentence's last line
+    verb: {at: sources/sepsis-lf-4.0#page=51, quote: septischem Schock empfohlen.}
+    direction: {at: sources/sepsis-lf-4.0#page=51, quote: septischem Schock empfohlen.}
+- id: claims/sepsis-lf-4.0/489900c8
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.4'
+  label: Sobald ein plausibler Erregernachweis vorliegt, empfehlen wir eine Fokussierung der antiinfektiven Therapie.
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=51
+    quote: Sobald ein plausibler Erregernachweis vorliegt, empfehlen wir eine Fokussierung
+- id: claims/sepsis-lf-4.0/0ec0c3a5
+  type: claim
+  lang: de
+  kind: criterion
+  section: '3.4'
+  label: Dies beinhaltet, alle nicht-erforderlichen antimikrobiellen Wirkstoffe abzusetzen, Wirkstoffe mit breitem antimikrobiellen
+    Spektrum durch spezifischere Wirkstoffe (Schmalspektrum) und Kombinationstherapien, wenn möglich, durch Monotherapie zu ersetzen.
+  source:   # the sentence runs on to p. 52; its first line is on p. 51
+    at: sources/sepsis-lf-4.0#page=51
+    quote: Dies beinhaltet, alle nicht-erforderlichen antimikrobiellen Wirk-
+- id: claims/sepsis-lf-4.0/5d1fbffd
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.4'
+  label: Erregerspezifika wie z. B. für Staphylococcus aureus Infektionen sind zu beachten.
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=52
+    quote: Erregerspezifika wie z. B. für Staphylococcus aureus Infektionen sind zu be-
+- id: claims/sepsis-lf-4.0/40e9c553
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.4'
+  label: Falls die mikrobiologische Diagnostik keinen oder keinen plausiblen Erregernachweis erbringt, ist eine Fokussierung
+    der Therapie auch basierend auf einem guten klinischen Ansprechen möglich.
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=52
+    quote: Falls die mikrobiologische Diagnostik keinen oder keinen plausiblen Erreger-
+  provenance:
+    direction: {at: sources/sepsis-lf-4.0#page=52, quote: schen Ansprechen möglich.}
+- id: claims/sepsis-lf-4.0/cbcef784
+  type: claim
+  lang: de
+  kind: recommendation   # no verb: "befürwortet" is no declared scheme's wording; mark 136 left out
+  section: '3.4'
+  label: Grundsätzlich wird die Nutzung von Antimicrobial Stewardship (AMS)-Programmen zur Optimierung der antiinfektiven
+    Therapie befürwortet.
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=52
+    quote: Grundsätzlich wird die Nutzung von Antimicrobial Stewardship
+  provenance:
+    direction: {at: sources/sepsis-lf-4.0#page=52, quote: (AMS)-Programmen zur Optimierung der antiinfektiven Therapie befürwortet.}
+- id: claims/sepsis-lf-4.0/024a06b3
+  type: claim
+  lang: de
+  kind: recommendation   # "besteht keine Indikation … fortzusetzen": the action is not indicated (spec §5.1 G4), not a decline
+  section: '3.4'
+  label: Falls ein anderer, plausibler und nicht-infektionsbedingter Grund für den klinischen Zustand des Patienten vorhanden
+    ist und hinreichend wahrscheinlich ist, dass keine Infektion vorliegt, besteht keine Indikation die antiinfektive Therapie
+    fortzusetzen.
+  direction: against
+  source:
+    at: sources/sepsis-lf-4.0#page=52
+    quote: dass keine Infektion vorliegt, besteht keine Indikation die an-
+- id: claims/sepsis-lf-4.0/3d980554
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.4'
+  label: Bei Blutkulturbefunden ist die Abgrenzung einer Infektion von einer Kontamination wichtig, insbesondere bei einmaligem
+    Nachweis von typischen Mikroorganismen des Hautmikrobioms mit geringer Virulenz (z. B. Koagulase-negative Staphylokokken,
+    Corynebacterium spp., Cutibacterium spp.).
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=52
+    quote: funden ist die Abgrenzung einer Infektion von einer Kontamination wichtig
+- id: claims/sepsis-lf-4.0/8838c4a8
+  type: claim
+  lang: de
+  kind: criterion
+  section: '3.4'
+  label: Andere Erreger, die auch zum Haut- und Schleimhautmikrobiom gehören (z. B. Enterokokken oder Candida spp.), sind
+    hingegen als plausible Erreger zu betrachten, wenn sie aus Blutkulturen oder aus eigentlich sterilen Körperregionen isoliert
+    werden.
+  source:
+    at: sources/sepsis-lf-4.0#page=52
+    quote: sind hingegen als plausible Erreger zu betrachten, wenn sie aus Blutkultu-
+- id: claims/sepsis-lf-4.0/b0a1ea4a
+  type: claim
+  lang: de
+  kind: criterion
+  section: '3.4'
+  label: Ein Nachweis in respiratorischem Material ist hingegen am ehesten Ausdruck einer Kolonisation und nicht einer Infektion.
+  source:
+    at: sources/sepsis-lf-4.0#page=52
+    quote: schem Material ist hingegen am ehesten Ausdruck einer Kolonisation und nicht einer Infek-
+- id: claims/sepsis-lf-4.0/c4c17a1f
+  type: claim
+  lang: de
+  kind: criterion
+  section: '3.4'
+  label: Erreger, die bei Nachweis in der Blutkultur nahezu immer plausible Erreger sind, sind Staphylococcus aureus, Streptococcus
+    pyogenes und andere β-hämolysierende Streptokokken, Streptococcus pneumoniae, Enterokokken, Listeria monocytogenes, Neisseria
+    meningitidis, Haemophilus influenzae, Enterobacterales, Pseudomonas aeruginosa, Acinetobacter baumannii und Bacteroides
+    fragilis.
+  source:
+    at: sources/sepsis-lf-4.0#page=52
+    quote: Erreger, die bei Nachweis in der Blutkultur nahezu immer plausible Erreger sind, sind
+- id: claims/sepsis-lf-4.0/5d90f587
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.4'
+  label: Eine längere antimikrobielle Therapie ist erforderlich bei einem langsamen klinischen Ansprechen, nicht sanierbaren
+    Infektionsherden, einer Bakteriämie mit Staphylococcus aureus einschließlich MRSA, einer Candidämie bzw. einer invasiven
+    Candidiasis und anderen Pilzinfektionen, einigen Virusinfektionen (z. B. durch Herpesviren) und bei Immundefizienz einschließlich
+    Neutropenie.
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=54
+    quote: Eine längere antimikrobielle Therapie ist erforderlich bei einem langsamen klinischen Anspre-
+- id: claims/sepsis-lf-4.0/acbb99bd
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.4'
+  label: Daher sind Ärztinnen und Ärzte, auch bei schweren Infektionen, aufgefordert, täglich zu evaluieren, ob eine Fortführung,
+    eine Änderung oder eine Beendigung einer antiinfektiven Therapie vorzunehmen ist.
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=54
+    quote: Daher sind Ärztinnen und Ärzte, auch bei schweren Infektionen, aufgefordert, täglich zu eva-
+- id: claims/sepsis-lf-4.0/075460f1
+  type: claim
+  lang: de
+  kind: recommendation
+  section: '3.4'
+  label: Für besondere Fragestellungen (z. B. S. aureus Bakteriämie) ist ein infektiologisches oder mikrobiologisches Konsil
+    angeraten.
+  direction: for
+  source:
+    at: sources/sepsis-lf-4.0#page=54
+    quote: Für besondere Fragestellungen (z. B. S. aureus Bakteriämie) ist ein in-
+  provenance:
+    direction: {at: sources/sepsis-lf-4.0#page=54, quote: fektiologisches oder mikrobiologisches Konsil angeraten.}
+
+# ── body text of section 3.5 (pp. 55–56) ───────────────────────────────────
+# p. 56: a value 3.10's wording needs ("um die Dauer der antiinfektiven Therapie zu begrenzen") and does
+# not give, reported from a systematic review, and given nowhere else by the guideline (spec §5.1 G2,
+# the exception): two thresholds for the same term, each an answer of its own (§5.1 K), joined by "oder"
+# on the page. Flagged for the physician (card #221, hard case 3).
+- id: claims/sepsis-lf-4.0/c1418112
+  type: claim
+  lang: de
+  kind: criterion
+  section: '3.5'
+  label: Die Beendigung der Antibiotikatherapie, wenn Procalcitonin um mehr als 80 % des Spitzenwertes abfällt …
+  threshold:   # as printed (spec §3.1): relative, the value is the factor; the claim's own quote prints all of it
+    {quantity: concepts/procalcitonin-abfall, comparator: ">", value: "80", unit: "%", relative_to: concepts/procalcitonin-spitzenwert}
+  source:
+    at: sources/sepsis-lf-4.0#page=56
+    quote: wenn Procalcitonin um mehr als 80 % des Spitzenwertes abfällt
+- id: claims/sepsis-lf-4.0/f695291d
+  type: claim
+  lang: de
+  kind: criterion
+  section: '3.5'
+  label: Die Beendigung der Antibiotikatherapie, wenn … der Wert < 0,5 ng/ml beträgt …
+  threshold:   # as printed (spec §3.1); "der Wert" is the procalcitonin value of the clause before; the claim's own quote prints all of it
+    {quantity: concepts/serum-procalcitonin, comparator: "<", value: "0,5", unit: "ng/ml"}
+  source:
+    at: sources/sepsis-lf-4.0#page=56
+    quote: oder der Wert < 0,5 ng/ml

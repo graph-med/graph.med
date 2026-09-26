@@ -1,0 +1,8 @@
+# The action of 9.4 (p. 132), worded as the box prints it („Post-Intensive-Care-Syndrom“). Card #226.
+id: concepts/hinweis-auf-pics-im-entlassbericht
+type: concept
+lang: de
+label: "Hinweis im Entlassbericht auf die Möglichkeit der Entwicklung eines Post-Intensive-Care-Syndrom (PICS)"
+short_label: "Hinweis auf PICS im Entlassbericht"
+facet: intervention
+source: modelling

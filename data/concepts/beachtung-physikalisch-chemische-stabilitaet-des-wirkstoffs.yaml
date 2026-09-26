@@ -1,0 +1,8 @@
+# The action of box 3.7's Bemerkung (p. 50). Minted by card #219 for views/sepsis-lf-4.0.
+id: concepts/beachtung-physikalisch-chemische-stabilitaet-des-wirkstoffs
+type: concept
+lang: de
+label: "Beachtung der physikalisch-chemischen Stabilität des Wirkstoffs"
+short_label: "Physikalisch-chemische Stabilität beachten"
+facet: intervention
+source: modelling
