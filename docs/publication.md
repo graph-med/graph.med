@@ -4,7 +4,8 @@
 > "Build") renders §2–§5 for `selection` views over sources: the URL layout, the
 > graph-and-sheet page with patient groups folded by family, the chapter tree and
 > the search with facet filters, short labels, direction glyphs, legend and judgement,
-> the order of the detail section (§3), entity pages and JSON (§4), source links
+> the order of the detail section (§3), entity pages and JSON — with `meta`, and a
+> concept's `statements` and `appears_in` (§4) —, source links
 > (§5), the grouping switch — the view's tree of patient groups · Kapitel · each
 > other axis the view declares (§3, "The axis is the reader's choice") —, the scope tree and what applies
 > generally, for a view that declares one (§3), and the deploy workflow with one
@@ -740,6 +741,58 @@ parent from the top of the tree down, each with the kind of edge it hangs by
 ("Sonderfall" for `broader`, "im Geltungsbereich" for `in_scope_of`, "ohne Kante"
 where a proposal names a parent the pool holds no edge to), and a placement's
 rationale where it has one. The words come from the build's per-language table.
+
+**What a program walks and cites by.** Beside what the entity stores and its
+`edges` (and a statement's `card`, a derived concept's `derivation` and `rule`),
+every entity JSON carries one key more, `meta`, and a concept two more,
+`statements` and `appears_in`. They are added, never in place of a stored key: a
+stored `url`, `license`, `provenance`, `rule` or `views` keeps its meaning, which
+is why the metadata sits under a key of its own. This section is their contract.
+
+- `meta.url`, `meta.json` — the absolute URLs of the entity's page and JSON:
+  origin, base path and id, then `/` or `.json`. A preview build gives its
+  preview's URLs (§6); no URL carries a version.
+- `meta.views` — every view the entity belongs to by the view's filter (§2), each
+  `{id, url, json}`, a view's URLs being `<view-id>/` and `<view-id>.json` at the
+  root, never under `views/`; empty for an entity in no view. An axis, which no
+  filter selects, lists the views its own `views` names, each with its `status`
+  and `since`.
+- `meta.sources` — every source whose words the JSON may carry, each
+  `{id, json, license}`, the licence line as recorded on the source (its words,
+  not the publisher's): a source named by id, by a reference's `at`, or through a
+  claim whose sentence or quote it carries.
+- `meta.repository_license` — the repository's licence as the footer and README
+  name it; it says nothing about what it covers.
+- `meta.review` — `pending`, the build's one token until an attestation is read
+  (§3, zone 8); never "validated" or "verified".
+- `meta.provenance` — where the content comes from, by type, its `kind` first: a
+  claim `anchored`, with its `at` and the link into the source (§5); a statement
+  its wording's own `source` (`modelling` by design, `graph-representation.md`
+  §6.3), with the claims behind it counted per source in `supported_by` and
+  `contested_by`; a concept its `source` as stored (`modelling` or `sourced`); a
+  source the `document`, with `url` and `content_hash`; an axis `modelling`, with
+  `proposed_by`. An edge's own provenance is in `edges`.
+- `meta.commit`, `meta.schema_version` — the build's commit and the schema's
+  version. Nothing in the JSON carries a build date, so one commit and one set of
+  flags give the same bytes.
+- `statements` (a concept) — keyed by each view it belongs to: `held_by`, the
+  view's statements that hold the concept, each `{id, slot}`; and, in a view with
+  a scope tree, `own` and `general` as that view JSON's `scope.concepts` gives
+  them (empty where it lists nothing). From a concept's JSON alone a program
+  reaches its recommendations.
+- `appears_in` (a concept) — keyed by view, then by grouping (its `axis` as the
+  view JSON's `groupings` give it: an axis id, `section` for the chapters, the
+  empty string for patient groups unfolded without an axis): the ids of the
+  nodes of that grouping that name the concept, in the tree's order, each once.
+  A node names the entity of its `ref` and every concept an edge leading to it
+  names in `refs` — the page's own rule for where an entity appears (§3), so a
+  condition, which has no node of its own, appears at the statements its answers
+  lead to, and a group reached by two answers is one node. A grouping, or a view,
+  where the concept appears nowhere is left out. Only node ids: the tree's
+  structure is in the view's groupings, and nothing assumes which grouping comes
+  first or what it groups by.
+
+The view JSON, the page's inline data and every page stay as they are.
 
 ---
 
