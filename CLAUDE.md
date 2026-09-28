@@ -58,7 +58,10 @@ uv run tools/axes.py /tmp/graph.med/<axis>.yaml <view>      # a definition not y
 
 `tools/build.py` renders the site described in `docs/publication.md` from `data/`
 into `site/` (gitignored): one graph page and one JSON per view, one page and one
-JSON per entity, the schema at its `$id`. Offline and deterministic; two seconds.
+JSON per entity, the schema at its `$id`. Every entity JSON carries `meta` (its
+absolute URLs, its views, its sources' licence lines, review status, provenance,
+commit), a concept's also its `statements` per view and where it `appears_in` each
+grouping (`docs/publication.md` §4). Offline and deterministic; two seconds.
 
 ```bash
 uv run tools/build.py                       # site/ for graph.med (base path /)
