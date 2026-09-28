@@ -424,14 +424,13 @@ not to be indexed.
 
 ## graph.med in Claude
 
-graph.med reaches Claude as a **custom connector**: the read-only MCP server in
-`mcp/`, hosted as a Cloudflare Worker (ADR-0008). Its tools list the graphs,
-walk their groupings, search, and read an entity or the verbatim passages behind
-it. Every result cites graph.med URLs and carries the licence and review status.
-**It is not deployed yet.** A person first opens the Cloudflare account, moves the
-DNS, sets the firewall rule and commits the deploy workflow (card #279). Its URL
-will be `https://mcp.graph.med/mcp`; the host name is confirmed when the deploy
-lands.
+graph.med reaches Claude, and any other MCP client, as a **remote MCP server**:
+the read-only server in `mcp/`, hosted as a Cloudflare Worker (ADR-0008). Its
+tools list the graphs, walk their groupings, search, and read an entity or the
+verbatim passages behind it. Every result cites graph.med URLs and carries the
+licence and review status. **It is not deployed yet.** A person first opens the
+Cloudflare account, moves the DNS, sets the rate-limiting rule and commits the
+deploy workflow (card #279). Its URL will be `https://mcp.graph.med/mcp`.
 
 Once it is deployed, add it in claude.ai under **Customize > Connectors > Add
 custom connector**. Enter that URL, and choose **No sign-in** for authentication:
@@ -440,11 +439,12 @@ connector the plan allows. On Team and Enterprise an Owner adds it under
 **Organization settings > Connectors**. Claude Desktop uses the same connector,
 and it appears in the mobile apps once it has been added on the web or in Desktop.
 
-The endpoint answers only Anthropic's platform: a firewall rule lets through
-requests from Anthropic's outbound range (`160.79.104.0/21`) and blocks every
-other. Claude Code, which connects from your own machine, and other programs that
-run MCP servers locally are therefore blocked. They read the same data as files
-instead: [`https://graph.med/llms.txt`](https://graph.med/llms.txt) describes
+Every other MCP client uses the same URL with no sign-in: add
+`https://mcp.graph.med/mcp` as a remote (Streamable HTTP) server in Claude Code,
+Cursor, VS Code and the like, or as a connector in another vendor's assistant.
+The endpoint is open to all of them; a rate limit per client address keeps one
+caller from exhausting it. Programs that read the web can also use the same data
+as files: [`https://graph.med/llms.txt`](https://graph.med/llms.txt) describes
 them, starting from `index.json`.
 
 ## Source documents

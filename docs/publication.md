@@ -997,8 +997,9 @@ runs") is the one Layer 1 and part of the MVP, and the inline view is checked in
 claude.ai web. The MVP therefore adds infrastructure — a Cloudflare account,
 graph.med's DNS in a Cloudflare zone, the Worker and its deploy — against the
 plan's "The MVP adds no infrastructure", at the maintainer's word of that day.
-Programs that run MCP servers on the user's machine, Claude Code among them, get
-no server, since the endpoint admits only Anthropic's range; they read Layer 0.
+The endpoint is open to every MCP client (2026-09-28): programs that run on the
+user's machine, Claude Code among them, add it as a remote server, and hosted
+assistants of any vendor reach it as Claude does.
 
 A **pathway**, here, is a path through one of a view's derived trees — its
 groupings (below), with its scope tree where the view declares one. It is never a
@@ -1181,15 +1182,16 @@ axis, a slot or a grouping:
   result, so a deep path needs few calls.
 - **Get entity**: a recommendation — its wording, marked `modelling`; grade, verb,
   consensus and direction; the claims behind it by URL and page, with no verbatim
-  text; its `specializes` and `complements` relations — or a concept — the
+  text (no claim sentence, no quote); its `specializes` and `complements` relations — or a concept — the
   recommendations that hold it, per graph and slot, and where it appears in each
   grouping of each graph. A condition is a concept seen from its slot, so no tool of
   its own returns it.
 - **Search**, over a graph's search file, within one graph, or across graphs with
   the hits grouped per graph, each group ranked on its own and never merged; it
   returns ids, labels, URLs and the metadata, never a quote.
-- **Provenance**, the only tool that returns verbatim source text (the guardrails,
-  below).
+- **Provenance**, the only tool that returns verbatim source text: each claim's
+  sentence whole, as the site shows it, and the quotes that anchor it, capped (the
+  guardrails, below).
 
 No tool follows edges generically; this replaces the plan's "follow edges" and "get a
 patient group's pathway". **Addressing:** a node that names an entity is addressed by
@@ -1272,7 +1274,8 @@ server — is #278's to decide, and ADR-0007's how its bundle is built.
 >   medical device under the EU MDR needs a legal check before promoting it to
 >   clinicians.
 
-*Proposed* readings, each read with the first principle:
+Readings, each read with the first principle — *proposed*, except the quote gate,
+which the maintainer decided on 2026-09-28:
 
 - **Guardrails are data in every result, not instructions.** A tool description may
   state as a fact what the tool returns — guideline structure for professionals — and
@@ -1284,11 +1287,21 @@ server — is #278's to decide, and ADR-0007's how its bundle is built.
   claims); the build commit; and an intended-use field, whose wording waits for
   `mdr-status`. Results pass a card's `questions` through unchanged; whether they
   stay, are recast or are left out is `mdr-status`'s to decide.
-- **The quote gate binds only the server's output.** Whether graph.med itself changes
-  what it publishes is part of `assistant-permission`. Since the licence line is
-  prose, no policy per graph can be read from data; one policy for every graph, or a
-  structured reuse field on the source, is the open question `quote-gate`, which
-  #272 adds.
+- **The quote gate: nothing is gated that the site shows openly** (the maintainer,
+  2026-09-28, #290; `.claude/memory/design/quote-gate-follows-the-site.md`). The
+  provenance tool is the one place verbatim source text leaves the server: each
+  claim's sentence (`claim.label`) whole, as the site shows it, with its page and
+  its link into the source; the anchor quotes and the other quoted fields capped at
+  100 characters, shortened at a word and marked. Every other tool cites a claim by
+  its graph.med URL and page and returns no claim sentence and no quote, and the
+  server drops those keys from their results whatever a file carries; a
+  recommendation's wording that carries a claim's sentence or quote word for word is
+  withheld there, its short label standing. One policy for every graph: the licence
+  line is prose, so no policy per graph can be read from data. The maintainer's
+  reason: any assistant can fetch the source PDF, and graph.med already publishes
+  every claim's sentence, so gating the server alone protects nothing. Full
+  sentences in every result wait for `assistant-permission`, which also says
+  whether graph.med itself changes what it publishes.
 - **Graphs stay separate.** The server never makes a cross-graph link of its own: a
   link made by the server would be a modelling assertion with no home in the pool.
   On request it returns only those the pool asserts, marked `modelling`, and today
@@ -1314,7 +1327,8 @@ the "first citation of a view" that `cut-publication` waits for.
 
 ### Where the server runs
 
-**Hosted, in the MVP: Cloudflare Workers, behind one firewall rule.** The server runs
+**Hosted, in the MVP: Cloudflare Workers, open to every client, behind one
+rate-limiting rule.** The server runs
 only as a hosted endpoint (above, "Where this departs from the plan"). The tools
 are built as a server factory in `mcp/` with no entry point of its own (#272); the
 endpoint wraps it. The plan:
@@ -1329,23 +1343,29 @@ Node.js APIs (`nodejs_compat`; developers.cloudflare.com/workers/runtime-apis/no
 as read on 2026-09-27), so the tool code uses only web-standard APIs (`fetch`, JSON).
 The design:
 
-- The Worker is served on a custom domain in a Cloudflare zone (for example
-  `mcp.graph.med`). graph.med's DNS is managed in Cloudflare; the site stays on
-  GitHub Pages, its records DNS only (not proxied).
+- The Worker is served on a custom domain in a Cloudflare zone, `mcp.graph.med`
+  (the maintainer, 2026-09-28); its MCP endpoint is `https://mcp.graph.med/mcp`.
+  graph.med's DNS is managed in Cloudflare; the site stays on GitHub Pages, its
+  records DNS only (not proxied), so only `mcp.graph.med` passes Cloudflare's
+  proxy.
 - It serves stateless Streamable HTTP. Cloudflare recommends the stateless handler
   `createMcpHandler`; `McpAgent` is deprecated.
-- One WAF custom rule blocks every request to the endpoint's host that does not come
-  from `160.79.104.0/21`, the range Anthropic's traffic to MCP servers originates from
-  (claude.com/docs/connectors/building/authentication). The rule covers the **whole
-  host**, not only the MCP path, because "Custom Domains point all paths of a domain
-  or subdomain to your Worker": a request to any other path would still reach the
-  Worker and use the quota. The maintainer agreed the rule as "requests to the MCP
-  path"; the whole-host reading is stated here and confirmed by #279's pull request
-  (the alternative: route only the MCP path to the Worker).
+- **No IP allowlist.** The maintainer, 2026-09-28: "we want to board other ai
+  platforms too without that friction." Any MCP client may call the endpoint:
+  hosted assistants of any vendor, and clients on the user's machine (Claude Code,
+  Cursor, VS Code and the like), which add `https://mcp.graph.med/mcp` as a remote
+  server. This overturns the earlier agreement (#267, agreed decisions 3 and 9) that
+  one WAF rule admit only Anthropic's range.
+- **One rate-limiting rule protects it**, the one the Free plan allows: requests
+  whose path is `/mcp`, counted per client IP; more than 60 in 10 seconds block that
+  IP for 10 seconds. On the Free plan a rule's expression can use only the path (and
+  whether a bot is verified), counts only by IP, and counts over 10 seconds with a
+  10-second block (developers.cloudflare.com/waf/rate-limiting-rules/, as read on
+  2026-09-28). The Worker answers only `/mcp`, and 404 on every other path.
 - `workers_dev = false`, and Preview and Version URLs are disabled, because zone rules
-  do not apply to them. Bot Fight Mode is off and the AI "Agent" behaviour is not
-  blocked: on the Free plan Bot Fight Mode cannot be skipped per path, and
-  Anthropic's servers cannot solve a challenge.
+  do not apply to them. Bot Fight Mode is off, "Block AI bots" is off and the AI
+  "Agent" behaviour is not blocked: on the Free plan Bot Fight Mode cannot be
+  skipped per path, and AI platforms' servers cannot solve a challenge.
 - The Worker keeps parsed files in memory between requests; a call with a cold cache
   costs one or two GETs (Layer 1, "Cost"), within the 50 subrequests and 10 ms of CPU
   a request has.
@@ -1364,28 +1384,27 @@ hours.
 
 **Unknown: whether requests the rule blocks spare the daily quota.** Cloudflare does
 not say, and the Workers metrics cannot tell: requests the WAF blocks "will not
-count" in their totals, so a count that does not rise is expected either way. What
-settles it: a test on a separate, throwaway Free account with the same rule and a
-zone of its own — more than 100,000 blocked requests within one UTC day, then one
-allowed request; Error 1027 means blocked requests count — or Cloudflare's written
-answer, recorded with its source and date (a person, #279). Until then the
-maintainer weighs Workers Paid against the risk.
+count" in their totals, so a count that does not rise is expected either way. It no
+longer changes the worst case below, which the maintainer accepted.
 
-The consequences:
+The consequences (the maintainer's option C, 2026-09-28):
 
-- The hosted endpoint serves Anthropic's platform only: claude.ai web, Desktop and
-  mobile by URL, and Cowork, which reach a URL connector from Anthropic's
-  infrastructure.
-- Claude Code, which connects from the user's machine, and other clients that run
-  MCP servers locally get no server; they read Layer 0.
-- Hosted assistants of other vendors are not let through. Letting one through later
-  is the maintainer's decision and uses only that operator's published list.
-- Misuse through Claude itself stays possible and is accepted: it is slow, and it
-  costs the abuser their own Claude usage.
-- In the worst case the quota runs out, and the endpoint, with every Worker of the
-  account, is off until midnight UTC.
+- Every MCP client can use the endpoint with no sign-in and no key: claude.ai web,
+  Desktop and mobile, and Cowork; other vendors' hosted assistants; and clients on
+  the user's machine. Programs that fetch pages read Layer 0 as well.
+- One IP cannot hold the endpoint for long. A distributed flood, from many IPs each
+  under the limit, or requests to the host's other paths, which the rule does not
+  count, can use up the 100,000 requests a day: in that worst case the endpoint,
+  with every Worker of the account, is off until midnight UTC, and nothing is
+  billed.
+- The limit counts per IP, and a hosted assistant calls from its operator's
+  servers, so all users of one platform may share a few addresses; busy use through
+  one platform can meet the limit. The threshold is the setting to change if the
+  zone's analytics show it.
+- Workers Paid ($5 a month) is reconsidered the first day the quota runs out, or
+  when steady use nears it (ADR-0008).
 
-**No login.** The hosted endpoint stays authless, protected by the rule. OAuth is
+**No login.** The hosted endpoint stays authless, protected by the rate limit. OAuth is
 added only if the answers of `assistant-permission` or `mdr-status` require
 restricting who may use it, for example to professionals. It would need an identity
 source and would make the server hold user accounts and personal data, which breaks
@@ -1400,7 +1419,7 @@ once by an organization Owner and sent for everyone in it, so it cannot tell use
 apart; a machine-to-machine `client_credentials` grant is not supported; `none` is
 supported by default.
 
-The Worker's configuration (`mcp/wrangler.toml`), the rule's expression and the
+The Worker's configuration (`mcp/wrangler.toml`), the rate-limiting rule and the
 deploy trigger are ADR-0008's; the account, the DNS, the rule as entered, the API
 token and the deploy are a person's steps (#279). This section states the design
 only.
@@ -1410,8 +1429,7 @@ only.
 - **The plan's questions** — `assistant-permission` (on what basis the sources' text
   may reach users through an assistant), `license-commercial-hosts` (PolyForm
   Noncommercial and commercial chat hosts) and `mdr-status` (the EU MDR, and the
-  intended use), each in `open-questions.md`. `quote-gate` joins them with
-  #272; `cut-publication` above.
+  intended use), each in `open-questions.md`; `cut-publication` above.
 - **The build's own limits, for a next graph.** The build ties a view's first
   grouping to patient groups in four places: it draws the tree of patient groups
   first in every view (`tools/build.py:861-863`); it builds the scope tree only over

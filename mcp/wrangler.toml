@@ -11,13 +11,13 @@ compatibility_date = "2026-09-28"
 # nothing else of Node's is used, so not the wider nodejs_compat.
 compatibility_flags = ["nodejs_als"]
 
-# Only the custom domain reaches the Worker, behind the zone's firewall rule:
-# zone rules reach neither workers.dev nor Version URLs, so both are off, each
-# by its own key (workers_dev = false leaves Version URLs as they were).
+# Only the custom domain reaches the Worker, behind the zone's rate-limiting
+# rule: zone rules reach neither workers.dev nor Version URLs, so both are off,
+# each by its own key (workers_dev = false leaves Version URLs as they were).
 workers_dev = false
 preview_urls = false
 
-# The host name is a placeholder until the maintainer confirms it.
+# The host name the maintainer confirmed on 2026-09-28.
 routes = [
   { pattern = "mcp.graph.med", custom_domain = true },
 ]
