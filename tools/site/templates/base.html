@@ -35,7 +35,7 @@
 {% if preview %}
 <div class="preview">preview of <a href="{{ preview.url }}" rel="noopener">pull request #{{ preview.number }}</a> · not the published site · <a href="https://graph.med/">graph.med</a></div>
 {% endif %}
-{% block banner %}{% endblock %}
+{% block banner %}{% include "banner.html" %}{% endblock %}   {# every page, entity pages included #}
 <header class="top">
   <a class="brand" href="{{ base }}"><img class="brand-mark" src="{{ base }}assets/logo.svg" alt="" width="24" height="24">graph.med</a>
   {% block crumbs %}{% endblock %}

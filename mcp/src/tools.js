@@ -29,7 +29,7 @@ function about({ commit, meta, sources, repositoryLicense, provenance, verbatim 
     sources: (sources ?? meta?.sources ?? []).map((s) => ({ id: s.id, license: s.license ?? null })),
     license_note: words.about.license,
     provenance: provenance ?? meta?.provenance ?? null,
-    intended_use: words.intendedUse,
+    disclaimer: words.disclaimer,
     verbatim_source_text: verbatim ? words.about.verbatimProvenance : words.about.verbatim,
   };
   if (verbatim) out.quote_cap = QUOTE_CAP;

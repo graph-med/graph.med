@@ -32,6 +32,7 @@ import { StreamableHTTPClientTransport as Transport1 } from '@modelcontextprotoc
 import { createServerFactory, callTool } from '../src/server.js';
 import { createHandler } from '../src/worker.js';
 import { Layer0 } from '../src/layer0.js';
+import * as words from '../src/descriptions.js';
 import { QUOTE_CAP, MAX_DEPTH } from '../src/tools.js';
 import * as fixture from './fixture.js';
 
@@ -381,6 +382,11 @@ async function runTarget(target) {
   await client.connect(new StreamableHTTPClientTransport(new URL(mcp.url)));
 
   const index = await raw(base + 'index.json');
+  // The disclaimer (card #291): the server's copy is the site's, as index.json
+  // publishes it (a built site; the synthetic fixture has no banner), and the
+  // server gives it as its instructions.
+  if (target.kind !== 'fixture') C.ok(index.disclaimer === words.disclaimer, 'disclaimer: the server\'s copy differs from index.json');
+  C.ok(client.getInstructions() === words.disclaimer, 'instructions: not the disclaimer');
   const forbiddenUrls = new Set(index.views.map((v) => v.json));
   const views = index.views;
 
@@ -802,7 +808,7 @@ function compareNode(C, G, node, T, lean, S) {
 }
 
 function checkAbout(C, name, about, verbatim = false) {
-  C.ok(about && 'commit' in about && about.commit && 'review' in about && about.review && Array.isArray(about.sources) && 'license_note' in about && 'provenance' in about && 'intended_use' in about && 'repository_license' in about, `${name}: metadata incomplete`);
+  C.ok(about && 'commit' in about && about.commit && 'review' in about && about.review && Array.isArray(about.sources) && 'license_note' in about && 'provenance' in about && about.disclaimer === words.disclaimer && 'repository_license' in about, `${name}: metadata incomplete`);
   if (verbatim) C.ok(about.quote_cap === QUOTE_CAP, `${name}: no quote cap`);
 }
 

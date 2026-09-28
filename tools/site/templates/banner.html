@@ -1,3 +1,6 @@
-{# the banner of the index and of every graph page (docs/publication.md §2, §3): what the site is not, and how its
-   content came about — in English, like the header and the footer #}
-<div class="disclaimer" role="note">graph.med is not a medical device under the EU Medical Device Regulation (MDR). Its information was retrieved with the help of AI, and it includes AI-generated content.</div>
+{# the banner of every page (docs/publication.md §2, §3, §4): what the site is not, how its content came about, and
+   that it comes without warranty — in English, like the header and the footer. The text is defined here once: the
+   build reads `text` from this template's module and writes the same string into index.json, llms.txt and every
+   entity JSON's `meta` as `disclaimer`; the tool's copy (mcp/src/descriptions.js) is checked against index.json #}
+{% set text %}graph.med is not a medical device under the EU Medical Device Regulation (MDR). Its information was retrieved with the help of AI, and it includes AI-generated content. It is provided without warranty; use it with care.{% endset %}
+<div class="disclaimer" role="note">{{ text }}</div>

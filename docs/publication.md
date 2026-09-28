@@ -124,11 +124,19 @@ the graph is drawn its boxes say what the entries say, so the entries' section i
 of sight — still read by a screen reader, and shown while the keyboard is in it — and
 the sheet shows only the page's text. Every
 other word the index adds — the kinds of source included — is page chrome, from the view
-layer's table (§3 "Language"). Above the header, the index and every graph page (§3)
-carry a yellow **banner**
-in English: graph.med is not a medical device under the EU Medical Device Regulation
-(MDR), its information was retrieved with the help of AI, and it includes AI-generated
-content.
+layer's table (§3 "Language"). Above the header, every page — the index, every graph
+page (§3) and every entity page (§4) — carries a yellow **banner** in English, the
+site's one notice (the maintainer, 2026-10-06, #291):
+
+> graph.med is not a medical device under the EU Medical Device Regulation (MDR). Its
+> information was retrieved with the help of AI, and it includes AI-generated content.
+> It is provided without warranty; use it with care.
+
+Its text is defined once, in `tools/site/templates/banner.html`; the build writes the
+same string as `disclaimer` into `index.json`, `llms.txt` and every entity JSON's
+`meta` (§4), and the tool carries it in every result (§8). It claims no check. On a
+wide screen the banner wraps to the lines it needs and the graph takes the rest of the
+window.
 
 ---
 
@@ -747,6 +755,18 @@ counter, the controls' titles — is still English (§9). Translation of content
 build-layer concern and can be added without a data change
 (`graph-representation.md` §2).
 
+### Where each part comes from
+
+A statement's card, in the sheet and on its page, and a concept's or claim's section
+mark each part by where it comes from, read from the provenance `meta.provenance` gives
+(§4): a small tag beside the title or a zone's heading — *KI-erzeugt* for content the
+project generated (`modelling`; *KI-erzeugt, mit Fundstelle* for `sourced`), *Zitat
+aus der Quelle* for a claim's sentence, quoted from its source (`anchored`): the
+statement's title and zone 5 (generated), zones 3, 6, 7 and 8 (quoted); a concept's
+label, and its list of statements where they all share one kind. The words are the
+card's table (`origin.*`, §3 "Language"). A tag says where a part comes from, never
+that it was checked.
+
 ---
 
 ## 4. Entity pages and JSON
@@ -797,6 +817,7 @@ is why the metadata sits under a key of its own. This section is their contract.
   `contested_by`; a concept its `source` as stored (`modelling` or `sourced`); a
   source the `document`, with `url` and `content_hash`; an axis `modelling`, with
   `proposed_by`. An edge's own provenance is in `edges`.
+- `meta.disclaimer` — the banner's text (§2), the same in every JSON.
 - `meta.commit`, `meta.schema_version` — the build's commit and the schema's
   version. Nothing in the JSON carries a build date, so one commit and one set of
   flags give the same bytes.
@@ -828,7 +849,7 @@ holds no claim sentence, no quote, no card and no rule. Their URLs are absolute,
 preview's its own (§6).
 
 - `index.json`, at the root: the build's `commit`, the `schema` (`version`, `url`),
-  `repository_license`, `contract` (this section, where the keys are described),
+  `repository_license`, `disclaimer` (the banner's text, §2), `contract` (this section, where the keys are described),
   `llms_txt`, and `views`, one entry per view: `id`, `title`, `lang`; `url` (the page),
   `json` (the view JSON), `lean` (the per-view file), `search` (the search file);
   `groupings`, in the order of the page's switch; `root`, the root of its scope tree
@@ -1299,8 +1320,10 @@ which the maintainer decided on 2026-09-28:
   read on 2026-09-27). Each result carries: the licence line, labelled as the
   project's summary; the review status, today `pending` for everything; provenance
   per entity type (a claim sourced, a statement `modelling` with its supporting
-  claims); the build commit; and an intended-use field, whose wording waits for
-  `mdr-status`. Results pass a card's `questions` through unchanged; whether they
+  claims); the build commit; and `disclaimer`, the banner's text (§2), which the
+  server also gives as its instructions — the one copy in `mcp/src/descriptions.js`,
+  checked against what `index.json` publishes. There is no intended-use field (the
+  maintainer, 2026-10-06, #291). Results pass a card's `questions` through unchanged; whether they
   stay, are recast or are left out is `mdr-status`'s to decide.
 - **The quote gate: nothing is gated that the site shows openly** (the maintainer,
   2026-09-28, #290; `.claude/memory/design/quote-gate-follows-the-site.md`). The
@@ -1324,8 +1347,9 @@ which the maintainer decided on 2026-09-28:
   pool first, as `modelling` with a rationale. Each navigation tool keeps to one
   graph's members, and search without a graph groups its hits per graph, each ranked
   on its own and never merged.
-- **No individual advice** is carried by the intended-use field, not by a
-  description. The framing the site already publishes for a patient (above) is
+- **No individual advice** is carried by the disclaimer in every result ("provided
+  without warranty; use it with care"), not by a description; nothing in a result
+  claims that anything was checked. The framing the site already publishes for a patient (above) is
   `mdr-status`'s to judge.
 
 Nothing fetches, proxies or serves a source document: provenance returns the

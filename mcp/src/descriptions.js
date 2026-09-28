@@ -1,6 +1,6 @@
 // The words the server gives a model about graph.med: every tool's title and
 // description, every argument's description, and the words that travel as data
-// in each result (the intended use, the labels of the metadata). This is the
+// in each result (the disclaimer, the labels of the metadata). This is the
 // one file of them (ADR-0007; card #272). They state what a tool returns, as a
 // fact; none tells the model how to behave. None names a graph, a grouping, an
 // axis or a slot: those are data, read from the site.
@@ -10,9 +10,12 @@ export const server = {
   title: 'graph.med',
 };
 
-// The intended use, carried in every result. Its wording is the maintainer's
-// (#283); until given, it stays empty.
-export const intendedUse = '';
+// The disclaimer, carried in every result's `about` and in the server's
+// instructions (card #291). Its wording is the maintainer's (2026-10-06): the
+// site's banner (tools/site/templates/banner.html), which the build publishes
+// as `disclaimer` in index.json; the check asserts this copy equals it.
+export const disclaimer =
+  'graph.med is not a medical device under the EU Medical Device Regulation (MDR). Its information was retrieved with the help of AI, and it includes AI-generated content. It is provided without warranty; use it with care.';
 
 // Words that travel with the metadata of every result.
 export const about = {
