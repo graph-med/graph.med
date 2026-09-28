@@ -46,6 +46,9 @@ SCHEMA = ROOT / "schema" / "schema.yaml"
 SITE_SRC = Path(__file__).resolve().parent / "site"
 REPO = "https://github.com/graph-med/graph.med"
 SITE = "https://graph.med"   # the origin of the published site and its previews (docs/publication.md §6)
+# the repository's licence as README "License" names it: the page footer shows it and every entity JSON carries it
+# as `meta.repository_license` (docs/publication.md §4) — the repository's, with no claim about what it covers
+REPOSITORY_LICENSE = "PolyForm Noncommercial 1.0.0"
 
 CLAIM_EDGES = ("supports", "contests")   # how a claim bears on a statement (spec §5)
 STATEMENT_EDGES = ("specializes", "complements", "conflicts")
@@ -872,6 +875,25 @@ def groupings_of(view: dict, members: dict[str, dict], pool: Pool, scope: dict |
     return rows
 
 
+def appearances(groupings: list[dict]) -> dict[str, dict[str, list[str]]]:
+    """Where each entity appears in each grouping of one view (docs/publication.md §4, a concept's `appears_in`):
+    entity → {the grouping's `axis` → the ids of the nodes that name it, in the tree's order, each once}. A node
+    names the entity of its `ref`, and every entity an edge leading to it names in `refs` — an answer's group or
+    value, a statement's conditions, which have no node of their own —: the page's own rule for where an entity
+    appears (graph.js `naming`). Read from the groupings as the page draws them, never derived a second time, and
+    from the tree's shape alone: no slot, axis, question or which grouping comes first. A grouping in which an
+    entity appears nowhere is not listed for it."""
+    rows: dict[str, dict[str, list[str]]] = defaultdict(dict)
+    for g in groupings:
+        led: dict[str, list[str]] = defaultdict(list)   # node → the entities the edges leading to it name
+        for e in g["edges"]:
+            led[e["to"]].extend(e.get("refs", []))
+        for n in g["nodes"]:
+            for r in dict.fromkeys(([n["ref"]] if n.get("ref") else []) + led.get(n["id"], [])):
+                rows[r].setdefault(g["axis"], []).append(n["id"])
+    return rows
+
+
 def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question: tuple[str, str] | None = None,
                      partition: list[dict] | None = None, hierarchy_axis: dict | None = None, scope: dict | None = None) -> dict:
     """One decision tree for the whole view, derived from the statements' slots
@@ -1098,7 +1120,7 @@ def main(argv=None) -> int:
     env = Environment(loader=FileSystemLoader(SITE_SRC / "templates"), autoescape=select_autoescape(["html"]),
                       trim_blocks=True, lstrip_blocks=True)
     env.globals.update(base=base, origin=origin, commit=commit, built=datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-                       version=schema.get("x-version"), repo=REPO,
+                       version=schema.get("x-version"), repo=REPO, repository_license=REPOSITORY_LICENSE,
                        preview={"number": args.preview, "url": f"{REPO}/pull/{args.preview}"} if args.preview else None)
     env.filters["short"] = lambda eid: eid.split("/", 1)[-1]
     env.globals["badge_words"] = pool.badge_words   # a badge's words, from its source's grading scheme (spec §3.1)
@@ -1122,6 +1144,18 @@ def main(argv=None) -> int:
     # view page and by the concept and statement pages, which say what applies generally and to whom
     memberships = {v["id"]: members_of(v, pool) for v in pool.of_type("view")}
     scopes = {vid: sc for vid, sc in ((v["id"], scope_of(v, memberships[v["id"]], pool)) for v in sorted(pool.of_type("view"), key=lambda v: v["id"])) if sc}
+    # every view's groupings, computed once: drawn by its page and its JSON, and read by the entity JSON for where
+    # each concept appears in them (appearances); and the other side of the memberships, the views of each entity
+    groupings_by_view = {v["id"]: groupings_of(v, memberships[v["id"]], pool, scopes.get(v["id"])) for v in sorted(pool.of_type("view"), key=lambda v: v["id"])}
+    appear = {vid: appearances(gs) for vid, gs in groupings_by_view.items()}
+    views_of: dict[str, list[str]] = defaultdict(list)
+    held: dict[str, dict[str, list[dict]]] = defaultdict(lambda: defaultdict(list))   # concept → view → the statements holding it
+    for vid in sorted(memberships):
+        for eid, m in sorted(memberships[vid].items()):
+            views_of[eid].append(vid)
+            if m["type"] == "statement":
+                for slot, cid in pool.filled(m):
+                    held[cid][vid].append({"id": eid, "slot": slot})
     ref = lambda cid: {"id": cid, "label": pool.entities[cid]["label"], "lang": pool.entities[cid]["lang"]}
 
     def general_of(cid: str) -> list[dict]:
@@ -1284,6 +1318,74 @@ def main(argv=None) -> int:
         return {"out": [{"kind": k, "to": to, **p} for k, to, p in pool.out.get(eid, [])],
                 "in": [{"kind": k, "from": frm, **p} for k, frm, p in pool.inc.get(eid, [])]}
 
+    at = lambda path: f"{origin}{base}{path}"   # an absolute URL: a preview build gives the preview's
+    view_at = lambda vid: {"id": vid, "url": at(vid.split("/", 1)[1] + "/"), "json": at(vid.split("/", 1)[1] + ".json")}   # views live at the root (§2)
+    kind_of = lambda source: "modelling" if source == "modelling" else "sourced"   # a stored provenance value (spec §6)
+
+    def sources_named(doc) -> list[str]:
+        """Every source whose words an entity's JSON may carry: each string in it that is a source's id or a
+        reference to one (`sources/<id>#page=N`), or a claim's id, whose sentence and quote come from its source."""
+        found: set[str] = set()
+        def walk(x):
+            if isinstance(x, dict):
+                for v in x.values(): walk(v)
+            elif isinstance(x, list):
+                for v in x: walk(v)
+            elif isinstance(x, str):
+                e = pool.entities.get(x.split("#", 1)[0])
+                if e and e["type"] == "source":
+                    found.add(e["id"])
+                elif e and e["type"] == "claim":
+                    found.add(pool.source_of(e))
+        walk(doc)
+        return sorted(found)
+
+    def provenance_of(ent: dict) -> dict:
+        """Where an entity's content comes from, per type (docs/publication.md §4): a claim is anchored in its
+        passage, a source is the document, an axis is modelling, a statement's wording is as stored with the claims
+        behind it counted per source, anything else its `source` as stored. One path per type, none per entity."""
+        t = ent["type"]
+        if t == "claim":
+            return {"kind": "anchored", "at": ent["source"]["at"], "link": pool.claim_view(ent)["link"]}
+        if t == "source":
+            return {"kind": "document", "url": ent.get("url"), "content_hash": ent.get("content_hash")}
+        if t == "axis":
+            return {"kind": "modelling", "proposed_by": ent.get("proposed_by")}
+        row = {"kind": kind_of(ent.get("source")), "source": ent.get("source")}
+        if t == "statement":
+            for edge in CLAIM_EDGES:
+                n: dict[str, int] = defaultdict(int)
+                for c in pool.claims_for(ent["id"]):
+                    if c["edge"] == edge:
+                        n[c["source"]] += 1
+                row[{"supports": "supported_by", "contests": "contested_by"}[edge]] = dict(sorted(n.items()))
+        return row
+
+    def meta_of(ent: dict, doc: dict) -> dict:
+        """What a program needs to cite an entity's JSON and walk on from it (docs/publication.md §4): its absolute
+        URLs, the views it belongs to, the sources whose words it carries with their licence lines as recorded, the
+        repository's licence, the review status, its provenance, the build commit and the schema version."""
+        eid = ent["id"]
+        views = [{**view_at(e["view"]), "status": e["status"], "since": e["since"]} for e in ent.get("views") or []] \
+            if ent["type"] == "axis" else [view_at(vid) for vid in views_of.get(eid, [])]   # an axis names its views itself
+        return {"url": at(eid + "/"), "json": at(eid + ".json"), "views": views,
+                "sources": [{"id": s, "json": at(s + ".json"), "license": pool.entities[s].get("license")} for s in sources_named(doc)],
+                "repository_license": REPOSITORY_LICENSE,
+                "review": "pending",   # the build's own token (card_of, `beleg`): nothing is reviewed until an attestation is read
+                "provenance": provenance_of(ent), "commit": commit, "schema_version": schema.get("x-version")}
+
+    def walk_of(cid: str) -> dict:
+        """A concept's recommendations and places, per view it belongs to (docs/publication.md §4): `statements`, the
+        view's statements that hold it, each with its slot, and in a view with a scope tree its `own` and `general`
+        as the view's `scope.concepts` gives them; `appears_in`, per grouping of each view, the nodes naming it."""
+        statements = {}
+        for vid in views_of.get(cid, []):
+            row = {"held_by": held[cid].get(vid, [])}
+            if vid in scopes:
+                row.update({k: scopes[vid]["concepts"].get(cid, {}).get(k, []) for k in ("own", "general")})
+            statements[vid] = row
+        return {"statements": statements, "appears_in": {vid: appear[vid][cid] for vid in sorted(appear) if cid in appear[vid]}}
+
     entity_tpl = env.get_template("entity.html")
     detail_tpl = env.get_template("details.html")
     for eid, ent in sorted(pool.entities.items()):
@@ -1293,8 +1395,10 @@ def main(argv=None) -> int:
         page = out / eid
         page.mkdir(parents=True, exist_ok=True)
         (page / "index.html").write_text(entity_tpl.render(**d), encoding="utf-8")
-        (out / (eid + ".json")).write_text(dumps({**ent, "edges": edges_json(eid), **({"card": d["card"]} if "card" in d else {}),
-                                                  **({k: d[k] for k in ("derivation", "rule")} if "derivation" in d else {})}), encoding="utf-8")
+        doc = {**ent, "edges": edges_json(eid), **({"card": d["card"]} if "card" in d else {}),
+               **({k: d[k] for k in ("derivation", "rule")} if "derivation" in d else {}),
+               **(walk_of(eid) if ent["type"] == "concept" else {})}
+        (out / (eid + ".json")).write_text(dumps({**doc, "meta": meta_of(ent, doc)}), encoding="utf-8")
 
     views = []
     view_tpl = env.get_template("view.html")
@@ -1303,7 +1407,7 @@ def main(argv=None) -> int:
         vid = view["id"].split("/", 1)[1]
         members = memberships[view["id"]]
         scope = scopes.get(view["id"])
-        groupings = groupings_of(view, members, pool, scope)
+        groupings = groupings_by_view[view["id"]]
         # every entity the page can select, each with its details: what a node stands for, and every concept an answer names
         refs = {n["ref"] for g in groupings for n in g["nodes"] if n.get("ref")} | {r for g in groupings for e in g["edges"] for r in e.get("refs", [])}
         sources = [members[s] for s in view["filter"]["sources"]]
