@@ -960,12 +960,11 @@ cut-publication).
 > | Layer | Status | Built by |
 > |---|---|---|
 > | 0 — the machine-readable site | built: index, `llms.txt`, tree files, per-view file, search file (§2, §4); entity JSON with `meta`, a concept's `statements` and `appears_in` (§4) | #270 (with #269) |
-> | 1 — the read-only server, local | designed, not built | #272 |
-> | 1 — the read-only server, hosted | designed, not built | #279 |
+> | 1 — the read-only server, a hosted endpoint | designed, not built | #272 (the tools), #279 (the Worker) |
 > | 2 — the inline view | designed, not built | #278 (with #276, #277) |
 >
 > This section is the design; the keys and URLs it relies on are §2's and §4's, the
-> server's runtime, toolchain and release ADR-0007's (#271), the choice of host an
+> server's runtime, toolchain and home ADR-0007's (#271), the choice of host an
 > ADR #279 writes. What is marked *proposed* waits for the maintainer's
 > confirmation; the rest is agreed design. The facts it gives about other parties'
 > products change; each carries its source and the date it was read.
@@ -986,6 +985,17 @@ conversation. It adds no knowledge to the pool and changes no page of §3.
 > serves the data and the view, and GitHub Releases ship the server package. The
 > server runs locally inside Claude Desktop. Web and mobile need a hosted endpoint,
 > so they come after the MVP.
+
+**Where this departs from the plan.** On 2026-09-28 the maintainer decided:
+"let's roll back the desktop mcp server fully and only work with the web
+version". There is no Desktop extension, no server on the user's machine and no
+release of one: the hosted endpoint on Cloudflare Workers ("Where the server
+runs") is the one Layer 1 and part of the MVP, and the inline view is checked in
+claude.ai web. The MVP therefore adds infrastructure — a Cloudflare account,
+graph.med's DNS in a Cloudflare zone, the Worker and its deploy — against the
+plan's "The MVP adds no infrastructure", at the maintainer's word of that day.
+Programs that run MCP servers on the user's machine, Claude Code among them, get
+no server, since the endpoint admits only Anthropic's range; they read Layer 0.
 
 A **pathway**, here, is a path through one of a view's derived trees — its
 groupings (below), with its scope tree where the view declares one. It is never a
@@ -1106,8 +1116,8 @@ data/ ──build──► graph.med (GitHub Pages)
                      │ GET (JSON)              │ GET (tree file)       │ GET
                      ▼                         │                       ▼
    Layer 1: read-only MCP server               │          programs that fetch pages
-   (a local extension; later a hosted          │          (Claude Code, any model
-    endpoint)                                  │           that reads the web):
+   (a hosted endpoint on                       │          (Claude Code, any model
+    Cloudflare Workers)                        │           that reads the web):
                      │ tool results:           │           text only
                      │ text + metadata         │
                      ▼                         ▼
@@ -1301,23 +1311,18 @@ the "first citation of a view" that `cut-publication` waits for.
 
 ### Where the server runs
 
-**Locally, first.** For the MVP the server runs on the user's machine, "installed as
-a Claude Desktop extension from a GitHub release, so nothing is hosted" (the plan). It
-also runs in other hosts that run local servers. Its runtime, toolchain, home and
-release are ADR-0007's (#271); this section chooses none. The host below bears on
-it: Workers run JavaScript and TypeScript on Cloudflare's own runtime, which provides
-a subset of Node.js APIs (`nodejs_compat`;
-developers.cloudflare.com/workers/runtime-apis/nodejs/, as read on 2026-09-27). A
-Node/TypeScript server whose tool code uses only web-standard APIs (`fetch`, JSON)
-lets the local extension and the hosted endpoint share one codebase, which
-strengthens ADR-0007's leaning toward `node`.
-
-**Hosted, after the MVP: Cloudflare Workers, behind one firewall rule.** The plan:
+**Hosted, in the MVP: Cloudflare Workers, behind one firewall rule.** The server runs
+only as a hosted endpoint (above, "Where this departs from the plan"). The plan:
 "Later the same code runs as a remote endpoint on a small function host, which
 claude.ai web and mobile need. GitHub Pages cannot host it, because the protocol
 needs an endpoint that answers POST requests." The host is Cloudflare Workers, which
-settles the plan's "which function host to use after the MVP?"; #279 records the
-choice as an ADR and refers here for the facts. The design:
+settles the plan's "which function host to use after the MVP?", now for the MVP
+itself; #279 records the choice as an ADR and refers here for the facts. The server's
+runtime, toolchain and home are ADR-0007's (#271); this section chooses none. Workers
+run JavaScript and TypeScript on Cloudflare's own runtime, which provides a subset of
+Node.js APIs (`nodejs_compat`; developers.cloudflare.com/workers/runtime-apis/nodejs/,
+as read on 2026-09-27), so the tool code uses only web-standard APIs (`fetch`, JSON).
+The design:
 
 - The Worker is served on a custom domain in a Cloudflare zone (for example
   `mcp.graph.med`). graph.med's DNS is managed in Cloudflare; the site stays on
@@ -1367,7 +1372,7 @@ The consequences:
   mobile by URL, and Cowork, which reach a URL connector from Anthropic's
   infrastructure.
 - Claude Code, which connects from the user's machine, and other clients that run
-  local servers use the local server or Layer 0.
+  MCP servers locally get no server; they read Layer 0.
 - Hosted assistants of other vendors are not let through. Letting one through later
   is the maintainer's decision and uses only that operator's published list.
 - Misuse through Claude itself stays possible and is accepted: it is slow, and it
@@ -1380,7 +1385,7 @@ added only if the answers of `assistant-permission` or `mdr-status` require
 restricting who may use it, for example to professionals. It would need an identity
 source and would make the server hold user accounts and personal data, which breaks
 principle 2 ("No credentials, no user data"). OAuth would restrict only the hosted
-endpoint: the site, Layer 0 and the local extension stay public, so such an answer
+endpoint: the site and Layer 0 stay public, so such an answer
 also says whether they must change. The facts, as read on 2026-09-27
 (claude.com/docs/connectors/building/authentication, /connectors/custom/add-unlisted):
 Claude supports OAuth 2.0 by default (Dynamic Client Registration or a Client ID
@@ -1397,9 +1402,8 @@ and the deploy steps are #279's and a person's; this section states the design o
 
 - **The plan's questions** — `assistant-permission` (on what basis the sources' text
   may reach users through an assistant), `license-commercial-hosts` (PolyForm
-  Noncommercial and commercial chat hosts), `mdr-status` (the EU MDR, and the
-  intended use) and `desktop-local-views` (whether Claude Desktop renders a view
-  from a local server), each in `open-questions.md`. `quote-gate` joins them with
+  Noncommercial and commercial chat hosts) and `mdr-status` (the EU MDR, and the
+  intended use), each in `open-questions.md`. `quote-gate` joins them with
   #272; `cut-publication` above.
 - **The build's own limits, for a next graph.** The build ties a view's first
   grouping to patient groups in four places: it draws the tree of patient groups
