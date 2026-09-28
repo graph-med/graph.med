@@ -40,7 +40,7 @@ it loads always or conditionally is decided by one frontmatter key:
 | `environment/git-identity.md` | — always |
 | `conventions/contribution-workflow.md` | — always |
 | `conventions/documentation.md` | `**/*.md` |
-| `conventions/governed-files.md` | `.claude/**`, `.github/**`, `CLAUDE.md`, `AGENTS.md`, `CODEOWNERS` |
+| `conventions/governed-files.md` | `.claude/**`, `.github/**`, `CLAUDE.md`, `AGENTS.md`, `CODEOWNERS`, `mcp/src/descriptions.js` |
 | `conventions/memory.md` | — always |
 | `conventions/no-personal-information.md` | — always |
 
