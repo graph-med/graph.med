@@ -30,6 +30,7 @@ function about({ commit, meta, sources, repositoryLicense, provenance, verbatim 
     license_note: words.about.license,
     provenance: provenance ?? meta?.provenance ?? null,
     intended_use: words.intendedUse,
+    ai_disclosure: words.aiDisclosure,
     verbatim_source_text: verbatim ? words.about.verbatimProvenance : words.about.verbatim,
   };
   if (verbatim) out.quote_cap = QUOTE_CAP;

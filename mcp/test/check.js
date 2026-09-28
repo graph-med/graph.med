@@ -381,6 +381,12 @@ async function runTarget(target) {
   await client.connect(new StreamableHTTPClientTransport(new URL(mcp.url)));
 
   const index = await raw(base + 'index.json');
+  // The notice on AI and intended use (card #291): the server states it in
+  // its instructions and closes every tool's description with it; each
+  // result's `about` carries it, the same as the site's own files where the
+  // site publishes it (a build before #291 does not).
+  SITE_NOTICE = 'intended_use' in index ? { intended_use: index.intended_use, ai_disclosure: index.ai_disclosure } : null;
+  C.ok(/AI/.test(client.getInstructions() || '') && /clinically reviewed/.test(client.getInstructions()), 'instructions: no disclosure of AI');
   const forbiddenUrls = new Set(index.views.map((v) => v.json));
   const views = index.views;
 
@@ -409,6 +415,7 @@ async function runTarget(target) {
   C.ok(sameSet(tools.map((t) => t.name), TOOLS), `tools/list: ${tools.map((t) => t.name).join(', ')}`);
   for (const t of tools) {
     C.ok(t.name.length <= 64, `${t.name}: name longer than 64`);
+    C.ok(/with the help of AI/.test(t.description) && /not been clinically reviewed/.test(t.description), `${t.name}: description discloses no AI`);
     C.ok(!!t.title && t.annotations?.readOnlyHint === true, `${t.name}: title or readOnlyHint missing`);
   }
   // No name, argument or description names a particular grouping, axis or
@@ -801,8 +808,11 @@ function compareNode(C, G, node, T, lean, S) {
   }
 }
 
+let SITE_NOTICE = null;
 function checkAbout(C, name, about, verbatim = false) {
   C.ok(about && 'commit' in about && about.commit && 'review' in about && about.review && Array.isArray(about.sources) && 'license_note' in about && 'provenance' in about && 'intended_use' in about && 'repository_license' in about, `${name}: metadata incomplete`);
+  C.ok(!!about?.intended_use && !!about?.ai_disclosure, `${name}: no intended use or disclosure of AI`);
+  if (SITE_NOTICE) C.ok(about?.intended_use === SITE_NOTICE.intended_use && about?.ai_disclosure === SITE_NOTICE.ai_disclosure, `${name}: the intended use or the disclosure differs from the site's`);
   if (verbatim) C.ok(about.quote_cap === QUOTE_CAP, `${name}: no quote cap`);
 }
 

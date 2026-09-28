@@ -68,5 +68,11 @@
     "select": "Im Graphen zeigen",
     "awmf_register": "AWMF-Registernummer {nr}",
     "source": "Zur Quelle"
+  },
+  "notice": {
+    "title": "Über diese Inhalte.",
+    "shows": "graph.med zeigt die Struktur veröffentlichter Leitlinien: ihre Empfehlungen, Empfehlungsgrade und die Patientengruppen, für die sie gelten.",
+    "ai": "Die Inhalte wurden mit Hilfe von KI aus den Quelldokumenten entnommen; Teile davon hat KI erzeugt: die Formulierungen der Empfehlungen, die Begriffe, ihre Verknüpfungen und die Gruppierungen. Eine klinische Begutachtung hat nicht stattgefunden.",
+    "use": "Die Inhalte richten sich an Fachpersonal als Zugang zur Leitlinie, nicht als individuelle medizinische Beratung: Maßgeblich ist die verlinkte Quell-Leitlinie."
   }
 }

@@ -162,6 +162,7 @@
       t.className = "peek-title" + (cards.length > 1 ? " several" : "");
       cards.forEach(function (c) {   /* each card's title in its own language; several stand one to a line, each cut on its own */
         var s = document.createElement("span"), h = c.querySelector("h2.title, .label");
+        if (h) { h = h.cloneNode(true); h.querySelectorAll(".origin").forEach(function (o) { o.remove(); }); }   /* the title alone, without its origin tag */
         s.lang = c.lang; s.textContent = h ? h.textContent.trim() : "";
         t.appendChild(s);
       });

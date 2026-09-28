@@ -38,6 +38,13 @@ h3 { font-size: .95rem; margin: 1rem 0 .4rem; color: var(--mute); text-transform
 .lead { color: var(--mute); }
 ol.claims { list-style: none; padding: 0; margin: 0; }
 .foot { padding: 1rem; color: var(--mute); font-size: .8rem; border-top: 1px solid var(--line); }
+/* the notice on AI and intended use, on every page (docs/publication.md §3 "The notice"): in the footer, in the text
+   colour rather than the footer's muted one, so that it is read and not only present */
+.foot .notice { margin: 0 0 .5rem; color: var(--fg); line-height: 1.4; }
+/* where a part of a card or an entity's section comes from (docs/publication.md §3 "Where each part comes from"): a
+   quiet tag of the copy button's shape, beside the title or a zone's heading, in sentence case whatever the heading's */
+.origin { display: inline-block; font-size: .72rem; font-weight: 400; font-style: normal; line-height: 1.5; padding: 0 .5rem; border: 1px solid var(--line);
+  border-radius: 1rem; color: var(--mute); text-transform: none; letter-spacing: 0; vertical-align: middle; white-space: nowrap; }
 
 /* the index (docs/publication.md §2): the only place the graphs meet, a view page's graph and sheet — the graph a
    question and a box per graph (home.js), the sheet's home the page's text and one entry per graph, a tapped box its
@@ -161,8 +168,12 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 
 /* wide screens: the graph fills the height, the details sit beside it as a column */
 @media (min-width: 900px) {
-  main.view { max-width: none; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr) 400px; height: calc(100vh - 6.6rem); }   /* header and footer stay */
-  body:has(.preview) main.view { height: calc(100vh - 8.5rem); }   /* and the preview strip above the header */
+  /* the page is the window: the preview strip, the header and the footer take what they need, the view the rest, so
+     that the footer — the notice with it — stays in view below the graph; no constant states how tall any of them is */
+  body:has(> main.view) { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
+  body:has(> main.view) > :not(main) { flex: none; }
+  :root:not(.js) body:has(> main.home), body:has(> main.home.flat) { display: block; height: auto; }   /* the index without its graph is a page like any other */
+  main.view { max-width: none; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr) 400px; flex: 1 1 auto; min-height: 0; width: 100%; }
   main.view .graph-wrap { margin: 0; border-top: 0; height: 100%; min-height: 0; }
   main.view #graph { height: 100%; }
   main.view .sheet { border-top: 0; border-left: 1px solid var(--line); padding: .6rem 1rem 2rem; overflow: auto; min-height: 0; }

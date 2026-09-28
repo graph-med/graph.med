@@ -43,6 +43,9 @@
 {% block main %}{% endblock %}
 </main>
 <footer class="foot">
+  {# the notice on AI and intended use, on every page (docs/publication.md §3 "The notice"): the page chrome's words,
+     from the view layer's table; below the graph and the sheet, so that a phone reads the graph first #}
+  <p class="notice" lang="{{ page_lang }}"><strong>{{ notice.title }}</strong> {{ notice.shows }} {{ notice.ai }} {{ notice.use }}</p>
   built from <code>{{ commit }}</code> on {{ built }} · schema {{ version }} ·
   <a href="{{ repo }}">repository</a> ·
   {{ repository_license }}

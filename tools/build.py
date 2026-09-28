@@ -76,6 +76,9 @@ EVIDENCE_SCALES = {"grade": ("hoch", "moderat", "niedrig", "sehr niedrig")}
 # not by the data (docs/publication.md §3, "Language"). Its words are the view layer's: one table per language
 # under tools/site/words/, read here and never copied into assets/; this file holds no word of it.
 PAGE_LANG = "de"
+# The language of the files for programs (docs/publication.md §4): index.json, llms.txt and every JSON's `meta`
+# carry the notice on AI and intended use in it, from the same view layer's table (tools/site/words/en.json).
+PROGRAMS_LANG = "en"
 CARD_SLOTS = ("population", "condition", "action")   # the rows of zone 5 "Gilt für", in order; `outcome` is the dimension the certainty varies along (zone 4), not a row here
 # The only words the build adds inside the graph, in the view's source language (docs/publication.md §3):
 # the two questions whose answers are the population and condition slots, the question a dimension axis
@@ -130,7 +133,10 @@ CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", 
              # an axis's page (docs/publication.md §4): its carrier, rule and question, its status per view, its placements
              "carrier.dimension", "carrier.hierarchy", "axis.rule", "axis.question", "axis.views", "axis.since",
              "status.proposed", "status.asserted", "status.withdrawn", "axis.placements",
-             "placement.broader", "placement.in_scope_of", "placement.none")
+             "placement.broader", "placement.in_scope_of", "placement.none",
+             # where a part of a card or an entity's section comes from (docs/publication.md §3 "Where each part comes
+             # from"), by the provenance kinds of meta.provenance (§4): a stored `source` of `modelling` or sourced, a claim
+             "origin.modelling", "origin.sourced", "origin.anchored")
 CARD_WORDS = {"de": {
     "zone.wording": "Wortlaut der Empfehlung", "zone.evidence": "Evidenz", "zone.applies": "Gilt für",
     "zone.body_text": "Hinweise aus dem Begleittext", "zone.contested.one": "Widersprechende Empfehlung",
@@ -171,6 +177,7 @@ CARD_WORDS = {"de": {
     "status.proposed": "vorgeschlagen", "status.asserted": "zugesichert", "status.withdrawn": "zurückgezogen",
     "axis.placements": "Platzierungen", "placement.broader": "Sonderfall", "placement.in_scope_of": "im Geltungsbereich",
     "placement.none": "ohne Kante",
+    "origin.modelling": "KI-erzeugt", "origin.sourced": "KI-erzeugt, mit Fundstelle", "origin.anchored": "aus der Leitlinie",
 }}
 # The five questions a physician brings to a recommendation, kept as the semantic mapping of the card's keys
 # — what each zone answers, read by an answering layer from the statement's JSON — and never rendered
@@ -336,6 +343,14 @@ def page_words(lang: str) -> dict:
     if not path.exists():
         raise SystemExit(f"no page words for language {lang!r} — add {path.relative_to(ROOT)}")
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def notice_of(words: dict) -> dict:
+    """The notice on AI and intended use (docs/publication.md §3 "The notice", §4) as the files for programs carry
+    it, from a words table's `notice`: `intended_use` (what the content shows, and whom it is for) and
+    `ai_disclosure` (how it was made, and that it has not been clinically reviewed). The words are the table's."""
+    n = words["notice"]
+    return {"intended_use": f"{n['shows']} {n['use']}", "ai_disclosure": n["ai"]}
 
 
 def tokens(pairs) -> list[str]:
@@ -1217,6 +1232,9 @@ def main(argv=None) -> int:
                        version=schema.get("x-version"), repo=REPO, repository_license=REPOSITORY_LICENSE,
                        preview={"number": args.preview, "url": f"{REPO}/pull/{args.preview}"} if args.preview else None)
     env.filters["short"] = lambda eid: eid.split("/", 1)[-1]
+    chrome = page_words(PAGE_LANG)                     # the page chrome's words (tools/site/words/)
+    env.globals.update(notice=chrome["notice"], page_lang=PAGE_LANG)   # the notice in every page's footer (base.html)
+    notice = notice_of(page_words(PROGRAMS_LANG))     # the same notice in the files for programs, in English
     env.globals["badge_words"] = pool.badge_words   # a badge's words, from its source's grading scheme (spec §3.1)
     env.tests["numbered"] = numbered                 # a recommendation number the card cites after its word, else as printed
 
@@ -1287,6 +1305,11 @@ def main(argv=None) -> int:
                         rows.append({**ref(cid), "view": vid, "via": g["via"], "direct": g["via"] == cid, "condition": [ref(c) for c in g["condition"]]})
         return rows
 
+    def origin_of_all(ids) -> str | None:
+        """The one provenance kind the statements of a list share, or None where they do not share one."""
+        kinds = {kind_of(pool.entities[i].get("source")) for i in ids if i in pool.entities}
+        return kinds.pop() if len(kinds) == 1 else None
+
     def details(ent: dict) -> dict:
         """What the sheet and the entity page show for one entity (docs/publication.md §3, §4). Every word
         of the chrome is W(key) from CARD_WORDS in the entity's own language; an entity without `lang`
@@ -1296,6 +1319,11 @@ def main(argv=None) -> int:
         if not ent.get("lang"):
             raise SystemExit(f"{ent['id']}: no `lang` — the words of its page need one (tools/build.py, CARD_WORDS)")
         W = d["W"] = card_words(ent["lang"])
+        # where the entity's own words come from (docs/publication.md §3 "Where each part comes from"), by the kind
+        # meta.provenance gives it: a claim is anchored in its passage, anything else its stored `source`; a list of
+        # statements (a concept's) is marked only where all of them share one kind
+        d["origin_kind"] = "anchored" if t == "claim" else kind_of(ent.get("source")) if t in ("statement", "concept") else None
+        d["origin_of_all"] = origin_of_all
         if t == "statement":
             d["card"] = card_of(ent)
         elif t == "concept":
@@ -1469,7 +1497,7 @@ def main(argv=None) -> int:
                 "sources": [{"id": s, "json": at(s + ".json"), "license": pool.entities[s].get("license")} for s in sources_named(doc)],
                 "repository_license": REPOSITORY_LICENSE,
                 "review": "pending",   # the build's own token (card_of, `beleg`): nothing is reviewed until an attestation is read
-                "provenance": provenance_of(ent), "commit": commit, "schema_version": schema.get("x-version")}
+                "provenance": provenance_of(ent), **notice, "commit": commit, "schema_version": schema.get("x-version")}
 
     def walk_of(cid: str) -> dict:
         """A concept's recommendations and places, per view it belongs to (docs/publication.md §4): `statements`, the
@@ -1500,7 +1528,6 @@ def main(argv=None) -> int:
     views = []
     machine = []   # each view's entry in index.json
     view_tpl = env.get_template("view.html")
-    page = page_words(PAGE_LANG)
     for view in sorted(pool.of_type("view"), key=lambda v: v["id"]):
         vid = view["id"].split("/", 1)[1]
         members = memberships[view["id"]]
@@ -1526,7 +1553,7 @@ def main(argv=None) -> int:
             data["scope"] = {k: scope[k] for k in ("anchor_slot", "root", "concepts")}
         (out / vid).mkdir(parents=True, exist_ok=True)
         (out / vid / "index.html").write_text(
-            view_tpl.render(view=view, vid=vid, title=title, sources=sources, counts=counts, legend=data["legend"], page=page, page_lang=PAGE_LANG,
+            view_tpl.render(view=view, vid=vid, title=title, sources=sources, counts=counts, legend=data["legend"], page=chrome,
                             graph_json=dumps(data).replace("</", "<\\/")), encoding="utf-8")   # safe inside <script>
         (out / (vid + ".json")).write_text(dumps(data), encoding="utf-8")
         # the view's entry on the index (docs/publication.md §2): what it holds — its recommendations, the patient
@@ -1560,14 +1587,14 @@ def main(argv=None) -> int:
 
     # the index: the only page where the views meet — one question, a box and an entry per view, the box drawn by
     # assets/home.js from the entry; its words are the page chrome's (tools/site/words/)
-    (out / "index.html").write_text(env.get_template("index.html").render(views=views, page=page, page_lang=PAGE_LANG), encoding="utf-8")
+    (out / "index.html").write_text(env.get_template("index.html").render(views=views, page=chrome), encoding="utf-8")
     # the index for programs and its description (docs/publication.md §2, §4): every view with its files and groupings,
     # at the root of the site and of every preview; llms.txt describes, in English, and instructs nothing
     index = {"commit": commit, "schema": {"version": schema.get("x-version"), "url": at("schema/schema.yaml")},
-             "repository_license": REPOSITORY_LICENSE, "contract": CONTRACT, "llms_txt": at("llms.txt"), "views": machine}
+             "repository_license": REPOSITORY_LICENSE, **notice, "contract": CONTRACT, "llms_txt": at("llms.txt"), "views": machine}
     (out / "index.json").write_text(dumps(index), encoding="utf-8")
     (out / "llms.txt").write_text(env.get_template("llms.txt").render(
-        index=index, index_url=at("index.json"), site=at(""), cards=list(CARD_QUESTIONS), directions=list(DIRECTION_GLYPH),
+        index=index, index_url=at("index.json"), site=at(""), about=page_words(PROGRAMS_LANG)["notice"], cards=list(CARD_QUESTIONS), directions=list(DIRECTION_GLYPH),
         plain=PLAIN, chapters=CHAPTERS, lean_node=LEAN_NODE, lean_edge=LEAN_EDGE), encoding="utf-8")
     print(f"built {len(views)} view(s) and {len(pool.entities) - len(views)} entity pages into {out.relative_to(ROOT) if out.is_relative_to(ROOT) else out} (base {base}{', preview of pull request ' + str(args.preview) if args.preview else ''})")
     return 0
