@@ -11,7 +11,8 @@ rules a document schema cannot state because they span files:
     of a list on its own — a statement's conditions, say;
   - a claim's id is claims/<source-id>/<first 8 hex of sha256("<at>|<quote>")>;
   - edges are unique per (from, kind, to, discriminator);
-  - a view id is not a namespace name (views are served at the site root);
+  - a view id is not a namespace name, `schema` or `index` (views are served at the site root, beside
+    schema/ and index.json);
   - a claim's `section` names an entry of its source's `outline` (spec §6.7);
   - `broader` edges form no cycle (spec §5);
   - the grouping axes hold together (spec §4.1), an axis being an overlay whose
@@ -107,7 +108,7 @@ def main(argv=None) -> int:
     Draft202012Validator.check_schema(schema)
     terminologies = set(schema["x-namespaces"]["terminologies"])
     namespaces = set(schema["x-namespaces"]) - {"terminologies"}
-    reserved = namespaces | terminologies | {"schema"}   # a view is served at the site root (docs/publication.md §2)
+    reserved = namespaces | terminologies | {"schema", "index"}   # a view is served at the site root, beside schema/ and index.json (docs/publication.md §2)
 
     # 1. each file against its definition ------------------------------------
     docs: list[tuple[str, object, bool]] = []   # (relative path, document, one_per_file)
@@ -140,7 +141,7 @@ def main(argv=None) -> int:
             if one_per_file and eid != f"{Path(rel).parent.name}/{Path(rel).stem}":
                 errors.append(f"{rel}: id {eid} does not match the file name")
             if ent.get("type") == "view" and eid.split("/", 1)[-1] in reserved:
-                errors.append(f"{rel}: view id {eid} collides with a namespace; it would shadow that path on the site")
+                errors.append(f"{rel}: view id {eid} collides with a reserved name (a namespace, schema or index); it would shadow that path on the site")
             if ent.get("type") == "claim" and isinstance(ent.get("source"), dict):
                 at, quote = ent["source"].get("at", ""), ent["source"].get("quote", "")
                 digest = hashlib.sha256(f"{at}|{quote}".encode("utf-8")).hexdigest()[:8]

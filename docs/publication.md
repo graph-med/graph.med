@@ -4,12 +4,18 @@
 > "Build") renders §2–§5 for `selection` views over sources: the URL layout, the
 > graph-and-sheet page with patient groups folded by family, the chapter tree and
 > the search with facet filters, short labels, direction glyphs, legend and judgement,
-> the order of the detail section (§3), entity pages and JSON (§4), source links
+> the order of the detail section (§3), entity pages and JSON — with `meta`, and a
+> concept's `statements` and `appears_in` (§4) —, source links
 > (§5), the grouping switch — the view's tree of patient groups · Kapitel · each
 > other axis the view declares (§3, "The axis is the reader's choice") —, the scope tree and what applies
 > generally, for a view that declares one (§3), and the deploy workflow with one
-> preview per open pull request (§6). Not built and not registered: cuts (§7),
-> pathway views, and everything under §8. The
+> preview per open pull request (§6), and the machine-readable site of §8 (Layer 0:
+> `index.json`, `llms.txt`, a tree file per grouping, a per-view file and a search
+> file per view, §2 and §4), and the read-only server's tools (§8, Layer 1: `mcp/`).
+> Designed, not built: the rest of the pool in programs and assistants — the
+> server's hosted endpoint and a view inside a conversation (§8, which carries each
+> layer's status). Not built and not
+> registered: cuts (§7), pathway views, and everything under §9. The
 > domain `graph.med` points at GitHub Pages. This document fixes what the site is *meant*
 > to be so that the build is written to it, not the other way round. It is the
 > design-level counterpart of `graph-representation.md`: that file says how
@@ -41,6 +47,12 @@ graph.med/<view-id>                 a view, floating — the filter as of the la
 graph.med/<view-id>@<n>             a cut of that view (deferred, §7)
 graph.med/<namespace>/<entity-id>   any entity: statements/…, concepts/…, claims/<source>/<hash>, sources/…
 graph.med/<namespace>/<entity-id>.json   the same entity as data
+graph.med/<view-id>.json            the view as data: what its page draws, card HTML included
+graph.med/<view-id>/trees/<axis>.json    one grouping's tree file, without content (§4)
+graph.med/<view-id>/view.json       the view without content: its groupings by their tree files (§4)
+graph.med/<view-id>/search.json     the view's search file (§4)
+graph.med/index.json                every view, its groupings and its files, for programs (§4)
+graph.med/llms.txt                  what the files for programs hold, in English (§4)
 graph.med/schema/schema.yaml        the schema, at its $id
 ```
 
@@ -48,7 +60,8 @@ Views live at the root because they are the citable things and the pages people
 share. Entities live under their namespace exactly as in the pool. The one rule
 this adds to the data model: **a view id must not equal a namespace name**
 (`sources`, `claims`, `concepts`, `statements`, `pathways`, `views`, `agents`,
-`attestations`, `schema`, or a terminology namespace). The validator enforces it.
+`attestations`, `schema`, or a terminology namespace), nor `index`, which would
+shadow `index.json`. The validator enforces it.
 
 **Base path.** The site can also be served without the domain, at
 `graph-med.github.io/graph.med/`. The build takes the base path as a parameter and
@@ -715,7 +728,7 @@ language, from a table of the view layer — one file per language under
 schema, the data and every identifier, key and comment behind them stay English:
 only what the viewer reads is German. A German and an English site are a later phase; they will be a second
 table, not a second template. The rest of the page chrome — header, footer,
-counter, the controls' titles — is still English (§8). Translation of content is a
+counter, the controls' titles — is still English (§9). Translation of content is a
 build-layer concern and can be added without a data change
 (`graph-representation.md` §2).
 
@@ -738,6 +751,127 @@ parent from the top of the tree down, each with the kind of edge it hangs by
 ("Sonderfall" for `broader`, "im Geltungsbereich" for `in_scope_of`, "ohne Kante"
 where a proposal names a parent the pool holds no edge to), and a placement's
 rationale where it has one. The words come from the build's per-language table.
+
+**What a program walks and cites by.** Beside what the entity stores and its
+`edges` (and a statement's `card`, a derived concept's `derivation` and `rule`),
+every entity JSON carries one key more, `meta`, and a concept two more,
+`statements` and `appears_in`. They are added, never in place of a stored key: a
+stored `url`, `license`, `provenance`, `rule` or `views` keeps its meaning, which
+is why the metadata sits under a key of its own. This section is their contract.
+
+- `meta.url`, `meta.json` — the absolute URLs of the entity's page and JSON:
+  origin, base path and id, then `/` or `.json`. A preview build gives its
+  preview's URLs (§6); no URL carries a version.
+- `meta.views` — every view the entity belongs to by the view's filter (§2), each
+  `{id, url, json}`, a view's URLs being `<view-id>/` and `<view-id>.json` at the
+  root, never under `views/`; empty for an entity in no view. An axis, which no
+  filter selects, lists the views its own `views` names, each with its `status`
+  and `since`.
+- `meta.sources` — every source whose words the JSON may carry, each
+  `{id, json, license}`, the licence line as recorded on the source (its words,
+  not the publisher's): a source named by id, by a reference's `at`, or through a
+  claim whose sentence or quote it carries.
+- `meta.repository_license` — the repository's licence as the footer and README
+  name it; it says nothing about what it covers.
+- `meta.review` — `pending`, the build's one token until an attestation is read
+  (§3, zone 8); never "validated" or "verified".
+- `meta.provenance` — where the content comes from, by type, its `kind` first: a
+  claim `anchored`, with its `at` and the link into the source (§5); a statement
+  its wording's own `source` (`modelling` by design, `graph-representation.md`
+  §6.3), with the claims behind it counted per source in `supported_by` and
+  `contested_by`; a concept its `source` as stored (`modelling` or `sourced`); a
+  source the `document`, with `url` and `content_hash`; an axis `modelling`, with
+  `proposed_by`. An edge's own provenance is in `edges`.
+- `meta.commit`, `meta.schema_version` — the build's commit and the schema's
+  version. Nothing in the JSON carries a build date, so one commit and one set of
+  flags give the same bytes.
+- `statements` (a concept) — keyed by each view it belongs to: `held_by`, the
+  view's statements that hold the concept, each `{id, slot}`; and, in a view with
+  a scope tree, `own` and `general` as that view JSON's `scope.concepts` gives
+  them (empty where it lists nothing). From a concept's JSON alone a program
+  reaches its recommendations.
+- `appears_in` (a concept) — keyed by view, then by grouping (its `axis` as the
+  view JSON's `groupings` give it: an axis id, `section` for the chapters, the
+  empty string for patient groups unfolded without an axis): the ids of the
+  nodes of that grouping that name the concept, in the tree's order, each once.
+  A node names the entity of its `ref` and every concept an edge leading to it
+  names in `refs` — the page's own rule for where an entity appears (§3), so a
+  condition, which has no node of its own, appears at the statements its answers
+  lead to, and a group reached by two answers is one node. A grouping, or a view,
+  where the concept appears nowhere is left out. Only node ids: the tree's
+  structure is in the view's groupings, and nothing assumes which grouping comes
+  first or what it groups by.
+
+The view JSON, the page's inline data and every page stay as they are.
+
+**Files for programs.** Beside the pages and the JSON above, the build writes files a
+program reads without the view JSON, which is mostly card HTML and whose nodes carry
+claim sentences and quotes for the page's search (§8, Layer 0). Each is built from the
+views and their groupings by one code path, relies only on the tree shape every
+grouping shares (node types, edge kinds, `ref`, `refs`), carries no build date, and
+holds no claim sentence, no quote, no card and no rule. Their URLs are absolute, a
+preview's its own (§6).
+
+- `index.json`, at the root: the build's `commit`, the `schema` (`version`, `url`),
+  `repository_license`, `contract` (this section, where the keys are described),
+  `llms_txt`, and `views`, one entry per view: `id`, `title`, `lang`; `url` (the page),
+  `json` (the view JSON), `lean` (the per-view file), `search` (the search file);
+  `groupings`, in the order of the page's switch; `root`, the root of its scope tree
+  as `{id, json}` (null for a view that declares none); `holds`, as the index page
+  counts it — `statement`, `claim`, and `group`, the number of distinct concepts at the
+  junctions of the view's first grouping, whatever that grouping groups by; and
+  `sources`, each with `id`, `title`, `lang`, `url` and `license` as recorded, its
+  register number where recorded (`awmf_register`), and its `page` and `json` here.
+- A **grouping** in the index and in the per-view file: `axis` (its id as the view
+  JSON gives it), `label`, `short_label` (the axis's, null for the chapters and for a
+  grouping without an axis), `lang`, `kind`, `default` (true for the first, the one
+  the page opens with), `question` (the label and `lang` of the question node the
+  root's `flow` edge leads to) and `tree` (its tree file's URL). `kind` is set by the
+  code path that builds the grouping, never read from an axis's id: an axis's
+  `carrier` (`hierarchy`, `dimension`), `outline` for the chapters, and `hierarchy`
+  for patient groups without an axis (`axis` ""), which the hierarchy code draws
+  with nothing to fold, or folded by the scope tree. *Proposed.*
+- A **tree file**, one per grouping of every view, at `<view-id>/trees/<axis>.json`:
+  `trees/axes/<id>.json` for an axis, `trees/section.json` for the chapters,
+  `trees/plain.json` for a grouping without an axis. No reader derives the path; the
+  index gives it. It holds `view`, `commit`, the grouping's `axis`, `label`,
+  `short_label`, `kind` and `lang`, and its `nodes` and `edges` as the view JSON has
+  them minus content: nodes keep `id`, `ref`, `type`, `label`, `lang`, `direction`,
+  `grade`, `verb`, `no`, `sections`, `facets`, `group`, `general`, `against`,
+  `contested`; edges keep `from`, `to`, `kind`, `label`, `refs`. Box and answer
+  labels, grades and directions stay — the site's modelling words and the source's
+  grades —, and so do the chapter tree's labels, the sources' chapter titles. A
+  junction's `general` stays the ids of the statements that apply generally to its
+  concept. *Proposed.*
+- The **per-view file**, `<view-id>/view.json`: the view JSON minus content and minus
+  its groupings, which it lists by their tree files (as in the index), so that
+  nothing is published twice — `id`, `title`, `sources`, `commit`, `outline`,
+  `facets`, `legend`, `scope` where the view has a scope tree, `groupings`, and the
+  view's `meta` from the same code path as an entity's (its `url` and `json` the
+  view's page and view JSON, its `provenance` `modelling`: a view is a filter its
+  authors write). It leaves out `html`, `concepts`, node `text` and `full`, edge
+  `text`. Together with the tree files it is the view JSON minus content. *Proposed*,
+  against keeping every grouping inline in one file.
+- The **search file**, `<view-id>/search.json`: `view`, `commit` and `entries`, one
+  per statement of the view and one per concept that its statements hold in a slot,
+  that a node or answer of any grouping names, or that is its scope root. Each has
+  `id`, `kind` (`statement`, `concept`) and `lang`. A statement has the words its box
+  shows — `short_label`, else `label` —, `slots` (`{slot: [concept ids]}`, the slots
+  its card shows, a dimension axis's included) and `direction`, `grade` and `verb` as
+  its box carries them in the tree. A concept has `label`, `short_label` where it has
+  one, `slots` (the slots it holds in the view's statements) and, in a view with a
+  scope tree, `general`, its entries exactly as `scope.concepts` gives them
+  (`{id, anchor, via, condition}`), so that a junction's generally applying
+  recommendations are read with their `via` and condition from the tree file and this
+  file alone. *Proposed*, against carrying the entries on each junction. Where a
+  concept stands in a tree is not here: the tree files and `appears_in` give it.
+- `llms.txt`, at the root: in English, what these files hold — the index and each
+  view with its URLs and groupings, the default marked; the id rule and its
+  exceptions; the tree shape; the page link that opens a position
+  (`<view-id>/?by=<axis>#<id>[,<id>]`, `?by=` left out for the first grouping); the
+  per-view and search files; the entity JSON's keys, the card's keys and the
+  direction tokens as the build has them; each source's licence line and the review
+  status; and a link to this section. It describes and instructs nothing.
 
 ---
 
@@ -819,7 +953,501 @@ cut-publication).
 
 ---
 
-## 8. Left open
+## 8. The pool in programs and assistants
+
+> **Status: Layer 0 built; Layer 1's tools and its hosted endpoint built, the
+> endpoint not deployed; Layer 2 designed, not built.** Each layer's status changes here when the card
+> that builds it lands.
+>
+> | Layer | Status | Built by |
+> |---|---|---|
+> | 0 — the machine-readable site | built: index, `llms.txt`, tree files, per-view file, search file (§2, §4); entity JSON with `meta`, a concept's `statements` and `appears_in` (§4) | #270 (with #269) |
+> | 1 — the read-only server: its six tools, a server factory in `mcp/` | built: tools, description file (`mcp/src/descriptions.js`), quote gate, paging, the check (`CLAUDE.md` "Checks") | #272 |
+> | 1 — the read-only server, hosted | built, not deployed: the Worker (`mcp/src/worker.js`, `mcp/wrangler.toml`), checked through Workers' local runtime (`CLAUDE.md` "Checks"); the one way the server is reached (2026-09-28); the deploy is a person's (ADR-0008) | #279 |
+> | 2 — the inline view | designed, not built | #278 (with #276, #277) |
+>
+> This section is the design; the keys and URLs it relies on are §2's and §4's, the
+> server's runtime, toolchain and home ADR-0007's (#271), the choice of host
+> ADR-0008's (#279). What is marked *proposed* waits for the maintainer's
+> confirmation; the rest is agreed design. The facts it gives about other parties'
+> products change; each carries its source and the date it was read.
+
+This section designs how the pool reaches Claude and other programs: a machine
+reading the site, a server a chat assistant calls, and a view drawn inside the
+conversation. It adds no knowledge to the pool and changes no page of §3.
+
+**The aim.** The maintainer's plan (2026-09-27) states it:
+
+> Claude should be able to find, traverse and visually highlight graph.med pathways
+> inline in a chat, for every graph the site publishes. The vehicle is an **MCP
+> App**: a read-only MCP server whose tools can also render an interactive view
+> inside the conversation. Writing to the graph, expert feedback, and UI support in
+> Claude Code are out of scope.
+>
+> **The MVP adds no infrastructure.** It runs entirely on what exists: GitHub Pages
+> serves the data and the view, and GitHub Releases ship the server package. The
+> server runs locally inside Claude Desktop. Web and mobile need a hosted endpoint,
+> so they come after the MVP.
+
+**Where this departs from the plan.** On 2026-09-28 the maintainer decided:
+"let's roll back the desktop mcp server fully and only work with the web
+version". There is no Desktop extension, no server on the user's machine and no
+release of one: the hosted endpoint on Cloudflare Workers ("Where the server
+runs") is the one Layer 1 and part of the MVP, and the inline view is checked in
+claude.ai web. The MVP therefore adds infrastructure — a Cloudflare account,
+graph.med's DNS in a Cloudflare zone, the Worker and its deploy — against the
+plan's "The MVP adds no infrastructure", at the maintainer's word of that day.
+The endpoint is open to every MCP client (2026-09-28): programs that run on the
+user's machine, Claude Code among them, add it as a remote server, and hosted
+assistants of any vendor reach it as Claude does.
+
+A **pathway**, here, is a path through one of a view's derived trees — its
+groupings (below), with its scope tree where the view declares one. It is never a
+`pathways/` entity: that namespace is reserved for authored pathways, the build
+refuses `pathway` views, and no `data/pathways/` exists (open question
+`decision-graph-derivation`). *Proposed.*
+
+**Six principles**, from the plan:
+
+> The guarantees live in the server and the build, not in instructions to the model.
+>
+> 1. **Static first.** The Pages build is the single source; everything else only
+>    reads its output.
+> 2. **Read-only and stateless.** No credentials, no user data, nothing written.
+> 3. **URLs are the interface.** Tools take and return graph.med entity URLs, so
+>    every claim can be checked.
+> 4. **Metadata travels with the data.** Licence, review status and provenance come
+>    with every result.
+> 5. **Text first.** Every tool result makes sense without the view; the view is an
+>    addition.
+> 6. **Graph-agnostic.** Nothing names a specific graph. The server and the view work
+>    from the schema and the build's index, so a newly published graph is available
+>    without code changes.
+
+The first sentence is the one the repository holds for its own agent
+(`.claude/memory/environment/security-enforced-outside-model.md`): whatever must
+hold is enforced by what the build publishes and what the server returns, never by
+a sentence a model is asked to obey.
+
+**Terms.** Everything below relies on four, which the build already has (§3, "The
+axis is the reader's choice"):
+
+- A **grouping** is one tree the build draws for a view. The view's JSON carries
+  them as `groupings`, each `{axis, label, lang, nodes, edges}`, one for each
+  grouping the page's switch offers. The page opens with the first.
+- An **axis** is an `axes/<id>` entity the view lists in `group_by`
+  (`graph-representation.md` §4.1): `carrier: hierarchy` places concepts under
+  concepts by an existing `broader` or `in_scope_of` edge, `carrier: dimension`
+  places statements under values.
+- The **chapter outline** is the grouping with `axis: "section"`: the source's
+  chapters, provenance, never nodes of the pool
+  (`.claude/memory/design/document-structure-is-provenance.md`).
+- The **tree shape** is the same for every grouping: nodes of type `root`,
+  `question`, `junction`, `statement` and `aim`; edges of kind `flow`, `answer`
+  (with `label` and `refs`), `relation` and `aim`. A statement or aim node takes the
+  id of the entity it shows, and a statement under several answers is one node. A
+  junction has an id of its own and names its concept, if any, in `ref` (`j:<concept>`
+  in a hierarchy; `j:<value>` or `j:<value>:<concept>` under a dimension's values;
+  `j:section:<source>:<n>`, with `:<concept>` where one applies, under the chapter
+  outline), so one concept can be a junction under several values or chapters. A
+  question node (`q:…`) and a chapter's junction name no entity.
+
+Today's data, as an example: both views open with a hierarchy over their patient
+groups, labelled "Population", because both declare `anchor_slot: population` and a
+`scope_root`; the chapter outline follows, and one view adds a dimension (the
+perioperative phase). **"Patient group" is today's data** — the label of today's
+first grouping — and nothing in this section relies on it. The tools, the files and
+the view below rely only on the tree shape, so a graph organised as a decision path,
+for example a diagnostic one (a question, branches on its findings, an outcome),
+works unchanged if the build publishes it in that shape.
+
+**Positions the site already opens.** A deep link carries `#<entity id>`, several ids
+joined by a comma, and `?by=<grouping>` before it — `section` for the chapter outline,
+else the axis id, left out for the first grouping, an unknown value falling back to
+the first (§3). The page unfolds to, selects and fits every element whose `refs` hold
+one of the ids. The ids after `#` are entity ids, so a node that names no entity — a
+question, a chapter's junction — has no deep link of its own.
+
+### Where the plan meets today's site
+
+The plan was written against a site it describes in part. What the repository holds,
+as checked on 2026-09-27:
+
+- **No layout JSON.** The build computes no positions (§3, "The data carries no
+  positions"); dagre lays the tree out in the browser, in 54–102 ms for a whole tree
+  of today's views. The view JSON (today about 2 MB per view) is mostly card HTML,
+  and each statement node's `text` carries every supporting claim's sentence and
+  quote. Layer 0 therefore adds lean files instead (below).
+- **Quotes are not gated on the site.** It publishes verbatim text with no gate:
+  every claim's `label` (the full sentence, today up to 657 characters), its
+  `source.quote`, the card's `wortlaut`, `leitlinientext` and `beleg` (§3, "The
+  card"), and the view JSON's rendered HTML. This includes a source whose licence
+  line reads "written permission … required for any reproduction" (today, the first
+  source, POMGAT).
+- **Every statement and edge is `modelling`.** That is by design
+  (`graph-representation.md` §6.3; today 188 statements and 613 edges). A
+  statement's backing is its `supports` edges to claims, which are sourced.
+- **The licence line is prose.** `source.license` is free text, the project's own
+  summary, carrying no provenance (`schema/schema.yaml`); no policy per graph can be
+  read from it.
+- **The site frames its content for a patient.** `README.md` asks "for this patient,
+  in this situation"; every statement JSON's `card.questions` includes "Gilt das für
+  meine Patientin oder meinen Patienten?" (§3, "The card"). The plan's guardrail is
+  "No individual advice".
+- **The whole graph is never drawn at once.** The view page is "folded by default …
+  not an all-at-once drawing" (`.claude/memory/design/view-page-is-a-decision-tree.md`).
+- **Views float.** No entity JSON carries a commit; a cut is what gets cited, and
+  cuts wait for "the first citation of a view" (§7; open question `cut-publication`).
+- **The graphs share nothing.** No entity is a member of both views, and no edge
+  joins their members. One concept is an evidence outcome of both sources' claims (a
+  property, not an edge), and edges from concepts in no view point into it (today,
+  `concepts/mortalitaet`). The index combines nothing (§2).
+
+### The three layers
+
+> There are three layers, and only the MCP server is a new running component.
+> Layer 0 is an extra output of the existing Pages build. Layer 2 is a UI bundle
+> that the MCP server serves.
+
+The data flow, arrows in the direction data moves:
+
+```
+data/ ──build──► graph.med (GitHub Pages)
+                   pages, entity JSON, view JSON                  (today, §2–§4)
+                   Layer 0: index, llms.txt, search file per graph,
+                            tree file per grouping                (built)
+                     │                         │                       │
+                     │ GET (JSON)              │ GET (tree file)       │ GET
+                     ▼                         │                       ▼
+   Layer 1: read-only MCP server               │          programs that fetch pages
+   (a hosted endpoint on                       │          (Claude Code, any model
+    Cloudflare Workers)                        │           that reads the web):
+                     │ tool results:           │           text only
+                     │ text + metadata         │
+                     ▼                         ▼
+   an MCP host (Claude, …) ──tool input──► Layer 2: the view,
+        │                                  a sandboxed iframe in the conversation
+        ▼
+      the model
+```
+
+The plan's "The iframe loads layout JSON directly from graph.med, while graph
+content reaches it only through tool results" reads, on this site: the view loads
+the tree file of the grouping it draws, which holds no claim sentence and no quote,
+and lays it out itself; what it shows and marks comes from the tool input. "Claude
+Code and any model that can fetch web pages read Layer 0 directly and get text
+only."
+
+**Layer 0: the machine-readable site.** The plan: "The build emits a JSON twin for
+every entity page, plus a small index and an `llms.txt`. At this point any model
+that can fetch pages, including Claude Code, can already walk the graph." Besides the
+entity JSON (§4), which exists, and the index and `llms.txt`:
+
+- **One tree file per grouping.** Each grouping of each view, the chapter outline
+  too, is a small file: its `axis`, label, short label, kind and `lang`, and its
+  nodes and edges as the view JSON has them, minus content — no node `text`, no
+  `full`, no card HTML, no claim sentence, no quote. The index lists each view's
+  groupings (id, label, kind, the question its root asks, the file's URL) and marks
+  the first as the default.
+- **A concept's JSON says where the concept appears**: per view and grouping, the
+  node ids where it is a junction or is named, so that a program can enter any tree
+  from a concept. Its `statements`, per view and slot, stay.
+- **A search file per graph**: ids, labels, short labels, `lang`, kind, slot roles,
+  and each statement's direction, grade and verb as its box shows them — modelling
+  fields and the source's own words, no claim sentence and no quote. Tree membership
+  comes from the tree files and the concept JSON, not from the search file.
+
+The paths and keys are §2's and §4's, written by the cards that build them (#269,
+#270); the path `<view-id>/trees/<axis-slug>.json` and the key `appears_in` are their
+proposals, and so is whether the lean view JSON is split into the tree files plus a
+small file per view, so that nothing is published twice. That direction, grade and
+verb sit in the search file, rather than on the entries of a concept's `statements`,
+is a reading #270's pull request asks the maintainer to confirm.
+
+**Layer 1: the read-only server.** The plan: "A small stateless server reads Layer 0
+and offers a handful of tools … It adds no knowledge of its own." It navigates a
+graph's groupings. Its tools, by role — their names are #272's, and none names an
+axis, a slot or a grouping:
+
+- **List graphs**, from the index.
+- **List a graph's groupings**: each grouping's id (`axis`), label, short label,
+  kind (`hierarchy`, `dimension`, `outline`, and whatever the build publishes
+  later), the question its root asks (as the tree's first question node states it),
+  and which grouping the graph opens with (its first). All of it from Layer 0.
+- **Get tree node**, for a graph, a grouping and a node (the root by default): the
+  question asked there; its answers (children) with their labels and `refs`; its
+  parent; the recommendations under it, each with direction, grade, verb and URL —
+  in a grouping over a scope tree also those that apply generally, with `via` and
+  condition (§3) —; and their aims. An optional small depth returns a subtree in one
+  result, so a deep path needs few calls.
+- **Get entity**: a recommendation — its wording, marked `modelling`; grade, verb,
+  consensus and direction; the claims behind it by URL and page, with no verbatim
+  text (no claim sentence, no quote); its `specializes` and `complements` relations — or a concept — the
+  recommendations that hold it, per graph and slot, and where it appears in each
+  grouping of each graph. A condition is a concept seen from its slot, so no tool of
+  its own returns it.
+- **Search**, over a graph's search file, within one graph, or across graphs with
+  the hits grouped per graph, each group ranked on its own and never merged; it
+  returns ids, labels, URLs and the metadata, never a quote.
+- **Provenance**, the only tool that returns verbatim source text: each claim's
+  sentence whole, as the site shows it, and the quotes that anchor it, capped (the
+  guardrails, below).
+
+No tool follows edges generically; this replaces the plan's "follow edges" and "get a
+patient group's pathway". **Addressing:** a node that names an entity is addressed by
+that entity's id, and its URL is the entity's (`concepts/<id>.json`); any other node
+by its id within its grouping's tree file. There is no new URL namespace and no role
+URL such as `patient-groups/<id>`: one concept can fill different slots — the
+population of one recommendation, the condition of another — and the URL is the
+identity (`.claude/memory/design/pool-and-views.md`). **Cost:** get tree node reads
+the grouping's tree file and the graph's search file — one or two static GET requests
+whatever the depth — and get entity reads the entity's JSON; parsed files stay in
+memory between calls. On today's build, `JSON.parse` of a whole lean view JSON takes
+about 2.2–2.5 ms in Node 22.
+
+**Layer 2: the inline view.** The plan: "One tool is bound to a UI resource, which
+is the site's own graph renderer packaged for the chat. Claude decides what the view
+shows, from a few nodes to a whole graph, and what to highlight. The tool only
+advises, for example by suggesting a narrower scope when a view would get crowded.
+Clicks in the view go back to Claude as context. CI builds the view's bundle and
+publishes it on Pages with the data."
+
+- **Vendor-neutral.** The view is an MCP App — the extension `io.modelcontextprotocol/ui`:
+  a plain HTML page in a sandboxed iframe that talks to its host over `postMessage`.
+  It uses only the standard's messages (`ui/initialize`, the tool-input and
+  tool-result notifications, `ui/update-model-context`, `ui/open-link`) and no
+  host-specific API (no `_meta.ui.domain`, no vendor SDK); it reads what to show from
+  the tool input and never depends on `structuredContent`. So it speaks of *an MCP
+  host*, not of Claude alone. Hosts that support the extension, as read on 2026-09-27
+  (modelcontextprotocol.io/extensions/client-matrix): Claude (web), Claude Desktop,
+  VS Code GitHub Copilot, Microsoft 365 Copilot, Goose, Postman, MCPJam, ChatGPT,
+  Cursor, Archestra.AI and PostHog Code; not fast-agent or the MCP Inspector. "Since
+  it's all standard web primitives, you can use any framework or none at all"; the
+  `App` class of `@modelcontextprotocol/ext-apps` is "a convenience wrapper, not a
+  requirement" (modelcontextprotocol.io/docs/extensions/apps, as read on 2026-09-27).
+- **A position.** The view shows where in the graph the conversation is. A position
+  is a graph, a **grouping** (by default the first), a focus (a node of that
+  grouping, or entities it names) and highlights. **Path mode** draws the pruned tree
+  from the grouping's root to the focus, with its questions and answers; **tree
+  mode** draws the grouping folded as the site opens it, with the position marked.
+  The view loads the tree file of the grouping it draws.
+- **Settled** (the plan): "Claude decides per call whether the view shows one patient
+  group at a time or the whole graph; the tool only advises." *Proposed* reading, in
+  any grouping: "a few nodes" (the plan's "one patient group") is path mode, the
+  pruned tree from the root of the chosen grouping to the focus; "the whole graph" is
+  tree mode, that grouping folded as the site opens it — never an all-at-once
+  drawing (`.claude/memory/design/view-scope-in-any-grouping.md`).
+- **The link comes first.** Every result that names a node of a grouping or a
+  recommendation carries the site's deep link to that position,
+  `https://graph.med/<view-id>/?by=<axis>#<id>[,<id>]`, with `?by=` left out for the
+  first grouping; the ids after `#` are entity ids, as the site reads them. It works
+  in every client, with or without MCP Apps; the inline view is the addition in a
+  host that supports them.
+- **A trail of positions.** As the conversation moves, each call adds a new view
+  instance ("No host API unmounts earlier instances":
+  claude.com/docs/connectors/building/mcp-apps/instance-supersession, as read on
+  2026-09-27). Optionally only the newest stays live and older ones grey out, through
+  a `BroadcastChannel` (a plain web API) keyed by the server in the tool result; the
+  view still draws without the key.
+- **A tap reaching the model is best effort**, since hosts differ in whether it
+  does; the link and the drawn position are the guarantee. The plan's "Clicks in the
+  view go back to Claude as context" is the aim, not the guarantee.
+
+Where the view's page comes from — fetched from graph.med or shipped with the
+server — is #278's to decide, and ADR-0007's how its bundle is built.
+
+### Guardrails, carried as data
+
+> The server decides what the model can repeat, because source licences differ per
+> graph.
+>
+> - **Quotes are gated.** Verbatim source text comes only from an explicit
+>   provenance call, kept short, always with the deep link. POMGAT's notice requires
+>   written permission for any reproduction.
+> - **Status is visible.** Every result states its review status and whether a
+>   statement is sourced or `modelling`, so Claude can say "unreviewed extraction"
+>   when it is.
+> - **Graphs stay separate.** Cross-graph links appear only on request and are
+>   marked as `modelling`.
+> - **No individual advice.** Tool descriptions frame the content as guideline
+>   structure for professionals. Whether an interactive pathway view counts as a
+>   medical device under the EU MDR needs a legal check before promoting it to
+>   clinicians.
+
+Readings, each read with the first principle — *proposed*, except the quote gate,
+which the maintainer decided on 2026-09-28:
+
+- **Guardrails are data in every result, not instructions.** A tool description may
+  state as a fact what the tool returns — guideline structure for professionals — and
+  never instructs the model; a directory of connectors rejects descriptions that tell
+  Claude how to behave (claude.com/docs/connectors/building/review-criteria.md, as
+  read on 2026-09-27). Each result carries: the licence line, labelled as the
+  project's summary; the review status, today `pending` for everything; provenance
+  per entity type (a claim sourced, a statement `modelling` with its supporting
+  claims); the build commit; and an intended-use field, whose wording waits for
+  `mdr-status`. Results pass a card's `questions` through unchanged; whether they
+  stay, are recast or are left out is `mdr-status`'s to decide.
+- **The quote gate: nothing is gated that the site shows openly** (the maintainer,
+  2026-09-28, #290; `.claude/memory/design/quote-gate-follows-the-site.md`). The
+  provenance tool is the one place verbatim source text leaves the server: each
+  claim's sentence (`claim.label`) whole, as the site shows it, with its page and
+  its link into the source; the anchor quotes and the other quoted fields capped at
+  100 characters, shortened at a word and marked. Every other tool cites a claim by
+  its graph.med URL and page and returns no claim sentence and no quote, and the
+  server drops those keys from their results whatever a file carries; a
+  recommendation's wording that carries a claim's sentence or quote word for word is
+  withheld there, its short label standing. One policy for every graph: the licence
+  line is prose, so no policy per graph can be read from data. The maintainer's
+  reason: any assistant can fetch the source PDF, and graph.med already publishes
+  every claim's sentence, so gating the server alone protects nothing. Full
+  sentences in every result wait for `assistant-permission`, which also says
+  whether graph.med itself changes what it publishes.
+- **Graphs stay separate.** The server never makes a cross-graph link of its own: a
+  link made by the server would be a modelling assertion with no home in the pool.
+  On request it returns only those the pool asserts, marked `modelling`, and today
+  the pool asserts none. A cross-graph link the maintainer wants is asserted in the
+  pool first, as `modelling` with a rationale. Each navigation tool keeps to one
+  graph's members, and search without a graph groups its hits per graph, each ranked
+  on its own and never merged.
+- **No individual advice** is carried by the intended-use field, not by a
+  description. The framing the site already publishes for a patient (above) is
+  `mdr-status`'s to judge.
+
+Nothing fetches, proxies or serves a source document: provenance returns the
+source's public URL with its page and quote (§5;
+`.claude/memory/design/sources-referenced-never-rehosted.md`).
+
+### Citing
+
+Every result carries graph.med URLs, so every statement can be checked (principle
+3), and the commit its build was made from. The URLs point at floating content
+(§7): a later build may say something else at the same address. *Proposed:* results
+cite the floating URL with the build commit, and a citation from an assistant may be
+the "first citation of a view" that `cut-publication` waits for.
+
+### Where the server runs
+
+**Hosted, in the MVP: Cloudflare Workers, open to every client, behind one
+rate-limiting rule.** The server runs
+only as a hosted endpoint (above, "Where this departs from the plan"). The tools
+are built as a server factory in `mcp/` with no entry point of its own (#272); the
+endpoint wraps it. The plan:
+"Later the same code runs as a remote endpoint on a small function host, which
+claude.ai web and mobile need. GitHub Pages cannot host it, because the protocol
+needs an endpoint that answers POST requests." The host is Cloudflare Workers, which
+settles the plan's "which function host to use after the MVP?", now for the MVP
+itself; ADR-0008 records the choice and refers here for the facts. The server's
+runtime, toolchain and home are ADR-0007's (#271); this section chooses none. Workers
+run JavaScript and TypeScript on Cloudflare's own runtime, which provides a subset of
+Node.js APIs (`nodejs_compat`; developers.cloudflare.com/workers/runtime-apis/nodejs/,
+as read on 2026-09-27), so the tool code uses only web-standard APIs (`fetch`, JSON).
+The design:
+
+- The Worker is served on a custom domain in a Cloudflare zone, `mcp.graph.med`
+  (the maintainer, 2026-09-28); its MCP endpoint is `https://mcp.graph.med/mcp`.
+  graph.med's DNS is managed in Cloudflare; the site stays on GitHub Pages, its
+  records DNS only (not proxied), so only `mcp.graph.med` passes Cloudflare's
+  proxy.
+- It serves stateless Streamable HTTP. Cloudflare recommends the stateless handler
+  `createMcpHandler`; `McpAgent` is deprecated.
+- **No IP allowlist.** The maintainer, 2026-09-28: "we want to board other ai
+  platforms too without that friction." Any MCP client may call the endpoint:
+  hosted assistants of any vendor, and clients on the user's machine (Claude Code,
+  Cursor, VS Code and the like), which add `https://mcp.graph.med/mcp` as a remote
+  server. This overturns the earlier agreement (#267, agreed decisions 3 and 9) that
+  one WAF rule admit only Anthropic's range.
+- **One rate-limiting rule protects it**, the one the Free plan allows: requests
+  whose path is `/mcp`, counted per client IP; more than 60 in 10 seconds block that
+  IP for 10 seconds. On the Free plan a rule's expression can use only the path (and
+  whether a bot is verified), counts only by IP, and counts over 10 seconds with a
+  10-second block (developers.cloudflare.com/waf/rate-limiting-rules/, as read on
+  2026-09-28). The Worker answers only `/mcp`, and 404 on every other path.
+- `workers_dev = false`, and Preview and Version URLs are disabled, because zone rules
+  do not apply to them. Bot Fight Mode is off, "Block AI bots" is off and the AI
+  "Agent" behaviour is not blocked: on the Free plan Bot Fight Mode cannot be
+  skipped per path, and AI platforms' servers cannot solve a challenge.
+- The Worker keeps parsed files in memory between requests; a call with a cold cache
+  costs one or two GETs (Layer 1, "Cost"), within the 50 subrequests and 10 ms of CPU
+  a request has.
+
+The facts, as read on 2026-09-27 (developers.cloudflare.com/workers/platform/limits/,
+/workers/platform/pricing/, /agents/model-context-protocol/protocol/transport/,
+/waf/custom-rules/, /bots/get-started/bot-fight-mode/,
+/workers/configuration/routing/workers-dev/, /workers/configuration/routing/custom-domains/,
+/workers/observability/metrics-and-analytics/): Workers Free allows 100,000 requests
+a day per account, reset at midnight UTC, above which every Worker of the account
+answers Error 1027, with no bill; 10 ms of CPU per request, time spent waiting on
+`fetch()` not counted; 50 subrequests per request; Workers Paid costs $5 a month with
+10 million requests included. Automatic DDoS protection reacts to attack-sized
+traffic, while a steady 2–3 requests a second empties the free quota in about ten
+hours.
+
+**Unknown: whether requests the rule blocks spare the daily quota.** Cloudflare does
+not say, and the Workers metrics cannot tell: requests the WAF blocks "will not
+count" in their totals, so a count that does not rise is expected either way. It no
+longer changes the worst case below, which the maintainer accepted.
+
+The consequences (the maintainer's option C, 2026-09-28):
+
+- Every MCP client can use the endpoint with no sign-in and no key: claude.ai web,
+  Desktop and mobile, and Cowork; other vendors' hosted assistants; and clients on
+  the user's machine. Programs that fetch pages read Layer 0 as well.
+- One IP cannot hold the endpoint for long. A distributed flood, from many IPs each
+  under the limit, or requests to the host's other paths, which the rule does not
+  count, can use up the 100,000 requests a day: in that worst case the endpoint,
+  with every Worker of the account, is off until midnight UTC, and nothing is
+  billed.
+- The limit counts per IP, and a hosted assistant calls from its operator's
+  servers, so all users of one platform may share a few addresses; busy use through
+  one platform can meet the limit. The threshold is the setting to change if the
+  zone's analytics show it.
+- Workers Paid ($5 a month) is reconsidered the first day the quota runs out, or
+  when steady use nears it (ADR-0008).
+
+**No login.** The hosted endpoint stays authless, protected by the rate limit. OAuth is
+added only if the answers of `assistant-permission` or `mdr-status` require
+restricting who may use it, for example to professionals. It would need an identity
+source and would make the server hold user accounts and personal data, which breaks
+principle 2 ("No credentials, no user data"). OAuth would restrict only the hosted
+endpoint: the site and Layer 0 stay public, so such an answer
+also says whether they must change. The facts, as read on 2026-09-27
+(claude.com/docs/connectors/building/authentication, /connectors/custom/add-unlisted):
+Claude supports OAuth 2.0 by default (Dynamic Client Registration or a Client ID
+Metadata Document), each user signing in; a static credential (an API key or bearer
+token in a request header) is in beta for a limited set of organizations, entered
+once by an organization Owner and sent for everyone in it, so it cannot tell users
+apart; a machine-to-machine `client_credentials` grant is not supported; `none` is
+supported by default.
+
+The Worker's configuration (`mcp/wrangler.toml`), the rate-limiting rule and the
+deploy trigger are ADR-0008's; the account, the DNS, the rule as entered, the API
+token and the deploy are a person's steps (#279). This section states the design
+only.
+
+### What this section leaves open
+
+- **The plan's questions** — `assistant-permission` (on what basis the sources' text
+  may reach users through an assistant), `license-commercial-hosts` (PolyForm
+  Noncommercial and commercial chat hosts) and `mdr-status` (the EU MDR, and the
+  intended use), each in `open-questions.md`; `cut-publication` above.
+- **The build's own limits, for a next graph.** The build ties a view's first
+  grouping to patient groups in four places: it draws the tree of patient groups
+  first in every view (`tools/build.py:861-863`); it builds the scope tree only over
+  the `population` slot (`tools/build.py:750-751`); the hierarchy it draws asks
+  "Welche Population?" at every fork (`tools/build.py:80, 1025`) and it refuses a
+  hierarchy axis over another slot (`tools/build.py:1072-1073`); and it refuses
+  `pathway` views, the kind reserved for authored decision paths
+  (`tools/build.py:675-676`). A next graph shaped differently brings this build work
+  with it; this section designs no change to them (open question
+  `decision-graph-derivation`).
+- **Proposals of the cards that build Layer 0** — the tree files' path, the key for
+  where a concept appears, whether the lean view JSON is split — and the placement of
+  direction, grade and verb in the search file, confirmed in #269's and #270's pull
+  requests.
+
+---
+
+## 9. Left open
 
 - **Cut publication** — how cuts are built and served alongside the floating view;
   whether a cut has a PDF export.
@@ -834,3 +1462,5 @@ cut-publication).
   English site in a later phase; nothing selects a page language yet.
 - **Translation** — a build-layer projection, not started.
 - **Other projections** — FHIR, RDF, diagram formats (`graph-representation.md` §13).
+  The projections for programs and assistants — the machine-readable site, a
+  read-only server and a view inside a conversation — are designed in §8.

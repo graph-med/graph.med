@@ -6,14 +6,17 @@ paths:
   - CLAUDE.md
   - AGENTS.md
   - CODEOWNERS
+  - mcp/src/descriptions.js
 ---
 
 # You are editing a file that governs agents
 
 `.github/`, `.claude/`, `CLAUDE.md` and `AGENTS.md` decide what an agent is told and what CI runs.
 A change here is the highest-leverage change available to you and the least likely to be
-read carefully. (`CODEOWNERS` is in this rule's scope so that creating one is treated the
-same way; no such file exists today.)
+read carefully. `mcp/src/descriptions.js` is governed the same way: its tool descriptions
+and intended-use wording decide what Claude is told about graph.med's content, and so what
+Claude tells its users. (`CODEOWNERS` is in this rule's scope so that creating one is
+treated the same way; no such file exists today.)
 
 - **Nothing here is off-limits to edit.** What stops an unreviewed change is the same
   thing that stops any other: every pull request to `main` needs a human approval.

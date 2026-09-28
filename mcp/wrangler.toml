@@ -1,0 +1,31 @@
+# The hosted MCP endpoint on Cloudflare Workers (card #279; ADR-0008;
+# docs/publication.md §8). Deployed only by the workflow a person commits,
+# with `wrangler deploy`; never `wrangler preview`. Holds no account id and
+# no secret: the deploy reads CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN
+# from the environment.
+
+name = "graph-med-mcp"
+main = "src/worker.js"
+compatibility_date = "2026-09-28"
+# AsyncLocalStorage (node:async_hooks), which the Agents SDK's handler imports;
+# nothing else of Node's is used, so not the wider nodejs_compat.
+compatibility_flags = ["nodejs_als"]
+
+# Only the custom domain reaches the Worker, behind the zone's rate-limiting
+# rule: zone rules reach neither workers.dev nor Version URLs, so both are off,
+# each by its own key (workers_dev = false leaves Version URLs as they were).
+workers_dev = false
+preview_urls = false
+
+# The host name the maintainer confirmed on 2026-09-28.
+routes = [
+  { pattern = "mcp.graph.med", custom_domain = true },
+]
+
+[vars]
+# The site the tools read (Layer 0). Only here, never from a request.
+LAYER0_BASE = "https://graph.med/"
+
+# No Workers Logs: the Worker keeps no record of requests or tool arguments.
+[observability]
+enabled = false

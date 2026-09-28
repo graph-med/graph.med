@@ -34,7 +34,9 @@ What each level owes the reader:
 - **Environment and Conventions describe what exists.** Present tense, verified. Do
   not document tooling that does not exist. What exists is listed in `CLAUDE.md`
   ("Checks", "Build", "Work"): the validator, the site build, the work-package
-  check and the `uv` manifest — no test suite beyond that. A stale description of
+  check, the `uv` manifest, and the MCP server in `mcp/` with its Worker entry
+  point and Wrangler configuration, its check (in-process and through
+  `wrangler dev`) and its npm manifest — no test suite beyond that. A stale description of
   the environment is worse than none, because it gets trusted.
 - **Design describes intent.** Describing what is not yet built is its purpose — and
   for exactly that reason a design document states its status at the top, so it can

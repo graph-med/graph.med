@@ -15,17 +15,18 @@ CI workflow that runs it (`.github/workflows/validate.yml`), the pool itself und
 the feasibility test of a grouping axis (`tools/axes.py`, see "Checks"), the
 screenshot runner (`tools/screenshot.py` with its driver `tools/screenshot.js`, see
 "Build") and the Pages workflow (`.github/workflows/pages.yml`), the work-board tool
-(`tools/board.py`, see "Work"), `AGENTS.md`, and the `.claude/` directory described
-below. There is no source tree beyond these scripts.
+(`tools/board.py`, see "Work"), the read-only MCP server with its Worker entry point
+and its check (`mcp/`, see "Checks" and "Build"), `AGENTS.md`, and the `.claude/` directory described
+below. Beyond these scripts the one source tree is `mcp/` (ADR-0007).
 Project-specific guidance — data sources and their licenses, setup and test
 instructions — belongs in this file once it exists. Do not document tooling that does
 not exist.
 
 ## Checks
 
-Python tooling is managed with `uv` (`pyproject.toml`, `uv.lock`); never pip. The one
-check is the validator. `schema/schema.yaml` is a JSON Schema (draft 2020-12); the
-validator applies it to every file under `data/` with the `jsonschema` library, then
+Python tooling is managed with `uv` (`pyproject.toml`, `uv.lock`); never pip. The
+check of the pool is the validator; the MCP server has a check of its own (below).
+`schema/schema.yaml` is a JSON Schema (draft 2020-12); the validator applies it to every file under `data/` with the `jsonschema` library, then
 checks what a document schema cannot say — references resolve, claim ids hash
 correctly, edges are unique, the grouping axes and a view's scope tree hold together,
 a derived concept's rules reach the passages that give them (the full list heads the
@@ -41,6 +42,42 @@ caches downloads under `~/.cache/graph.med/sources/` by content hash. CI runs bo
 every pull request and on every push to `main` (`.github/workflows/validate.yml`).
 Run the first form before proposing a change (the contribution workflow’s "run the
 checks locally").
+
+`mcp/` is the read-only MCP server (`docs/publication.md` §8; ADR-0007): Node,
+JavaScript ES modules, no compile step, its dependencies pinned in
+`mcp/package.json` and `mcp/package-lock.json` and installed with `npm ci`
+(`mcp/node_modules/` and `mcp/.wrangler/` are gitignored). It reads only the site's
+files for programs, by `fetch`, from a base URL — `https://graph.med/`, a preview, or
+a local build served over HTTP — and exposes six tools (list graphs, list a graph's
+groupings, get a tree node, get an entity, search, get provenance) through a server
+factory, `createServerFactory({ base })` in `mcp/src/server.js`. Its one entry point
+is the Worker, `mcp/src/worker.js`, which serves the factory as stateless Streamable
+HTTP at `/mcp` (`createMcpHandler` of the Agents SDK) and reads the base from the
+Worker variable `LAYER0_BASE`; `mcp/wrangler.toml` configures it for Cloudflare
+Workers (ADR-0008). The tool descriptions, and the words every result carries, are
+one file, `mcp/src/descriptions.js`. Its check drives the Worker's handler over
+Streamable HTTP with scripted MCP clients (the 2.x SDK's for the walk, the 1.x SDK's
+`initialize` handshake beside it), walks every view the index lists and every
+grouping of each, and compares each result with the files it was read from — the
+quote gate, graph separation, deep links, paging, sizes, the requests per call, and
+the transport (405 for GET and DELETE on `/mcp`, 404 elsewhere, ping). With
+`--worker` it runs the same through the Worker in Workers' local runtime
+(`wrangler dev`, workerd, local mode; no Cloudflare account or login), counts
+each request's subrequests from the runtime's trace, and profiles the isolate for
+CPU per request against Workers Free's 10 ms:
+
+```bash
+npm --prefix mcp ci                                   # once: the pinned dependencies
+npm --prefix mcp run check                            # the synthetic Layer 0 (mcp/test/fixture.js)
+uv run tools/build.py --origin http://localhost:8272 && npm --prefix mcp run check -- --site ../site
+npm --prefix mcp run check -- --base https://graph.med/preview/pr<N>/   # a published site
+npm --prefix mcp run check -- --worker --fixture --site ../site         # the same, through wrangler dev
+```
+
+The third form serves the build at the origin it was built for (rebuild without
+`--origin` for anything else). Run the first form, and the third after a change to
+`mcp/` or to the files for programs; add `--worker` after a change to the Worker,
+its configuration or its dependencies.
 
 `tools/axes.py` is the feasibility test of a grouping axis (`docs/graph-representation.md`
 §4.1): it applies one axis definition to one view and prints the report — coverage,
@@ -58,7 +95,13 @@ uv run tools/axes.py /tmp/graph.med/<axis>.yaml <view>      # a definition not y
 
 `tools/build.py` renders the site described in `docs/publication.md` from `data/`
 into `site/` (gitignored): one graph page and one JSON per view, one page and one
-JSON per entity, the schema at its `$id`. Offline and deterministic; two seconds.
+JSON per entity, the schema at its `$id`. Every entity JSON carries `meta` (its
+absolute URLs, its views, its sources' licence lines, review status, provenance,
+commit), a concept's also its `statements` per view and where it `appears_in` each
+grouping (`docs/publication.md` §4). For programs it also writes `index.json` and
+`llms.txt` at the root, and per view a tree file per grouping
+(`<view-id>/trees/<axis>.json`), the view without content (`<view-id>/view.json`) and a
+search file (`<view-id>/search.json`) (§2, §4 there). Offline and deterministic; two seconds.
 
 ```bash
 uv run tools/build.py                       # site/ for graph.med (base path /)
@@ -82,6 +125,15 @@ Every pull request links its preview — whether or not it changes a page — as
 complete clickable URL (`https://graph.med/preview/pr<N>/<view-id>/`), never a
 bare path.
 
+The MCP endpoint is the Worker in `mcp/` on Cloudflare Workers, at
+`https://mcp.graph.med/mcp`, a custom domain of graph.med's zone, open to every MCP
+client behind one rate-limiting rule (ADR-0008). `npm --prefix mcp run dev`
+runs it locally (`wrangler dev`; `-- --var LAYER0_BASE:<url>` points it at a preview
+or a local build). It is deployed with `npm --prefix mcp run deploy` (`wrangler
+deploy`), only by a workflow a person commits, with the repository secrets
+`CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` — never from the sandbox, which
+holds neither.
+
 ## Where this runs
 
 Inside a Docker Sandbox (`sbx`): only this repository is mounted, outbound network is
@@ -102,7 +154,9 @@ This file describes the **project** and maps the rest. Design lives in `docs/`:
 one pool of source-anchored claims and a semantic layer, graphs as versioned views,
 provenance, attestations, review — with `schema/schema.yaml` as the authority on
 syntax; `docs/publication.md` is the authority on how the pool is shown — the site
-at `graph.med`, views as pages, a graph-and-sheet page read on a phone first; and
+at `graph.med`, views as pages, a graph-and-sheet page read on a phone first, and
+(its §8) how the pool reaches programs and assistants — a machine-readable site, a
+read-only MCP server, a view inside a conversation; and
 `docs/open-questions.md`
 carries what is not yet decided; the board (see "Work") what is agreed, in
 progress and done; `docs/adr/` what was decided about the repository itself.

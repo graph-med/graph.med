@@ -1,0 +1,37 @@
+{
+  "name": "graph-med-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The read-only MCP server of graph.med: tools over the site's files for programs, served as a Cloudflare Worker (docs/publication.md §8; ADR-0008).",
+  "author": "graph.med",
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "homepage": "https://graph.med/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/graph-med/graph.med.git",
+    "directory": "mcp"
+  },
+  "type": "module",
+  "main": "src/server.js",
+  "exports": {
+    ".": "./src/server.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "check": "node test/check.js",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.0.0",
+    "agents": "0.24.0",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "2.0.0",
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "wrangler": "4.143.0"
+  }
+}
