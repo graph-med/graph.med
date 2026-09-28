@@ -3,3 +3,4 @@ __pycache__/
 /site/
 .claude/worktrees/
 /mcp/node_modules/
+/mcp/.wrangler/
