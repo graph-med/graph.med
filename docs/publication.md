@@ -9,9 +9,11 @@
 > (§5), the grouping switch — the view's tree of patient groups · Kapitel · each
 > other axis the view declares (§3, "The axis is the reader's choice") —, the scope tree and what applies
 > generally, for a view that declares one (§3), and the deploy workflow with one
-> preview per open pull request (§6). Designed, not built: the pool in programs
-> and assistants — a machine-readable site, a read-only server and a view inside a
-> conversation (§8, which carries each layer's status). Not built and not
+> preview per open pull request (§6), and the machine-readable site of §8 (Layer 0:
+> `index.json`, `llms.txt`, a tree file per grouping, a per-view file and a search
+> file per view, §2 and §4). Designed, not built: the rest of the pool in programs
+> and assistants — a read-only server and a view inside a conversation (§8, which
+> carries each layer's status). Not built and not
 > registered: cuts (§7), pathway views, and everything under §9. The
 > domain `graph.med` points at GitHub Pages. This document fixes what the site is *meant*
 > to be so that the build is written to it, not the other way round. It is the
@@ -44,6 +46,12 @@ graph.med/<view-id>                 a view, floating — the filter as of the la
 graph.med/<view-id>@<n>             a cut of that view (deferred, §7)
 graph.med/<namespace>/<entity-id>   any entity: statements/…, concepts/…, claims/<source>/<hash>, sources/…
 graph.med/<namespace>/<entity-id>.json   the same entity as data
+graph.med/<view-id>.json            the view as data: what its page draws, card HTML included
+graph.med/<view-id>/trees/<axis>.json    one grouping's tree file, without content (§4)
+graph.med/<view-id>/view.json       the view without content: its groupings by their tree files (§4)
+graph.med/<view-id>/search.json     the view's search file (§4)
+graph.med/index.json                every view, its groupings and its files, for programs (§4)
+graph.med/llms.txt                  what the files for programs hold, in English (§4)
 graph.med/schema/schema.yaml        the schema, at its $id
 ```
 
@@ -51,7 +59,8 @@ Views live at the root because they are the citable things and the pages people
 share. Entities live under their namespace exactly as in the pool. The one rule
 this adds to the data model: **a view id must not equal a namespace name**
 (`sources`, `claims`, `concepts`, `statements`, `pathways`, `views`, `agents`,
-`attestations`, `schema`, or a terminology namespace). The validator enforces it.
+`attestations`, `schema`, or a terminology namespace), nor `index`, which would
+shadow `index.json`. The validator enforces it.
 
 **Base path.** The site can also be served without the domain, at
 `graph-med.github.io/graph.med/`. The build takes the base path as a parameter and
@@ -794,6 +803,75 @@ is why the metadata sits under a key of its own. This section is their contract.
 
 The view JSON, the page's inline data and every page stay as they are.
 
+**Files for programs.** Beside the pages and the JSON above, the build writes files a
+program reads without the view JSON, which is mostly card HTML and whose nodes carry
+claim sentences and quotes for the page's search (§8, Layer 0). Each is built from the
+views and their groupings by one code path, relies only on the tree shape every
+grouping shares (node types, edge kinds, `ref`, `refs`), carries no build date, and
+holds no claim sentence, no quote, no card and no rule. Their URLs are absolute, a
+preview's its own (§6).
+
+- `index.json`, at the root: the build's `commit`, the `schema` (`version`, `url`),
+  `repository_license`, `contract` (this section, where the keys are described),
+  `llms_txt`, and `views`, one entry per view: `id`, `title`, `lang`; `url` (the page),
+  `json` (the view JSON), `lean` (the per-view file), `search` (the search file);
+  `groupings`, in the order of the page's switch; `root`, the root of its scope tree
+  as `{id, json}` (null for a view that declares none); `holds`, as the index page
+  counts it — `statement`, `claim`, and `group`, the number of distinct concepts at the
+  junctions of the view's first grouping, whatever that grouping groups by; and
+  `sources`, each with `id`, `title`, `lang`, `url` and `license` as recorded, its
+  register number where recorded (`awmf_register`), and its `page` and `json` here.
+- A **grouping** in the index and in the per-view file: `axis` (its id as the view
+  JSON gives it), `label`, `short_label` (the axis's, null for the chapters and for a
+  grouping without an axis), `lang`, `kind`, `default` (true for the first, the one
+  the page opens with), `question` (the label and `lang` of the question node the
+  root's `flow` edge leads to) and `tree` (its tree file's URL). `kind` is set by the
+  code path that builds the grouping, never read from an axis's id: an axis's
+  `carrier` (`hierarchy`, `dimension`), `outline` for the chapters, and `hierarchy`
+  for patient groups without an axis (`axis` ""), which the hierarchy code draws
+  with nothing to fold, or folded by the scope tree. *Proposed.*
+- A **tree file**, one per grouping of every view, at `<view-id>/trees/<axis>.json`:
+  `trees/axes/<id>.json` for an axis, `trees/section.json` for the chapters,
+  `trees/plain.json` for a grouping without an axis. No reader derives the path; the
+  index gives it. It holds `view`, `commit`, the grouping's `axis`, `label`,
+  `short_label`, `kind` and `lang`, and its `nodes` and `edges` as the view JSON has
+  them minus content: nodes keep `id`, `ref`, `type`, `label`, `lang`, `direction`,
+  `grade`, `verb`, `no`, `sections`, `facets`, `group`, `general`, `against`,
+  `contested`; edges keep `from`, `to`, `kind`, `label`, `refs`. Box and answer
+  labels, grades and directions stay — the site's modelling words and the source's
+  grades —, and so do the chapter tree's labels, the sources' chapter titles. A
+  junction's `general` stays the ids of the statements that apply generally to its
+  concept. *Proposed.*
+- The **per-view file**, `<view-id>/view.json`: the view JSON minus content and minus
+  its groupings, which it lists by their tree files (as in the index), so that
+  nothing is published twice — `id`, `title`, `sources`, `commit`, `outline`,
+  `facets`, `legend`, `scope` where the view has a scope tree, `groupings`, and the
+  view's `meta` from the same code path as an entity's (its `url` and `json` the
+  view's page and view JSON, its `provenance` `modelling`: a view is a filter its
+  authors write). It leaves out `html`, `concepts`, node `text` and `full`, edge
+  `text`. Together with the tree files it is the view JSON minus content. *Proposed*,
+  against keeping every grouping inline in one file.
+- The **search file**, `<view-id>/search.json`: `view`, `commit` and `entries`, one
+  per statement of the view and one per concept that its statements hold in a slot,
+  that a node or answer of any grouping names, or that is its scope root. Each has
+  `id`, `kind` (`statement`, `concept`) and `lang`. A statement has the words its box
+  shows — `short_label`, else `label` —, `slots` (`{slot: [concept ids]}`, the slots
+  its card shows, a dimension axis's included) and `direction`, `grade` and `verb` as
+  its box carries them in the tree. A concept has `label`, `short_label` where it has
+  one, `slots` (the slots it holds in the view's statements) and, in a view with a
+  scope tree, `general`, its entries exactly as `scope.concepts` gives them
+  (`{id, anchor, via, condition}`), so that a junction's generally applying
+  recommendations are read with their `via` and condition from the tree file and this
+  file alone. *Proposed*, against carrying the entries on each junction. Where a
+  concept stands in a tree is not here: the tree files and `appears_in` give it.
+- `llms.txt`, at the root: in English, what these files hold — the index and each
+  view with its URLs and groupings, the default marked; the id rule and its
+  exceptions; the tree shape; the page link that opens a position
+  (`<view-id>/?by=<axis>#<id>[,<id>]`, `?by=` left out for the first grouping); the
+  per-view and search files; the entity JSON's keys, the card's keys and the
+  direction tokens as the build has them; each source's licence line and the review
+  status; and a link to this section. It describes and instructs nothing.
+
 ---
 
 ## 5. Sources are linked, never served
@@ -876,12 +954,12 @@ cut-publication).
 
 ## 8. The pool in programs and assistants
 
-> **Status: designed, not built.** Nothing below exists yet; each layer's status
+> **Status: Layer 0 built; Layers 1 and 2 designed, not built.** Each layer's status
 > changes here when the card that builds it lands.
 >
 > | Layer | Status | Built by |
 > |---|---|---|
-> | 0 — the machine-readable site | designed, not built | #270 (with #269) |
+> | 0 — the machine-readable site | built: index, `llms.txt`, tree files, per-view file, search file (§2, §4); entity JSON with `meta`, a concept's `statements` and `appears_in` (§4) | #270 (with #269) |
 > | 1 — the read-only server, local | designed, not built | #272 |
 > | 1 — the read-only server, hosted | designed, not built | #279 |
 > | 2 — the inline view | designed, not built | #278 (with #276, #277) |
@@ -1023,7 +1101,7 @@ The data flow, arrows in the direction data moves:
 data/ ──build──► graph.med (GitHub Pages)
                    pages, entity JSON, view JSON                  (today, §2–§4)
                    Layer 0: index, llms.txt, search file per graph,
-                            tree file per grouping                (designed)
+                            tree file per grouping                (built)
                      │                         │                       │
                      │ GET (JSON)              │ GET (tree file)       │ GET
                      ▼                         │                       ▼
