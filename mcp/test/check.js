@@ -1,36 +1,53 @@
-// The server's check (card #272, Verification): a scripted MCP client that
-// drives the server factory over Streamable HTTP — the SDK's own
-// `createMcpHandler`, behind a local listener that exists only here — and
-// walks every graph the index lists and every grouping it lists for each,
-// comparing each result with the Layer 0 files it was read from. It names no
-// graph and no grouping: they come from the index.
+// The server's check (cards #272, #279, Verification): a scripted MCP client
+// that drives the server over Streamable HTTP and walks every graph the index
+// lists and every grouping it lists for each, comparing each result with the
+// Layer 0 files it was read from. It names no graph and no grouping: they
+// come from the index.
+//
+// The server is the Worker's own handler (src/worker.js, `createMcpHandler`
+// of the Agents SDK): in-process in Node behind a local listener, or, with
+// --worker, the Worker itself in Workers' local runtime (`wrangler dev`,
+// workerd; local mode, no Cloudflare account).
 //
 //   node test/check.js --fixture                  the synthetic Layer 0 (test/fixture.js)
 //   node test/check.js --site ../site             a local build, served here; build it with
 //                                                 --origin http://localhost:<port> first
 //   node test/check.js --base https://graph.med/preview/pr<N>/   a published site
+//   node test/check.js --worker …                 the same, through `wrangler dev`
 //
-// Several targets may be given; it exits non-zero on any failure.
+// Several targets may be given; it exits non-zero on any failure. Besides the
+// walk it checks the transport (405 for GET and DELETE on /mcp, 404 elsewhere,
+// ping, the initialize handshake of the 1.x SDK's client); with --worker it
+// also counts each request's subrequests from the runtime's trace, against
+// Workers' 50, and its CPU time from a profile of the isolate, against the
+// 10 ms of Workers Free.
 
 import http from 'node:http';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { createMcpHandler } from '@modelcontextprotocol/server';
+import { spawn } from 'node:child_process';
 import { Client, StreamableHTTPClientTransport } from '@modelcontextprotocol/client';
+import { Client as Client1 } from '@modelcontextprotocol/sdk/client/index.js';
+import { StreamableHTTPClientTransport as Transport1 } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 import { createServerFactory, callTool } from '../src/server.js';
+import { createHandler } from '../src/worker.js';
 import { Layer0 } from '../src/layer0.js';
 import { QUOTE_CAP, MAX_DEPTH } from '../src/tools.js';
 import * as fixture from './fixture.js';
 
 const LIMIT_CHARS = 50000;
+const CPU_MS = 10; // Workers Free, per request
+const SUBREQUESTS = 50; // Workers, per request
 const TOOLS = ['list_graphs', 'list_groupings', 'get_tree_node', 'get_entity', 'search', 'get_provenance'];
 
 // --- targets -------------------------------------------------------------------
 
+let WORKER = false;
 function parseArgs(argv) {
   const targets = [];
   for (let i = 0; i < argv.length; i++) {
-    if (argv[i] === '--fixture') targets.push({ kind: 'fixture' });
+    if (argv[i] === '--worker') WORKER = true;
+    else if (argv[i] === '--fixture') targets.push({ kind: 'fixture' });
     else if (argv[i] === '--site') targets.push({ kind: 'site', dir: argv[++i] });
     else if (argv[i] === '--base') targets.push({ kind: 'base', base: argv[++i] });
     else throw new Error(`unknown argument ${argv[i]}`);
@@ -43,6 +60,10 @@ function listen(server, port = 0) {
   return new Promise((resolve) => server.listen(port, '::', () => resolve(server.address().port)));
 }
 
+// Every URL the static server is asked for, for the request log of a Worker
+// run (in-process, the reader's onFetch records the same).
+const served = [];
+
 async function serveStatic(target) {
   if (target.kind === 'fixture') {
     const srv = http.createServer();
@@ -50,6 +71,7 @@ async function serveStatic(target) {
     const base = `http://localhost:${port}/`;
     const files = fixture.files(base);
     srv.on('request', (req, res) => {
+      served.push(base + req.url.replace(/^\//, ''));
       const p = decodeURIComponent(req.url.split('?')[0]).replace(/^\//, '');
       if (!(p in files)) return res.writeHead(404).end();
       res.writeHead(200, { 'content-type': 'application/json' }).end(JSON.stringify(files[p]));
@@ -62,6 +84,7 @@ async function serveStatic(target) {
   if (u.hostname !== 'localhost') throw new Error(`${target.dir} was built for ${base}; build it with --origin http://localhost:<port>`);
   const root = path.resolve(target.dir);
   const srv = http.createServer(async (req, res) => {
+    served.push(u.origin + req.url);
     const rel = decodeURIComponent(req.url.split('?')[0]).slice(u.pathname.length);
     const p = path.resolve(root, rel);
     if (!p.startsWith(root)) return res.writeHead(403).end();
@@ -75,9 +98,9 @@ async function serveStatic(target) {
   return { base, close: () => srv.close() };
 }
 
-// The Streamable HTTP harness: the handler #279 wraps, behind node:http.
+// The Streamable HTTP harness: the Worker's handler, behind node:http.
 async function serveMcp(factory) {
-  const handler = createMcpHandler(factory);
+  const handler = createHandler(factory);
   const srv = http.createServer(async (req, res) => {
     const chunks = [];
     for await (const c of req) chunks.push(c);
@@ -93,6 +116,204 @@ async function serveMcp(factory) {
   });
   const port = await listen(srv);
   return { url: `http://localhost:${port}/mcp`, close: () => srv.close() };
+}
+
+// The Worker in Workers' local runtime: `wrangler dev` (workerd), reading the
+// base given, on a free port; ready once GET /mcp answers.
+async function freePort() {
+  const probe = http.createServer();
+  const port = await listen(probe);
+  await new Promise((r) => probe.close(r));
+  return port;
+}
+
+async function serveWorker(base) {
+  const port = await freePort();
+  const inspector = await freePort();
+  const bin = new URL('../node_modules/.bin/wrangler', import.meta.url).pathname;
+  const args = ['dev', '--port', String(port), '--ip', '127.0.0.1', '--inspector-port', String(inspector), '--var', `LAYER0_BASE:${base}`, '--show-interactive-dev-session=false'];
+  const child = spawn(bin, args, {
+    cwd: new URL('..', import.meta.url).pathname,
+    env: { ...process.env, WRANGLER_SEND_METRICS: 'false' },
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+  let out = '';
+  child.stdout.on('data', (d) => (out += d));
+  child.stderr.on('data', (d) => (out += d));
+  const origin = `http://127.0.0.1:${port}`;
+  for (let i = 0; i < 120; i++) {
+    if (child.exitCode !== null) throw new Error(`wrangler dev exited:\n${out}`);
+    try {
+      if ((await fetch(origin + '/mcp')).status === 405) break;
+    } catch {}
+    await new Promise((r) => setTimeout(r, 500));
+    if (i === 119) throw new Error(`wrangler dev did not start:\n${out}`);
+  }
+  // Workers' local trace store: one top-level span per request, a child span
+  // per fetch it made — the subrequests, counted by the runtime itself.
+  const spans = async (sql) => {
+    // A pooled connection the runtime has already closed fails once; retry.
+    let r;
+    for (let attempt = 1; !r; attempt++) {
+      try {
+        r = await fetch(origin + '/cdn-cgi/local/explorer/api/local/observability/query', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ sql }),
+        });
+      } catch (e) {
+        if (attempt === 3) throw new Error(`trace query failed: ${e.cause?.message || e.message}`);
+      }
+    }
+    const j = await r.json();
+    if (!j.success) throw new Error(`trace query: ${JSON.stringify(j.errors)}`);
+    return j.result.rows;
+  };
+  // The store outlives a run (mcp/.wrangler/): start this one empty.
+  await fetch(origin + '/cdn-cgi/local/explorer/api/local/observability/clear', { method: 'POST' });
+  return {
+    url: origin + '/mcp',
+    inspector: `ws://127.0.0.1:${inspector}/ws`,
+    spans,
+    close: () =>
+      new Promise((r) => {
+        child.once('exit', r);
+        child.kill('SIGTERM');
+      }),
+  };
+}
+
+// The transport itself: methods, paths, ping, and the initialize handshake
+// of the 1.x SDK's client, whose results equal the 2.x client's.
+async function checkTransport(C, url, client, sample) {
+  const origin = new URL(url).origin;
+  for (const method of ['GET', 'DELETE']) {
+    const r = await fetch(url, { method, headers: { accept: 'text/event-stream' } });
+    C.ok(r.status === 405, `${method} /mcp: ${r.status}, not 405`);
+  }
+  for (const p of ['/', '/mcp/', '/other']) {
+    const r = await fetch(origin + p, { method: 'POST', headers: { 'content-type': 'application/json' }, body: '{}' });
+    C.ok(r.status === 404, `POST ${p}: ${r.status}, not 404`);
+  }
+  C.ok(eq(await client.ping(), {}), 'ping (2.x client)');
+  const c1 = new Client1({ name: 'graph-med-check-1x', version: '0' });
+  const t1 = new Transport1(new URL(url));
+  await c1.connect(t1);
+  const init = c1.getServerCapabilities();
+  C.ok(!!init?.tools, 'initialize (1.x client): no tools capability');
+  C.ok(eq(await c1.ping(), {}), 'ping (1.x client)');
+  const l1 = await c1.listTools();
+  const l2 = await client.listTools();
+  C.ok(eq(l1.tools.map((t) => [t.name, t.title, t.annotations]), l2.tools.map((t) => [t.name, t.title, t.annotations])), 'tools/list: the 1.x client sees other tools');
+  const everything = JSON.stringify([init, c1.getServerVersion(), l1, l2]);
+  C.ok(!/"domain"/.test(everything) && !/"ui"\s*:/.test(everything), 'a `_meta.ui` or domain in initialize or tools/list');
+  for (const [name, args] of Object.entries(sample)) {
+    const a = await c1.callTool({ name, arguments: args });
+    const b = await client.callTool({ name, arguments: args });
+    C.ok(a.content[0].text === b.content[0].text, `${name}: the 1.x client's result ≠ the 2.x client's`);
+    C.count('calls compared, 1.x and 2.x client');
+  }
+  const r = await c1.listResources().catch((e) => ({ error: e.message }));
+  C.ok(!(r.resources || []).some((x) => x._meta?.ui?.domain), 'a resource carries _meta.ui.domain');
+  await c1.close();
+}
+
+// CPU time per request against Workers' 10 ms, in workerd (--worker): V8's
+// sampling profiler on the Worker's isolate, through the inspector
+// `wrangler dev` opens, on a fresh isolate: the first call of each tool — the
+// very first a cold isolate's, the others the first of their code and files —
+// then every call of the walk again. A request's CPU is the samples inside
+// its wall-clock window that are not idle, times the sampling interval. The
+// profiler's own work is counted with it, so these are upper bounds. (Node is
+// no stand-in: its Request, Response and streams are JavaScript compiled on
+// first use, where workerd's are native, and zod compiles parsers with
+// `new Function`, which Workers forbid.)
+let rpcId = 0;
+function rpcRequest(url, name, args) {
+  return new Request(url, {
+    method: 'POST',
+    headers: { host: new URL(url).host, 'content-type': 'application/json', accept: 'application/json, text/event-stream', 'mcp-protocol-version': '2025-06-18' },
+    body: JSON.stringify({ jsonrpc: '2.0', id: ++rpcId, method: 'tools/call', params: { name, arguments: args } }),
+  });
+}
+
+// A tools/call answered: its JSON-RPC result, or a thrown error.
+async function answered(res) {
+  const text = await res.text();
+  const data = text.startsWith('{') ? text : (text.match(/^data: (.*)$/m) || [])[1];
+  const j = data && JSON.parse(data);
+  if (res.status !== 200 || !j?.result?.content) throw new Error(`tools/call: HTTP ${res.status}: ${text.slice(0, 200)}`);
+  return j.result;
+}
+
+function cpuStats(byTool) {
+  return Object.fromEntries(
+    Object.entries(byTool).map(([k, xs]) => {
+      xs.sort((a, b) => a - b);
+      const over = xs.filter((x) => x > CPU_MS).length;
+      return [k, { n: xs.length, median: xs[xs.length >> 1], p99: xs[Math.floor(xs.length * 0.99)], max: xs[xs.length - 1], over }];
+    }),
+  );
+}
+
+async function workerCpu(base, calls) {
+  const w = await serveWorker(base);
+  const ws = new WebSocket(w.inspector, { headers: { origin: 'https://devtools.devprod.cloudflare.dev' } });
+  await new Promise((resolve, reject) => {
+    ws.onopen = resolve;
+    ws.onerror = () => reject(new Error(`inspector ${w.inspector} did not open`));
+  });
+  const pending = new Map();
+  let n = 0;
+  ws.onmessage = (e) => {
+    const m = JSON.parse(e.data);
+    if (pending.has(m.id)) pending.get(m.id)(m), pending.delete(m.id);
+  };
+  const send = (method, params = {}) =>
+    new Promise((resolve) => {
+      pending.set(++n, resolve);
+      ws.send(JSON.stringify({ id: n, method, params }));
+    });
+  await send('Profiler.enable');
+  await send('Profiler.setSamplingInterval', { interval: 100 });
+  await send('Profiler.start');
+  const windows = [];
+  const call = async (name, args, first) => {
+    const t0 = process.hrtime.bigint() / 1000n;
+    await answered(await fetch(rpcRequest(w.url, name, args)));
+    windows.push({ name, args, first, t0: Number(t0), t1: Number(process.hrtime.bigint() / 1000n) });
+  };
+  const seen = new Set();
+  for (const [name, args] of calls) if (!seen.has(name)) seen.add(name), await call(name, args, true);
+  for (const [name, args] of calls) await call(name, args, false);
+  const { result } = await send('Profiler.stop');
+  ws.close();
+  await w.close();
+  // Sample times (µs, the monotonic clock this process reads too), idle or not.
+  const p = result.profile;
+  const idle = new Set(p.nodes.filter((x) => x.callFrame.functionName === '(idle)').map((x) => x.id));
+  const busy = [];
+  let t = p.startTime;
+  p.samples.forEach((id, i) => {
+    t += p.timeDeltas[i];
+    if (!idle.has(id)) busy.push(t);
+  });
+  const deltas = p.timeDeltas.slice(1).sort((a, b) => a - b);
+  const interval = deltas[deltas.length >> 1] / 1000; // ms
+  let j = 0;
+  const first = {};
+  const warm = {};
+  for (const x of windows) {
+    while (j < busy.length && busy[j] < x.t0) j++;
+    let k = j;
+    while (k < busy.length && busy[k] <= x.t1) k++;
+    const ms = (k - j) * interval;
+    if (x.first) first[x.name] = ms;
+    else (warm[x.name] ||= []).push(ms);
+    x.ms = ms;
+  }
+  const heaviest = windows.filter((x) => !x.first).sort((a, b) => b.ms - a.ms);
+  return { interval, first, warm: cpuStats(warm), over: heaviest.filter((x) => x.ms > CPU_MS), heaviest: heaviest.slice(0, 5) };
 }
 
 // --- helpers -------------------------------------------------------------------
@@ -148,9 +369,14 @@ async function runTarget(target) {
   const stat = target.kind === 'base' ? { base: target.base, close() {} } : await serveStatic(target);
   const base = stat.base;
   const C = new Check(target.kind === 'site' ? `local build (${base})` : target.kind === 'fixture' ? `synthetic fixture (${base})` : base);
-  const log = [];
-  const factory = createServerFactory({ base, onFetch: (u) => log.push(u) });
-  const mcp = await serveMcp(factory);
+  // The request log: the reader's own in-process; through the Worker, what
+  // the static server was asked for (none for a published base).
+  const readerLog = [];
+  const factory = createServerFactory({ base, onFetch: (u) => readerLog.push(u) });
+  const mcp = WORKER ? await serveWorker(base) : await serveMcp(factory);
+  const log = WORKER ? served : readerLog;
+  const observable = !WORKER || target.kind !== 'base';
+  if (WORKER) C.name += ' through wrangler dev';
   const client = new Client({ name: 'graph-med-check', version: '0' });
   await client.connect(new StreamableHTTPClientTransport(new URL(mcp.url)));
 
@@ -164,6 +390,7 @@ async function runTarget(target) {
     const r = await client.callTool({ name, arguments: args });
     const text = r.content[0].text;
     const gets = [...log];
+    if (observable) C.maxGets = Math.max(C.maxGets || 0, gets.length);
     for (const u of gets) {
       C.ok(u.startsWith(base), `${name} fetched outside the base: ${u}`);
       C.ok(!forbiddenUrls.has(u), `${name} fetched a view JSON: ${u}`);
@@ -223,6 +450,7 @@ async function runTarget(target) {
     const viaHttp = await client.callTool({ name, arguments: sample[name] });
     C.ok(viaHttp.content[0].text === direct.content[0].text, `${name}: the transport's result ≠ the direct call's: ${direct.content[0].text.slice(0, 200)}`);
   }
+  await checkTransport(C, mcp.url, client, sample);
 
 
   // 2. list_graphs, list_groupings
@@ -462,7 +690,24 @@ async function runTarget(target) {
   C.counts['quoted strings of the pool checked'] = gated.length;
 
   await client.close();
-  mcp.close();
+  if (!observable) C.counts['request log'] = 'not observable for a published base through the Worker; the subrequests below count every fetch';
+  else C.counts['most Layer 0 GETs in one call'] = C.maxGets;
+  if (WORKER) {
+    const [[requests]] = await mcp.spans('SELECT count(*) FROM spans WHERE parent_id IS NULL');
+    const [[most]] = await mcp.spans(
+      "SELECT coalesce(max(n), 0) FROM (SELECT count(*) AS n FROM spans WHERE kind = 'fetch' GROUP BY parent_id)",
+    );
+    C.counts['requests the Worker served (runtime trace)'] = requests;
+    C.counts['most subrequests in one request (runtime trace)'] = most;
+    C.ok(most <= SUBREQUESTS, `a request made ${most} subrequests, over ${SUBREQUESTS}`);
+  }
+  await mcp.close();
+  const calls = resultTexts.map(([k]) => {
+    const i = k.indexOf(' ');
+    return [k.slice(0, i), JSON.parse(k.slice(i + 1))];
+  });
+  // Reported, not failed: a profile's figures are upper bounds.
+  if (WORKER) C.cpu = await workerCpu(base, calls);
   stat.close();
   return C;
 }
@@ -593,7 +838,7 @@ function collectQuotes(j, quotes) {
 
 // No tool module imports a transport or a Node module (ADR-0007): the tool
 // code imports only its siblings, the server factory also the SDK's server
-// and zod.
+// and zod, the Worker's entry point also the Agents SDK's handler.
 async function checkImports() {
   const dir = new URL('../src/', import.meta.url);
   const bad = [];
@@ -601,7 +846,10 @@ async function checkImports() {
     const src = await fs.readFile(new URL(f, dir), 'utf8');
     for (const m of src.matchAll(/^\s*import\s[^'"]*['"]([^'"]+)['"]/gm)) {
       const spec = m[1];
-      const allowed = spec.startsWith('./') || (f === 'server.js' && (spec === '@modelcontextprotocol/server' || spec === 'zod'));
+      const allowed =
+        spec.startsWith('./') ||
+        (f === 'server.js' && (spec === '@modelcontextprotocol/server' || spec === 'zod')) ||
+        (f === 'worker.js' && spec === 'agents/mcp/server');
       if (!allowed) bad.push(`${f} imports ${spec}`);
     }
     if (/\bprocess\.|\brequire\(|\bBuffer\b/.test(src)) bad.push(`${f} uses a Node global`);
@@ -614,16 +862,27 @@ async function checkImports() {
 const targets = parseArgs(process.argv.slice(2));
 let failed = 0;
 const bad = await checkImports();
-console.log(`imports of src/: ${bad.length ? 'FAILED: ' + bad.join('; ') : 'no transport, no Node module'}`);
+console.log(`imports of src/: ${bad.length ? 'FAILED: ' + bad.join('; ') : 'no Node module; the transport only in the Worker entry point'}`);
 if (bad.length) failed++;
 for (const t of targets) {
   resultTexts.length = 0;
+  served.length = 0;
   rawCache.clear();
   const C = await runTarget(t);
   console.log(`\n== ${C.name}`);
   for (const [k, v] of Object.entries(C.counts)) console.log(`  ${k}: ${v}`);
   console.log(`  largest result per tool (characters): ${JSON.stringify(C.maxChars)}`);
   console.log(`  GETs per call, cold / repeated: ${Object.entries(C.gets).map(([k, v]) => `${k} ${v.cold}/${v.warm}`).join(', ')}`);
+  const ms = (x) => x.toFixed(2);
+  const stats = (m) => Object.entries(m).map(([k, v]) => `${k} ${v.n}: ${ms(v.median)} / ${ms(v.p99)} / ${ms(v.max)} / ${v.over}`).join(', ');
+  if (C.cpu) {
+    const w = C.cpu;
+    console.log(`  CPU ms per request in workerd, profiled every ${ms(w.interval)} ms, first call of each tool on a fresh isolate: ${Object.entries(w.first).map(([k, v]) => `${k} ${ms(v)}`).join(', ')}`);
+    console.log(`  CPU ms per request in workerd, warm (n, median / p99 / max / over ${CPU_MS} ms): ${stats(w.warm)}`);
+    console.log(`  the heaviest warm calls (ms): ${w.heaviest.map((x) => `${ms(x.ms)} ${x.name} ${JSON.stringify(x.args)}`).join('; ')}`);
+    const deep = w.over.filter((x) => x.args.depth > 0).length;
+    console.log(`  warm calls over ${CPU_MS} ms: ${w.over.length}, of them with a depth: ${deep}`);
+  }
   if (C.failures.length) {
     failed++;
     console.log(`  FAILED (${C.failures.length}):`);
