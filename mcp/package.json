@@ -1,0 +1,32 @@
+{
+  "name": "graph-med-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The read-only MCP server of graph.med: tools over the site's files for programs (docs/publication.md §8).",
+  "author": "graph.med",
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "homepage": "https://graph.med/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/graph-med/graph.med.git",
+    "directory": "mcp"
+  },
+  "type": "module",
+  "main": "src/server.js",
+  "exports": {
+    ".": "./src/server.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "check": "node test/check.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.0.0",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "2.0.0"
+  }
+}

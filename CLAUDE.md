@@ -15,17 +15,18 @@ CI workflow that runs it (`.github/workflows/validate.yml`), the pool itself und
 the feasibility test of a grouping axis (`tools/axes.py`, see "Checks"), the
 screenshot runner (`tools/screenshot.py` with its driver `tools/screenshot.js`, see
 "Build") and the Pages workflow (`.github/workflows/pages.yml`), the work-board tool
-(`tools/board.py`, see "Work"), `AGENTS.md`, and the `.claude/` directory described
-below. There is no source tree beyond these scripts.
+(`tools/board.py`, see "Work"), the read-only MCP server's tool code with its check
+(`mcp/`, see "Checks"), `AGENTS.md`, and the `.claude/` directory described
+below. Beyond these scripts the one source tree is `mcp/` (ADR-0007).
 Project-specific guidance — data sources and their licenses, setup and test
 instructions — belongs in this file once it exists. Do not document tooling that does
 not exist.
 
 ## Checks
 
-Python tooling is managed with `uv` (`pyproject.toml`, `uv.lock`); never pip. The one
-check is the validator. `schema/schema.yaml` is a JSON Schema (draft 2020-12); the
-validator applies it to every file under `data/` with the `jsonschema` library, then
+Python tooling is managed with `uv` (`pyproject.toml`, `uv.lock`); never pip. The
+check of the pool is the validator; the MCP server has a check of its own (below).
+`schema/schema.yaml` is a JSON Schema (draft 2020-12); the validator applies it to every file under `data/` with the `jsonschema` library, then
 checks what a document schema cannot say — references resolve, claim ids hash
 correctly, edges are unique, the grouping axes and a view's scope tree hold together,
 a derived concept's rules reach the passages that give them (the full list heads the
@@ -41,6 +42,32 @@ caches downloads under `~/.cache/graph.med/sources/` by content hash. CI runs bo
 every pull request and on every push to `main` (`.github/workflows/validate.yml`).
 Run the first form before proposing a change (the contribution workflow’s "run the
 checks locally").
+
+`mcp/` is the read-only MCP server (`docs/publication.md` §8; ADR-0007): Node,
+JavaScript ES modules, no compile step, its dependencies pinned in
+`mcp/package.json` and `mcp/package-lock.json` and installed with `npm ci`
+(`mcp/node_modules/` is gitignored). It reads only the site's files for programs, by
+`fetch`, from a base URL — `https://graph.med/`, a preview, or a local build served
+over HTTP — and exposes six tools (list graphs, list a graph's groupings, get a tree
+node, get an entity, search, get provenance) through a server factory,
+`createServerFactory({ base })` in `mcp/src/server.js`. It has no entry point of its
+own: it is reached only through the hosted endpoint (#279, not yet deployed), which
+wraps the factory. The tool descriptions, and the words every result carries, are
+one file, `mcp/src/descriptions.js`. Its check drives the factory over Streamable
+HTTP with a scripted MCP client, walks every view the index lists and every
+grouping of each, and compares each result with the files it was read from — the
+quote gate, graph separation, deep links, paging, sizes, the requests per call:
+
+```bash
+npm --prefix mcp ci                                   # once: the pinned dependencies
+npm --prefix mcp run check                            # the synthetic Layer 0 (mcp/test/fixture.js)
+uv run tools/build.py --origin http://localhost:8272 && npm --prefix mcp run check -- --site ../site
+npm --prefix mcp run check -- --base https://graph.med/preview/pr<N>/   # a published site
+```
+
+The second form serves the build at the origin it was built for (rebuild without
+`--origin` for anything else). Run the first form, and the second after a change to
+`mcp/` or to the files for programs.
 
 `tools/axes.py` is the feasibility test of a grouping axis (`docs/graph-representation.md`
 §4.1): it applies one axis definition to one view and prints the report — coverage,

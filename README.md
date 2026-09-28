@@ -367,6 +367,15 @@ what each form checks, are in [`CLAUDE.md`](CLAUDE.md) under "Checks" — one ho
 them, read by humans and agents alike. Python tooling is managed with
 [`uv`](https://docs.astral.sh/uv/) (`pyproject.toml`, `uv.lock`); never pip.
 
+The read-only MCP server in `mcp/` (`docs/publication.md` §8) has a check of its
+own: a scripted MCP client that walks every graph the site's index lists, and every
+grouping of each, through the server's tools, and compares what they return with the
+files they read — among other things that no result but provenance carries a quote of
+a source. Its commands are in [`CLAUDE.md`](CLAUDE.md) under "Checks" as well. The
+server is JavaScript on Node, its dependencies pinned with npm in `mcp/` (ADR-0007),
+and it is reached only through a hosted endpoint, which does not exist yet (#279).
+No workflow runs it.
+
 CI runs the same validator (`.github/workflows/validate.yml`) on every pull request —
 including every push to an open pull request — and on every push to `main`, as two
 jobs: the offline structural check, then the quote verification, which downloads each
