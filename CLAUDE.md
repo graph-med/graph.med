@@ -125,8 +125,9 @@ Every pull request links its preview — whether or not it changes a page — as
 complete clickable URL (`https://graph.med/preview/pr<N>/<view-id>/`), never a
 bare path.
 
-The MCP endpoint is the Worker in `mcp/` on Cloudflare Workers, at a custom domain
-of graph.med's zone behind one firewall rule (ADR-0008). `npm --prefix mcp run dev`
+The MCP endpoint is the Worker in `mcp/` on Cloudflare Workers, at
+`https://mcp.graph.med/mcp`, a custom domain of graph.med's zone, open to every MCP
+client behind one rate-limiting rule (ADR-0008). `npm --prefix mcp run dev`
 runs it locally (`wrangler dev`; `-- --var LAYER0_BASE:<url>` points it at a preview
 or a local build). It is deployed with `npm --prefix mcp run deploy` (`wrangler
 deploy`), only by a workflow a person commits, with the repository secrets

@@ -1,9 +1,12 @@
-# ADR-0008 — The MCP endpoint runs on Cloudflare Workers, behind one firewall rule
+# ADR-0008 — The MCP endpoint runs on Cloudflare Workers, open to every client, behind one rate-limiting rule
 
-Status: proposed, 2026-09-28. It becomes accepted when the maintainer confirms
-three things in its pull request (card #279): the host name, the whole-host
-reading of the firewall rule, and the deploy trigger. The rest was agreed with
-the maintainer on 2026-09-27 (#267, agreed decisions 3 and 4; #279, Decisions).
+Status: accepted, 2026-09-28. The maintainer answered its open points in its
+pull request (#290, which carries card #279) on 2026-09-28: the host name
+`mcp.graph.med`; no IP allowlist, so that other AI platforms are not kept
+out; Workers Free with one rate-limiting rule; and the deploy trigger. The
+rest was agreed on 2026-09-27 (#267, agreed decision 4; #279, Decisions). The
+allowlist of #267's agreed decisions 3 and 9 (only Anthropic's range let
+through, other vendors' hosted assistants not) is overturned.
 
 ## Context
 
@@ -15,8 +18,8 @@ way the server reaches Claude, and it is part of the MVP. GitHub Pages cannot
 host it, because the protocol needs an endpoint that answers POST requests. The
 plan asked "which function host to use after the MVP?"; the maintainer answered
 it on 2026-09-27 with Cloudflare Workers. The platform facts behind the design
-(the limits, the quota, what zone rules reach, Bot Fight Mode, authentication
-in Claude) are in `docs/publication.md` §8, "Where the server runs", each with
+(the limits, the quota, what zone rules reach, rate limiting on the Free plan,
+Bot Fight Mode, authentication in Claude) are in `docs/publication.md` §8, "Where the server runs", each with
 its source and the date it was read. This record does not restate them.
 
 What it adds, read on 2026-09-28 at developers.cloudflare.com/workers/platform/limits/:
@@ -66,30 +69,38 @@ the figures are upper bounds:
      because the first leaves Version URLs as they were. There is no
      `previews` block. The deploy runs `wrangler deploy`, never
      `wrangler preview`;
-   - one route, a custom domain in graph.med's Cloudflare zone. Its host name,
-     `mcp.graph.med`, is a placeholder until the maintainer confirms it;
+   - one route, a custom domain in graph.med's Cloudflare zone: `mcp.graph.med`;
    - `compatibility_flags = ["nodejs_als"]`: the handler imports
      `node:async_hooks` (AsyncLocalStorage), and nothing else of Node's is
      used, so the wider `nodejs_compat` is not set;
    - Workers Logs off (`[observability] enabled = false`).
-3. **One WAF custom rule covers the whole host.** It blocks every request to
-   the endpoint's host that does not come from `160.79.104.0/21`, on every path:
+3. **Open to every MCP client, behind one rate-limiting rule.** No firewall
+   rule restricts who may call the endpoint. The maintainer, 2026-09-28: "we
+   want to board other ai platforms too without that friction." Any MCP
+   client reaches it at `https://mcp.graph.med/mcp`: hosted assistants of any
+   vendor, and clients on the user's machine such as Claude Code, Cursor or VS
+   Code, which add it as a remote server. What protects it and its quota is
+   the one rate-limiting rule of Cloudflare's Free plan, in the zone:
 
-   ```
-   (http.host eq "mcp.graph.med" and not ip.src in {160.79.104.0/21})
-   ```
+   - it matches requests whose URI path equals `/mcp`,
+     `(http.request.uri.path eq "/mcp")`: on the Free plan the expression can
+     use only the path (and whether a bot is verified), not the host;
+   - it counts per client IP, the only characteristic the Free plan offers;
+   - more than **60 requests in 10 seconds** from one IP blocks that IP for
+     10 seconds (action Block, the Free plan's period and duration).
 
-   The action is Block. A custom domain sends every path of its host to the
-   Worker, so a rule on `/mcp` alone would let requests to other paths reach the
-   Worker and use the quota. The maintainer agreed the rule as "requests to the
-   MCP path". This reading needs their confirmation; the alternative is a route
-   of `mcp.graph.med/mcp` instead of a custom domain. In the zone, Bot Fight
-   Mode is off and the AI "Agent" behaviour is not blocked.
-4. **No sign-in.** The endpoint is authless and is added in Claude as a custom
-   connector with "No sign-in". OAuth enters only if the answer to
+   The site's records are DNS only, so only `mcp.graph.med` passes Cloudflare's
+   proxy, and the path condition reaches no page of the site. The Worker
+   answers `/mcp` only, 404 elsewhere. In the zone, Bot Fight Mode stays off,
+   because on the Free plan it cannot be skipped per path and AI platforms'
+   servers cannot solve its challenge; "Block AI bots" stays off and the AI
+   "Agent" behaviour is not blocked, for the same clients.
+4. **No sign-in.** The endpoint is authless: it is added in Claude as a
+   custom connector with "No sign-in", and in any other client as a remote
+   server by its URL, with no key. OAuth enters only if the answer to
    `assistant-permission` or `mdr-status` requires restricting who may use it.
-5. **Deploy: after each successful Pages deploy from `main`, and by hand.**
-   This is proposed, for the maintainer to confirm. A workflow (committed by a
+5. **Deploy: after each successful Pages deploy from `main`, and by hand**
+   (confirmed by the maintainer, 2026-09-28). A workflow (committed by a
    person; workflow files are human-only) runs on a `workflow_run` of the
    `pages` workflow that completed successfully for a push to `main` (or a
    `workflow_dispatch` of it), and on its own `workflow_dispatch`. It checks out
@@ -115,12 +126,31 @@ the figures are upper bounds:
 
 - The MVP adds infrastructure: a Cloudflare account, graph.med's DNS in a
   Cloudflare zone (the site's records stay DNS only, pointing at GitHub Pages),
-  the Worker, the rule and the zone settings, a token, and a committed
-  workflow. All of these are a person's steps, and the agent deploys nothing.
-- The endpoint answers Anthropic's platform only (claude.ai web, Desktop and
-  mobile by URL, Cowork). Claude Code and other programs that run MCP servers
-  locally read Layer 0 (`llms.txt`) instead, since the sandbox and every
-  machine outside the range are blocked.
+  the Worker, the rate-limiting rule and the zone settings, a token, and a
+  committed workflow. All of these are a person's steps, and the agent deploys
+  nothing.
+- Every MCP client can use the endpoint, whoever runs it, with no sign-in and
+  no key: claude.ai web, Desktop and mobile, other vendors' hosted assistants,
+  and clients on the user's machine. Programs that fetch pages read Layer 0
+  (`llms.txt`) as well.
+- **Workers Free, with the worst case accepted.** One IP cannot hold the
+  endpoint for long: past 60 requests in 10 seconds it is blocked for 10
+  seconds. A distributed flood, from many IPs each under the limit, can use up
+  the 100,000 requests a day of Workers Free; the endpoint, with every Worker
+  of the account, is then off until midnight UTC, and nothing is billed.
+  Requests to the host's other paths are not counted by the rule; the Worker
+  answers them 404, and they too can only use up the quota. Automatic DDoS
+  protection reacts only to attack-sized traffic. Whether
+  requests the rule blocks count against the quota is not documented
+  (`docs/publication.md` §8); either way the worst case stays this one.
+- **When to reconsider Workers Paid** ($5 a month, 10 million requests
+  included): the first day the quota runs out, or steady use near it in the
+  Workers metrics. That is a new decision for the maintainer.
+- The limit counts per IP, and a hosted assistant calls from its operator's
+  servers, so all users of one platform may share a few addresses. Busy use
+  through one platform can therefore meet the limit and be blocked for 10
+  seconds at a time. The rule's threshold is the setting to change if the
+  zone's analytics show it.
 - On Workers Free, the request that runs over the 10 ms is the first one of each
   new isolate (about 20–30 ms); a warm call exceeds it only as a rare one-off.
   Cloudflare tolerates an infrequent overrun per isolate, but terminates a Worker
@@ -132,8 +162,5 @@ the figures are upper bounds:
     on every request, because `createMcpHandler` calls the factory per request
     and one server serves one transport at a time.
 
-- Unknown until a person settles it (`docs/publication.md` §8): whether requests
-  the rule blocks count against the 100,000 a day of Workers Free. Until then
-  the maintainer weighs Workers Paid against the risk.
 - A new deploy starts new isolates, so the first requests after each deploy are
   cold ones.
