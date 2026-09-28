@@ -970,20 +970,20 @@ cut-publication).
 
 ## 8. The pool in programs and assistants
 
-> **Status: Layer 0 built; Layer 1's tools built, its hosted endpoint designed, not
-> built; Layer 2 designed, not built.** Each layer's status changes here when the card
+> **Status: Layer 0 built; Layer 1's tools and its hosted endpoint built, the
+> endpoint not deployed; Layer 2 designed, not built.** Each layer's status changes here when the card
 > that builds it lands.
 >
 > | Layer | Status | Built by |
 > |---|---|---|
 > | 0 — the machine-readable site | built: index, `llms.txt`, tree files, per-view file, search file (§2, §4); entity JSON with `meta`, a concept's `statements` and `appears_in` (§4) | #270 (with #269) |
 > | 1 — the read-only server: its six tools, a server factory in `mcp/` | built: tools, description file (`mcp/src/descriptions.js`), quote gate, paging, the check (`CLAUDE.md` "Checks") | #272 |
-> | 1 — the read-only server, hosted | designed, not built; the one way the server is reached (2026-09-28) | #279 |
+> | 1 — the read-only server, hosted | built, not deployed: the Worker (`mcp/src/worker.js`, `mcp/wrangler.toml`), checked through Workers' local runtime (`CLAUDE.md` "Checks"); the one way the server is reached (2026-09-28); the deploy is a person's (ADR-0008) | #279 |
 > | 2 — the inline view | designed, not built | #278 (with #276, #277) |
 >
 > This section is the design; the keys and URLs it relies on are §2's and §4's, the
-> server's runtime, toolchain and home ADR-0007's (#271), the choice of host an
-> ADR #279 writes. What is marked *proposed* waits for the maintainer's
+> server's runtime, toolchain and home ADR-0007's (#271), the choice of host
+> ADR-0008's (#279). What is marked *proposed* waits for the maintainer's
 > confirmation; the rest is agreed design. The facts it gives about other parties'
 > products change; each carries its source and the date it was read.
 
@@ -1337,7 +1337,7 @@ endpoint wraps it. The plan:
 claude.ai web and mobile need. GitHub Pages cannot host it, because the protocol
 needs an endpoint that answers POST requests." The host is Cloudflare Workers, which
 settles the plan's "which function host to use after the MVP?", now for the MVP
-itself; #279 records the choice as an ADR and refers here for the facts. The server's
+itself; ADR-0008 records the choice and refers here for the facts. The server's
 runtime, toolchain and home are ADR-0007's (#271); this section chooses none. Workers
 run JavaScript and TypeScript on Cloudflare's own runtime, which provides a subset of
 Node.js APIs (`nodejs_compat`; developers.cloudflare.com/workers/runtime-apis/nodejs/,
@@ -1415,8 +1415,10 @@ once by an organization Owner and sent for everyone in it, so it cannot tell use
 apart; a machine-to-machine `client_credentials` grant is not supported; `none` is
 supported by default.
 
-The account, the DNS, the rule as entered, the Worker's configuration, the API token
-and the deploy steps are #279's and a person's; this section states the design only.
+The Worker's configuration (`mcp/wrangler.toml`), the rule's expression and the
+deploy trigger are ADR-0008's; the account, the DNS, the rule as entered, the API
+token and the deploy are a person's steps (#279). This section states the design
+only.
 
 ### What this section leaves open
 

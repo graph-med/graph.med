@@ -15,8 +15,8 @@ CI workflow that runs it (`.github/workflows/validate.yml`), the pool itself und
 the feasibility test of a grouping axis (`tools/axes.py`, see "Checks"), the
 screenshot runner (`tools/screenshot.py` with its driver `tools/screenshot.js`, see
 "Build") and the Pages workflow (`.github/workflows/pages.yml`), the work-board tool
-(`tools/board.py`, see "Work"), the read-only MCP server's tool code with its check
-(`mcp/`, see "Checks"), `AGENTS.md`, and the `.claude/` directory described
+(`tools/board.py`, see "Work"), the read-only MCP server with its Worker entry point
+and its check (`mcp/`, see "Checks" and "Build"), `AGENTS.md`, and the `.claude/` directory described
 below. Beyond these scripts the one source tree is `mcp/` (ADR-0007).
 Project-specific guidance — data sources and their licenses, setup and test
 instructions — belongs in this file once it exists. Do not document tooling that does
@@ -46,28 +46,38 @@ checks locally").
 `mcp/` is the read-only MCP server (`docs/publication.md` §8; ADR-0007): Node,
 JavaScript ES modules, no compile step, its dependencies pinned in
 `mcp/package.json` and `mcp/package-lock.json` and installed with `npm ci`
-(`mcp/node_modules/` is gitignored). It reads only the site's files for programs, by
-`fetch`, from a base URL — `https://graph.med/`, a preview, or a local build served
-over HTTP — and exposes six tools (list graphs, list a graph's groupings, get a tree
-node, get an entity, search, get provenance) through a server factory,
-`createServerFactory({ base })` in `mcp/src/server.js`. It has no entry point of its
-own: it is reached only through the hosted endpoint (#279, not yet deployed), which
-wraps the factory. The tool descriptions, and the words every result carries, are
-one file, `mcp/src/descriptions.js`. Its check drives the factory over Streamable
-HTTP with a scripted MCP client, walks every view the index lists and every
+(`mcp/node_modules/` and `mcp/.wrangler/` are gitignored). It reads only the site's
+files for programs, by `fetch`, from a base URL — `https://graph.med/`, a preview, or
+a local build served over HTTP — and exposes six tools (list graphs, list a graph's
+groupings, get a tree node, get an entity, search, get provenance) through a server
+factory, `createServerFactory({ base })` in `mcp/src/server.js`. Its one entry point
+is the Worker, `mcp/src/worker.js`, which serves the factory as stateless Streamable
+HTTP at `/mcp` (`createMcpHandler` of the Agents SDK) and reads the base from the
+Worker variable `LAYER0_BASE`; `mcp/wrangler.toml` configures it for Cloudflare
+Workers (ADR-0008). The tool descriptions, and the words every result carries, are
+one file, `mcp/src/descriptions.js`. Its check drives the Worker's handler over
+Streamable HTTP with scripted MCP clients (the 2.x SDK's for the walk, the 1.x SDK's
+`initialize` handshake beside it), walks every view the index lists and every
 grouping of each, and compares each result with the files it was read from — the
-quote gate, graph separation, deep links, paging, sizes, the requests per call:
+quote gate, graph separation, deep links, paging, sizes, the requests per call, and
+the transport (405 for GET and DELETE on `/mcp`, 404 elsewhere, ping). With
+`--worker` it runs the same through the Worker in Workers' local runtime
+(`wrangler dev`, workerd, local mode; no Cloudflare account or login), counts
+each request's subrequests from the runtime's trace, and profiles the isolate for
+CPU per request against Workers Free's 10 ms:
 
 ```bash
 npm --prefix mcp ci                                   # once: the pinned dependencies
 npm --prefix mcp run check                            # the synthetic Layer 0 (mcp/test/fixture.js)
 uv run tools/build.py --origin http://localhost:8272 && npm --prefix mcp run check -- --site ../site
 npm --prefix mcp run check -- --base https://graph.med/preview/pr<N>/   # a published site
+npm --prefix mcp run check -- --worker --fixture --site ../site         # the same, through wrangler dev
 ```
 
-The second form serves the build at the origin it was built for (rebuild without
-`--origin` for anything else). Run the first form, and the second after a change to
-`mcp/` or to the files for programs.
+The third form serves the build at the origin it was built for (rebuild without
+`--origin` for anything else). Run the first form, and the third after a change to
+`mcp/` or to the files for programs; add `--worker` after a change to the Worker,
+its configuration or its dependencies.
 
 `tools/axes.py` is the feasibility test of a grouping axis (`docs/graph-representation.md`
 §4.1): it applies one axis definition to one view and prints the report — coverage,
@@ -114,6 +124,14 @@ the pull request's head after each run of its checks (`docs/publication.md` §6)
 Every pull request links its preview — whether or not it changes a page — as a
 complete clickable URL (`https://graph.med/preview/pr<N>/<view-id>/`), never a
 bare path.
+
+The MCP endpoint is the Worker in `mcp/` on Cloudflare Workers, at a custom domain
+of graph.med's zone behind one firewall rule (ADR-0008). `npm --prefix mcp run dev`
+runs it locally (`wrangler dev`; `-- --var LAYER0_BASE:<url>` points it at a preview
+or a local build). It is deployed with `npm --prefix mcp run deploy` (`wrangler
+deploy`), only by a workflow a person commits, with the repository secrets
+`CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` — never from the sandbox, which
+holds neither.
 
 ## Where this runs
 
