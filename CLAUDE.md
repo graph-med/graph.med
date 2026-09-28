@@ -102,7 +102,9 @@ This file describes the **project** and maps the rest. Design lives in `docs/`:
 one pool of source-anchored claims and a semantic layer, graphs as versioned views,
 provenance, attestations, review — with `schema/schema.yaml` as the authority on
 syntax; `docs/publication.md` is the authority on how the pool is shown — the site
-at `graph.med`, views as pages, a graph-and-sheet page read on a phone first; and
+at `graph.med`, views as pages, a graph-and-sheet page read on a phone first, and
+(its §8) how the pool reaches programs and assistants — a machine-readable site, a
+read-only MCP server, a view inside a conversation; and
 `docs/open-questions.md`
 carries what is not yet decided; the board (see "Work") what is agreed, in
 progress and done; `docs/adr/` what was decided about the repository itself.
