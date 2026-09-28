@@ -9,7 +9,7 @@ import { InputError } from './layer0.js';
 import * as words from './descriptions.js';
 
 // Items per list in one result; a longer list returns `next_offset`. A
-// result that would exceed MAX_CHARS is retried with the smaller sizes.
+// result that would exceed MAX_CHARS is cut to the smaller sizes (fitted).
 export const PAGE = 50;
 const PAGE_SIZES = [PAGE, 20, 8];
 // The longest verbatim quote the provenance tool returns, in characters.
@@ -58,11 +58,13 @@ function page(list, offset, size = PAGE) {
   return { items, total: list.length, next: start + size < list.length ? start + size : null };
 }
 
-// Builds a result with the largest page size that keeps it under MAX_CHARS.
-function fitted(build) {
-  let result;
+// The result at the largest page size that keeps it under MAX_CHARS: built
+// once at PAGE, then cut to the smaller sizes (`cut(result, size)`) until one
+// fits, never rebuilt — a Worker request has 10 ms of CPU (#279).
+function fitted(full, cut) {
+  let result = full;
   for (const size of PAGE_SIZES) {
-    result = build(size);
+    result = size === PAGE ? full : cut(full, size);
     if (JSON.stringify(result).length <= MAX_CHARS) break;
   }
   return result;
@@ -205,7 +207,7 @@ function nodeDetail(L, ctx, n, depth, offset) {
   };
 
   // The question asked here, and its answers.
-  const questions = n.type === 'question' ? [n] : outs.filter((e) => e.kind === 'flow').map((e) => T.nodes.get(e.to)).filter((m) => m.type === 'question');
+  const questions = questionsAt(T, n);
   out.asks = questions.map((q) => {
     const answers = (T.out.get(q.id) || []).filter((e) => e.kind === 'answer');
     const p = page(answers, offset, ctx.size);
@@ -260,18 +262,51 @@ function nodeDetail(L, ctx, n, depth, offset) {
   }
   if (next !== null) out.next_offset = next;
 
-  if (depth > 0) {
-    const below = [];
-    const seen = new Set();
-    for (const q of questions)
-      for (const e of page((T.out.get(q.id) || []).filter((x) => x.kind === 'answer'), offset, ctx.size).items)
-        if (!seen.has(e.to)) {
-          seen.add(e.to);
-          below.push(nodeDetail(L, { ...ctx, size: PAGE }, T.nodes.get(e.to), depth - 1, 0));
-        }
-    out.below = below;
-  }
+  if (depth > 0) out.below = belowIds(T, n, offset, ctx.size).map((id) => nodeDetail(L, { ...ctx, size: PAGE }, T.nodes.get(id), depth - 1, 0));
   return out;
+}
+
+// The questions asked at a node: itself, or those its flow edges lead to.
+function questionsAt(T, n) {
+  return n.type === 'question' ? [n] : (T.out.get(n.id) || []).filter((e) => e.kind === 'flow').map((e) => T.nodes.get(e.to)).filter((m) => m.type === 'question');
+}
+
+// The nodes one level below: where the answers on this page lead, once each.
+function belowIds(T, n, offset, size) {
+  const out = [];
+  const seen = new Set();
+  for (const q of questionsAt(T, n))
+    for (const e of page((T.out.get(q.id) || []).filter((x) => x.kind === 'answer'), offset, size).items)
+      if (!seen.has(e.to)) {
+        seen.add(e.to);
+        out.push(e.to);
+      }
+  return out;
+}
+
+// A node's detail at a smaller page size, cut from the detail built at PAGE
+// from the same offset: a page is a prefix of a longer one, so this is what
+// building at that size gives, `next_offset` included. Keys keep their order.
+function cutNode(out, offset, size) {
+  const start = Math.max(0, offset | 0);
+  let next = null;
+  const track = (total) => {
+    if (start + size < total) next = next === null ? start + size : Math.min(next, start + size);
+  };
+  const cut = { ...out };
+  cut.asks = out.asks.map((a) => {
+    track(a.answers_total);
+    return { ...a, answers: a.answers.slice(0, size) };
+  });
+  track(out.recommendations_total);
+  cut.recommendations = out.recommendations.slice(0, size);
+  if (out.general) {
+    track(out.general_total);
+    cut.general = out.general.slice(0, size);
+  }
+  if (next !== null) cut.next_offset = next;
+  else delete cut.next_offset;
+  return cut;
 }
 
 function aimsOf(L, ctx, statementId) {
@@ -339,12 +374,74 @@ export async function getTreeNode(L, { graph, grouping, node, depth = 0, offset 
     n = found[0];
   }
   const d = Math.max(0, Math.min(MAX_DEPTH, depth | 0));
-  let result;
-  for (let k = d; k >= 0; k--) {
-    result = fitted((size) => ({ ...base, node: nodeDetail(L, { ...ctx, size }, n, k, offset), about: meta }));
-    if (k < d) result.depth_reduced_to = k;
-    if (JSON.stringify(result).length <= MAX_CHARS) break;
+  return fittedTree(L, ctx, base, meta, n, d, offset);
+}
+
+// The deepest subtree, and the largest page size, that keep the result under
+// MAX_CHARS — the first that fits, trying depth d down to 0 and at each depth
+// the sizes of PAGE_SIZES in turn, with `depth_reduced_to` when the depth was
+// lowered. Each node's detail is built and serialised once, and each
+// candidate's length is added up from those, not by building and
+// serialising the candidate: a Worker request has 10 ms of CPU (#279).
+// A grouping's node details at PAGE from offset 0, and their subtrees'
+// JSON lengths, kept with its parsed tree file and search file: they depend
+// on nothing else, and are the same for every call on them.
+const detailCaches = new WeakMap();
+
+function detailCache(T, S) {
+  let c = detailCaches.get(T);
+  if (!c || c.S !== S) detailCaches.set(T, (c = { S, flat: new Map(), lengths: new Map() }));
+  return c;
+}
+
+function fittedTree(L, ctx, base, meta, n, d, offset) {
+  const { T, S } = ctx;
+  const { flat, lengths } = detailCache(T, S); // node id -> [detail at PAGE from 0, its JSON length]; `${id}|${depth}` -> JSON length of its subtree
+  const flatOf = (id) => {
+    if (!flat.has(id)) {
+      const x = nodeDetail(L, ctx, T.nodes.get(id), 0, 0);
+      flat.set(id, [x, JSON.stringify(x).length]);
+    }
+    return flat.get(id);
+  };
+  // {…x, below: [c1, …]} is x's JSON without its '}', then ,"below":[…]} .
+  const withBelow = (len, parts) => len - 1 + ',"below":['.length + parts.reduce((a, b) => a + b, 0) + Math.max(0, parts.length - 1) + 2;
+  const subLength = (id, depth) => {
+    const key = `${id}|${depth}`;
+    if (!lengths.has(key)) {
+      const [, len] = flatOf(id);
+      lengths.set(key, depth === 0 ? len : withBelow(len, belowIds(T, T.nodes.get(id), 0, PAGE).map((c) => subLength(c, depth - 1))));
+    }
+    return lengths.get(key);
+  };
+  const subtree = (id, depth) => {
+    const [x] = flatOf(id);
+    return depth === 0 ? x : { ...x, below: belowIds(T, T.nodes.get(id), 0, PAGE).map((c) => subtree(c, depth - 1)) };
+  };
+
+  const top = nodeDetail(L, ctx, n, 0, offset);
+  const tops = new Map(PAGE_SIZES.map((size) => {
+    const x = size === PAGE ? top : cutNode(top, offset, size);
+    return [size, [x, JSON.stringify(x).length]];
+  }));
+  const topLength = (size, k) => {
+    const [, len] = tops.get(size);
+    return k === 0 ? len : withBelow(len, belowIds(T, n, offset, size).map((c) => subLength(c, k - 1)));
+  };
+  const frame = JSON.stringify({ ...base, node: 0, about: meta }).length - 1;
+  const reduced = (k) => (k < d ? ',"depth_reduced_to":'.length + String(k).length : 0);
+
+  let size;
+  let k;
+  for (k = d; k >= 0; k--) {
+    size = PAGE_SIZES.find((s) => frame + topLength(s, k) <= MAX_CHARS) ?? PAGE_SIZES[PAGE_SIZES.length - 1];
+    if (frame + topLength(size, k) + reduced(k) <= MAX_CHARS) break;
   }
+  if (k < 0) k = 0;
+  const [x] = tops.get(size);
+  const node = k === 0 ? x : { ...x, below: belowIds(T, n, offset, size).map((c) => subtree(c, k - 1)) };
+  const result = { ...base, node, about: meta };
+  if (k < d) result.depth_reduced_to = k;
   return result;
 }
 
@@ -441,7 +538,7 @@ export async function getEntity(L, { entity, graph, offset = 0 }) {
     const claims = await Promise.all(claimIds.map((c) => L.entity(c).catch(() => null)));
     return statementEntity(L, e, views, searches, meta, claims.filter(Boolean));
   }
-  if (e.type === 'concept') return fitted((size) => conceptEntity(L, e, views, searches, meta, offset, size));
+  if (e.type === 'concept') return fitted(conceptEntity(L, e, views, searches, meta, offset, PAGE), (x, size) => cutConcept(x, offset, size));
   if (e.type === 'claim') return claimEntity(L, e, views, searches, meta);
   throw new InputError(`${id} is a ${e.type}; this tool reads a recommendation, a concept or a claim`);
 }
@@ -586,6 +683,29 @@ function conceptEntity(L, e, views, searches, meta, offset, size) {
   };
   if (next !== null) out.next_offset = next;
   return out;
+}
+
+// A concept's result at a smaller page size, cut from the one built at PAGE
+// (see cutNode). Keys keep their order.
+function cutConcept(out, offset, size) {
+  const start = Math.max(0, offset | 0);
+  let next = null;
+  const track = (total) => {
+    if (start + size < total) next = next === null ? start + size : Math.min(next, start + size);
+  };
+  const graphs = out.graphs.map((g) => {
+    const c = { ...g };
+    for (const k of ['held_by', 'own', 'general'])
+      if (g[k]) {
+        track(g[`${k}_total`]);
+        c[k] = g[k].slice(0, size);
+      }
+    return c;
+  });
+  const cut = { ...out, graphs };
+  if (next !== null) cut.next_offset = next;
+  else delete cut.next_offset;
+  return cut;
 }
 
 // A concept's references, by place only: their quotes are provenance's.
