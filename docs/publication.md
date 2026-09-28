@@ -11,9 +11,10 @@
 > generally, for a view that declares one (§3), and the deploy workflow with one
 > preview per open pull request (§6), and the machine-readable site of §8 (Layer 0:
 > `index.json`, `llms.txt`, a tree file per grouping, a per-view file and a search
-> file per view, §2 and §4). Designed, not built: the rest of the pool in programs
-> and assistants — a read-only server and a view inside a conversation (§8, which
-> carries each layer's status). Not built and not
+> file per view, §2 and §4), and the read-only server's tools (§8, Layer 1: `mcp/`).
+> Designed, not built: the rest of the pool in programs and assistants — the
+> server's hosted endpoint and a view inside a conversation (§8, which carries each
+> layer's status). Not built and not
 > registered: cuts (§7), pathway views, and everything under §9. The
 > domain `graph.med` points at GitHub Pages. This document fixes what the site is *meant*
 > to be so that the build is written to it, not the other way round. It is the
@@ -969,13 +970,15 @@ cut-publication).
 
 ## 8. The pool in programs and assistants
 
-> **Status: Layer 0 built; Layers 1 and 2 designed, not built.** Each layer's status
-> changes here when the card that builds it lands.
+> **Status: Layer 0 built; Layer 1's tools built, its hosted endpoint designed, not
+> built; Layer 2 designed, not built.** Each layer's status changes here when the card
+> that builds it lands.
 >
 > | Layer | Status | Built by |
 > |---|---|---|
 > | 0 — the machine-readable site | built: index, `llms.txt`, tree files, per-view file, search file (§2, §4); entity JSON with `meta`, a concept's `statements` and `appears_in` (§4) | #270 (with #269) |
-> | 1 — the read-only server, a hosted endpoint | designed, not built | #272 (the tools), #279 (the Worker) |
+> | 1 — the read-only server: its six tools, a server factory in `mcp/` | built: tools, description file (`mcp/src/descriptions.js`), quote gate, paging, the check (`CLAUDE.md` "Checks") | #272 |
+> | 1 — the read-only server, hosted | designed, not built; the one way the server is reached (2026-09-28) | #279 |
 > | 2 — the inline view | designed, not built | #278 (with #276, #277) |
 >
 > This section is the design; the keys and URLs it relies on are §2's and §4's, the
@@ -1327,7 +1330,9 @@ the "first citation of a view" that `cut-publication` waits for.
 ### Where the server runs
 
 **Hosted, in the MVP: Cloudflare Workers, behind one firewall rule.** The server runs
-only as a hosted endpoint (above, "Where this departs from the plan"). The plan:
+only as a hosted endpoint (above, "Where this departs from the plan"). The tools
+are built as a server factory in `mcp/` with no entry point of its own (#272); the
+endpoint wraps it. The plan:
 "Later the same code runs as a remote endpoint on a small function host, which
 claude.ai web and mobile need. GitHub Pages cannot host it, because the protocol
 needs an endpoint that answers POST requests." The host is Cloudflare Workers, which
