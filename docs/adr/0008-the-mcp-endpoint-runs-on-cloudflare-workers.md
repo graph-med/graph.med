@@ -33,15 +33,18 @@ every call of the server's check, over the local build and over
 profiler ran on the Worker's isolate. The profiler's own work is counted, so
 the figures are upper bounds:
 
-- A warm request costs about 2 ms of CPU at the median.
-- The first request of a fresh isolate costs about 20–30 ms. The first search
-  costs about 15–20 ms, because it parses the search files.
-- A get tree node call with a depth near a large grouping's root costs more
-  than 10 ms, even warm. The highest profiles were 50–70 ms. Timed without the
-  profiler, the heaviest such call took about 30 ms longer than the same call
-  without a depth. The tool builds such a result up to three times, at
-  shrinking page sizes, until it fits its size bound (`mcp/src/tools.js`,
-  `fitted`).
+- A warm request costs about 1.2–1.4 ms of CPU at the median, 2.4–2.7 ms at the
+  95th percentile, over every call of the check.
+- The first request of a fresh isolate costs about 20–30 ms, most of it the
+  runtime compiling code on first use. The first search costs about 15–20 ms,
+  because it parses the search files.
+- A get tree node call with a depth near a large grouping's root once cost
+  50–70 ms, because the tool built such a result up to three times until it
+  fitted its size bound. #272 now builds each result once, sized in advance, and
+  keeps each node's detail and each tool's schema per isolate. The heaviest such
+  call (depth 3 at a large root) now costs about 3.5–4 ms. Of about 3,160 warm
+  calls, 4–8 exceeded 10 ms, each a one-off that a replay did not repeat (at most
+  6.8 ms over 20 replays).
 - Start-up (`wrangler check startup`) is about 65 ms active.
 - No request makes more than 3 subrequests (the runtime's own trace; the limit
   is 50).
@@ -118,17 +121,16 @@ the figures are upper bounds:
   mobile by URL, Cowork). Claude Code and other programs that run MCP servers
   locally read Layer 0 (`llms.txt`) instead, since the sandbox and every
   machine outside the range are blocked.
-- On Workers Free, two kinds of request run over the 10 ms: the first request
-  of each new isolate, and a get tree node call with a depth near a large
-  grouping's root. Cloudflare tolerates an infrequent overrun per isolate, but
-  terminates a Worker that hits the limit consistently (Error 1102,
-  `exceededCpu` in its metrics). The first kind is infrequent by nature. The
-  second depends on how often a model asks for a deep subtree. The remedies:
+- On Workers Free, the request that runs over the 10 ms is the first one of each
+  new isolate (about 20–30 ms); a warm call exceeds it only as a rare one-off.
+  Cloudflare tolerates an infrequent overrun per isolate, but terminates a Worker
+  that hits the limit consistently (Error 1102, `exceededCpu` in its metrics).
+  A cold start is infrequent by nature. If the metrics show `exceededCpu`
+  anyway, the remedies are:
   - Workers Paid: $5 a month, 30 s of CPU by default;
-  - a lighter tool: #272's tool code, outside this record — a depth bounded by
-    the size of the subtree, or a result built once;
-  - a lighter request: the server builds an `McpServer` with its six tools and
-    their zod schemas on every request.
+  - a lighter request: the server still builds an `McpServer` with its six tools
+    on every request, because `createMcpHandler` calls the factory per request
+    and one server serves one transport at a time.
 
 - Unknown until a person settles it (`docs/publication.md` §8): whether requests
   the rule blocks count against the 100,000 a day of Workers Free. Until then
