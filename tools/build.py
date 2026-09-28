@@ -18,7 +18,10 @@ claims' sections, docs/publication.md §3), with a detail section beside or belo
 theirs — one question, one answer per view, each a box naming its guideline (drawn in the
 browser by assets/home.js) — over one entry per view in its sheet: its source's title,
 register number and licence line, and what it holds; every entity becomes
-<namespace>/<entity-id>/index.html and <namespace>/<entity-id>.json; the schema is copied to schema/schema.yaml. Every
+<namespace>/<entity-id>/index.html and <namespace>/<entity-id>.json; the schema is copied to schema/schema.yaml. For
+programs (docs/publication.md §4 "Files for programs"): index.json and llms.txt at the root, and per view a tree file
+per grouping (<view-id>/trees/<axis>.json), the view without content (<view-id>/view.json) and a search file
+(<view-id>/search.json), none with a claim sentence or a quote. Every
 page carries Open Graph and Twitter Card tags with absolute URLs — the origin is https://<cname> when --cname is given, else the site's
 domain, and --origin overrides both — and the one committed preview image
 (tools/site/static/social-card.png, rendered from logo.svg). Offline, deterministic,
@@ -49,6 +52,8 @@ SITE = "https://graph.med"   # the origin of the published site and its previews
 # the repository's licence as README "License" names it: the page footer shows it and every entity JSON carries it
 # as `meta.repository_license` (docs/publication.md §4) — the repository's, with no claim about what it covers
 REPOSITORY_LICENSE = "PolyForm Noncommercial 1.0.0"
+CONTRACT = f"{REPO}/blob/main/docs/publication.md#4-entity-pages-and-json"   # where the JSON's keys are described
+REGISTER_FIELDS = ("awmf_register",)   # the schema's register fields of a source, carried by index.json as recorded
 
 CLAIM_EDGES = ("supports", "contests")   # how a claim bears on a statement (spec §5)
 STATEMENT_EDGES = ("specializes", "complements", "conflicts")
@@ -883,17 +888,21 @@ def groupings_of(view: dict, members: dict[str, dict], pool: Pool, scope: dict |
                  "facets": [members[v]["facet"]] if members.get(v, {}).get("facet") else [],
                  "statements": [st for st in statements if v in fillers(st, slot, pool.slots_of(st))]} for v in axis["values"]]
 
+    # each grouping's kind and short label are set here, by the code path that builds it — an axis's `carrier`
+    # and `short_label`, `outline` for the chapters, `hierarchy` for patient groups without an axis, drawn by the
+    # hierarchy code with nothing to fold (or the scope tree) — read by the files for programs, not by the page
     first = tree_axis(view, pool)
-    head = {"axis": first["id"], "label": first["label"], "lang": first["lang"]} if first else {"axis": "", "label": words["plain"], "lang": lang}
+    head = {"axis": first["id"], "label": first["label"], "lang": first["lang"], "kind": first["carrier"], "short_label": first.get("short_label")} \
+        if first else {"axis": "", "label": words["plain"], "lang": lang, "kind": "hierarchy", "short_label": None}
     rows = [{**head, **decision_tree_of(view, members, pool, scope=scope)},
-            {"axis": CHAPTERS, "label": words["chapter"], "lang": lang,
+            {"axis": CHAPTERS, "label": words["chapter"], "lang": lang, "kind": "outline", "short_label": None,
              **decision_tree_of(view, members, pool, question=(f"q:{view['id']}:{CHAPTERS}", words["section"]), partition=by_section(), scope=scope)}]
     for aid in (view.get("group_by") or [])[1 if first else 0:]:
         axis = pool.entities[aid]
         asked = axis.get("question") or words["axis"].format(label=axis.get("short_label") or axis["label"])   # the axis's own, else the table's form
         tree = (decision_tree_of(view, members, pool, question=(f"q:{view['id']}:{axis['slot']}", asked), partition=by_slot(axis), scope=scope)
                 if axis["carrier"] == "dimension" else decision_tree_of(view, members, pool, hierarchy_axis=axis))
-        rows.append({"axis": aid, "label": axis["label"], "lang": axis["lang"], **tree})
+        rows.append({"axis": aid, "label": axis["label"], "lang": axis["lang"], "kind": axis["carrier"], "short_label": axis.get("short_label"), **tree})
     return rows
 
 
@@ -914,6 +923,91 @@ def appearances(groupings: list[dict]) -> dict[str, dict[str, list[str]]]:
             for r in dict.fromkeys(([n["ref"]] if n.get("ref") else []) + led.get(n["id"], [])):
                 rows[r].setdefault(g["axis"], []).append(n["id"])
     return rows
+
+
+# ── the files for programs (docs/publication.md §2, §4 "Files for programs", §8 Layer 0) ─────────────────
+# Read from the groupings as the page draws them, by the tree's shape alone: node types, edge kinds, `ref`
+# and `refs` — never which grouping comes first, a slot or a question's words.
+
+LEAN_NODE = ("id", "ref", "type", "label", "lang", "direction", "grade", "verb", "no", "sections", "facets",
+             "group", "general", "against", "contested")   # a node minus its content: no `text`, no `full`
+LEAN_EDGE = ("from", "to", "kind", "label", "refs")          # an edge minus its `text`
+DRAWN = ("axis", "label", "lang", "nodes", "edges")           # what the view JSON and the page carry of a grouping
+PLAIN = "plain"   # the tree file of a grouping no axis stands behind (`axis` ""), beside `section` and `axes/<id>`
+
+
+def lean(row: dict, keys: tuple[str, ...]) -> dict:
+    return {k: row[k] for k in keys if k in row}
+
+
+def tree_path(axis: str) -> str:
+    """Where a grouping's tree file lies inside its view's directory: `trees/<axis>.json` — `trees/axes/<id>.json`
+    for an axis, `trees/section.json` for the chapters — and `trees/plain.json` for a grouping without an axis.
+    No reader derives it: the index gives each file's URL."""
+    return f"trees/{axis or PLAIN}.json"
+
+
+def root_question(g: dict) -> dict | None:
+    """The question a grouping's root asks: the question node its root's `flow` edge leads to."""
+    nodes = {n["id"]: n for n in g["nodes"]}
+    roots = {n["id"] for n in g["nodes"] if n["type"] == "root"}
+    q = next((nodes[e["to"]] for e in g["edges"] if e["from"] in roots and e["kind"] == "flow"
+              and nodes.get(e["to"], {}).get("type") == "question"), None)
+    return {"label": q["label"], "lang": q["lang"]} if q else None
+
+
+def grouping_entry(g: dict, first: bool, tree_url: str) -> dict:
+    """A grouping as the index and the per-view file list it: its id (`axis`), words, kind, whether the page
+    opens with it, the question its root asks and its tree file's URL."""
+    return {"axis": g["axis"], "label": g["label"], "short_label": g.get("short_label"), "lang": g["lang"],
+            "kind": g["kind"], "default": first, "question": root_question(g), "tree": tree_url}
+
+
+def tree_file(view_id: str, g: dict, commit: str) -> dict:
+    """One grouping's tree file: its axis, words, kind and language, its nodes and edges minus content."""
+    return {"view": view_id, "commit": commit, **{k: g.get(k) for k in ("axis", "label", "short_label", "kind", "lang")},
+            "nodes": [lean(n, LEAN_NODE) for n in g["nodes"]], "edges": [lean(e, LEAN_EDGE) for e in g["edges"]]}
+
+
+def search_file(view_id: str, commit: str, statements: list[dict], filled_of, groupings: list[dict],
+                entities: dict[str, dict], scope: dict | None) -> dict:
+    """A view's search file: one entry per statement, by the words its box shows and its slot concepts, with the
+    direction, grade and verb its box carries in the tree; one per concept its statements hold in a slot, a node or
+    answer of any grouping names, or its scope tree has as root, by label and short label, with the slots it holds
+    and, in a view with a scope tree, the statements that apply generally to it as `scope.concepts` gives them. Ids
+    and modelling words only: no claim sentence, no quote, no card, no rule."""
+    box: dict[str, dict] = {}
+    for g in groupings:
+        for n in g["nodes"]:
+            if n["type"] == "statement":
+                box.setdefault(n["ref"], {k: n.get(k) for k in ("direction", "grade", "verb")})
+    held: dict[str, list[str]] = defaultdict(list)   # concept → the slots it holds in the view's statements
+    entries = []
+    for st in sorted(statements, key=lambda s: s["id"]):
+        slots: dict[str, list[str]] = defaultdict(list)
+        for slot, cid in filled_of(st):
+            slots[slot].append(cid)
+            if slot not in held[cid]:
+                held[cid].append(slot)
+        if st["id"] not in box:
+            raise SystemExit(f"{view_id}: {st['id']} is in no grouping")
+        words = {"short_label": st["short_label"]} if st.get("short_label") else {"label": st["label"]}
+        entries.append({"id": st["id"], "kind": "statement", "lang": st["lang"], **words, "slots": dict(slots), **box[st["id"]]})
+    named = set(held) | {n["ref"] for g in groupings for n in g["nodes"] if n.get("ref")} \
+        | {r for g in groupings for e in g["edges"] for r in e.get("refs", [])} | ({scope["root"]} if scope else set())
+    for cid in sorted(named):
+        c = entities.get(cid)
+        if c is not None and c.get("type") != "concept":
+            continue   # a node's statement or source
+        row = {"id": cid, "kind": "concept"}
+        if c is not None:   # a reference outside the pool (a terminology not imported) stays its id
+            row.update({"lang": c["lang"], "label": c["label"], **({"short_label": c["short_label"]} if c.get("short_label") else {})})
+        row["slots"] = held.get(cid, [])
+        general = (scope["concepts"].get(cid) or {}).get("general") if scope else None
+        if general:
+            row["general"] = general
+        entries.append(row)
+    return {"view": view_id, "commit": commit, "entries": entries}
 
 
 def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question: tuple[str, str] | None = None,
@@ -1373,6 +1467,8 @@ def main(argv=None) -> int:
             return {"kind": "document", "url": ent.get("url"), "content_hash": ent.get("content_hash")}
         if t == "axis":
             return {"kind": "modelling", "proposed_by": ent.get("proposed_by")}
+        if t == "view":   # a filter over the pool, written by its authors; it carries no `source`
+            return {"kind": "modelling"}
         row = {"kind": kind_of(ent.get("source")), "source": ent.get("source")}
         if t == "statement":
             for edge in CLAIM_EDGES:
@@ -1388,9 +1484,10 @@ def main(argv=None) -> int:
         URLs, the views it belongs to, the sources whose words it carries with their licence lines as recorded, the
         repository's licence, the review status, its provenance, the build commit and the schema version."""
         eid = ent["id"]
+        urls = view_at(eid) if ent["type"] == "view" else {"url": at(eid + "/"), "json": at(eid + ".json")}   # a view lives at the root (§2)
         views = [{**view_at(e["view"]), "status": e["status"], "since": e["since"]} for e in ent.get("views") or []] \
             if ent["type"] == "axis" else [view_at(vid) for vid in views_of.get(eid, [])]   # an axis names its views itself
-        return {"url": at(eid + "/"), "json": at(eid + ".json"), "views": views,
+        return {"url": urls["url"], "json": urls["json"], "views": views,
                 "sources": [{"id": s, "json": at(s + ".json"), "license": pool.entities[s].get("license")} for s in sources_named(doc)],
                 "repository_license": REPOSITORY_LICENSE,
                 "review": "pending",   # the build's own token (card_of, `beleg`): nothing is reviewed until an attestation is read
@@ -1423,6 +1520,7 @@ def main(argv=None) -> int:
         (out / (eid + ".json")).write_text(dumps({**doc, "meta": meta_of(ent, doc)}), encoding="utf-8")
 
     views = []
+    machine = []   # each view's entry in index.json
     view_tpl = env.get_template("view.html")
     page = page_words(PAGE_LANG)
     for view in sorted(pool.of_type("view"), key=lambda v: v["id"]):
@@ -1439,7 +1537,8 @@ def main(argv=None) -> int:
         outline = [{"source": s["id"], **e} for s in sources for e in s.get("outline") or []
                    if not sec or s["id"] != sec["source"] or under(str(sec["under"]), e.get("section"))]   # spec §6.7; a chapter is a filter, never a node
         data = {"id": view["id"], "title": title, "sources": [s["id"] for s in sources], "commit": commit, "outline": outline,
-                "facets": sorted({f for g in groupings for n in g["nodes"] for f in n.get("facets", [])}), "groupings": groupings,
+                "facets": sorted({f for g in groupings for n in g["nodes"] for f in n.get("facets", [])}),
+                "groupings": [{k: g[k] for k in DRAWN} for g in groupings],   # a grouping's kind and short label are the files' for programs
                 "html": {r: detail_tpl.render(**details(pool.entities[r])) for r in sorted(refs) if r in pool.entities},
                 # every concept the view's statements hold, derived or stated, with its rule — the keys of a card's row (zone 5)
                 "concepts": {cid: derivation_of(pool, cid) for m in members.values() if m["type"] == "statement"
@@ -1459,9 +1558,39 @@ def main(argv=None) -> int:
         views.append({"id": view["id"], "vid": vid, "title": title, "lang": sources[0].get("lang") if len(sources) == 1 else None, "sources": sources,
                       "holds": {"statement": counts["statement"], "group": groups, "claim": counts["claim"]}, "path": index_path(sources, page)})
 
+        # the files for programs (docs/publication.md §4 "Files for programs"): a tree file per grouping, the
+        # per-view file — the view JSON minus content and minus its groupings, which it lists by their tree
+        # files, so nothing is published twice — and the search file; each from the groupings above
+        paths = [tree_path(g["axis"]) for g in groupings]
+        if len(set(paths)) != len(paths):
+            raise SystemExit(f"{view['id']}: two groupings share a tree file ({paths})")
+        entries = [grouping_entry(g, i == 0, at(f"{vid}/{path}")) for i, (g, path) in enumerate(zip(groupings, paths))]
+        for g, path in zip(groupings, paths):
+            (out / vid / path).parent.mkdir(parents=True, exist_ok=True)
+            (out / vid / path).write_text(dumps(tree_file(view["id"], g, commit)), encoding="utf-8")
+        lean_doc = {k: data[k] for k in ("id", "title", "sources", "commit", "outline", "facets", "legend", "scope") if k in data}
+        lean_doc["groupings"] = entries
+        (out / vid / "view.json").write_text(dumps({**lean_doc, "meta": meta_of(view, lean_doc)}), encoding="utf-8")
+        (out / vid / "search.json").write_text(dumps(search_file(view["id"], commit, [m for m in members.values() if m["type"] == "statement"],
+                                                                 pool.filled, groupings, pool.entities, scope)), encoding="utf-8")
+        machine.append({"id": view["id"], "title": title, "lang": views[-1]["lang"], **view_at(view["id"]),
+                        "lean": at(f"{vid}/view.json"), "search": at(f"{vid}/search.json"), "groupings": entries,
+                        "root": {"id": scope["root"], "json": at(scope["root"] + ".json")} if scope else None,
+                        "holds": views[-1]["holds"],
+                        "sources": [{**{k: s[k] for k in ("id", "title", "lang", "url", "license", *REGISTER_FIELDS) if k in s},
+                                     "page": at(s["id"] + "/"), "json": at(s["id"] + ".json")} for s in sources]})
+
     # the index: the only page where the views meet — one question, a box and an entry per view, the box drawn by
     # assets/home.js from the entry; its words are the page chrome's (tools/site/words/)
     (out / "index.html").write_text(env.get_template("index.html").render(views=views, page=page, page_lang=PAGE_LANG), encoding="utf-8")
+    # the index for programs and its description (docs/publication.md §2, §4): every view with its files and groupings,
+    # at the root of the site and of every preview; llms.txt describes, in English, and instructs nothing
+    index = {"commit": commit, "schema": {"version": schema.get("x-version"), "url": at("schema/schema.yaml")},
+             "repository_license": REPOSITORY_LICENSE, "contract": CONTRACT, "llms_txt": at("llms.txt"), "views": machine}
+    (out / "index.json").write_text(dumps(index), encoding="utf-8")
+    (out / "llms.txt").write_text(env.get_template("llms.txt").render(
+        index=index, index_url=at("index.json"), site=at(""), cards=list(CARD_QUESTIONS), directions=list(DIRECTION_GLYPH),
+        plain=PLAIN, chapters=CHAPTERS, lean_node=LEAN_NODE, lean_edge=LEAN_EDGE), encoding="utf-8")
     print(f"built {len(views)} view(s) and {len(pool.entities) - len(views)} entity pages into {out.relative_to(ROOT) if out.is_relative_to(ROOT) else out} (base {base}{', preview of pull request ' + str(args.preview) if args.preview else ''})")
     return 0
 
