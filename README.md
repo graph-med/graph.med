@@ -397,7 +397,12 @@ JSON document per entity, read on a phone first — as designed in
 cite it and walk on: its absolute URLs, the views it belongs to, the licence line of
 each source it quotes, its review status and provenance, and for a concept the
 recommendations that hold it and the nodes where it appears in each of a view's
-groupings (`meta`, `statements`, `appears_in`; §4 there). The tree is drawn by Cytoscape.js with the dagre layout,
+groupings (`meta`, `statements`, `appears_in`; §4 there). Beside the pages it writes
+files for programs: `index.json` (every view with its groupings and files) and
+`llms.txt`, which describes them, at the root, and per view a tree file for each
+grouping (`<view-id>/trees/…`), the view without content (`<view-id>/view.json`) and a
+search file (`<view-id>/search.json`) — none of them holds a claim sentence or a quote
+(§2 and §4 there). The tree is drawn by Cytoscape.js with the dagre layout,
 vendored under `tools/site/static/vendor/` (MIT, pinned; see its `LICENSES.md`). The command is in [`CLAUDE.md`](CLAUDE.md) under "Build"; run
 it locally and open `site/index.html`. Deployment to GitHub Pages is a workflow, and
 like every workflow file it is committed by a person (see "Checks"). The same

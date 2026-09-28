@@ -61,7 +61,10 @@ into `site/` (gitignored): one graph page and one JSON per view, one page and on
 JSON per entity, the schema at its `$id`. Every entity JSON carries `meta` (its
 absolute URLs, its views, its sources' licence lines, review status, provenance,
 commit), a concept's also its `statements` per view and where it `appears_in` each
-grouping (`docs/publication.md` §4). Offline and deterministic; two seconds.
+grouping (`docs/publication.md` §4). For programs it also writes `index.json` and
+`llms.txt` at the root, and per view a tree file per grouping
+(`<view-id>/trees/<axis>.json`), the view without content (`<view-id>/view.json`) and a
+search file (`<view-id>/search.json`) (§2, §4 there). Offline and deterministic; two seconds.
 
 ```bash
 uv run tools/build.py                       # site/ for graph.med (base path /)
