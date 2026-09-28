@@ -1766,7 +1766,9 @@ No inference semantics are assumed: relations are asserted, not entailed.
   they are medically sensitive and will be settled against real content.
 - **Export projections.** FHIR, RDF, diagram formats — generated from the
   data, never authored. The website is the first such projection; its design
-  is `docs/publication.md`.
+  is `docs/publication.md`. The projections for programs and assistants — a
+  machine-readable site, a read-only server a chat assistant calls, and a view
+  drawn inside the conversation — are designed in `docs/publication.md` §8.
 
 ---
 
