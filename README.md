@@ -368,13 +368,15 @@ them, read by humans and agents alike. Python tooling is managed with
 [`uv`](https://docs.astral.sh/uv/) (`pyproject.toml`, `uv.lock`); never pip.
 
 The read-only MCP server in `mcp/` (`docs/publication.md` §8) has a check of its
-own: a scripted MCP client that walks every graph the site's index lists, and every
-grouping of each, through the server's tools, and compares what they return with the
+own: scripted MCP clients walk every graph the site's index lists, and every
+grouping of each, through the server's tools, and compare what they return with the
 files they read — among other things that no result but provenance carries a quote of
-a source. Its commands are in [`CLAUDE.md`](CLAUDE.md) under "Checks" as well. The
-server is JavaScript on Node, its dependencies pinned with npm in `mcp/` (ADR-0007),
-and it is reached only through a hosted endpoint, which does not exist yet (#279).
-No workflow runs it.
+a source. The same check runs the server as the Worker it is deployed as, in
+Workers' local runtime (`wrangler dev`, no Cloudflare account needed), and measures
+the requests and CPU time each call costs there. Its commands are in
+[`CLAUDE.md`](CLAUDE.md) under "Checks" as well. The server is JavaScript on Node,
+its dependencies pinned with npm in `mcp/` (ADR-0007), and it runs as a Cloudflare
+Worker (ADR-0008; see "graph.med in Claude" below). No workflow runs its check yet.
 
 CI runs the same validator (`.github/workflows/validate.yml`) on every pull request —
 including every push to an open pull request — and on every push to `main`, as two
@@ -419,6 +421,31 @@ workflow serves every open pull request at `graph.med/preview/pr<N>/`, built fro
 the pull request's head once its checks have run, so that a change to a page is
 reviewed as the page it produces; a preview says which pull request it is and asks
 not to be indexed.
+
+## graph.med in Claude
+
+graph.med reaches Claude as a **custom connector**: the read-only MCP server in
+`mcp/`, hosted as a Cloudflare Worker (ADR-0008). Its tools list the graphs,
+walk their groupings, search, and read an entity or the verbatim passages behind
+it. Every result cites graph.med URLs and carries the licence and review status.
+**It is not deployed yet.** A person first opens the Cloudflare account, moves the
+DNS, sets the firewall rule and commits the deploy workflow (card #279). Its URL
+will be `https://mcp.graph.med/mcp`; the host name is confirmed when the deploy
+lands.
+
+Once it is deployed, add it in claude.ai under **Customize > Connectors > Add
+custom connector**. Enter that URL, and choose **No sign-in** for authentication:
+the endpoint needs no account and no key. On the Free plan this is the one custom
+connector the plan allows. On Team and Enterprise an Owner adds it under
+**Organization settings > Connectors**. Claude Desktop uses the same connector,
+and it appears in the mobile apps once it has been added on the web or in Desktop.
+
+The endpoint answers only Anthropic's platform: a firewall rule lets through
+requests from Anthropic's outbound range (`160.79.104.0/21`) and blocks every
+other. Claude Code, which connects from your own machine, and other programs that
+run MCP servers locally are therefore blocked. They read the same data as files
+instead: [`https://graph.med/llms.txt`](https://graph.med/llms.txt) describes
+them, starting from `index.json`.
 
 ## Source documents
 
