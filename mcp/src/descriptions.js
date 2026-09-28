@@ -21,13 +21,13 @@ export const about = {
   review:
     "Review status as the site publishes it; 'pending' means no clinical review has been recorded.",
   verbatim:
-    'Holds no verbatim source text; the provenance tool returns it, short and with its link into the source.',
+    "Holds no verbatim source text; the provenance tool returns it: each claim's sentence, and short quotes, with their links into the source.",
   graphProvenance: 'A graph is a view: a filter over the pool its authors write.',
   searchProvenance: "Labels are the site's modelling words; grades and verbs are the guideline's own.",
   places: 'The entity stands at several nodes of this grouping; each node id selects one.',
   wordingWithheld: 'The wording carries source text word for word; the provenance tool returns source text.',
   verbatimProvenance:
-    'Holds verbatim source text: quotes of at most the stated number of characters, each with its link into the source or its page.',
+    "Holds verbatim source text: each claim's sentence whole, as graph.med's pages show it, and quotes of at most the stated number of characters; each with its link into the source or its page.",
 };
 
 export const tools = {
@@ -83,7 +83,7 @@ export const tools = {
   get_provenance: {
     title: 'Get provenance',
     description:
-      "Returns where a claim, a recommendation or a concept comes from in its source: the only tool that returns verbatim source text. Each quote is short (capped, marked when shortened) and comes with its page and its link into the source document at its publisher, with the source's licence line. For a recommendation, the quotes of the claims it rests on.",
+      "Returns where a claim, a recommendation or a concept comes from in its source: the only tool that returns verbatim source text. The sentence of each claim involved, whole, as graph.med's pages show it; and the quotes that anchor them, each short (capped, marked when shortened). Each comes with its page and its link into the source document at its publisher, with the source's licence line. For a recommendation, the sentences and quotes of the claims it rests on.",
     args: {
       entity: 'The id or URL of a claim, a recommendation or a concept.',
       graph: 'Optional: the graph (id or page URL) to keep to.',

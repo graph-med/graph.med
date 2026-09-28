@@ -845,6 +845,31 @@ function quotesIn(obj, path = []) {
   return out;
 }
 
+// Every claim sentence an entity carries, as the site shows it: each object
+// outside its `meta` and `edges` that names a claim (`id`) with its `label`,
+// the claim itself included, in the order first met; its page and link from
+// wherever the entity gives them for that claim. Whole, never capped (the
+// maintainer, 2026-09-28: the site publishes every claim's sentence).
+function claimSentences(e) {
+  const found = new Map();
+  const note = (id, o) => {
+    const f = found.get(id) || { sentence: null, lang: null, page: null, at: null, link: null };
+    if (!f.sentence && typeof o.label === 'string' && o.label) Object.assign(f, { sentence: o.label, lang: o.lang ?? null });
+    if (!f.page) f.page = o.page ?? pageOf(o.at) ?? null;
+    if (!f.at && o.at) f.at = o.at;
+    if (!f.link && o.link) f.link = o.link;
+    found.set(id, f);
+  };
+  if (e.type === 'claim') note(e.id, { label: e.label, lang: e.lang, at: e.source?.at, link: e.meta?.provenance?.link });
+  (function walk(o, top) {
+    if (Array.isArray(o)) return o.forEach((x) => walk(x, false));
+    if (!o || typeof o !== 'object') return;
+    if (!top && typeof o.id === 'string' && o.id.startsWith('claims/')) note(o.id, o);
+    for (const [k, v] of Object.entries(o)) if (!(top && (k === 'meta' || k === 'edges'))) walk(v, false);
+  })(e, true);
+  return [...found].filter(([, f]) => f.sentence);
+}
+
 export async function getProvenance(L, { entity, graph }) {
   const id = L.entityId(entity);
   const index = await L.index();
@@ -875,10 +900,23 @@ export async function getProvenance(L, { entity, graph }) {
       ...(!link && src && documents.has(src) ? { document: documents.get(src) } : {}),
     });
   }
+  const sentences = claimSentences(e).map(([id, f]) => {
+    const src = (f.at || '').split('#')[0] || null;
+    return {
+      claim: id,
+      claim_url: L.entityUrl(id),
+      sentence: f.sentence,
+      lang: f.lang,
+      page: f.page,
+      link: f.link,
+      ...(!f.link && src && documents.has(src) ? { document: documents.get(src) } : {}),
+    };
+  });
   return {
     entity: { id: e.id, type: e.type, url: e.meta?.url ?? L.entityUrl(e.id) },
     graphs: views.map(graphRef),
     ...(e.type === 'claim' ? { anchored_at: e.meta?.provenance?.at ?? e.source?.at ?? null } : {}),
+    sentences,
     quotes,
     about: about({ meta: e.meta, repositoryLicense: index.repository_license, verbatim: true }),
   };

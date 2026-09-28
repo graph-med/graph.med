@@ -64,13 +64,15 @@ const zodSchemas = {
 
 const schemas = Object.fromEntries(Object.entries(zodSchemas).map(([k, v]) => [k, convertedOnce(v)]));
 
-// Drops every `quote` key from a result: verbatim source text leaves the
-// server only through the provenance tool, whatever a Layer 0 file carries.
+// Drops every `quote` and `sentence` key from a result: verbatim source text —
+// an anchor quote, capped, or a claim's sentence, whole — leaves the server
+// only through the provenance tool, whatever a Layer 0 file carries.
+const VERBATIM_KEYS = new Set(['quote', 'sentence']);
 function scrub(o) {
   if (Array.isArray(o)) return o.map(scrub);
   if (o && typeof o === 'object') {
     const out = {};
-    for (const [k, v] of Object.entries(o)) if (k !== 'quote') out[k] = scrub(v);
+    for (const [k, v] of Object.entries(o)) if (!VERBATIM_KEYS.has(k)) out[k] = scrub(v);
     return out;
   }
   return o;

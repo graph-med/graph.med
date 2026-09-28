@@ -599,7 +599,8 @@ async function runTarget(target) {
           collectQuotes(cj, quotes);
           C.ok(c.url === cj.meta.url, `get_entity ${e.id}: claim URL ${c.url} ≠ ${cj.meta.url}`);
         }
-        // Provenance: the only verbatim text, capped, each quote with its link.
+        // Provenance: the only verbatim text — each quote capped, each claim's
+        // sentence whole as the site shows it — each with its link or page.
         const p = await call('get_provenance', { entity: e.id, graph: v.id });
         checkAbout(C, 'get_provenance', p.about, true);
         C.ok(p.quotes.length > 0, `get_provenance ${e.id}: no quote`);
@@ -608,9 +609,15 @@ async function runTarget(target) {
           C.ok(!!q.link || (!!q.document && !!q.page), `get_provenance ${e.id}: a quote without link or page`);
           C.count('quotes returned by provenance');
         }
+        const wortlaut = (j.card?.wortlaut || []).map((w) => w.id);
+        C.ok(wortlaut.every((id) => p.sentences.some((x) => x.claim === id)), `get_provenance ${e.id}: a supporting claim's sentence missing`);
+        await checkSentences(C, `get_provenance ${e.id}`, p, raw, base);
         for (const c of r.entity.claims) {
           const pc = await call('get_provenance', { entity: c.id, graph: v.id });
           C.ok(!pc.error && pc.quotes.every((q) => q.quote.length <= QUOTE_CAP), `get_provenance ${c.id}`);
+          if (pc.error) continue;
+          C.ok(pc.sentences.length >= 1 && pc.sentences[0].claim === c.id, `get_provenance ${c.id}: its own sentence missing`);
+          await checkSentences(C, `get_provenance ${c.id}`, pc, raw, base);
         }
       }
     }
@@ -676,11 +683,20 @@ async function runTarget(target) {
   const inLabels = [...quotes].filter((q) => leanAll.some((s) => s.includes(q)));
   const gated = [...quotes].filter((q) => q.length >= 2 && !inLabels.includes(q));
   C.counts['quotes that Layer 0 labels carry (not gated)'] = inLabels.length + (inLabels.length ? ': ' + inLabels.map((q) => JSON.stringify(q)).join(', ') : '');
+  // Provenance is scanned too, without the places verbatim text may stand
+  // there: `quotes` (capped, checked above) and `sentences` (claim sentences,
+  // whole, checked above), each with the link that searches its quote, and a
+  // claim's anchor link in its metadata.
   let scanned = 0;
   for (const [key, text] of resultTexts) {
-    if (key.startsWith('get_provenance')) continue;
+    let result = JSON.parse(text);
+    if (key.startsWith('get_provenance')) {
+      const bare = (list) => (list || []).map(({ quote, sentence, link, ...rest }) => rest);
+      const { link, ...provenance } = result.about?.provenance || {};
+      result = { ...result, quotes: bare(result.quotes), sentences: bare(result.sentences), about: { ...result.about, provenance } };
+    } else C.ok(!text.includes('"sentences"'), `quote gate: ${key} carries claim sentences`);
     scanned++;
-    for (const { s } of strings(JSON.parse(text))) {
+    for (const { s } of strings(result)) {
       if (leanStrings.has(s)) continue;
       for (const q of gated)
         if (s.includes(q) || s.includes(encodeURIComponent(q))) C.fail(`quote gate: ${key} carries ${JSON.stringify(q.slice(0, 40))} in ${JSON.stringify(s.slice(0, 60))}`);
@@ -818,8 +834,22 @@ function checkLink(C, v, axis, link, isMember, anyGrouping = false) {
   if (m[2]) for (const id of m[2].split(',')) C.ok(isMember(id) && !/^[qj]:/.test(id), `link ${link}: ${id} is no entity of ${v.id}`);
 }
 
+// Each claim sentence provenance returns is its claim's `label`, whole, with
+// a link into the source or a page, and each claim once.
+async function checkSentences(C, name, p, raw, base) {
+  C.ok(Array.isArray(p.sentences), `${name}: no sentences`);
+  C.ok(new Set(p.sentences.map((x) => x.claim)).size === p.sentences.length, `${name}: a claim's sentence twice`);
+  for (const x of p.sentences) {
+    const cj = await raw(base + x.claim + '.json');
+    C.ok(x.sentence === cj.label, `${name}: the sentence of ${x.claim} is not its claim's, whole`);
+    C.ok(!!x.link || !!x.page, `${name}: the sentence of ${x.claim} without link or page`);
+    C.count('claim sentences returned by provenance');
+  }
+}
+
 // The pool's quoted strings: every `quote`, and every claim sentence (the
-// gate counts `claim.label`, card #272 option 1). A per-property quote equal
+// gate counts `claim.label`: only provenance returns it, whole — card #272,
+// option 2, the maintainer's answer of 2026-09-28). A per-property quote equal
 // to the value it backs (a grade as printed) is that value, carried as data.
 function collectQuotes(j, quotes) {
   const values = new Set(strings({ grade: j.grade, verb: j.verb, consensus: j.consensus, evidence: j.evidence }).map((x) => x.s.toLowerCase()));
