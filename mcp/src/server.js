@@ -19,7 +19,23 @@ export const VERSION = '0.1.0';
 
 const d = (tool, arg) => words.tools[tool].args[arg];
 
-const schemas = {
+// Each input schema converted to JSON Schema once per isolate, not once per
+// request: the factory builds a server per request, and registering a tool
+// converts its schema (a Worker request has 10 ms of CPU, #279). The wrapper
+// is a Standard Schema with zod's own validation and conversion; the
+// conversion's result is kept per set of options.
+function convertedOnce(schema) {
+  const std = schema['~standard'];
+  const memo = new Map();
+  const once = (io) => (options) => {
+    const key = `${io}|${JSON.stringify(options ?? null)}`;
+    if (!memo.has(key)) memo.set(key, std.jsonSchema[io](options));
+    return memo.get(key);
+  };
+  return { '~standard': { ...std, jsonSchema: { input: once('input'), output: once('output') } } };
+}
+
+const zodSchemas = {
   list_graphs: z.object({ offset: z.number().int().min(0).optional().describe(d('list_graphs', 'offset')) }),
   list_groupings: z.object({ graph: z.string().describe(d('list_groupings', 'graph')) }),
   get_tree_node: z.object({
@@ -45,6 +61,8 @@ const schemas = {
     graph: z.string().optional().describe(d('get_provenance', 'graph')),
   }),
 };
+
+const schemas = Object.fromEntries(Object.entries(zodSchemas).map(([k, v]) => [k, convertedOnce(v)]));
 
 // Drops every `quote` key from a result: verbatim source text leaves the
 // server only through the provenance tool, whatever a Layer 0 file carries.
