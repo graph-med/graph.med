@@ -4,17 +4,18 @@
    assets/vendor/LICENSES.md). Nothing is written here: the graph is read from the page, where the build rendered
    one entry per view in the sheet's home — the question from the canvas's data-question, each box from an entry
    (its data-ref), its lines the entry's [data-box] parts in their order, the first set apart — so that the page
-   reads the same without this script and with a screen reader. Tapping a box selects it as on a view page: the
-   rest fades, and its entry opens alone in the sheet beside or below the graph (on a phone, a peek strip at the
-   bottom edge that carries the entry's link to its graph and raises the rest); tapping the canvas or the question
-   returns the sheet to its home. The keyboard's way to a box is its entry's own control, a toggle beside the link
-   to the graph: pressed, it selects the box; pressed again, it returns the sheet to its home. The tree is
+   reads the same without this script and with a screen reader. Tapping a box, or the answer leading to it, opens
+   its graph at once: the box goes where its entry's link goes. A box is selected — the rest fades, and its entry
+   opens alone in the sheet beside or below the graph (on a phone, a peek strip at the bottom edge that carries the
+   entry's link to its graph and raises the rest) — only by its deep link or from the keyboard: its entry's own
+   control, a toggle beside the link to the graph, selects the box; pressed again, it returns the sheet to its
+   home, as tapping the canvas or the question does. The tree is
    small and always whole, so it is drawn at a size a phone reads: a box takes the width the canvas leaves beside
    the question, within bounds, and the fit never zooms far past that size. */
 (function () {
   "use strict";
   var canvas = document.getElementById("graph"), sheet = document.getElementById("sheet"), main = canvas.closest("main");
-  var home = sheet.innerHTML, entries = {}, cy = null, shown = "";   /* shown: the view whose entry the sheet shows alone, "" for its home */
+  var home = sheet.innerHTML, entries = {}, links = {}, cy = null, shown = "";   /* shown: the view whose entry the sheet shows alone, "" for its home */
   var PAD = 16, QUESTION = { w: 136, h: 96 }, RANK = 40, BOX = { min: 184, max: 300 }, ZOOM = { min: 0.75, max: 1.4 };
 
   function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
@@ -141,14 +142,19 @@
       var alone = entry.cloneNode(true), toggle = alone.querySelector(".entry-select");   /* alone in the sheet, its box is the one selected */
       if (toggle) toggle.setAttribute("aria-pressed", "true");
       entries[ref] = alone.outerHTML;
+      var link = entry.querySelector(".entry-title a"); if (link) links[ref] = link.getAttribute("href");
       elements.push({ data: { id: ref, type: "box", label: lines[0] + (lines.length > 1 ? "\n\n" + lines.slice(1).join("\n") : "") } });
       elements.push({ data: { id: "a:" + ref, source: "q", target: ref } });
     });
     cy = cytoscape({ container: canvas, elements: elements, minZoom: 0.3, maxZoom: 3, boxSelectionEnabled: false, autounselectify: true,
                      style: stylesheet(), layout: { name: "preset" } });
     layout();
-    cy.on("tap", "node[type = 'box']", function (e) { select(e.target.id(), true); });
-    cy.on("tap", "edge", function (e) { select(e.target.target().id(), true); });
+    /* a box, or the answer leading to it, opens its graph: no selection in between */
+    function go(ref) { if (links[ref]) location.href = links[ref]; else select(ref, true); }
+    cy.on("tap", "node[type = 'box']", function (e) { go(e.target.id()); });
+    cy.on("tap", "edge", function (e) { go(e.target.target().id()); });
+    cy.on("mouseover", "node[type = 'box'], edge", function () { canvas.style.cursor = "pointer"; });
+    cy.on("mouseout", "node[type = 'box'], edge", function () { canvas.style.cursor = ""; });
     cy.on("tap", function (e) { if (e.target === cy || e.target.data("type") === "question") select(null, true); });
     /* a new width (a phone turned) gives the boxes another width: restyle, lay out and fit again */
     var width = canvas.clientWidth, pending = null;

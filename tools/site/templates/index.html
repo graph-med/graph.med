@@ -4,12 +4,18 @@
    drawn by assets/home.js with the view page's renderer. The graph is read from this page: the sheet's home holds one
    entry per view (its `data-ref` the box, its `data-box` parts the box's lines in their order), so the page reads the
    same without the script and with a screen reader, and a tapped box shows its entry alone; each entry's toggle
-   selects its box from the keyboard (shown only where the graph is drawn). Every word the page adds
-   is the page chrome's, from the view layer's table (tools/site/words/); every other word is the data's, in its own
-   language: the source's title as printed, its register number, its licence. #}
+   selects its box from the keyboard (shown only where the graph is drawn). What the page says about graph.med
+   itself — its title, heading and lead — is English, like the header, the footer and the banner, and bound to no
+   kind of source; every other word the page adds is the page chrome's, from the view layer's table
+   (tools/site/words/); every other word is the data's, in its own language: the source's title as printed, its
+   register number, its licence. #}
 {% set W = page.index %}
-{% block title %}{{ W.title }}{% endblock %}
-{% block description %}{{ W.lead }}{% endblock %}
+{% set heading = "An open collaborative medical knowledge graph" %}
+{% set lead = "Passages from medical sources, anchored to the wording of their source, linked into recommendations and concepts, and drawn as graphs. Every identifier on this site resolves, and every quote leads to the page it was taken from." %}
+{% block title %}graph.med — {{ heading[:1] | lower }}{{ heading[1:] }}{% endblock %}
+{% block description %}{{ lead }}{% endblock %}
+{# the banner (docs/publication.md §2): what the site is not, and how its content came about #}
+{% block banner %}<div class="disclaimer" role="note">graph.med is not a medical device under the EU Medical Device Regulation (MDR). Its information was retrieved with the help of AI, and it includes AI-generated content.</div>{% endblock %}
 {% block mainclass %}view home{% endblock %}
 {# a page that can run the script says so before it is painted: without it there is no graph, and the sheet is the
    page (site.css, `:root:not(.js) main.home`) #}
@@ -21,9 +27,8 @@
   <div id="graph" role="img" aria-label="{{ W.question }}" data-question="{{ W.question }}"></div>
 </section>
 <section class="sheet" id="sheet" aria-live="polite" lang="{{ page_lang }}" data-close="{{ page.sheet.close }}">
-<h1>{{ W.heading }}</h1>
-<p class="lead">{{ W.lead }}</p>
-<p class="hint">{{ page.sheet.hint }}</p>
+<h1 lang="en">{{ heading }}</h1>
+<p class="lead" lang="en">{{ lead }}</p>
 <h2 id="graphs">{{ W.graphs }}</h2>
 <p class="graphs-lead">{{ W.graphs_lead }}</p>
 <ul class="graph-list" aria-labelledby="graphs">
