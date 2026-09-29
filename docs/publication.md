@@ -111,7 +111,8 @@ the graph is drawn its boxes say what the entries say, so the entries' section i
 of sight — still read by a screen reader, and shown while the keyboard is in it — and
 the sheet shows only the page's text. Every
 other word the index adds — the kinds of source included — is page chrome, from the view
-layer's table (§3 "Language"). Above the header, the index carries a yellow **banner**
+layer's table (§3 "Language"). Above the header, the index and every graph page (§3)
+carry a yellow **banner**
 in English: graph.med is not a medical device under the EU Medical Device Regulation
 (MDR), its information was retrieved with the help of AI, and it includes AI-generated
 content.

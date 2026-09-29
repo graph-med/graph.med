@@ -27,7 +27,7 @@ a { color: var(--accent); }
 code { font-size: .9em; }
 .preview { padding: .35rem 1rem; font-size: .8rem; font-weight: 700; background: var(--note); color: #111; }
 .preview a { color: inherit; }
-/* the index's banner: what the site is not, and how its content came about — yellow in both themes, dark text */
+/* the banner of the index and the graph pages: what the site is not, and how its content came about — yellow in both themes, dark text */
 .disclaimer { padding: .5rem 1rem; font-size: .85rem; line-height: 1.4; background: #ffd83d; color: #111; border-bottom: 1px solid #c9a800; }
 .top { display: flex; gap: .75rem; align-items: baseline; padding: .6rem 1rem; border-bottom: 1px solid var(--line); }
 .brand { display: inline-flex; align-items: center; gap: .4rem; font-weight: 700; text-decoration: none; color: var(--fg); }
@@ -167,7 +167,7 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 @media (min-width: 900px) {
   main.view { max-width: none; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr) 400px; height: calc(100vh - 6.6rem); }   /* header and footer stay */
   body:has(.preview) main.view { height: calc(100vh - 8.5rem); }   /* and the preview strip above the header */
-  body:has(.disclaimer) main.view { height: calc(100vh - 9.2rem); }   /* and the index's banner */
+  body:has(.disclaimer) main.view { height: calc(100vh - 9.2rem); }   /* and the banner */
   body:has(.preview):has(.disclaimer) main.view { height: calc(100vh - 11.1rem); }
   main.view .graph-wrap { margin: 0; border-top: 0; height: 100%; min-height: 0; }
   main.view #graph { height: 100%; }
