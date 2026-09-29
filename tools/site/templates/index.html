@@ -1,15 +1,21 @@
 {% extends "base.html" %}
 {# The index (docs/publication.md §2): where the views meet, and the only page where they do — no view links another.
-   A graph like theirs, a graph and a sheet: one question, one answer per view, each a box naming its guideline,
-   drawn by assets/home.js with the view page's renderer. The graph is read from this page: the sheet's home holds one
-   entry per view (its `data-ref` the box, its `data-box` parts the box's lines in their order), so the page reads the
+   A graph like theirs, a graph and a sheet: a tree from graph.med through each language and kind of source to one
+   box per view naming its source, drawn by assets/home.js with the view page's renderer. The graph is read from this
+   page: the sheet's home holds one entry per view (its `data-ref` the box, its `data-path` the levels the box hangs
+   under, its `data-box` parts the box's lines in their order), so the page reads the
    same without the script and with a screen reader, and a tapped box shows its entry alone; each entry's toggle
-   selects its box from the keyboard (shown only where the graph is drawn). Every word the page adds
-   is the page chrome's, from the view layer's table (tools/site/words/); every other word is the data's, in its own
-   language: the source's title as printed, its register number, its licence. #}
+   selects its box from the keyboard (shown only where the graph is drawn). What the page says about graph.med
+   itself — its title, heading and lead — is English, like the header, the footer and the banner, and bound to no
+   kind of source; every other word the page adds is the page chrome's, from the view layer's table
+   (tools/site/words/); every other word is the data's, in its own language: the source's title as printed, its
+   register number, its licence. #}
 {% set W = page.index %}
-{% block title %}{{ W.title }}{% endblock %}
-{% block description %}{{ W.lead }}{% endblock %}
+{% set heading = "An open collaborative medical knowledge graph" %}
+{% set lead = "Passages from medical sources, anchored to the wording of their source, linked into recommendations and concepts, and drawn as graphs. Every identifier on this site resolves, and every quote leads to the page it was taken from." %}
+{% block title %}graph.med — {{ heading[:1] | lower }}{{ heading[1:] }}{% endblock %}
+{% block description %}{{ lead }}{% endblock %}
+{% block banner %}{% include "banner.html" %}{% endblock %}
 {% block mainclass %}view home{% endblock %}
 {# a page that can run the script says so before it is painted: without it there is no graph, and the sheet is the
    page (site.css, `:root:not(.js) main.home`) #}
@@ -18,17 +24,18 @@
 {% macro n(key, count) %}<b>{{ count }}</b> {{ W.counts[key].one if count == 1 else W.counts[key].many }}{% endmacro %}
 {% block main %}
 <section class="graph-wrap" lang="{{ page_lang }}">
-  <div id="graph" role="img" aria-label="{{ W.question }}" data-question="{{ W.question }}"></div>
+  <div id="graph" role="img" aria-label="graph.med"></div>
 </section>
 <section class="sheet" id="sheet" aria-live="polite" lang="{{ page_lang }}" data-close="{{ page.sheet.close }}">
-<h1>{{ W.heading }}</h1>
-<p class="lead">{{ W.lead }}</p>
-<p class="hint">{{ page.sheet.hint }}</p>
+<h1 lang="en">{{ heading }}</h1>
+<p class="lead" lang="en">{{ lead }}</p>
+{# the entries: where the graph is drawn its boxes say it, so the section is out of sight but read by a screen reader,
+   and shown while the keyboard is in it (site.css); without the graph it is the page #}
+<div class="graphs">
 <h2 id="graphs">{{ W.graphs }}</h2>
-<p class="graphs-lead">{{ W.graphs_lead }}</p>
 <ul class="graph-list" aria-labelledby="graphs">
 {% for v in views %}
-  <li class="graph-entry" data-ref="{{ v.id }}">
+  <li class="graph-entry" data-ref="{{ v.id }}" data-path='{{ v.path | tojson }}'>
     {# the title is the entry's one link to its graph, stretched over the entry; the source's lines and the toggle
        that selects the entry's box in the graph lie above it #}
     <h3 class="entry-title"><a id="entry-{{ v.vid }}" href="{{ base }}{{ v.vid }}/"{% if v.lang %} lang="{{ v.lang }}"{% endif %} data-box="1">{{ v.title }}</a></h3>
@@ -54,6 +61,7 @@
   </li>
 {% endfor %}
 </ul>
+</div>
 </section>
 {% endblock %}
 {% block scripts %}

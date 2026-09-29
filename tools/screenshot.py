@@ -9,7 +9,7 @@
     uv run tools/screenshot.py pomgat-lv-1.0 --phone --do open=statements/drainage-komplexe-leberresektion-optional --do graph
     uv run tools/screenshot.py statements/tap-block-mic-kolorektal --phone --full   # any page, the whole scrolled page
     uv run tools/screenshot.py /                                   # the index
-    uv run tools/screenshot.py / --phone --do open=views/pomgat-lv-1.0   # the index, a guideline's box tapped
+    uv run tools/screenshot.py / --phone --do open=views/pomgat-lv-1.0   # the index, a guideline's box selected (a tap opens its graph)
     uv run tools/screenshot.py / --do key=Tab --do key=Tab --do key=Tab --do key=Enter  # keys, as a keyboard presses them
 
 The page is a site path: a view id, an entity page (statements/<id>, concepts/<id>, axes/<id>,

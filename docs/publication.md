@@ -67,9 +67,12 @@ wordings and consensus classes are read from the source (§3).
 **The index is where the graphs meet, and the only place they do.** Each graph stays
 separate: no view links another, and the index combines nothing — it is built from the
 views and their sources and names no guideline, so that a third guideline is a third
-answer by a data change alone. **It is a graph like theirs**, a graph and a sheet
-(§3), drawn by the same renderer: one question, *Welche Leitlinie?*, with one answer
-per view, each leading to a box that names its guideline — its title as the source
+box by a data change alone. **It is a graph like theirs**, a graph and a sheet (§3),
+drawn by the same renderer: a tree whose root is *graph.med*, under it one node per
+language of the views' sources (`lang`, as recorded: *de*), under each one node per
+kind of source (`kind`, its word from the view layer's table: *Leitlinien*), and under
+each one box per view that names its source — a level only as far as all of a view's
+sources agree on it and record it, the box hanging from the last. The box gives its title as the source
 prints it, in the source's language (`lang`); its register number where the source
 records one (`awmf_register`); and what the graph holds: its recommendations (the
 statements), the patient groups a reader meets in its tree (the junctions of its first
@@ -78,30 +81,41 @@ that none has been extracted, and while it holds claims but no statement, that n
 been linked yet. A source has no short title of its own, so the box shows the title as
 printed, as a view's root box does. Each guideline's patient groups are not drawn here:
 that would repeat the views outside them and begin a view combining two sources. The
-tree is small, so it is drawn at a size a phone reads — a box takes the width the
-canvas leaves beside the question, within bounds — and always whole.
+tree is small, so it is drawn at a size a phone reads, and always whole: left to right
+where the canvas leaves a box its least width beside the levels, else — on a phone —
+as an indented tree, each node under its parent and set in by a step, a box taking the
+width left.
 
-Tapping a box selects it as on a view page: the rest fades, and its **entry** opens in
-the sheet beside the graph, on a phone in the strip at the bottom edge — its title and
-what the graph holds, which raise the sheet, and the entry's *Graph öffnen*, so that a
-graph is two taps away, the box and the link. The keyboard reaches a box through its
-entry: beside *Graph öffnen* a toggle, *Im Graphen zeigen*, selects the entry's box as a
-tap does and, pressed again, returns the sheet to its home, the focus staying on the
-entry (on a phone, on the strip's link); it is shown only where the graph is drawn. A
-selection that changes nothing — the home again, the same box again — leaves the sheet
-as it is. The entry gives the title as printed —
+Tapping a box, or the line leading to it, **opens its graph at once**: one tap, no
+selection in between. A box is selected only by its deep link or from the keyboard:
+then the rest fades, and its **entry** opens in the sheet beside the graph, on a phone
+in the strip at the bottom edge — its title and what the graph holds, which raise the
+sheet, and the entry's *Graph öffnen*. The keyboard reaches a box through its entry:
+beside *Graph öffnen* a toggle, *Im Graphen zeigen*, selects the entry's box and,
+pressed again, returns the sheet to its home, as tapping the canvas or a level
+does, the focus staying on the entry (on a phone, on the strip's link); it is shown
+only where the graph is drawn. A selection that changes nothing — the home again, the
+same box again — leaves the sheet as it is. The entry gives the title as printed —
 a source's version and date stand in it; the schema has no field for either —, what the
 graph holds, and for each source its register number, a link to the source's page and
 its licence line; the entry is one link to the graph, its title stretched over it with
 *Graph öffnen* below, and the toggle and the source's lines lie apart from it, so that
 the source's page can be reached and its licence read. The deep link is the view's id
 (`graph.med/#views/<view-id>`); a hash that names no view, or is no well-formed escape,
-selects nothing. The sheet's home is the page's text and every entry,
+selects nothing. The sheet's home is the page's text — what graph.med is, *an open collaborative
+medical knowledge graph*, in English and bound to no kind of source — and every entry,
 in the page's HTML: the graph is read from them, so that the page reads the same without
 the script and with a screen reader, and without the script the sheet is the page, the
-entries side by side where the width allows and one under the other on a phone. Every
-word the index adds — the question included — is page chrome, from the view layer's
-table (§3 "Language").
+entries side by side where the width allows and one under the other on a phone. Where
+the graph is drawn its boxes say what the entries say, so the entries' section is out
+of sight — still read by a screen reader, and shown while the keyboard is in it — and
+the sheet shows only the page's text. Every
+other word the index adds — the kinds of source included — is page chrome, from the view
+layer's table (§3 "Language"). Above the header, the index and every graph page (§3)
+carry a yellow **banner**
+in English: graph.med is not a medical device under the EU Medical Device Regulation
+(MDR), its information was retrieved with the help of AI, and it includes AI-generated
+content.
 
 ---
 
@@ -235,7 +249,7 @@ decision-graph-derivation):
 dagre layout, self-hosted under `assets/vendor/` (MIT, pinned, no third-party
 request): boxes have a fixed width and grow to their wrapped text, the layered
 layout has no overlaps, edge labels are placed, and touch pan and pinch come with
-it. The index draws its one question with the same library, forms and colours, and
+it. The index draws its tree with the same library, forms and colours, and
 opens a tapped box's entry in the same sheet and peek strip (§2). Three choices keep
 the tree readable at ninety recommendations:
 
@@ -709,7 +723,8 @@ missing keys, so that no English word ever stands on a German card. The detail
 sections of a concept, a claim and a source, and the entity page's link to its
 JSON (§4), take their words from the same table in the entity's own language.
 **The page's own chrome is the reader's, not the source's.** The legend, the
-sheet's one hint and the index's words (§2) are German, whatever the view's source
+sheet's one hint and the index's words (§2) — but for what the index says about
+graph.med itself and its banner, which are English — are German, whatever the view's source
 language, from a table of the view layer — one file per language under
 `tools/site/words/`, read by the build and never published — and the build, the
 schema, the data and every identifier, key and comment behind them stay English:

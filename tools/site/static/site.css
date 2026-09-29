@@ -27,6 +27,8 @@ a { color: var(--accent); }
 code { font-size: .9em; }
 .preview { padding: .35rem 1rem; font-size: .8rem; font-weight: 700; background: var(--note); color: #111; }
 .preview a { color: inherit; }
+/* the banner of the index and the graph pages: what the site is not, and how its content came about — yellow in both themes, dark text */
+.disclaimer { padding: .5rem 1rem; font-size: .85rem; line-height: 1.4; background: #ffd83d; color: #111; border-bottom: 1px solid #c9a800; }
 .top { display: flex; gap: .75rem; align-items: baseline; padding: .6rem 1rem; border-bottom: 1px solid var(--line); }
 .brand { display: inline-flex; align-items: center; gap: .4rem; font-weight: 700; text-decoration: none; color: var(--fg); }
 .brand-mark { width: 1.3em; height: 1.3em; border-radius: 22%; flex: none; }
@@ -40,21 +42,23 @@ ol.claims { list-style: none; padding: 0; margin: 0; }
 .foot { padding: 1rem; color: var(--mute); font-size: .8rem; border-top: 1px solid var(--line); }
 
 /* the index (docs/publication.md §2): the only place the graphs meet, a view page's graph and sheet — the graph a
-   question and a box per graph (home.js), the sheet's home the page's text and one entry per graph, a tapped box its
-   entry alone. The title is the entry's one link, stretched over the entry; the pill below it only shows the action
+   question and a box per graph (home.js), a tapped box its graph, the sheet's home the page's text and one entry per
+   graph, a selected box its entry alone. The title is the entry's one link, stretched over the entry; the pill below it only shows the action
    (the link names the graph), and the source's lines — its register number, its page, its licence — lie on a surface
    of their own above the stretch, selectable and linked apart, as does the toggle beside the pill that selects the
    entry's box in the graph (the keyboard's way to it; pressed, it wears the selected box's heavier border). Without
    the graph — no script (the page sets `js` on the root before it is painted), or a graph that could not be drawn
-   (home.js sets `flat`) — the sheet is the page, laid out like any other, its hint (tap a box) and the toggles gone,
+   (home.js sets `flat`) — the sheet is the page, laid out like any other, the toggles gone,
    the entries side by side where the width allows */
 main.home .sheet h1 { margin-top: .4rem; }
 :root:not(.js) main.view.home, main.view.home.flat { display: block; height: auto; max-width: 52rem; margin: 0 auto; padding: 0 1rem 2rem; }
-:root:not(.js) main.home .graph-wrap, main.home.flat .graph-wrap, :root:not(.js) main.home .sheet .hint, main.home.flat .sheet .hint,
+:root:not(.js) main.home .graph-wrap, main.home.flat .graph-wrap,
 :root:not(.js) main.home .entry-select, main.home.flat .entry-select { display: none; }
 :root:not(.js) main.home .sheet, main.home.flat .sheet { border: 0; padding: .6rem 0 0; }
-.home .lead, .graphs-lead { max-width: 42rem; }
-.graphs-lead { margin: 0 0 1rem; }
+.home .lead { max-width: 42rem; }
+/* the entries' section where the graph is drawn: its boxes say it, so it is out of sight, still read by a screen
+   reader, and shown while the keyboard is in it; a box selected puts its entry alone in the sheet, outside it */
+:root.js main.home:not(.flat) .graphs:not(:focus-within) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
 .graph-entry { position: relative; display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: .6rem; background: var(--bg); overflow: hidden; }
 .entry-title { margin: 0; padding: 1rem 1rem .5rem; font-size: 1.1rem; line-height: 1.35; font-weight: 600; color: var(--fg); text-transform: none; letter-spacing: 0; overflow-wrap: anywhere; hyphens: auto; }
@@ -163,6 +167,8 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 @media (min-width: 900px) {
   main.view { max-width: none; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr) 400px; height: calc(100vh - 6.6rem); }   /* header and footer stay */
   body:has(.preview) main.view { height: calc(100vh - 8.5rem); }   /* and the preview strip above the header */
+  body:has(.disclaimer) main.view { height: calc(100vh - 9.2rem); }   /* and the banner */
+  body:has(.preview):has(.disclaimer) main.view { height: calc(100vh - 11.1rem); }
   main.view .graph-wrap { margin: 0; border-top: 0; height: 100%; min-height: 0; }
   main.view #graph { height: 100%; }
   main.view .sheet { border-top: 0; border-left: 1px solid var(--line); padding: .6rem 1rem 2rem; overflow: auto; min-height: 0; }

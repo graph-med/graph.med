@@ -1,38 +1,40 @@
-/* graph.med index: where the graphs meet, drawn as they are (docs/publication.md §2) — one question,
-   "Welche Leitlinie?", with one answer per view, each leading to a box that names its guideline, laid out left
-   to right by the view page's renderer (Cytoscape.js with the dagre layout, self-hosted, see
+/* graph.med index: where the graphs meet, drawn as they are (docs/publication.md §2) — a tree from graph.med through
+   the language of each view's sources and their kind ("Leitlinien") to one box per view, each naming its source,
+   drawn by the view page's renderer (Cytoscape.js with the dagre layout, self-hosted, see
    assets/vendor/LICENSES.md). Nothing is written here: the graph is read from the page, where the build rendered
-   one entry per view in the sheet's home — the question from the canvas's data-question, each box from an entry
-   (its data-ref), its lines the entry's [data-box] parts in their order, the first set apart — so that the page
-   reads the same without this script and with a screen reader. Tapping a box selects it as on a view page: the
-   rest fades, and its entry opens alone in the sheet beside or below the graph (on a phone, a peek strip at the
-   bottom edge that carries the entry's link to its graph and raises the rest); tapping the canvas or the question
-   returns the sheet to its home. The keyboard's way to a box is its entry's own control, a toggle beside the link
-   to the graph: pressed, it selects the box; pressed again, it returns the sheet to its home. The tree is
-   small and always whole, so it is drawn at a size a phone reads: a box takes the width the canvas leaves beside
-   the question, within bounds, and the fit never zooms far past that size. */
+   one entry per view in the sheet's home — each box from an entry (its data-ref), the levels it hangs under from
+   its data-path, its lines the entry's [data-box] parts in their order, the first set apart — so that the page
+   reads the same without this script and with a screen reader. Tapping a box, or the line leading to it, opens
+   its graph at once: the box goes where its entry's link goes. A box is selected — the rest fades, and its entry
+   opens alone in the sheet beside or below the graph (on a phone, a peek strip at the bottom edge that carries the
+   entry's link to its graph and raises the rest) — only by its deep link or from the keyboard: its entry's own
+   control, a toggle beside the link to the graph, selects the box; pressed again, it returns the sheet to its
+   home, as tapping the canvas or a level does. The tree is small and always whole, so it is drawn at a size a
+   phone reads: left to right where the canvas leaves a box its least width beside the levels, else as an indented
+   tree, each level under its parent and set in by a step, a box taking the width left; the fit never zooms far
+   past that size. */
 (function () {
   "use strict";
   var canvas = document.getElementById("graph"), sheet = document.getElementById("sheet"), main = canvas.closest("main");
-  var home = sheet.innerHTML, entries = {}, cy = null, shown = "";   /* shown: the view whose entry the sheet shows alone, "" for its home */
-  var PAD = 16, QUESTION = { w: 136, h: 96 }, RANK = 40, BOX = { min: 184, max: 300 }, ZOOM = { min: 0.75, max: 1.4 };
+  var home = sheet.innerHTML, entries = {}, links = {}, cy = null, shown = "";   /* shown: the view whose entry the sheet shows alone, "" for its home */
+  var PAD = 16, RANK = 40, INDENT = 24, GAP = 12, BOX = { min: 184, max: 300 }, ZOOM = { min: 0.75, max: 1.4 };
+  var boxW = BOX.max;   /* the boxes' width, set by each layout */
 
   function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
-  /* the box's width: what the canvas leaves beside the question and the gap after it, within bounds */
-  function boxWidth() { return Math.max(BOX.min, Math.min(BOX.max, canvas.clientWidth - 2 * PAD - QUESTION.w - RANK)); }
-  /* the view page's forms and colours (graph.js): a question is a diamond, an answer a solid line in the page's
-     foreground that turns just after the question and runs into its box, a box the page's colours with a border;
-     the selection is the border, what is not selected fades */
+  /* the view page's forms and colours (graph.js): a line in the page's foreground that turns just before it runs into
+     its node, a box the page's colours with a border; graph.med and the levels are small boxes of their label's width,
+     graph.med in bold; the selection is the border, what is not selected fades */
   function stylesheet() {
-    var w = boxWidth();
+    var w = boxW;
     return [
       { selector: "node", style: {
           "shape": "round-rectangle", "background-color": css("--bg"), "border-width": 1.5, "border-color": css("--fg"),
           "label": "data(label)", "color": css("--fg"), "font-family": css("--font"), "font-size": 13, "line-height": 1.3,
           "text-wrap": "wrap", "text-max-width": w - 24, "text-valign": "center", "text-halign": "center", "text-justification": "left",
           "width": w, "height": "label", "padding": 12 } },
-      { selector: "node[type = 'question']", style: { "shape": "diamond", "width": QUESTION.w, "height": QUESTION.h, "padding": 0,
-          "text-max-width": QUESTION.w - 56, "text-justification": "center", "font-weight": 600 } },
+      { selector: "node[type = 'root'], node[type = 'level']", style: { "width": "label", "padding": 8, "text-max-width": 200,
+          "text-justification": "center" } },
+      { selector: "node[type = 'root']", style: { "font-weight": 700 } },
       { selector: "edge", style: {
           "width": 1.5, "line-color": css("--fg"), "target-arrow-shape": "triangle", "target-arrow-color": css("--fg"), "arrow-scale": 0.9,
           "curve-style": "taxi", "taxi-direction": "rightward", "taxi-turn": 20, "taxi-turn-min-distance": 8 } },
@@ -54,10 +56,42 @@
     var tall = bb.h * zoom > h - 2 * PAD;
     cy.viewport({ zoom: zoom, pan: { x: (w - bb.w * zoom) / 2 - bb.x1 * zoom, y: tall ? PAD - bb.y1 * zoom : (h - bb.h * zoom) / 2 - bb.y1 * zoom } });
   }
+  /* left to right where the canvas leaves a box at least its least width beside the widest node of each level and the
+     gaps between them; else indented, a box as wide as the canvas leaves it after the deepest step */
   function layout() {
-    var lay = cy.layout({ name: "dagre", rankDir: "LR", nodeSep: 20, rankSep: RANK, nodeDimensionsIncludeLabels: true, fit: false, animate: false });
-    lay.one("layoutstop", fit);
-    lay.run();
+    var levels = cy.nodes().not("[type = 'box']"), widest = {}, depth = 0, prefix = 0;
+    cy.edges().removeStyle();
+    levels.forEach(function (n) { var d = n.data("depth"); depth = Math.max(depth, d + 1); widest[d] = Math.max(widest[d] || 0, n.outerWidth()); });
+    for (var d = 0; d < depth; d++) prefix += (widest[d] || 0) + RANK;
+    var room = canvas.clientWidth - 2 * PAD, wide = room - prefix >= BOX.min;
+    boxW = Math.max(wide ? BOX.min : 120, Math.min(BOX.max, wide ? room - prefix : room - depth * INDENT));
+    cy.style().fromJson(stylesheet()).update();
+    if (wide) {
+      var lay = cy.layout({ name: "dagre", rankDir: "LR", nodeSep: 20, rankSep: RANK, nodeDimensionsIncludeLabels: true, fit: false, animate: false });
+      lay.one("layoutstop", fit);
+      lay.run();
+      return;
+    }
+    /* indented: each node under the one before, set in by its depth; a line leaves its parent's lower edge a half
+       step in from the left, runs down and turns into the child's left side */
+    var y = 0;
+    (function place(n) {
+      var w = n.outerWidth(), h = n.outerHeight(), left = n.data("depth") * INDENT;
+      n.position({ x: left + w / 2, y: y + h / 2 });
+      y += h + GAP;
+      n.outgoers("node").forEach(place);
+    })(cy.getElementById("root"));
+    cy.edges().forEach(function (e) {
+      /* one bend, where the line down from the parent meets the child's middle — given as a segment's weight and
+         distance along and across the line between the two centres */
+      var a = e.source(), b = e.target(), S = a.position(), T = b.position();
+      var bend = { x: S.x - a.outerWidth() / 2 + INDENT / 2, y: T.y }, v = { x: T.x - S.x, y: T.y - S.y }, r = { x: bend.x - S.x, y: bend.y - S.y };
+      var len = Math.sqrt(v.x * v.x + v.y * v.y);
+      e.style({ "curve-style": "segments", "edge-distances": "node-position",
+                "segment-weights": (r.x * v.x + r.y * v.y) / (len * len), "segment-distances": (v.x * r.y - v.y * r.x) / len,
+                "source-endpoint": (bend.x - S.x) + "px " + (a.outerHeight() / 2) + "px", "target-endpoint": (-b.outerWidth() / 2) + "px 0px" });
+    });
+    fit();
   }
 
   /* the sheet (graph.js): every fill starts at the top. Below 900 px an entry waits in a peek strip at the bottom
@@ -133,7 +167,7 @@
   function draw() {
     if (typeof cytoscape !== "function") throw new Error("library missing");
     if (typeof cytoscapeDagre === "function") cytoscape.use(cytoscapeDagre);
-    var elements = [{ data: { id: "q", type: "question", label: canvas.dataset.question || "" } }];
+    var elements = [{ data: { id: "root", type: "root", label: "graph.med", depth: 0 } }], levels = {};
     sheet.querySelectorAll("[data-ref]").forEach(function (entry) {
       var ref = entry.dataset.ref, lines = Array.prototype.slice.call(entry.querySelectorAll("[data-box]"))
         .sort(function (a, b) { return Number(a.dataset.box) - Number(b.dataset.box); })
@@ -141,22 +175,39 @@
       var alone = entry.cloneNode(true), toggle = alone.querySelector(".entry-select");   /* alone in the sheet, its box is the one selected */
       if (toggle) toggle.setAttribute("aria-pressed", "true");
       entries[ref] = alone.outerHTML;
-      elements.push({ data: { id: ref, type: "box", label: lines[0] + (lines.length > 1 ? "\n\n" + lines.slice(1).join("\n") : "") } });
-      elements.push({ data: { id: "a:" + ref, source: "q", target: ref } });
+      var link = entry.querySelector(".entry-title a"); if (link) links[ref] = link.getAttribute("href");
+      /* the levels it hangs under, each once: its language, then its sources' kind, as far as they agree */
+      var parent = "root", path = [];
+      try { path = JSON.parse(entry.dataset.path || "[]"); } catch (e) { path = []; }
+      path.forEach(function (level, i) {
+        var id = "l:" + level.id;
+        if (!levels[id]) {
+          levels[id] = true;
+          elements.push({ data: { id: id, type: "level", label: level.label, depth: i + 1 } });
+          elements.push({ data: { id: "e:" + id, source: parent, target: id } });
+        }
+        parent = id;
+      });
+      elements.push({ data: { id: ref, type: "box", label: lines[0] + (lines.length > 1 ? "\n\n" + lines.slice(1).join("\n") : ""), depth: path.length + 1 } });
+      elements.push({ data: { id: "a:" + ref, source: parent, target: ref } });
     });
     cy = cytoscape({ container: canvas, elements: elements, minZoom: 0.3, maxZoom: 3, boxSelectionEnabled: false, autounselectify: true,
                      style: stylesheet(), layout: { name: "preset" } });
     layout();
-    cy.on("tap", "node[type = 'box']", function (e) { select(e.target.id(), true); });
-    cy.on("tap", "edge", function (e) { select(e.target.target().id(), true); });
-    cy.on("tap", function (e) { if (e.target === cy || e.target.data("type") === "question") select(null, true); });
+    /* a box, or the answer leading to it, opens its graph: no selection in between */
+    function go(ref) { if (links[ref]) location.href = links[ref]; else select(ref, true); }
+    cy.on("tap", "node[type = 'box']", function (e) { go(e.target.id()); });
+    cy.on("tap", "edge", function (e) { if (e.target.target().data("type") === "box") go(e.target.target().id()); });
+    cy.on("mouseover", "node[type = 'box']", function () { canvas.style.cursor = "pointer"; });
+    cy.on("mouseout", "node[type = 'box']", function () { canvas.style.cursor = ""; });
+    cy.on("tap", function (e) { if (e.target === cy || (e.target.isNode() && e.target.data("type") !== "box")) select(null, true); });
     /* a new width (a phone turned) gives the boxes another width: restyle, lay out and fit again */
     var width = canvas.clientWidth, pending = null;
     window.addEventListener("resize", function () {
       clearTimeout(pending);
       pending = setTimeout(function () {
         cy.resize();
-        if (canvas.clientWidth !== width) { width = canvas.clientWidth; cy.style().fromJson(stylesheet()).update(); layout(); } else fit();
+        if (canvas.clientWidth !== width) { width = canvas.clientWidth; layout(); } else fit();
       }, 150);
     });
     window.addEventListener("hashchange", function () { select(hashRef(), false); });
