@@ -55,8 +55,10 @@ main.home .sheet h1 { margin-top: .4rem; }
 :root:not(.js) main.home .graph-wrap, main.home.flat .graph-wrap,
 :root:not(.js) main.home .entry-select, main.home.flat .entry-select { display: none; }
 :root:not(.js) main.home .sheet, main.home.flat .sheet { border: 0; padding: .6rem 0 0; }
-.home .lead, .graphs-lead { max-width: 42rem; }
-.graphs-lead { margin: 0 0 1rem; }
+.home .lead { max-width: 42rem; }
+/* the entries' section where the graph is drawn: its boxes say it, so it is out of sight, still read by a screen
+   reader, and shown while the keyboard is in it; a box selected puts its entry alone in the sheet, outside it */
+:root.js main.home:not(.flat) .graphs:not(:focus-within) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
 .graph-entry { position: relative; display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: .6rem; background: var(--bg); overflow: hidden; }
 .entry-title { margin: 0; padding: 1rem 1rem .5rem; font-size: 1.1rem; line-height: 1.35; font-weight: 600; color: var(--fg); text-transform: none; letter-spacing: 0; overflow-wrap: anywhere; hyphens: auto; }

@@ -30,8 +30,10 @@
 <section class="sheet" id="sheet" aria-live="polite" lang="{{ page_lang }}" data-close="{{ page.sheet.close }}">
 <h1 lang="en">{{ heading }}</h1>
 <p class="lead" lang="en">{{ lead }}</p>
+{# the entries: where the graph is drawn its boxes say it, so the section is out of sight but read by a screen reader,
+   and shown while the keyboard is in it (site.css); without the graph it is the page #}
+<div class="graphs">
 <h2 id="graphs">{{ W.graphs }}</h2>
-<p class="graphs-lead">{{ W.graphs_lead }}</p>
 <ul class="graph-list" aria-labelledby="graphs">
 {% for v in views %}
   <li class="graph-entry" data-ref="{{ v.id }}" data-path='{{ v.path | tojson }}'>
@@ -60,6 +62,7 @@
   </li>
 {% endfor %}
 </ul>
+</div>
 </section>
 {% endblock %}
 {% block scripts %}

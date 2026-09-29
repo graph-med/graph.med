@@ -106,7 +106,10 @@ selects nothing. The sheet's home is the page's text — what graph.med is, *an 
 medical knowledge graph*, in English and bound to no kind of source — and every entry,
 in the page's HTML: the graph is read from them, so that the page reads the same without
 the script and with a screen reader, and without the script the sheet is the page, the
-entries side by side where the width allows and one under the other on a phone. Every
+entries side by side where the width allows and one under the other on a phone. Where
+the graph is drawn its boxes say what the entries say, so the entries' section is out
+of sight — still read by a screen reader, and shown while the keyboard is in it — and
+the sheet shows only the page's text. Every
 other word the index adds — the kinds of source included — is page chrome, from the view
 layer's table (§3 "Language"). Above the header, the index carries a yellow **banner**
 in English: graph.med is not a medical device under the EU Medical Device Regulation
