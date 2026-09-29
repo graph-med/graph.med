@@ -330,6 +330,28 @@ def page_words(lang: str) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def index_path(sources: list, page: dict) -> list[dict]:
+    """Where a view's box hangs in the index's tree (docs/publication.md §2): under graph.med, its sources' language,
+    then their kind — each level only as far as all of the view's sources agree on it, and only where they record it.
+    The language is written as recorded (its BCP 47 tag); the kind's word is the page chrome's (`index.kinds`), and a
+    kind without one stops the build, as a missing card word does."""
+    path = []
+    for field in ("lang", "kind"):
+        values = {s.get(field) for s in sources}
+        if len(values) != 1 or None in values:
+            break
+        value = values.pop()
+        if field == "kind":
+            words = page["index"].get("kinds", {})
+            if value not in words:
+                raise SystemExit(f"no page word for source kind {value!r} — add it to index.kinds in tools/site/words/{PAGE_LANG}.json")
+            label = words[value]
+        else:
+            label = value
+        path.append({"id": "/".join([p["value"] for p in path] + [value]), "value": value, "label": label})
+    return path
+
+
 def tokens(pairs) -> list[str]:
     """The grades of (source, grade) pairs as the box and the legend write them: each token once, in the order given."""
     return list(dict.fromkeys(g for _, g in pairs))
@@ -1331,7 +1353,7 @@ def main(argv=None) -> int:
         # — and its sources, each with its register number and licence line; the title in its source's language
         groups = len({n["ref"] for n in groupings[0]["nodes"] if n["type"] == "junction" and n.get("ref")})
         views.append({"id": view["id"], "vid": vid, "title": title, "lang": sources[0].get("lang") if len(sources) == 1 else None, "sources": sources,
-                      "holds": {"statement": counts["statement"], "group": groups, "claim": counts["claim"]}})
+                      "holds": {"statement": counts["statement"], "group": groups, "claim": counts["claim"]}, "path": index_path(sources, page)})
 
     # the index: the only page where the views meet — one question, a box and an entry per view, the box drawn by
     # assets/home.js from the entry; its words are the page chrome's (tools/site/words/)

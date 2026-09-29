@@ -34,7 +34,7 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 $id: https://graph.med/schema/schema.yaml
 title: graph.med pool
-x-version: 0.14.0
+x-version: 0.15.0
 
 # ── layout: which definition each data file validates against ────────────────
 # (data/README.md). Globs are relative to the repository root. `one_per_file`
@@ -140,6 +140,9 @@ $defs:
     enum: [chronologisch_perioperativ, versorgungspfad, anatomisch, entitaetsbezogen,
            modalitaetsbezogen, stadien_schweregrad, populationsbezogen, settingbezogen,
            leitsymptombezogen, berufsgruppen_prozessbezogen, querschnittskapitel]
+  # what kind of document a source is: the index groups its graphs by it, under their language (docs/publication.md §2)
+  source_kind:
+    enum: [leitlinie]
   # one entry of a source's table of contents (spec §6.7); page is the physical PDF page
   outline_entry:
     type: object
@@ -329,6 +332,7 @@ $defs:
       media_type:    {$ref: '#/$defs/text',   x-provenance: not_applicable}
       awmf_register: {$ref: '#/$defs/text',   x-provenance: not_applicable}
       lang:          {$ref: '#/$defs/lang',   x-provenance: not_applicable}
+      kind:          {$ref: '#/$defs/source_kind', x-provenance: not_applicable}
       outline:       # the complete table of contents, sections without a recommendation included (spec §6.7)
         type: array
         minItems: 1

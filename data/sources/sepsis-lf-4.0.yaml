@@ -1,6 +1,7 @@
 id: sources/sepsis-lf-4.0
 type: source
 lang: de
+kind: leitlinie
 title: "S3-Leitlinie: Sepsis – Prävention, Diagnose, Therapie und Nachsorge – Update 2025, Langfassung, Version 4.0,
   Stand 30.04.2025"
 awmf_register: "079-001"
