@@ -4,6 +4,7 @@ lang: de
 kind: leitlinie
 title: "S3-Leitlinie: Sepsis – Prävention, Diagnose, Therapie und Nachsorge – Update 2025, Langfassung, Version 4.0,
   Stand 30.04.2025"
+short_label: S3 Sepsis 2025
 awmf_register: "079-001"
 url: https://register.awmf.org/assets/guidelines/079-001l_S3_Sepsis-Praevention-Diagnose-Therapie-Nachsorge_2025-07.pdf
 content_hash: sha256:0dcaf595d547c925326a3c00908a192ee4338ed38f3698f4c19d90e2def19b9d

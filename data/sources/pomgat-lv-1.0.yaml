@@ -4,6 +4,7 @@ lang: de
 kind: leitlinie
 title: S3-Leitlinie Perioperatives Management bei gastrointestinalen Tumoren (POMGAT), Langversion 1.0, November
   2023
+short_label: S3 POMGAT 2023
 awmf_register: 088-010OL
 url: https://register.awmf.org/assets/guidelines/008-010OLl_S3_Perioperatives-Management-bei-gastrointestinalen-Tumoren-POMGAT_2023-12.pdf
 content_hash: sha256:029c69784282f3dc81c5bdd1220cddda82672d77f8396c55372df4d3d2fdb974
