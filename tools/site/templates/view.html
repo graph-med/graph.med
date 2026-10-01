@@ -30,7 +30,6 @@
       <p class="lg"><span class="lg-name">{{ W.groups.form }}</span><span class="keys">
         {% for f in legend.forms %}
         <span class="key"><span class="sw {{ f }}"></span> {{ W.forms[f] }}
-          {%- if f == "question" and legend.folded %} <span class="variant"><span class="sw question closed"></span> {{ W.folded }}</span>{% endif %}
           {%- if f == "junction" and legend.open %} <span class="variant"><span class="sw junction open"></span> {{ W.open }}</span>{% endif %}</span>
         {% endfor %}
       </span></p>

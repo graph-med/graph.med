@@ -116,7 +116,7 @@ ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1re
 .legend .lg-name { flex: none; width: 4.6rem; font-weight: 700; color: var(--mute); font-size: .68rem; text-transform: uppercase; letter-spacing: .05em; }   /* the name column: one width, so every group's keys start in one line */
 .legend .keys { display: flex; flex-wrap: wrap; align-items: center; gap: .1rem .9rem; min-width: 0; }   /* keys that wrap stay in their column, beside the name; a key moves to the next line whole and breaks inside itself only when it is wider than the column */
 .legend .key .sw { margin: 0 .35em 0 0; }
-.legend .variant { display: inline-block; white-space: nowrap; margin-left: .3rem; color: var(--mute); }   /* a state of the form, in its key: the folded question, the open group — its mark and word never parted */
+.legend .variant { display: inline-block; white-space: nowrap; margin-left: .3rem; color: var(--mute); }   /* a state of the form, in its key: the open group — its mark and word never parted */
 .legend .grades b { font-weight: 700; }
 .legend-toggle { display: inline-flex; align-items: center; gap: .45rem; min-height: 44px; padding: 0 .9rem 0 .55rem; border: 1px solid var(--line); border-radius: 22px;
   background: var(--bg); color: var(--fg); font: inherit; font-size: .85rem; font-weight: 600; cursor: pointer; }
@@ -134,7 +134,6 @@ ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1re
 .chip.none { background: var(--bg); }   /* a statement without a direction: the page's colours, with a border, as in the graph */
 .sw { display: inline-block; width: .85em; height: .85em; vertical-align: -.05em; margin: 0 .15em 0 .45em; border: 1px solid var(--mute); box-sizing: border-box; }
 .sw.question { transform: rotate(45deg) scale(.8); border-color: var(--fg); }
-.sw.question.closed { background: var(--line); border-style: dashed; }   /* folded: there is more below */
 .sw.junction { border-radius: 50%; border: 2px solid var(--fg); }
 .sw.junction.open { background: var(--fg); }
 .sw.statement { border-radius: 2px; background: var(--mute); }

@@ -232,14 +232,15 @@ decision-graph-derivation):
   its own and its keys side by side beside it, wrapping in their column, a
   hairline between the groups — so that the panel is as tall as its groups
   rather than as its longest group, and each group is told apart at a glance:
-  *Typ* (question, and a folded question; patient group, and an open one, each
-  state in its form's key; recommendation; aim), *Richtung* (a chip in the box's
+  *Typ* (question; patient group, and an open one, the state in its form's key;
+  recommendation; aim), *Richtung* (a chip in the box's
   fill with the glyph inside it, and a box without a direction), *Grad* (the
   grades the boxes carry, in their scheme's order, and the grades under which
   the verb is written as a word), *Rahmen* (contested, related to the selected
   box, applying generally to the selected group) and *Kanten* (answer, the way
   on, the aim). The panel always holds every key the view has, whatever the
-  reader has opened. A chip carries a border that holds
+  reader has opened. A question the reader has closed (grey, dashed) has no
+  key: it is drawn only after the reader's own tap on it, which says what it is. A chip carries a border that holds
   against the page in both themes, so that no key is told by a pastel alone.
   Interaction hints are not keys: the legend has none, and "tap a box" is the
   sheet's home text. Collapsed, the legend is a pill of at least 44 px carrying
