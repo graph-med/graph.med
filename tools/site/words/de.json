@@ -26,9 +26,7 @@
     "undirected": "ohne Richtung",
     "verb": "{grades} + Verb als Wort",
     "states": {
-      "contested": "umstritten",
-      "related": "verwandt mit der gewählten",
-      "general": "gilt allgemein für die gewählte Gruppe"
+      "contested": "umstritten"
     },
     "edges": {
       "answer": "Antwort",

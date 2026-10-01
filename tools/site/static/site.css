@@ -134,9 +134,6 @@ ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1re
 .sw.statement { border-radius: 2px; background: var(--mute); }
 .sw.aim { width: 1.2em; border-radius: 2px; border-style: dashed; background: var(--bg); }
 .sw.contested { border-radius: 2px; border: 2px dashed var(--contested); background: var(--bg); }
-.sw.related { border-radius: 2px; background: var(--mute); outline: 2px dotted var(--fg); outline-offset: 2px; }   /* the dotted outline a box related to the selected one wears */
-.sw.general { border-radius: 2px; background: var(--mute); outline: 3px double var(--fg); outline-offset: 2px; }   /* the double outline a box applying generally wears in the graph */
-.legend .key .sw.related, .legend .key .sw.general { margin-left: .2em; margin-right: .55em; }   /* room for the outline */
 /* an edge's key: a short run of its line */
 .ln { display: inline-block; width: 1.6em; height: 0; vertical-align: middle; margin-right: .35em; border-top: 1.5px solid var(--edge); }
 .ln.answer { border-top-color: var(--fg); }

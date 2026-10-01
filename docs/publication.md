@@ -189,8 +189,9 @@ decision-graph-derivation):
   edge. A relation between two recommendations (`specializes`, `complements`,
   `conflicts`) is not an edge of the tree: it takes no part in the layout and
   unfolding a group never follows it. While a box is selected, the boxes
-  related to it that are shown keep their colour and wear a dotted outline; no
-  line is drawn across the tree, and the card names each relation (zone 9).
+  related to it that are shown keep their colour and stay lit while the rest
+  fades, wearing nothing of their own; no line is drawn across the tree, and
+  the card names each relation (zone 9).
   A box takes the colour of its direction — the four colours of the judgement band
   in the details, so that box and section agree — and its label begins with a
   stamp, in text, before the short form: `✗ EK soll nicht · Keine präoperative
@@ -220,8 +221,9 @@ decision-graph-derivation):
   ambiguous and every box of that grade then writes its verb. Supporting claims
   that disagree on the verb give no word (the verb, like the grade, is shown and
   never composed). **The border means
-  state alone** — a contested box's dashed red border, and the selection; it
-  carries no meaning of its own.
+  state alone** — a contested box's dashed red border; it carries no meaning of
+  its own. The selection is not a border but a halo behind the node in the
+  accent colour, so that a selected contested box keeps its border.
   **The legend** sits under the graph, at the bottom left, and keys what this
   view draws and nothing else. Its keys are computed by the build from the
   view's trees and its statements' claims — the same computation that decides
@@ -232,8 +234,7 @@ decision-graph-derivation):
   patient group, and an open one; recommendation; aim), *Zeichen + Farbe =
   Richtung* (a chip in the box's fill with the glyph inside it, and a box without
   a direction), *Grad* (the grades the boxes carry, in their scheme's order, and
-  the grades under which the verb is written as a word), *Rahmen = Zustand* (contested,
-  related to the selected box, applying generally to the selected group) and
+  the grades under which the verb is written as a word), *Rahmen = Zustand* (contested) and
   *Kanten* (answer, the way on, the aim). A chip carries a border that holds
   against the page in both themes, so that no key is told by a pastel alone.
   Interaction hints are not keys: the legend has none, and "tap a box" is the
@@ -296,8 +297,8 @@ the tree readable at ninety recommendations:
   ends in a scope edge, so along `broader` alone nothing moves. They are never
   merged into the group's own: they hang where they were made for and stay out
   of its count. While the group is selected, those shown keep their colour and
-  wear a double outline (the legend names it, for such a view only), and the
-  sheet lists them apart from the group's own, under "Allgemein geltende
+  stay lit while the rest fades, wearing nothing of their own, and the sheet
+  lists them apart from the group's own, under "Allgemein geltende
   Empfehlungen": grouped by the concept each was made for, with the condition of
   the scope edges on the way ("Voraussetzung", every condition on the path holding
   at once and joined as zone 5 joins a statement's; of several paths the one with

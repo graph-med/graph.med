@@ -104,13 +104,9 @@
          to a shared aim never leaves through the bottom of one box into the top of the next */
       { selector: "edge[kind = 'aim']", style: { "line-style": "dashed", "target-arrow-shape": "none",
           "curve-style": "taxi", "taxi-direction": "rightward", "taxi-turn": "data(turn)", "taxi-turn-min-distance": 8 } },
-      /* a box related to the selected one (specializes, complements, conflicts) keeps its colour and wears a
-         dotted outline — no line is drawn across the tree, and the card names the relation (zone 9) */
-      { selector: "node.related", style: { "outline-width": 2.5, "outline-style": "dotted", "outline-color": css("--fg"), "outline-offset": 3 } },
-      /* a box that applies generally to the selected group — through the view's scope tree, hung where it was made
-         for — keeps its colour and wears a double outline; the group's own boxes follow it as before, and the
-         sheet lists the general ones apart, each with its condition (docs/publication.md §3) */
-      { selector: "node.general", style: { "outline-width": 4, "outline-style": "double", "outline-color": css("--fg"), "outline-offset": 3 } },
+      /* a box related to the selected one (specializes, complements, conflicts), and a box that applies generally to
+         the selected group, wear nothing of their own: they stay lit while the rest fades (related, general below),
+         and the card names the relation (zone 9) and lists the general ones with their conditions (§3) */
       { selector: "edge.dup", style: { "target-label": "" } },   /* a group reached from two open parents names its answer once */
       { selector: ".folded", style: { "display": "none" } },
       /* a node fades as one piece; an edge fades by its line and arrowhead (`line-opacity`) and by the
@@ -122,7 +118,10 @@
       { selector: "node.faded", style: { "opacity": 0.15 } },
       { selector: "edge.dim", style: { "line-opacity": 0.12, "color": css("--line") } },
       { selector: "edge.faded", style: { "line-opacity": 0.15, "color": css("--line") } },
-      { selector: "node.picked", style: { "border-width": 3, "border-color": css("--fg") } },
+      /* the selection is a halo behind the node in the accent colour, never its border: the border means state
+         alone (docs/publication.md §3), so a contested box keeps its dashed red border while it is selected */
+      { selector: "node.picked", style: { "underlay-color": css("--accent"), "underlay-opacity": 0.4, "underlay-padding": 8, "underlay-shape": "round-rectangle" } },
+      { selector: "node.picked[type = 'junction']", style: { "underlay-shape": "ellipse" } },
       { selector: "edge.picked", style: { "line-color": css("--fg"), "width": 3 } }
     ]);
   }

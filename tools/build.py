@@ -392,9 +392,7 @@ def legend_of(statements: list[dict], groupings: list[dict], pool, sources: list
         "undirected": None in directions,   # a statement without a direction (a fact): the page's colours, with a border
         "grades": tokens(sorted(grades, key=order)),
         "verb_grades": tokens(sorted(worded, key=order)),
-        "states": [s for s, on in (("contested", any(n.get("contested") for n in boxes)),
-                                   ("related", "relation" in kinds),
-                                   ("general", any(n.get("general") for n in nodes))) if on],
+        "states": ["contested"] if any(n.get("contested") for n in boxes) else [],   # the border means state alone
         "edges": [k for k in ("answer", "flow", "aim") if k in kinds],
     }
 
