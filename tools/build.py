@@ -116,7 +116,7 @@ CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", 
              # zone 6 past its first passages, folded; zone 5's row of the statements related to this one (spec §5)
              "body.more.one", "body.more.many", "slot.related",
              "related.specializes.to", "related.specializes.from", "related.complements.to", "related.complements.from",
-             "related.conflicts.to", "related.conflicts.from",
+             "related.conflicts.to", "related.conflicts.from", "related.more.one", "related.more.many",
              # the detail sections of a concept, a claim and a source, and the entity page (docs/publication.md §3, §4)
              "type.concept", "type.claim", "type.source", "type.axis",
              "facet.procedure", "facet.patient_state", "facet.medication", "facet.intervention", "facet.outcome", "facet.finding", "facet.qualifier",
@@ -162,6 +162,7 @@ CARD_WORDS = {"de": {
     "related.specializes.to": "allgemeinere Empfehlung", "related.specializes.from": "speziellere Empfehlung",
     "related.complements.to": "ergänzende Empfehlung", "related.complements.from": "ergänzende Empfehlung",
     "related.conflicts.to": "gegenläufige Empfehlung", "related.conflicts.from": "gegenläufige Empfehlung",
+    "related.more.one": "{n} weitere verwandte Empfehlung", "related.more.many": "{n} weitere verwandte Empfehlungen",
     "evidence.table.key": "Bezug",
     "type.concept": "Begriff", "type.claim": "Textstelle", "type.source": "Quelle", "type.axis": "Achse",
     "facet.procedure": "Eingriff", "facet.patient_state": "Patientenzustand", "facet.medication": "Medikament",

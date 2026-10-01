@@ -84,7 +84,7 @@
 {% endfor %}</ol>
 {% endif %}</section>
 {# zone 4: how certain the evidence is, in one of four states (docs/publication.md §3) — one value on one line; per
-   row a native <details>, open, its <summary> the counting line and under it the table in the guideline's order,
+   row a native <details>, closed, its <summary> the counting line and under it the table in the guideline's order,
    one per system, the system named once as the table's caption and never per row; expert consensus only; nothing
    recorded. A counting line takes its singular or plural form from the count (W(key, count)); the range line has
    no singular, a range needing two values. A table with a row the source keys by anything but its endpoint (a
@@ -103,7 +103,7 @@
 {% set keyed = g.rows | selectattr("key") | list | length > 0 %}
 {% set endpoints = not keyed or g.rows | selectattr("outcome") | list | length > 0 %}
 {% set by = "evidence.by_key" if keyed else "evidence.by_outcome" %}
-<details class="outcomes" data-keep="outcomes" open>
+<details class="outcomes" data-keep="outcomes">
 <summary>{% if g.k < g.n %}{{ W(by ~ ".partial", g.n).format(k=g.k, n=g.n) }}{% elif g.range %}{{ W(by).format(n=g.n, von=g.range.von, bis=g.range.bis) }}{% else %}{{ W(by ~ ".no_range", g.n).format(n=g.n) }}{% endif %}</summary>
 <table>
 <caption>{{ g.system_name }}</caption>
@@ -143,7 +143,9 @@
 </table>
 </details></dd>
 {% endif %}{% endif %}{% endif %}{% endfor %}
-{% if c.mehr.related %}  <dt>{{ W("slot.related") }}</dt><dd class="related">{% for r in c.mehr.related %}<span><a class="node-link" data-node="{{ r.to or r.from }}" href="{{ base }}{{ r.to or r.from }}/" lang="{{ r.lang }}">{{ r.title }}</a> <small>{{ W("related." ~ r.edge ~ (".to" if r.to else ".from")) }}</small></span>{% endfor %}</dd>
+{# the related statements, one to a line: the first two, the rest folded under them as zone 6 folds its passages #}
+{% macro related_entry(r) %}<span><a class="node-link" data-node="{{ r.to or r.from }}" href="{{ base }}{{ r.to or r.from }}/" lang="{{ r.lang }}">{{ r.title }}</a> <small>{{ W("related." ~ r.edge ~ (".to" if r.to else ".from")) }}</small></span>{% endmacro %}
+{% if c.mehr.related %}{% set rest = c.mehr.related[2:] %}  <dt>{{ W("slot.related") }}</dt><dd class="related">{% for r in c.mehr.related[:2] %}{{ related_entry(r) }}{% endfor %}{% if rest %}<details class="related-more" data-keep="related-more"><summary>{{ W("related.more", rest | length).format(n=rest | length) }}</summary>{% for r in rest %}{{ related_entry(r) }}{% endfor %}</details>{% endif %}</dd>
 {% endif %}</dl>
 </section>
 {% endif %}

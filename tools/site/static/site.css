@@ -287,7 +287,7 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card .surface p { margin: 0; font-size: 1rem; line-height: 1.6; }
 .card ol.surfaces { margin: 0; padding-left: 1.4rem; }
 .card ol.surfaces li { margin-bottom: .5rem; }
-/* zone 4, the evidence: one line, or per outcome a native disclosure — open, no script — whose summary is the
+/* zone 4, the evidence: one line, or per outcome a native disclosure — closed, no script — whose summary is the
    counting line and whose table stands in the guideline's order; the system is named once, as the caption */
 .card .evidence .value { margin: .3rem 0; }
 .card .evidence details { margin: .3rem 0 .2rem; }
@@ -325,6 +325,9 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card dl.slots dd.related > span { flex-basis: 100%; }   /* one related statement per line, the relation after it */
 .card dl.slots dd.related small { color: var(--mute); font-size: .8rem; }
 .card dl.slots dd.related .node-link { min-height: 32px; }
+.card dl.slots dd.related details.related-more { flex-basis: 100%; }   /* past the second, folded under them */
+.card dl.slots dd.related details.related-more > summary { cursor: pointer; min-height: 32px; padding: .2rem 0; color: var(--mute); font-size: .85rem; }
+.card dl.slots dd.related details.related-more > span { display: block; }
 .card dl.slots dd.general-for { grid-column: 2; display: block; margin-top: -.1rem; }   /* under the anchor's value, its second description */
 /* closed by default, so the slots read on from the anchor to the condition; opened, a table like zone 4's */
 .card .general-for summary { cursor: pointer; padding: .2rem 0; min-height: 32px; color: var(--mute); font-size: .85rem; }
@@ -406,7 +409,8 @@ button.copy.done { color: var(--fg); border-color: var(--fg); background: var(--
   .card .evidence summary { list-style: none; }
   .card .evidence summary::-webkit-details-marker { display: none; }
   .card .evidence table { break-inside: avoid; }
-  .card .general-for summary, .card details.rules > summary, .card details.body-more > summary { list-style: none; }   /* closed on screen, printed open where the browser can */
+  .card .general-for summary, .card details.rules > summary, .card details.body-more > summary, .card details.related-more > summary { list-style: none; }   /* closed on screen, printed open where the browser can */
   .card .general-for summary::-webkit-details-marker { display: none; }
-  .card .general-for details::details-content, .card details.rules::details-content, .card details.body-more::details-content { content-visibility: visible; display: block; }
+  .card .general-for details::details-content, .card details.rules::details-content, .card details.body-more::details-content,
+  .card .evidence details::details-content, .card details.related-more::details-content { content-visibility: visible; display: block; }
 }

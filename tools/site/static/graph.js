@@ -142,7 +142,7 @@
      A selection of several entities (an answer naming several conditions) is a card for each, one after another:
      the strip names every card's title, one to a line, and each card after the first numbers the ids its template repeats. */
   /* what the reader opened or closed on one card stays so on the next: every disclosure the card marks with
-     `data-keep` (the evidence table, the general groups, a rule, the folded body text) is remembered by that
+     `data-keep` (the evidence table, the general groups, a rule, the folded body text and related statements) is remembered by that
      name for as long as the page is open — in this variable, never in storage — and set so on every fill */
   var kept = {};
   sheet.addEventListener("toggle", function (e) {

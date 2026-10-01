@@ -394,7 +394,7 @@ recommendation the text below belongs to. On a wide screen the column is as wide
 as a third of the screen, at least 400 and at most 560 px, so that a row of zone 5
 does not wrap its value into four lines.
 A disclosure the reader opens or closes on one card — the evidence table, the
-general groups, a rule, the folded body text — stays so on the next selection,
+general groups, a rule, the folded body text, the further related statements — stays so on the next selection,
 for as long as the page is open, and is never stored. The page itself never scrolls: not on a tap, not on
 raising or lowering, and the graph is where the reader left it. The strip is
 built in the browser from the card's own title, band and chips, and a wide
@@ -532,7 +532,7 @@ glyph. Timing
      |---|---|
      | One value | one line, no disclosure: `moderat (GRADE)` — the value as the claim stores it, the system by its name (`EVIDENCE_NAMES` in `tools/build.py`, else its slug); one entry with neither an outcome nor a key |
      | One row | one line, no disclosure: `Moderat (GRADE) · Endpunkt: Klinisch relevante obere GI-Blutungen`, a keyed row `… · Bezug: <key>` — a table of one row is no table |
-     | Per row | a native `<details>`, open: its `<summary>` reads `endpunktabhängig (4 Endpunkte, hoch bis sehr niedrig)` — the zone's heading already says `Evidenz` —, under it a table `Endpunkt \| Sicherheit` in the guideline's order, never sorted, the system named once as the table's caption; a table with keyed rows reads by its keys (below) |
+     | Per row | a native `<details>`, closed — its summary already says how certain, the table is for whoever asks which endpoint —: its `<summary>` reads `endpunktabhängig (4 Endpunkte, hoch bis sehr niedrig)` — the zone's heading already says `Evidenz` —, under it a table `Endpunkt \| Sicherheit` in the guideline's order, never sorted, the system named once as the table's caption; a table with keyed rows reads by its keys (below) |
      | Expert consensus only | one line: `Expertenkonsens, keine Evidenzbewertung` — every supporting claim's grade one that fixes no wording in its scheme (`EK`, an expert consensus, `graph-representation.md` §3.1) and none carrying an entry |
      | Nothing recorded | one line: `Nicht erfasst` — what is not recorded, never that the guideline says nothing |
 
@@ -552,7 +552,7 @@ glyph. Timing
      recorded: `endpunktabhängig (3 von 5 Endpunkten erfasst)`. Several
      systems give one disclosure per system, never merged. Nothing is composed
      — no average, no worst case, no certainty in zone 2 — and the disclosure
-     needs no script and survives printing.
+     needs no script; print shows the table open where the browser can.
 
      A source may key its rows by something other than an endpoint — a
      component of the action, a subgroup, an arm, a comparator, a device, a
@@ -596,7 +596,9 @@ glyph. Timing
      varies along, which is zone 4's business; the slot stays in the schema and
      the data and is listed under zone 9. The last row, `Verwandt`, names the
      statements related to this one over `specializes`, `complements`,
-     `conflicts` (`graph-representation.md` §5), one to a line, each by its
+     `conflicts` (`graph-representation.md` §5), one to a line — the first
+     two, the rest in a closed disclosure under them, `2 weitere verwandte
+     Empfehlungen`, as zone 6 folds its passages —, each by its
      short label and linked so that the graph moves to it, with what it is to
      this one in words — `allgemeinere Empfehlung`, `speziellere Empfehlung`,
      `ergänzende Empfehlung`, `gegenläufige Empfehlung` —, never the edge's
