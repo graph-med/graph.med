@@ -98,25 +98,25 @@ ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1re
 #graph { grid-area: 1 / 1 / 4 / 2; display: block; width: 100%; height: 62vh; touch-action: none; }
 .free { grid-area: 2 / 1 / 3 / 2; pointer-events: none; }   /* the free row itself, so that fit() measures it once instead of adding up the controls and the legend */
 /* the legend (docs/publication.md §3, "The legend"): in the third row, at the bottom left, a pill that says what it
-   opens — the word and the view's direction chips — and, expanded, the panel: every group one line, its name and
-   its keys side by side, the groups flowing on as the width allows, so that the panel is as tall as the lines it
-   needs rather than as its longest group. On a wide screen the panel stands beside the pill; on a phone it opens
-   upward over the graph (below). Only the keys the view draws (tools/build.py, legend_of), in the view layer's
-   words (tools/site/words/). The row spans the width so the panel can take it; only the pill and the panel take
-   the tap, the rest reaches the graph */
+   opens — the word and the view's direction chips — and, expanded, the panel: a small table, one row per group,
+   its name in a column of its own and its keys side by side beside it, a hairline between the groups — so that
+   the panel is as tall as its groups rather than as its longest group, and each group is told apart at a glance.
+   On a wide screen the panel stands beside the pill; on a phone it opens upward over the graph (below). Only the
+   keys the view draws (tools/build.py, legend_of), in the view layer's words (tools/site/words/). The row spans
+   the width so the panel can take it; only the pill and the panel take the tap, the rest reaches the graph */
 .legend { grid-area: 3 / 1 / 4 / 2; position: relative; z-index: 1; display: flex; flex-direction: row; align-items: flex-end; gap: .5rem;
   margin: 0 .6rem .6rem; min-width: 0; color: var(--fg); font-size: .8rem; line-height: 1.45; pointer-events: none; }   /* above the canvas, which Cytoscape positions with a z-index of its own */
 .legend > * { pointer-events: auto; }
 .legend-toggle { order: -1; flex: none; }   /* the pill keeps the corner; the panel stands beside it */
-.legend-panel { display: flex; flex-wrap: wrap; gap: .25rem 1.6rem; min-width: 0; max-width: 64rem;
-  max-height: 40vh; overflow: auto; padding: .45rem .75rem; background: var(--bg); border: 1px solid var(--line); border-radius: .6rem; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+.legend-panel { display: flex; flex-direction: column; min-width: 0; max-width: 56rem;
+  max-height: 40vh; overflow: auto; padding: .15rem .75rem; background: var(--bg); border: 1px solid var(--line); border-radius: .6rem; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
 .legend-panel[hidden] { display: none; }
-.legend .lg { display: flex; align-items: baseline; gap: .6rem; margin: 0; }
-.legend .lg-name { flex: none; min-width: 4.2rem; font-weight: 600; color: var(--mute); font-size: .74rem; }   /* as wide as the longest name, so that stacked groups align their keys */
-.legend .keys { display: flex; flex-wrap: wrap; align-items: center; gap: .1rem .8rem; min-width: 0; }   /* keys that wrap stay in their column, beside the name */
-.legend .key { white-space: nowrap; }   /* a key breaks between keys, never inside one */
+.legend .lg { display: flex; align-items: baseline; gap: .75rem; margin: 0; padding: .22rem 0; }
+.legend .lg + .lg { border-top: 1px solid var(--line); }   /* the hairline between groups */
+.legend .lg-name { flex: none; width: 4.6rem; font-weight: 700; color: var(--mute); font-size: .68rem; text-transform: uppercase; letter-spacing: .05em; }   /* the name column: one width, so every group's keys start in one line */
+.legend .keys { display: flex; flex-wrap: wrap; align-items: center; gap: .1rem .9rem; min-width: 0; }   /* keys that wrap stay in their column, beside the name; a key moves to the next line whole and breaks inside itself only when it is wider than the column */
 .legend .key .sw { margin: 0 .35em 0 0; }
-.legend .variant { margin-left: .3rem; color: var(--mute); }   /* a state of the form, in its key: the folded question, the open group */
+.legend .variant { display: inline-block; white-space: nowrap; margin-left: .3rem; color: var(--mute); }   /* a state of the form, in its key: the folded question, the open group — its mark and word never parted */
 .legend .grades b { font-weight: 700; }
 .legend-toggle { display: inline-flex; align-items: center; gap: .45rem; min-height: 44px; padding: 0 .9rem 0 .55rem; border: 1px solid var(--line); border-radius: 22px;
   background: var(--bg); color: var(--fg); font: inherit; font-size: .85rem; font-weight: 600; cursor: pointer; }

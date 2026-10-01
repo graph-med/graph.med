@@ -228,9 +228,10 @@ decision-graph-derivation):
   where a box writes its verb — never declared: a direction no box has, a
   contested border no box wears, an edge style no tree draws, has no key, and a
   form, colour, letter or edge style the view draws has one. They stand in named
-  groups, each group one line — its name, then its keys side by side, wrapping
-  beside the name — and the groups flow on as the width allows, so that the
-  panel is as tall as the lines it needs rather than as its longest group:
+  groups, laid out as a small table: one row per group, its name in a column of
+  its own and its keys side by side beside it, wrapping in their column, a
+  hairline between the groups — so that the panel is as tall as its groups
+  rather than as its longest group, and each group is told apart at a glance:
   *Typ* (question, and a folded question; patient group, and an open one, each
   state in its form's key; recommendation; aim), *Richtung* (a chip in the box's
   fill with the glyph inside it, and a box without a direction), *Grad* (the
