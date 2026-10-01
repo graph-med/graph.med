@@ -3,10 +3,10 @@
     "toggle": "Legende",
     "label": "Legende des Graphen",
     "groups": {
-      "form": "Form = Typ",
-      "direction": "Zeichen + Farbe = Richtung",
+      "form": "Typ",
+      "direction": "Richtung",
       "grade": "Grad",
-      "state": "Rahmen = Zustand",
+      "state": "Rahmen",
       "edges": "Kanten"
     },
     "forms": {

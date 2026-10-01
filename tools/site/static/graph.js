@@ -30,12 +30,17 @@
   function fail(msg) { legend.textContent = "The graph could not be drawn: " + msg; }
 
   /* the legend: open on a wide screen, collapsed on a phone, at every load — nothing is remembered. The pill
-     toggles the panel above it; the zoom does not follow, the fit button does (the free row is re-read) */
+     toggles the panel beside it; the zoom does not follow, the fit button does (the free row is re-read). On a
+     phone the panel opens over the graph (site.css) and is as tall as the free row at most, read on opening */
   var legendPanel = document.getElementById("legend-panel"), legendToggle = document.getElementById("legend-toggle");
-  function showLegend(on) { legendPanel.hidden = !on; legendToggle.setAttribute("aria-expanded", String(on)); }
-  showLegend(!!(window.matchMedia && window.matchMedia("(min-width: 900px)").matches));
+  var freeRow = document.getElementById("free");
+  function showLegend(on) {
+    legendPanel.style.maxHeight = on && narrow() ? Math.max(120, freeRow.getBoundingClientRect().height - 8) + "px" : "";
+    legendPanel.hidden = !on; legendToggle.setAttribute("aria-expanded", String(on));
+  }
   /* on a phone the legend and the chapter panel share the little height the graph leaves, so opening one closes the other */
   var narrow = function () { return !(window.matchMedia && window.matchMedia("(min-width: 900px)").matches); };
+  showLegend(!narrow());
   legendToggle.onclick = function () {
     var open = legendPanel.hidden;
     if (open && narrow() && !chapters.hidden) { chapters.hidden = true; chaptersToggle.setAttribute("aria-expanded", "false"); }
@@ -409,6 +414,7 @@
     if (!j) fit(near(eles).not(".folded"), 40);
   });
   cy.on("tap", function (evt) { if (evt.target === cy) select(null, null, true); });
+  cy.on("tapstart", function () { if (narrow() && !legendPanel.hidden) showLegend(false); });   /* the legend lies over the graph on a phone: touching the graph puts it away */
   /* the page's own handlers are assigned, not added, so that a redraw under another axis replaces them */
   document.getElementById("fit").onclick = function () { fit(cy.elements().not(".folded"), 20); };
   window.onresize = function () { cy.resize(); };
