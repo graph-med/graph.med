@@ -387,7 +387,15 @@ at the bottom edge rather than below the graph: the direction colour as a swatch
 and an edge, the title, and the judgement (`✓ für · Grad B`, and `⚠ umstritten`
 where a contesting claim exists), so that closed it already answers the first
 question. Tapping the strip raises the section over the graph; `✕`, the strip
-again or Escape lowers it. The page itself never scrolls: not on a tap, not on
+again or Escape lowers it. Raised, the strip shows only the swatch and `✕` while
+the card's own title is in sight, and its title and judgement again once the
+title has scrolled away under it, so that the reader always knows which
+recommendation the text below belongs to. On a wide screen the column is as wide
+as a third of the screen, at least 400 and at most 560 px, so that a row of zone 5
+does not wrap its value into four lines.
+A disclosure the reader opens or closes on one card — the evidence table, the
+general groups, a rule, the folded body text, the further related statements — stays so on the next selection,
+for as long as the page is open, and is never stored. The page itself never scrolls: not on a tap, not on
 raising or lowering, and the graph is where the reader left it. The strip is
 built in the browser from the card's own title, band and chips, and a wide
 screen does not show it. Tapping the background clears. Tapping a concept linked in the section
@@ -474,14 +482,19 @@ glyph. Timing
   | 1 | Title | none | `short_label`, else `label` | never |
   | 2 | Judgement | none | supporting claims; whether a contesting claim exists | never |
   | 3 | Wording | `Wortlaut der Empfehlung` | `claim.label` per supporting claim | never |
-  | 4 | Evidence | `Evidenz` | the supporting claims' `evidence`, per row; else `Evidenz: nicht erfasst` | never |
+  | 4 | Evidence | `Evidenz` | the supporting claims' `evidence`, per row; else `Nicht erfasst` | never |
   | 5 | Applies to | `Gilt für` | the `population`, `condition`, `action` slots, then the value of every dimension axis that places the statement, named by that axis's `short_label` (else `label`) | no slot filled |
   | 6 | Body text | `Hinweise aus dem Begleittext` | `limits`, `refines`, `supplements` | never (empty state) |
   | 7 | Contradiction | `Widersprechende Empfehlung(en)` | `contests` | no contesting claim |
   | 8 | Citation | `Beleg` | the supporting claims' `source`, the source's title | never |
   | 9 | More | `Mehr zu dieser Aussage` | `specializes`, `complements`, `conflicts`, the ids, the slots as stored | never (closed) |
 
-  1. **Title.** The short label, exactly once on the card.
+  1. **Title.** The short label, exactly once on the card. Under it one muted
+     line names where the recommendation comes from — each source by its
+     `short_label` (else its title) and the recommendation numbers of its
+     supporting claims, `S3 Sepsis 2025 · Empf. 8.15` —, so that the guideline
+     is known before the band and never only at the end of the card; zone 8
+     keeps the full title.
   2. **Judgement.** One band, a block filled with the direction colour, no
      heading; its lines share the left edge. Line 1, in the card's largest
      type: the glyph, the direction word and the verb as the claims say it —
@@ -517,10 +530,11 @@ glyph. Timing
 
      | State | What it renders |
      |---|---|
-     | One value | one line, no disclosure: `Evidenz: moderat (grade)` — the value and the system as the claim stores them; one entry with neither an outcome nor a key |
-     | Per row | a native `<details>`, open: its `<summary>` reads `Evidenz: endpunktabhängig (4 Endpunkte, hoch bis sehr niedrig)`, under it a table `Endpunkt \| Sicherheit` in the guideline's order, never sorted, the system named once as the table's caption; a table with keyed rows reads by its keys (below) |
+     | One value | one line, no disclosure: `moderat (GRADE)` — the value as the claim stores it, the system by its name (`EVIDENCE_NAMES` in `tools/build.py`, else its slug); one entry with neither an outcome nor a key |
+     | One row | one line, no disclosure: `Moderat (GRADE) · Endpunkt: Klinisch relevante obere GI-Blutungen`, a keyed row `… · Bezug: <key>` — a table of one row is no table |
+     | Per row | a native `<details>`, closed — its summary already says how certain, the table is for whoever asks which endpoint —: its `<summary>` reads `endpunktabhängig (4 Endpunkte, hoch bis sehr niedrig)` — the zone's heading already says `Evidenz` —, under it a table `Endpunkt \| Sicherheit` in the guideline's order, never sorted, the system named once as the table's caption; a table with keyed rows reads by its keys (below) |
      | Expert consensus only | one line: `Expertenkonsens, keine Evidenzbewertung` — every supporting claim's grade one that fixes no wording in its scheme (`EK`, an expert consensus, `graph-representation.md` §3.1) and none carrying an entry |
-     | Nothing recorded | one line: `Evidenz: nicht erfasst` — what is not recorded, never that the guideline says nothing |
+     | Nothing recorded | one line: `Nicht erfasst` — what is not recorded, never that the guideline says nothing |
 
      `endpunktabhängig` comes first in the summary line and the range follows
      in brackets, so that the sentence's first word denies that a single value
@@ -532,13 +546,13 @@ glyph. Timing
      are one level — and named in the form that order holds (`moderat bis
      sehr niedrig`), while each row shows its value as the claim stores it; a
      system the build has no order for keeps the
-     table and loses the range, `Evidenz: endpunktabhängig (4 Endpunkte)`, and
+     table and loses the range, `endpunktabhängig (4 Endpunkte)`, and
      never fails the build. Where some rows carry a value and others do not,
      those rows read `nicht erfasst` and the line counts only what is
-     recorded: `Evidenz: endpunktabhängig (3 von 5 Endpunkten erfasst)`. Several
+     recorded: `endpunktabhängig (3 von 5 Endpunkten erfasst)`. Several
      systems give one disclosure per system, never merged. Nothing is composed
      — no average, no worst case, no certainty in zone 2 — and the disclosure
-     needs no script and survives printing.
+     needs no script; print shows the table open where the browser can.
 
      A source may key its rows by something other than an endpoint — a
      component of the action, a subgroup, an arm, a comparator, a device, a
@@ -547,9 +561,10 @@ glyph. Timing
      keys: a first column `Bezug` holds each row's key (empty for a row
      without one), the `Endpunkt` column follows only where some row names an
      endpoint, and the summary line counts rows, not endpoints, with the same
-     range rule: `Evidenz: aufgeschlüsselt (2 Zeilen, moderat bis sehr
-     niedrig)`, `Evidenz: aufgeschlüsselt (5 Zeilen)`, `Evidenz:
-     aufgeschlüsselt (3 von 5 Zeilen erfasst)`. `Sepsis-Screening | Moderat`,
+     range rule, counted as ratings, the reader's word, not as rows:
+     `aufgeschlüsselt (2 Bewertungen, moderat bis sehr niedrig)`,
+     `aufgeschlüsselt (5 Bewertungen)`, `aufgeschlüsselt (3 von 5 Bewertungen
+     erfasst)`. `Sepsis-Screening | Moderat`,
      `Dopamin | Hoch`, `oXiris® | Mortalität | Sehr niedrig`: the key is never
      shown as an endpoint. A table without a key reads as above, and a row
      of the statement JSON carries `key` only where its entry has one.
@@ -567,14 +582,28 @@ glyph. Timing
      dimension's row carrying its `axis`. A slot is plain text when its concept carries only this one
      statement in that role, and a link with the count when it carries more —
      `Magensonde ziehen (6 Empfehlungen)`, the current statement included. In a
-     view with a scope tree, a row `Gilt allgemein auch für` follows the anchor's:
-     the groups whose scope edge leads directly to the statement's anchor, each
-     with its `Voraussetzung` where the edge has a condition; in the JSON the
+     view with a scope tree, the anchor's row carries a second line under its
+     value: a disclosure like zone 4's, but closed, so that the rows read on
+     from the anchor to the condition without a list between them. Its summary
+     counts — `Gilt allgemein auch für 11 weitere Gruppen` — and opened, it is a
+     table of the groups whose scope edge leads directly to the statement's
+     anchor, `Patientengruppe`, with a column `Voraussetzung` only where an
+     edge has a condition; on a phone the table takes the card's width, and
+     print shows it open where the browser can. In the JSON the
      anchor's row carries `allgemein`, every group it applies generally to — also
      those below the named ones — with its `condition`, its `via` and `direct`. The
      `outcome` slot has no row: an endpoint is the dimension the certainty
      varies along, which is zone 4's business; the slot stays in the schema and
-     the data and is listed under zone 9.
+     the data and is listed under zone 9. The last row, `Verwandt`, names the
+     statements related to this one over `specializes`, `complements`,
+     `conflicts` (`graph-representation.md` §5), one to a line — the first
+     two, the rest in a closed disclosure under them, `2 weitere verwandte
+     Empfehlungen`, as zone 6 folds its passages —, each by its
+     short label and linked so that the graph moves to it, with what it is to
+     this one in words — `allgemeinere Empfehlung`, `speziellere Empfehlung`,
+     `ergänzende Empfehlung`, `gegenläufige Empfehlung` —, never the edge's
+     name: a related recommendation answers "does it hold for my patient?"
+     as much as the slots do. Without one, the row is absent.
 
      **The row's word is the slot's, never a graph's.** `Patientengruppe` is
      the word the page already uses for what the population slot holds — the
@@ -603,7 +632,9 @@ glyph. Timing
      derived (`graph-representation.md` §3.2: it has a `defined_by` edge) — the
      anchor, a condition, any row, by one code path — a line says so,
      `abgeleitet, nach der Regel`, and the rule the edge reaches follows as a
-     tree, nested where the source nests it. A claim that combines parts
+     tree, nested where the source nests it. On the card that line is the
+     summary of a closed disclosure, so that the rows read on from the
+     condition to the action; on the concept's own page the rule stands open. A claim that combines parts
      (`graph-representation.md` §3.1) is a line with the operator in words —
      `UND`, `ODER`, `mindestens 2 von 4`, `Verknüpfung nicht angegeben` — the
      connective as printed (`„entweder … oder … oder aber“`), its page linked
@@ -616,7 +647,10 @@ glyph. Timing
      comparator, value, unit and time point (`Amylase-Konzentration im
      Drainagesekret < 5000 U/L am ersten postop. Tag`), a relative one with `×
      <reference quantity>`; a claim without a threshold shows its sentence.
-     Under it, its page and section linked into the source and `Textstelle`. A
+     The entry is itself the link to the claim's page; under it its page and
+     section, linked into the source, only where they differ from the last
+     ones the tree showed — parts printed on one page in one section are cited
+     once, at the first of them. A
      claim without a threshold says nothing about a missing number: its
      sentence shows whether one is printed, and nothing in the pool tells a
      quantity-like rule ("lange OP-Zeit") from a categorical one ("koronare
@@ -635,7 +669,9 @@ glyph. Timing
   6. **Body text.** Three groups in order of their effect on the decision, not
      by relation name: `Grenzt ein` (`limits`), `Präzisiert` (`refines`),
      `Ergänzt` (`supplements`) — each passage its wording, then page and section
-     linked into the source. The zone is named after what its passages do and
+     linked into the source. A group shows its first three passages; the rest
+     wait in a closed disclosure under them, `5 weitere Hinweise`, so that a
+     long group does not push the citation off the card. The zone is named after what its passages do and
      where they stand: everything on the card is guideline text, and what sets
      these apart is that they stand beside the box, not in it, and each one
      bears on how the box is applied — `Ergänzt` without changing it. The
@@ -655,7 +691,11 @@ glyph. Timing
      recommendation number that is not a number ("Definition 1") by the page it
      is printed on, after the numbered ones printed before it: recommendation
      number (`Empf. 2.1`; one that is not a number as printed, `Definition 1`),
-     page, section, the verbatim quote, and two
+     page, section, the verbatim quote as an excerpt — the quote is the search
+     text that finds the passage, often a sentence's head cut where a line
+     breaks it, so the card drops a word the line break cut with its hyphen
+     and sets `…` where the sentence goes on, before or after; the quote copied
+     and linked is never changed —, and two
      actions that do not look alike — `In der Leitlinie öffnen`, the primary
      one (the link into the cited page, §5), opening in a new tab and marked
      `↗`, so that following the citation keeps the reader's open groups,
@@ -664,7 +704,8 @@ glyph. Timing
      ausstehend` (the pool has no attestation yet). Where a recommendation
      comes from is as much part of the answer as whom it is for.
   9. **More.** A `<details>`, closed: the related statements over
-     `specializes`, `complements`, `conflicts`, the statement's and its claims'
+     `specializes`, `complements`, `conflicts` by their edge names (zone 5
+     names them for the reader), the statement's and its claims'
      ids, every slot as stored, the modelling source. The only zone where
      developer vocabulary — edge names, raw values, ids — is allowed.
 
@@ -698,7 +739,7 @@ glyph. Timing
 
   Two zones of earlier designs are **removed**, not overwritten: "Andere
   Situationen, andere Antwort" — the related statements as a zone of their own
-  (WP-0019) — is gone, its content under zone 9; and the binding question,
+  (WP-0019) — is gone, its content under zone 9 and, for the reader, one row of zone 5 (`Verwandt`), not a zone; and the binding question,
   "How binding and how well supported is it?", is gone — its supporting
   claims' grade and consensus are the badges of zone 2, its contesting claims
   are zone 7. The entity page (§4) renders the same card.
