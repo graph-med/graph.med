@@ -6,7 +6,7 @@
       "form": "Typ",
       "direction": "Richtung",
       "grade": "Grad",
-      "state": "Rahmen",
+      "state": "Rahmen = Zustand",
       "edges": "Kanten"
     },
     "forms": {
