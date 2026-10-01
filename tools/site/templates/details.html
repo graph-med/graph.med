@@ -11,6 +11,10 @@
 {% macro badge(b, count=1) -%}
 {% set w = badge_words(b) %}<span class="badge">{% if b.grade %}<b>{{ w.grade or W("grade").format(grade=b.grade) }}</b>{% endif %}{% if w.consensus or b.share %}{% if b.grade %}<span class="sep" aria-hidden="true"> · </span>{% else %} {% endif %}<span>{% if w.consensus and b.share %}{{ W("consensus.share").format(name=w.consensus, share=b.share) }}{% else %}{{ w.consensus or b.share }}{% endif %}</span>{% endif %}{% if count > 1 %} ({{ count }}){% endif %}</span>
 {%- endmacro %}
+{# a quote as an excerpt of its sentence (excerpt() in the build): an ellipsis where the sentence goes on #}
+{% macro excerpt_of(q) -%}
+{% if q %}„{% if q.lead %}… {% endif %}{{ q.text }}{% if q.tail %} …{% endif %}“{% endif %}
+{%- endmacro %}
 {% macro no_of(x) -%}
 {{ W("cite.no").format(nr=x.recommendation_no) if x.recommendation_no is numbered else x.recommendation_no }}
 {%- endmacro %}
@@ -26,14 +30,15 @@
    comparator, value, unit, time point; a relative one "× <reference>") or, without one, the claim's sentence; its
    page linked into the source and a link to the claim's page. One macro for the card's rows, whatever the slot, and
    the concept's page; it calls itself for the parts. #}
-{% macro rule_node(r) -%}
+{% macro rule_node(r, seen) -%}
 {% if r.combination %}{% set c = r.combination %}<p class="op"><strong>{{ W("op." ~ c.operator).format(n=c.n, m=c.of | length) }}</strong>{% if c.connective %} <span class="connective" lang="{{ r.lang }}">„{{ c.connective }}“</span>{% endif %}
     <span class="cite">{% if c.pages %}<a href="{{ c.link }}" target="_blank" rel="noopener">{{ W("cite.page").format(nr=c.pages | join(", ")) }}</a> · {% endif %}<a href="{{ base }}{{ r.id }}/">{{ W("rule.claim") }}</a></span></p>
 {% if c.of %}<ul class="plain rule-list">
-{% for x in c.of %}  <li>{{ rule_node(x) }}</li>
+{% for x in c.of %}  <li>{{ rule_node(x, seen) }}</li>
 {% endfor %}</ul>{% else %}<span class="rule" lang="{{ r.lang }}">{{ r.label }}</span>{% endif %}
-{%- else %}<span class="rule" lang="{{ r.lang }}">{% if r.threshold %}{% set t = r.threshold %}<span class="threshold"><span lang="{{ t.quantity.lang }}">{{ t.quantity.label }}</span> {% if t.comparator == "between" %}{{ W("comparator.between") }}{% else %}{{ t.comparator }}{% endif %} {{ t.value }}{% if t.unit %} {{ t.unit }}{% endif %}{% if t.relative_to %} × <span lang="{{ t.relative_to.lang }}">{{ t.relative_to.label }}</span>{% endif %}{% if t.when %} {{ t.when }}{% endif %}</span>{% else %}{{ r.label }}{% endif %}</span>
-    <span class="cite">{{ where(r) }}{% if r.page or r.section %} · {% endif %}<a href="{{ base }}{{ r.id }}/">{{ W("rule.claim") }}</a></span>{% endif %}
+{%- else %}<a class="rule" href="{{ base }}{{ r.id }}/" title="{{ W("rule.claim") }}" lang="{{ r.lang }}">{% if r.threshold %}{% set t = r.threshold %}<span class="threshold"><span lang="{{ t.quantity.lang }}">{{ t.quantity.label }}</span> {% if t.comparator == "between" %}{{ W("comparator.between") }}{% else %}{{ t.comparator }}{% endif %} {{ t.value }}{% if t.unit %} {{ t.unit }}{% endif %}{% if t.relative_to %} × <span lang="{{ t.relative_to.lang }}">{{ t.relative_to.label }}</span>{% endif %}{% if t.when %} {{ t.when }}{% endif %}</span>{% else %}{{ r.label }}{% endif %}</a>
+{%- set at = (r.page, r.section) %}{% if (r.page or r.section) and at != seen.at %}{% set seen.at = at %}
+    <span class="cite">{{ where(r) }}</span>{% endif %}{% endif %}
 {%- endmacro %}
 {# concepts that hold at once (spec §3.2) — a statement's conditions, the conditions of a scope path: each entry once, in
    the order stored, every entry after the first on a line of its own opened by the conjunction, so that no label's
@@ -43,11 +48,12 @@
 {% macro all_of(entries, tag="span", close="") -%}
 {% for x in entries %}{% if not loop.first %}<{{ tag }} class="and"><span class="conj">{{ W("conjunction") }}</span> <{{ tag }} class="entry">{% endif %}{{ caller(x) }}{% if loop.last %}{{ close }}{% endif %}{% if not loop.first %}</{{ tag }}></{{ tag }}>{% endif %}{% endfor %}
 {%- endmacro %}
-{% macro rules_of(x) -%}
-{% if x.derivation == "derived" %}<div class="rules">
-<p class="derived">{{ W("derivation.rule") }}</p>
-<div class="rule-tree">{{ rule_node(x.rule) }}</div>
-</div>{% endif %}
+{% macro rules_of(x, folded=false) -%}
+{% if x.derivation == "derived" %}{% set seen = namespace(at=none) %}{% if folded %}<details class="rules" data-keep="rules">
+<summary class="derived">{{ W("derivation.rule") }}</summary>{% else %}<div class="rules">
+<p class="derived">{{ W("derivation.rule") }}</p>{% endif %}
+<div class="rule-tree">{{ rule_node(x.rule, seen) }}</div>
+{% if folded %}</details>{% else %}</div>{% endif %}{% endif %}
 {%- endmacro %}
 {% if e.type == "statement" %}
 {# The statement card (docs/publication.md §3 "What the section shows"): nine zones in a fixed order, whatever the
@@ -60,7 +66,8 @@
 <div class="card" lang="{{ c.lang }}">
 <section class="zone title" aria-labelledby="zone-title-h">
 <h2 class="title" id="zone-title-h">{{ c.title }}</h2>
-</section>
+{% if c.beleg.sources %}<p class="source-line">{% for s in c.beleg.sources %}<span lang="{{ s.lang }}">{{ s.short_label or s.title }}{% set nos = s.claims | selectattr("recommendation_no") | list %}{% if nos %} · {% for x in nos %}{{ no_of(x) }}{% if not loop.last %}, {% endif %}{% endfor %}{% endif %}</span>{% if not loop.last %}; {% endif %}{% endfor %}</p>
+{% endif %}</section>
 {# zone 2, the band: one block in the direction colour — line 1 the glyph, the direction word and the verbs; line 2
    the grade and the consensus as chips on their own light fill (a fill means grade, the block means direction);
    only where a contesting claim exists, a third line with the contested marker, linking to zone 7 #}
@@ -88,16 +95,18 @@
 <h3 id="zone-evidence-h">{{ W("zone.evidence") }}</h3>
 {% set ev = c.evidenz %}
 {% if ev.state == "single" %}{% set g = ev.groups[0] %}
-<p class="value">{{ W("evidence.single").format(wert=g.rows[0].value, system=g.system) }}</p>
+<p class="value">{{ W("evidence.single").format(wert=g.rows[0].value, system=g.system_name) }}</p>
+{% elif ev.state == "by_outcome" and ev.groups | length == 1 and ev.groups[0].n == 1 %}{% set r = ev.groups[0].rows[0] %}
+<p class="value">{{ W("evidence.one_row.key" if r.key else "evidence.one_row.outcome").format(wert=r.value or W("evidence.row.missing"), system=ev.groups[0].system_name, bezug=r.key or r.outcome.label) }}</p>
 {% elif ev.state == "by_outcome" %}
 {% for g in ev.groups %}
 {% set keyed = g.rows | selectattr("key") | list | length > 0 %}
 {% set endpoints = not keyed or g.rows | selectattr("outcome") | list | length > 0 %}
 {% set by = "evidence.by_key" if keyed else "evidence.by_outcome" %}
-<details class="outcomes" open>
+<details class="outcomes" data-keep="outcomes" open>
 <summary>{% if g.k < g.n %}{{ W(by ~ ".partial", g.n).format(k=g.k, n=g.n) }}{% elif g.range %}{{ W(by).format(n=g.n, von=g.range.von, bis=g.range.bis) }}{% else %}{{ W(by ~ ".no_range", g.n).format(n=g.n) }}{% endif %}</summary>
 <table>
-<caption>{{ g.system }}</caption>
+<caption>{{ g.system_name }}</caption>
 <thead><tr>{% if keyed %}<th scope="col">{{ W("evidence.table.key") }}</th>{% endif %}{% if endpoints %}<th scope="col">{{ W("evidence.table.outcome") }}</th>{% endif %}<th scope="col">{{ W("evidence.table.certainty") }}</th></tr></thead>
 <tbody>
 {% for r in g.rows %}<tr>{% if keyed %}<td lang="{{ r.lang }}">{{ r.key or "" }}</td>{% endif %}{% if endpoints %}{% if r.outcome %}<td lang="{{ r.outcome.lang }}">{{ r.outcome.label }}</td>{% else %}<td class="none">{{ W("evidence.row.missing") }}</td>{% endif %}{% endif %}{% if r.value %}<td lang="{{ r.lang }}">{{ r.value }}</td>{% else %}<td class="none">{{ W("evidence.row.missing") }}</td>{% endif %}</tr>
@@ -117,14 +126,14 @@
 {# a row per slot, in the shape the statement JSON stores it: one concept, or the conditions as a list, each
    condition once and all of them joined as holding at once (all_of) — one code path for one and for several #}
 {% for role, s in c.geltung.items() %}{% if s %}{% set entries = [s] if s is mapping else s %}{% set s = entries[0] %}
-  <dt>{% if s.axis %}<span lang="{{ s.axis.lang }}">{{ s.axis.label }}</span>{% else %}{{ W("slot." ~ role) }}{% endif %}</dt><dd>{% call(x) all_of(entries, "div") %}{% if x.linked %}<a class="node-link" data-node="{{ x.id }}" href="{{ base }}{{ x.id }}/" lang="{{ x.lang }}">{{ x.label }}</a> <span class="count">{{ W("slot.count").format(n=x.count) }}</span>{% else %}<span lang="{{ x.lang }}">{{ x.label }}</span>{% endif %}{% if x.families %}<small class="families"><span class="families-label">{{ W("slot.families") }}</span> {% for f in x.families %}<a class="node-link" data-node="{{ f.id }}" href="{{ base }}{{ f.id }}/" lang="{{ f.lang }}">{{ f.label }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</small>{% endif %}{{ rules_of(x) }}{% endcall %}</dd>
+  <dt>{% if s.axis %}<span lang="{{ s.axis.lang }}">{{ s.axis.label }}</span>{% else %}{{ W("slot." ~ role) }}{% endif %}</dt><dd>{% call(x) all_of(entries, "div") %}{% if x.linked %}<a class="node-link" data-node="{{ x.id }}" href="{{ base }}{{ x.id }}/" lang="{{ x.lang }}">{{ x.label }}</a> <span class="count">{{ W("slot.count").format(n=x.count) }}</span>{% else %}<span lang="{{ x.lang }}">{{ x.label }}</span>{% endif %}{% if x.families %}<small class="families"><span class="families-label">{{ W("slot.families") }}</span> {% for f in x.families %}<a class="node-link" data-node="{{ f.id }}" href="{{ base }}{{ f.id }}/" lang="{{ f.lang }}">{{ f.label }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</small>{% endif %}{{ rules_of(x, folded=true) }}{% endcall %}</dd>
 {% if s.allgemein %}{% set direct = s.allgemein | selectattr("direct") | list %}{% if direct %}
 {# to whom the anchor's statement applies generally too, through the view's scope tree: a second description of the
    anchor's term, under its value, as zone 4's disclosure is — a native <details>, here closed, so that the slots read
    on from the anchor to the condition; its <summary> the counting line, under it a table of the groups in the
    order stored, with a column `Voraussetzung` only where an edge has a condition. No JavaScript is needed. #}
 {% set conditioned = direct | selectattr("condition") | list | length > 0 %}
-  <dd class="general-for"><details>
+  <dd class="general-for"><details data-keep="general-for">
 <summary>{{ W("scope.general_for", direct | length).format(n=direct | length) }}</summary>
 <table>
 <thead><tr><th scope="col">{{ W("slot.population") }}</th>{% if conditioned %}<th scope="col">{{ W("scope.condition") }}</th>{% endif %}</tr></thead>
@@ -134,7 +143,8 @@
 </table>
 </details></dd>
 {% endif %}{% endif %}{% endif %}{% endfor %}
-</dl>
+{% if c.mehr.related %}  <dt>{{ W("slot.related") }}</dt><dd class="related">{% for r in c.mehr.related %}<span><a class="node-link" data-node="{{ r.to or r.from }}" href="{{ base }}{{ r.to or r.from }}/" lang="{{ r.lang }}">{{ r.title }}</a> <small>{{ W("related." ~ r.edge ~ (".to" if r.to else ".from")) }}</small></span>{% endfor %}</dd>
+{% endif %}</dl>
 </section>
 {% endif %}
 <section class="zone body-text" aria-labelledby="zone-body-text-h">
@@ -142,9 +152,17 @@
 {% if c.leitlinientext.limits or c.leitlinientext.refines or c.leitlinientext.supplements %}
 {% for kind in ("limits", "refines", "supplements") %}{% if c.leitlinientext[kind] %}
 <h4>{{ W("body." ~ kind) }}</h4>
+{% set shown = c.leitlinientext[kind][:3] %}{% set rest = c.leitlinientext[kind][3:] %}
 <ul class="plain body">
-{% for b in c.leitlinientext[kind] %}<li><p lang="{{ b.lang }}">{{ b.label }}</p><p class="cite">{{ where(b) }}</p></li>
+{% for b in shown %}<li><p lang="{{ b.lang }}">{{ b.label }}</p><p class="cite">{{ where(b) }}</p></li>
 {% endfor %}</ul>
+{% if rest %}<details class="body-more" data-keep="body-more">
+<summary>{{ W("body.more", rest | length).format(n=rest | length) }}</summary>
+<ul class="plain body">
+{% for b in rest %}<li><p lang="{{ b.lang }}">{{ b.label }}</p><p class="cite">{{ where(b) }}</p></li>
+{% endfor %}</ul>
+</details>
+{% endif %}
 {% endif %}{% endfor %}
 {% else %}
 <p class="none">{{ W("body.empty") }}</p>
@@ -171,7 +189,7 @@
 <ol class="claims">
 {% for x in s.claims %}  <li>
 {% set at = where(x, no=true, link=false) %}{% if at %}    <p class="cite">{{ at }}</p>
-{% endif %}    <blockquote lang="{{ x.lang }}">„{{ x.quote }}“</blockquote>
+{% endif %}    <blockquote lang="{{ x.lang }}">{{ excerpt_of(x.excerpt) }}</blockquote>
     <p class="actions"><a class="btn" href="{{ x.link }}" target="_blank" rel="noopener">{{ W("cite.open") }}<span class="ext" aria-hidden="true">↗</span></a> <button type="button" class="copy" data-copy="{{ x.quote }}">{{ W("cite.quote") }}</button></p>
   </li>
 {% endfor %}</ol>
@@ -243,7 +261,7 @@
 {% endif %}
 <p class="label">{{ c.label }}</p>
 <p class="cite"><span lang="{{ c.source_lang }}">{{ c.source_title }}</span>{% if c.recommendation_no %} · {{ no_of(c) }}{% endif %}{% if c.page %} · {{ W("cite.page").format(nr=c.page) }}{% endif %}{% if c.section %} · {{ W("cite.section").format(nr=c.section) }}{% endif %}</p>
-<blockquote>„{{ c.quote }}“</blockquote>
+<blockquote>{{ excerpt_of(c.excerpt) }}</blockquote>
 <p class="actions"><a class="btn" href="{{ c.link }}" target="_blank" rel="noopener">{{ W("cite.open") }}<span class="ext" aria-hidden="true">↗</span></a> <button type="button" class="copy" data-copy="{{ c.quote }}">{{ W("cite.quote") }}</button></p>
 {% if c.statements %}
 <section class="zone" aria-labelledby="zone-statements-h">

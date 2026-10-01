@@ -141,10 +141,31 @@
      strip raises the panel over the graph; the strip again, ✕ or Escape lowers it. A wide screen never shows it.
      A selection of several entities (an answer naming several conditions) is a card for each, one after another:
      the strip names every card's title, one to a line, and each card after the first numbers the ids its template repeats. */
+  /* what the reader opened or closed on one card stays so on the next: every disclosure the card marks with
+     `data-keep` (the evidence table, the general groups, a rule, the folded body text) is remembered by that
+     name for as long as the page is open — in this variable, never in storage — and set so on every fill */
+  var kept = {};
+  sheet.addEventListener("toggle", function (e) {
+    var k = e.target && e.target.getAttribute && e.target.getAttribute("data-keep");
+    if (k) kept[k] = e.target.open;
+  }, true);
+  /* raised on a phone, the strip shows the title and the judgement again once the card's own title has scrolled
+     away, so that the reader always knows which recommendation the text under the strip belongs to */
+  var titled = null;
+  sheet.addEventListener("scroll", function () {
+    if (!titled || !sheet.classList.contains("raised")) return;
+    var bar = sheet.querySelector(".peek-bar");
+    sheet.classList.toggle("titled", titled.getBoundingClientRect().bottom < (bar ? bar.getBoundingClientRect().bottom : 0));
+  }, { passive: true });
   function fill(html) {
     sheet.innerHTML = html;
-    sheet.classList.remove("peeking", "raised");
+    sheet.classList.remove("peeking", "raised", "titled");
+    sheet.querySelectorAll("details[data-keep]").forEach(function (d) {
+      var k = d.getAttribute("data-keep");
+      if (Object.prototype.hasOwnProperty.call(kept, k)) d.open = kept[k];
+    });
     var cards = Array.prototype.slice.call(sheet.querySelectorAll(".card")), card = cards[0], title = card && card.querySelector("h2.title, .label");
+    titled = title;
     cards.forEach(function (c, i) {
       if (i) c.querySelectorAll("[id], [aria-labelledby]").forEach(function (el) {
         if (el.id) el.id += "-" + i;
@@ -189,6 +210,7 @@
   function raise(up) {
     if (!sheet.classList.contains("peeking")) return;
     sheet.classList.toggle("raised", up);
+    sheet.classList.remove("titled");
     sheet.querySelector(".peek").setAttribute("aria-expanded", up ? "true" : "false");
     sheet.scrollTop = 0;
   }

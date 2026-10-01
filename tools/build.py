@@ -64,6 +64,10 @@ DIRECTION_GLYPH = {"für": "✓", "gegen": "✗", "abwägen": "⚖\ufe0e", "Lüc
 # A system not in the table is a valid state that costs the range, never the build. A display order,
 # not a fact about the world, which is why it lives here and not in the schema (WP-0025).
 EVIDENCE_SCALES = {"grade": ("hoch", "moderat", "niedrig", "sehr niedrig")}
+# An evidence system's name as a reader knows it, keyed by the same `system` slug: the caption of zone 4's table and
+# the bracket of its one-line forms ("Moderat (GRADE)"). A display name, like the order above, so it lives here; a
+# system not in the table is named by its slug, which costs the reader a capital and never the build.
+EVIDENCE_NAMES = {"grade": "GRADE", "oxford_loe": "Oxford LoE"}
 # The language of the page's own chrome — the legend, and the hint on the sheet's home — chosen for the reader,
 # not by the data (docs/publication.md §3, "Language"). Its words are the view layer's: one table per language
 # under tools/site/words/, read here and never copied into assets/; this file holds no word of it.
@@ -107,6 +111,12 @@ CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", 
              # a table whose rows carry a printed key (spec §3.1): read by that key, counted in rows, not endpoints
              "evidence.by_key", "evidence.by_key.no_range.one", "evidence.by_key.no_range.many",
              "evidence.by_key.partial.one", "evidence.by_key.partial.many", "evidence.table.key",
+             # a table of one row is one line: its value, its system and what it rates (docs/publication.md §3, zone 4)
+             "evidence.one_row.outcome", "evidence.one_row.key",
+             # zone 6 past its first passages, folded; zone 5's row of the statements related to this one (spec §5)
+             "body.more.one", "body.more.many", "slot.related",
+             "related.specializes.to", "related.specializes.from", "related.complements.to", "related.complements.from",
+             "related.conflicts.to", "related.conflicts.from",
              # the detail sections of a concept, a claim and a source, and the entity page (docs/publication.md §3, §4)
              "type.concept", "type.claim", "type.source", "type.axis",
              "facet.procedure", "facet.patient_state", "facet.medication", "facet.intervention", "facet.outcome", "facet.finding", "facet.qualifier",
@@ -134,18 +144,24 @@ CARD_WORDS = {"de": {
     "grade": "Grad {grade}", "consensus.share": "{name}, {share}",
     "marker.contested": "umstritten", "body.limits": "Grenzt ein", "body.refines": "Präzisiert", "body.supplements": "Ergänzt",
     "body.empty": "Der Begleittext schränkt diese Empfehlung nicht ein und ergänzt oder präzisiert sie nicht.",
-    "evidence.single": "Evidenz: {wert} ({system})", "evidence.by_outcome": "Evidenz: endpunktabhängig ({n} Endpunkte, {von} bis {bis})",
-    "evidence.by_outcome.no_range.one": "Evidenz: endpunktabhängig ({n} Endpunkt)",
-    "evidence.by_outcome.no_range.many": "Evidenz: endpunktabhängig ({n} Endpunkte)",
-    "evidence.by_outcome.partial.one": "Evidenz: endpunktabhängig ({k} von {n} Endpunkt erfasst)",
-    "evidence.by_outcome.partial.many": "Evidenz: endpunktabhängig ({k} von {n} Endpunkten erfasst)",
-    "evidence.ek_only": "Expertenkonsens, keine Evidenzbewertung", "evidence.missing": "Evidenz: nicht erfasst",
+    "evidence.single": "{wert} ({system})", "evidence.by_outcome": "endpunktabhängig ({n} Endpunkte, {von} bis {bis})",
+    "evidence.by_outcome.no_range.one": "endpunktabhängig ({n} Endpunkt)",
+    "evidence.by_outcome.no_range.many": "endpunktabhängig ({n} Endpunkte)",
+    "evidence.by_outcome.partial.one": "endpunktabhängig ({k} von {n} Endpunkt erfasst)",
+    "evidence.by_outcome.partial.many": "endpunktabhängig ({k} von {n} Endpunkten erfasst)",
+    "evidence.ek_only": "Expertenkonsens, keine Evidenzbewertung", "evidence.missing": "Nicht erfasst",
     "evidence.table.outcome": "Endpunkt", "evidence.table.certainty": "Sicherheit", "evidence.row.missing": "nicht erfasst",
-    "evidence.by_key": "Evidenz: aufgeschlüsselt ({n} Zeilen, {von} bis {bis})",
-    "evidence.by_key.no_range.one": "Evidenz: aufgeschlüsselt ({n} Zeile)",
-    "evidence.by_key.no_range.many": "Evidenz: aufgeschlüsselt ({n} Zeilen)",
-    "evidence.by_key.partial.one": "Evidenz: aufgeschlüsselt ({k} von {n} Zeile erfasst)",
-    "evidence.by_key.partial.many": "Evidenz: aufgeschlüsselt ({k} von {n} Zeilen erfasst)",
+    "evidence.by_key": "aufgeschlüsselt ({n} Bewertungen, {von} bis {bis})",
+    "evidence.by_key.no_range.one": "aufgeschlüsselt ({n} Bewertung)",
+    "evidence.by_key.no_range.many": "aufgeschlüsselt ({n} Bewertungen)",
+    "evidence.by_key.partial.one": "aufgeschlüsselt ({k} von {n} Bewertung erfasst)",
+    "evidence.by_key.partial.many": "aufgeschlüsselt ({k} von {n} Bewertungen erfasst)",
+    "evidence.one_row.outcome": "{wert} ({system}) · Endpunkt: {bezug}", "evidence.one_row.key": "{wert} ({system}) · Bezug: {bezug}",
+    "body.more.one": "{n} weiterer Hinweis", "body.more.many": "{n} weitere Hinweise",
+    "slot.related": "Verwandt",
+    "related.specializes.to": "allgemeinere Empfehlung", "related.specializes.from": "speziellere Empfehlung",
+    "related.complements.to": "ergänzende Empfehlung", "related.complements.from": "ergänzende Empfehlung",
+    "related.conflicts.to": "gegenläufige Empfehlung", "related.conflicts.from": "gegenläufige Empfehlung",
     "evidence.table.key": "Bezug",
     "type.concept": "Begriff", "type.claim": "Textstelle", "type.source": "Quelle", "type.axis": "Achse",
     "facet.procedure": "Eingriff", "facet.patient_state": "Patientenzustand", "facet.medication": "Medikament",
@@ -220,6 +236,24 @@ def badges_of(claims: list[dict]) -> list[dict]:
     return rows
 
 
+def excerpt(quote: str | None, sentence: str | None) -> dict | None:
+    """How zone 8 shows a claim's quote (docs/publication.md §3): the quote is the search text that finds the
+    passage in the source, often the head of a sentence and cut where a line of the PDF breaks it ("eine empi-"),
+    so shown bare it reads as a mistake. The card shows it as an excerpt: a word the line break cut at its end
+    dropped with its hyphen, and an ellipsis on each side where the sentence goes on — before it when the claim's sentence does not
+    begin with it, after it when it does not end the sentence. The quote itself, the search text that is copied
+    and linked, is never changed."""
+    if not quote:
+        return None
+    text = quote.strip()
+    tail = not text.endswith((".", "!", "?", ":", ";", "“", '"', ")"))
+    if tail and text.endswith("-") and text[-2:-1].isalpha() and " " in text:
+        text = text.rsplit(" ", 1)[0]
+    norm = lambda t: " ".join((t or "").split())
+    lead = bool(sentence) and not norm(sentence).startswith(norm(text)[:24])
+    return {"text": text, "lead": lead, "tail": tail}
+
+
 def contests_of(claims: list[dict]) -> list[dict]:
     """Zone 7 of the card: the claims that contest the statement, each with its own badge by zone 2's rules,
     its wording and its own citation. Its existence is what the ⚠ marker in the judgement announces."""
@@ -278,7 +312,7 @@ def evidence_of(claims: list[dict], concept) -> dict:
     for c, e in entries:
         g = next((g for g in groups if g["system"] == e["system"]), None)
         if g is None:
-            g = {"system": e["system"], "rows": []}
+            g = {"system": e["system"], "system_name": EVIDENCE_NAMES.get(e["system"], e["system"]), "rows": []}
             groups.append(g)
         row = {"outcome": concept(e["outcome"]) if e.get("outcome") else None, "value": e.get("value") or None, "lang": c["lang"]}
         if e.get("key"):
@@ -578,7 +612,7 @@ class Pool:
             link = source_link(link, page, claim["source"]["quote"])
         row = {k: claim.get(k) for k in ("id", "kind", "recommendation_no", "section", "label", "grade", "verb", "direction", "consensus",
                                          "consensus_share", "evidence", "lang")}
-        row.update({"quote": claim["source"]["quote"], "page": page, "source": src_id, "source_title": src.get("title"), "source_lang": src.get("lang"), "link": link})
+        row.update({"quote": claim["source"]["quote"], "page": page, "source": src_id, "source_title": src.get("title"), "source_short": src.get("short_label"), "source_lang": src.get("lang"), "link": link})
         # the claim read in its grading scheme (spec §3.1): whether its verb is the wording of an open grade; the verb as
         # the sentence says it — the wording, or for a claim against the negated form the scheme prints, never the
         # wording with a word appended, and none where the scheme gives no negated form; whether its grade is one that
@@ -1206,6 +1240,7 @@ def main(argv=None) -> int:
             d.update(derivation_of(pool, ent["id"]))   # its rule, when it is derived (spec §3.2)
         elif t == "claim":
             d["claim"] = pool.claim_view(ent)
+            d["claim"]["excerpt"] = excerpt(d["claim"].get("quote"), d["claim"].get("label"))
             j = direction_of([{"edge": "supports", **d["claim"]}])   # the claim's own judgement, in the card's four words (zone 2)
             d["claim"]["urteil"] = {"direction": j["word"], "glyph": j["glyph"], "verbs": j["verbs"]} if j else None
         elif t == "source":
@@ -1284,10 +1319,12 @@ def main(argv=None) -> int:
         cited = []   # zone 8: each source named once, its supporting claims' entries under it, in `sup`'s order
         for c in sup:
             if not cited or cited[-1]["id"] != c["source"]:
-                cited.append({"id": c["source"], "title": c["source_title"], "lang": c["source_lang"], "claims": []})
-            cited[-1]["claims"].append({k: c.get(k) for k in ("id", "recommendation_no", "page", "section", "link", "quote", "lang")})
-        related = [{"edge": k, "to": to, "label": pool.entities[to]["label"]} for k, to, _ in pool.out.get(st["id"], []) if k in STATEMENT_EDGES and to in pool.entities] \
-                + [{"edge": k, "from": frm, "label": pool.entities[frm]["label"]} for k, frm, _ in pool.inc.get(st["id"], []) if k in STATEMENT_EDGES and frm in pool.entities]
+                cited.append({"id": c["source"], "title": c["source_title"], "short_label": c["source_short"], "lang": c["source_lang"], "claims": []})
+            cited[-1]["claims"].append({**{k: c.get(k) for k in ("id", "recommendation_no", "page", "section", "link", "quote", "lang")},
+                                        "excerpt": excerpt(c.get("quote"), c.get("label"))})
+        rel = lambda eid: {"label": pool.entities[eid]["label"], "title": pool.entities[eid].get("short_label") or pool.entities[eid]["label"], "lang": pool.entities[eid]["lang"]}
+        related = [{"edge": k, "to": to, **rel(to)} for k, to, _ in pool.out.get(st["id"], []) if k in STATEMENT_EDGES and to in pool.entities] \
+                + [{"edge": k, "from": frm, **rel(frm)} for k, frm, _ in pool.inc.get(st["id"], []) if k in STATEMENT_EDGES and frm in pool.entities]
         return {
             "lang": st["lang"], "questions": CARD_QUESTIONS,
             "title": st.get("short_label") or st["label"], "label": st["label"],
