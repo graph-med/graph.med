@@ -118,10 +118,9 @@
       { selector: "node.faded", style: { "opacity": 0.15 } },
       { selector: "edge.dim", style: { "line-opacity": 0.12, "color": css("--line") } },
       { selector: "edge.faded", style: { "line-opacity": 0.15, "color": css("--line") } },
-      /* the selection is a halo behind the node in the accent colour, never its border: the border means state
-         alone (docs/publication.md §3), so a contested box keeps its dashed red border while it is selected */
-      { selector: "node.picked", style: { "underlay-color": css("--accent"), "underlay-opacity": 0.4, "underlay-padding": 8, "underlay-shape": "round-rectangle" } },
-      { selector: "node.picked[type = 'junction']", style: { "underlay-shape": "ellipse" } },
+      /* the selection is a black outline around the node, never its border: the border means state alone
+         (docs/publication.md §3), so a contested box keeps its dashed red border inside the outline while selected */
+      { selector: "node.picked", style: { "outline-width": 3, "outline-style": "solid", "outline-color": css("--fg"), "outline-offset": 0 } },
       { selector: "edge.picked", style: { "line-color": css("--fg"), "width": 3 } }
     ]);
   }

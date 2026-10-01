@@ -222,8 +222,8 @@ decision-graph-derivation):
   that disagree on the verb give no word (the verb, like the grade, is shown and
   never composed). **The border means
   state alone** — a contested box's dashed red border; it carries no meaning of
-  its own. The selection is not a border but a halo behind the node in the
-  accent colour, so that a selected contested box keeps its border.
+  its own. The selection is not the border but a black outline around it, so
+  that a selected contested box keeps its border inside the outline.
   **The legend** sits under the graph, at the bottom left, and keys what this
   view draws and nothing else. Its keys are computed by the build from the
   view's trees and its statements' claims — the same computation that decides
