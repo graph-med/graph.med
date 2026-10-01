@@ -114,7 +114,7 @@ CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", 
              "slot.outcome", "concept.uses", "concept.codes", "claim.statements", "edge.supports", "edge.contests",
              "source.claims.one", "source.claims.many", "page.json",
              # what applies generally through a view's scope tree (docs/publication.md §3): on a concept, and on the card
-             "concept.general", "scope.general_for", "scope.condition",
+             "concept.general", "scope.general_for.one", "scope.general_for.many", "scope.condition",
              # a derived concept's rule, under its row of zone 5 and on its own page (docs/publication.md §3, §4)
              "derivation.rule", "rule.claim", "comparator.between",
              # how a rule's parts combine (spec §3.1), by the schema's operators: the word the card says for each
@@ -155,7 +155,8 @@ CARD_WORDS = {"de": {
     "slot.outcome": "Endpunkt", "concept.uses": "Verwendet in", "concept.codes": "Kodiert als", "claim.statements": "Bezieht sich auf",
     "edge.supports": "stützt", "edge.contests": "widerspricht",
     "source.claims.one": "{n} Textstelle erfasst", "source.claims.many": "{n} Textstellen erfasst", "page.json": "JSON",
-    "concept.general": "Allgemein geltende Empfehlungen", "scope.general_for": "Gilt allgemein auch für", "scope.condition": "Voraussetzung",
+    "concept.general": "Allgemein geltende Empfehlungen", "scope.general_for.one": "Gilt allgemein auch für {n} weitere Gruppe",
+    "scope.general_for.many": "Gilt allgemein auch für {n} weitere Gruppen", "scope.condition": "Voraussetzung",
     "derivation.rule": "abgeleitet, nach der Regel", "rule.claim": "Textstelle", "comparator.between": "zwischen",
     "op.all_of": "UND", "op.any_of": "ODER", "op.at_least": "mindestens {n} von {m}", "op.not_stated": "Verknüpfung nicht angegeben",
     "carrier.dimension": "Dimension", "carrier.hierarchy": "Hierarchie", "axis.rule": "Regel", "axis.question": "Frage",

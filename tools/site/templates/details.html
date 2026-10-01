@@ -119,7 +119,20 @@
 {% for role, s in c.geltung.items() %}{% if s %}{% set entries = [s] if s is mapping else s %}{% set s = entries[0] %}
   <dt>{% if s.axis %}<span lang="{{ s.axis.lang }}">{{ s.axis.label }}</span>{% else %}{{ W("slot." ~ role) }}{% endif %}</dt><dd>{% call(x) all_of(entries, "div") %}{% if x.linked %}<a class="node-link" data-node="{{ x.id }}" href="{{ base }}{{ x.id }}/" lang="{{ x.lang }}">{{ x.label }}</a> <span class="count">{{ W("slot.count").format(n=x.count) }}</span>{% else %}<span lang="{{ x.lang }}">{{ x.label }}</span>{% endif %}{% if x.families %}<small class="families"><span class="families-label">{{ W("slot.families") }}</span> {% for f in x.families %}<a class="node-link" data-node="{{ f.id }}" href="{{ base }}{{ f.id }}/" lang="{{ f.lang }}">{{ f.label }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</small>{% endif %}{{ rules_of(x) }}{% endcall %}</dd>
 {% if s.allgemein %}{% set direct = s.allgemein | selectattr("direct") | list %}{% if direct %}
-  <dt>{{ W("scope.general_for") }}</dt><dd class="general-for">{% for g in direct %}<span><a class="node-link" data-node="{{ g.id }}" href="{{ base }}{{ g.id }}/" lang="{{ g.lang }}">{{ g.label }}</a>{% if g.condition %} <small>({{ W("scope.condition") }}: {% call(x) all_of(g.condition, close=")") %}<span lang="{{ x.lang }}">{{ x.label }}</span>{% endcall %}</small>{% endif %}</span>{% endfor %}</dd>
+{# to whom the anchor's statement applies generally too, through the view's scope tree: a second description of the
+   anchor's term, under its value, as zone 4's disclosure is — a native <details>, here closed, so that the slots read
+   on from the anchor to the condition; its <summary> the counting line, under it a table of the groups in the
+   order stored, with a column `Voraussetzung` only where an edge has a condition. No JavaScript is needed. #}
+{% set conditioned = direct | selectattr("condition") | list | length > 0 %}
+  <dd class="general-for"><details>
+<summary>{{ W("scope.general_for", direct | length).format(n=direct | length) }}</summary>
+<table>
+<thead><tr><th scope="col">{{ W("slot.population") }}</th>{% if conditioned %}<th scope="col">{{ W("scope.condition") }}</th>{% endif %}</tr></thead>
+<tbody>
+{% for g in direct %}<tr><td><a class="node-link" data-node="{{ g.id }}" href="{{ base }}{{ g.id }}/" lang="{{ g.lang }}">{{ g.label }}</a></td>{% if conditioned %}<td>{% if g.condition %}{% call(x) all_of(g.condition) %}<span lang="{{ x.lang }}">{{ x.label }}</span>{% endcall %}{% endif %}</td>{% endif %}</tr>
+{% endfor %}</tbody>
+</table>
+</details></dd>
 {% endif %}{% endif %}{% endif %}{% endfor %}
 </dl>
 </section>

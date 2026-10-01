@@ -567,9 +567,14 @@ glyph. Timing
      dimension's row carrying its `axis`. A slot is plain text when its concept carries only this one
      statement in that role, and a link with the count when it carries more —
      `Magensonde ziehen (6 Empfehlungen)`, the current statement included. In a
-     view with a scope tree, a row `Gilt allgemein auch für` follows the anchor's:
-     the groups whose scope edge leads directly to the statement's anchor, each
-     with its `Voraussetzung` where the edge has a condition; in the JSON the
+     view with a scope tree, the anchor's row carries a second line under its
+     value: a disclosure like zone 4's, but closed, so that the rows read on
+     from the anchor to the condition without a list between them. Its summary
+     counts — `Gilt allgemein auch für 11 weitere Gruppen` — and opened, it is a
+     table of the groups whose scope edge leads directly to the statement's
+     anchor, `Patientengruppe`, with a column `Voraussetzung` only where an
+     edge has a condition; on a phone the table takes the card's width, and
+     print shows it open where the browser can. In the JSON the
      anchor's row carries `allgemein`, every group it applies generally to — also
      those below the named ones — with its `condition`, its `via` and `direct`. The
      `outcome` slot has no row: an endpoint is the dimension the certainty

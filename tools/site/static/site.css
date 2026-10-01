@@ -316,8 +316,13 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card div.general .condition { color: var(--fg); }
 .card ul.general li { padding: .3rem 0; }
 .card ul.general li .cite { display: block; font-size: .8rem; }
-.card dl.slots dd.general-for > span { flex-basis: 100%; }   /* one group per line */
-.card dl.slots dd.general-for small { color: var(--mute); }
+.card dl.slots dd.general-for { grid-column: 2; display: block; margin-top: -.1rem; }   /* under the anchor's value, its second description */
+/* closed by default, so the slots read on from the anchor to the condition; opened, a table like zone 4's */
+.card .general-for summary { cursor: pointer; padding: .2rem 0; min-height: 32px; color: var(--mute); font-size: .85rem; }
+.card .general-for table { border-collapse: collapse; width: 100%; max-width: 40rem; margin: .2rem 0 .3rem; font-size: .9rem; }
+.card .general-for th, .card .general-for td { text-align: left; vertical-align: top; padding: .3rem .8rem .3rem 0; border-top: 1px solid var(--line); }
+.card .general-for th { border-top: 0; font-size: .75rem; font-weight: 600; color: var(--mute); text-transform: uppercase; letter-spacing: .04em; }
+.card .general-for td:nth-child(2) { color: var(--mute); }
 /* a grouped list: statements or concepts under what groups them — a concept's uses under each slot, an axis's
    placements under each parent or value — each member on its own line; a hierarchy member names in a quiet word
    the kind of edge it hangs by, and one without an edge (a proposal's) is marked */
@@ -375,6 +380,7 @@ button.copy.done { color: var(--fg); border-color: var(--fg); background: var(--
 
 /* narrow screens: the controls share one row and the counter wraps under them */
 @media (max-width: 520px) {
+  .card dl.slots dd.general-for { grid-column: 1 / -1; }   /* opened, the table takes the card's width, not the value column's */
   .tools.right { flex-direction: column; }   /* fit and reset stack, so the search row keeps its width */
   .tools input[type=search] { max-width: 34vw; }
   .tools select { max-width: 6.6rem; }
@@ -383,9 +389,12 @@ button.copy.done { color: var(--fg); border-color: var(--fg); background: var(--
   .legend-panel { max-height: 26vh; }   /* expanded on a phone, it leaves the tree a strip of the free row; the panel scrolls */
 }
 
-/* print: the disclosure of zone 4 is open and has no marker to click; a table is not split across pages */
+/* print: the disclosures of zone 4 and of zone 5's general groups show their tables and have no marker to click; a table is not split across pages */
 @media print {
   .card .evidence summary { list-style: none; }
   .card .evidence summary::-webkit-details-marker { display: none; }
   .card .evidence table { break-inside: avoid; }
+  .card .general-for summary { list-style: none; }   /* closed on screen, printed open where the browser can */
+  .card .general-for summary::-webkit-details-marker { display: none; }
+  .card .general-for details::details-content { content-visibility: visible; display: block; }
 }
