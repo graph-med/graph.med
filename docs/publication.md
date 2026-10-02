@@ -243,7 +243,8 @@ decision-graph-derivation):
   every load, and nothing is remembered: the site keeps no client state. On a
   wide screen its keys stand in the sheet's home instead, so that the column
   beside the graph is put to use while nothing is selected and the canvas starts
-  free; a selection fills the sheet, and the pill keys the graph from then on. On a phone the legend and the chapter panel share
+  free and the pill is hidden while they stand there, so that no key is shown twice;
+  a selection fills the sheet and brings the pill back, and the home again hides it. On a phone the legend and the chapter panel share
   the little height the graph leaves, so opening one closes the other.
   Claims are not nodes; they are the evidence and appear in the section.
 

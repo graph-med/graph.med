@@ -184,6 +184,7 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
   main.view #graph { height: 100%; }
   main.view .sheet { border-top: 0; border-left: 1px solid var(--line); padding: .6rem 1rem 2rem; overflow: auto; min-height: 0; }
   main.view .sheet-legend { display: block; }
+  main.view:has(#sheet .sheet-legend) .legend:not(.failed) { display: none; }   /* the home keys the graph beside it: no second legend on the canvas until a selection takes the sheet */
 }
 
 /* the phone's peek strip (docs/publication.md §3): below 900 px a selection's details wait at the bottom edge in a

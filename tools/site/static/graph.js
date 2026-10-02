@@ -27,11 +27,11 @@
   if (!data.groupings.some(function (g) { return g.axis === by; })) by = first;   /* an unknown axis in the link: the first grouping */
   data.groupings.forEach(function (g) { var o = document.createElement("option"); o.value = g.axis; o.textContent = g.label; o.lang = g.lang; axisSel.appendChild(o); });
   axisSel.value = by; axisSel.hidden = data.groupings.length < 2;   /* a single grouping needs no switch */
-  function fail(msg) { legend.textContent = "The graph could not be drawn: " + msg; }
+  function fail(msg) { legend.textContent = "The graph could not be drawn: " + msg; legend.classList.add("failed"); }   /* shown whatever the sheet holds */
 
   /* the legend: collapsed at every load — nothing is remembered; on a wide screen its keys stand in the sheet's home,
-     beside the graph, so the canvas starts free. The pill toggles the panel above it; the zoom does not follow, the
-     fit button does (the free row is re-read) */
+     beside the graph, and the pill is hidden while they do (site.css), so the canvas starts free. The pill toggles the
+     panel above it; the zoom does not follow, the fit button does (the free row is re-read) */
   var legendPanel = document.getElementById("legend-panel"), legendToggle = document.getElementById("legend-toggle");
   function showLegend(on) { legendPanel.hidden = !on; legendToggle.setAttribute("aria-expanded", String(on)); }
   showLegend(false);

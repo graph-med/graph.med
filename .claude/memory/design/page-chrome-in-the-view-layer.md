@@ -18,7 +18,8 @@ on a phone, at every load; nothing is remembered** — the site keeps no client
 state. On 2026-10-02 the wide screen's open legend moved into the sheet's home
 (the column was taken by the guideline's title, which the root box already
 writes): the floating legend is now collapsed at every load on every width, and
-its keys stand in the sheet while nothing is selected.
+its keys stand in the sheet while nothing is selected, the pill hidden meanwhile
+(never the same keys twice).
 
 **Why:** A German and an English site come in a later phase. With the words in
 a table beside the templates, that switch is a second file, not a second
