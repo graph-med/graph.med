@@ -167,7 +167,10 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .sheet-legend { display: none; margin: 1rem 0; padding-top: .6rem; border-top: 1px solid var(--line); font-size: .85rem; line-height: 1.5; }
 .sheet-legend .lg + .lg { margin-top: .6rem; }
 .home-source { margin-top: .6rem; padding-top: .4rem; border-top: 1px solid var(--line); }
-.home-source summary { display: flex; align-items: center; min-height: 44px; color: var(--mute); font-size: .85rem; cursor: pointer; }   /* touch target */
+.home-source summary { display: flex; align-items: center; gap: .4rem; min-height: 44px; color: var(--mute); font-size: .85rem; cursor: pointer; list-style: none; }   /* touch target */
+.home-source summary::-webkit-details-marker { display: none; }
+.home-source summary::before { content: "▸"; }   /* the flex row drops the native marker: it folds, and says so */
+.home-source[open] summary::before { content: "▾"; }
 .home-source p { margin: .3rem 0; }
 .node-link { min-height: 44px; display: inline-flex; align-items: center; }   /* touch target */
 
