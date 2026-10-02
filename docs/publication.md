@@ -239,9 +239,11 @@ decision-graph-derivation):
   Interaction hints are not keys: the legend has none, and "tap a box" is the
   sheet's home text. Collapsed, the legend is a pill of at least 44 px carrying
   the view's direction chips and the word *Legende*, so the corner says what it
-  opens; expanded, the panel of groups opens upward from it. It is open on a wide
-  screen and collapsed on a phone at every load, and nothing is remembered: the
-  site keeps no client state. On a phone the legend and the chapter panel share
+  opens; expanded, the panel of groups opens upward from it. It is collapsed at
+  every load, and nothing is remembered: the site keeps no client state. On a
+  wide screen its keys stand in the sheet's home instead, so that the column
+  beside the graph is put to use while nothing is selected and the canvas starts
+  free; a selection fills the sheet, and the pill keys the graph from then on. On a phone the legend and the chapter panel share
   the little height the graph leaves, so opening one closes the other.
   Claims are not nodes; they are the evidence and appear in the section.
 
@@ -770,7 +772,10 @@ viewer that cannot highlight, the reader pastes it into the document's find. Eve
 link into a source opens in a tab of its own — the citation's, a body-text passage's,
 a contesting claim's, a rule's — so that the page keeps its open groups, search,
 chapter and axis. The source's license line, as
-recorded on the source entity, is shown on its page and on every view drawn from it.
+recorded on the source entity, is shown on its page and on every view drawn from it —
+there in the sheet's home, folded with the source's title and link under *Quelle und
+Lizenz*, since the root box already names the guideline and the home's first lines are
+the title on one line, the hint and the counts.
 
 ---
 

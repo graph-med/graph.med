@@ -1,6 +1,6 @@
 ---
 name: page-chrome-in-the-view-layer
-description: Only what the viewer reads is German; the backend stays English. The page chrome's words (the legend, the sheet's hint) live in a per-language table under tools/site/words/, never in tools/build.py, and are not published; the legend is open on a wide screen, collapsed on a phone, nothing remembered.
+description: Only what the viewer reads is German; the backend stays English. The page chrome's words (the legend, the sheet's hint) live in a per-language table under tools/site/words/, never in tools/build.py, and are not published; the legend is a collapsed pill at every load, its keys in the sheet's home on a wide screen, nothing remembered.
 metadata:
   type: project
 ---
@@ -15,7 +15,10 @@ table says them. The legend is the first chrome to follow this rule, with the
 sheet's one hint. The maintainer decided it on 2026-09-21 (card #155) and
 settled the legend's default on 2026-09-24: **open on a wide screen, collapsed
 on a phone, at every load; nothing is remembered** — the site keeps no client
-state.
+state. On 2026-10-02 the wide screen's open legend moved into the sheet's home
+(the column was taken by the guideline's title, which the root box already
+writes): the floating legend is now collapsed at every load on every width, and
+its keys stand in the sheet while nothing is selected.
 
 **Why:** A German and an English site come in a later phase. With the words in
 a table beside the templates, that switch is a second file, not a second

@@ -12,8 +12,8 @@
    its sources, or another axis of its `group_by` (spec §4.1) — as `?by=<grouping>` in the
    URL (`section` for the chapters, else the axis id; absent for the first), so a grouped
    view is a shareable link.
-   The legend under the graph keys what the view draws, open on a wide screen and a
-   pill on a phone.
+   The legend under the graph keys what the view draws, a pill that opens it; on a wide
+   screen the sheet's home keys it too.
    Data: the #graph-data JSON written by tools/build.py, one tree per grouping. */
 (function () {
   "use strict";
@@ -29,11 +29,12 @@
   axisSel.value = by; axisSel.hidden = data.groupings.length < 2;   /* a single grouping needs no switch */
   function fail(msg) { legend.textContent = "The graph could not be drawn: " + msg; }
 
-  /* the legend: open on a wide screen, collapsed on a phone, at every load — nothing is remembered. The pill
-     toggles the panel above it; the zoom does not follow, the fit button does (the free row is re-read) */
+  /* the legend: collapsed at every load — nothing is remembered; on a wide screen its keys stand in the sheet's home,
+     beside the graph, so the canvas starts free. The pill toggles the panel above it; the zoom does not follow, the
+     fit button does (the free row is re-read) */
   var legendPanel = document.getElementById("legend-panel"), legendToggle = document.getElementById("legend-toggle");
   function showLegend(on) { legendPanel.hidden = !on; legendToggle.setAttribute("aria-expanded", String(on)); }
-  showLegend(!!(window.matchMedia && window.matchMedia("(min-width: 900px)").matches));
+  showLegend(false);
   /* on a phone the legend and the chapter panel share the little height the graph leaves, so opening one closes the other */
   var narrow = function () { return !(window.matchMedia && window.matchMedia("(min-width: 900px)").matches); };
   legendToggle.onclick = function () {

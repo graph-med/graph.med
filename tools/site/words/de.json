@@ -38,7 +38,8 @@
   },
   "sheet": {
     "hint": "Ein Feld im Graphen antippen: hier erscheinen seine Details.",
-    "close": "Details schließen"
+    "close": "Details schließen",
+    "source": "Quelle und Lizenz"
   },
   "index": {
     "kinds": {

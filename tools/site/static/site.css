@@ -107,11 +107,11 @@ ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1re
 .legend-panel { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: .5rem 1rem; width: 100%; max-width: 56rem;
   max-height: 40vh; overflow: auto; padding: .55rem .75rem; background: var(--bg); border: 1px solid var(--line); border-radius: .6rem; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
 .legend-panel[hidden] { display: none; }
-.legend .lg p { margin: .1rem 0; }
-.legend .lg-name { font-weight: 600; color: var(--mute); font-size: .74rem; }
-.legend .key .sw { margin: 0 .35em 0 0; }
-.legend .key.variant { padding-left: 1.2em; }   /* a state of the form above it: the folded question, the open group */
-.legend .grades b { font-weight: 700; }
+.lg p { margin: .1rem 0; }
+.lg-name { font-weight: 600; color: var(--mute); font-size: .74rem; }
+.key .sw { margin: 0 .35em 0 0; }
+.key.variant { padding-left: 1.2em; }   /* a state of the form above it: the folded question, the open group */
+.grades b { font-weight: 700; }
 .legend-toggle { display: inline-flex; align-items: center; gap: .45rem; min-height: 44px; padding: 0 .9rem 0 .55rem; border: 1px solid var(--line); border-radius: 22px;
   background: var(--bg); color: var(--fg); font: inherit; font-size: .85rem; font-weight: 600; cursor: pointer; }
 .legend-toggle:hover, .legend-toggle:focus-visible { border-color: var(--fg); }
@@ -136,7 +136,7 @@ ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1re
 .sw.contested { border-radius: 2px; border: 2px dashed var(--contested); background: var(--bg); }
 .sw.related { border-radius: 2px; background: var(--mute); outline: 2px dotted var(--fg); outline-offset: 2px; }   /* the dotted outline a box related to the selected one wears */
 .sw.general { border-radius: 2px; background: var(--mute); outline: 3px double var(--fg); outline-offset: 2px; }   /* the double outline a box applying generally wears in the graph */
-.legend .key .sw.related, .legend .key .sw.general { margin-left: .2em; margin-right: .55em; }   /* room for the outline */
+.key .sw.related, .key .sw.general { margin-left: .2em; margin-right: .55em; }   /* room for the outline */
 /* an edge's key: a short run of its line */
 .ln { display: inline-block; width: 1.6em; height: 0; vertical-align: middle; margin-right: .35em; border-top: 1.5px solid var(--edge); }
 .ln.answer { border-top-color: var(--fg); }
@@ -161,6 +161,14 @@ button.copy { font: inherit; font-style: normal; font-size: .72rem; padding: 0 .
 button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: var(--fg); }
 .cite { font-size: .85rem; color: var(--mute); }
 .sheet .hint { margin: 0 0 .5rem; font-size: .85rem; color: var(--mute); }   /* the home text's one hint: where the details appear */
+/* the view sheet's home: the title on one line (the root box writes it whole, the folded source lines below name the
+   source); the legend's keys in the column a wide screen has free, none on a phone, where the pill is the legend */
+.home-title { font-size: .95rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: .1rem 0 .4rem; }
+.sheet-legend { display: none; margin: 1rem 0; padding-top: .6rem; border-top: 1px solid var(--line); font-size: .85rem; line-height: 1.5; }
+.sheet-legend .lg + .lg { margin-top: .6rem; }
+.home-source { margin-top: .6rem; padding-top: .4rem; border-top: 1px solid var(--line); }
+.home-source summary { display: flex; align-items: center; min-height: 44px; color: var(--mute); font-size: .85rem; cursor: pointer; }   /* touch target */
+.home-source p { margin: .3rem 0; }
 .node-link { min-height: 44px; display: inline-flex; align-items: center; }   /* touch target */
 
 /* wide screens: the graph fills the height, the details sit beside it as a column */
@@ -172,6 +180,7 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
   main.view .graph-wrap { margin: 0; border-top: 0; height: 100%; min-height: 0; }
   main.view #graph { height: 100%; }
   main.view .sheet { border-top: 0; border-left: 1px solid var(--line); padding: .6rem 1rem 2rem; overflow: auto; min-height: 0; }
+  main.view .sheet-legend { display: block; }
 }
 
 /* the phone's peek strip (docs/publication.md §3): below 900 px a selection's details wait at the bottom edge in a
