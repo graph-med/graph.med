@@ -66,7 +66,7 @@ deep link (unfold and select), `section=<number>` sets the chapter filter,
 `search=<text>` and `facet=<kind>` set the search, `step=<n>` steps `n` times through its
 matches (back when negative), `chapters` opens the chapter
 panel and `chapters-scroll=<px>` scrolls its list, `legend` collapses or expands the legend
-(open on a wide screen, collapsed on a phone at load), `all` opens every patient
+(collapsed at load on every screen), `all` opens every patient
 group one tap at a time (the physician's extreme state), `fit` fits what is
 open, `reset` returns the page to its opening state, `sheet` and `graph` bring
 the details or the graph into view as a reader does — on a phone, where a
