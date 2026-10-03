@@ -112,7 +112,7 @@ CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", 
              "facet.procedure", "facet.patient_state", "facet.medication", "facet.intervention", "facet.outcome", "facet.finding", "facet.qualifier",
              "kind.recommendation", "kind.criterion", "kind.definition", "kind.fact", "kind.gap_notice",
              "slot.outcome", "concept.uses", "concept.codes", "claim.statements", "edge.supports", "edge.contests",
-             "source.claims.one", "source.claims.many", "page.json",
+             "source.open", "source.claims.one", "source.claims.many", "page.json",
              # what applies generally through a view's scope tree (docs/publication.md §3): on a concept, and on the card
              "concept.general", "scope.general_for", "scope.condition",
              # a derived concept's rule, under its row of zone 5 and on its own page (docs/publication.md §3, §4)
@@ -154,7 +154,7 @@ CARD_WORDS = {"de": {
     "kind.gap_notice": "Lücke",
     "slot.outcome": "Endpunkt", "concept.uses": "Verwendet in", "concept.codes": "Kodiert als", "claim.statements": "Bezieht sich auf",
     "edge.supports": "stützt", "edge.contests": "widerspricht",
-    "source.claims.one": "{n} Textstelle erfasst", "source.claims.many": "{n} Textstellen erfasst", "page.json": "JSON",
+    "source.open": "Zur Quelle", "source.claims.one": "{n} Textstelle erfasst", "source.claims.many": "{n} Textstellen erfasst", "page.json": "JSON",
     "concept.general": "Allgemein geltende Empfehlungen", "scope.general_for": "Gilt allgemein auch für", "scope.condition": "Voraussetzung",
     "derivation.rule": "abgeleitet, nach der Regel", "rule.claim": "Textstelle", "comparator.between": "zwischen",
     "op.all_of": "UND", "op.any_of": "ODER", "op.at_least": "mindestens {n} von {m}", "op.not_stated": "Verknüpfung nicht angegeben",
