@@ -247,9 +247,9 @@ decision-graph-derivation):
   the view's direction chips and the word *Legende*, so the corner says what it
   opens; expanded, the panel stands beside it on a wide screen, and on a phone
   opens upward from it over the graph, as tall as the free row at most, so that
-  the tree keeps its room and a touch on the graph puts it away. It is open on a wide
-  screen and collapsed on a phone at every load, and nothing is remembered: the
-  site keeps no client state. On a phone the legend and the chapter panel share
+  the tree keeps its room and a touch on the graph puts it away. It is collapsed at
+  every load, on every screen, and only its pill opens it; nothing is remembered:
+  the site keeps no client state. On a phone the legend and the chapter panel share
   the little height the graph leaves, so opening one closes the other.
   Claims are not nodes; they are the evidence and appear in the section.
 
