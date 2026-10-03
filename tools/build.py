@@ -386,7 +386,6 @@ def legend_of(statements: list[dict], groupings: list[dict], pool, sources: list
     order = lambda p: (sources.index(p[0]) if p[0] in sources else len(sources), p[0], pool.grade_rank(*p))
     return {
         "forms": [t for t in ("question", "junction", "statement", "aim") if t in types],
-        "folded": "question" in types,   # a question the reader closed: grey and dashed
         "open": "junction" in types,     # a patient group the reader opened: filled
         "directions": [{"word": w, "glyph": g} for w, g in DIRECTION_GLYPH.items() if w in directions],
         "undirected": None in directions,   # a statement without a direction (a fact): the page's colours, with a border

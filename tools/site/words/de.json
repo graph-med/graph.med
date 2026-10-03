@@ -3,8 +3,8 @@
     "toggle": "Legende",
     "label": "Legende des Graphen",
     "groups": {
-      "form": "Form = Typ",
-      "direction": "Zeichen + Farbe = Richtung",
+      "form": "Typ",
+      "direction": "Richtung",
       "grade": "Grad",
       "state": "Rahmen = Zustand",
       "edges": "Kanten"
@@ -15,7 +15,6 @@
       "statement": "Empfehlung",
       "aim": "Ziel"
     },
-    "folded": "zugeklappt",
     "open": "geöffnet",
     "directions": {
       "für": "für",

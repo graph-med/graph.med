@@ -228,20 +228,28 @@ decision-graph-derivation):
   where a box writes its verb — never declared: a direction no box has, a
   contested border no box wears, an edge style no tree draws, has no key, and a
   form, colour, letter or edge style the view draws has one. They stand in named
-  groups, laid out as a grid: *Form = Typ* (question, and a folded question;
-  patient group, and an open one; recommendation; aim), *Zeichen + Farbe =
-  Richtung* (a chip in the box's fill with the glyph inside it, and a box without
-  a direction), *Grad* (the grades the boxes carry, in their scheme's order, and
-  the grades under which the verb is written as a word), *Rahmen = Zustand* (contested,
-  related to the selected box, applying generally to the selected group) and
-  *Kanten* (answer, the way on, the aim). A chip carries a border that holds
+  groups, laid out as a small table: one row per group, its name in a column of
+  its own and its keys side by side beside it, wrapping in their column, a
+  hairline between the groups — so that the panel is as tall as its groups
+  rather than as its longest group, and each group is told apart at a glance:
+  *Typ* (question; patient group, and an open one, the state in its form's key;
+  recommendation; aim), *Richtung* (a chip in the box's
+  fill with the glyph inside it, and a box without a direction), *Grad* (the
+  grades the boxes carry, in their scheme's order, and the grades under which
+  the verb is written as a word), *Rahmen = Zustand* (contested, related to the selected
+  box, applying generally to the selected group) and *Kanten* (answer, the way
+  on, the aim). The panel always holds every key the view has, whatever the
+  reader has opened. A question the reader has closed (grey, dashed) has no
+  key: it is drawn only after the reader's own tap on it, which says what it is. A chip carries a border that holds
   against the page in both themes, so that no key is told by a pastel alone.
   Interaction hints are not keys: the legend has none, and "tap a box" is the
   sheet's home text. Collapsed, the legend is a pill of at least 44 px carrying
   the view's direction chips and the word *Legende*, so the corner says what it
-  opens; expanded, the panel of groups opens upward from it. It is open on a wide
-  screen and collapsed on a phone at every load, and nothing is remembered: the
-  site keeps no client state. On a phone the legend and the chapter panel share
+  opens; expanded, the panel stands beside it on a wide screen, and on a phone
+  opens upward from it over the graph, as tall as the free row at most, so that
+  the tree keeps its room and a touch on the graph puts it away. It is collapsed at
+  every load, on every screen, and only its pill opens it; nothing is remembered:
+  the site keeps no client state. On a phone the legend and the chapter panel share
   the little height the graph leaves, so opening one closes the other.
   Claims are not nodes; they are the evidence and appear in the section.
 
@@ -401,7 +409,8 @@ in a row of one grid rather than at a measured distance from an edge: the contro
 in the first, what the reader opens over the graph — the chapter panel — in the
 second, the legend in the third, and the canvas spanning all three. A control row
 that wraps on a phone makes its own row taller, the legend is as tall as it is,
-collapsed or expanded, and both the panel's height and the zoom that fits the tree
+collapsed or expanded (on a phone, where it opens over the graph, as tall as its
+pill), and both the panel's height and the zoom that fits the tree
 follow from the free middle row. No constant states how tall the controls or the
 legend are.
 
