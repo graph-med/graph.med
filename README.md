@@ -376,7 +376,8 @@ Workers' local runtime (`wrangler dev`, no Cloudflare account needed), and measu
 the requests and CPU time each call costs there. Its commands are in
 [`CLAUDE.md`](CLAUDE.md) under "Checks" as well. The server is JavaScript on Node,
 its dependencies pinned with npm in `mcp/` (ADR-0007), and it runs as a Cloudflare
-Worker (ADR-0008; see "graph.med in Claude" below). No workflow runs its check yet.
+Worker (ADR-0008; see "graph.med in Claude" below). `.github/workflows/mcp.yml` runs its check
+against the live site before each deploy.
 
 CI runs the same validator (`.github/workflows/validate.yml`) on every pull request —
 including every push to an open pull request — and on every push to `main`, as two
@@ -428,11 +429,18 @@ graph.med reaches Claude, and any other MCP client, as a **remote MCP server**:
 the read-only server in `mcp/`, hosted as a Cloudflare Worker (ADR-0008). Its
 tools list the graphs, walk their groupings, search, and read an entity or the
 verbatim passages behind it. Every result cites graph.med URLs and carries the
-licence and review status. **It is not deployed yet.** A person first opens the
-Cloudflare account, moves the DNS, sets the rate-limiting rule and commits the
-deploy workflow (card #279). Its URL will be `https://mcp.graph.med/mcp`.
+licence and review status. Its URL is `https://mcp.graph.med/mcp`.
 
-Once it is deployed, add it in claude.ai under **Customize > Connectors > Add
+It runs on the project's Cloudflare account, which holds graph.med's DNS zone (the
+site's records are DNS only, so the site itself is served by GitHub Pages, not through
+Cloudflare). `.github/workflows/mcp.yml` deploys it after each successful Pages
+deploy from `main`, with the repository secrets `CLOUDFLARE_API_TOKEN` (Workers
+scripts only, no DNS permission) and `CLOUDFLARE_ACCOUNT_ID`. The custom domain
+`mcp.graph.med` is attached once in the Cloudflare dashboard, not by the deploy, and
+one rate-limiting rule blocks a client address that sends more than 60 requests to
+`/mcp` in 10 seconds (ADR-0008).
+
+Add it in claude.ai under **Customize > Connectors > Add
 custom connector**. Enter that URL, and choose **No sign-in** for authentication:
 the endpoint needs no account and no key. On the Free plan this is the one custom
 connector the plan allows. On Team and Enterprise an Owner adds it under

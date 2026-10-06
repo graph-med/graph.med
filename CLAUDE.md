@@ -14,7 +14,8 @@ CI workflow that runs it (`.github/workflows/validate.yml`), the pool itself und
 `data/` (layout in `data/README.md`), the site build (`tools/build.py`, see "Build"),
 the feasibility test of a grouping axis (`tools/axes.py`, see "Checks"), the
 screenshot runner (`tools/screenshot.py` with its driver `tools/screenshot.js`, see
-"Build") and the Pages workflow (`.github/workflows/pages.yml`), the work-board tool
+"Build") and the Pages workflow (`.github/workflows/pages.yml`), the MCP deploy workflow
+(`.github/workflows/mcp.yml`, see "Build"), the work-board tool
 (`tools/board.py`, see "Work"), the read-only MCP server with its Worker entry point
 and its check (`mcp/`, see "Checks" and "Build"), `AGENTS.md`, and the `.claude/` directory described
 below. Beyond these scripts the one source tree is `mcp/` (ADR-0007).
@@ -131,7 +132,8 @@ dashboard (not by the deploy), open to every MCP
 client behind one rate-limiting rule (ADR-0008). `npm --prefix mcp run dev`
 runs it locally (`wrangler dev`; `-- --var LAYER0_BASE:<url>` points it at a preview
 or a local build). It is deployed with `npm --prefix mcp run deploy` (`wrangler
-deploy`), only by a workflow a person commits, with the repository secrets
+deploy`), only by `.github/workflows/mcp.yml`, after each successful Pages deploy from
+`main` and by hand, which first runs its check against the live site, with the repository secrets
 `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` — never from the sandbox, which
 holds neither.
 

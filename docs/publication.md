@@ -1462,8 +1462,8 @@ supported by default.
 
 The Worker's configuration (`mcp/wrangler.toml`), the rate-limiting rule and the
 deploy trigger are ADR-0008's; the account, the DNS, the rule as entered, the API
-token and the deploy are a person's steps (#279). This section states the design
-only.
+token and the deploy workflow (`.github/workflows/mcp.yml`) are a person's steps
+(#279), all taken on 2026-10-06. This section states the design only.
 
 ### What this section leaves open
 

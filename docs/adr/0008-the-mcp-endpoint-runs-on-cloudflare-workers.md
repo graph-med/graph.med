@@ -111,8 +111,8 @@ the figures are upper bounds:
    server by its URL, with no key. OAuth enters only if the answer to
    `assistant-permission` or `mdr-status` requires restricting who may use it.
 5. **Deploy: after each successful Pages deploy from `main`, and by hand**
-   (confirmed by the maintainer, 2026-09-28). A workflow (committed by a
-   person; workflow files are human-only) runs on a `workflow_run` of the
+   (confirmed by the maintainer, 2026-09-28). A workflow (`.github/workflows/mcp.yml`,
+   committed by a person on 2026-10-06; workflow files are human-only) runs on a `workflow_run` of the
    `pages` workflow that completed successfully for a push to `main` (or a
    `workflow_dispatch` of it), and on its own `workflow_dispatch`. It checks out
    the commit Pages just published, runs `npm ci` and the server's check against
@@ -138,8 +138,8 @@ the figures are upper bounds:
 - The MVP adds infrastructure: a Cloudflare account, graph.med's DNS in a
   Cloudflare zone (the site's records stay DNS only, pointing at GitHub Pages),
   the Worker, the rate-limiting rule and the zone settings, a token, and a
-  committed workflow. All of these are a person's steps, and the agent deploys
-  nothing.
+  committed workflow. All of these are a person's steps, taken on 2026-10-06,
+  and the agent deploys nothing.
 - Every MCP client can use the endpoint, whoever runs it, with no sign-in and
   no key: claude.ai web, Desktop and mobile, other vendors' hosted assistants,
   and clients on the user's machine. Programs that fetch pages read Layer 0
