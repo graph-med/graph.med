@@ -1359,7 +1359,9 @@ as read on 2026-09-27), so the tool code uses only web-standard APIs (`fetch`, J
 The design:
 
 - The Worker is served on a custom domain in a Cloudflare zone, `mcp.graph.med`
-  (the maintainer, 2026-09-28); its MCP endpoint is `https://mcp.graph.med/mcp`.
+  (the maintainer, 2026-09-28), attached once in the dashboard rather than by the
+  deploy, so that the deploy token holds no DNS permission (ADR-0008); its MCP
+  endpoint is `https://mcp.graph.med/mcp`.
   graph.med's DNS is managed in Cloudflare; the site stays on GitHub Pages, its
   records DNS only (not proxied), so only `mcp.graph.med` passes Cloudflare's
   proxy.

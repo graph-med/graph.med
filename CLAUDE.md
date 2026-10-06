@@ -126,7 +126,8 @@ complete clickable URL (`https://graph.med/preview/pr<N>/<view-id>/`), never a
 bare path.
 
 The MCP endpoint is the Worker in `mcp/` on Cloudflare Workers, at
-`https://mcp.graph.med/mcp`, a custom domain of graph.med's zone, open to every MCP
+`https://mcp.graph.med/mcp`, a custom domain of graph.med's zone attached in the
+dashboard (not by the deploy), open to every MCP
 client behind one rate-limiting rule (ADR-0008). `npm --prefix mcp run dev`
 runs it locally (`wrangler dev`; `-- --var LAYER0_BASE:<url>` points it at a preview
 or a local build). It is deployed with `npm --prefix mcp run deploy` (`wrangler

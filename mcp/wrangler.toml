@@ -17,10 +17,11 @@ compatibility_flags = ["nodejs_als"]
 workers_dev = false
 preview_urls = false
 
-# The host name the maintainer confirmed on 2026-09-28.
-routes = [
-  { pattern = "mcp.graph.med", custom_domain = true },
-]
+# No route here: the custom domain mcp.graph.med (the maintainer, 2026-09-28)
+# is attached once in the dashboard, so the deploy token needs neither DNS nor
+# route permissions. Wrangler leaves dashboard routes alone only while this
+# file has no `route`/`routes` key and `workers_dev = false` (Wrangler
+# configuration, "Source of truth"). Adding a `routes` key would take them over.
 
 [vars]
 # The site the tools read (Layer 0). Only here, never from a request.

@@ -69,7 +69,18 @@ the figures are upper bounds:
      because the first leaves Version URLs as they were. There is no
      `previews` block. The deploy runs `wrangler deploy`, never
      `wrangler preview`;
-   - one route, a custom domain in graph.med's Cloudflare zone: `mcp.graph.med`;
+   - no `route` or `routes` key. The custom domain `mcp.graph.med` in graph.med's
+     Cloudflare zone is attached once by a person in the dashboard (Workers &
+     Pages › the Worker › Settings › Domains & Routes), which creates its DNS
+     record. Cloudflare's Wrangler documentation ("Source of truth") says that
+     to manage routes in the dashboard only, a configuration has no
+     `route`/`routes` key and sets `workers_dev = false`; Wrangler then leaves
+     them alone on deploy. So the deploy token holds no DNS or route
+     permission. It holds only Workers Scripts: Edit, Workers Observability:
+     Edit, Account Settings: Read, User Details: Read and Memberships: Read, and
+     a leaked token can replace the Worker's code but cannot change graph.med's
+     DNS, which carries the site and mail (the maintainer chose this on
+     2026-10-06);
    - `compatibility_flags = ["nodejs_als"]`: the handler imports
      `node:async_hooks` (AsyncLocalStorage), and nothing else of Node's is
      used, so the wider `nodejs_compat` is not set;
