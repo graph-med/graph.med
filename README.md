@@ -367,6 +367,18 @@ what each form checks, are in [`CLAUDE.md`](CLAUDE.md) under "Checks" — one ho
 them, read by humans and agents alike. Python tooling is managed with
 [`uv`](https://docs.astral.sh/uv/) (`pyproject.toml`, `uv.lock`); never pip.
 
+The read-only MCP server in `mcp/` (`docs/publication.md` §8) has a check of its
+own: scripted MCP clients walk every graph the site's index lists, and every
+grouping of each, through the server's tools, and compare what they return with the
+files they read — among other things that no result but provenance carries a quote of
+a source. The same check runs the server as the Worker it is deployed as, in
+Workers' local runtime (`wrangler dev`, no Cloudflare account needed), and measures
+the requests and CPU time each call costs there. Its commands are in
+[`CLAUDE.md`](CLAUDE.md) under "Checks" as well. The server is JavaScript on Node,
+its dependencies pinned with npm in `mcp/` (ADR-0007), and it runs as a Cloudflare
+Worker (ADR-0008; see "graph.med in Claude" below). `.github/workflows/mcp.yml` runs its check
+against the live site before each deploy.
+
 CI runs the same validator (`.github/workflows/validate.yml`) on every pull request —
 including every push to an open pull request — and on every push to `main`, as two
 jobs: the offline structural check, then the quote verification, which downloads each
@@ -393,7 +405,16 @@ ephemeral, like everything outside the repository.
 `tools/build.py` renders `data/` into a static site — one decision-tree page per view,
 with a chapter tree that filters it and a search that highlights, one page and one
 JSON document per entity, read on a phone first — as designed in
-`docs/publication.md`. The tree is drawn by Cytoscape.js with the dagre layout,
+`docs/publication.md`. Each entity's JSON also carries what a program needs to
+cite it and walk on: its absolute URLs, the views it belongs to, the licence line of
+each source it quotes, its review status and provenance, and for a concept the
+recommendations that hold it and the nodes where it appears in each of a view's
+groupings (`meta`, `statements`, `appears_in`; §4 there). Beside the pages it writes
+files for programs: `index.json` (every view with its groupings and files) and
+`llms.txt`, which describes them, at the root, and per view a tree file for each
+grouping (`<view-id>/trees/…`), the view without content (`<view-id>/view.json`) and a
+search file (`<view-id>/search.json`) — none of them holds a claim sentence or a quote
+(§2 and §4 there). The tree is drawn by Cytoscape.js with the dagre layout,
 vendored under `tools/site/static/vendor/` (MIT, pinned; see its `LICENSES.md`). The command is in [`CLAUDE.md`](CLAUDE.md) under "Build"; run
 it locally and open `site/index.html`. Deployment to GitHub Pages is a workflow, and
 like every workflow file it is committed by a person (see "Checks"). The same
@@ -401,6 +422,38 @@ workflow serves every open pull request at `graph.med/preview/pr<N>/`, built fro
 the pull request's head once its checks have run, so that a change to a page is
 reviewed as the page it produces; a preview says which pull request it is and asks
 not to be indexed.
+
+## graph.med in Claude
+
+graph.med reaches Claude, and any other MCP client, as a **remote MCP server**:
+the read-only server in `mcp/`, hosted as a Cloudflare Worker (ADR-0008). Its
+tools list the graphs, walk their groupings, search, and read an entity or the
+verbatim passages behind it. Every result cites graph.med URLs and carries the
+licence and review status. Its URL is `https://mcp.graph.med/mcp`.
+
+It runs on the project's Cloudflare account, which holds graph.med's DNS zone (the
+site's records are DNS only, so the site itself is served by GitHub Pages, not through
+Cloudflare). `.github/workflows/mcp.yml` deploys it after each successful Pages
+deploy from `main`, with the repository secrets `CLOUDFLARE_API_TOKEN` (Workers
+scripts only, no DNS permission) and `CLOUDFLARE_ACCOUNT_ID`. The custom domain
+`mcp.graph.med` is attached once in the Cloudflare dashboard, not by the deploy, and
+one rate-limiting rule blocks a client address that sends more than 60 requests to
+`/mcp` in 10 seconds (ADR-0008).
+
+Add it in claude.ai under **Customize > Connectors > Add
+custom connector**. Enter that URL, and choose **No sign-in** for authentication:
+the endpoint needs no account and no key. On the Free plan this is the one custom
+connector the plan allows. On Team and Enterprise an Owner adds it under
+**Organization settings > Connectors**. Claude Desktop uses the same connector,
+and it appears in the mobile apps once it has been added on the web or in Desktop.
+
+Every other MCP client uses the same URL with no sign-in: add
+`https://mcp.graph.med/mcp` as a remote (Streamable HTTP) server in Claude Code,
+Cursor, VS Code and the like, or as a connector in another vendor's assistant.
+The endpoint is open to all of them; a rate limit per client address keeps one
+caller from exhausting it. Programs that read the web can also use the same data
+as files: [`https://graph.med/llms.txt`](https://graph.med/llms.txt) describes
+them, starting from `index.json`.
 
 ## Source documents
 
