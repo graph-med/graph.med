@@ -29,6 +29,7 @@ pre-emptively.
 | `environment/credential-handling.md` | The agent holds no credential; the host authenticates on its behalf. Never substitute one. |
 | `environment/main-branch-protection.md` | The default branch takes changes only through an approved pull request. |
 | `conventions/editing-your-own-instructions.md` | Editing the files that instruct you is allowed; saying so in the PR is the obligation. |
+| `conventions/agent-owns-initiatives.md` | The agent owns the board's initiatives: when new work overlaps existing cards, it decides itself what to recycle and what to discard, carrying each card's decisions over. |
 | `environment/commit-author-is-not-evidence.md` | A commit's author line is display only, not evidence about the setup. |
 | `environment/push-failure-triage.md` | Which failures are host-side, which are the design working, and why commits are usually safe. |
 | `environment/screenshot-skill-needs-sbx-docker.md` | The `screenshot` skill needs the `sbx` sandbox's own Docker daemon; a session on a different harness has none, and starting one is refused — report it, do not work around it. |
