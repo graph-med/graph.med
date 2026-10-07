@@ -1607,7 +1607,10 @@ def main(argv=None) -> int:
              "repository_license": REPOSITORY_LICENSE, "disclaimer": disclaimer, "contract": CONTRACT, "llms_txt": at("llms.txt"), "views": machine}
     # the inline view for MCP hosts (docs/publication.md §8; card #278): one self-contained page the MCP server serves
     # as a ui:// resource named after its hash, so that a host's cached copy never outlives a change
-    app_page = env.get_template("mcp-app.html").render(ext_apps=module_as_object(SITE_SRC / "static" / "vendor" / EXT_APPS, "ExtApps"))
+    app_page = env.get_template("mcp-app.html").render(
+        ext_apps=module_as_object(SITE_SRC / "static" / "vendor" / EXT_APPS, "ExtApps"),
+        site_css=(SITE_SRC / "static" / "site.css").read_text(encoding="utf-8"),
+        words=page["widget"], glyphs=DIRECTION_GLYPH, page_lang=PAGE_LANG)
     (out / "mcp-app.html").write_text(app_page, encoding="utf-8")
     index["mcp_app"] = {"url": at("mcp-app.html"), "sha256": hashlib.sha256(app_page.encode("utf-8")).hexdigest()}
     (out / "index.json").write_text(dumps(index), encoding="utf-8")
@@ -1622,13 +1625,14 @@ EXT_APPS = "ext-apps-2.0.3.js"   # the MCP Apps client, vendored (tools/site/sta
 
 
 def module_as_object(path: Path, name: str) -> str:
-    """An ES module bundle inlined into one page: its closing `export {a as B, …}` becomes `const <name> = {B: a, …}`."""
+    """An ES module bundle inlined into one page, in a scope of its own so that its names meet none of the page's:
+    `const <name> = (() => { <bundle> return {B: a, …}; })();` from its closing `export {a as B, …}`."""
     src = path.read_text(encoding="utf-8")
     m = re.search(r"export\s*\{([^}]*)\}\s*;?\s*$", src)
     if not m or "</script" in src:
         raise SystemExit(f"{path}: not a self-contained ES module bundle")
     pairs = [p.strip().split(" as ") for p in m.group(1).split(",") if p.strip()]
-    return src[:m.start()] + f"const {name} = {{{', '.join(f'{p[-1]}: {p[0]}' for p in pairs)}}};\n"
+    return f"const {name} = (() => {{\n{src[:m.start()]}\nreturn {{{', '.join(f'{p[-1]}: {p[0]}' for p in pairs)}}};\n}})();\n"
 
 
 def dumps(obj) -> str:

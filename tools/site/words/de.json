@@ -66,5 +66,21 @@
     "select": "Im Graphen zeigen",
     "awmf_register": "AWMF-Registernummer {nr}",
     "source": "Zur Quelle"
+  },
+  "widget": {
+    "back": "Zurück",
+    "up": "Darüber",
+    "more": "Mehr anzeigen",
+    "loading": "Lädt …",
+    "recommendations": "Empfehlungen",
+    "general": "Gilt allgemein",
+    "below": {
+      "one": "{n} Empfehlung darunter",
+      "many": "{n} Empfehlungen darunter"
+    },
+    "places": "Steht an mehreren Stellen; eine wählen:",
+    "open": "Auf graph.med öffnen",
+    "footer": "Stand {commit} · Review: {review}",
+    "error": "Konnte nicht geladen werden: {message}"
   }
 }
