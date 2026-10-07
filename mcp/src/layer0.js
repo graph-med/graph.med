@@ -42,17 +42,18 @@ export class Layer0 {
     return typeof url === 'string' && url.startsWith(this.base);
   }
 
-  // One Layer 0 file, parsed. Refuses any URL outside the base.
-  async get(url) {
+  // One Layer 0 file, parsed — or, with `text`, as it is (the inline view's
+  // page). Refuses any URL outside the base.
+  async get(url, { text = false } = {}) {
     if (!this.inBase(url)) throw new InputError(`outside the base ${this.base}: ${url}`);
     const hit = this.cache.get(url);
     if (hit && this.now() - hit.at < TTL_MS) return hit.promise;
     const promise = (async () => {
       this.onFetch(url);
-      const res = await this.fetchImpl(url, { headers: { accept: 'application/json' } });
+      const res = await this.fetchImpl(url, { headers: { accept: text ? 'text/html' : 'application/json' } });
       if (res.status === 404) throw new InputError(`not found: ${url}`);
       if (!res.ok) throw new Error(`GET ${url}: HTTP ${res.status}`);
-      return res.json();
+      return text ? res.text() : res.json();
     })();
     this.cache.set(url, { at: this.now(), promise });
     promise.catch(() => this.cache.delete(url));
@@ -69,6 +70,13 @@ export class Layer0 {
     }
     this.commit = index.commit;
     return index;
+  }
+
+  // The inline view's page as index.json lists it ({url, sha256}), or null
+  // when the site publishes none (card #278).
+  async app() {
+    const app = (await this.index()).mcp_app;
+    return app && this.inBase(app.url) && /^[0-9a-f]{64}$/.test(app.sha256) ? app : null;
   }
 
   // An entity id from an id or a URL under the base (page or JSON). The id

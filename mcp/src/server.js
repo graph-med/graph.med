@@ -93,8 +93,22 @@ export async function callTool(reader, name, args) {
   }
 }
 
-export function createServer(reader) {
-  const server = new McpServer({ name: words.server.name, title: words.server.title, version: VERSION }, { instructions: words.disclaimer });
+// The MCP Apps extension (2026-01-26; card #278): one ui:// resource, the page
+// the site builds (index.json `mcp_app`), named after its hash so that a host's
+// cached copy never outlives a change; the tools below point to it. A host
+// without the extension ignores both and reads the text content as before.
+export const UI_EXTENSION = 'io.modelcontextprotocol/ui';
+export const UI_MIME = 'text/html;profile=mcp-app';
+export const UI_TOOLS = new Set(['get_tree_node', 'get_entity']);
+export const appUri = (app) => `ui://graph.med/tree-${app.sha256.slice(0, 12)}`;
+
+// app: the page as index.json lists it, or null (no extension, no resource).
+export function createServer(reader, app = null) {
+  const uri = app && appUri(app);
+  const server = new McpServer(
+    { name: words.server.name, title: words.server.title, version: VERSION },
+    { instructions: words.disclaimer, ...(app && { capabilities: { extensions: { [UI_EXTENSION]: { mimeTypes: [UI_MIME] } } } }) },
+  );
   for (const [name, spec] of Object.entries(words.tools)) {
     server.registerTool(
       name,
@@ -103,10 +117,20 @@ export function createServer(reader) {
         description: spec.description,
         inputSchema: schemas[name],
         annotations: { title: spec.title, readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+        ...(uri && UI_TOOLS.has(name) && { _meta: { ui: { resourceUri: uri } } }),
       },
       async (args) => callTool(reader, name, args),
     );
   }
+  if (uri)
+    server.registerResource(
+      words.view.name,
+      uri,
+      { title: words.view.title, description: words.view.description, mimeType: UI_MIME },
+      async () => ({
+        contents: [{ uri, mimeType: UI_MIME, text: await reader.get(app.url, { text: true }), _meta: { ui: { prefersBorder: true } } }],
+      }),
+    );
   return server;
 }
 
@@ -114,7 +138,14 @@ export function createServer(reader) {
 // https://graph.med/preview/pr<N>/, or a local build served over HTTP.
 export function createServerFactory({ base, fetch, onFetch } = {}) {
   const reader = new Layer0({ base, fetch, onFetch });
-  const factory = () => createServer(reader);
+  const factory = () => createServer(reader, factory.app);
   factory.reader = reader;
+  factory.app = null;
+  // Called before each request: the page's name has to be known before the
+  // tools are listed. index.json is cached (layer0.js), so this is mostly no
+  // fetch; a site that cannot be read leaves the tools without the view.
+  factory.prepare = async () => {
+    factory.app = await reader.app().catch(() => null);
+  };
   return factory;
 }

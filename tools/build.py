@@ -31,6 +31,7 @@ nothing authored.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import shutil
@@ -1604,12 +1605,30 @@ def main(argv=None) -> int:
     # at the root of the site and of every preview; llms.txt describes, in English, and instructs nothing
     index = {"commit": commit, "schema": {"version": schema.get("x-version"), "url": at("schema/schema.yaml")},
              "repository_license": REPOSITORY_LICENSE, "disclaimer": disclaimer, "contract": CONTRACT, "llms_txt": at("llms.txt"), "views": machine}
+    # the inline view for MCP hosts (docs/publication.md §8; card #278): one self-contained page the MCP server serves
+    # as a ui:// resource named after its hash, so that a host's cached copy never outlives a change
+    app_page = env.get_template("mcp-app.html").render(ext_apps=module_as_object(SITE_SRC / "static" / "vendor" / EXT_APPS, "ExtApps"))
+    (out / "mcp-app.html").write_text(app_page, encoding="utf-8")
+    index["mcp_app"] = {"url": at("mcp-app.html"), "sha256": hashlib.sha256(app_page.encode("utf-8")).hexdigest()}
     (out / "index.json").write_text(dumps(index), encoding="utf-8")
     (out / "llms.txt").write_text(env.get_template("llms.txt").render(
         index=index, index_url=at("index.json"), site=at(""), cards=list(CARD_QUESTIONS), directions=list(DIRECTION_GLYPH),
         plain=PLAIN, chapters=CHAPTERS, lean_node=LEAN_NODE, lean_edge=LEAN_EDGE), encoding="utf-8")
     print(f"built {len(views)} view(s) and {len(pool.entities) - len(views)} entity pages into {out.relative_to(ROOT) if out.is_relative_to(ROOT) else out} (base {base}{', preview of pull request ' + str(args.preview) if args.preview else ''})")
     return 0
+
+
+EXT_APPS = "ext-apps-2.0.3.js"   # the MCP Apps client, vendored (tools/site/static/vendor/LICENSES.md)
+
+
+def module_as_object(path: Path, name: str) -> str:
+    """An ES module bundle inlined into one page: its closing `export {a as B, …}` becomes `const <name> = {B: a, …}`."""
+    src = path.read_text(encoding="utf-8")
+    m = re.search(r"export\s*\{([^}]*)\}\s*;?\s*$", src)
+    if not m or "</script" in src:
+        raise SystemExit(f"{path}: not a self-contained ES module bundle")
+    pairs = [p.strip().split(" as ") for p in m.group(1).split(",") if p.strip()]
+    return src[:m.start()] + f"const {name} = {{{', '.join(f'{p[-1]}: {p[0]}' for p in pairs)}}};\n"
 
 
 def dumps(obj) -> str:

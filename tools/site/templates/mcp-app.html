@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>graph.med</title>
+{# The inline view of get_tree_node and get_entity in MCP hosts (card #278; docs/publication.md §8): one
+   self-contained page, served by the MCP server as a ui:// resource. Milestone 1: the pipeline — it shows what
+   the host hands over and drills down through tools/call; the tree and card views replace it. #}
+<style>
+  body { font: 14px/1.4 system-ui, sans-serif; margin: 0; padding: 12px; color: #1d1d1f; background: #fff; }
+  h1 { font-size: 15px; margin: 0 0 8px; }
+  .muted { color: #6e6e73; font-size: 12px; }
+  button { display: block; margin: 4px 0; padding: 6px 10px; font: inherit; text-align: left; cursor: pointer;
+           border: 1px solid #c7c7cc; border-radius: 6px; background: #f5f5f7; }
+  pre { white-space: pre-wrap; word-break: break-word; max-height: 240px; overflow: auto; background: #f5f5f7;
+        padding: 8px; border-radius: 6px; font-size: 11px; }
+</style>
+</head>
+<body>
+<h1>graph.med · hello</h1>
+<div id="input" class="muted">waiting for the host …</div>
+<div id="answers"></div>
+<pre id="raw"></pre>
+<script type="module">
+{{ ext_apps | safe }}
+
+const { App } = ExtApps;
+const $ = (id) => document.getElementById(id);
+const app = new App({ name: 'graph.med', version: '{{ commit }}' }, {}, { autoResize: true });
+let graph = null;
+
+// The result is read from its text content (the JSON the tools return), never from structuredContent.
+function show(result) {
+  const text = (result.content || []).filter((c) => c.type === 'text').map((c) => c.text).join('');
+  $('raw').textContent = text.slice(0, 4000);
+  $('answers').replaceChildren();
+  let data;
+  try { data = JSON.parse(text); } catch { return; }
+  if (data.graph) graph = data.graph.id;
+  for (const ask of data.node?.asks || []) {
+    for (const a of ask.answers || []) {
+      if (!a.to) continue;
+      const b = document.createElement('button');
+      b.textContent = `${a.answer} → ${a.to.recommendations_below ?? '?'}`;
+      b.onclick = async () => {
+        $('input').textContent = `get_tree_node ${a.to.id} …`;
+        show(await app.callServerTool({ name: 'get_tree_node', arguments: { graph, node: a.to.id } }));
+        $('input').textContent = `get_tree_node ${a.to.id} (called from the widget)`;
+      };
+      $('answers').append(b);
+    }
+  }
+}
+
+app.ontoolinput = ({ arguments: args }) => {
+  if (args?.graph) graph = args.graph;
+  $('input').textContent = `called with ${JSON.stringify(args)}`;
+};
+app.ontoolresult = show;
+app.onteardown = () => ({});
+await app.connect();
+</script>
+</body>
+</html>

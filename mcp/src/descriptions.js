@@ -33,6 +33,14 @@ export const about = {
     "Holds verbatim source text: each claim's sentence whole, as graph.med's pages show it, and quotes of at most the stated number of characters; each with its link into the source or its page.",
 };
 
+// The inline view (card #278): the one ui:// resource, a page that MCP hosts
+// supporting the MCP Apps extension show beside get_tree_node and get_entity.
+export const view = {
+  name: 'graph-med-view',
+  title: 'graph.med view',
+  description: 'The page an MCP host shows beside a tree node or an entity: the node or card the tool returned, drawn from its result.',
+};
+
 export const tools = {
   list_graphs: {
     title: 'List graphs',
