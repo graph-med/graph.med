@@ -1610,7 +1610,9 @@ def main(argv=None) -> int:
     app_page = env.get_template("mcp-app.html").render(
         ext_apps=module_as_object(SITE_SRC / "static" / "vendor" / EXT_APPS, "ExtApps"),
         site_css=(SITE_SRC / "static" / "site.css").read_text(encoding="utf-8"),
-        words=page["widget"], glyphs=DIRECTION_GLYPH, page_lang=PAGE_LANG)
+        words={**page["widget"], "card": {k: CARD_WORDS[PAGE_LANG][k] for k in WIDGET_CARD_KEYS}}, glyphs=DIRECTION_GLYPH, page_lang=PAGE_LANG,
+        # each source's consensus classes by the names its grading scheme prints (spec §3.1), as the card shows them
+        consensus={sid: {k["class"]: k.get("name") or k["class"] for k in sch.get("consensus") or [] if k.get("class")} for sid, sch in pool.schemes.items()})
     (out / "mcp-app.html").write_text(app_page, encoding="utf-8")
     index["mcp_app"] = {"url": at("mcp-app.html"), "sha256": hashlib.sha256(app_page.encode("utf-8")).hexdigest()}
     (out / "index.json").write_text(dumps(index), encoding="utf-8")
@@ -1621,6 +1623,10 @@ def main(argv=None) -> int:
     return 0
 
 
+# the statement card's words the inline view shows too (CARD_WORDS), so that its card and the site's say the same
+WIDGET_CARD_KEYS = ("zone.wording", "zone.applies", "slot.population", "slot.condition", "slot.action", "slot.outcome",
+                    "cite.page", "cite.section", "cite.no", "grade", "consensus.share", "marker.contested",
+                    "type.concept", "type.claim", "edge.supports", "edge.contests")
 EXT_APPS = "ext-apps-2.0.3.js"   # the MCP Apps client, vendored (tools/site/static/vendor/LICENSES.md)
 
 

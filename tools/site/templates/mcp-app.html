@@ -35,6 +35,16 @@ details.general summary { font-size: .85rem; margin: .8rem 0 .35rem; color: var(
 .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; margin-top: .8rem; padding-top: .4rem;
   border-top: 1px solid var(--line); font-size: .75rem; color: var(--mute); }
 .foot a { cursor: pointer; }
+ul.recs li.rec { cursor: pointer; border-radius: 4px; }
+ul.recs li.rec:hover, ul.recs li.rec:focus-visible { background: var(--surface); }
+h1 .chip { font-size: .85em; }
+.judgement { display: inline-block; padding: .2rem .55rem; border-radius: 6px; font-size: .85rem; color: var(--ink); background: var(--dir-gap); }
+.judgement.dir-für { background: var(--dir-for); } .judgement.dir-gegen { background: var(--dir-against); }
+.judgement.dir-abwägen { background: var(--dir-weigh); }
+p.wording { margin: 0; padding: .5rem .7rem; background: var(--surface); border-radius: 6px; }
+dl.slots { display: grid; grid-template-columns: max-content 1fr; gap: .2rem .8rem; margin: 0; }
+dl.slots dt { color: var(--mute); } dl.slots dd { margin: 0; }
+ul.cites { margin: 0; padding-left: 1.1rem; }
 .error { color: var(--contested); }
 .busy { opacity: .55; pointer-events: none; }
 </style>
@@ -46,6 +56,7 @@ details.general summary { font-size: .85rem; margin: .8rem 0 .35rem; color: var(
 
 const W = {{ words | tojson }};
 const GLYPH = {{ glyphs | tojson }};
+const CONSENSUS = {{ consensus | tojson }};
 const { App } = ExtApps;
 const app = new App({ name: 'graph.med', version: '{{ commit }}' }, {}, { autoResize: true });
 const view = document.getElementById('view');
@@ -62,7 +73,7 @@ function el(tag, attrs = {}, ...kids) {
     else if (k.startsWith('on')) e[k] = v;
     else e.setAttribute(k, v);
   }
-  for (const c of kids.flat()) if (c !== null && c !== undefined && c !== false) e.append(c);
+  for (const c of kids.flat(Infinity)) if (c !== null && c !== undefined && c !== false) e.append(c);
   return e;
 }
 
@@ -105,6 +116,8 @@ const graphOf = () => current?.data?.graph?.id ?? current?.args?.graph;
 const groupingOf = () => current?.data?.grouping?.axis ?? current?.args?.grouping;
 const node = (id) => call('get_tree_node', { graph: graphOf(), ...(groupingOf() ? { grouping: groupingOf() } : {}), node: id });
 
+const entity = (id) => call('get_entity', { entity: id, ...(graphOf() ? { graph: graphOf() } : {}) });
+
 function chip(direction) {
   return direction ? el('span', { class: `chip d-${direction}`, title: direction }, GLYPH[direction] ?? '') : el('span', { class: 'chip none' });
 }
@@ -114,7 +127,7 @@ function chip(direction) {
 function recList(items, here) {
   return el('ul', { class: 'recs' }, items.map((r) => {
     const why = [r.via && r.via.id !== here ? r.via.short_label ?? r.via.label : null, ...(r.condition || []).map((c) => c.short_label ?? c.label)].filter(Boolean);
-    return el('li', {},
+    return el('li', { class: 'rec', tabindex: '0', role: 'button', onclick: () => entity(r.id), onkeydown: (e) => e.key === 'Enter' && entity(r.id) },
       chip(r.direction),
       el('span', {},
         r.grade ? el('span', { class: 'grade' }, r.grade) : null,
@@ -154,6 +167,65 @@ function treeNode(d) {
   return parts;
 }
 
+const C = W.card;
+const back_ = () => (trail.length ? el('button', { onclick: back }, '← ' + W.back) : null);
+
+// The card of a recommendation (get_entity): direction and grade, the wording, whom and what it is for, where
+// the guideline says it (page links into the source open through the host), and the recommendations related to it.
+function statementCard(d) {
+  const e = d.entity;
+  const g = d.graphs?.[0];
+  const grades = (e.grades || []).map((b) => [
+    b.grade ? say(C.grade, { grade: b.grade }) : null,
+    b.consensus ? (b.share ? say(C['consensus.share'], { name: CONSENSUS[b.source]?.[b.consensus] ?? b.consensus, share: b.share }) : CONSENSUS[b.source]?.[b.consensus] ?? b.consensus) : null,
+  ].filter(Boolean).join(' · '));
+  const parts = [
+    el('div', { class: 'bar' }, back_(), el('span', { class: 'where' }, g?.graph?.title ?? '')),
+    el('h1', {}, chip(e.direction), e.short_label ?? e.id),
+    el('div', { class: `judgement dir-${e.direction ?? 'none'}` },
+      [e.verbs?.join(', '), ...grades, e.contested ? C['marker.contested'] : null].filter(Boolean).join(' · ')),
+  ];
+  if (e.wording) parts.push(el('h2', {}, C['zone.wording']), el('p', { class: 'wording' }, e.wording));
+  const order = (k) => { const i = ['population', 'condition', 'action'].indexOf(k); return i < 0 ? 9 : i; };   // the site card's rows, in its order
+  const slots = Object.entries(e.slots || {}).filter(([, v]) => v.length).sort(([a], [b]) => order(a) - order(b));
+  if (slots.length)
+    parts.push(el('h2', {}, C['zone.applies']), el('dl', { class: 'slots' }, slots.flatMap(([slot, cs]) => [
+      el('dt', {}, C[`slot.${slot}`] ?? slot),
+      el('dd', {}, cs.map((c, i) => [i ? ', ' : null, el('a', { href: c.url, onclick: () => entity(c.id) }, c.label ?? c.id)])),
+    ])));
+  if (e.claims?.length)
+    parts.push(el('h2', {}, W.claims), el('ul', { class: 'cites' }, e.claims.map((c) => el('li', {},
+      [c.recommendation_no ? say(C['cite.no'], { nr: c.recommendation_no }) : null, c.section ? say(C['cite.section'], { nr: c.section }) : null,
+       c.page ? say(C['cite.page'], { nr: c.page }) : null, c.edge === 'contests' ? C['edge.contests'] : null].filter(Boolean).join(' · '),
+      ' ', el('a', { href: c.url, onclick: () => open(c.url) }, W.open_page + ' ↗')))));
+  if (g?.related?.length)
+    parts.push(el('h2', {}, W.related), el('ul', { class: 'recs' }, g.related.map((r) => el('li', { class: 'rec', tabindex: '0', role: 'button', onclick: () => entity(r.other.id) },
+      chip(r.other.direction),
+      el('span', {}, el('span', { class: 'why' }, W.relation[r.relation]?.[r.direction] ?? r.relation),
+        r.other.grade ? el('span', { class: 'grade' }, r.other.grade) : null, r.other.label ?? r.other.id)))));
+  parts.push(footer(d, g?.link));
+  return parts;
+}
+
+// The card of a concept or a claim: what it is and the recommendations that hold it, per graph.
+function otherCard(d) {
+  const e = d.entity;
+  const parts = [
+    el('div', { class: 'bar' }, back_(), el('span', { class: 'where' }, C[`type.${e.type}`] ?? e.type)),
+    el('h1', {}, e.short_label ?? e.label ?? e.id),
+  ];
+  // Where the concept stands in the grouping being walked: back into the tree at its node.
+  const here = (d.graphs || []).find((g) => g.graph?.id === graphOf())?.appears_in?.find((a) => (groupingOf() ? a.grouping?.axis === groupingOf() : a.grouping?.default));
+  if (here) parts.push(el('div', { class: 'bar' }, here.nodes.map((x) => el('button', {
+    onclick: () => call('get_tree_node', { graph: graphOf(), grouping: here.grouping.axis, node: x.node }) }, W.in_tree + ' ↑'))));
+  for (const g of d.graphs || []) {
+    const held = [...(g.held_by || []), ...(g.statements || [])];
+    if (held.length) parts.push(el('h2', {}, `${W.holds} · ${g.graph?.title ?? ''}`), recList(held));
+  }
+  parts.push(footer(d, e.url));
+  return parts;
+}
+
 // An entity standing at several nodes of the grouping: one button per place.
 function places(d) {
   return [
@@ -180,6 +252,8 @@ function render() {
   else if (d.error) parts = [el('div', { class: 'bar' }, trail.length ? el('button', { onclick: back }, '← ' + W.back) : null), el('p', { class: 'error' }, say(W.error, { message: d.error }))];
   else if (d.places) parts = places(d);
   else if (d.node) parts = treeNode(d);
+  else if (d.entity?.type === 'statement') parts = statementCard(d);
+  else if (d.entity?.type) parts = otherCard(d);
   else parts = [el('pre', {}, JSON.stringify(d, null, 1).slice(0, 4000))];
   view.replaceChildren(...parts);
   // The links of the page open through the host (ui/open-link): the sandbox opens none itself.

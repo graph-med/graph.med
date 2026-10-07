@@ -81,6 +81,25 @@
     "places": "Steht an mehreren Stellen; eine wählen:",
     "open": "Auf graph.med öffnen",
     "footer": "Stand {commit} · Review: {review}",
-    "error": "Konnte nicht geladen werden: {message}"
+    "error": "Konnte nicht geladen werden: {message}",
+    "related": "Verwandte Empfehlungen",
+    "relation": {
+      "specializes": {
+        "out": "präzisiert",
+        "in": "wird präzisiert durch"
+      },
+      "complements": {
+        "out": "ergänzt",
+        "in": "wird ergänzt durch"
+      },
+      "conflicts": {
+        "out": "widerspricht",
+        "in": "widerspricht"
+      }
+    },
+    "claims": "In der Leitlinie",
+    "open_page": "Seite öffnen",
+    "holds": "Empfehlungen damit",
+    "in_tree": "Im Baum zeigen"
   }
 }
