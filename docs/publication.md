@@ -992,7 +992,7 @@ cut-publication).
 ## 8. The pool in programs and assistants
 
 > **Status: Layer 0 built; Layer 1's tools and its hosted endpoint built, the
-> endpoint not deployed; Layer 2 built, checked in claude.ai against a local server.** Each layer's status changes here when the card
+> endpoint not deployed; Layer 2 built, checked in Claude Desktop against a local server.** Each layer's status changes here when the card
 > that builds it lands.
 >
 > | Layer | Status | Built by |
@@ -1276,7 +1276,7 @@ result carries. #276 and #277 are closed as superseded.
   `get_tree_node` and `get_entity` point to the resource through
   `_meta.ui.resourceUri`, the nested form; the flat `_meta["ui/resourceUri"]` is
   deprecated and not emitted. The link is unconditional: the Worker is stateless and
-  does not see a client's `initialize` when it lists its tools, and claude.ai
+  does not see a client's `initialize` when it lists its tools, and Claude Desktop
   announces no client capability yet renders the view. A host without the extension
   ignores `_meta`, and every result's text is the same with and without the page
   (the check).
@@ -1305,19 +1305,19 @@ result carries. #276 and #277 are closed as superseded.
   An answer or a recommendation clicked calls `get_tree_node` or `get_entity`
   through the host (`tools/call`), without a model turn. The view follows the host's
   theme where the host passes one, else the device's.
-- **Talking to the model**, as tried in claude.ai on 2026-10-09 (open question
+- **Talking to the model**, as tried in Claude Desktop on 2026-10-09 (open question
   `inline-view-interaction`):
   - Each view shown is stated to the host with `ui/update-model-context`, as facts,
-    with ids and the link. claude.ai accepts it but does not pass it to the model.
+    with ids and the link. Claude Desktop accepts it but does not pass it to the model.
   - "Im Chat fragen" posts a question about the card or node as the person's own
-    message (`ui/message`). claude.ai answers it, behind a warning before each.
+    message (`ui/message`). Claude Desktop answers it, behind a warning before each.
   - A control whose message the host does not accept (its capabilities: `message`,
     `openLinks`, `updateModelContext`, a display mode) is not shown or not sent.
   - The model cannot act inside an open view. Tools a view registers for the model
-    are in the standard's draft, not its stable version, and claude.ai does not
+    are in the standard's draft, not its stable version, and Claude Desktop does not
     offer them; a model's next call opens a new view.
   - Fullscreen, where the host offers it (`ui/request-display-mode`), keeps the view
-    on screen beside the chat. claude.ai offers it; it offers no `pip`.
+    on screen beside the chat. Claude Desktop offers it; it offers no `pip`.
 - **The link comes first.** Every result that names a node of a grouping or a
   recommendation carries the site's deep link to that position,
   `https://graph.med/<view-id>/?by=<axis>#<id>[,<id>]`, with `?by=` left out for the
@@ -1329,8 +1329,8 @@ result carries. #276 and #277 are closed as superseded.
   claude.com/docs/connectors/building/mcp-apps/instance-supersession, as read on
   2026-09-27). Drilling down inside a view adds none, while a model's follow-up calls
   add several. How a person keeps their place is open (`inline-view-trail`).
-- **Seen in claude.ai** (2026-10-07 to 2026-10-09):
-  - claude.ai keeps a connector's tool list, so after a change of the page it shows
+- **Seen in Claude Desktop** (2026-10-07 to 2026-10-09; Claude on the web not tried):
+  - Claude keeps a connector's tool list, so after a change of the page it shows
     the old view until the list is refreshed.
   - A revisited chat's views reload, and showed "not reachable" while the server was
     down. Whether they keep the result first shown is unknown.
@@ -1516,7 +1516,7 @@ token and the deploy workflow (`.github/workflows/mcp.yml`) are a person's steps
 
 - **The inline view's interaction and its trail**: `inline-view-interaction` (how
   far the view and the model talk to each other, against what the standard and
-  claude.ai allow) and `inline-view-trail` (one view per call), both in
+  Claude Desktop allow) and `inline-view-trail` (one view per call), both in
   `open-questions.md`, both waiting for the use case.
 - **The plan's questions** — `assistant-permission` (on what basis the sources' text
   may reach users through an assistant), `license-commercial-hosts` (PolyForm

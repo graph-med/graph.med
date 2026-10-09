@@ -304,14 +304,14 @@ async function tellModel() {
   const text = shownText();
   if (!text || text === told) return;
   told = text;
-  // A host may accept it and still not pass it on (claude.ai, 2026-10-09; docs/open-questions.md inline-view-interaction).
+  // A host may accept it and still not pass it on (Claude Desktop, 2026-10-09; docs/open-questions.md inline-view-interaction).
   if (!offers('updateModelContext')) return;
   app.updateModelContext({ content: [{ type: 'text', text }] }).catch(() => {});
 }
 
 
 // A person's question about what is shown, posted to the chat as theirs (ui/message); a host may ask before
-// sending it (claude.ai warns on every one, 2026-10-09).
+// sending it (Claude Desktop warns on every one, 2026-10-09).
 async function ask() {
   const d = current?.data;
   const text = d?.entity ? say(W.ask_card, { label: d.entity.short_label ?? d.entity.label ?? d.entity.id, id: d.entity.id })
