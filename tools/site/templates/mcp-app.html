@@ -167,8 +167,8 @@ function treeNode(d) {
   const parents = (n.parents || []).filter((p) => p.node);
   const parts = [
     el('div', { class: 'bar' },
-      trail.length ? el('button', { onclick: back }, '← ' + W.back) : null,
-      parents.map((p) => el('button', { onclick: () => node(p.node.id), title: W.up }, '↑ ' + (p.node.label ?? p.node.id))),
+      trail.length ? el('button', { onclick: back, 'data-act': 'back' }, '← ' + W.back) : null,
+      parents.map((p) => el('button', { onclick: () => node(p.node.id), title: W.up, 'data-act': 'up' }, '↑ ' + (p.node.label ?? p.node.id))),
       el('span', { class: 'where' }, [d.grouping?.label, n.type === 'root' ? null : d.graph?.title].filter(Boolean).join(' · ')),
     ),
     el('h1', {}, n.label ?? n.id, n.recommendations_below != null ? el('span', { class: 'count' }, say(W.below, { n: n.recommendations_below })) : null),
@@ -191,13 +191,13 @@ function treeNode(d) {
     parts.push(fold);
   }
   if (n.next_offset != null)
-    parts.push(el('button', { class: 'more', onclick: () => call('get_tree_node', { ...current.args, graph: graphOf(), node: n.id, offset: n.next_offset }, { append: true }) }, W.more));
+    parts.push(el('button', { class: 'more', 'data-act': 'more', onclick: () => call('get_tree_node', { ...current.args, graph: graphOf(), node: n.id, offset: n.next_offset }, { append: true }) }, W.more));
   parts.push(footer(d, n.link));
   return parts;
 }
 
 const C = W.card;
-const back_ = () => (trail.length ? el('button', { onclick: back }, '← ' + W.back) : null);
+const back_ = () => (trail.length ? el('button', { onclick: back, 'data-act': 'back' }, '← ' + W.back) : null);
 
 // The card of a recommendation (get_entity): direction and grade, the wording, whom and what it is for, where
 // the guideline says it (page links into the source open through the host), and the recommendations related to it.
@@ -209,7 +209,7 @@ function statementCard(d) {
     b.consensus ? (b.share ? say(C['consensus.share'], { name: CONSENSUS[b.source]?.[b.consensus] ?? b.consensus, share: b.share }) : CONSENSUS[b.source]?.[b.consensus] ?? b.consensus) : null,
   ].filter(Boolean).join(' · '));
   const parts = [
-    el('div', { class: 'bar' }, back_(), el('button', { onclick: () => inTree(e.id) }, W.in_tree + ' ↑'), el('span', { class: 'where' }, g?.graph?.title ?? '')),
+    el('div', { class: 'bar' }, back_(), el('button', { onclick: () => inTree(e.id), 'data-act': 'in-tree' }, W.in_tree + ' ↑'), el('span', { class: 'where' }, g?.graph?.title ?? '')),
     el('h1', {}, chip(e.direction), e.short_label ?? e.id),
     el('div', { class: `judgement dir-${e.direction ?? 'none'}` },
       [e.verbs?.join(', '), ...grades, e.contested ? C['marker.contested'] : null].filter(Boolean).join(' · ')),
@@ -246,7 +246,7 @@ function otherCard(d) {
   // Where the concept stands in the grouping being walked: back into the tree at its node.
   const here = (d.graphs || []).find((g) => g.graph?.id === graphOf())?.appears_in?.find((a) => (groupingOf() ? a.grouping?.axis === groupingOf() : a.grouping?.default));
   if (here) parts.push(el('div', { class: 'bar' }, here.nodes.map((x) => el('button', {
-    onclick: () => call('get_tree_node', { graph: graphOf(), grouping: here.grouping.axis, node: x.node }) }, W.in_tree + ' ↑'))));
+    onclick: () => call('get_tree_node', { graph: graphOf(), grouping: here.grouping.axis, node: x.node }), 'data-act': 'in-tree' }, W.in_tree + ' ↑'))));
   for (const g of d.graphs || []) {
     const held = [...(g.held_by || []), ...(g.statements || [])];
     if (held.length) parts.push(el('h2', {}, `${W.holds} · ${g.graph?.title ?? ''}`), recList(held));
@@ -258,7 +258,7 @@ function otherCard(d) {
 // An entity standing at several nodes of the grouping: one button per place.
 function places(d) {
   return [
-    el('div', { class: 'bar' }, trail.length ? el('button', { onclick: back }, '← ' + W.back) : null,
+    el('div', { class: 'bar' }, trail.length ? el('button', { onclick: back, 'data-act': 'back' }, '← ' + W.back) : null,
       el('span', { class: 'where' }, [d.grouping?.label, d.graph?.title].filter(Boolean).join(' · '))),
     el('h1', {}, d.entity),
     el('h2', {}, W.places),
@@ -321,15 +321,18 @@ const fullscreen = () => app.requestDisplayMode({ mode: 'fullscreen' }).catch(()
 function actions() {
   const modes = app.getHostContext?.()?.availableDisplayModes || [];
   return el('div', { class: 'bar' },
-    el('button', { onclick: ask }, '💬 ' + W.ask),
-    modes.includes('fullscreen') && app.getHostContext?.()?.displayMode !== 'fullscreen' ? el('button', { onclick: fullscreen }, '⛶ ' + W.fullscreen) : null);
+    el('button', { onclick: ask, 'data-act': 'ask' }, '💬 ' + W.ask),
+    modes.includes('fullscreen') && app.getHostContext?.()?.displayMode !== 'fullscreen' ? el('button', { onclick: fullscreen, 'data-act': 'fullscreen' }, W.fullscreen) : null);
 }
 
 function render() {
+  // The host's theme where it passes one (its context), else the device's (the stylesheet's media query).
+  const theme = app.getHostContext?.()?.theme;
+  if (theme === 'dark' || theme === 'light') document.documentElement.dataset.theme = theme;
   const d = current?.data;
   let parts;
   if (!d) parts = [el('p', { class: 'foot' }, W.loading)];
-  else if (d.error) parts = [el('div', { class: 'bar' }, trail.length ? el('button', { onclick: back }, '← ' + W.back) : null), el('p', { class: 'error' }, say(W.error, { message: d.error }))];
+  else if (d.error) parts = [el('div', { class: 'bar' }, trail.length ? el('button', { onclick: back, 'data-act': 'back' }, '← ' + W.back) : null), el('p', { class: 'error' }, say(W.error, { message: d.error }))];
   else if (d.places) parts = places(d);
   else if (d.node) parts = treeNode(d);
   else if (d.entity?.type === 'statement') parts = statementCard(d);

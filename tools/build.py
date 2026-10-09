@@ -1609,7 +1609,7 @@ def main(argv=None) -> int:
     # as a ui:// resource named after its hash, so that a host's cached copy never outlives a change
     app_page = env.get_template("mcp-app.html").render(
         ext_apps=module_as_object(SITE_SRC / "static" / "vendor" / EXT_APPS, "ExtApps"),
-        site_css=(SITE_SRC / "static" / "site.css").read_text(encoding="utf-8"),
+        site_css=themed_css((SITE_SRC / "static" / "site.css").read_text(encoding="utf-8")),
         words={**page["widget"], "card": {k: CARD_WORDS[PAGE_LANG][k] for k in WIDGET_CARD_KEYS}}, glyphs=DIRECTION_GLYPH, page_lang=PAGE_LANG,
         # each source's consensus classes by the names its grading scheme prints (spec §3.1), as the card shows them
         consensus={sid: {k["class"]: k.get("name") or k["class"] for k in sch.get("consensus") or [] if k.get("class")} for sid, sch in pool.schemes.items()})
@@ -1639,6 +1639,18 @@ def module_as_object(path: Path, name: str) -> str:
         raise SystemExit(f"{path}: not a self-contained ES module bundle")
     pairs = [p.strip().split(" as ") for p in m.group(1).split(",") if p.strip()]
     return f"const {name} = (() => {{\n{src[:m.start()]}\nreturn {{{', '.join(f'{p[-1]}: {p[0]}' for p in pairs)}}};\n}})();\n"
+
+
+def themed_css(css: str) -> str:
+    """The site's stylesheet for the inline view, where the host's theme decides, not only the device's: its one
+    dark block also applies under `data-theme="dark"` (the theme the host passes in its context) and no longer
+    under `data-theme="light"`. The dark colours stay the stylesheet's own."""
+    blocks = list(re.finditer(r"@media \(prefers-color-scheme: dark\) \{\s*:root \{([^}]*)\}\s*\}", css))
+    if len(blocks) != 1:
+        raise SystemExit("site.css: the inline view expects exactly one `@media (prefers-color-scheme: dark) { :root {…} }`")
+    m = blocks[0]
+    return (css[:m.start()] + css[m.start():m.end()].replace(":root {", ':root:not([data-theme="light"]) {', 1) + css[m.end():]
+            + f'\n:root[data-theme="dark"] {{{m.group(1)} color-scheme: dark; }}\n:root[data-theme="light"] {{ color-scheme: light; }}\n')
 
 
 def dumps(obj) -> str:
