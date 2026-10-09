@@ -91,12 +91,16 @@ The server is written in JavaScript as ES modules with no compile step, on
   is a `devDependency` of the same `package.json`, locked in the same
   lockfile, and run through npm scripts from `node_modules/.bin`, the same way
   in the sandbox and in CI. Wrangler bundles the Worker itself, so no separate
-  bundler enters.
-- **JavaScript for the chat view** (#276, #277) enters as the site's does:
+  bundler enters. *Amended 2026-10-09 (#278), proposed for the maintainer's
+  confirmation:* the view check (`mcp/test/view.js`) bundles the standard's host
+  side (`AppBridge` of `@modelcontextprotocol/ext-apps`) for the browser with
+  esbuild. Both are `devDependencies`, pinned in the same lockfile like
+  `wrangler`, and reach neither the Worker nor the site.
+- **JavaScript for the chat view** (#278) enters as the site's does:
   hand-written, or vendored as pinned files with their licence note like
-  `tools/site/static/vendor/`, never through npm and a bundler. The view needs
-  no library (#267, agreed decision 4); if #277 does use the ext-apps `App`
-  class, its self-contained build is vendored and pinned. The Pages build
+  `tools/site/static/vendor/`, never through npm and a bundler. The view uses
+  the ext-apps `App` class: its self-contained build (2.0.3) is vendored and
+  pinned, and the Pages build inlines it into the page. The Pages build
   therefore gains no Node step.
 - **Node versions:** the server declares `engines.node` as the SDK and
   Wrangler require (≥ 22 today, Wrangler's floor). CI jobs that deploy set up

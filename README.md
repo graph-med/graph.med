@@ -447,6 +447,14 @@ connector the plan allows. On Team and Enterprise an Owner adds it under
 **Organization settings > Connectors**. Claude Desktop uses the same connector,
 and it appears in the mobile apps once it has been added on the web or in Desktop.
 
+In hosts that support MCP Apps (Claude on the web and in Desktop, among others), a
+call that reads a node of a graph's tree or a recommendation also shows an
+interactive view in the conversation: the node's question and answers, or the
+recommendation's card. A click there opens the next node or card, without a new
+message, and "Claude fragen" asks Claude about what is shown. Hosts without MCP Apps
+show the same results as text. After the site changes, a host may keep showing the
+previous view until its connector's tool list is refreshed.
+
 Every other MCP client uses the same URL with no sign-in: add
 `https://mcp.graph.med/mcp` as a remote (Streamable HTTP) server in Claude Code,
 Cursor, VS Code and the like, or as a connector in another vendor's assistant.
