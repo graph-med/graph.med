@@ -100,6 +100,10 @@
     "claims": "In der Leitlinie",
     "open_page": "Seite öffnen",
     "holds": "Empfehlungen damit",
-    "in_tree": "Im Baum zeigen"
+    "in_tree": "Im Baum zeigen",
+    "ask": "Claude fragen",
+    "ask_card": "Erkläre mir die Empfehlung „{label}“ aus graph.med ({id}).",
+    "ask_node": "Was empfiehlt die Leitlinie für „{label}“? (graph.med, Knoten {id})",
+    "fullscreen": "Vollbild"
   }
 }

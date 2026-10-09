@@ -37,6 +37,7 @@ details.general summary { font-size: .85rem; margin: .8rem 0 .35rem; color: var(
 .foot a { cursor: pointer; }
 ul.recs li.rec { cursor: pointer; border-radius: 4px; }
 ul.recs li.rec:hover, ul.recs li.rec:focus-visible { background: var(--surface); }
+.answer.mark, ul.recs li.mark { background: var(--surface); outline: 2px solid var(--accent); outline-offset: -2px; }
 h1 .chip { font-size: .85em; }
 .judgement { display: inline-block; padding: .2rem .55rem; border-radius: 6px; font-size: .85rem; color: var(--ink); background: var(--dir-gap); }
 .judgement.dir-für { background: var(--dir-for); } .judgement.dir-gegen { background: var(--dir-against); }
@@ -58,7 +59,8 @@ const W = {{ words | tojson }};
 const GLYPH = {{ glyphs | tojson }};
 const CONSENSUS = {{ consensus | tojson }};
 const { App } = ExtApps;
-const app = new App({ name: 'graph.med', version: '{{ commit }}' }, {}, { autoResize: true });
+// The display modes the view takes: inline, and fullscreen where the host offers it (it stays on screen beside the chat).
+const app = new App({ name: 'graph.med', version: '{{ commit }}' }, { availableDisplayModes: ['inline', 'fullscreen'] }, { autoResize: true });
 const view = document.getElementById('view');
 
 // The words of the page chrome: `{name}` filled in; a pair {one, many} chosen by the count.
@@ -87,7 +89,7 @@ function parse(result) {
   try { return JSON.parse(text); } catch { return { error: text || 'no result' }; }
 }
 
-async function call(name, args, { push = true, append = false } = {}) {
+async function call(name, args, { push = true, append = false, mark = null } = {}) {
   view.classList.add('busy');
   try {
     const data = parse(await app.callServerTool({ name, arguments: args }));
@@ -101,7 +103,7 @@ async function call(name, args, { push = true, append = false } = {}) {
       current.args = { ...current.args, offset: undefined };
     } else {
       if (push && current) trail.push(current);
-      current = { name, args, data };
+      current = { name, args, data, mark };
     }
   } catch (err) {
     if (push && current) trail.push(current);
@@ -112,9 +114,33 @@ async function call(name, args, { push = true, append = false } = {}) {
 }
 
 const open = (url) => url && app.openLink({ url });
-const graphOf = () => current?.data?.graph?.id ?? current?.args?.graph;
+const graphOf = () => current?.data?.graph?.id ?? current?.args?.graph ?? current?.data?.graphs?.[0]?.graph?.id;
 const groupingOf = () => current?.data?.grouping?.axis ?? current?.args?.grouping;
 const node = (id) => call('get_tree_node', { graph: graphOf(), ...(groupingOf() ? { grouping: groupingOf() } : {}), node: id });
+
+// A recommendation in the tree: the node above it — past a question, the node that asks it — with the
+// recommendation, or the answer leading to it, marked. Where it hangs in several places, the statement's own node,
+// whose parents are the choice.
+async function inTree(id) {
+  const fetchNode = async (args) => parse(await app.callServerTool({ name: 'get_tree_node', arguments: args }));
+  view.classList.add('busy');
+  let data, target = null;
+  try {
+    const base = { graph: graphOf(), ...(groupingOf() ? { grouping: groupingOf() } : {}) };
+    data = await fetchNode({ ...base, node: id });
+    const one = (n) => { const ps = (n?.parents || []).filter((p) => p.node); return ps.length === 1 ? ps[0].node : null; };
+    let up = data.node?.type === 'statement' ? one(data.node) : null;
+    if (up?.type === 'question') up = one((await fetchNode({ ...base, node: up.id })).node) ?? up;
+    target = up?.id ?? null;
+  } catch (err) {
+    data = { error: err.message };
+  }
+  view.classList.remove('busy');
+  if (target) return call('get_tree_node', { graph: data.graph.id, grouping: data.grouping.axis, node: target }, { mark: id });
+  if (current) trail.push(current);
+  current = { name: 'get_tree_node', args: { graph: graphOf(), node: id }, data };
+  render();
+}
 
 const entity = (id) => call('get_entity', { entity: id, ...(graphOf() ? { graph: graphOf() } : {}) });
 
@@ -127,7 +153,7 @@ function chip(direction) {
 function recList(items, here) {
   return el('ul', { class: 'recs' }, items.map((r) => {
     const why = [r.via && r.via.id !== here ? r.via.short_label ?? r.via.label : null, ...(r.condition || []).map((c) => c.short_label ?? c.label)].filter(Boolean);
-    return el('li', { class: 'rec', tabindex: '0', role: 'button', onclick: () => entity(r.id), onkeydown: (e) => e.key === 'Enter' && entity(r.id) },
+    return el('li', { class: r.id === current?.mark ? 'rec mark' : 'rec', tabindex: '0', role: 'button', onclick: () => entity(r.id), onkeydown: (e) => e.key === 'Enter' && entity(r.id) },
       chip(r.direction),
       el('span', {},
         r.grade ? el('span', { class: 'grade' }, r.grade) : null,
@@ -149,7 +175,10 @@ function treeNode(d) {
   ];
   for (const a of n.asks || []) {
     parts.push(el('h2', {}, a.question?.label ?? ''));
-    parts.push(el('div', { class: 'answers' }, a.answers.map((x) => el('button', { class: 'answer', onclick: () => node(x.to?.id) },
+    // An answer leads to a node, or straight to a recommendation, whose card it opens.
+    parts.push(el('div', { class: 'answers' }, a.answers.map((x) => el('button', {
+      class: x.to?.id === current?.mark ? 'answer mark' : 'answer',
+      onclick: () => (x.to?.type === 'statement' ? entity(x.to.id) : node(x.to?.id)) },
       el('span', {}, x.answer ?? x.to?.label ?? ''),
       x.to?.recommendations_below != null ? el('span', { class: 'n' }, String(x.to.recommendations_below)) : null))));
   }
@@ -180,7 +209,7 @@ function statementCard(d) {
     b.consensus ? (b.share ? say(C['consensus.share'], { name: CONSENSUS[b.source]?.[b.consensus] ?? b.consensus, share: b.share }) : CONSENSUS[b.source]?.[b.consensus] ?? b.consensus) : null,
   ].filter(Boolean).join(' · '));
   const parts = [
-    el('div', { class: 'bar' }, back_(), el('span', { class: 'where' }, g?.graph?.title ?? '')),
+    el('div', { class: 'bar' }, back_(), el('button', { onclick: () => inTree(e.id) }, W.in_tree + ' ↑'), el('span', { class: 'where' }, g?.graph?.title ?? '')),
     el('h1', {}, chip(e.direction), e.short_label ?? e.id),
     el('div', { class: `judgement dir-${e.direction ?? 'none'}` },
       [e.verbs?.join(', '), ...grades, e.contested ? C['marker.contested'] : null].filter(Boolean).join(' · ')),
@@ -245,6 +274,57 @@ function footer(d, link) {
     link ? el('a', { onclick: () => open(link), href: link }, W.open + ' ↗') : null);
 }
 
+// What the view shows, in a few lines for the model (ui/update-model-context): the host passes it with the
+// person's next message, so that "this" in the chat means what is on screen. Facts only, with ids and the link.
+function shownText() {
+  const d = current?.data;
+  if (!d || d.error) return null;
+  const where = [d.graph?.title, d.grouping?.label && `grouping "${d.grouping.label}"`].filter(Boolean).join(', ');
+  const recs = (list) => (list || []).slice(0, 12).map((r) => `- ${r.label ?? r.id} (${r.id}; ${[r.direction, r.grade].filter(Boolean).join(', ')})`);
+  if (d.node) {
+    const n = d.node;
+    return [`In the graph.med view (${where}) the person is looking at the node "${n.label ?? n.id}" (node id ${n.id}${n.entity ? `, entity ${n.entity}` : ''}).`,
+      ...(n.asks || []).map((a) => `Question there: ${a.question?.label} Answers: ${a.answers.map((x) => x.answer).join('; ')}.`),
+      n.recommendations_total ? `Recommendations at this node (${n.recommendations_total}):` : null, ...recs(n.recommendations),
+      n.link ? `Page link: ${n.link}` : null].filter(Boolean).join('\n');
+  }
+  if (d.entity) {
+    const e = d.entity;
+    return [`In the graph.med view the person is looking at the ${e.type} "${e.short_label ?? e.label ?? e.id}" (${e.id}).`,
+      e.direction ? `Direction: ${e.direction}; grade: ${(e.grades || []).map((b) => b.grade).filter(Boolean).join(', ') || 'none'}.` : null,
+      e.url ? `Page: ${e.url}` : null].filter(Boolean).join('\n');
+  }
+  return null;
+}
+let told = '';
+async function tellModel() {
+  const text = shownText();
+  if (!text || text === told) return;
+  told = text;
+  // A host may accept it and still not pass it on (claude.ai, 2026-10-09; docs/open-questions.md inline-view-interaction).
+  app.updateModelContext({ content: [{ type: 'text', text }] }).catch(() => {});
+}
+
+
+// A person's question about what is shown, posted to the chat as theirs (ui/message); a host may ask before
+// sending it (claude.ai warns on every one, 2026-10-09).
+async function ask() {
+  const d = current?.data;
+  const text = d?.entity ? say(W.ask_card, { label: d.entity.short_label ?? d.entity.label ?? d.entity.id, id: d.entity.id })
+    : d?.node ? say(W.ask_node, { label: d.node.label ?? d.node.id, id: d.node.id }) : null;
+  if (!text) return;
+  app.sendMessage({ role: 'user', content: [{ type: 'text', text }] }).catch(() => {});
+}
+
+// Fullscreen, where the host offers it (ui/request-display-mode).
+const fullscreen = () => app.requestDisplayMode({ mode: 'fullscreen' }).catch(() => {});
+function actions() {
+  const modes = app.getHostContext?.()?.availableDisplayModes || [];
+  return el('div', { class: 'bar' },
+    el('button', { onclick: ask }, '💬 ' + W.ask),
+    modes.includes('fullscreen') && app.getHostContext?.()?.displayMode !== 'fullscreen' ? el('button', { onclick: fullscreen }, '⛶ ' + W.fullscreen) : null);
+}
+
 function render() {
   const d = current?.data;
   let parts;
@@ -255,7 +335,10 @@ function render() {
   else if (d.entity?.type === 'statement') parts = statementCard(d);
   else if (d.entity?.type) parts = otherCard(d);
   else parts = [el('pre', {}, JSON.stringify(d, null, 1).slice(0, 4000))];
+  if (d && !d.error) parts.push(actions());
   view.replaceChildren(...parts);
+  view.querySelector('.mark')?.scrollIntoView({ block: 'nearest' });
+  tellModel();
   // The links of the page open through the host (ui/open-link): the sandbox opens none itself.
   for (const a of view.querySelectorAll('a[href]')) a.addEventListener('click', (e) => e.preventDefault());
 }
@@ -272,6 +355,7 @@ app.ontoolresult = (result) => {
   trail.length = 0;
   render();
 };
+app.onhostcontextchanged = () => render();
 app.onteardown = () => ({});
 await app.connect();
 </script>
