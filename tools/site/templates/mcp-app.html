@@ -60,7 +60,8 @@ const GLYPH = {{ glyphs | tojson }};
 const CONSENSUS = {{ consensus | tojson }};
 const { App } = ExtApps;
 // The display modes the view takes: inline, and fullscreen where the host offers it (it stays on screen beside the chat).
-const app = new App({ name: 'graph.med', version: '{{ commit }}' }, { availableDisplayModes: ['inline', 'fullscreen'] }, { autoResize: true });
+// No commit in the page: its hash, and so its ui:// name, changes only when the page does.
+const app = new App({ name: 'graph.med', version: '1' }, { availableDisplayModes: ['inline', 'fullscreen'] }, { autoResize: true });
 const view = document.getElementById('view');
 
 // The words of the page chrome: `{name}` filled in; a pair {one, many} chosen by the count.
@@ -73,6 +74,7 @@ function el(tag, attrs = {}, ...kids) {
   for (const [k, v] of Object.entries(attrs)) {
     if (k === 'class') e.className = v;
     else if (k.startsWith('on')) e[k] = v;
+    else if (k === 'href') { if (/^https?:\/\//i.test(v)) e.setAttribute(k, v); }   // a link from a result: http(s) only
     else e.setAttribute(k, v);
   }
   for (const c of kids.flat(Infinity)) if (c !== null && c !== undefined && c !== false) e.append(c);
@@ -103,19 +105,20 @@ async function call(name, args, { push = true, append = false, mark = null } = {
       current.args = { ...current.args, offset: undefined };
     } else {
       if (push && current) trail.push(current);
-      current = { name, args, data, mark };
+      current = { name, args, data, mark, grouping: data.grouping?.axis ?? args.grouping ?? current?.grouping };
     }
   } catch (err) {
     if (push && current) trail.push(current);
-    current = { name, args, data: { error: err.message } };
+    current = { name, args, data: { error: err.message }, grouping: current?.grouping };
   }
   view.classList.remove('busy');
   render();
 }
 
-const open = (url) => url && app.openLink({ url });
+const open = (url) => /^https?:\/\//i.test(url || '') && app.openLink({ url });
 const graphOf = () => current?.data?.graph?.id ?? current?.args?.graph ?? current?.data?.graphs?.[0]?.graph?.id;
-const groupingOf = () => current?.data?.grouping?.axis ?? current?.args?.grouping;
+// The grouping being walked: the node's, else the one a card was opened from (get_entity names none).
+const groupingOf = () => current?.data?.grouping?.axis ?? current?.args?.grouping ?? current?.grouping;
 const node = (id) => call('get_tree_node', { graph: graphOf(), ...(groupingOf() ? { grouping: groupingOf() } : {}), node: id });
 
 // A recommendation in the tree: the node above it — past a question, the node that asks it — with the
@@ -138,7 +141,7 @@ async function inTree(id) {
   view.classList.remove('busy');
   if (target) return call('get_tree_node', { graph: data.graph.id, grouping: data.grouping.axis, node: target }, { mark: id });
   if (current) trail.push(current);
-  current = { name: 'get_tree_node', args: { graph: graphOf(), node: id }, data };
+  current = { name: 'get_tree_node', args: { graph: graphOf(), node: id }, data, grouping: data.grouping?.axis ?? groupingOf() };
   render();
 }
 
@@ -200,7 +203,7 @@ const C = W.card;
 const back_ = () => (trail.length ? el('button', { onclick: back, 'data-act': 'back' }, '← ' + W.back) : null);
 
 // The card of a recommendation (get_entity): direction and grade, the wording, whom and what it is for, where
-// the guideline says it (page links into the source open through the host), and the recommendations related to it.
+// the guideline says it (each claim's page on graph.med, which links into the source, opens through the host), and the recommendations related to it.
 function statementCard(d) {
   const e = d.entity;
   const g = d.graphs?.[0];
@@ -226,7 +229,7 @@ function statementCard(d) {
     parts.push(el('h2', {}, W.claims), el('ul', { class: 'cites' }, e.claims.map((c) => el('li', {},
       [c.recommendation_no ? say(C['cite.no'], { nr: c.recommendation_no }) : null, c.section ? say(C['cite.section'], { nr: c.section }) : null,
        c.page ? say(C['cite.page'], { nr: c.page }) : null, c.edge === 'contests' ? C['edge.contests'] : null].filter(Boolean).join(' · '),
-      ' ', el('a', { href: c.url, onclick: () => open(c.url) }, W.open_page + ' ↗')))));
+      ' ', offers('openLinks') ? el('a', { href: c.url, onclick: () => open(c.url) }, W.open_page + ' ↗') : null))));
   if (g?.related?.length)
     parts.push(el('h2', {}, W.related), el('ul', { class: 'recs' }, g.related.map((r) => el('li', { class: 'rec', tabindex: '0', role: 'button', onclick: () => entity(r.other.id) },
       chip(r.other.direction),
@@ -271,7 +274,7 @@ function places(d) {
 function footer(d, link) {
   return el('div', { class: 'foot' },
     el('span', {}, d.about ? say(W.footer, { commit: d.about.commit, review: d.about.review }) : ''),
-    link ? el('a', { onclick: () => open(link), href: link }, W.open + ' ↗') : null);
+    link && offers('openLinks') ? el('a', { onclick: () => open(link), href: link }, W.open + ' ↗') : null);
 }
 
 // What the view shows, in a few lines for the model (ui/update-model-context): the host passes it with the
@@ -302,6 +305,7 @@ async function tellModel() {
   if (!text || text === told) return;
   told = text;
   // A host may accept it and still not pass it on (claude.ai, 2026-10-09; docs/open-questions.md inline-view-interaction).
+  if (!offers('updateModelContext')) return;
   app.updateModelContext({ content: [{ type: 'text', text }] }).catch(() => {});
 }
 
@@ -316,12 +320,15 @@ async function ask() {
   app.sendMessage({ role: 'user', content: [{ type: 'text', text }] }).catch(() => {});
 }
 
+// What the host says it accepts (its capabilities); a control it does not offer is not shown.
+const offers = (cap) => !!app.getHostCapabilities?.()?.[cap];
+
 // Fullscreen, where the host offers it (ui/request-display-mode).
 const fullscreen = () => app.requestDisplayMode({ mode: 'fullscreen' }).catch(() => {});
 function actions() {
   const modes = app.getHostContext?.()?.availableDisplayModes || [];
   return el('div', { class: 'bar' },
-    el('button', { onclick: ask, 'data-act': 'ask' }, '💬 ' + W.ask),
+    offers('message') ? el('button', { onclick: ask, 'data-act': 'ask' }, '💬 ' + W.ask) : null,
     modes.includes('fullscreen') && app.getHostContext?.()?.displayMode !== 'fullscreen' ? el('button', { onclick: fullscreen, 'data-act': 'fullscreen' }, W.fullscreen) : null);
 }
 
@@ -329,6 +336,7 @@ function render() {
   // The host's theme where it passes one (its context), else the device's (the stylesheet's media query).
   const theme = app.getHostContext?.()?.theme;
   if (theme === 'dark' || theme === 'light') document.documentElement.dataset.theme = theme;
+  else delete document.documentElement.dataset.theme;
   const d = current?.data;
   let parts;
   if (!d) parts = [el('p', { class: 'foot' }, W.loading)];
@@ -354,7 +362,9 @@ function back() {
 let input = null;
 app.ontoolinput = ({ arguments: args }) => { input = args || {}; };
 app.ontoolresult = (result) => {
-  current = { name: current?.name ?? 'get_tree_node', args: input || {}, data: parse(result) };
+  const data = parse(result);
+  current = { name: data.entity ? 'get_entity' : 'get_tree_node', args: input || {}, data, grouping: data.grouping?.axis ?? input?.grouping };
+  input = null;
   trail.length = 0;
   render();
 };

@@ -86,10 +86,12 @@ and the same results without the page.
 The inline view (`docs/publication.md` §8, "Layer 2") has a check of its own. It
 drives the built page in the `screenshot` skill's Chromium container under a
 stand-in MCP Apps host (the standard's `AppBridge`), over the server in-process. For
-every graph, at a desktop and a phone width and once dark, it walks root, answer,
-recommendation, back into the tree and back. It fails on page errors, messages
-outside the standard, overflow, a host theme not followed, and an unanswered ping or
-teardown, and writes a PNG per step under `/tmp/graph.med/screenshots/<branch>/view/`:
+every graph, at a desktop and a phone width, it walks root, answer, "more" where it is
+offered, recommendation, back into the tree and back. It also runs under a dark host, in a second grouping, and at a node with more than a page.
+It fails on page errors, messages outside the standard, overflow, a host theme not
+followed, "Im Baum zeigen" leaving the grouping walked, and an unanswered ping or
+teardown, and writes a PNG per step under `/tmp/graph.med/screenshots/<branch>/view/`.
+It needs the sandbox's Docker daemon, so it runs locally, not in CI:
 
 ```bash
 uv run tools/build.py --origin http://localhost:8272 && npm --prefix mcp run check:view -- --site ../site

@@ -1269,7 +1269,11 @@ result carries. #276 and #277 are closed as superseded.
 - **The server's part.** It advertises the extension in its capabilities and serves
   one resource, `ui://graph.med/tree-<hash>` (`text/html;profile=mcp-app`). The name
   is the page's SHA-256, its first 12 hex digits, so a host's cached copy never
-  outlives a change. `get_tree_node` and `get_entity` point to the resource through
+  outlives a change; the page carries no commit, so the name changes only when the
+  page does. An older name, asked by a host that kept an earlier tool list, reads the
+  current page (a resource template; only the current name is listed): the view
+  draws today's results, so today's page is the one that fits them.
+  `get_tree_node` and `get_entity` point to the resource through
   `_meta.ui.resourceUri`, the nested form; the flat `_meta["ui/resourceUri"]` is
   deprecated and not emitted. The link is unconditional: the Worker is stateless and
   does not see a client's `initialize` when it lists its tools, and claude.ai
@@ -1292,8 +1296,8 @@ result carries. #276 and #277 are closed as superseded.
     and a footer with commit, review status and the node's deep link.
   - *A recommendation's card*: direction and grade on the direction's band, with the
     consensus by its scheme's name; the wording (modelling); its slots; where the
-    guideline says it (number, section, page, each claim's page opening through
-    `ui/open-link`); its related recommendations; and "show in the tree", the node
+    guideline says it (number, section, page; each claim's page on graph.med, which
+    links into the source, opens through `ui/open-link`); its related recommendations; and "show in the tree", the node
     above it with it marked.
   - *A concept or claim card*: the recommendations that hold it, and for a concept
     the way back to its node.
@@ -1305,8 +1309,10 @@ result carries. #276 and #277 are closed as superseded.
   `inline-view-interaction`):
   - Each view shown is stated to the host with `ui/update-model-context`, as facts,
     with ids and the link. claude.ai accepts it but does not pass it to the model.
-  - "Ask Claude about this" posts a question about the card or node as the person's
-    own message (`ui/message`). claude.ai answers it, behind a warning before each.
+  - "Im Chat fragen" posts a question about the card or node as the person's own
+    message (`ui/message`). claude.ai answers it, behind a warning before each.
+  - A control whose message the host does not accept (its capabilities: `message`,
+    `openLinks`, `updateModelContext`, a display mode) is not shown or not sent.
   - The model cannot act inside an open view. Tools a view registers for the model
     are in the standard's draft, not its stable version, and claude.ai does not
     offer them; a model's next call opens a new view.

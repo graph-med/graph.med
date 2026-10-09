@@ -8,9 +8,11 @@
 //   npm --prefix mcp run check:view -- --site ../site
 //
 // For every graph the index lists (none is named here), at a desktop and a
-// phone width and once in the dark theme, it walks the grouping's root, an
-// answer, a recommendation's card, back into the tree and back, and asks
-// ping and the teardown (test/view-driver.cjs). It fails on a page error or
+// phone width; then the first graph under a dark host on a light device, in
+// its second grouping, and at a node listing more than a page, it walks the
+// grouping's root, an answer, "more" where offered, a recommendation's card,
+// back into the tree and back, and asks ping and the teardown
+// (test/view-driver.cjs). It fails on a page error or
 // a blocked load (the view runs under the CSP a host applies to a resource
 // that declares none), a message outside the MCP Apps standard, a request
 // sent twice, a step that draws nothing, an error or the wrong thing, a page
@@ -25,6 +27,7 @@ import { execFileSync, spawn, spawnSync } from 'node:child_process';
 import { build } from 'esbuild';
 import { createServerFactory } from '../src/server.js';
 import { createHandler } from '../src/worker.js';
+import { PAGE } from '../src/tools.js';
 
 const IMAGE = 'zenika/alpine-chrome:with-puppeteer';
 const SIZES = [[760, 900], [390, 844]];
@@ -91,7 +94,29 @@ await fs.mkdir(shots, { recursive: true });
 if (!sh('docker', ['images', '-q', IMAGE])) sh('docker', ['pull', '--quiet', IMAGE]);
 const name = `view-${branch}`;
 spawnSync('docker', ['rm', '-f', name]);
-const spec = { mcp: `http://sandbox:${port}/mcp`, graphs: index.views.map((v) => v.id), sizes: SIZES };
+const v0 = index.views[0];
+// A node with a list longer than one page, from the tree files (answers, recommendations, or those that apply
+// generally), so that one run starts where "more" is offered.
+const local = (u) => path.join(root, new URL(u).pathname.slice(origin.pathname.length));
+let long = null;
+for (const v of index.views)
+  for (const g of v.groupings) {
+    if (long) break;
+    const t = JSON.parse(await fs.readFile(local(g.tree), 'utf8'));
+    const out = new Map();
+    for (const e of t.edges) out.set(e.from, (out.get(e.from) || 0) + 1);
+    const n = t.nodes.find((x) => (x.general?.length ?? 0) > PAGE || (out.get(x.id) ?? 0) > PAGE);
+    if (n) long = { graph: v.id, grouping: g.axis, node: n.id };
+  }
+const plan = [
+  ...index.views.flatMap((v) => SIZES.map((size) => ({ graph: v.id, size, device: 'light', host: 'light' }))),
+  // The host's theme against the device's. Only this way round: Chromium's emulated colour scheme does not reach
+  // a sandboxed iframe of another origin, so a dark device under a light host cannot be checked here.
+  { graph: v0.id, size: SIZES[0], device: 'light', host: 'dark' },
+  ...(v0.groupings[1] ? [{ graph: v0.id, grouping: v0.groupings[1].axis, size: SIZES[1], device: 'light', host: 'light' }] : []),
+  ...(long ? [{ ...long, size: SIZES[0], device: 'light', host: 'light' }] : []),
+];
+const spec = { mcp: `http://sandbox:${port}/mcp`, runs: plan };
 sh('docker', ['create', '--name', name, '--add-host', 'sandbox:host-gateway', '--entrypoint', 'sh', IMAGE, '-c', `mkdir -p /tmp/shots && node /check/driver.cjs '${JSON.stringify(spec)}'`]);
 let out;
 try {
@@ -139,6 +164,10 @@ for (const run of runs) {
     console.log(`  FAILED (${f.length}):`);
     f.forEach((x) => console.log('   - ' + x));
   } else console.log('  passed');
+}
+if (long && !runs.some((r) => r.more)) {
+  failed++;
+  console.log(`\nFAILED: "more" was not pressed, though ${long.node} lists more than ${PAGE}`);
 }
 console.log(`\nscreenshots: ${shots}`);
 process.exit(failed ? 1 : 0);

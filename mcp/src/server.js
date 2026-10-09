@@ -9,7 +9,7 @@
 // `createMcpHandler`); all of them share one reader, so parsed Layer 0 files
 // stay in memory between requests (layer0.js, TTL_MS).
 
-import { McpServer } from '@modelcontextprotocol/server';
+import { McpServer, ResourceTemplate } from '@modelcontextprotocol/server';
 import { z } from 'zod';
 import { Layer0, InputError } from './layer0.js';
 import { handlers, MAX_DEPTH } from './tools.js';
@@ -100,7 +100,8 @@ export async function callTool(reader, name, args) {
 export const UI_EXTENSION = 'io.modelcontextprotocol/ui';
 export const UI_MIME = 'text/html;profile=mcp-app';
 export const UI_TOOLS = new Set(['get_tree_node', 'get_entity']);
-export const appUri = (app) => `ui://graph.med/tree-${app.sha256.slice(0, 12)}`;
+const APP_STEM = 'ui://graph.med/tree-';
+export const appUri = (app) => `${APP_STEM}${app.sha256.slice(0, 12)}`;
 
 // app: the page as index.json lists it, or null (no extension, no resource).
 export function createServer(reader, app = null) {
@@ -122,15 +123,20 @@ export function createServer(reader, app = null) {
       async (args) => callTool(reader, name, args),
     );
   }
-  if (uri)
+  if (uri) {
+    const read = async (asked) => ({
+      contents: [{ uri: asked, mimeType: UI_MIME, text: await reader.get(app.url, { text: true }), _meta: { ui: { prefersBorder: true } } }],
+    });
+    server.registerResource(words.view.name, uri, { title: words.view.title, description: words.view.description, mimeType: UI_MIME }, async () => read(uri));
+    // An older page's name, from a host that keeps a tool list of an earlier build, reads the current page: the view
+    // draws the results of today's tools, so the page that matches them is today's. Listed under the current name only.
     server.registerResource(
-      words.view.name,
-      uri,
+      `${words.view.name}-earlier`,
+      new ResourceTemplate(`${APP_STEM}{hash}`, { list: undefined }),
       { title: words.view.title, description: words.view.description, mimeType: UI_MIME },
-      async () => ({
-        contents: [{ uri, mimeType: UI_MIME, text: await reader.get(app.url, { text: true }), _meta: { ui: { prefersBorder: true } } }],
-      }),
+      async (asked) => read(asked.href),
     );
+  }
   return server;
 }
 

@@ -1635,7 +1635,7 @@ def module_as_object(path: Path, name: str) -> str:
     `const <name> = (() => { <bundle> return {B: a, …}; })();` from its closing `export {a as B, …}`."""
     src = path.read_text(encoding="utf-8")
     m = re.search(r"export\s*\{([^}]*)\}\s*;?\s*$", src)
-    if not m or "</script" in src:
+    if not m or re.search(r"</script|<!--|<script", src, re.I):   # each would end or bend the inline <script> it goes in
         raise SystemExit(f"{path}: not a self-contained ES module bundle")
     pairs = [p.strip().split(" as ") for p in m.group(1).split(",") if p.strip()]
     return f"const {name} = (() => {{\n{src[:m.start()]}\nreturn {{{', '.join(f'{p[-1]}: {p[0]}' for p in pairs)}}};\n}})();\n"

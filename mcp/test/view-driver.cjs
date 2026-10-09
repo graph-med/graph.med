@@ -1,9 +1,10 @@
 /* The view check's driver (card #278), inside zenika/alpine-chrome:with-puppeteer (test/view.js copies it
    in with the host bundle and the page). The host page and the view are served by request interception at
    two origins, the view with the restrictive CSP a host applies when a resource declares none (MCP Apps
-   2026-01-26, "Host Behavior"), in an iframe sandboxed to scripts. Per view and per size it walks what a
-   person does: the grouping's root, the first answer, a recommendation (down the first answers until one
-   is listed), back into the tree, back, the ask button, fullscreen; then ping and the teardown. Controls
+   2026-01-26, "Host Behavior"), in an iframe sandboxed to scripts. Each run (a graph, a size, the device's
+   and the host's theme, a grouping) walks what a person does: the grouping's root, the first answer,
+   "more" where it is offered, a recommendation (down the first answers until one is listed), back into the
+   tree, back, the ask button, fullscreen; then ping and the teardown. Controls
    are found by their `data-act`, never by words. It writes one JSON report to stdout and a PNG per step
    under /tmp/shots. */
 const puppeteer = require('/usr/src/app/node_modules/puppeteer');
@@ -33,11 +34,12 @@ async function mcp(method, params) {
   return msg.result;
 }
 
-async function walk(browser, graph, [width, height], dark, shot) {
-  const run = { graph, size: `${width}x${height}${dark ? ' dark' : ''}`, steps: [], errors: [], failures: [] };
+async function walk(browser, { graph, grouping, node, size: [width, height], device, host }, shot) {
+  const dark = host === 'dark';   // the host's theme decides, whatever the device's
+  const run = { graph, grouping, size: `${width}x${height}, device ${device}, host ${host}${grouping ? `, ${grouping}` : ''}`, steps: [], errors: [], failures: [] };
   const page = await browser.newPage();
   await page.setViewport({ width, height, deviceScaleFactor: 1 });
-  if (dark) await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'dark' }]);
+  await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: device }]);
   page.on('pageerror', (e) => run.errors.push(String(e)));
   page.on('console', (m) => { if (m.type() === 'error') run.errors.push(m.text()); });
   page.on('requestfailed', (r) => run.errors.push(`request failed: ${r.url()}`));
@@ -52,7 +54,7 @@ async function walk(browser, graph, [width, height], dark, shot) {
   await page.goto(HOST);
   // The host's start, bounded: a view that never initializes fails here with what it did send.
   const started = await Promise.race([
-    page.evaluate((a) => window.startHost(a).then(() => 'ok', (e) => `error: ${e.message}`), { src: VIEW, tool: 'get_tree_node', args: { graph }, theme: dark ? 'dark' : 'light' }),
+    page.evaluate((a) => window.startHost(a).then(() => 'ok', (e) => `error: ${e.message}`), { src: VIEW, tool: 'get_tree_node', args: { graph, ...(grouping ? { grouping } : {}), ...(node ? { node } : {}) }, theme: host }),
     sleep(20000).then(() => 'timeout'),
   ]);
   if (started !== 'ok') {
@@ -74,6 +76,7 @@ async function walk(browser, graph, [width, height], dark, shot) {
       card: !!document.querySelector('.judgement'),
       error: document.querySelector('.error')?.textContent ?? null,
       overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+      items: document.querySelectorAll('.answer, li.rec').length,
       // the page's background, as a luminance 0–255: the host's theme reaches the view
       background: (([r, g, b]) => 0.2126 * r + 0.7152 * g + 0.0722 * b)(getComputedStyle(document.body).backgroundColor.match(/\d+/g).map(Number)),
     }));
@@ -97,13 +100,24 @@ async function walk(browser, graph, [width, height], dark, shot) {
   }
 
   await frame()?.waitForSelector('h1', { timeout: 15000 }).catch(() => run.failures.push('root: never drawn'));
-  const root = await step('root');
+  let root = await step('root');
+  // "more", where the node offers it: the lists grow, the heading stays.
+  const more = async (before) => {
+    if (!(await frame().$('[data-act="more"]'))) return before;
+    run.more = true;
+    return click('[data-act="more"]', 'more', (x) => x.h1 === before.h1 && x.items > before.items);
+  };
+  root = await more(root);
   let s = await click('.answer', 'answer', (x) => x.h1 && x.h1 !== root.h1);
+  if (s) s = await more(s);
   for (let i = 0; i < 3 && s && !s.card && !(await frame().$('li.rec')); i++) s = await click('.answer', 'answer');
   if (s && !s.card) s = await click('li.rec', 'recommendation', (x) => x.card);
   if (s?.card) {
     const card = s.h1;
     await click('[data-act="in-tree"]', 'in-tree', (x) => !x.card);
+    // back into the tree of the grouping walked, not the first
+    const last = (await page.evaluate(() => window.viewLog.toolCalls)).filter((c) => c.name === 'get_tree_node').pop();
+    if (grouping && last?.arguments?.grouping !== grouping) run.failures.push(`in-tree: into grouping ${last?.arguments?.grouping ?? 'the first'}, not ${grouping}`);
     const marked = await frame().evaluate(() => !!document.querySelector('.mark'));
     if (!marked) run.failures.push('in-tree: nothing marked');
     const back = await frame().evaluate(() => { const e = document.querySelector('[data-act="back"]'); if (e) e.click(); return !!e; });
@@ -125,9 +139,7 @@ async function walk(browser, graph, [width, height], dark, shot) {
   const browser = await puppeteer.launch({ protocolTimeout: 60000, executablePath: '/usr/bin/chromium-browser', args: ['--no-sandbox', '--disable-gpu', '--hide-scrollbars'] });
   const runs = [];
   let n = 0;
-  for (const graph of spec.graphs)
-    for (const size of spec.sizes) runs.push(await walk(browser, graph, size, false, `${++n}`));
-  runs.push(await walk(browser, spec.graphs[0], spec.sizes[0], true, `${++n}-dark`));
+  for (const r of spec.runs) runs.push(await walk(browser, r, `${++n}`));
   await browser.close();
   process.stdout.write(JSON.stringify(runs));
 })().catch((e) => { console.error(e); process.exit(1); });

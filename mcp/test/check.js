@@ -97,6 +97,10 @@ async function checkApp(C, { client, index, base, sample, tools }) {
   C.ok(contents[0]?.text === page, 'resources/read: not the page index.json lists');
   C.ok(createHash('sha256').update(page).digest('hex') === app.sha256, 'the page\'s hash is not the one index.json lists');
   C.ok(!JSON.stringify(contents[0]?._meta ?? {}).includes('domain'), 'the resource carries _meta.ui.domain');
+  // An earlier page's name (a host that kept an older tool list) reads the current page, under the name asked.
+  const older = uri.replace(/[0-9a-f]{12}$/, '000000000000');
+  const r0 = await client.readResource({ uri: older }).catch((e) => ({ error: e.message }));
+  C.ok(r0.contents?.[0]?.uri === older && r0.contents?.[0]?.text === page && r0.contents?.[0]?.mimeType === UI_MIME, `resources/read of an earlier name: ${r0.error ?? JSON.stringify(r0.contents?.map((c) => c.uri))}`);
   C.ok(/^<!DOCTYPE html>/i.test(page), 'the page is not an HTML document');
   C.ok(!/<script[^>]+\bsrc=|<link[^>]+\bhref=|@import/i.test(page), 'the page loads a script or a stylesheet: it must be self-contained');
   C.count('inline view: tools linked', tools.filter((t) => t._meta?.ui).length);
