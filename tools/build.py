@@ -31,6 +31,7 @@ nothing authored.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import shutil
@@ -1604,12 +1605,52 @@ def main(argv=None) -> int:
     # at the root of the site and of every preview; llms.txt describes, in English, and instructs nothing
     index = {"commit": commit, "schema": {"version": schema.get("x-version"), "url": at("schema/schema.yaml")},
              "repository_license": REPOSITORY_LICENSE, "disclaimer": disclaimer, "contract": CONTRACT, "llms_txt": at("llms.txt"), "views": machine}
+    # the inline view for MCP hosts (docs/publication.md §8; card #278): one self-contained page the MCP server serves
+    # as a ui:// resource named after its hash, so that a host's cached copy never outlives a change
+    app_page = env.get_template("mcp-app.html").render(
+        ext_apps=module_as_object(SITE_SRC / "static" / "vendor" / EXT_APPS, "ExtApps"),
+        site_css=themed_css((SITE_SRC / "static" / "site.css").read_text(encoding="utf-8")),
+        words={**page["widget"], "card": {k: CARD_WORDS[PAGE_LANG][k] for k in WIDGET_CARD_KEYS}}, glyphs=DIRECTION_GLYPH, page_lang=PAGE_LANG,
+        # each source's consensus classes by the names its grading scheme prints (spec §3.1), as the card shows them
+        consensus={sid: {k["class"]: k.get("name") or k["class"] for k in sch.get("consensus") or [] if k.get("class")} for sid, sch in pool.schemes.items()})
+    (out / "mcp-app.html").write_text(app_page, encoding="utf-8")
+    index["mcp_app"] = {"url": at("mcp-app.html"), "sha256": hashlib.sha256(app_page.encode("utf-8")).hexdigest()}
     (out / "index.json").write_text(dumps(index), encoding="utf-8")
     (out / "llms.txt").write_text(env.get_template("llms.txt").render(
         index=index, index_url=at("index.json"), site=at(""), cards=list(CARD_QUESTIONS), directions=list(DIRECTION_GLYPH),
         plain=PLAIN, chapters=CHAPTERS, lean_node=LEAN_NODE, lean_edge=LEAN_EDGE), encoding="utf-8")
     print(f"built {len(views)} view(s) and {len(pool.entities) - len(views)} entity pages into {out.relative_to(ROOT) if out.is_relative_to(ROOT) else out} (base {base}{', preview of pull request ' + str(args.preview) if args.preview else ''})")
     return 0
+
+
+# the statement card's words the inline view shows too (CARD_WORDS), so that its card and the site's say the same
+WIDGET_CARD_KEYS = ("zone.wording", "zone.applies", "slot.population", "slot.condition", "slot.action", "slot.outcome",
+                    "cite.page", "cite.section", "cite.no", "grade", "consensus.share", "marker.contested",
+                    "type.concept", "type.claim", "edge.supports", "edge.contests")
+EXT_APPS = "ext-apps-2.0.3.js"   # the MCP Apps client, vendored (tools/site/static/vendor/LICENSES.md)
+
+
+def module_as_object(path: Path, name: str) -> str:
+    """An ES module bundle inlined into one page, in a scope of its own so that its names meet none of the page's:
+    `const <name> = (() => { <bundle> return {B: a, …}; })();` from its closing `export {a as B, …}`."""
+    src = path.read_text(encoding="utf-8")
+    m = re.search(r"export\s*\{([^}]*)\}\s*;?\s*$", src)
+    if not m or re.search(r"</script|<!--|<script", src, re.I):   # each would end or bend the inline <script> it goes in
+        raise SystemExit(f"{path}: not a self-contained ES module bundle")
+    pairs = [p.strip().split(" as ") for p in m.group(1).split(",") if p.strip()]
+    return f"const {name} = (() => {{\n{src[:m.start()]}\nreturn {{{', '.join(f'{p[-1]}: {p[0]}' for p in pairs)}}};\n}})();\n"
+
+
+def themed_css(css: str) -> str:
+    """The site's stylesheet for the inline view, where the host's theme decides, not only the device's: its one
+    dark block also applies under `data-theme="dark"` (the theme the host passes in its context) and no longer
+    under `data-theme="light"`. The dark colours stay the stylesheet's own."""
+    blocks = list(re.finditer(r"@media \(prefers-color-scheme: dark\) \{\s*:root \{([^}]*)\}\s*\}", css))
+    if len(blocks) != 1:
+        raise SystemExit("site.css: the inline view expects exactly one `@media (prefers-color-scheme: dark) { :root {…} }`")
+    m = blocks[0]
+    return (css[:m.start()] + css[m.start():m.end()].replace(":root {", ':root:not([data-theme="light"]) {', 1) + css[m.end():]
+            + f'\n:root[data-theme="dark"] {{{m.group(1)} color-scheme: dark; }}\n:root[data-theme="light"] {{ color-scheme: light; }}\n')
 
 
 def dumps(obj) -> str:

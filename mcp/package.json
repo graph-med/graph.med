@@ -22,7 +22,8 @@
   "scripts": {
     "check": "node test/check.js",
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "check:view": "node test/view.js"
   },
   "dependencies": {
     "@modelcontextprotocol/server": "2.0.0",
@@ -31,7 +32,9 @@
   },
   "devDependencies": {
     "@modelcontextprotocol/client": "2.0.0",
+    "@modelcontextprotocol/ext-apps": "2.0.3",
     "@modelcontextprotocol/sdk": "1.30.0",
+    "esbuild": "0.28.2",
     "wrangler": "4.143.0"
   }
 }

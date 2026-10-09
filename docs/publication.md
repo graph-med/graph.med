@@ -992,7 +992,7 @@ cut-publication).
 ## 8. The pool in programs and assistants
 
 > **Status: Layer 0 built; Layer 1's tools and its hosted endpoint built, the
-> endpoint not deployed; Layer 2 designed, not built.** Each layer's status changes here when the card
+> endpoint not deployed; Layer 2 built, checked in Claude Desktop against a local server.** Each layer's status changes here when the card
 > that builds it lands.
 >
 > | Layer | Status | Built by |
@@ -1000,7 +1000,7 @@ cut-publication).
 > | 0 — the machine-readable site | built: index, `llms.txt`, tree files, per-view file, search file (§2, §4); entity JSON with `meta`, a concept's `statements` and `appears_in` (§4) | #270 (with #269) |
 > | 1 — the read-only server: its six tools, a server factory in `mcp/` | built: tools, description file (`mcp/src/descriptions.js`), quote gate, paging, the check (`CLAUDE.md` "Checks") | #272 |
 > | 1 — the read-only server, hosted | built, not deployed: the Worker (`mcp/src/worker.js`, `mcp/wrangler.toml`), checked through Workers' local runtime (`CLAUDE.md` "Checks"); the one way the server is reached (2026-09-28); the deploy is a person's (ADR-0008) | #279 |
-> | 2 — the inline view | designed, not built | #278 (with #276, #277) |
+> | 2 — the inline view | built: the page (`tools/site/templates/mcp-app.html`, written by the build as `mcp-app.html` and listed in `index.json` as `mcp_app`), the extension, the `ui://` resource and the link on `get_tree_node` and `get_entity` (`mcp/src/server.js`), the view check (`CLAUDE.md` "Checks"); not yet deployed | #278 (#276 and #277 superseded) |
 >
 > This section is the design; the keys and URLs it relies on are §2's and §4's, the
 > server's runtime, toolchain and home ADR-0007's (#271), the choice of host
@@ -1161,18 +1161,17 @@ data/ ──build──► graph.med (GitHub Pages)
                      │ tool results:           │           text only
                      │ text + metadata         │
                      ▼                         ▼
-   an MCP host (Claude, …) ──tool input──► Layer 2: the view,
-        │                                  a sandboxed iframe in the conversation
-        ▼
-      the model
+   an MCP host (Claude, …) ──tool input──► Layer 2: the view (mcp-app.html,
+        │       and result      ◄──tools/call── built with the site, served by
+        ▼                                       Layer 1 as a ui:// resource),
+      the model                                 a sandboxed iframe in the conversation
 ```
 
 The plan's "The iframe loads layout JSON directly from graph.med, while graph
-content reaches it only through tool results" reads, on this site: the view loads
-the tree file of the grouping it draws, which holds no claim sentence and no quote,
-and lays it out itself; what it shows and marks comes from the tool input. "Claude
-Code and any model that can fetch web pages read Layer 0 directly and get text
-only."
+content reaches it only through tool results" is narrower as built: the view loads
+nothing. It draws the result of the tool call that opened it, and each click calls a
+tool again through the host. "Claude Code and any model that can fetch web pages read
+Layer 0 directly and get text only."
 
 **Layer 0: the machine-readable site.** The plan: "The build emits a JSON twin for
 every entity page, plus a small index and an `llms.txt`. At this point any model
@@ -1248,49 +1247,93 @@ advises, for example by suggesting a narrower scope when a view would get crowde
 Clicks in the view go back to Claude as context. CI builds the view's bundle and
 publishes it on Pages with the data."
 
-- **Vendor-neutral.** The view is an MCP App — the extension `io.modelcontextprotocol/ui`:
-  a plain HTML page in a sandboxed iframe that talks to its host over `postMessage`.
-  It uses only the standard's messages (`ui/initialize`, the tool-input and
-  tool-result notifications, `ui/update-model-context`, `ui/open-link`) and no
-  host-specific API (no `_meta.ui.domain`, no vendor SDK); it reads what to show from
-  the tool input and never depends on `structuredContent`. So it speaks of *an MCP
-  host*, not of Claude alone. Hosts that support the extension, as read on 2026-09-27
-  (modelcontextprotocol.io/extensions/client-matrix): Claude (web), Claude Desktop,
-  VS Code GitHub Copilot, Microsoft 365 Copilot, Goose, Postman, MCPJam, ChatGPT,
-  Cursor, Archestra.AI and PostHog Code; not fast-agent or the MCP Inspector. "Since
-  it's all standard web primitives, you can use any framework or none at all"; the
-  `App` class of `@modelcontextprotocol/ext-apps` is "a convenience wrapper, not a
-  requirement" (modelcontextprotocol.io/docs/extensions/apps, as read on 2026-09-27).
-- **A position.** The view shows where in the graph the conversation is. A position
-  is a graph, a **grouping** (by default the first), a focus (a node of that
-  grouping, or entities it names) and highlights. **Path mode** draws the pruned tree
-  from the grouping's root to the focus, with its questions and answers; **tree
-  mode** draws the grouping folded as the site opens it, with the position marked.
-  The view loads the tree file of the grouping it draws.
-- **Settled** (the plan): "Claude decides per call whether the view shows one patient
-  group at a time or the whole graph; the tool only advises." *Proposed* reading, in
-  any grouping: "a few nodes" (the plan's "one patient group") is path mode, the
-  pruned tree from the root of the chosen grouping to the focus; "the whole graph" is
-  tree mode, that grouping folded as the site opens it — never an all-at-once
-  drawing (`.claude/memory/design/view-scope-in-any-grouping.md`).
+**As built (#278, 2026-10-09).** The card's rewrite (2026-10-06, on the maintainer's
+brief) replaced the plan's view tool. There is no position tool, no path or tree mode
+and no graph canvas. The view is bound to two of Layer 1's tools and draws one node
+or one card at a time; the whole graph stays one tap away through the deep link every
+result carries. #276 and #277 are closed as superseded.
+
+- **Vendor-neutral.** The view is an MCP App, the extension `io.modelcontextprotocol/ui`
+  (version 2026-01-26): a plain HTML page in a sandboxed iframe that talks to its host
+  over `postMessage`. It uses only the standard's messages, through the ext-apps
+  client, vendored and pinned (`tools/site/static/vendor/`). The host side is
+  `ui/initialize` and its notifications, tool input and tool result, `tools/call`,
+  `ui/open-link`, `ui/update-model-context`, `ui/message`, `ui/request-display-mode`,
+  and the answers to `ping` and `ui/resource-teardown`. There is no host-specific API
+  and no `_meta.ui.domain`. It reads what to show from the result's text content,
+  never from `structuredContent`, which some hosts drop. Hosts that support the
+  extension, as read on 2026-09-27 (modelcontextprotocol.io/extensions/client-matrix):
+  Claude (web), Claude Desktop, VS Code GitHub Copilot, Microsoft 365 Copilot, Goose,
+  Postman, MCPJam, ChatGPT, Cursor, Archestra.AI and PostHog Code; not fast-agent or
+  the MCP Inspector.
+- **The server's part.** It advertises the extension in its capabilities and serves
+  one resource, `ui://graph.med/tree-<hash>` (`text/html;profile=mcp-app`). The name
+  is the page's SHA-256, its first 12 hex digits, so a host's cached copy never
+  outlives a change; the page carries no commit, so the name changes only when the
+  page does. An older name, asked by a host that kept an earlier tool list, reads the
+  current page (a resource template; only the current name is listed): the view
+  draws today's results, so today's page is the one that fits them.
+  `get_tree_node` and `get_entity` point to the resource through
+  `_meta.ui.resourceUri`, the nested form; the flat `_meta["ui/resourceUri"]` is
+  deprecated and not emitted. The link is unconditional: the Worker is stateless and
+  does not see a client's `initialize` when it lists its tools, and Claude Desktop
+  announces no client capability yet renders the view. A host without the extension
+  ignores `_meta`, and every result's text is the same with and without the page
+  (the check).
+- **The page.** The build renders `tools/site/templates/mcp-app.html` into one
+  self-contained file, `mcp-app.html`: the vendored client is inlined in a scope of
+  its own, the site's stylesheet is inlined, and the words are the page chrome's
+  (`tools/site/words/`, `widget`) and the statement card's (`CARD_WORDS`). The build
+  lists the page in `index.json` as `mcp_app {url, sha256}`. The Worker reads the
+  page's name from the index before each request, and the page itself when a host
+  reads the resource. Pages stays the one source: a site deploy changes the view
+  without a Worker deploy.
+- **What it draws.**
+  - *A tree node*: its grouping and graph, the node and its count, each question
+    with its answers as buttons, the recommendations under it with the site's
+    direction chips and the grade as printed, those that apply generally (folded),
+    "more" through `next_offset`, up to a parent, back through the view's own trail,
+    and a footer with commit, review status and the node's deep link.
+  - *A recommendation's card*: direction and grade on the direction's band, with the
+    consensus by its scheme's name; the wording (modelling); its slots; where the
+    guideline says it (number, section, page; each claim's page on graph.med, which
+    links into the source, opens through `ui/open-link`); its related recommendations; and "show in the tree", the node
+    above it with it marked.
+  - *A concept or claim card*: the recommendations that hold it, and for a concept
+    the way back to its node.
+
+  An answer or a recommendation clicked calls `get_tree_node` or `get_entity`
+  through the host (`tools/call`), without a model turn. The view follows the host's
+  theme where the host passes one, else the device's.
+- **Talking to the model**, as tried in Claude Desktop on 2026-10-09 (open question
+  `inline-view-interaction`):
+  - Each view shown is stated to the host with `ui/update-model-context`, as facts,
+    with ids and the link. Claude Desktop accepts it but does not pass it to the model.
+  - "Im Chat fragen" posts a question about the card or node as the person's own
+    message (`ui/message`). Claude Desktop answers it, behind a warning before each.
+  - A control whose message the host does not accept (its capabilities: `message`,
+    `openLinks`, `updateModelContext`, a display mode) is not shown or not sent.
+  - The model cannot act inside an open view. Tools a view registers for the model
+    are in the standard's draft, not its stable version, and Claude Desktop does not
+    offer them; a model's next call opens a new view.
+  - Fullscreen, where the host offers it (`ui/request-display-mode`), keeps the view
+    on screen beside the chat. Claude Desktop offers it; it offers no `pip`.
 - **The link comes first.** Every result that names a node of a grouping or a
   recommendation carries the site's deep link to that position,
   `https://graph.med/<view-id>/?by=<axis>#<id>[,<id>]`, with `?by=` left out for the
   first grouping; the ids after `#` are entity ids, as the site reads them. It works
   in every client, with or without MCP Apps; the inline view is the addition in a
   host that supports them.
-- **A trail of positions.** As the conversation moves, each call adds a new view
-  instance ("No host API unmounts earlier instances":
+- **A trail of views.** Each tool call with a view adds an instance ("No host API
+  unmounts earlier instances":
   claude.com/docs/connectors/building/mcp-apps/instance-supersession, as read on
-  2026-09-27). Optionally only the newest stays live and older ones grey out, through
-  a `BroadcastChannel` (a plain web API) keyed by the server in the tool result; the
-  view still draws without the key.
-- **A tap reaching the model is best effort**, since hosts differ in whether it
-  does; the link and the drawn position are the guarantee. The plan's "Clicks in the
-  view go back to Claude as context" is the aim, not the guarantee.
-
-Where the view's page comes from — fetched from graph.med or shipped with the
-server — is #278's to decide, and ADR-0007's how its bundle is built.
+  2026-09-27). Drilling down inside a view adds none, while a model's follow-up calls
+  add several. How a person keeps their place is open (`inline-view-trail`).
+- **Seen in Claude Desktop** (2026-10-07 to 2026-10-09; Claude on the web not tried):
+  - Claude keeps a connector's tool list, so after a change of the page it shows
+    the old view until the list is refreshed.
+  - A revisited chat's views reload, and showed "not reachable" while the server was
+    down. Whether they keep the result first shown is unknown.
 
 ### Guardrails, carried as data
 
@@ -1410,6 +1453,10 @@ The design:
 - The Worker keeps parsed files in memory between requests; a call with a cold cache
   costs one or two GETs (Layer 1, "Cost"), within the 50 subrequests and 10 ms of CPU
   a request has.
+- Before each POST it reads the inline view's name from `index.json`, from memory
+  when the index is cached, and it fetches the page only when a host reads the
+  resource. Measured in Node on today's build, the inline view adds about 5 µs per
+  request (#278).
 
 The facts, as read on 2026-09-27 (developers.cloudflare.com/workers/platform/limits/,
 /workers/platform/pricing/, /agents/model-context-protocol/protocol/transport/,
@@ -1467,6 +1514,10 @@ token and the deploy workflow (`.github/workflows/mcp.yml`) are a person's steps
 
 ### What this section leaves open
 
+- **The inline view's interaction and its trail**: `inline-view-interaction` (how
+  far the view and the model talk to each other, against what the standard and
+  Claude Desktop allow) and `inline-view-trail` (one view per call), both in
+  `open-questions.md`, both waiting for the use case.
 - **The plan's questions** — `assistant-permission` (on what basis the sources' text
   may reach users through an assistant), `license-commercial-hosts` (PolyForm
   Noncommercial and commercial chat hosts) and `mdr-status` (the EU MDR, and the

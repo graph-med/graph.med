@@ -5,7 +5,14 @@
 // register number; one concept standing at two nodes of one grouping; a
 // recommendation whose wording equals its claim's sentence. Every file is
 // keyed by its path under the base; `files(base)` returns them as
-// {path: object}. Nothing here is a real guideline.
+// {path: object}, or {path: string} for the inline view's page, served as it
+// is. Nothing here is a real guideline.
+
+import { createHash } from 'node:crypto';
+
+// The inline view's page (card #278): a stand-in, self-contained like the one
+// the build writes; the check reads it back through the server's resource.
+export const APP_PAGE = '<!DOCTYPE html>\n<html lang="en"><head><meta charset="utf-8"><title>fixture view</title></head><body><main>fixture</main><script type="module">/* fixture */</script></body></html>\n';
 
 export function files(base) {
   const B = base;
@@ -138,8 +145,10 @@ export function files(base) {
   };
 
   const out = {};
+  out['mcp-app.html'] = APP_PAGE;
   out['index.json'] = {
     commit,
+    mcp_app: { url: B + 'mcp-app.html', sha256: createHash('sha256').update(APP_PAGE).digest('hex') },
     contract: 'https://example.org/contract',
     llms_txt: B + 'llms.txt',
     repository_license: 'PolyForm Noncommercial 1.0.0',

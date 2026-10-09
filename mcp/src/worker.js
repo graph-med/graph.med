@@ -16,7 +16,13 @@ import { createServerFactory } from './server.js';
 // The handler over one factory. The check (test/check.js) builds the same
 // handler around a factory with a request log.
 export function createHandler(factory) {
-  return createMcpHandler(factory, { route: '/mcp' });
+  const handler = createMcpHandler(factory, { route: '/mcp' });
+  const prepared = async (request, env, ctx) => {
+    if (request.method === 'POST') await factory.prepare?.();
+    return handler(request, env, ctx);
+  };
+  prepared.fetch = prepared;
+  return prepared;
 }
 
 // One handler per isolate, rebuilt only if the base changes: the reader, and

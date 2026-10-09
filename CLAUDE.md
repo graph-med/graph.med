@@ -17,7 +17,7 @@ screenshot runner (`tools/screenshot.py` with its driver `tools/screenshot.js`, 
 "Build") and the Pages workflow (`.github/workflows/pages.yml`), the MCP deploy workflow
 (`.github/workflows/mcp.yml`, see "Build"), the work-board tool
 (`tools/board.py`, see "Work"), the read-only MCP server with its Worker entry point
-and its check (`mcp/`, see "Checks" and "Build"), `AGENTS.md`, and the `.claude/` directory described
+and its checks (`mcp/`, see "Checks" and "Build"), `AGENTS.md`, and the `.claude/` directory described
 below. Beyond these scripts the one source tree is `mcp/` (ADR-0007).
 Project-specific guidance — data sources and their licenses, setup and test
 instructions — belongs in this file once it exists. Do not document tooling that does
@@ -78,7 +78,27 @@ npm --prefix mcp run check -- --worker --fixture --site ../site         # the sa
 The third form serves the build at the origin it was built for (rebuild without
 `--origin` for anything else). Run the first form, and the third after a change to
 `mcp/` or to the files for programs; add `--worker` after a change to the Worker,
-its configuration or its dependencies.
+its configuration or its dependencies. Where `index.json` lists the inline view's page
+(`mcp_app`), the check also covers the MCP Apps extension: the capability, the one
+`ui://` resource and the page it serves, the link on `get_tree_node` and `get_entity`,
+and the same results without the page.
+
+The inline view (`docs/publication.md` §8, "Layer 2") has a check of its own. It
+drives the built page in the `screenshot` skill's Chromium container under a
+stand-in MCP Apps host (the standard's `AppBridge`), over the server in-process. For
+every graph, at a desktop and a phone width, it walks root, answer, "more" where it is
+offered, recommendation, back into the tree and back. It also runs under a dark host, in a second grouping, and at a node with more than a page.
+It fails on page errors, messages outside the standard, overflow, a host theme not
+followed, "Im Baum zeigen" leaving the grouping walked, and an unanswered ping or
+teardown, and writes a PNG per step under `/tmp/graph.med/screenshots/<branch>/view/`.
+It needs the sandbox's Docker daemon, so it runs locally, not in CI:
+
+```bash
+uv run tools/build.py --origin http://localhost:8272 && npm --prefix mcp run check:view -- --site ../site
+```
+
+Run it after a change to the page (`tools/site/templates/mcp-app.html`), to the
+words or stylesheet it inlines, or to the tools it draws.
 
 `tools/axes.py` is the feasibility test of a grouping axis (`docs/graph-representation.md`
 §4.1): it applies one axis definition to one view and prints the report — coverage,
@@ -102,7 +122,10 @@ commit), a concept's also its `statements` per view and where it `appears_in` ea
 grouping (`docs/publication.md` §4). For programs it also writes `index.json` and
 `llms.txt` at the root, and per view a tree file per grouping
 (`<view-id>/trees/<axis>.json`), the view without content (`<view-id>/view.json`) and a
-search file (`<view-id>/search.json`) (§2, §4 there). Offline and deterministic; two seconds.
+search file (`<view-id>/search.json`) (§2, §4 there). It also writes the inline view's
+page, `mcp-app.html` (template `tools/site/templates/mcp-app.html`, the vendored MCP
+Apps client and the site's stylesheet inlined), which `index.json` lists with its hash
+as `mcp_app` (§8 there). Offline and deterministic; two seconds.
 
 ```bash
 uv run tools/build.py                       # site/ for graph.med (base path /)

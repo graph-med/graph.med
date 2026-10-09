@@ -29,7 +29,8 @@ import { spawn } from 'node:child_process';
 import { Client, StreamableHTTPClientTransport } from '@modelcontextprotocol/client';
 import { Client as Client1 } from '@modelcontextprotocol/sdk/client/index.js';
 import { StreamableHTTPClientTransport as Transport1 } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
-import { createServerFactory, callTool } from '../src/server.js';
+import { createHash } from 'node:crypto';
+import { createServerFactory, callTool, UI_EXTENSION, UI_MIME, appUri } from '../src/server.js';
 import { createHandler } from '../src/worker.js';
 import { Layer0 } from '../src/layer0.js';
 import * as words from '../src/descriptions.js';
@@ -40,6 +41,8 @@ const LIMIT_CHARS = 50000;
 const CPU_MS = 10; // Workers Free, per request
 const SUBREQUESTS = 50; // Workers, per request
 const TOOLS = ['list_graphs', 'list_groupings', 'get_tree_node', 'get_entity', 'search', 'get_provenance'];
+// The tools the inline view is linked to (card #278), as the card names them: not read from the server.
+const VIEW_TOOLS = new Set(['get_tree_node', 'get_entity']);
 
 // --- targets -------------------------------------------------------------------
 
@@ -65,6 +68,68 @@ function listen(server, port = 0) {
 // run (in-process, the reader's onFetch records the same).
 const served = [];
 
+// The inline view (card #278; MCP Apps 2026-01-26). Where index.json lists the
+// page: the extension in the capabilities, one ui:// resource named after the
+// page's hash with the MCP App type, the page as built (its hash the index's,
+// self-contained), and its URI on get_tree_node and get_entity only, nested
+// (`_meta.ui.resourceUri`, never the flat key), without a domain. Then the
+// same server over the same files without the page: no extension, no resource,
+// no `_meta`, and every sample call's text the same — a host without the
+// extension sees no difference either way.
+async function checkApp(C, { client, index, base, sample, tools }) {
+  const app = index.mcp_app;
+  if (!app) {
+    C.ok(!client.getServerCapabilities()?.extensions?.[UI_EXTENSION], 'the extension without a page in index.json');
+    C.ok(tools.every((t) => !t._meta?.ui), 'a `_meta.ui` without a page in index.json');
+    return;
+  }
+  const uri = appUri(app);
+  C.ok(eq(client.getServerCapabilities()?.extensions?.[UI_EXTENSION], { mimeTypes: [UI_MIME] }), `initialize: the extension ${UI_EXTENSION} is not advertised with ${UI_MIME}`);
+  for (const t of tools) {
+    if (VIEW_TOOLS.has(t.name)) C.ok(eq(t._meta, { ui: { resourceUri: uri } }), `${t.name}: _meta ${JSON.stringify(t._meta)}, not {ui: {resourceUri: ${uri}}}`);
+    else C.ok(!t._meta, `${t.name}: carries _meta ${JSON.stringify(t._meta)}`);
+  }
+  const { resources } = await client.listResources();
+  C.ok(resources.length === 1 && resources[0].uri === uri && resources[0].mimeType === UI_MIME, `resources/list: ${JSON.stringify(resources.map((r) => [r.uri, r.mimeType]))}`);
+  const { contents } = await client.readResource({ uri });
+  const page = await (await fetch(app.url)).text();
+  C.ok(contents.length === 1 && contents[0].uri === uri && contents[0].mimeType === UI_MIME, `resources/read: ${JSON.stringify(contents.map((c) => [c.uri, c.mimeType]))}`);
+  C.ok(contents[0]?.text === page, 'resources/read: not the page index.json lists');
+  C.ok(createHash('sha256').update(page).digest('hex') === app.sha256, 'the page\'s hash is not the one index.json lists');
+  C.ok(!JSON.stringify(contents[0]?._meta ?? {}).includes('domain'), 'the resource carries _meta.ui.domain');
+  // An earlier page's name (a host that kept an older tool list) reads the current page, under the name asked.
+  const older = uri.replace(/[0-9a-f]{12}$/, '000000000000');
+  const r0 = await client.readResource({ uri: older }).catch((e) => ({ error: e.message }));
+  C.ok(r0.contents?.[0]?.uri === older && r0.contents?.[0]?.text === page && r0.contents?.[0]?.mimeType === UI_MIME, `resources/read of an earlier name: ${r0.error ?? JSON.stringify(r0.contents?.map((c) => c.uri))}`);
+  C.ok(/^<!DOCTYPE html>/i.test(page), 'the page is not an HTML document');
+  C.ok(!/<script[^>]+\bsrc=|<link[^>]+\bhref=|@import/i.test(page), 'the page loads a script or a stylesheet: it must be self-contained');
+  C.count('inline view: tools linked', tools.filter((t) => t._meta?.ui).length);
+
+  // Without the page: the same files, index.json without `mcp_app`.
+  const bare = createServerFactory({
+    base,
+    fetch: async (u, o) => {
+      const r = await fetch(u, o);
+      if (u !== base + 'index.json') return r;
+      const { mcp_app, ...rest } = await r.json();
+      return new Response(JSON.stringify(rest), { status: r.status, headers: r.headers });
+    },
+  });
+  const srv = await serveMcp(bare);
+  const c2 = new Client({ name: 'graph-med-check-bare', version: '0' });
+  await c2.connect(new StreamableHTTPClientTransport(new URL(srv.url)));
+  C.ok(!c2.getServerCapabilities()?.extensions && !c2.getServerCapabilities()?.resources, 'without the page: an extension or resources advertised');
+  C.ok((await c2.listTools()).tools.every((t) => !t._meta), 'without the page: a tool carries _meta');
+  for (const [name, args] of Object.entries(sample)) {
+    const a = await c2.callTool({ name, arguments: args });
+    const b = await client.callTool({ name, arguments: args });
+    C.ok(a.content[0].text === b.content[0].text, `${name}: the result differs without the page`);
+    C.count('calls compared, with and without the page');
+  }
+  await c2.close();
+  srv.close?.();
+}
+
 async function serveStatic(target) {
   if (target.kind === 'fixture') {
     const srv = http.createServer();
@@ -75,6 +140,7 @@ async function serveStatic(target) {
       served.push(base + req.url.replace(/^\//, ''));
       const p = decodeURIComponent(req.url.split('?')[0]).replace(/^\//, '');
       if (!(p in files)) return res.writeHead(404).end();
+      if (typeof files[p] === 'string') return res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }).end(files[p]);
       res.writeHead(200, { 'content-type': 'application/json' }).end(JSON.stringify(files[p]));
     });
     return { base, close: () => srv.close() };
@@ -206,8 +272,9 @@ async function checkTransport(C, url, client, sample) {
   const l1 = await c1.listTools();
   const l2 = await client.listTools();
   C.ok(eq(l1.tools.map((t) => [t.name, t.title, t.annotations]), l2.tools.map((t) => [t.name, t.title, t.annotations])), 'tools/list: the 1.x client sees other tools');
+  C.ok(eq(l1.tools.map((t) => t._meta ?? null), l2.tools.map((t) => t._meta ?? null)), 'tools/list: the 1.x client sees other `_meta`');
   const everything = JSON.stringify([init, c1.getServerVersion(), l1, l2]);
-  C.ok(!/"domain"/.test(everything) && !/"ui"\s*:/.test(everything), 'a `_meta.ui` or domain in initialize or tools/list');
+  C.ok(!/"domain"/.test(everything), 'a domain in initialize or tools/list');
   for (const [name, args] of Object.entries(sample)) {
     const a = await c1.callTool({ name, arguments: args });
     const b = await client.callTool({ name, arguments: args });
@@ -457,6 +524,7 @@ async function runTarget(target) {
     C.ok(viaHttp.content[0].text === direct.content[0].text, `${name}: the transport's result ≠ the direct call's: ${direct.content[0].text.slice(0, 200)}`);
   }
   await checkTransport(C, mcp.url, client, sample);
+  await checkApp(C, { client, index, base, sample, tools });
 
 
   // 2. list_graphs, list_groupings
