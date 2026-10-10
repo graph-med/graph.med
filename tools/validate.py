@@ -60,8 +60,11 @@ rules a document schema cannot state because they span files:
     regimen is never recorded as one;
 
 With --verify-quotes it also downloads each source (hash-checked, cached) and
-verifies every quote is a verbatim substring of `pdftotext -layout` on the cited
-physical page. Exit status 1 on any error.
+verifies every quote is a verbatim passage of `pdftotext -layout` on the cited
+physical page, read as spec §6.2 reads it: a line runs on to the next line of
+its column, a line break reads as a space, and a hyphen at a line end either
+joins the word it breaks or stays with the compound it belongs to
+(`page_reading`, `quote_pattern`). Exit status 1 on any error.
 """
 
 from __future__ import annotations
@@ -591,13 +594,14 @@ def verify_quotes(docs, sources: dict[str, dict], cache: Path) -> list[str]:
         return target
 
     def page_text(source_id: str, page: int) -> str | None:
+        """The page's reading (`page_reading`) of its `pdftotext -layout` text."""
         pdf = pdf_for(source_id)
         if pdf is None:
             return None
         if (source_id, page) not in pages:
             out = subprocess.run(["pdftotext", "-layout", "-f", str(page), "-l", str(page), str(pdf), "-"],
                                  capture_output=True, text=True, check=False)
-            pages[(source_id, page)] = out.stdout
+            pages[(source_id, page)] = page_reading(out.stdout)
         return pages[(source_id, page)]
 
     for rel, doc, _ in docs:
@@ -612,9 +616,66 @@ def verify_quotes(docs, sources: dict[str, dict], cache: Path) -> list[str]:
                 errors.append(f"{where}: locator has no #page=N, quote cannot be verified")
                 continue
             text = page_text(m.group(1), int(m.group(2)))
-            if text is not None and value["quote"] not in text:
+            if text is not None and not quote_pattern(str(value["quote"])).search(text):
                 errors.append(f"{where}: quote not found on page {m.group(2)}: {value['quote']!r}")
     return errors
+
+
+BREAK = "\x00"   # in a page's reading: a line break after a hyphen, which a quote may read three ways (quote_pattern)
+
+
+def page_reading(text: str) -> str:
+    """A page's `pdftotext -layout` text as a quote reads it (spec §6.2): its lines run on in columns. Each line is
+    cut into pieces at runs of two or more spaces, so that the columns of a box or a table stay apart. A piece runs on
+    to the first later line with text under it, when that text starts in the piece's column or lies within its width
+    (a centred line); otherwise it ends there. A line break reads as a space, except after a hyphen, where it is
+    marked: whether that hyphen breaks a word or belongs to it is a reading of the page, which the quote states
+    (`quote_pattern`). Every run of pieces is one line of the result, so a quote never crosses from one into the
+    next, and every piece lies in exactly one run: a quote on one line of the text, inside one column, lies in the
+    reading too. No column, word or hyphen of any source is named here."""
+    lines = text.replace("\f", "").split("\n")
+    pieces = [[(m.start(), m.end(), m.group()) for m in re.finditer(r"\S+(?: \S+)*", line)] for line in lines]
+    after: dict[tuple[int, int], tuple[int, int]] = {}
+    for i, row in enumerate(pieces):
+        for k, (start, end, _) in enumerate(row):
+            for j in range(i + 1, len(pieces)):
+                under = [(p, n) for n, p in enumerate(pieces[j]) if p[0] < end and p[1] > start]
+                if under:
+                    (s, e, _), n = min(under)
+                    if s == start or (s > start and e <= end):
+                        after[(i, k)] = (j, n)
+                    break
+    continued = set(after.values())
+    runs = []
+    for i, row in enumerate(pieces):
+        for k in range(len(row)):
+            if (i, k) in continued:
+                continue
+            run, node = row[k][2], after.get((i, k))
+            while node is not None:
+                run += (BREAK if run.endswith("-") else " ") + pieces[node[0]][node[1]][2]
+                node = after.get(node)
+            runs.append(run)
+    return "\n".join(runs)
+
+
+def quote_pattern(quote: str) -> re.Pattern:
+    """Where a quote may lie in a page's reading (`page_reading`): its text as printed, a space where the line
+    breaks, and at a hyphen that ends a line the reading the quote states — the word joined, the hyphen dropped
+    ("Volu-" + "men" → "Volumen"); a compound kept ("Povidon-" + "Iod" → "Povidon-Iod"); or the hyphen before a
+    space ("Ein-" + "und" → "Ein- und"). The validator cannot tell these apart, so it accepts each; the match is
+    exact otherwise. The pattern is a lookahead, so `finditer` yields every place it lies, overlapping or not."""
+    out = []
+    for i, ch in enumerate(quote):
+        if ch == " ":
+            out.append(f"[ {BREAK}]")
+            continue
+        if i and quote[i - 1] != " ":
+            out.append(f"(?:-{BREAK})?")
+        out.append(re.escape(ch))
+        if ch == "-" and i < len(quote) - 1:
+            out.append(f"{BREAK}?")
+    return re.compile(f"(?=({''.join(out)}))")
 
 
 if __name__ == "__main__":

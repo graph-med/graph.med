@@ -357,8 +357,10 @@ set by a default. It has four fields:
 - **`of`**, the parts: criterion or definition claims of the same source.
 - **`connective`**, the word or words the page prints for the combination,
   as printed, the pieces of a word spread over the passage joined by " … ".
-  Its **`source`** holds the quotes, and every piece lies in one of them, so
-  the quote check (§6.2) reads each connective on its page.
+  A word the page breaks at a line end is one piece, read as its quotes read
+  it (§6.2): "Gleichzeitig", never "Gleichzei- … tig". Its **`source`** holds
+  the quotes, and every piece lies in one of them, so the quote check (§6.2)
+  reads each connective on its page.
 - **`rationale`**, how the connective is read. That is modelling, and a word
   alone never decides it: "und" between groups each counting on its own
   ("… ferner Patienten mit … und Patienten mit …") is `any_of`, not
@@ -980,7 +982,7 @@ Every other place stays on the page.
   another direction — are a claim each, each quoting its member; members sharing
   one answer (the cases one group comprises) are one claim. A table's members
   are its rows or a cell's items, and a table a recommendation names is one
-  answer; it quotes one line of one cell (a caption or head for a whole) and
+  answer; it quotes within one cell (a caption or head for a whole) and
   reads "Kopf: Zelle; …" as printed, reference marks left out.
 - **E edge** — to each claim of the section whose wording carries the term, the
   case or the action, none to the other sentences of its recommendation; a
@@ -1036,11 +1038,31 @@ the final link; they write the locator.
 ```
 
 The quote is short (a clause, not a paragraph) and **must be a verbatim
-substring of the source's extracted text** — it is three things at once: the
-highlight target for a reader, the reviewer's at-a-glance check, and the
-validator's exact match. A paraphrase breaks all three. A statement whose quote
-cannot be found where it claims to be is invalid. Provenance values are lists; a
-single reference is shorthand for a list of one.
+passage of the source's extracted text**, in **whole words** — it is three
+things at once: the highlight target for a reader, the reviewer's at-a-glance
+check, and the validator's exact match. A paraphrase breaks all three. A
+statement whose quote cannot be found where it claims to be is invalid.
+Provenance values are lists; a single reference is shorthand for a list of one.
+
+A quote neither starts nor ends inside a word, and it may run across a line
+break of the extracted text where the text runs on: to the next line, or,
+where a box or a table interleaves its columns, to the next line of the same
+column. A line break reads as a space, and a hyphen that ends a line reads as
+the printed word does: the hyphen of a word the line breaks is dropped
+("Volu-" + "men" → "Volumen"), and a hyphen that belongs to the word stays
+("Povidon-" + "Iod" → "Povidon-Iod", "Rektum-" + "und" → "Rektum- und"). Which
+of these a line-end hyphen is, is a reading of the page, the extractor's; the
+validator accepts each and refuses a quote that lies on its page only inside a
+word. The quote is the same text in the link into the source (§6.1), so a
+viewer's search finds it as a reader's would: pdf.js joins a line break and its
+hyphen the same way, except that it drops every line-end hyphen after a capital
+or between two lower-case letters, so where the page keeps one there ("SOFA-" +
+"Score", "oral-" + "antibiotische", "Rektum-" + "und") its search misses the
+quote. The link still opens the page, and an extraction cuts the quote
+elsewhere where the sentence allows. A claim's
+label is the sentence as printed, whole, and is no quote. Since a claim's id is
+derived from its quote (§2), re-cutting an existing quote renames the claim and
+every reference to it: an edit with history (§7), never a silent one.
 
 ### 6.3 Two kinds of provenance value
 
@@ -1249,8 +1271,9 @@ pool, and catches what was left out:
   whether the id hashes from the anchor, whether the file fits the schema, it
   does not ask: the validator has, and the judge runs after it and repeats
   none of it — the definition lists what the validator covers so that the
-  judge skips it. That is the difference in kind between the two: a substring
-  is mechanical, "as printed" is a reading.
+  judge skips it. That is the difference in kind between the two: a passage on
+  the page is mechanical, "as printed" is a reading — whether a quote drops or
+  keeps a hyphen at a line end (§6.2) among it.
 - **A statement against its supporting claims.** The judge reads the statement
   with every claim that `supports` or `contests` it and asks whether the
   proposition is what the claims say: nothing the label asserts is absent from

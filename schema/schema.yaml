@@ -34,7 +34,7 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 $id: https://graph.med/schema/schema.yaml
 title: graph.med pool
-x-version: 0.15.0
+x-version: 0.16.0
 
 # ── layout: which definition each data file validates against ────────────────
 # (data/README.md). Globs are relative to the repository root. `one_per_file`
@@ -104,7 +104,9 @@ x-conventions:
                                 # modalitaetsbezogen). A claim's grade, verb and consensus are none:
                                 # they are the words its source's `grading_scheme` declares (spec §3.1).
                                 # Translations are a build-layer concern.
-  quotes: verbatim-substring    # of the source's extracted text (spec §6.2); single line
+  quotes: verbatim-whole-words  # a passage of the source's extracted text (spec §6.2), one string: it may run on
+                                # across a line break of its column, read as a space, a line-end hyphen read as
+                                # the printed word reads (dropped where it breaks the word, kept where it belongs)
   pdf_pages: physical           # #page=N counts PDF pages, not printed numbers
 
 $defs:
@@ -298,7 +300,9 @@ $defs:
     type: string
     pattern: '^sources/[A-Za-z0-9._-]+(#page=[1-9][0-9]*)?$'   # physical PDF page
   reference:
-    description: '"The source says this" — a locator plus a verbatim, single-line quote.'
+    description: '"The source says this" — a locator plus a verbatim quote in whole words, one line of text: where
+      the passage runs across a line break, the break reads as a space and a line-end hyphen as the printed word
+      reads (spec §6.2).'
     type: object
     required: [at, quote]
     additionalProperties: false
