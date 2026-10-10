@@ -72,11 +72,12 @@ is ready, and it announces its choice before starting.
    preview URL and place in the stack, the one that targets `main` with the
    preview of the whole stack, every card of
    the set that stopped and why, the cards left out and why, the board writes
-   made, and work found for the maintainer to register — none registered.
+   made, the cards registered for work found that it is sure of (ADR-0009),
+   and the questions for the maintainer.
 
 ## What it does not do
 
-It registers no card, answers no card's open question and widens no card's
-scope. A card that needs a decision from the maintainer stops at that decision:
+It answers no card's open question and widens no card's scope; work it finds
+is registered only when it is sure of it (ADR-0009, the `project-board` skill). A card that needs a decision from the maintainer stops at that decision:
 the worker says so in a comment on the card and in its report, and the run
 continues with the others.

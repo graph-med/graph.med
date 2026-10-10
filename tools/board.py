@@ -27,8 +27,8 @@ Every call goes through `gh api`, which the sandbox host authenticates as the Gi
 The board is found by title (`--project`, default below) in the organisation that owns
 `origin`. A card is named by its issue or pull request number; a draft card, which has
 no number, by its exact title. The agent manages the board (ADR-0005): it keeps it in
-step with the pull requests and the issues, and reports every write; it registers no
-work of its own finding. A card's worker keeps the card's work record and reports its
+step with the pull requests and the issues, and reports every write; it registers the
+work it is sure of and asks for general directions (ADR-0009). A card's worker keeps the card's work record and reports its
 progress in comments, so that the next session continues from the card alone.
 
 A refusal `Resource not accessible by integration` (403) means the App's installation
