@@ -11,7 +11,7 @@ organisation, `planning-graph.med`
 (ADR-0004). A **card** is an issue of this repository on that board; its
 column is its state:
 
-- **Todo** — registered by the maintainer, not started. New initiatives are
+- **Todo** — registered by the maintainer, not started. New work is
   registered here, by the maintainer; the agent registers no work of its own
   finding.
 - **In Progress** — an agent's branch `agent/<card>-<slug>` is on it: claimed
@@ -48,6 +48,8 @@ uv run tools/board.py add "Title" --body-file F  # a new card: an issue in graph
 uv run tools/board.py link 91                    # an existing issue or pull request onto the board
 uv run tools/board.py move 92 "In Progress"      # set the column
 uv run tools/board.py set 92 Initiative ui       # any single-select field of the board
+uv run tools/board.py option Initiative <name> --description "…"  # a new value of such a field; --remove, --color
+uv run tools/board.py readme                     # the board's README; --body-file F writes it
 uv run tools/board.py close 92                   # close the issue as completed and move it to Done
 uv run tools/board.py remove 92                  # take the card off the board; the issue stays
 uv run tools/board.py record 92 --pr 170 --preview https://graph.med/preview/pr170/pomgat-lv-1.0/
@@ -79,6 +81,11 @@ write:
   reported; otherwise `link`ed with its initiative and labels.
 - **Keep columns true.** A card whose column no longer matches its branch or
   pull request is moved, with a comment saying what was found.
+- **Keep the initiatives true.** The board is the agent's to govern (the
+  maintainer, 2026-10-10). When work the maintainer brings needs an initiative
+  the board lacks, the agent adds it: the value of the `Initiative` field
+  (`option`, which keeps every card's value) and its section in the README
+  (`readme`: read it, edit the file, write it back whole), then sets the cards.
 - **Record structure.** Dependencies as GitHub's "blocked by" (`depend`), a
   package cut into parts as sub-issues of its parent (`sub`), the labels
   `data-layer`, `user-interface` and `documentation` by what a card touches.
