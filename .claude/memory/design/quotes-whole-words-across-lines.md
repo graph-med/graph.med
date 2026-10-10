@@ -34,8 +34,8 @@ found four of six quotes of one statement cut (card #316).
 viewer's find, and the reviewer's check. A cut word is found by none of
 them: pdf.js's own find, run on the two sources, found 911 of the 1,022
 distinct quoted strings before the re-cut, every miss but two a quote ending
-in a line-end hyphen, and 1,020 after it (the two hold an ASCII double quote,
-which pdf.js strips from a link's search). pdf.js joins a line break as a
+in a line-end hyphen, the two holding an ASCII double quote, which pdf.js
+strips from a link's search; after it, every one. pdf.js joins a line break as a
 space and drops a line-end hyphen between two lower-case letters, after a
 capital or after a letter with a diacritic, keeping any other — so a quote
 that reads the page's words is what it finds. Whether
@@ -49,7 +49,9 @@ passage continues; write a hyphen at a line end as the printed word has it,
 checking the same word elsewhere in the document where it is unclear; where
 the sentence allows, avoid a kept hyphen at a line end between two
 lower-case letters, after a capital or after a letter with a diacritic, which
-pdf.js reads as a broken word. Re-cutting
+pdf.js reads as a broken word; hold no ASCII double quote, which pdf.js strips
+from the link's search (the validator refuses one); stay within the server's
+100 characters ([[quote-gate-follows-the-site]]). Re-cutting
 an existing quote renames its claim (the id hashes locator and quote,
 [[two-layer-identity]]): script it, rewrite every reference in the same
 change, and name the count in the pull request. Related:

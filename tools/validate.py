@@ -60,7 +60,9 @@ rules a document schema cannot state because they span files:
     regimen is never recorded as one;
   - a quote ends on a whole word (spec §6.2): none ends in a hyphen after a
     letter or a digit, the cut a line-end hyphen leaves — the rest of the
-    whole-word rule needs the page, below;
+    whole-word rule needs the page, below; and a quote holds no ASCII double
+    quote, which pdf.js strips from the link's search, so the link would not
+    find it;
 
 With --verify-quotes it also downloads each source (hash-checked, cached) and
 verifies every quote is a verbatim passage of `pdftotext -layout` on the cited
@@ -199,7 +201,7 @@ def main(argv=None) -> int:
     errors += check_definitions(ids, entities, defined_by)
     errors += check_grading(ids, entities)
     errors += check_evidence(ids, entities)
-    errors += check_quote_ends(docs)
+    errors += check_quote_form(docs)
     if any(e.get("type") == "view" and "scope_root" in e for e in entities.values()):
         if errors:   # members are computed by the build's reader, which expects a pool that fits the schema
             print("the scope trees of views are checked once the errors below are fixed")
@@ -574,17 +576,25 @@ def cycles(graph: dict[str, list[str]]) -> list[list[str]]:
     return found
 
 
-def check_quote_ends(docs) -> list[str]:
-    """A quote ends on a whole word (spec §6.2). Without the page one cut shows: a quote that ends in a hyphen after
-    a letter or a digit stops inside a word — a line-end hyphen it did not join, or a compound it broke off
-    ("Vasop-", "Povidon-"). Every other cut needs the page and is --verify-quotes' (`locate`)."""
+def check_quote_form(docs) -> list[str]:
+    """What a quote's own text shows of spec §6.2, without its page. A quote that ends in a hyphen after a letter or
+    a digit stops inside a word — a line-end hyphen it did not join, or a compound it broke off ("Vasop-",
+    "Povidon-"); every other cut needs the page and is --verify-quotes' (`locate`). And a quote holds no ASCII double
+    quote: the link into the source carries the quote as its search (`#search=<quote>&phrase=true`), and pdf.js
+    removes every `"` from that search before it looks, so a quote holding one is never found. Typographic quotation
+    marks („ “ ” « ») are no such character and stay."""
     errs: list[str] = []
     for rel, doc, _ in docs:
         for path, value in walk(doc):
-            if isinstance(value, dict) and "at" in value and isinstance(value.get("quote"), str) \
-                    and re.search(r"[^\W_]-$", value["quote"]):
-                errs.append(f"{rel} at {'/'.join(map(str, path))}: quote ends inside a word, in a hyphen "
-                            f"({value['quote']!r}); a quote ends on a whole word, across the line where the word goes on")
+            if not (isinstance(value, dict) and "at" in value and isinstance(value.get("quote"), str)):
+                continue
+            where, quote = f"{rel} at {'/'.join(map(str, path))}", value["quote"]
+            if re.search(r"[^\W_]-$", quote):
+                errs.append(f"{where}: quote ends inside a word, in a hyphen ({quote!r}); "
+                            f"a quote ends on a whole word, across the line where the word goes on")
+            if '"' in quote:
+                errs.append(f"{where}: quote holds an ASCII double quote ({quote!r}), which pdf.js strips from the "
+                            f"link's search, so the link would not find it; cut the quote beside it (spec §6.2)")
     return errs
 
 

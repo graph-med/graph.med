@@ -26,8 +26,9 @@
 # a scheme lies in the quotes of its entry), an evidence row's `outcome` is
 # an endpoint (spec §3.1: a concept of facet `outcome`; whatever else the row
 # names is its printed `key`), and a quote ends on a whole word (spec §6.2: none
-# ends in a hyphen after a letter or a digit; with --verify-quotes, none starts
-# or ends inside a word of its page, read in columns with line ends joined).
+# ends in a hyphen after a letter or a digit, and none holds an ASCII double
+# quote, which pdf.js strips from the link's search; with --verify-quotes, none
+# starts or ends inside a word of its page, read in columns with line ends joined).
 # CI runs it on every pull request and push to main (.github/workflows/validate.yml).
 #
 # Keywords prefixed `x-` are this project's annotations; JSON Schema validators
