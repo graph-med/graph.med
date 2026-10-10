@@ -1551,6 +1551,7 @@ POMGAT S3 guideline (AWMF 088-010OL), quotes verified against the document.
   lang: de
   kind: leitlinie                                                           # what kind of document it is: the index groups by it
   title: "S3-Leitlinie Perioperatives Management bei gastrointestinalen Tumoren (POMGAT), Langversion 1.0"
+  short_label: S3 POMGAT 2023                                               # one line on a card; the title stays the citation
   awmf_register: "088-010OL"
   url: "https://register.awmf.org/assets/guidelines/008-010OLl_S3_Perioperatives-Management-bei-gastrointestinalen-Tumoren-POMGAT_2023-12.pdf"
   content_hash: "sha256:…"
