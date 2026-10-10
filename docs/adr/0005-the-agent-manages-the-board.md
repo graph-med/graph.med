@@ -1,6 +1,6 @@
 # ADR-0005 — The agent manages the board; a card carries its own work record
 
-Status: accepted, 2026-09-23. Supersedes the permission rule of ADR-0004.
+Status: accepted, 2026-09-23. Supersedes the permission rule of ADR-0004. Its rule on registering work is superseded by ADR-0009 (2026-10-10).
 
 ## Context
 

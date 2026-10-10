@@ -130,9 +130,9 @@ board and its columns are described in the `project-board` skill (ADR-0004);
 10. **Finish.** `git worktree remove` each worktree. The final message lists
    every pull request with its preview URL and its place in the stack, the one
    that now targets `main` with the preview of the whole stack, every board
-   write made, every listed card that was not processed and why, and work
-   found that the maintainer may want to register as a card — the agent
-   registers none. Then stop. A person reviews and merges; the board moves
+   write made, every listed card that was not processed and why, the cards
+   registered for work found that the coordinator is sure of (ADR-0009, the
+   `project-board` skill), and the questions for the maintainer. Then stop. A person reviews and merges; the board moves
    the cards.
 
 ## The worker
@@ -246,8 +246,9 @@ handover comment.
    card settled one, apply the decision, delete the entry, and record the why
    — a memory under `.claude/memory/design/` for the knowledge model, an ADR
    under `docs/adr/` for the repository (the `handover` skill describes the
-   former). Work you found and could not do goes into your report, for the
-   maintainer to register as a card; you register none.
+   former). Work you found and could not do goes into your report, with the
+   evidence; the coordinator registers what it is sure of (ADR-0009), you
+   register none.
 3. Run `uv run tools/validate.py`; for a
    build card also the build and the screenshots (the `screenshot` skill; its
    container and output directory are named after your branch by default).

@@ -11,6 +11,8 @@ where work is registered (the `project-board` skill; ADR-0004).
     uv run tools/board.py comment 89 "Text"                 # comment on the card's issue
     uv run tools/board.py comment 89 --body-file F
     uv run tools/board.py set 89 Initiative ui              # any single-select field of the board
+    uv run tools/board.py option Initiative ui [--description D] [--color GRAY] [--remove]   # a value of such a field; cards keep theirs
+    uv run tools/board.py readme [--body-file F]            # the board's README: print it, or write it
     uv run tools/board.py close 89 [--reason not_planned] [--keep-status]   # close the issue, move to Done
     uv run tools/board.py remove 89                         # take the card off the board (the issue stays)
     uv run tools/board.py record 89 [--branch B] [--pr N] [--preview URL]   # the card's work record
@@ -25,8 +27,8 @@ Every call goes through `gh api`, which the sandbox host authenticates as the Gi
 The board is found by title (`--project`, default below) in the organisation that owns
 `origin`. A card is named by its issue or pull request number; a draft card, which has
 no number, by its exact title. The agent manages the board (ADR-0005): it keeps it in
-step with the pull requests and the issues, and reports every write; it registers no
-work of its own finding. A card's worker keeps the card's work record and reports its
+step with the pull requests and the issues, and reports every write; it registers the
+work it is sure of and asks for general directions (ADR-0009). A card's worker keeps the card's work record and reports its
 progress in comments, so that the next session continues from the card alone.
 
 A refusal `Resource not accessible by integration` (403) means the App's installation
@@ -49,6 +51,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_PROJECT = "planning-graph.med"
 STATUS_FIELD = "Status"
+COLORS = ["GRAY", "BLUE", "GREEN", "YELLOW", "ORANGE", "RED", "PINK", "PURPLE"]  # GitHub's ProjectV2SingleSelectFieldOptionColor
 
 
 class BoardError(Exception):
@@ -90,7 +93,10 @@ def gh(*args: str, data: dict | None = None) -> dict | list | str:
 
 
 def graphql(query: str, **variables) -> dict:
-    result = gh("graphql", "-f", f"query={query}", *[a for k, v in variables.items() for a in ("-F" if isinstance(v, int) else "-f", f"{k}={v}")])
+    if any(isinstance(v, (list, dict)) for v in variables.values()):  # -f and -F carry no list of objects; the body does
+        result = gh("graphql", data={"query": query, "variables": variables})
+    else:
+        result = gh("graphql", "-f", f"query={query}", *[a for k, v in variables.items() for a in ("-F" if isinstance(v, int) else "-f", f"{k}={v}")])
     if isinstance(result, dict) and result.get("errors"):
         messages = "; ".join(e.get("message", "") for e in result["errors"])
         hint = ""
@@ -165,6 +171,34 @@ class Board:
             p=self.id, i=item_id, f=fid, o=options[match[0]],
         )
         return match[0]
+
+    def options(self, field_name: str) -> tuple[str, list[dict]]:
+        """(field id, [{id, name, color, description}]) of a single-select field, in the board's order."""
+        data = graphql(
+            "query($id:ID!,$n:String!){ node(id:$id){ ... on ProjectV2 { field(name:$n){ ... on ProjectV2SingleSelectField { "
+            "id options { id name color description } } } } } }",
+            id=self.id, n=field_name,
+        )
+        f = data["node"].get("field") or {}
+        if not f.get("id"):
+            raise BoardError(f"no single-select field {field_name!r} on {self.title}")
+        return f["id"], f["options"]
+
+    def set_options(self, field_id: str, options: list[dict]) -> list[dict]:
+        """Write a field's whole list of options. An option passed with its `id` stays the same
+        option, so every card that holds it keeps it; one passed without is new."""
+        data = graphql(
+            "mutation($f:ID!,$o:[ProjectV2SingleSelectFieldOptionInput!]){ updateProjectV2Field(input:{fieldId:$f,singleSelectOptions:$o}){ "
+            "projectV2Field{ ... on ProjectV2SingleSelectField { options { id name color description } } } } }",
+            f=field_id, o=[{k: o[k] for k in ("id", "name", "color", "description") if o.get(k) is not None} for o in options],
+        )
+        return data["updateProjectV2Field"]["projectV2Field"]["options"]
+
+    def readme(self) -> str:
+        return graphql("query($id:ID!){ node(id:$id){ ... on ProjectV2 { readme } } }", id=self.id)["node"].get("readme") or ""
+
+    def set_readme(self, text: str) -> None:
+        graphql("mutation($p:ID!,$r:String!){ updateProjectV2(input:{projectId:$p,readme:$r}){ projectV2{ id } } }", p=self.id, r=text)
 
     def status_id(self, name: str) -> str:
         for option, oid in self.statuses.items():
@@ -425,6 +459,50 @@ def cmd_set(board: Board, args) -> None:
     print(f"{name(item)}: {args.field} = {value}")
 
 
+def cmd_option(board: Board, args) -> None:
+    """Add a value to a single-select field (an initiative), change its description or colour, or
+    remove it. GitHub writes a field's options as one list, so every other option goes back with its
+    id, and the write is checked against what GitHub returns: no card loses its value."""
+    if args.field.lower() == STATUS_FIELD.lower():
+        raise BoardError("the columns are fixed (ADR-0004); `option` edits the board's other single-select fields")
+    fid, options = board.options(args.field)
+    hit = next((o for o in options if o["name"].lower() == args.value.lower()), None)
+    if args.remove:
+        if not hit:
+            raise BoardError(f"no value {args.value!r} for {args.field}; the board has: {', '.join(o['name'] for o in options)}")
+        holders = [i for i in board.items() if (i["fields"].get(args.field) or "").lower() == hit["name"].lower()]
+        if holders:
+            raise BoardError(f"{len(holders)} cards hold {args.field} = {hit['name']} ({', '.join(name(i) for i in holders[:5])}); "
+                             "set them to another value first")
+        wanted = [o for o in options if o is not hit]
+    elif hit:
+        if args.description is None and args.color is None:
+            raise BoardError(f"{args.field} already has {hit['name']!r}; --description or --color changes it")
+        wanted = [dict(o, **{k: v for k, v in (("description", args.description), ("color", args.color)) if v is not None})
+                  if o is hit else o for o in options]
+    else:
+        wanted = options + [{"name": args.value, "color": args.color or "GRAY", "description": args.description or ""}]
+    written = board.set_options(fid, wanted)
+    kept = {o["id"] for o in written}
+    lost = [o["name"] for o in wanted if o.get("id") and o["id"] not in kept]
+    if lost:
+        raise BoardError(f"GitHub replaced {args.field} options it was given by id ({', '.join(lost)}): "
+                         "the cards that held them may have lost their value; `list --json` shows what they hold")
+    verb = "removed" if args.remove else "changed" if hit else "added"
+    print(f"{args.field}: {verb} {hit['name'] if hit else args.value}; the board has: {', '.join(o['name'] for o in written)}")
+
+
+def cmd_readme(board: Board, args) -> None:
+    """The board's README (its project page): print it, or replace it with a file."""
+    if not args.body_file:
+        text = board.readme()
+        print(text, end="" if text.endswith("\n") else "\n")
+        return
+    text = Path(args.body_file).read_text(encoding="utf-8")
+    board.set_readme(text)
+    print(f"README of {board.title} written ({len(text)} characters)")
+
+
 def cmd_close(board: Board, args) -> None:
     item = board.find(args.item)
     if not item["number"]:
@@ -528,6 +606,9 @@ def main(argv: list[str] | None = None) -> int:
     s = sub.add_parser("comment", help="comment on a card's issue"); s.add_argument("item"); s.add_argument("text", nargs="?", default="")
     s.add_argument("--body-file", metavar="FILE"); s.set_defaults(run=cmd_comment)
     s = sub.add_parser("set", help="set a single-select field of a card (e.g. Initiative)"); s.add_argument("item"); s.add_argument("field"); s.add_argument("value"); s.set_defaults(run=cmd_set)
+    s = sub.add_parser("option", help="add, change or remove a value of a single-select field (e.g. an initiative)"); s.add_argument("field"); s.add_argument("value")
+    s.add_argument("--description"); s.add_argument("--color", choices=COLORS); s.add_argument("--remove", action="store_true"); s.set_defaults(run=cmd_option)
+    s = sub.add_parser("readme", help="the board's README: print it, or write it from a file"); s.add_argument("--body-file", metavar="FILE"); s.set_defaults(run=cmd_readme)
     s = sub.add_parser("close", help="close the issue and move it to Done"); s.add_argument("item")
     s.add_argument("--reason", choices=["completed", "not_planned"], default="completed"); s.add_argument("--keep-status", action="store_true"); s.set_defaults(run=cmd_close)
     s = sub.add_parser("remove", help="take an item off the board"); s.add_argument("item"); s.set_defaults(run=cmd_remove)
