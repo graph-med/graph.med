@@ -299,7 +299,7 @@
     evidence:
     - {at: sources/pomgat-lv-1.0#page=89, quote: '⊕⊕⊕⊝: Schmerzintensität in Ruhe 24 Stunden nach der Operation: Kein klinisch relevanter'}
     - {at: sources/pomgat-lv-1.0#page=89, quote: '⊕⊕⊕⊝: Schmerzintensität bei Belastung 24 Stunden nach der OP: Kein klinisch relevanter'}
-    - {at: sources/pomgat-lv-1.0#page=89, quote: '-: "Kritische Endpunkte", zu denen keine Daten vorlagen: Mortalität'}
+    - {at: sources/pomgat-lv-1.0#page=89, quote: "zu denen keine Daten vorlagen: Mortalität"}
     - {at: sources/pomgat-lv-1.0#page=89, quote: 'Mortalität, kardiale'}
     - {at: sources/pomgat-lv-1.0#page=89, quote: 'Komplikationen, Delir'}
     - {at: sources/pomgat-lv-1.0#page=89, quote: 'Delir, GI-II Kriterien'}

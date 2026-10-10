@@ -80,7 +80,7 @@
 - [claims/sepsis-lf-4.0/d51d1510, refines, claims/sepsis-lf-4.0/c2281f0d, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "R: orientierende Einstellung des PEEP mit Hilfe der FiO2/niedrig-PEEP Tabelle — typischerweise PEEP 5 bis 8 cmH2O bei einem angestrebten PaO2 zwischen 60 und 90 mmHg"}]
 # Tabelle 4 (p. 76), the table 5.5 names: one answer (#213 item 2)
-- [claims/sepsis-lf-4.0/0bf02939, refines, claims/sepsis-lf-4.0/c2281f0d, {source: modelling, as_of: "2026-09-25", lang: de,
+- [claims/sepsis-lf-4.0/21c3852b, refines, claims/sepsis-lf-4.0/c2281f0d, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "R: FiO2/niedrig-PEEP Tabelle des ARDS-Netzwerks"}]
 # p. 76: the bound of moderate to severe ARDS, reported from a study; G2's exception admits it (flagged for the physician)
 - [claims/sepsis-lf-4.0/078149f2, refines, claims/sepsis-lf-4.0/cb87ecda, {source: modelling, as_of: "2026-09-25", lang: de,

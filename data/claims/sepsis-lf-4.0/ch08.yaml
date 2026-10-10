@@ -592,7 +592,7 @@
   label: "Patienten mit Sepsis oder septischem Schock weisen häufig einen oder mehrere der 3 unabhängigen Risikofaktoren (respiratorische Insuffizienz definiert als maschinelle Beatmung > 48 h, Gerinnungsstörung definiert als INR > 1,5 oder Thrombozytenzahl < 50 000/mm3, akutes Nierenversagen) für das Auftreten einer klinisch signifikanten stressbedingten Blutung auf, die mit erhöhter Morbidität und Mortalität assoziiert sein kann."
   combination:
     operator: any_of
-    of: [claims/sepsis-lf-4.0/2aa83853, claims/sepsis-lf-4.0/c9c4878d, claims/sepsis-lf-4.0/5b297b31]
+    of: [claims/sepsis-lf-4.0/2aa83853, claims/sepsis-lf-4.0/ce6ced84, claims/sepsis-lf-4.0/5b297b31]
     connective: "einen oder mehrere"
     source: {at: sources/sepsis-lf-4.0#page=122, quote: "Patienten mit Sepsis oder septischem Schock weisen häufig einen oder mehrere der 3 unabhängigen"}
     rationale: "„einen oder mehrere der 3 unabhängigen Risikofaktoren“: jeder der drei Faktoren genügt allein, mehrere dürfen zusammen vorliegen (ODER)."
@@ -614,7 +614,7 @@
       - {at: sources/sepsis-lf-4.0#page=122, quote: "respiratorische Insuffizienz definiert als maschinelle Beatmung"}
       - {at: sources/sepsis-lf-4.0#page=122, quote: "Beatmung > 48 h, Gerinnungsstörung definiert als"}
 # a part of p. 122's combination, itself any_of over two values (#204); the rule of concepts/gerinnungsstoerung.
-- id: claims/sepsis-lf-4.0/c9c4878d
+- id: claims/sepsis-lf-4.0/ce6ced84
   type: claim
   lang: de
   kind: definition
@@ -622,13 +622,13 @@
   label: "Gerinnungsstörung definiert als INR > 1,5 oder Thrombozytenzahl < 50 000/mm3"
   combination:
     operator: any_of
-    of: [claims/sepsis-lf-4.0/2e76f244, claims/sepsis-lf-4.0/6aec1633]
+    of: [claims/sepsis-lf-4.0/2e76f244, claims/sepsis-lf-4.0/38a3dc57]
     connective: "oder"
-    source: {at: sources/sepsis-lf-4.0#page=122, quote: "Gerinnungsstörung definiert als INR > 1,5 oder Thrombozytenzahl < 50"}
+    source: {at: sources/sepsis-lf-4.0#page=122, quote: "Gerinnungsstörung definiert als INR > 1,5 oder Thrombozytenzahl < 50 000/mm3"}
     rationale: "„INR > 1,5 oder Thrombozytenzahl < 50 000/mm3“: „oder“ verbindet zwei Werte, von denen jeder allein die Gerinnungsstörung ausmacht (ODER)."
   source:
     at: sources/sepsis-lf-4.0#page=122
-    quote: "Gerinnungsstörung definiert als INR > 1,5 oder Thrombozytenzahl < 50"
+    quote: "Gerinnungsstörung definiert als INR > 1,5 oder Thrombozytenzahl < 50 000/mm3"
 # a part of the combination of „Gerinnungsstörung“; its own quote prints the threshold, no unit printed.
 - id: claims/sepsis-lf-4.0/2e76f244
   type: claim
@@ -640,20 +640,19 @@
   source:
     at: sources/sepsis-lf-4.0#page=122
     quote: "INR > 1,5"
-- id: claims/sepsis-lf-4.0/6aec1633
+- id: claims/sepsis-lf-4.0/38a3dc57
   type: claim
   lang: de
   kind: criterion
   section: '8.8'
   label: "Thrombozytenzahl < 50 000/mm3"
   threshold: {quantity: concepts/thrombozytenzahl, comparator: "<", value: "50 000", unit: "/mm3"}
-  source:   # a part of the combination of „Gerinnungsstörung“; the value breaks across the line as printed.
+  source:   # a part of the combination of „Gerinnungsstörung“; the value breaks across the line, and the quote runs on to it (#316).
     at: sources/sepsis-lf-4.0#page=122
-    quote: "Thrombozytenzahl < 50"
+    quote: "Thrombozytenzahl < 50 000/mm3"
   provenance:
     threshold:
-      - {at: sources/sepsis-lf-4.0#page=122, quote: "oder Thrombozytenzahl < 50"}
-      - {at: sources/sepsis-lf-4.0#page=122, quote: "000/mm3, akutes Nierenversagen)"}
+      - {at: sources/sepsis-lf-4.0#page=122, quote: "oder Thrombozytenzahl < 50 000/mm3"}
 - id: claims/sepsis-lf-4.0/5b297b31
   type: claim
   lang: de

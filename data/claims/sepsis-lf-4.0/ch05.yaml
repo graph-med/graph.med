@@ -469,7 +469,7 @@
     at: sources/sepsis-lf-4.0#page=75
     quote: "typischerweise zu PEEP-Werten zwischen 5 und 8 cmH2O, sofern ein PaO2 zwischen 60 und 90"
 # Tabelle 4, which box 5.5 names: one answer, one claim (#213 item 2); no threshold, a PEEP setting says how
-- id: claims/sepsis-lf-4.0/0bf02939
+- id: claims/sepsis-lf-4.0/21c3852b
   type: claim
   lang: de
   kind: criterion
@@ -477,7 +477,7 @@
   label: "Tabelle 4: ARDS Netzwerk Tabelle \"lower PEEP/higher FiO2\": FiO2 0,3 – PEEP 5; 0,4 – 5; 0,4 – 8; 0,5 – 8; 0,5 – 10; 0,6 – 10; 0,7 – 10; 0,7 – 12; 0,7 – 14; 0,8 – 14; 0,9 – 14; 0,9 – 16; 0,9 – 18; 1 – 18-24"
   source:
     at: sources/sepsis-lf-4.0#page=76
-    quote: "Tabelle 4: ARDS Netzwerk Tabelle \"lower PEEP/higher FiO2\""
+    quote: "Tabelle 4: ARDS Netzwerk Tabelle"
 # p. 76, reported from a meta-analysis: passes G2 by its exception, a value the wording of 5.6 and 5.7 („moderatem oder schwerem ARDS“) needs and the guideline gives nowhere else; the rule of concepts/moderates-oder-schweres-ards
 - id: claims/sepsis-lf-4.0/078149f2
   type: claim

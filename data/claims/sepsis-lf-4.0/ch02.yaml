@@ -65,7 +65,7 @@
     threshold:
       - {at: "sources/sepsis-lf-4.0#page=23", quote: "Notwendigkeit einer Therapie mit Vasopressoren, um einen mittleren"}
       - {at: "sources/sepsis-lf-4.0#page=23", quote: "mittleren arteriellen Blutdruck von ≥ 65 mmHg zu erreichen."}
-# Definition 2, p. 23 — sentence 2 of 2, the other part of the rule; its first word is hyphenated over the line break („Gleichzei-“ / „tig“)
+# Definition 2, p. 23 — sentence 2 of 2, the other part of the rule; the page breaks its first word at the line end, and the quote reads it as the one word „Gleichzeitig“ (#316)
 - id: claims/sepsis-lf-4.0/9bcf0f2d
   type: claim
   lang: de
@@ -101,7 +101,7 @@
     source:
       - {at: "sources/sepsis-lf-4.0#page=23", quote: "mittleren arteriellen Blutdruck von ≥ 65 mmHg zu erreichen. Gleichzeitig"}
       - {at: "sources/sepsis-lf-4.0#page=23", quote: "Gleichzeitig muss der Laktatwert im Blut > 2 mmol/l betragen."}
-    rationale: "„Gleichzeitig muss …“ verlangt beide Teile zugleich (UND): die trotz adäquater Volumentherapie persistierende Hypotension mit Vasopressorbedarf und den Laktatwert > 2 mmol/l. Das Wort ist am Zeilenende getrennt („Gleichzei-“ … „tig“). Die Leitlinie liest ihre Definition auf derselben Seite ebenso: „(mittlerer arterieller Blutdruck von ≥ 65 mmHg UND Laktatwert > 2 mmol/l)“."
+    rationale: "„Gleichzeitig muss …“ verlangt beide Teile zugleich (UND): die trotz adäquater Volumentherapie persistierende Hypotension mit Vasopressorbedarf und den Laktatwert > 2 mmol/l. Die Seite trennt das Wort am Zeilenende; der Konnektor ist das eine Wort „Gleichzeitig“. Die Leitlinie liest ihre Definition auf derselben Seite ebenso: „(mittlerer arterieller Blutdruck von ≥ 65 mmHg UND Laktatwert > 2 mmol/l)“."
   source:
     at: sources/sepsis-lf-4.0#page=23
     quote: "mittleren arteriellen Blutdruck von ≥ 65 mmHg zu erreichen. Gleichzeitig"

@@ -60,7 +60,7 @@
    rationale: "„anhaltender Vasopressorbedarf“ — „Als … wird die Gabe von Noradrenalin ≥ 0,25 µg∙kg-1min-1 über mindestens vier Stunden bezeichnet“ (Empfehlung 8.1, Bemerkung)."}]
 - [concepts/dokumentierte-gerinnungsstoerung, defined_by, claims/sepsis-lf-4.0/2eda54e9, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "„dokumentierter Gerinnungsstörung“ — die Klammer „(Quick < 50 %, APTT > 45 s und/oder Fibrinogen < 1 g/l)“ (S. 109), mit „und/oder“ verknüpft."}]
-- [concepts/gerinnungsstoerung, defined_by, claims/sepsis-lf-4.0/c9c4878d, {source: modelling, as_of: "2026-09-25", lang: de,
+- [concepts/gerinnungsstoerung, defined_by, claims/sepsis-lf-4.0/ce6ced84, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "„Gerinnungsstörung“ — „definiert als INR > 1,5 oder Thrombozytenzahl < 50 000/mm3“ (S. 122), am Ort der Aufzählung definiert."}]
 - [concepts/risikofaktoren-fuer-gastrointestinale-blutungen, defined_by, claims/sepsis-lf-4.0/6cbc2502, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "„Risikofaktoren für gastrointestinale (GI) Blutungen“ — „einen oder mehrere der 3 unabhängigen Risikofaktoren (…)“ (S. 122): die Textstelle, die die drei Faktoren nennt und verknüpft."}]
