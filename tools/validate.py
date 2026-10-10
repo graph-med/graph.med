@@ -58,13 +58,18 @@ rules a document schema cannot state because they span files:
     printed `key` (spec §3.1): an entry's `outcome` is a concept of facet
     `outcome`, so a component, a subgroup, an arm, a comparator, a device or a
     regimen is never recorded as one;
+  - a quote ends on a whole word (spec §6.2): none ends in a hyphen after a
+    letter or a digit, the cut a line-end hyphen leaves — the rest of the
+    whole-word rule needs the page, below;
 
 With --verify-quotes it also downloads each source (hash-checked, cached) and
 verifies every quote is a verbatim passage of `pdftotext -layout` on the cited
 physical page, read as spec §6.2 reads it: a line runs on to the next line of
 its column, a line break reads as a space, and a hyphen at a line end either
 joins the word it breaks or stays with the compound it belongs to
-(`page_reading`, `quote_pattern`). Exit status 1 on any error.
+(`page_reading`, `quote_pattern`); and that it lies there on whole words,
+neither starting nor ending inside a word of the page (`locate`). Exit status
+1 on any error.
 """
 
 from __future__ import annotations
@@ -194,6 +199,7 @@ def main(argv=None) -> int:
     errors += check_definitions(ids, entities, defined_by)
     errors += check_grading(ids, entities)
     errors += check_evidence(ids, entities)
+    errors += check_quote_ends(docs)
     if any(e.get("type") == "view" and "scope_root" in e for e in entities.values()):
         if errors:   # members are computed by the build's reader, which expects a pool that fits the schema
             print("the scope trees of views are checked once the errors below are fixed")
@@ -568,6 +574,20 @@ def cycles(graph: dict[str, list[str]]) -> list[list[str]]:
     return found
 
 
+def check_quote_ends(docs) -> list[str]:
+    """A quote ends on a whole word (spec §6.2). Without the page one cut shows: a quote that ends in a hyphen after
+    a letter or a digit stops inside a word — a line-end hyphen it did not join, or a compound it broke off
+    ("Vasop-", "Povidon-"). Every other cut needs the page and is --verify-quotes' (`locate`)."""
+    errs: list[str] = []
+    for rel, doc, _ in docs:
+        for path, value in walk(doc):
+            if isinstance(value, dict) and "at" in value and isinstance(value.get("quote"), str) \
+                    and re.search(r"[^\W_]-$", value["quote"]):
+                errs.append(f"{rel} at {'/'.join(map(str, path))}: quote ends inside a word, in a hyphen "
+                            f"({value['quote']!r}); a quote ends on a whole word, across the line where the word goes on")
+    return errs
+
+
 def verify_quotes(docs, sources: dict[str, dict], cache: Path) -> list[str]:
     errors: list[str] = []
     pdfs: dict[str, Path | None] = {}
@@ -616,8 +636,12 @@ def verify_quotes(docs, sources: dict[str, dict], cache: Path) -> list[str]:
                 errors.append(f"{where}: locator has no #page=N, quote cannot be verified")
                 continue
             text = page_text(m.group(1), int(m.group(2)))
-            if text is not None and not quote_pattern(str(value["quote"])).search(text):
+            found = locate(str(value["quote"]), text) if text is not None else "whole"
+            if found == "missing":
                 errors.append(f"{where}: quote not found on page {m.group(2)}: {value['quote']!r}")
+            elif found != "whole":
+                errors.append(f"{where}: quote {found}s inside a word on page {m.group(2)}: {value['quote']!r}; "
+                              f"a quote is whole words, across the line where a word goes on (spec §6.2)")
     return errors
 
 
@@ -676,6 +700,32 @@ def quote_pattern(quote: str) -> re.Pattern:
         if ch == "-" and i < len(quote) - 1:
             out.append(f"{BREAK}?")
     return re.compile(f"(?=({''.join(out)}))")
+
+
+def locate(quote: str, reading: str) -> str:
+    """Whether a quote lies in a page's reading on whole words (spec §6.2): 'whole' where it does somewhere,
+    'start' or 'end' where it lies there only cut at that end, 'missing' where it does not lie there at all. A quote
+    starts inside a word where the page goes on before it with a letter after a letter, a digit after a digit
+    (also across a decimal mark), the head of a compound ("Sepsis-" before "assoziierten"), or a line-end hyphen; it
+    ends inside one likewise, and where it ends in a hyphen the line breaks after. A letter beside a digit is a word's
+    end, so a reference mark the text glues to a word ("beschrieben263") does not cut it."""
+    same = lambda a, b: (a.isalpha() and b.isalpha()) or (a.isdigit() and b.isdigit())
+    char = lambda i: reading[i] if 0 <= i < len(reading) else "\n"
+    if not quote:
+        return "missing"
+    first, last, cut = quote[0], quote[-1], ""
+    for m in quote_pattern(quote).finditer(reading):
+        s, e = m.span(1)
+        before, before2, after, after2 = char(s - 1), char(s - 2), char(e), char(e + 1)
+        starts = first.isalnum() and (before == BREAK or same(before, first) or (before == "-" and before2.isalnum())
+                                      or (first.isdigit() and before in ",." and before2.isdigit()))
+        ends = (last == "-" and after == BREAK) or (last.isalnum() and (
+            same(last, after) or (after == "-" and (after2.isalnum() or after2 == BREAK))
+            or (last.isdigit() and after in ",." and after2.isdigit())))
+        if not starts and not ends:
+            return "whole"
+        cut = cut or ("start" if starts else "end")
+    return cut or "missing"
 
 
 if __name__ == "__main__":

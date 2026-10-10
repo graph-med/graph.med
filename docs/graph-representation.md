@@ -1055,10 +1055,10 @@ of these a line-end hyphen is, is a reading of the page, the extractor's; the
 validator accepts each and refuses a quote that lies on its page only inside a
 word. The quote is the same text in the link into the source (§6.1), so a
 viewer's search finds it as a reader's would: pdf.js joins a line break and its
-hyphen the same way, except that it drops every line-end hyphen after a capital
-or between two lower-case letters, so where the page keeps one there ("SOFA-" +
-"Score", "oral-" + "antibiotische", "Rektum-" + "und") its search misses the
-quote. The link still opens the page, and an extraction cuts the quote
+hyphen the same way, except that it drops every line-end hyphen between two
+lower-case letters, after a capital or after a letter with a diacritic, so
+where the page keeps one there ("oral-" + "antibiotische", "Rektum-" + "und",
+"SOFA-" + "Score") its search misses the quote. The link still opens the page, and an extraction cuts the quote
 elsewhere where the sentence allows. A claim's
 label is the sentence as printed, whole, and is no quote. Since a claim's id is
 derived from its quote (§2), re-cutting an existing quote renames the claim and

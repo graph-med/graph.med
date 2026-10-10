@@ -83,8 +83,8 @@ dimension's values are among its declared ones, that a claim's grade and
 consensus are of its source's `grading_scheme`, its verb one a declared scheme
 defines, a printed share within its class's bounds, and every word of a
 scheme in the entry's quotes, and (with `--verify-quotes`)
-that each quote is a passage of the page, a line break read as a space and a
-line-end hyphen either way (spec §6.2). You do not recompute ids, do not test quotes as
+that each quote is a passage of the page in whole words, a line break read as
+a space and a line-end hyphen either way (spec §6.2). You do not recompute ids, do not test quotes as
 passages, do not check the schema. A passage is mechanical; "as printed"
 is a reading, and the reading is your job — whether a hyphen a quote drops or
 keeps at a line end is the one the printed word has.

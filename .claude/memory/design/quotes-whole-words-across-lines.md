@@ -32,11 +32,13 @@ found four of six quotes of one statement cut (card #316).
 **Why:** a quote is the highlight target of the link into the source
 (`#page=N&search=<quote>&phrase=true`), the text a reader copies into a
 viewer's find, and the reviewer's check. A cut word is found by none of
-them: pdf.js, run on the two sources, found 499 of 607 quoted strings of the
-second before the change, every miss but one a quote ending in a line-end
-hyphen. pdf.js's find itself joins a line break as a space and drops a
-line-end hyphen between two lower-case letters or after a capital, keeping
-any other — so a quote that reads the page's words is what it finds. Whether
+them: pdf.js's own find, run on the two sources, found 911 of the 1,022
+distinct quoted strings before the re-cut, every miss but two a quote ending
+in a line-end hyphen, and 1,020 after it (the two hold an ASCII double quote,
+which pdf.js strips from a link's search). pdf.js joins a line break as a
+space and drops a line-end hyphen between two lower-case letters, after a
+capital or after a letter with a diacritic, keeping any other — so a quote
+that reads the page's words is what it finds. Whether
 a line-end hyphen breaks a word or belongs to it is not visible in the text
 (pdftotext's own reading-order mode drops every one, "PovidonIod"), so it is
 the extractor's reading, stated in the quote, and the validator accepts
@@ -45,8 +47,9 @@ either; the whole-word check refuses what it can tell is cut.
 **How to apply:** cut a quote on whole words, across the line where the
 passage continues; write a hyphen at a line end as the printed word has it,
 checking the same word elsewhere in the document where it is unclear; where
-the sentence allows, avoid a kept hyphen at a line end before a lower-case
-letter or after a capital, which pdf.js reads as a broken word. Re-cutting
+the sentence allows, avoid a kept hyphen at a line end between two
+lower-case letters, after a capital or after a letter with a diacritic, which
+pdf.js reads as a broken word. Re-cutting
 an existing quote renames its claim (the id hashes locator and quote,
 [[two-layer-identity]]): script it, rewrite every reference in the same
 change, and name the count in the pull request. Related:

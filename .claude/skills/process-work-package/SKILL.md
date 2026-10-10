@@ -192,8 +192,9 @@ graded, and which declines are gap notices), a claim in
   printed word does, dropped where it breaks the word ("Volu-" + "men" →
   "Volumen"), kept where it belongs to it ("Povidon-" + "Iod" →
   "Povidon-Iod"). Where the sentence allows, cut it so that no kept hyphen
-  ends a line inside it before a lower-case letter or after a capital, which
-  pdf.js's search reads as a broken word. The same holds for every quoted
+  ends a line inside it between two lower-case letters, after a capital or
+  after a letter with a diacritic, which pdf.js's search reads as a broken
+  word. The same holds for every quoted
   field — per-property, `combination` and concept quotes. Check each with
   `uv run tools/validate.py --verify-quotes` before committing;
 - `grade` and `consensus` as the box prints them, reaching its sentences as
