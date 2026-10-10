@@ -33,7 +33,8 @@ and schema 0.12.0:
      the page gives without saying how it combines);
    - its parts `of`, criterion or definition claims of the same source;
    - the `connective` as printed, each piece inside one of its `source`
-     quotes;
+     quotes — a word the page breaks at a line end is one piece, read as
+     its quotes read it ([[quotes-whole-words-across-lines]], #316);
    - the reading as a `rationale`.
 
    Operators **nest through claims**: a part that combines is itself a claim

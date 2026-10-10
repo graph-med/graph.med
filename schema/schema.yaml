@@ -199,7 +199,8 @@ $defs:
   # never inferred from a word alone. The operator is the reading, from a closed set because it is logic,
   # like the comparators: all_of (UND), any_of (ODER), at_least with `n` (mindestens n von), and
   # not_stated for a passage that lists parts without saying how they combine. The connective is the
-  # word or words the page prints for it ("entweder … oder … oder aber", pieces joined by " … "), each
+  # word or words the page prints for it ("entweder … oder … oder aber", pieces joined by " … "; a word
+  # the page breaks at a line end is one piece, read as its quotes read it, spec §6.2), each
   # piece inside a quote of `source`, so --verify-quotes checks it on the page; how it is read ("und"
   # between groups each counting on its own is any_of) is modelling, said in `rationale` in the claim's
   # `lang`. The parts are criterion or definition claims of the same source; a part that combines is
