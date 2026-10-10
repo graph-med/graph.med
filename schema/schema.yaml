@@ -23,9 +23,12 @@
 # a claim is read in its source's grading scheme (spec §3.1: its grade and
 # consensus are of its own source's `grading_scheme`, its verb one a declared
 # scheme defines, a printed share lies in its class's bounds, and every word of
-# a scheme lies in the quotes of its entry), and an evidence row's `outcome` is
+# a scheme lies in the quotes of its entry), an evidence row's `outcome` is
 # an endpoint (spec §3.1: a concept of facet `outcome`; whatever else the row
-# names is its printed `key`).
+# names is its printed `key`), and a quote ends on a whole word (spec §6.2: none
+# ends in a hyphen after a letter or a digit, and none holds an ASCII double
+# quote, which pdf.js strips from the link's search; with --verify-quotes, none
+# starts or ends inside a word of its page, read in columns with line ends joined).
 # CI runs it on every pull request and push to main (.github/workflows/validate.yml).
 #
 # Keywords prefixed `x-` are this project's annotations; JSON Schema validators
@@ -34,7 +37,7 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 $id: https://graph.med/schema/schema.yaml
 title: graph.med pool
-x-version: 0.15.0
+x-version: 0.16.0
 
 # ── layout: which definition each data file validates against ────────────────
 # (data/README.md). Globs are relative to the repository root. `one_per_file`
@@ -104,7 +107,9 @@ x-conventions:
                                 # modalitaetsbezogen). A claim's grade, verb and consensus are none:
                                 # they are the words its source's `grading_scheme` declares (spec §3.1).
                                 # Translations are a build-layer concern.
-  quotes: verbatim-substring    # of the source's extracted text (spec §6.2); single line
+  quotes: verbatim-whole-words  # a passage of the source's extracted text (spec §6.2), one string: it may run on
+                                # across a line break of its column, read as a space, a line-end hyphen read as
+                                # the printed word reads (dropped where it breaks the word, kept where it belongs)
   pdf_pages: physical           # #page=N counts PDF pages, not printed numbers
 
 $defs:
@@ -195,7 +200,8 @@ $defs:
   # never inferred from a word alone. The operator is the reading, from a closed set because it is logic,
   # like the comparators: all_of (UND), any_of (ODER), at_least with `n` (mindestens n von), and
   # not_stated for a passage that lists parts without saying how they combine. The connective is the
-  # word or words the page prints for it ("entweder … oder … oder aber", pieces joined by " … "), each
+  # word or words the page prints for it ("entweder … oder … oder aber", pieces joined by " … "; a word
+  # the page breaks at a line end is one piece, read as its quotes read it, spec §6.2), each
   # piece inside a quote of `source`, so --verify-quotes checks it on the page; how it is read ("und"
   # between groups each counting on its own is any_of) is modelling, said in `rationale` in the claim's
   # `lang`. The parts are criterion or definition claims of the same source; a part that combines is
@@ -298,7 +304,9 @@ $defs:
     type: string
     pattern: '^sources/[A-Za-z0-9._-]+(#page=[1-9][0-9]*)?$'   # physical PDF page
   reference:
-    description: '"The source says this" — a locator plus a verbatim, single-line quote.'
+    description: '"The source says this" — a locator plus a verbatim quote in whole words, one line of text: where
+      the passage runs across a line break, the break reads as a space and a line-end hyphen as the printed word
+      reads (spec §6.2).'
     type: object
     required: [at, quote]
     additionalProperties: false

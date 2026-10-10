@@ -59,8 +59,10 @@ Rules that bind everything here:
 
 - **Source language, tagged.** All content stays in the source language with a
   `lang` tag; nothing is translated at extraction (spec §2, "Language").
-- **Verbatim quotes, physical pages.** Every quote is a verbatim substring of
-  the source's extracted text; `#page=N` counts physical PDF pages (spec §6.2).
+- **Verbatim quotes, physical pages.** Every quote is a verbatim passage of
+  the source's extracted text in whole words, which may run across a line break
+  (read as a space, a line-end hyphen as the printed word reads); `#page=N`
+  counts physical PDF pages (spec §6.2).
 - **Only current sources.** An expired guideline (AWMF: renamed with an
   `-abgelaufen` suffix, banner "wird aktuell überarbeitet") is not parsed — its
   successor will be, when published.

@@ -23,7 +23,7 @@
   - supports
   - statements/noradrenalin-vasopressor-erster-wahl
   - source: modelling
-- - claims/sepsis-lf-4.0/a053659c
+- - claims/sepsis-lf-4.0/d79476c7
   - supports
   - statements/vasopressin-ergaenzen-septischer-schock
   - source: modelling
@@ -48,14 +48,14 @@
   - statements/keine-routinemaessigen-beta-blocker-herzfrequenzsenkung
   - source: modelling
 # body-text relations (spec §5.1)
-- - claims/sepsis-lf-4.0/63c8d4bd
+- - claims/sepsis-lf-4.0/f1408219
   - limits
   - claims/sepsis-lf-4.0/7c6272b2
   - source: modelling
     rationale: "L: „wenn große Mengen an Flüssigkeit benötigt werden“ — ein Umstand, in dem die Albumingabe nicht angezeigt ist: ein erniedrigter Plasmaalbuminspiegel ohne anhaltenden Flüssigkeitsbedarf als alleinige Indikation."
     lang: de
     as_of: "2026-09-25"
-- - claims/sepsis-lf-4.0/53f6ae72
+- - claims/sepsis-lf-4.0/37acf7ff
   - supplements
   - claims/sepsis-lf-4.0/7c6272b2
   - source: modelling
@@ -64,28 +64,28 @@
     as_of: "2026-09-25"
 - - claims/sepsis-lf-4.0/9b6f149f
   - limits
-  - claims/sepsis-lf-4.0/a053659c
+  - claims/sepsis-lf-4.0/d79476c7
   - source: modelling
     rationale: "L: „Vasopressin zu ergänzen“ — ein Umstand, in dem die Gabe nicht erfolgen soll: höhere Dosen sind Situationen vorbehalten, in denen alternative Vasopressoren versagt haben. G2: das Subjekt sind die Dosen, die Referenz allein ist kein Bericht."
     lang: de
     as_of: "2026-09-25"
 - - claims/sepsis-lf-4.0/477b9693
   - limits
-  - claims/sepsis-lf-4.0/a053659c
+  - claims/sepsis-lf-4.0/d79476c7
   - source: modelling
     rationale: "L: „Vasopressin zu ergänzen“ — ein Umstand, in dem Vasopressin abgelehnt wird: als Erstlinien-Vasopressor für die Unterstützung des MAP."
     lang: de
     as_of: "2026-09-25"
 - - claims/sepsis-lf-4.0/72cf3557
   - limits
-  - claims/sepsis-lf-4.0/a053659c
+  - claims/sepsis-lf-4.0/d79476c7
   - source: modelling
     rationale: "L: „Vasopressin zu ergänzen“ — Umstände, in denen zur Vorsicht geraten wird: bei Patienten, die nicht euvolämisch sind oder höhere Dosen als 0,03 U/min erhalten (eine Dosis, kein Schwellenwert)."
     lang: de
     as_of: "2026-09-25"
 - - claims/sepsis-lf-4.0/38bff292
   - refines
-  - claims/sepsis-lf-4.0/a053659c
+  - claims/sepsis-lf-4.0/d79476c7
   - source: modelling
     rationale: "R: „wenn mit Noradrenalin alleine kein ausreichender Blutdruck erzielt werden kann“ — ab welcher Noradrenalinlaufrate: ab einem Dosisbereich von 0,25-0,5 μg/kg/min. Der Satz ist eine Empfehlung und trägt keinen Schwellenwert; der Bereich als untere Grenze ist eine Lesart, zur ärztlichen Prüfung markiert."
     lang: de
@@ -97,28 +97,28 @@
     rationale: "S: „Vasopressor erster Wahl“ — eine Maßnahme neben der Vasopressor-Therapie: ein arterieller Katheter, sobald dies praktisch umsetzbar ist und die personellen Ressourcen vorhanden sind."
     lang: de
     as_of: "2026-09-25"
-- - claims/sepsis-lf-4.0/65892e52
+- - claims/sepsis-lf-4.0/db43773c
   - supplements
   - claims/sepsis-lf-4.0/9fbcd8d6
   - source: modelling
     rationale: "S: „einen arteriellen Katheter erhalten“ — der nächste Schritt: die Entfernung, sobald keine hämodynamische Überwachung mehr benötigt wird. Eine Kette zweiter Ordnung: der Satz ergänzt die Anmerkung, keinen Kasten."
     lang: de
     as_of: "2026-09-25"
-- - claims/sepsis-lf-4.0/36617646
+- - claims/sepsis-lf-4.0/5600035d
   - supplements
   - claims/sepsis-lf-4.0/106cc052
   - source: modelling
     rationale: "S: „Hinweise für eine kardiale Dysfunktion“ — eine Maßnahme für den Fall der Empfehlung: eine frühe und wiederholte echokardiographische Beurteilung."
     lang: de
     as_of: "2026-09-25"
-- - claims/sepsis-lf-4.0/85b35f02
+- - claims/sepsis-lf-4.0/e1c616ef
   - supplements
   - claims/sepsis-lf-4.0/106cc052
   - source: modelling
     rationale: "S: „Hinweise für eine kardiale Dysfunktion mit persistierender Hypoperfusion“ — eine Maßnahme für den Fall der Empfehlung: begleitende Messungen des HZV mit paralleler Beurteilung von Perfusionsparametern."
     lang: de
     as_of: "2026-09-25"
-- - claims/sepsis-lf-4.0/fb27e846
+- - claims/sepsis-lf-4.0/76747e83
   - refines
   - claims/sepsis-lf-4.0/106cc052
   - source: modelling
@@ -132,14 +132,14 @@
     rationale: "S: „Dobutamin zu verwenden“ — eine Maßnahme neben der Gabe: ihre Steuerung über die Reaktion der Perfusionsindizes auf den gemessenen Anstieg des HZV."
     lang: de
     as_of: "2026-09-25"
-- - claims/sepsis-lf-4.0/c8d3aad9
+- - claims/sepsis-lf-4.0/89a437ef
   - supplements
   - claims/sepsis-lf-4.0/4a557139
   - source: modelling
     rationale: "S: „weder für noch gegen den Einsatz einer veno-arteriellen ECMO“ — was im Fall des Hinweises zu tun ist: den Einsatz, auch unter Berücksichtigung der vorhandenen Erfahrung und Ressourcen, individuell abwägen. G1: ein Ort zu einem markierten Hinweis auf eine Lücke teilt dessen Frage."
     lang: de
     as_of: "2026-09-25"
-- - claims/sepsis-lf-4.0/4abea81e
+- - claims/sepsis-lf-4.0/8123bbe2
   - limits
   - claims/sepsis-lf-4.0/71e26f41
   - source: modelling
@@ -155,7 +155,7 @@
     as_of: "2026-09-25"
 - - claims/sepsis-lf-4.0/fffe34fd
   - supplements
-  - claims/sepsis-lf-4.0/4abea81e
+  - claims/sepsis-lf-4.0/8123bbe2
   - source: modelling
     rationale: "S: „kurzwirksamer Betablocker zur Therapie von Tachyarrhythmien“ — eine Voraussetzung vor Einleitung: ein adäquater Volumenstatus. Eine Kette zweiter Ordnung: der Satz ergänzt die Ausnahme, keinen Kasten."
     lang: de
@@ -167,28 +167,28 @@
     rationale: "S: „supraventrikulären Arrhythmien … kurzwirksamer Betablocker“ — eine Voraussetzung vor Einleitung: ein adäquater Volumenstatus. Eine Kette zweiter Ordnung: der Satz ergänzt die Ausnahme, keinen Kasten."
     lang: de
     as_of: "2026-09-25"
-- - claims/sepsis-lf-4.0/93f8fade
+- - claims/sepsis-lf-4.0/66826dd9
   - supplements
-  - claims/sepsis-lf-4.0/4abea81e
+  - claims/sepsis-lf-4.0/8123bbe2
   - source: modelling
     rationale: "S: „kurzwirksamer Betablocker zur Therapie von Tachyarrhythmien“ — eine Voraussetzung vor Einleitung: eine Blutdruckstabilisierung durch Vasopressoren. Eine Kette zweiter Ordnung: der Satz ergänzt die Ausnahme, keinen Kasten."
     lang: de
     as_of: "2026-09-25"
-- - claims/sepsis-lf-4.0/93f8fade
+- - claims/sepsis-lf-4.0/66826dd9
   - supplements
   - claims/sepsis-lf-4.0/2615315c
   - source: modelling
     rationale: "S: „supraventrikulären Arrhythmien … kurzwirksamer Betablocker“ — eine Voraussetzung vor Einleitung: eine Blutdruckstabilisierung durch Vasopressoren. Eine Kette zweiter Ordnung: der Satz ergänzt die Ausnahme, keinen Kasten."
     lang: de
     as_of: "2026-09-25"
-- - claims/sepsis-lf-4.0/fd52700f
+- - claims/sepsis-lf-4.0/e15d9eeb
   - supplements
-  - claims/sepsis-lf-4.0/4abea81e
+  - claims/sepsis-lf-4.0/8123bbe2
   - source: modelling
     rationale: "S: „kurzwirksamer Betablocker zur Therapie von Tachyarrhythmien“ — eine Maßnahme neben der Gabe: titrieren unter hämodynamischem Monitoring, mit dem Ziel einer verbesserten Hämodynamik und Gewebeperfusion."
     lang: de
     as_of: "2026-09-25"
-- - claims/sepsis-lf-4.0/fd52700f
+- - claims/sepsis-lf-4.0/e15d9eeb
   - supplements
   - claims/sepsis-lf-4.0/2615315c
   - source: modelling

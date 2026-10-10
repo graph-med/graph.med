@@ -184,11 +184,23 @@ graded, and which declines are gap notices), a claim in
   sentence of a box, never one per box (memory
   `box-granularity-per-sentence`); a table claim as §5.1 K reads it
   ("Kopf: Zelle; …", reference marks left out);
-- `quote`: a short **verbatim substring** of the extracted text, contiguous on
-  one line of the pdftotext output and inside one cell where columns
-  interleave — a box's grade column, a table's cells (layout columns break
-  sentences across lines — verify each quote by substring search before
-  writing it);
+- `quote`: a short **verbatim** passage of the extracted text in **whole
+  words** (spec §6.2): it neither starts nor ends inside a word, and it may run
+  across a line break where the text runs on — to the next line, or to the next
+  line of the same column where a box's grade column or a table's cells
+  interleave. The line break reads as a space; a hyphen at its end reads as the
+  printed word does, dropped where it breaks the word ("Volu-" + "men" →
+  "Volumen"), kept where it belongs to it ("Povidon-" + "Iod" →
+  "Povidon-Iod"). Where the sentence allows, cut it so that no kept hyphen
+  ends a line inside it between two lower-case letters, after a capital or
+  after a letter with a diacritic, which pdf.js's search reads as a broken
+  word. It holds no ASCII double quote (`"`), which pdf.js strips from the
+  link's search (the validator refuses one; typographic „ “ stay), and it
+  stays within 100 characters, the longest quote the read-only server returns
+  whole (memory `quote-gate-follows-the-site`), a longer passage cut back to
+  its last whole word that fits. The same holds for every quoted field —
+  per-property, `combination` and concept quotes. Check each with
+  `uv run tools/validate.py --verify-quotes` before committing;
 - `grade` and `consensus` as the box prints them, reaching its sentences as
   spec §3.1 says (the grade to its recommendation and gap-notice sentences,
   the consensus to all); `verb`, `direction`, `recommendation_no` and

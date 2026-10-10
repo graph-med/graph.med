@@ -10,7 +10,7 @@ label: "Prävention der Sepsis"
 facet: patient_state
 definition: "Patienten, die vor Infektionen, die zu einer Sepsis führen können, und vor einer Sepsis zu schützen sind: die Gruppe, an die sich die Empfehlungen zur Prävention der Sepsis richten."
 source:
-  - {at: "sources/sepsis-lf-4.0#page=19", quote: "lungen zur Prävention der Sepsis."}
+  - {at: "sources/sepsis-lf-4.0#page=19", quote: "Empfehlungen zur Prävention der Sepsis."}
   - {at: "sources/sepsis-lf-4.0#page=135", quote: "Zur Prävention von nosokomialen Infektionen, die zu einer Sepsis führen können, wie auch zur"}
 provenance:
   definition: modelling

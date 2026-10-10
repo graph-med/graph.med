@@ -133,7 +133,7 @@
   source:
     at: sources/pomgat-lv-1.0#page=41
     quote: Risikofaktoren nach Apfel 1999 [93] gelten weibliches Geschlecht, Nichtraucher,
-- id: claims/pomgat-lv-1.0/57bc2664
+- id: claims/pomgat-lv-1.0/dcc1bac8
   type: claim
   lang: de
   kind: recommendation
@@ -147,7 +147,7 @@
   consensus: starker_konsens
   source:
     at: sources/pomgat-lv-1.0#page=42
-    quote: basierte totalintravenöse Anästhesie (TIVA) anstelle einer volatilen Anästhesie
+    quote: "totalintravenöse Anästhesie (TIVA) anstelle einer volatilen Anästhesie"
   evidence:
   - outcome: concepts/ponv-risiko
     value: "moderat"
@@ -264,7 +264,7 @@
     evidence:
     - at: sources/pomgat-lv-1.0#page=45
       quote: "⊕⊕⊕⊝: Leitlinienadaptation: Evidence review for the effectiveness of skin antiseptics in the"
-- id: claims/pomgat-lv-1.0/d766c5a6
+- id: claims/pomgat-lv-1.0/305f0cf3
   type: claim
   lang: de
   kind: recommendation
@@ -277,7 +277,7 @@
   consensus: starker_konsens
   source:
     at: sources/pomgat-lv-1.0#page=45
-    quote: Bei Unverträglichkeit oder Kontraindikationen kann die Verwendung von Povidon-
+    quote: "Bei Unverträglichkeit oder Kontraindikationen kann die Verwendung von Povidon-Iod-haltigen"
   evidence:
   - value: "moderat"
     system: grade
@@ -329,7 +329,7 @@
   source:
     at: sources/pomgat-lv-1.0#page=47
     quote: Postoperativ soll die iv PAP nicht fortgeführt werden.
-- id: claims/pomgat-lv-1.0/3cc01d64
+- id: claims/pomgat-lv-1.0/9f489d7b
   type: claim
   lang: de
   kind: recommendation
@@ -343,7 +343,7 @@
   consensus: starker_konsens
   source:
     at: sources/pomgat-lv-1.0#page=48
-    quote: durchgeführt wird, sollte diese als kombinierte mechanische und oral-
+    quote: "durchgeführt wird, sollte diese als kombinierte mechanische und"
   evidence:
   - outcome: concepts/wundinfektion
     value: "moderat"
@@ -615,7 +615,7 @@
       quote: "⊕⊕⊕⊕: Diarrhoe:"
     - at: sources/pomgat-lv-1.0#page=54
       quote: "⊕⊕⊕⊝: C. diff. assoziierte Diarrhoe:"
-- id: claims/pomgat-lv-1.0/2b5903b8
+- id: claims/pomgat-lv-1.0/d3cd6907
   type: claim
   lang: de
   kind: gap_notice
@@ -626,7 +626,7 @@
   consensus: starker_konsens
   source:
     at: sources/pomgat-lv-1.0#page=55
-    quote: Aufgrund fehlender Evidenz zur selektiven Darmdekontamination in der hepato-
+    quote: "Aufgrund fehlender Evidenz zur selektiven Darmdekontamination in der"
 - id: claims/pomgat-lv-1.0/17e02423
   type: claim
   lang: de

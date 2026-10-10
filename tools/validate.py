@@ -58,10 +58,20 @@ rules a document schema cannot state because they span files:
     printed `key` (spec §3.1): an entry's `outcome` is a concept of facet
     `outcome`, so a component, a subgroup, an arm, a comparator, a device or a
     regimen is never recorded as one;
+  - a quote ends on a whole word (spec §6.2): none ends in a hyphen after a
+    letter or a digit, the cut a line-end hyphen leaves — the rest of the
+    whole-word rule needs the page, below; and a quote holds no ASCII double
+    quote, which pdf.js strips from the link's search, so the link would not
+    find it;
 
 With --verify-quotes it also downloads each source (hash-checked, cached) and
-verifies every quote is a verbatim substring of `pdftotext -layout` on the cited
-physical page. Exit status 1 on any error.
+verifies every quote is a verbatim passage of `pdftotext -layout` on the cited
+physical page, read as spec §6.2 reads it: a line runs on to the next line of
+its column, a line break reads as a space, and a hyphen at a line end either
+joins the word it breaks or stays with the compound it belongs to
+(`page_reading`, `quote_pattern`); and that it lies there on whole words,
+neither starting nor ending inside a word of the page (`locate`). Exit status
+1 on any error.
 """
 
 from __future__ import annotations
@@ -191,6 +201,7 @@ def main(argv=None) -> int:
     errors += check_definitions(ids, entities, defined_by)
     errors += check_grading(ids, entities)
     errors += check_evidence(ids, entities)
+    errors += check_quote_form(docs)
     if any(e.get("type") == "view" and "scope_root" in e for e in entities.values()):
         if errors:   # members are computed by the build's reader, which expects a pool that fits the schema
             print("the scope trees of views are checked once the errors below are fixed")
@@ -565,6 +576,28 @@ def cycles(graph: dict[str, list[str]]) -> list[list[str]]:
     return found
 
 
+def check_quote_form(docs) -> list[str]:
+    """What a quote's own text shows of spec §6.2, without its page. A quote that ends in a hyphen after a letter or
+    a digit stops inside a word — a line-end hyphen it did not join, or a compound it broke off ("Vasop-",
+    "Povidon-"); every other cut needs the page and is --verify-quotes' (`locate`). And a quote holds no ASCII double
+    quote: the link into the source carries the quote as its search (`#search=<quote>&phrase=true`), and pdf.js
+    removes every `"` from that search before it looks, so a quote holding one is never found. Typographic quotation
+    marks („ “ ” « ») are no such character and stay."""
+    errs: list[str] = []
+    for rel, doc, _ in docs:
+        for path, value in walk(doc):
+            if not (isinstance(value, dict) and "at" in value and isinstance(value.get("quote"), str)):
+                continue
+            where, quote = f"{rel} at {'/'.join(map(str, path))}", value["quote"]
+            if re.search(r"[^\W_]-$", quote):
+                errs.append(f"{where}: quote ends inside a word, in a hyphen ({quote!r}); "
+                            f"a quote ends on a whole word, across the line where the word goes on")
+            if '"' in quote:
+                errs.append(f"{where}: quote holds an ASCII double quote ({quote!r}), which pdf.js strips from the "
+                            f"link's search, so the link would not find it; cut the quote beside it (spec §6.2)")
+    return errs
+
+
 def verify_quotes(docs, sources: dict[str, dict], cache: Path) -> list[str]:
     errors: list[str] = []
     pdfs: dict[str, Path | None] = {}
@@ -591,13 +624,14 @@ def verify_quotes(docs, sources: dict[str, dict], cache: Path) -> list[str]:
         return target
 
     def page_text(source_id: str, page: int) -> str | None:
+        """The page's reading (`page_reading`) of its `pdftotext -layout` text."""
         pdf = pdf_for(source_id)
         if pdf is None:
             return None
         if (source_id, page) not in pages:
             out = subprocess.run(["pdftotext", "-layout", "-f", str(page), "-l", str(page), str(pdf), "-"],
                                  capture_output=True, text=True, check=False)
-            pages[(source_id, page)] = out.stdout
+            pages[(source_id, page)] = page_reading(out.stdout)
         return pages[(source_id, page)]
 
     for rel, doc, _ in docs:
@@ -612,9 +646,96 @@ def verify_quotes(docs, sources: dict[str, dict], cache: Path) -> list[str]:
                 errors.append(f"{where}: locator has no #page=N, quote cannot be verified")
                 continue
             text = page_text(m.group(1), int(m.group(2)))
-            if text is not None and value["quote"] not in text:
+            found = locate(str(value["quote"]), text) if text is not None else "whole"
+            if found == "missing":
                 errors.append(f"{where}: quote not found on page {m.group(2)}: {value['quote']!r}")
+            elif found != "whole":
+                errors.append(f"{where}: quote {found}s inside a word on page {m.group(2)}: {value['quote']!r}; "
+                              f"a quote is whole words, across the line where a word goes on (spec §6.2)")
     return errors
+
+
+BREAK = "\x00"   # in a page's reading: a line break after a hyphen, which a quote may read three ways (quote_pattern)
+
+
+def page_reading(text: str) -> str:
+    """A page's `pdftotext -layout` text as a quote reads it (spec §6.2): its lines run on in columns. Each line is
+    cut into pieces at runs of two or more spaces, so that the columns of a box or a table stay apart. A piece runs on
+    to the first later line with text under it, when that text starts in the piece's column or lies within its width
+    (a centred line); otherwise it ends there. A line break reads as a space, except after a hyphen, where it is
+    marked: whether that hyphen breaks a word or belongs to it is a reading of the page, which the quote states
+    (`quote_pattern`). Every run of pieces is one line of the result, so a quote never crosses from one into the
+    next, and every piece lies in exactly one run: a quote on one line of the text, inside one column, lies in the
+    reading too. No column, word or hyphen of any source is named here."""
+    lines = text.replace("\f", "").split("\n")
+    pieces = [[(m.start(), m.end(), m.group()) for m in re.finditer(r"\S+(?: \S+)*", line)] for line in lines]
+    after: dict[tuple[int, int], tuple[int, int]] = {}
+    for i, row in enumerate(pieces):
+        for k, (start, end, _) in enumerate(row):
+            for j in range(i + 1, len(pieces)):
+                under = [(p, n) for n, p in enumerate(pieces[j]) if p[0] < end and p[1] > start]
+                if under:
+                    (s, e, _), n = min(under)
+                    if s == start or (s > start and e <= end):
+                        after[(i, k)] = (j, n)
+                    break
+    continued = set(after.values())
+    runs = []
+    for i, row in enumerate(pieces):
+        for k in range(len(row)):
+            if (i, k) in continued:
+                continue
+            run, node = row[k][2], after.get((i, k))
+            while node is not None:
+                run += (BREAK if run.endswith("-") else " ") + pieces[node[0]][node[1]][2]
+                node = after.get(node)
+            runs.append(run)
+    return "\n".join(runs)
+
+
+def quote_pattern(quote: str) -> re.Pattern:
+    """Where a quote may lie in a page's reading (`page_reading`): its text as printed, a space where the line
+    breaks, and at a hyphen that ends a line the reading the quote states — the word joined, the hyphen dropped
+    ("Volu-" + "men" → "Volumen"); a compound kept ("Povidon-" + "Iod" → "Povidon-Iod"); or the hyphen before a
+    space ("Ein-" + "und" → "Ein- und"). The validator cannot tell these apart, so it accepts each; the match is
+    exact otherwise. The pattern is a lookahead, so `finditer` yields every place it lies, overlapping or not."""
+    out = []
+    for i, ch in enumerate(quote):
+        if ch == " ":
+            out.append(f"[ {BREAK}]")
+            continue
+        if i and quote[i - 1] != " ":
+            out.append(f"(?:-{BREAK})?")
+        out.append(re.escape(ch))
+        if ch == "-" and i < len(quote) - 1:
+            out.append(f"{BREAK}?")
+    return re.compile(f"(?=({''.join(out)}))")
+
+
+def locate(quote: str, reading: str) -> str:
+    """Whether a quote lies in a page's reading on whole words (spec §6.2): 'whole' where it does somewhere,
+    'start' or 'end' where it lies there only cut at that end, 'missing' where it does not lie there at all. A quote
+    starts inside a word where the page goes on before it with a letter after a letter, a digit after a digit
+    (also across a decimal mark), the head of a compound ("Sepsis-" before "assoziierten"), or a line-end hyphen; it
+    ends inside one likewise, and where it ends in a hyphen the line breaks after. A letter beside a digit is a word's
+    end, so a reference mark the text glues to a word ("beschrieben263") does not cut it."""
+    same = lambda a, b: (a.isalpha() and b.isalpha()) or (a.isdigit() and b.isdigit())
+    char = lambda i: reading[i] if 0 <= i < len(reading) else "\n"
+    if not quote:
+        return "missing"
+    first, last, cut = quote[0], quote[-1], ""
+    for m in quote_pattern(quote).finditer(reading):
+        s, e = m.span(1)
+        before, before2, after, after2 = char(s - 1), char(s - 2), char(e), char(e + 1)
+        starts = first.isalnum() and (before == BREAK or same(before, first) or (before == "-" and before2.isalnum())
+                                      or (first.isdigit() and before in ",." and before2.isdigit()))
+        ends = (last == "-" and after == BREAK) or (last.isalnum() and (
+            same(last, after) or (after == "-" and (after2.isalnum() or after2 == BREAK))
+            or (last.isdigit() and after in ",." and after2.isdigit())))
+        if not starts and not ends:
+            return "whole"
+        cut = cut or ("start" if starts else "end")
+    return cut or "missing"
 
 
 if __name__ == "__main__":

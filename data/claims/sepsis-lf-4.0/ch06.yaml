@@ -2,7 +2,7 @@
 # order. Every sentence of a box is a claim (spec §3.1; card #213's checklist); body-text places pass spec §5.1
 # (their edges in data/edges/sepsis-lf-4.0/ch06.yaml); evidence rows per #215; nothing translated.
 # p. 88, 6.1 — body text: instructs ("muss … integriert werden"; no scheme's wording, so no verb); S → 6.1
-- id: claims/sepsis-lf-4.0/4a2772c0
+- id: claims/sepsis-lf-4.0/6e4139a7
   type: claim
   lang: de
   kind: recommendation
@@ -11,9 +11,9 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=88
-    quote: "therapie in das ganzheitliche Behandlungskonzept der Intensivpatienten integriert werden."
+    quote: "Nierenersatztherapie in das ganzheitliche Behandlungskonzept der Intensivpatienten integriert"
 # p. 88, 6.1 — body text: instructs ("ist … darauf zu achten"); S → 6.1
-- id: claims/sepsis-lf-4.0/18302780
+- id: claims/sepsis-lf-4.0/b8ea8c8e
   type: claim
   lang: de
   kind: recommendation
@@ -22,7 +22,7 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=88
-    quote: "Hierbei ist auch darauf zu achten, dass die Nierenersatztherapie kompatibel zu anderen appa-"
+    quote: "Hierbei ist auch darauf zu achten, dass die Nierenersatztherapie kompatibel zu anderen apparativen"
 # Empfehlung 6.1, p. 89 — EK: no evidence rows
 - id: claims/sepsis-lf-4.0/e98e2366
   type: claim
@@ -238,7 +238,7 @@
       - {at: sources/sepsis-lf-4.0#page=93, quote: "SAE:"}
 # p. 94, 6.4 — body text: the procedures one term comprises (one claim, K); its "kann" is no recommendation,
 # so no verb. R → 6.6 (both sentences) and 6.7
-- id: claims/sepsis-lf-4.0/99d65948
+- id: claims/sepsis-lf-4.0/3308ba16
   type: claim
   lang: de
   kind: criterion
@@ -246,7 +246,7 @@
   label: "Eine Nierenersatztherapie kann bei kritisch kranken Patienten als kontinuierliche Nierenersatztherapie (CRRT), intermittierende Nierenersatztherapie/Hämodialyse (IHD) oder als prolongierte intermittierende Nierenersatztherapie (Prolonged Intermittend Renal Replacement Therapy, PIRRT) durchgeführt werden."
   source:
     at: sources/sepsis-lf-4.0#page=94
-    quote: "Eine Nierenersatztherapie kann bei kritisch kranken Patienten als kontinuierliche Nierener-"
+    quote: "Eine Nierenersatztherapie kann bei kritisch kranken Patienten als kontinuierliche"
 # p. 94, 6.4 — body text, an unboxed "soll" (card #224 hard case 7): what "kontinuierlich" stands for; R → 6.6 (both), 6.7
 - id: claims/sepsis-lf-4.0/e2d0dbcf
   type: claim
@@ -270,7 +270,7 @@
     at: sources/sepsis-lf-4.0#page=94
     quote: "IHD wird in der Regel für 4-6 Stunden pro Tag durchgeführt."
 # Empfehlung 6.6, p. 94, sentence 1 — the typo "Nierensatztherapie" as printed
-- id: claims/sepsis-lf-4.0/fdb52a43
+- id: claims/sepsis-lf-4.0/9480eed0
   type: claim
   lang: de
   kind: recommendation
@@ -286,7 +286,7 @@
     - {outcome: concepts/mortalitaet, key: CRRT vs. IHD, value: Niedrig, system: grade}
   source:
     at: sources/sepsis-lf-4.0#page=94
-    quote: "Wir schlagen vor, dass zur Nierensatztherapie der AKI bei Pati-"
+    quote: "Wir schlagen vor, dass zur Nierensatztherapie der AKI bei Patienten"
   provenance:
     grade: {at: sources/sepsis-lf-4.0#page=94, quote: Schwach}
     consensus:
@@ -297,7 +297,7 @@
       - {at: sources/sepsis-lf-4.0#page=94, quote: CRRT vs. IHD}
 # Empfehlung 6.6, p. 94, its Bemerkung — a recommendation sentence ("soll" under Schwach, #213 item 1), own
 # statement, so it carries the box's row (#215). The footnote mark "a" after "Situation" is left out of the label
-- id: claims/sepsis-lf-4.0/60d81464
+- id: claims/sepsis-lf-4.0/cd1d2113
   type: claim
   lang: de
   kind: recommendation
@@ -313,7 +313,7 @@
     - {outcome: concepts/mortalitaet, key: CRRT vs. IHD, value: Niedrig, system: grade}
   source:
     at: sources/sepsis-lf-4.0#page=94
-    quote: "Bei der Auswahl des Verfahrens soll jedoch die individuelle klini-"
+    quote: "Bei der Auswahl des Verfahrens soll jedoch die individuelle klinische"
   provenance:
     grade: {at: sources/sepsis-lf-4.0#page=94, quote: Schwach}
     consensus:
@@ -324,7 +324,7 @@
       - {at: sources/sepsis-lf-4.0#page=94, quote: CRRT vs. IHD}
 # p. 94, 6.4 — footnote a under box 6.6: body text (#213 item 1), instructs ("sind … zu berücksichtigen");
 # R → 6.6's Bemerkung
-- id: claims/sepsis-lf-4.0/fdc9e90f
+- id: claims/sepsis-lf-4.0/5abb950b
   type: claim
   lang: de
   kind: recommendation
@@ -333,7 +333,7 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=94
-    quote: "Bei den individuellen klinischen Situationen sind insbesondere klinische Besonderheiten, wie Hirn-"
+    quote: "Bei den individuellen klinischen Situationen sind insbesondere klinische Besonderheiten, wie"
 # Empfehlung 6.7, p. 95 — the first row prints the word "Sehr niedrig" and the symbols ⊕⊕⊝⊝ (niedrig): the word
 # is recorded, the conflict named in the pull request (#215)
 - id: claims/sepsis-lf-4.0/398ceb7f
@@ -361,11 +361,11 @@
       - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
     consensus_share: {at: sources/sepsis-lf-4.0#page=95, quote: "Konsensstärke: 100 %"}
     evidence:
-      - {at: sources/sepsis-lf-4.0#page=95, quote: "Hämodynamische In-"}
+      - {at: sources/sepsis-lf-4.0#page=95, quote: "Hämodynamische Instabilität"}
       - {at: sources/sepsis-lf-4.0#page=95, quote: "Hypotonie:"}
 # p. 96, 6.4 — body text restating 6.7 with "empfehlen wir" (the box: "Wir schlagen vor"); counts only for what it
 # adds, "deutlich" instabil (G3): R → 6.7
-- id: claims/sepsis-lf-4.0/dc3f9570
+- id: claims/sepsis-lf-4.0/74b78d18
   type: claim
   lang: de
   kind: recommendation
@@ -375,9 +375,9 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=96
-    quote: "ger Evidenz in der Subgruppe der hämodynamisch, deutlich instabilen Patienten die Durch-"
+    quote: "geringer Evidenz in der Subgruppe der hämodynamisch, deutlich instabilen Patienten die Durchführung"
   provenance:
-    verb: {at: sources/sepsis-lf-4.0#page=96, quote: "intermittierenden Verfahrens und tradierter, klinischer Erfahrung empfehlen wir trotz gerin-"}
+    verb: {at: sources/sepsis-lf-4.0#page=96, quote: "intermittierenden Verfahrens und tradierter, klinischer Erfahrung empfehlen wir trotz geringer"}
 # p. 96, 6.5 — body text, the heparin sentence's first member (card #224 hard case 8): which agents; R → 6.8
 - id: claims/sepsis-lf-4.0/3e456edd
   type: claim
@@ -524,7 +524,7 @@
     quote: "Dosis (ml/kg/h) = ((Substituatmenge + ggf. Citratflüssigkeit) + Dialysatfluss +"
 # p. 99, 6.6 — body text, the third dose category: a threshold for 6.10's "hochvolumige"; R → 6.10. P. 101
 # prints "≥ 50ml/kg/h" for the same term (another claim): the conflict is flagged (card #224 hard case 2)
-- id: claims/sepsis-lf-4.0/dadd79ec
+- id: claims/sepsis-lf-4.0/8adebbe2
   type: claim
   lang: de
   kind: criterion
@@ -533,7 +533,7 @@
   threshold: {quantity: concepts/dosis-nierenersatzverfahren, comparator: ">", value: "50", unit: ml/kg/h}
   source:
     at: sources/sepsis-lf-4.0#page=99
-    quote: "Hochvolumen Dosis (in der Literatur als high-volume CRRT beschrieben): > 50 ml/kg/h Filt-"
+    quote: "Hochvolumen Dosis (in der Literatur als high-volume CRRT beschrieben): > 50 ml/kg/h Filtratmenge"
 # Empfehlung 6.9, p. 100 — "mittlere Dosis von 20-25 ml/kg/h" is a dose, not a threshold (spec §3.1)
 - id: claims/sepsis-lf-4.0/64062a0d
   type: claim
@@ -563,7 +563,7 @@
       - {at: sources/sepsis-lf-4.0#page=100, quote: "Mortalität (30 Tage)"}
       - {at: sources/sepsis-lf-4.0#page=100, quote: "Renale Erholung:"}
 # p. 100, 6.6 — body text: which dose 6.9's value stands for (the target), "ml/h/kg" as printed; R → 6.9
-- id: claims/sepsis-lf-4.0/b13497d6
+- id: claims/sepsis-lf-4.0/22cce32f
   type: claim
   lang: de
   kind: criterion
@@ -571,7 +571,7 @@
   label: "Im klinischen Alltag wird daher die verschriebene Dosis etwas höher gewählt (z. B. 25-30 ml/h/kg), um eine bestimmte Zieldosis (z. B. 20-25 ml/h/kg) zu erreichen."
   source:
     at: sources/sepsis-lf-4.0#page=100
-    quote: "was höher gewählt (z. B. 25-30 ml/h/kg), um eine bestimmte Zieldosis (z. B. 20-25 ml/h/kg) zu"
+    quote: "etwas höher gewählt (z. B. 25-30 ml/h/kg), um eine bestimmte Zieldosis (z. B. 20-25 ml/h/kg) zu"
 # Empfehlung 6.10, p. 101
 - id: claims/sepsis-lf-4.0/4972092d
   type: claim
@@ -593,7 +593,7 @@
     quote: "Wir schlagen vor, bei Patienten mit Sepsis oder septischem"
   provenance:
     grade: {at: sources/sepsis-lf-4.0#page=101, quote: Schwach}
-    direction: {at: sources/sepsis-lf-4.0#page=101, quote: filtration NICHT anzuwenden.}
+    direction: {at: sources/sepsis-lf-4.0#page=101, quote: "Hämofiltration NICHT anzuwenden."}
     consensus:
       - {at: sources/sepsis-lf-4.0#page=101, quote: "Konsensstärke: 100 %"}
       - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
@@ -603,7 +603,7 @@
       - {at: sources/sepsis-lf-4.0#page=101, quote: "Mortalität (28-Tage)"}
 # p. 101, 6.6 — body text: the guideline group's own limit for 6.10's term; R → 6.10, and the rule its concept
 # reaches (defined_by). P. 99 prints "> 50 ml/kg/h": the conflict is flagged (card #224 hard case 2)
-- id: claims/sepsis-lf-4.0/863077be
+- id: claims/sepsis-lf-4.0/2ba7d97f
   type: claim
   lang: de
   kind: criterion
@@ -612,8 +612,8 @@
   threshold: {quantity: concepts/dosis-nierenersatzverfahren, comparator: "≥", value: "50", unit: ml/kg/h}
   source:
     at: sources/sepsis-lf-4.0#page=101
-    quote: "gruppe hat dabei entschieden, die Grenze für hochvolumige Hämofiltration bei einer Dosis"
+    quote: "Leitliniengruppe hat dabei entschieden, die Grenze für hochvolumige Hämofiltration bei einer Dosis"
   provenance:
     threshold:
-      - {at: sources/sepsis-lf-4.0#page=101, quote: "gruppe hat dabei entschieden, die Grenze für hochvolumige Hämofiltration bei einer Dosis"}
+      - {at: sources/sepsis-lf-4.0#page=101, quote: "Leitliniengruppe hat dabei entschieden, die Grenze für hochvolumige Hämofiltration bei einer Dosis"}
       - {at: sources/sepsis-lf-4.0#page=101, quote: "von ≥ 50ml/kg/h zu setzen."}
