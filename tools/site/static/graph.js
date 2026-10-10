@@ -122,7 +122,9 @@
       { selector: "node.faded", style: { "opacity": 0.15 } },
       { selector: "edge.dim", style: { "line-opacity": 0.12, "color": css("--line") } },
       { selector: "edge.faded", style: { "line-opacity": 0.15, "color": css("--line") } },
-      { selector: "node.picked", style: { "border-width": 3, "border-color": css("--fg") } },
+      /* the selection is a black outline around the node, never its border: the border means state alone
+         (docs/publication.md §3), so a contested box keeps its dashed red border inside the outline while selected */
+      { selector: "node.picked", style: { "outline-width": 3, "outline-style": "solid", "outline-color": css("--fg"), "outline-offset": 0 } },
       { selector: "edge.picked", style: { "line-color": css("--fg"), "width": 3 } }
     ]);
   }

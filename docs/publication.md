@@ -241,8 +241,9 @@ decision-graph-derivation):
   ambiguous and every box of that grade then writes its verb. Supporting claims
   that disagree on the verb give no word (the verb, like the grade, is shown and
   never composed). **The border means
-  state alone** — a contested box's dashed red border, and the selection; it
-  carries no meaning of its own.
+  state alone** — a contested box's dashed red border; it carries no meaning of
+  its own. The selection is not the border but a black outline around it, so
+  that a selected contested box keeps its border inside the outline.
   **The legend** sits under the graph, at the bottom left, and keys what this
   view draws and nothing else. Its keys are computed by the build from the
   view's trees and its statements' claims — the same computation that decides
