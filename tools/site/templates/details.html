@@ -248,12 +248,17 @@
 {% endif %}
 </div>
 {% elif e.type == "source" %}
+{# a source: its title and a short link to it; what identifies and licenses it — the licence, the register number,
+   the passages taken from it, the content hash in full — in a quiet footer under it (docs/publication.md §4) #}
 <div class="card" lang="{{ e.lang }}">
 <p class="kind">{{ W("type.source") }}</p>
 <p class="label">{{ e.title }}</p>
-<p><a href="{{ e.url }}" target="_blank" rel="noopener">{{ e.url }}</a></p>
-<p><small>{{ e.license }}</small></p>
-<p><small>{{ e.content_hash }}{% if e.awmf_register %} · AWMF {{ e.awmf_register }}{% endif %} · {{ W("source.claims", claim_count).format(n=claim_count) }}</small></p>
+<p><a href="{{ e.url }}" target="_blank" rel="noopener" title="{{ e.url }}">{{ W("source.open") }}</a></p>
+<div class="source-meta">
+<p>{{ e.license }}</p>
+<p>{% if e.awmf_register %}AWMF {{ e.awmf_register }} · {% endif %}{{ W("source.claims", claim_count).format(n=claim_count) }}</p>
+<p class="hash">{{ e.content_hash }}</p>
+</div>
 </div>
 {% elif e.type == "axis" %}
 {# an axis (spec §4.1): an overlay on the pool, so its page is where the grouping shows as data — its carrier,
