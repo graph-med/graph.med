@@ -1,6 +1,6 @@
 # Chapter 5 „Beatmungstherapie“ of sources/sepsis-lf-4.0, physical pages 73–87 (card #223): the 17 sentences of
 # boxes 5.1–5.16, each a claim (spec §3.1), with grade, verb, direction, consensus and evidence rows as printed; then
-# the body-text places that pass spec §5.1, by page. Quotes are verbatim on one line of `pdftotext -layout`; ids are
+# the body-text places that pass spec §5.1, by page. Quotes are verbatim in whole words (spec §6.2; re-cut by #316); ids are
 # sha256("<at>|<quote>")[:8].
 - id: claims/sepsis-lf-4.0/1ae066ff
   type: claim
@@ -225,7 +225,7 @@
     quote: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock"
   provenance:
     grade: {at: sources/sepsis-lf-4.0#page=81, quote: "Stark"}
-    direction: {at: sources/sepsis-lf-4.0#page=81, quote: "KEINE Durchführung von prolongierten (> 60 s) Rekrutierungs-"}
+    direction: {at: sources/sepsis-lf-4.0#page=81, quote: "KEINE Durchführung von prolongierten (> 60 s) Rekrutierungsmanövern"}
     consensus:
       - {at: sources/sepsis-lf-4.0#page=81, quote: "Konsensstärke: 100 %"}
       - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
@@ -419,7 +419,7 @@
       - {at: sources/sepsis-lf-4.0#page=86, quote: "Evidenzgrad: 1"}
       - {at: sources/sepsis-lf-4.0#page=147, quote: "nach GRADE und Oxford 2011 gekennzeichnet."}
 # the row prints „Mortalität“ without a colon; the word also stands in the page's body text (#215)
-- id: claims/sepsis-lf-4.0/5ec1345c
+- id: claims/sepsis-lf-4.0/1aa9a238
   type: claim
   lang: de
   kind: recommendation
@@ -435,7 +435,7 @@
     - {outcome: concepts/mortalitaet, value: "Sehr niedrig", system: grade}
   source:
     at: sources/sepsis-lf-4.0#page=87
-    quote: "Wir schlagen vor, den Einsatz einer veno-venösen ECMO bei Pa-"
+    quote: "Wir schlagen vor, den Einsatz einer veno-venösen ECMO bei Patienten"
   provenance:
     grade: {at: sources/sepsis-lf-4.0#page=87, quote: "Schwach"}
     consensus:
@@ -459,7 +459,7 @@
     at: sources/sepsis-lf-4.0#page=75
     quote: "Patienten mit mildem ARDS (P/F Ratio 201-300)"
 # p. 75, the second answer of the same sentence (§5.1 K): the values the table's setting stands for (R → 5.5); no threshold, a PEEP says how
-- id: claims/sepsis-lf-4.0/4fd97fa9
+- id: claims/sepsis-lf-4.0/d51d1510
   type: claim
   lang: de
   kind: criterion
@@ -467,7 +467,7 @@
   label: "Die niedrig-PEEP-FiO2-Tabelle führt bei Patienten mit mildem ARDS (P/F Ratio 201-300) typischerweise zu PEEP-Werten zwischen 5 und 8 cmH2O, sofern ein PaO2 zwischen 60 und 90 mmHg angestrebt wird."
   source:
     at: sources/sepsis-lf-4.0#page=75
-    quote: "scherweise zu PEEP-Werten zwischen 5 und 8 cmH2O, sofern ein PaO2 zwischen 60 und 90"
+    quote: "typischerweise zu PEEP-Werten zwischen 5 und 8 cmH2O, sofern ein PaO2 zwischen 60 und 90"
 # Tabelle 4, which box 5.5 names: one answer, one claim (#213 item 2); no threshold, a PEEP setting says how
 - id: claims/sepsis-lf-4.0/0bf02939
   type: claim
@@ -530,7 +530,7 @@
   provenance:
     direction: {at: sources/sepsis-lf-4.0#page=78, quote: "Empfohlenes Vorgehen zur PEEP-Einstellung"}
 # Tabelle 5, row 4 of 7 (the table box 5.7 names): its column „Empfohlenes Vorgehen“ instructs; no verb, the head is not the row's wording; Literatur column left out
-- id: claims/sepsis-lf-4.0/0e1e8b85
+- id: claims/sepsis-lf-4.0/6b23340a
   type: claim
   lang: de
   kind: recommendation
@@ -539,7 +539,7 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=78
-    quote: "Dekrementeller PEEP-Trial unter druckkontrollierter Beatmung mit kon-"
+    quote: "Dekrementeller PEEP-Trial unter druckkontrollierter Beatmung mit konstant"
   provenance:
     direction: {at: sources/sepsis-lf-4.0#page=78, quote: "Empfohlenes Vorgehen zur PEEP-Einstellung"}
 # Tabelle 5, row 5 of 7 (the table box 5.7 names): its column „Empfohlenes Vorgehen“ instructs; no verb, the head is not the row's wording; Literatur column left out

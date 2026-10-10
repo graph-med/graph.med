@@ -52,7 +52,7 @@
     consensus_share: {at: "sources/sepsis-lf-4.0#page=58", quote: "Konsensstärke: 89 %"}
     evidence:
       - {at: "sources/sepsis-lf-4.0#page=58", quote: "28-Tage-Sterblichkeit:"}
-- id: claims/sepsis-lf-4.0/22296ddf
+- id: claims/sepsis-lf-4.0/52e4e945
   type: claim
   lang: de
   kind: gap_notice
@@ -60,8 +60,8 @@
   label: "Aufgrund der begrenzten Datenlage kann kein Grenzwert für die kristalloide Infusion festgelegt werden, ab dem die additive Albumingabe in Betracht gezogen werden sollte."
   source:
     at: sources/sepsis-lf-4.0#page=59
-    quote: "grenzten Datenlage kann kein Grenzwert für die kristalloide Infusion festgelegt werden, ab"
-- id: claims/sepsis-lf-4.0/63c8d4bd
+    quote: "begrenzten Datenlage kann kein Grenzwert für die kristalloide Infusion festgelegt werden, ab"
+- id: claims/sepsis-lf-4.0/f1408219
   type: claim
   lang: de
   kind: recommendation
@@ -71,8 +71,8 @@
   direction: against
   source:
     at: sources/sepsis-lf-4.0#page=59
-    quote: "maalbuminspiegel ohne anhaltenden Flüssigkeitsbedarf soll nicht als alleinige Indikation für"
-- id: claims/sepsis-lf-4.0/53f6ae72
+    quote: "Plasmaalbuminspiegel ohne anhaltenden Flüssigkeitsbedarf soll nicht als alleinige Indikation für"
+- id: claims/sepsis-lf-4.0/37acf7ff
   type: claim
   lang: de
   kind: recommendation
@@ -82,7 +82,7 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=59
-    quote: "spiegel bei der Therapieentscheidung berücksichtigt werden sollte"
+    quote: "Plasmaalbuminspiegel bei der Therapieentscheidung berücksichtigt werden sollte"
 - id: claims/sepsis-lf-4.0/87a1a76e
   type: claim
   lang: de
@@ -168,7 +168,7 @@
       - {at: "sources/sepsis-lf-4.0#page=62", quote: "Epinephrin:"}
       - {at: "sources/sepsis-lf-4.0#page=62", quote: "Selepressin:"}
       - {at: "sources/sepsis-lf-4.0#page=62", quote: "Angiotensin II:"}
-- id: claims/sepsis-lf-4.0/a053659c
+- id: claims/sepsis-lf-4.0/d79476c7
   type: claim
   lang: de
   kind: recommendation
@@ -185,7 +185,7 @@
     - {outcome: "concepts/neuaufgetretene-organdysfunktion", value: "Moderat", system: "grade"}
   source:
     at: sources/sepsis-lf-4.0#page=63
-    quote: "Wir schlagen vor, bei Patienten mit septischem Schock Vasop-"
+    quote: "Wir schlagen vor, bei Patienten mit septischem Schock Vasopressin"
   provenance:
     grade: {at: "sources/sepsis-lf-4.0#page=63", quote: "Schwach"}
     consensus:
@@ -245,7 +245,7 @@
   source:
     at: sources/sepsis-lf-4.0#page=65
     quote: "Anmerkung: Alle Patienten, die eine Vasopressor-Therapie benötigen, sollten einen arteriellen"
-- id: claims/sepsis-lf-4.0/65892e52
+- id: claims/sepsis-lf-4.0/db43773c
   type: claim
   lang: de
   kind: recommendation
@@ -255,8 +255,8 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=65
-    quote: "Die arteriellen Katheter sollten entfernt werden, sobald keine hämodynamische Über-"
-- id: claims/sepsis-lf-4.0/429703f3
+    quote: "Die arteriellen Katheter sollten entfernt werden, sobald keine hämodynamische Überwachung"
+- id: claims/sepsis-lf-4.0/4babd856
   type: claim
   lang: de
   kind: gap_notice
@@ -268,7 +268,7 @@
   consensus_share: "100 %"
   source:
     at: sources/sepsis-lf-4.0#page=66
-    quote: "Aufgrund der aktuellen Datenlage kann bei Patienten mit septi-"
+    quote: "Aufgrund der aktuellen Datenlage kann bei Patienten mit septischem"
   provenance:
     grade: {at: "sources/sepsis-lf-4.0#page=66", quote: "EK"}
     consensus:
@@ -326,7 +326,7 @@
     consensus_share: {at: "sources/sepsis-lf-4.0#page=68", quote: "Konsensstärke: 100 %"}
     evidence:
       - {at: "sources/sepsis-lf-4.0#page=68", quote: "Mortalität:"}
-- id: claims/sepsis-lf-4.0/36617646
+- id: claims/sepsis-lf-4.0/5600035d
   type: claim
   lang: de
   kind: recommendation
@@ -335,8 +335,8 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=68
-    quote: "Eine frühe und wiederholte echokardi-"
-- id: claims/sepsis-lf-4.0/85b35f02
+    quote: "Eine frühe und wiederholte echokardiographische"
+- id: claims/sepsis-lf-4.0/e1c616ef
   type: claim
   lang: de
   kind: recommendation
@@ -345,8 +345,8 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=68
-    quote: "gleitende Messungen des HZV in Kombination mit der parallelen Beurteilung von Perfusions-"
-- id: claims/sepsis-lf-4.0/fb27e846
+    quote: "Begleitende Messungen des HZV in Kombination mit der parallelen Beurteilung von Perfusionsparametern"
+- id: claims/sepsis-lf-4.0/76747e83
   type: claim
   lang: de
   kind: recommendation
@@ -355,7 +355,7 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=68
-    quote: "Patienten mit einem bestätigten oder vermuteten niedrigen HZV, bei denen ein angemesse-"
+    quote: "Patienten mit einem bestätigten oder vermuteten niedrigen HZV, bei denen ein angemessener"
 - id: claims/sepsis-lf-4.0/a27ab31b
   type: claim
   lang: de
@@ -434,7 +434,7 @@
       - {at: "sources/sepsis-lf-4.0#page=70", quote: "Konsensstärke: 100 %"}
       - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
     consensus_share: {at: "sources/sepsis-lf-4.0#page=70", quote: "Konsensstärke: 100 %"}
-- id: claims/sepsis-lf-4.0/c8d3aad9
+- id: claims/sepsis-lf-4.0/89a437ef
   type: claim
   lang: de
   kind: recommendation
@@ -443,9 +443,9 @@
   verb: sollte
   source:
     at: sources/sepsis-lf-4.0#page=71
-    quote: "unter Berücksichtigung der vorhandenen Erfahrung und Ressourcen, individuell abgewo-"
+    quote: "unter Berücksichtigung der vorhandenen Erfahrung und Ressourcen, individuell abgewogen"
   provenance:
-    verb: {at: "sources/sepsis-lf-4.0#page=71", quote: "gen werden sollte."}
+    verb: {at: "sources/sepsis-lf-4.0#page=71", quote: "abgewogen werden sollte."}
 - id: claims/sepsis-lf-4.0/71e26f41
   type: claim
   lang: de
@@ -468,7 +468,7 @@
       - {at: "sources/sepsis-lf-4.0#page=71", quote: "Konsensstärke: 100 %"}
       - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
     consensus_share: {at: "sources/sepsis-lf-4.0#page=71", quote: "Konsensstärke: 100 %"}
-- id: claims/sepsis-lf-4.0/4abea81e
+- id: claims/sepsis-lf-4.0/8123bbe2
   type: claim
   lang: de
   kind: recommendation
@@ -477,7 +477,7 @@
   verb: sollte
   source:
     at: sources/sepsis-lf-4.0#page=72
-    quote: "chyarrhythmien z. B. im Rahmen von Vorhofflimmern bei septischen Patienten sollte davon"
+    quote: "Tachyarrhythmien z. B. im Rahmen von Vorhofflimmern bei septischen Patienten sollte davon"
 - id: claims/sepsis-lf-4.0/2615315c
   type: claim
   lang: de
@@ -499,7 +499,7 @@
   source:
     at: sources/sepsis-lf-4.0#page=72
     quote: "sollte jedoch ein adäquater Volumenstatus hergestellt"
-- id: claims/sepsis-lf-4.0/93f8fade
+- id: claims/sepsis-lf-4.0/66826dd9
   type: claim
   lang: de
   kind: recommendation
@@ -509,10 +509,10 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=72
-    quote: "rung durch Vasopressoren erfolgt sein."
+    quote: "Blutdruckstabilisierung durch Vasopressoren erfolgt sein."
   provenance:
     verb: {at: "sources/sepsis-lf-4.0#page=72", quote: "sollte jedoch ein adäquater Volumenstatus hergestellt"}
-- id: claims/sepsis-lf-4.0/fd52700f
+- id: claims/sepsis-lf-4.0/e15d9eeb
   type: claim
   lang: de
   kind: recommendation
@@ -522,4 +522,4 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=72
-    quote: "Die Anwendung sollte unter entsprechendem hämo-"
+    quote: "Die Anwendung sollte unter entsprechendem hämodynamischem"

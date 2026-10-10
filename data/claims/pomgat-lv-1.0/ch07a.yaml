@@ -101,7 +101,7 @@
     - {at: sources/pomgat-lv-1.0#page=78, quote: '⊕⊕⊕⊝: Abdominelle Distension: Kein Effekt (OR 0,87; 95% KI 0,60 bis 1,25)'}
     - {at: sources/pomgat-lv-1.0#page=78, quote: '⊕⊕⊕⊕: Länge des Klinikaufenthaltes: Kürzerer Krankenhausaufenthalt ohne Magensonde'}
     - {at: sources/pomgat-lv-1.0#page=78, quote: '⊕⊕⊝⊝: Erster Flatus postoperativ: Kein Effekt (MD -0,34 Tage; 95% KI -0,86 bis 0,18)'}
-    - {at: sources/pomgat-lv-1.0#page=78, quote: '⊕⊕⊕⊕: Erste Defäkation: Kürzere Zeit bis zur ersten Defäkation ohne Magensonde (MD -'}
+    - {at: sources/pomgat-lv-1.0#page=78, quote: "⊕⊕⊕⊕: Erste Defäkation: Kürzere Zeit bis zur ersten Defäkation ohne Magensonde (MD -0,95"}
     - {at: sources/pomgat-lv-1.0#page=78, quote: '⊕⊕⊕⊝: Zeit bis zum Kostaufbau: Kürzer ohne Magensonde (MD -0,46 Tage; 95% KI -0,90'}
     - {at: sources/pomgat-lv-1.0#page=78, quote: '⊕⊕⊕⊕: Erneute Magensondeneinlage: Häufiger in Gruppe ohne postoperative Magensonde'}
 - id: claims/pomgat-lv-1.0/b871a426
@@ -183,7 +183,7 @@
   - {outcome: concepts/postoperative-uebelkeit-und-erbrechen, value: sehr niedrig, system: grade}
   provenance:
     evidence:
-    - {at: sources/pomgat-lv-1.0#page=82, quote: '⊕⊕⊝⊝: Schmerzintensität in Ruhe 24 Stunden nach der Operation: verringerte Ruhe -'}
+    - {at: sources/pomgat-lv-1.0#page=82, quote: "⊕⊕⊝⊝: Schmerzintensität in Ruhe 24 Stunden nach der Operation: verringerte Ruhe -Schmerzen"}
     - {at: sources/pomgat-lv-1.0#page=82, quote: '⊕⊕⊝⊝: Schmerzintensität bei Belastung 24 Stunden nach der OP: Belastungs -Schmerzen'}
     - {at: sources/pomgat-lv-1.0#page=82, quote: '⊕⊝⊝⊝: Postoperativer lleus: Kein Effekt (RR 1,23; 95% KI -0,31 bis 4,81)'}
     - {at: sources/pomgat-lv-1.0#page=82, quote: '⊕⊝⊝⊝: EA-assoziierten Adverse Events: Das Risiko für EA-assoziierte Adverse Events war'}

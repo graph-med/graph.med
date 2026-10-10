@@ -117,7 +117,7 @@
     quote: "Wir empfehlen, bei Patienten mit Sepsis oder septischem"
   provenance:
     grade: {at: sources/sepsis-lf-4.0#page=109, quote: "EK"}
-    direction: {at: sources/sepsis-lf-4.0#page=109, quote: "Schock therapeutisches Plasma NICHT zur Behandlung eines Vo-"}
+    direction: {at: sources/sepsis-lf-4.0#page=109, quote: "Schock therapeutisches Plasma NICHT zur Behandlung eines Volumenmangels"}
     consensus:
       - {at: sources/sepsis-lf-4.0#page=109, quote: "Konsensstärke: 100 %"}
       - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
@@ -135,7 +135,7 @@
 # reported from expert opinion. G2's exception: a value the recommendation's wording needs and does not give, and the
 # guideline gives none. R → 8.3. Its parenthesis is the rule of concepts/dokumentierte-gerinnungsstoerung, extracted
 # below (hard case 11).
-- id: claims/sepsis-lf-4.0/2c7403a2
+- id: claims/sepsis-lf-4.0/05545852
   type: claim
   lang: de
   kind: recommendation
@@ -145,10 +145,10 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=109
-    quote: "fehlungen basieren auf Expertenmeinungen und besagen, dass Plasma bei dokumentierter"
+    quote: "Empfehlungen basieren auf Expertenmeinungen und besagen, dass Plasma bei dokumentierter"
   provenance:
-    verb: {at: sources/sepsis-lf-4.0#page=109, quote: "tung oder geplanten Eingriffen gegeben werden kann. 1 ml Plasma/kg Körpergewicht erhöht"}
-    direction: {at: sources/sepsis-lf-4.0#page=109, quote: "tung oder geplanten Eingriffen gegeben werden kann. 1 ml Plasma/kg Körpergewicht erhöht"}
+    verb: {at: sources/sepsis-lf-4.0#page=109, quote: "Blutung oder geplanten Eingriffen gegeben werden kann. 1 ml Plasma/kg Körpergewicht erhöht"}
+    direction: {at: sources/sepsis-lf-4.0#page=109, quote: "Blutung oder geplanten Eingriffen gegeben werden kann. 1 ml Plasma/kg Körpergewicht erhöht"}
 # p. 109: the rule of „dokumentierter Gerinnungsstörung“, the top of its combination (spec §3.1, #204); reached by
 # defined_by, no body-text edge (N5): the claim of the whole sentence, above, carries the answer's edge.
 - id: claims/sepsis-lf-4.0/2eda54e9
@@ -221,7 +221,7 @@
       - {at: sources/sepsis-lf-4.0#page=109, quote: "Konsensstärke: 100 %"}
       - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
     consensus_share: {at: sources/sepsis-lf-4.0#page=109, quote: "Konsensstärke: 100 %"}
-- id: claims/sepsis-lf-4.0/38d544ef
+- id: claims/sepsis-lf-4.0/12fce06b
   type: claim
   lang: de
   kind: recommendation
@@ -235,10 +235,10 @@
   consensus_share: 100 %
   source:
     at: sources/sepsis-lf-4.0#page=109
-    quote: "Vor operativen Eingriffen, zent-"
+    quote: "Vor operativen Eingriffen, zentralvenösen"
   provenance:
     grade: {at: sources/sepsis-lf-4.0#page=109, quote: "EK"}
-    verb: {at: sources/sepsis-lf-4.0#page=109, quote: "ralvenösen Punktionen bzw. Zugängen oder Liquorpunktion soll"}
+    verb: {at: sources/sepsis-lf-4.0#page=109, quote: "zentralvenösen Punktionen bzw. Zugängen oder Liquorpunktion soll"}
     consensus:
       - {at: sources/sepsis-lf-4.0#page=109, quote: "Konsensstärke: 100 %"}
       - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
@@ -291,7 +291,7 @@
     quote: "Wir empfehlen, dass bei Patienten mit Sepsis oder septischem"
   provenance:
     grade: {at: sources/sepsis-lf-4.0#page=111, quote: "Stark"}
-    direction: {at: sources/sepsis-lf-4.0#page=111, quote: "Schock unselektive Adsorptionsverfahren NICHT eingesetzt wer-"}
+    direction: {at: sources/sepsis-lf-4.0#page=111, quote: "Schock unselektive Adsorptionsverfahren NICHT eingesetzt werden"}
     consensus:
       - {at: sources/sepsis-lf-4.0#page=111, quote: "Konsensstärke: 100 %"}
       - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
@@ -384,7 +384,7 @@
     evidence:
       - {at: sources/sepsis-lf-4.0#page=115, quote: "Tiefe BVT:"}
       - {at: sources/sepsis-lf-4.0#page=115, quote: "LAE:"}
-- id: claims/sepsis-lf-4.0/3df63bfa
+- id: claims/sepsis-lf-4.0/6ae4f38a
   type: claim
   lang: de
   kind: recommendation
@@ -398,7 +398,7 @@
   consensus_share: 100 %
   source:
     at: sources/sepsis-lf-4.0#page=116
-    quote: "Wir schlagen vor, bei hochgradig eingeschränkter Nierenfunk-"
+    quote: "Wir schlagen vor, bei hochgradig eingeschränkter Nierenfunktion"
   provenance:
     grade: {at: sources/sepsis-lf-4.0#page=116, quote: "EK"}
     consensus:
@@ -407,7 +407,7 @@
     consensus_share: {at: sources/sepsis-lf-4.0#page=116, quote: "Konsensstärke: 100 %"}
 # p. 116: a measure beside 8.9's NMH for patients with impaired renal function. S → 8.9. The CrCl value is
 # „insbesondere“, not the rule of 8.10's „hochgradig eingeschränkter Nierenfunktion“ (hard case 12).
-- id: claims/sepsis-lf-4.0/e4f16f7c
+- id: claims/sepsis-lf-4.0/2033227f
   type: claim
   lang: de
   kind: recommendation
@@ -417,10 +417,10 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=116
-    quote: "Der Einsatz von NMH bei eingeschränk-"
+    quote: "Der Einsatz von NMH bei eingeschränkter"
   provenance:
-    verb: {at: sources/sepsis-lf-4.0#page=116, quote: "ter Nierenfunktion sollte immer engmaschig evaluiert werden, insbesondere bei einer Krea-"}
-    direction: {at: sources/sepsis-lf-4.0#page=116, quote: "ter Nierenfunktion sollte immer engmaschig evaluiert werden, insbesondere bei einer Krea-"}
+    verb: {at: sources/sepsis-lf-4.0#page=116, quote: "eingeschränkter Nierenfunktion sollte immer engmaschig evaluiert werden, insbesondere bei einer"}
+    direction: {at: sources/sepsis-lf-4.0#page=116, quote: "eingeschränkter Nierenfunktion sollte immer engmaschig evaluiert werden, insbesondere bei einer"}
 - id: claims/sepsis-lf-4.0/14c07bbb
   type: claim
   lang: de
@@ -475,7 +475,7 @@
 # p. 118: IPC in combination with a pharmacological VTE prophylaxis for selected high-risk patients is decided
 # individually by the team: a measure beside 8.9's prophylaxis (hard case 9). S → 8.9. No verb a declared scheme
 # defines („muss“).
-- id: claims/sepsis-lf-4.0/01fe1a1f
+- id: claims/sepsis-lf-4.0/b66123a5
   type: claim
   lang: de
   kind: recommendation
@@ -484,7 +484,7 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=118
-    quote: "Ob ausgewählte Hochrisikopatienten von einer solchen Kombination profi-"
+    quote: "Ob ausgewählte Hochrisikopatienten von einer solchen Kombination profitieren"
 - id: claims/sepsis-lf-4.0/42cf7005
   type: claim
   lang: de
@@ -584,7 +584,7 @@
 # p. 122 (#213 item 7): one criterion, the three factors being the cases of one group; R → 8.14 and 8.15, and the top
 # of the rule of concepts/risikofaktoren-fuer-gastrointestinale-blutungen. Each „definiert als“ defines its item where
 # it stands, not the term (no E edge).
-- id: claims/sepsis-lf-4.0/7fe8bedb
+- id: claims/sepsis-lf-4.0/6cbc2502
   type: claim
   lang: de
   kind: criterion
@@ -592,14 +592,14 @@
   label: "Patienten mit Sepsis oder septischem Schock weisen häufig einen oder mehrere der 3 unabhängigen Risikofaktoren (respiratorische Insuffizienz definiert als maschinelle Beatmung > 48 h, Gerinnungsstörung definiert als INR > 1,5 oder Thrombozytenzahl < 50 000/mm3, akutes Nierenversagen) für das Auftreten einer klinisch signifikanten stressbedingten Blutung auf, die mit erhöhter Morbidität und Mortalität assoziiert sein kann."
   combination:
     operator: any_of
-    of: [claims/sepsis-lf-4.0/f07908ba, claims/sepsis-lf-4.0/c9c4878d, claims/sepsis-lf-4.0/5b297b31]
+    of: [claims/sepsis-lf-4.0/2aa83853, claims/sepsis-lf-4.0/c9c4878d, claims/sepsis-lf-4.0/5b297b31]
     connective: "einen oder mehrere"
-    source: {at: sources/sepsis-lf-4.0#page=122, quote: "Patienten mit Sepsis oder septischem Schock weisen häufig einen oder mehrere der 3 unab-"}
+    source: {at: sources/sepsis-lf-4.0#page=122, quote: "Patienten mit Sepsis oder septischem Schock weisen häufig einen oder mehrere der 3 unabhängigen"}
     rationale: "„einen oder mehrere der 3 unabhängigen Risikofaktoren“: jeder der drei Faktoren genügt allein, mehrere dürfen zusammen vorliegen (ODER)."
   source:
     at: sources/sepsis-lf-4.0#page=122
-    quote: "Patienten mit Sepsis oder septischem Schock weisen häufig einen oder mehrere der 3 unab-"
-- id: claims/sepsis-lf-4.0/f07908ba
+    quote: "Patienten mit Sepsis oder septischem Schock weisen häufig einen oder mehrere der 3 unabhängigen"
+- id: claims/sepsis-lf-4.0/2aa83853
   type: claim
   lang: de
   kind: definition
@@ -608,11 +608,11 @@
   threshold: {quantity: concepts/beatmungsdauer, comparator: ">", value: "48", unit: "h"}
   source:   # a part of p. 122's combination: the first factor, defined where it stands.
     at: sources/sepsis-lf-4.0#page=122
-    quote: "respiratorische Insuffizienz definiert als maschinelle Beat-"
+    quote: "respiratorische Insuffizienz definiert als maschinelle Beatmung"
   provenance:
     threshold:
-      - {at: sources/sepsis-lf-4.0#page=122, quote: "respiratorische Insuffizienz definiert als maschinelle Beat-"}
-      - {at: sources/sepsis-lf-4.0#page=122, quote: "mung > 48 h, Gerinnungsstörung definiert als"}
+      - {at: sources/sepsis-lf-4.0#page=122, quote: "respiratorische Insuffizienz definiert als maschinelle Beatmung"}
+      - {at: sources/sepsis-lf-4.0#page=122, quote: "Beatmung > 48 h, Gerinnungsstörung definiert als"}
 # a part of p. 122's combination, itself any_of over two values (#204); the rule of concepts/gerinnungsstoerung.
 - id: claims/sepsis-lf-4.0/c9c4878d
   type: claim
@@ -683,7 +683,7 @@
     quote: "Wir empfehlen, bei Patienten mit Sepsis oder septischem"
   provenance:
     grade: {at: sources/sepsis-lf-4.0#page=124, quote: "Stark"}
-    direction: {at: sources/sepsis-lf-4.0#page=124, quote: "siertem Vitamin B1 (Thiamin) – NICHT zu verwenden."}
+    direction: {at: sources/sepsis-lf-4.0#page=124, quote: "hochdosiertem Vitamin B1 (Thiamin) – NICHT zu verwenden."}
     consensus:
       - {at: sources/sepsis-lf-4.0#page=124, quote: "Konsensstärke: 100 %"}
       - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
@@ -691,7 +691,7 @@
     evidence:
       - {at: sources/sepsis-lf-4.0#page=124, quote: "HAT486:"}
       - {at: sources/sepsis-lf-4.0#page=124, quote: "Vitamin C487:"}
-- id: claims/sepsis-lf-4.0/5a8b2f2b
+- id: claims/sepsis-lf-4.0/90d27867
   type: claim
   lang: de
   kind: criterion
@@ -699,7 +699,7 @@
   label: "Es sei an dieser Stelle darauf verwiesen, dass sich diese Empfehlung auf die hochdosierte intravenöse Vitamin C-Therapie bezieht."
   source:   # p. 125: which route 8.16's „hochdosiertes Vitamin C“ stands for. R → 8.16.
     at: sources/sepsis-lf-4.0#page=125
-    quote: "Es sei an dieser Stelle darauf verwiesen, dass sich diese Empfehlung auf die hochdosierte in-"
+    quote: "Es sei an dieser Stelle darauf verwiesen, dass sich diese Empfehlung auf die hochdosierte"
 # p. 125: what the term does not cover — a substitution is no high dose, so no case is taken out. R → 8.16.
 - id: claims/sepsis-lf-4.0/d47626f0
   type: claim
@@ -710,7 +710,7 @@
   source:
     at: sources/sepsis-lf-4.0#page=125
     quote: "Die Substitution des empfohlenen Tagesbedarfs von"
-- id: claims/sepsis-lf-4.0/9b7703dd
+- id: claims/sepsis-lf-4.0/8676c880
   type: claim
   lang: de
   kind: recommendation
@@ -724,17 +724,17 @@
   consensus_share: 100 %
   source:
     at: sources/sepsis-lf-4.0#page=125
-    quote: "Wir schlagen vor, bei Patienten mit septischem Schock Natrium-"
+    quote: "Wir schlagen vor, bei Patienten mit septischem Schock Natriumbicarbonat"
   provenance:
     grade: {at: sources/sepsis-lf-4.0#page=125, quote: "EK"}
-    direction: {at: sources/sepsis-lf-4.0#page=125, quote: "dynamik NICHT zu verwenden."}
+    direction: {at: sources/sepsis-lf-4.0#page=125, quote: "Hämodynamik NICHT zu verwenden."}
     consensus:
       - {at: sources/sepsis-lf-4.0#page=125, quote: "Konsensstärke: 100 %"}
       - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
     consensus_share: {at: sources/sepsis-lf-4.0#page=125, quote: "Konsensstärke: 100 %"}
 # p. 126: a decline in the guideline's voice („wir“) on 8.17's question for another population (#213 item 6): a gap
 # notice without an edge.
-- id: claims/sepsis-lf-4.0/b8834e22
+- id: claims/sepsis-lf-4.0/b8da821d
   type: claim
   lang: de
   kind: gap_notice
@@ -742,7 +742,7 @@
   label: "Zusammenfassend ist die Evidenz basierend auf den vorhandenen Daten zum Einsatz bei AKI gering und wir sprechen daher keine generelle Empfehlung für den Einsatz von Natriumbicarbonat in dieser Subgruppe aus."
   source:
     at: sources/sepsis-lf-4.0#page=126
-    quote: "gering und wir sprechen daher keine generelle Empfehlung für den Einsatz von Natriumbicar-"
+    quote: "gering und wir sprechen daher keine generelle Empfehlung für den Einsatz von Natriumbicarbonat"
 # p. 126 (hard case 10, for the physician): takes the patients with metabolic acidosis (pH ≤ 7,2) and AKI (Grad 2 oder
 # 3) out of 8.17's „NICHT“ into an individual decision. L → 8.17 (the first of R, L, S that holds; S the alternative).
 # The pH is no threshold: a recommendation carries none.

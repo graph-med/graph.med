@@ -6,7 +6,7 @@
   - supports
   - statements/ponv-prophylaxe-kombinationstherapie
   - source: modelling
-- - claims/pomgat-lv-1.0/57bc2664
+- - claims/pomgat-lv-1.0/dcc1bac8
   - supports
   - statements/propofol-tiva-statt-volatiler-anaesthesie
   - source: modelling
@@ -30,7 +30,7 @@
   - supports
   - statements/hautdesinfektion-chlorhexidin-alkoholisch
   - source: modelling
-- - claims/pomgat-lv-1.0/d766c5a6
+- - claims/pomgat-lv-1.0/305f0cf3
   - supports
   - statements/hautdesinfektion-povidon-iod-bei-unvertraeglichkeit
   - source: modelling
@@ -46,7 +46,7 @@
   - supports
   - statements/keine-postoperative-antibiotikaprophylaxe
   - source: modelling
-- - claims/pomgat-lv-1.0/3cc01d64
+- - claims/pomgat-lv-1.0/9f489d7b
   - supports
   - statements/darmvorbereitung-kolorektal-kombiniert
   - source: modelling
@@ -79,9 +79,9 @@
    rationale: "R: Risikofaktoren"}]
 - [claims/pomgat-lv-1.0/17e02423, limits, claims/pomgat-lv-1.0/484d969e, {source: modelling, as_of: "2026-09-23", lang: de,
    rationale: "L: Kontakt mit Schleimhäuten — statt Chlorhexidin-haltigen alkoholischen Lösungen"}]
-- [claims/pomgat-lv-1.0/7e30e1ad, refines, claims/pomgat-lv-1.0/d766c5a6, {source: modelling, as_of: "2026-09-23", lang: de,
+- [claims/pomgat-lv-1.0/7e30e1ad, refines, claims/pomgat-lv-1.0/305f0cf3, {source: modelling, as_of: "2026-09-23", lang: de,
    rationale: "R: Unverträglichkeit oder Kontraindikationen; Povidon-Iod-haltigen Lösungen"}]
-- [claims/pomgat-lv-1.0/d2b82897, refines, claims/pomgat-lv-1.0/d766c5a6, {source: modelling, as_of: "2026-09-23", lang: de,
+- [claims/pomgat-lv-1.0/d2b82897, refines, claims/pomgat-lv-1.0/305f0cf3, {source: modelling, as_of: "2026-09-23", lang: de,
    rationale: "R: Povidon-Iod-haltigen Lösungen"}]
 - [claims/pomgat-lv-1.0/ffa6b040, supplements, claims/pomgat-lv-1.0/484d969e, {source: modelling, as_of: "2026-09-23", lang: de,
    rationale: "S: Desinfektion mit Chlorhexidin-haltigen alkoholischen Lösungen"}]
@@ -107,13 +107,13 @@
    rationale: "R: perioperative selektive Darmdekontamination (Definition der Leitlinie)"}]
 - [claims/pomgat-lv-1.0/77549f8d, refines, claims/pomgat-lv-1.0/2a119f14, {source: modelling, as_of: "2026-09-23", lang: de,
    rationale: "R: präoperative selektive Darmdekontamination (Definition der Leitlinie)"}]
-- [claims/pomgat-lv-1.0/77549f8d, refines, claims/pomgat-lv-1.0/2b5903b8, {source: modelling, as_of: "2026-09-23", lang: de,
+- [claims/pomgat-lv-1.0/77549f8d, refines, claims/pomgat-lv-1.0/d3cd6907, {source: modelling, as_of: "2026-09-23", lang: de,
    rationale: "R: selektiven Darmdekontamination (Definition der Leitlinie)"}]
 - [claims/pomgat-lv-1.0/8f48e9b9, refines, claims/pomgat-lv-1.0/4d76032e, {source: modelling, as_of: "2026-09-23", lang: de,
    rationale: "R: perioperative selektive Darmdekontamination (Definition der Leitlinie)"}]
 - [claims/pomgat-lv-1.0/8f48e9b9, refines, claims/pomgat-lv-1.0/2a119f14, {source: modelling, as_of: "2026-09-23", lang: de,
    rationale: "R: präoperative selektive Darmdekontamination (Definition der Leitlinie)"}]
-- [claims/pomgat-lv-1.0/8f48e9b9, refines, claims/pomgat-lv-1.0/2b5903b8, {source: modelling, as_of: "2026-09-23", lang: de,
+- [claims/pomgat-lv-1.0/8f48e9b9, refines, claims/pomgat-lv-1.0/d3cd6907, {source: modelling, as_of: "2026-09-23", lang: de,
    rationale: "R: selektiven Darmdekontamination (Definition der Leitlinie)"}]
 - [claims/pomgat-lv-1.0/6cbd83d8, limits, claims/pomgat-lv-1.0/484d969e, {source: modelling, as_of: "2026-09-23", lang: de,
    rationale: "L: im Kontakt mit Gehirn, Meningen, dem Auge oder dem Mittelohr"}]

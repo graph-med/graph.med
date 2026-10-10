@@ -29,7 +29,7 @@ grading_scheme:   # spec §3.1: Tabellen 7 and 8 (p. 148) and the count on p. 3,
       verb: schlagen vor
       negated: schlagen nicht vor
       source:
-        - {at: sources/sepsis-lf-4.0#page=148, quote: "Schwache Empfeh-"}
+        - {at: sources/sepsis-lf-4.0#page=148, quote: "Schwache Empfehlung"}
         - {at: sources/sepsis-lf-4.0#page=148, quote: "Wir schlagen vor/ schlagen"}
         - {at: sources/sepsis-lf-4.0#page=148, quote: "nicht vor"}
         - {at: sources/sepsis-lf-4.0#page=35, quote: "Schwach"}
