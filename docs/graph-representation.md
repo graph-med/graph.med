@@ -393,9 +393,15 @@ every quote stays paired with its entry. The `value` is the system's word
 **as printed**, "Moderat" where the box prints it capitalised: the case is the
 print's, not a second level, and a consumer compares the values of one system
 without regard to it. Where the source prints a rating twice, as a word and as
-symbols (⊕⊕⊕⊝), the value is the word; where the two disagree, the word is
-recorded and the pass that meets it names the disagreement in its pull
-request — it is never resolved. Two rules keep the field honest. **A value is
+symbols (⊕⊕⊕⊝), the value is the word. **Where the two disagree, both are
+recorded and neither is chosen**: the word as the entry's value, and the
+symbols as a claim of their own — kind `fact`, the row read as §5.1 K reads a
+table, its head and the symbols ("Hämodynamische Instabilität: ⊕⊕⊝⊝"),
+quoting the symbols, with the box's `recommendation_no` and `section` and
+nothing else the box prints — which `disagrees_with` joins to the
+recommendation's claim, its rationale quoting the word and the symbols (§5).
+A rating the body text gives otherwise than the box is the same disagreement
+(§5.1 D). Two rules keep the field honest. **A value is
 never mapped between systems**: GRADE's *hoch* is not an Oxford level, no table
 in the schema, the validator or the build says otherwise, and a system the site
 does not know is a valid state, not an error. **Several entries are never
@@ -537,14 +543,18 @@ Three kinds of entity, kept apart because different edges attach to them:
   written on the concept (§3.3). A derived concept whose source names the rule
   without a number ("lange OP-Zeit") has its edge and no threshold.
   **How several rules of one concept combine is extracted, never assumed.**
-  The concept has one `defined_by` edge, to the claim at the top of its rule;
+  The concept has one `defined_by` edge, to the claim at the top of its rule
+  — or one to each printing, where the source prints its rule differently in
+  several places and `disagrees_with` joins every pair of them (§5);
   where the page gives several ways of establishing it, that claim quotes the
   passage and its `combination` (§3.1) joins them as the page does — drain
   amylase on day 1, *or* on days 1 and 3 *and* the drain volume, *or*
   relative to the serum value on day 3; at least two of four risk factors,
   *or* an ASA status of at least 3, *or* coronary heart disease *or* proven
   myocardial ischaemia. A second edge would join the rules by a default
-  nobody read off the page, and is refused. A combination may be of any
+  nobody read off the page, and is refused — unless the two claims are
+  printings of one rule that disagree, which then stand side by side, each as
+  printed, and are never combined. A combination may be of any
   operator, so neither "any rule suffices" nor "all rules hold" is ever
   assumed, and a statement's conditions stay a conjunction of their own
   (below). Because the kind is read off the concept, it holds wherever the
@@ -1023,6 +1033,23 @@ the different jobs of edges apart:
 - **body-text relations** — `refines`, `supplements`, `limits`: claim → claim.
   Body text never inherits a recommendation's grade; the edge says how they
   relate. Which sentence earns which edge is the rule of §5.1.
+- **disagreement** — `disagrees_with`: claim → claim, "this source says
+  otherwise at that place". **The graph reflects the text**: where a source
+  answers one question differently in two places — another value, time,
+  group or rating for one term, case or action — each printing is a claim, as
+  printed, and this edge joins every pair of them (§5.1 D). No extraction,
+  linking pass or build picks a side, smooths the difference over, or names
+  it only in a pull request, and nothing computes a "true" answer. The edge is
+  symmetric, once per pair in either direction, and never joins a claim to
+  itself; it joins claims of **one** source — between two sources the
+  relation is `contests` (§11). Always `modelling`, with a rationale that
+  quotes both sides with their pages and says what they differ in, `lang` and
+  `as_of`. It carries no evidence and decides nothing: each side keeps the
+  edges the rules give it, and the site shows each on the other's card as the
+  source's own inconsistency (`docs/publication.md` §3). A side the page
+  prints as a figure without a text layer cannot be quoted: the claim of the
+  figure's caption is that side, and the rationale says what the image shows,
+  as read off it and not quoted.
 - **coding** — `codes_as`: concept → terminology concept. Codes are never bare
   strings inside a property; a code is a node and coding is an edge, so the link
   carries provenance and dangles visibly when a classification changes.
@@ -1068,9 +1095,14 @@ the different jobs of edges apart:
   threshold the claim prints or the combination it quotes (§3.1). Always
   `modelling`, with a rationale naming the clause and the term, `lang` and
   `as_of`. **A concept has one such edge**: several rules reach it through
-  the combination on the claim the edge leads to, as the page joins them,
-  and the validator refuses a second edge, even with a discriminator, and an
-  edge to a claim of another kind. It is the edge, not a field on the
+  the combination on the claim the edge leads to, as the page joins them —
+  except where the source prints its rule differently in several places
+  ("> 50 ml/kg/h" on one page, "≥ 50ml/kg/h" on another): then the concept
+  has one edge to each printing, each claim keeps its threshold as printed,
+  nothing computes a "true" bound, and the site shows every printing. The
+  validator refuses a second edge, even with a discriminator, unless every
+  pair of the claims the concept reaches is joined by `disagrees_with`, and
+  an edge to a claim of another kind. It is the edge, not a field on the
   concept, because the rule is a relation with provenance: it can be attested
   and go stale. It carries no evidence and says nothing about the statements
   that use the concept; the `refines` edge the same criterion may have to a
@@ -1102,10 +1134,12 @@ recommendations are those in its own text; one where neither it nor a section
 below it holds any also has those in the own text of the nearest section above
 that does; and a section's own text, before its first subsection, also has
 those of every section below it. Those of a sibling never count. A place
-becomes a claim with an edge exactly when it passes G1–G4 and one of R, L, S,
-tried in that order — the first that holds decides; a decline that passes G1–G3
+becomes a claim with an edge exactly when it passes G1–G4 and one of D, R, L,
+S, tried in that order — the first that holds decides; a decline that passes G1–G3
 is a claim without one, and so is a place U admits. Every other place stays on
-the page, and so does a figure without a text layer (F).
+the page, and so does a figure without a text layer (F). Whatever edge a
+place gets, it is joined by `disagrees_with` to every other place of the
+source that answers its question otherwise (D).
 
 - **G1 topic** — it is about the action of a marked recommendation of its
   section, for that recommendation's population; a decline, or a place on a
@@ -1137,6 +1171,20 @@ the page, and so does a figure without a text layer (F).
   left to the reader; referring to another work instead is N4. Saying the
   action is not recommended ("kann nicht empfohlen werden") is against it;
   saying only what is unknown ("unklar", "keine Studien") is N2.
+- **D `disagrees_with`** — it answers a term, case or action of the
+  recommendation otherwise than the recommendation itself prints it: another
+  value, time or rating, or a group the recommendation answers differently
+  (an hour for sepsis where the box gives the hour to septic shock alone). It
+  is a claim, joined to the recommendation's claim by `disagrees_with` (§5),
+  and gets no R, L or S edge to it, which would read the one through the
+  other. Places that answer one term differently where the recommendation
+  prints no answer of its own each get the edge R, L or S gives them, and
+  every pair of them is joined by `disagrees_with`: each printing shown,
+  none chosen. A distinction one place draws and another erases or denies
+  is a disagreement (the hour for septic shock alone, against the hour for
+  both, or a deadline "unabhängig davon, ob ein Schock vorliegt"); two
+  answers that differ only in kind for the same groups — an ideal time
+  beside a latest one — are none.
 - **R `refines`** — it says what a term of the recommendation covers: who is in
   its group; which value, time, dose, agent or technique a word stands for. It
   makes cases precise and takes none out.
@@ -1187,10 +1235,15 @@ the page, and so does a figure without a text layer (F).
   the rule does not give and lists it, with its clause, in its pull request.
 - **N — not a body-text relation.** (1) Sentences of one marked recommendation,
   or of two: each is linked as §3.1 says; what one says of the other is
-  said between statements (`specializes`, `complements`). (2) How certain the
+  said between statements (`specializes`, `complements`) — and where they
+  answer one question differently, `disagrees_with` joins their claims as
+  well (D). (2) How certain the
   evidence is: `evidence` on the recommendation's claim (§3.1); effect data,
   study summaries and rationale: nothing, also in a table or figure a marked
-  recommendation names. (3) A condition of the statement: an
+  recommendation names — except a place that rates the certainty of the
+  recommendation's evidence otherwise than the box does, which is a `fact`
+  claim joined to the recommendation's claim (D). (3) A condition of the
+  statement: an
   edge relates two claims and never writes a slot, mints a statement or decides
   what a circumstance is to a statement (§4.1); a circumstance the statement
   lacks is named in the pull request. (4) A cross-reference, a referral to
@@ -1507,7 +1560,10 @@ pool, and catches what was left out:
   sentence passes the gate, the kind the edge carries is the first test that
   holds, the target is the right claim, the from-claim is ungraded and holds
   one answer, the rationale names the clause and the term, and the edge is
-  not between sentences of marked recommendations.
+  not between sentences of marked recommendations. For each `disagrees_with`
+  edge it reads both claims on their pages and asks whether they answer one
+  question differently as printed, and whether the rationale quotes both
+  sides and says what they differ in.
 - **A page against the pool.** For every page a claim of the branch cites,
   the judge — already holding that page for the first question — reads it
   the other way round and asks whether everything on it that the pool's
@@ -1955,6 +2011,8 @@ cite.
    sameness silently.
 4. **Contest, never overwrite.** A source that disagrees with existing content
    is new claims plus `contests` edges — both sides sourced, conflict surfaced.
+   A source that disagrees with itself is a claim per printing joined by
+   `disagrees_with` (§5): both shown, neither chosen.
    Editing an entity asserts a correction within the same editorial line, and
    nothing else. Recency resolves nothing.
 5. **Every statement needs provenance.** If the source says it, cite the passage

@@ -85,7 +85,9 @@ sentences are the claims.
 `uv run tools/validate.py` ran before you. It checked the schema, that every
 reference resolves, that each claim's id hashes from its locator and quote,
 that edges are unique, that `broader` and `in_scope_of` form no cycle and a
-scope edge doubles no `broader`, that a concept has one `defined_by` edge and
+scope edge doubles no `broader`, that a concept has one `defined_by` edge (or
+one per printing, every pair of their claims joined by `disagrees_with`), that
+a `disagrees_with` edge joins two claims of one source once, and
 each piece of a combination's connective lies in one of its quotes, that an asserted axis places each statement or
 concept once and each hierarchy placement is an edge of the pool, that a
 dimension's values are among its declared ones, that a claim's grade, basis
@@ -157,7 +159,11 @@ keeps at a line end is the one the printed word has.
    edge should carry, the target claim, the from-claim ungraded, one
    alternative per claim, the `rationale` the rule asks for, never between two
    sentences of one marked recommendation or between two of them. Report
-   every step.
+   every step. For each `disagrees_with` edge, read both claims on their
+   pages: do they answer one question differently as printed (spec §5.1 D:
+   a distinction one draws and the other erases is a disagreement, an ideal
+   time beside a latest one is none), and does the `rationale` quote both
+   sides and say what they differ in?
 4. **A page against the pool.** For every cited page, read it the other way
    round: does every sentence of every recommendation the source marks on it
    have a claim, sharing its number where the source numbers it? Does every

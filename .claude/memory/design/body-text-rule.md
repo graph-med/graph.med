@@ -1,6 +1,6 @@
 ---
 name: body-text-rule
-description: A body-text place (a sentence, a footnote, a table or figure, read in rows) earns a claim and an edge only through spec §5.1 — gate G1–G4 in its section (a float's is that of the box naming it; a section's own text also has its subsections' boxes, a boxless subsection its parent's, never a sibling's), then R (refines) → L (limits) → S (supplements), first that holds; a decline is a gap notice without an edge, an evidence gap nothing; a recommendation in the guideline's voice no box of its section covers is a claim without an edge in no statement (U); a definition a heading marks is a claim wherever it stands when a box uses its term; kind by form, never graded, one claim per answer (a table one per instrument or per row); no edge between sentences of marked recommendations, none for evidence certainty or effect data, and an edge never decides a statement's condition.
+description: A body-text place (a sentence, a footnote, a table or figure, read in rows) earns a claim and an edge only through spec §5.1 — gate G1–G4 in its section (a float's is that of the box naming it; a section's own text also has its subsections' boxes, a boxless subsection its parent's, never a sibling's), then D (disagrees_with: it answers the recommendation otherwise than the recommendation prints it, #341) → R (refines) → L (limits) → S (supplements), first that holds, and `disagrees_with` to every place answering its question otherwise; a decline is a gap notice without an edge, an evidence gap nothing; a recommendation in the guideline's voice no box of its section covers is a claim without an edge in no statement (U); a definition a heading marks is a claim wherever it stands when a box uses its term; kind by form, never graded, one claim per answer (a table one per instrument or per row); no edge between sentences of marked recommendations, none for evidence certainty or effect data, and an edge never decides a statement's condition.
 metadata:
   type: project
 ---
@@ -107,6 +107,14 @@ against what its boxes rely on. Each is a clause of §5.1 now:
   claim, and the graph shows the disagreement, never resolves it — the
   maintainer's principle of 2026-10-11, "the graph reflects the text", built
   by card #341.
+
+Card #341 (2026-10-11, the maintainer's "the graph reflects the text") put
+**D** before R: a place that answers a recommendation's term, case or action
+otherwise than the recommendation prints it is a claim joined to it by
+`disagrees_with`, and gets no R, L or S edge to it, which would read one
+through the other; places answering a term the recommendation leaves open
+each keep their edge and are joined to each other
+([[source-disagreements-shown]]).
 
 **Why:** the first extraction read the relations differently from chapter to
 chapter — a box's second sentence was `refines` in one box, `supplements` in

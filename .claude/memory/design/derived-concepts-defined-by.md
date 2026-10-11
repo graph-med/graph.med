@@ -1,6 +1,6 @@
 ---
 name: derived-concepts-defined-by
-description: A concept established by a rule (a threshold, a score, a definition) is derived because its one `defined_by` edge reaches the criterion or definition claim giving the rule — computed from the edge, never stored; the threshold sits on the claim that prints it (`threshold`, one per claim: quantity concept, comparator from a closed mathematical list, value/unit/when as printed, `relative_to`); how several parts of a rule combine is extracted from the source as a `combination` on the claim quoting the passage (all_of, any_of, at_least n, not_stated; the connective as printed and quote-checked, the reading modelling), nesting through claims — never a default. Choices 1 and 2 proposed 2026-09-24 (#187); choice 3 decided by the maintainer 2026-09-24 (#204).
+description: A concept established by a rule (a threshold, a score, a definition) is derived because its `defined_by` edge reaches the criterion or definition claim giving the rule — one edge, or one per printing where the source prints the rule differently and every pair is joined by `disagrees_with` (#341) — computed from the edge, never stored; the threshold sits on the claim that prints it (`threshold`, one per claim: quantity concept, comparator from a closed mathematical list, value/unit/when as printed, `relative_to`); how several parts of a rule combine is extracted from the source as a `combination` on the claim quoting the passage (all_of, any_of, at_least n, not_stated; the connective as printed and quote-checked, the reading modelling), nesting through claims — never a default. Choices 1 and 2 proposed 2026-09-24 (#187); choice 3 decided by the maintainer 2026-09-24 (#204).
 metadata:
   type: project
 ---
@@ -41,7 +41,8 @@ and schema 0.12.0:
    with its own combination, so each group keeps its claim, label and
    `refines` edge. A claim prints a threshold or combines parts, never both.
    The validator refuses a second `defined_by` edge, since it would be a
-   combination nobody read off the page. In this decision the maintainer also
+   combination nobody read off the page — unless the two claims are printings
+   of one rule that disagree (below). In this decision the maintainer also
    chose:
    - **no `none_of`**: a definition by exclusion stays one claim, its
      "ohne … oder …" in the sentence as printed;
@@ -52,6 +53,17 @@ and schema 0.12.0:
    Several conditions of a statement stay a conjunction
    ([[conditions-are-a-conjunction-list]]), and a connective inside a
    threshold's `when` stays as printed.
+
+4. **One edge per printing where the source disagrees with itself**
+   (#341, 2026-10-11, the maintainer's "the graph reflects the text"). Where
+   the source prints the rule differently in several places ("> 50 ml/kg/h"
+   on p. 99, "≥ 50ml/kg/h" on p. 101), the concept reaches each printing by a
+   `defined_by` edge of its own, each claim keeps its threshold as printed,
+   and the site lists them all; nothing computes a "true" bound and no
+   printing is chosen. The validator allows several edges only where every
+   pair of those claims is joined by `disagrees_with`
+   ([[source-disagreements-shown]]); otherwise one, as above. A second edge
+   is never a combination: printings that disagree are not parts of one rule.
 
 **Why:** the rule was already in the pool as criterion claims that `refines`
 the recommendation, but the concept knew nothing of it, so a reader of
@@ -72,7 +84,9 @@ score or quantity is enumerated ([[generic-over-guidelines]]).
 **How to apply:** To mark a concept derived, find (or, where the page plainly
 prints it, extract) the criterion or definition claim and add one
 `defined_by` edge whose rationale names the clause and the term; never add a
-field on the concept. Where the page gives several ways or parts:
+field on the concept. Where the source prints the rule differently in
+several places, add an edge to each printing and join every pair of their
+claims by `disagrees_with`; never pick the one that fits. Where the page gives several ways or parts:
 1. extract each member the connective joins as a claim;
 2. extract the passage as the claim at the top, with its `combination`;
 3. quote every connective, and say its reading in the `rationale`, never

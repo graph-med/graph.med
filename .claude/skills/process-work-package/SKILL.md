@@ -231,7 +231,11 @@ edge spec §5.1 gives it (`refines`, `limits`, `supplements`, to the claim the
 rule names, its `rationale` naming the clause and the term), a decline and a
 recommendation outside the marked ones (§5.1 U) none and no statement, a
 definition only §5.1 G1's clause admits none (its concept's `defined_by`
-reaches it), and the rule's N clauses say what gets none. Edges go to
+reaches it), and the rule's N clauses say what gets none. Where the source answers one
+question differently in two places, each printing is a claim and
+`disagrees_with` joins every pair (spec §5, §5.1 D; memory
+`source-disagreements-shown`): never pick the one that fits, and never leave
+the pull request the only place it is named. Edges go to
 `data/edges/<source-id>/<slug>.yaml`.
 
 **linking** — edits existing entities or adds edges under spec §11: every change
