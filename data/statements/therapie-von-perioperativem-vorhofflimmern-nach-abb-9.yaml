@@ -1,0 +1,13 @@
+# A statement of card #383 (C7b), chapter 8 of sources/vorhofflimmern-lf-1.1.
+# Box 8.4 (p. 86). The action is what the sentence names; the label keeps the delegation, and no slot holds Abb. 9's
+# content (spec §5.1 F; card #327). Anchor: the group the box names, its own concept (card #383 Decision 6; card #364,
+# reading 3).
+id: statements/therapie-von-perioperativem-vorhofflimmern-nach-abb-9
+type: statement
+lang: de
+label: "Die Therapie von perioperativem Vorhofflimmern nach dem in Abb. 9 dargestellten Algorithmus durchführen."
+short_label: "Therapie von perioperativem Vorhofflimmern nach Abb. 9"
+slots:
+  population: concepts/perioperatives-vorhofflimmern
+  action: concepts/therapie-von-perioperativem-vorhofflimmern
+source: modelling

@@ -1,0 +1,12 @@
+# A concept of card #383 (C7b), chapter 8 of sources/vorhofflimmern-lf-1.1.
+# The action of box 8.6, „sollen bei der Indikationsstellung für eine invasive Therapie (Ablation) die Zunahme
+# prozeduraler Risiken bei gleichzeitig Abnahme der Erfolgsaussichten berücksichtigt werden“ (p. 89): the weighing, its
+# words as printed („bei gleichzeitig Abnahme“, a typo kept, #314 Decision 4). The indication for the ablation is the
+# statement's condition (card #383, reading 6).
+id: concepts/beruecksichtigung-prozeduraler-risiken-und-erfolgsaussichten
+type: concept
+lang: de
+label: "Berücksichtigung der Zunahme prozeduraler Risiken bei gleichzeitig Abnahme der Erfolgsaussichten"
+short_label: "prozedurale Risiken und Erfolgsaussichten berücksichtigen"
+facet: intervention
+source: modelling

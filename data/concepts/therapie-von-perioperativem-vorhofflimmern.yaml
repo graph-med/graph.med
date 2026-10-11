@@ -1,0 +1,10 @@
+# A concept of card #383 (C7b), chapter 8 of sources/vorhofflimmern-lf-1.1.
+# The action box 8.4 names, „Die Therapie von perioperativem Vorhofflimmern soll nach dem in der Abbildung 9
+# dargestellten Algorithmus durchgeführt werden“ (p. 86): what the sentence names, never the figure's content (spec §5.1
+# F; card #327, memory figures-without-text). The statement's label keeps the delegation.
+id: concepts/therapie-von-perioperativem-vorhofflimmern
+type: concept
+lang: de
+label: "Therapie von perioperativem Vorhofflimmern"
+facet: intervention
+source: modelling

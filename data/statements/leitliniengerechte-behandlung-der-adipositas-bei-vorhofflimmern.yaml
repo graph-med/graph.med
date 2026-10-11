@@ -1,0 +1,12 @@
+# A statement of card #383 (C7b), chapter 8 of sources/vorhofflimmern-lf-1.1.
+# Box 8.7 (p. 89). Anchor: the ledger's concepts/adipositas (convention row 5; card #383 Decision 6 and reading 8),
+# whose rule is C1's.
+id: statements/leitliniengerechte-behandlung-der-adipositas-bei-vorhofflimmern
+type: statement
+lang: de
+label: "Adipösen Menschen mit Vorhofflimmern die leitliniengerechte Behandlung der Adipositas empfehlen."
+short_label: "Leitliniengerechte Behandlung der Adipositas"
+slots:
+  population: concepts/adipositas
+  action: concepts/leitliniengerechte-behandlung-der-adipositas
+source: modelling

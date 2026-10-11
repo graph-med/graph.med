@@ -1,0 +1,62 @@
+# Edges of card #383 (#314's part C7b) from chapter 8 of sources/vorhofflimmern-lf-1.1, sections 8.7–8.10 (pp. 86–90),
+# all modelling. Edges across parts are X1's (8.5 → 5.3, 5.4; 8.7 → 4.9; 8.6 → 6.5, 6.6, 6.10, 6.11; 5.10 ↔ 8.4, 8.5;
+# 6.12 ↔ 8.4), the scope and hierarchy edges X2's (#314 Decision 6). No sequence edge within these pages: 8.4 → 8.5 is
+# none, postoperatively new AF being the patients' state, not the outcome of 8.4's measure (spec §5, test 1; #383
+# reading 12).
+# evidence (spec §3.1): each box sentence of recommendation form supports a statement of its own; 8.6's narrower claim,
+# the caption's claim and the body text support none
+- [claims/vorhofflimmern-lf-1.1/41b6ecd0, supports, statements/therapie-von-perioperativem-vorhofflimmern-nach-abb-9, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/12181255, supports, statements/indikationspruefung-antikoagulation-bei-postoperativ-neu-aufgetretenem-vorhofflimmern, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/0a64471a, supports, statements/prozedurale-risiken-und-erfolgsaussichten-der-ablation-bei-starker-adipositas, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/dbc68b6a, supports, statements/leitliniengerechte-behandlung-der-adipositas-bei-vorhofflimmern, {source: modelling}]
+
+# defined_by (spec §3.1, §3.2; #328): the group the bound printed inside 8.6 gives, to its narrower claim
+- [concepts/stark-adipoese-menschen, defined_by, claims/vorhofflimmern-lf-1.1/1ba7d618, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„stark adipöse Menschen“ — Empfehlung 8.6 (S. 89): „stark adipösen Menschen (BMI >35kg/m2)“."}]
+
+# body text (spec §5.1): section 8.7.2, p. 87, read against 8.4 (in the own text of section 8.7); the U claims of
+# section 8.7.1 have no edge (#383 reading 1)
+- [claims/vorhofflimmern-lf-1.1/98099809, refines, claims/vorhofflimmern-lf-1.1/41b6ecd0, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: Die Therapie von perioperativem Vorhofflimmern — „Grundsätzlich sind die beiden Therapiestrategien Frequenz- und Rhythmuskontrolle möglich, wobei die hämodynamische Situation das Vorgehen entscheidend mitbestimmt“: die Strategien, die die Therapie umfasst."}]
+- [claims/vorhofflimmern-lf-1.1/ff5eb55a, refines, claims/vorhofflimmern-lf-1.1/41b6ecd0, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: Die Therapie von perioperativem Vorhofflimmern — „Bei hämodynamischer Instabilität ist eine rasche, in der Regel elektrische Kardioversion erforderlich“: die Therapie bei Instabilität."}]
+- [claims/vorhofflimmern-lf-1.1/1e7d3de9, refines, claims/vorhofflimmern-lf-1.1/41b6ecd0, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: Die Therapie von perioperativem Vorhofflimmern — „Bei hämodynamischer Stabilität kann der Verlauf abgewartet werden“: das Vorgehen bei Stabilität."}]
+- [claims/vorhofflimmern-lf-1.1/212db055, refines, claims/vorhofflimmern-lf-1.1/41b6ecd0, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: Die Therapie von perioperativem Vorhofflimmern — bei Stabilität „gegebenenfalls ist eine Frequenzregulation mit einer orientierenden mittleren Zielfrequenz < 110/min sinnvoll“: die Frequenzregulation und ihr Ziel."}]
+- [claims/vorhofflimmern-lf-1.1/24ff7537, supplements, claims/vorhofflimmern-lf-1.1/41b6ecd0, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Die Therapie von perioperativem Vorhofflimmern — „Parallel zur Frequenz-/Rhythmuskontrolle erfolgen … Maßnahmen zur Optimierung des Volumenstatus“: eine Maßnahme neben der Therapie."}]
+- [claims/vorhofflimmern-lf-1.1/b5382f6e, supplements, claims/vorhofflimmern-lf-1.1/41b6ecd0, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Die Therapie von perioperativem Vorhofflimmern — „Parallel zur Frequenz-/Rhythmuskontrolle erfolgen … Maßnahmen zur Optimierung … der Oxygenierung“: eine Maßnahme neben der Therapie."}]
+- [claims/vorhofflimmern-lf-1.1/8f6cf6ff, supplements, claims/vorhofflimmern-lf-1.1/41b6ecd0, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Die Therapie von perioperativem Vorhofflimmern — „Parallel zur Frequenz-/Rhythmuskontrolle erfolgen … Maßnahmen zur Optimierung … ggfs. des Elektrolythaushalts“: eine Maßnahme neben der Therapie."}]
+- [claims/vorhofflimmern-lf-1.1/cabfde79, supplements, claims/vorhofflimmern-lf-1.1/41b6ecd0, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Die Therapie von perioperativem Vorhofflimmern — „Parallel zur Frequenz-/Rhythmuskontrolle erfolgen … Maßnahmen zur Optimierung … der Stress/Schmerzreduktion“: eine Maßnahme neben der Therapie."}]
+- [claims/vorhofflimmern-lf-1.1/a3b1752d, supplements, claims/vorhofflimmern-lf-1.1/41b6ecd0, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Die Therapie von perioperativem Vorhofflimmern — „Darüber hinaus ist Proarrhythmogenität … zu vermeiden“: eine Maßnahme neben der Therapie."}]
+- [claims/vorhofflimmern-lf-1.1/4cf67d25, supplements, claims/vorhofflimmern-lf-1.1/41b6ecd0, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Die Therapie von perioperativem Vorhofflimmern — „Zudem sind (beta-adrenerge) Inotropie und Vasopressoren wenn möglich zu vermeiden bzw. zu reduzieren“: eine Maßnahme neben der Therapie."}]
+- [claims/vorhofflimmern-lf-1.1/d3c13f98, supplements, claims/vorhofflimmern-lf-1.1/41b6ecd0, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Die Therapie von perioperativem Vorhofflimmern — „ggf. eine präoperative pharmakologische Prophylaxe fortzuführen“: eine Maßnahme neben der Therapie."}]
+
+# body text (spec §5.1): section 8.7.3, p. 87, read against 8.5
+- [claims/vorhofflimmern-lf-1.1/8579cb79, supplements, claims/vorhofflimmern-lf-1.1/12181255, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Bei Patient*innen mit postoperativ neu aufgetretenem Vorhofflimmern — „Postoperativ wird eine kardiologische Nachsorge zur Reevaluierung und Optimierung der antiarrhythmischen Therapie … empfohlen“: eine Maßnahme neben der Prüfung; die „Planung der Langzeitantikoagulation“ wiederholt die Empfehlung und zählt nicht (G3)."}]
+
+# body text (spec §5.1): section 8.8, pp. 89–90, the Begründung read against 8.6 and 8.7
+- [claims/vorhofflimmern-lf-1.1/3abe92c6, refines, claims/vorhofflimmern-lf-1.1/0a64471a, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: Zunahme prozeduraler Risiken — „dass das Management auftretender Komplikationen durch die Adipositas häufig erschwert wird (Kompression bei Einblutungen der Punktionsstellen, Drainieren eines Perikardergusses, etc.)“: welche Risiken gemeint sind."}]
+- [claims/vorhofflimmern-lf-1.1/2bc49352, refines, claims/vorhofflimmern-lf-1.1/0a64471a, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: Zunahme prozeduraler Risiken — „Auch kann eine tiefe Analgosedierung durch die zunehmend atemdepressive Wirkung der notwendig höheren Sedativa-Dosen problematisch sein“: welche Risiken gemeint sind."}]
+- [claims/vorhofflimmern-lf-1.1/2a12edfc, supplements, claims/vorhofflimmern-lf-1.1/0a64471a, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: bei der Indikationsstellung für eine invasive Therapie (Ablation) — „Die Indikation zu einer Ablation ist daher nach Einschätzung der Leitliniengruppe mit den Patient*innen gemeinsam kritisch zu beleuchten“: eine Maßnahme neben der Abwägung."}]
+- [claims/vorhofflimmern-lf-1.1/d25a27b4, refines, claims/vorhofflimmern-lf-1.1/dbc68b6a, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: leitliniengerechte Behandlung der Adipositas — „ggfs. auch unter Zuhilfenahme chirurgischer Therapieoptionen“: was die Behandlung umfassen kann; der Rest des Satzes wiederholt die Empfehlung (G3)."}]
+
+# disagreement (spec §5, §5.1 D; #341): each printing kept as printed and shown, none chosen
+- [claims/vorhofflimmern-lf-1.1/0a64471a, disagrees_with, claims/vorhofflimmern-lf-1.1/f5ea6395, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 8.6 (S. 89) nennt bei stark adipösen Menschen die „Zunahme prozeduraler Risiken“ der Ablation; ihre Begründung (S. 89, Z. 57–58): „Die Vorhofflimmerablation selbst ist bei adipösen Patient*innen mit höherer Strahlenbelastung, nicht aber höheren Komplikationsraten assoziiert.“ Der Kasten nennt die prozeduralen Risiken steigend, der Text die Komplikationsraten nicht höher; der folgende Satz nennt das erschwerte Management von Komplikationen. Keine Angabe ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/12181255, disagrees_with, claims/vorhofflimmern-lf-1.1/b7a2bf7f, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 8.5 (S. 87) lässt die Indikation zur Antikoagulation bei postoperativ neu aufgetretenem Vorhofflimmern „gemäß den Empfehlungen 5.3 und 5.4“ prüfen. Abbildung 9 (S. 88), „Prävention und Behandlung von perioperativem Vorhofflimmern (POAF)“, ist ein Bild ohne Textebene: in ihrer letzten Zeile, „Postoperative Maßnahmen nach perioperativ aufgetretenem Vorhofflimmern (POAF)“, verweist sie für das „Management der Langzeit-Antikoagulation“ auf „Empfehlungen 6.3 und 6.4“ — vom gerenderten Bild abgelesen, nicht zitierbar. Kasten und Abbildung nennen für dieselbe Antikoagulation zwei verschiedene Empfehlungspaare; keines ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/de009d64, disagrees_with, claims/vorhofflimmern-lf-1.1/b7a2bf7f, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Der Text (S. 87, Z. 21–22): „Amiodaron wird aufgrund des Nebenwirkungsprofil nicht routinemäßig vor Eingriffen empfohlen, nur ggf. bei Patient*innen mit einem hohen Risiko für AF.“ Abbildung 9 (S. 88), „Prävention und Behandlung von perioperativem Vorhofflimmern (POAF)“, ist ein Bild ohne Textebene: ihre Zeile zur Prävention rät, „Betablocker oder Amiodaron prophylaktisch bei Herz-/Thoraxchirurgischen Operationen erwägen“ — vom gerenderten Bild abgelesen, nicht zitierbar. Für dieselbe Prophylaxe mit Amiodaron nennt der Text die Gruppe nach dem Risiko für AF, die Abbildung nach der Art der Operation; keine Angabe ist gewählt."}]
