@@ -1,0 +1,17 @@
+# A concept of card #377 (C6), chapter 7 of sources/vorhofflimmern-lf-1.1.
+# The group box 7.4 addresses beside its AF form, labelled as printed: „Patient*innen mit hochsymptomatischem permanenten
+# AF und Herzinsuffizienz mit mindestens einer herzinsuffizienzbedingten Hospitalisierung in den letzten 12 Monaten“
+# (p. 73) — AF and a comorbidity, the comorbidity as printed (card #364, convention row 5; card #377 reading 7 (a)); its
+# scope edge to the form, permanentes-vorhofflimmern, is X2's, and „hochsymptomatisch“ is a condition (row 9). Derived:
+# its defined_by edge reaches 7.4's narrower criterion claim, whose threshold bounds
+# concepts/herzinsuffizienzbedingte-hospitalisierungen. The Begründung prints the trial's „mindestens einer
+# Herzinsuffizienz-Hospitalisierung im Jahr vor Einschluss“ (p. 74) and „≥ 1 Hospitalisierung bei Herzinsuffizienz
+# innerhalb der letzten 12 Monate“ (p. 73), both reports (G2), which stay on the page. Near concepts/herzinsuffizienz
+# (the ledger's), not merged.
+id: concepts/herzinsuffizienz-mit-hospitalisierung-in-den-letzten-12-monaten
+type: concept
+lang: de
+label: "Herzinsuffizienz mit mindestens einer herzinsuffizienzbedingten Hospitalisierung in den letzten 12 Monaten"
+short_label: "Herzinsuffizienz mit ≥ 1 Hospitalisierung in 12 Monaten"
+facet: patient_state
+source: modelling

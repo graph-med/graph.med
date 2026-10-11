@@ -1,0 +1,14 @@
+# A statement of card #377 (C6), chapter 7 of sources/vorhofflimmern-lf-1.1.
+# Box 7.3 (p. 72). Anchor: 7.1's therapy group, the box's two conditions as conditions, the non-response the trigger of its
+# follows edge to 7.2 (card #377 reading 3 (a); a subgroup of the non-responders is the other reading). „zur
+# Symptomreduktion“ stays in the label (no outcome slot).
+id: statements/schrittmachertherapie-mit-av-knoten-ablation-bei-unzureichendem-ansprechen
+type: statement
+lang: de
+label: "Patient*innen, die nicht adäquat auf eine intensivierte Frequenzkontrolle ansprechen und nicht für eine Rhythmuskontrolle infrage kommen, zur Symptomreduktion eine Schrittmachertherapie mit AV-Knoten Ablation empfehlen."
+short_label: "Schrittmachertherapie mit AV-Knoten Ablation"
+slots:
+  population: concepts/patientinnen-mit-af-unter-frequenzkontrollierender-therapie
+  action: concepts/schrittmachertherapie-mit-av-knoten-ablation
+  condition: [concepts/nicht-adaequates-ansprechen-auf-eine-intensivierte-frequenzkontrolle, concepts/nicht-fuer-eine-rhythmuskontrolle-infrage-kommend]
+source: modelling

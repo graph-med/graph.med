@@ -1,0 +1,12 @@
+# A concept of card #377 (C6), chapter 7 of sources/vorhofflimmern-lf-1.1.
+# The second action of box 7.2, the check its „wobei“ clause instructs: „wobei insbesondere geprüft werden sollte, ob eine
+# rhythmuserhaltende Therapie in Frage kommt“ (p. 72), nominalized; after „geprüft“ the action is the check (card #377
+# Decision 3). „rhythmuserhaltende Therapie“ is the ledger's concepts/rhythmuskontrolle (card #364, noticed 7; card #377
+# reading 4), named here in the label as printed.
+id: concepts/pruefung-ob-eine-rhythmuserhaltende-therapie-in-frage-kommt
+type: concept
+lang: de
+label: "Prüfung, ob eine rhythmuserhaltende Therapie in Frage kommt"
+short_label: "Prüfung, ob rhythmuserhaltende Therapie in Frage kommt"
+facet: intervention
+source: modelling

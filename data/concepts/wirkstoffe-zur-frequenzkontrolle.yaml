@@ -1,0 +1,12 @@
+# A concept of card #377 (C6), chapter 7 of sources/vorhofflimmern-lf-1.1.
+# The action of box 7.5, „Zur Frequenzkontrolle sollen Wirkstoffe gemäß Tabelle 15 eingesetzt werden“ (p. 74), labelled
+# by the words of the table's caption, „Tabelle 15: Wirkstoffe zur Frequenzkontrolle“ (p. 75); „gemäß Tabelle 15“ stays
+# in the statement's label and never in a concept's name (memory document-structure-is-provenance; card #377 reading 14,
+# where concepts/frequenzkontrolle is the other option). The table's eleven rows, each a claim refining 7.5, say which
+# agents it covers.
+id: concepts/wirkstoffe-zur-frequenzkontrolle
+type: concept
+lang: de
+label: "Wirkstoffe zur Frequenzkontrolle"
+facet: medication
+source: modelling

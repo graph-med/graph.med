@@ -1,0 +1,11 @@
+# A concept of card #377 (C6), chapter 7 of sources/vorhofflimmern-lf-1.1.
+# The action of box 7.4, „eine kardiale Resynchronisations-Therapie (CRT) mit anschließender AV-Knoten Ablation“ (p. 73),
+# as printed; its order, CRT then ablation, lies inside one action (card #377 Decision 11). A shared candidate (Decision
+# 12): beside schrittmachertherapie-mit-av-knoten-ablation, not merged.
+id: concepts/kardiale-resynchronisationstherapie-mit-anschliessender-av-knoten-ablation
+type: concept
+lang: de
+label: "kardiale Resynchronisations-Therapie (CRT) mit anschließender AV-Knoten Ablation"
+short_label: "CRT mit anschließender AV-Knoten Ablation"
+facet: intervention
+source: modelling

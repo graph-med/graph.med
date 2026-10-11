@@ -1,0 +1,12 @@
+# A statement of card #377 (C6), chapter 7 of sources/vorhofflimmern-lf-1.1.
+# Box 7.6 (p. 75). It prints no group: anchor 7.1's therapy group, the chapter's patients (convention row 2's reading,
+# flagged; card #364 reading 6, card #377 reading 6).
+id: statements/auswahl-und-dosierung-frequenzkontrollierender-substanzen-nach-individuellen-faktoren
+type: statement
+lang: de
+label: "Die Auswahl und Dosierung der zur Frequenzkontrolle eingesetzten Substanzen am Nebenwirkungsspektrum, an den jeweiligen Komorbiditäten und der individuellen Verträglichkeit orientieren."
+short_label: "Auswahl und Dosierung an Komorbiditäten und Verträglichkeit"
+slots:
+  population: concepts/patientinnen-mit-af-unter-frequenzkontrollierender-therapie
+  action: concepts/auswahl-und-dosierung-der-zur-frequenzkontrolle-eingesetzten-substanzen
+source: modelling

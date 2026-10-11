@@ -1,0 +1,13 @@
+# A statement of card #377 (C6), chapter 7 of sources/vorhofflimmern-lf-1.1.
+# Box 7.2 (p. 72), its second action, the check its „wobei“ clause instructs (spec §3.1; card #377 Decision 3), „insbesondere“
+# kept (Decision 10). Anchor and condition as for the first. Whether it follows 7.1 too is card #377 reading 5; no edge.
+id: statements/pruefung-rhythmuserhaltender-therapie-bei-fortbestehender-symptomatik
+type: statement
+lang: de
+label: "Bei fortbestehender AF-induzierter Symptomatik unter frequenzkontrollierender Therapie insbesondere prüfen, ob eine rhythmuserhaltende Therapie in Frage kommt."
+short_label: "Insbesondere prüfen: rhythmuserhaltende Therapie in Frage?"
+slots:
+  population: concepts/patientinnen-mit-af-unter-frequenzkontrollierender-therapie
+  action: concepts/pruefung-ob-eine-rhythmuserhaltende-therapie-in-frage-kommt
+  condition: [concepts/fortbestehende-af-induzierte-symptomatik]
+source: modelling

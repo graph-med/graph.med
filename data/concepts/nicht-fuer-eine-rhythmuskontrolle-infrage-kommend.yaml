@@ -1,0 +1,11 @@
+# A concept of card #377 (C6), chapter 7 of sources/vorhofflimmern-lf-1.1.
+# The second condition of box 7.3, „und nicht für eine Rhythmuskontrolle infrage kommen“ (p. 72): an eligibility, a state
+# (card #377 Decision 1). Whether it is also the outcome of 7.2's check, a second follows edge, is card #377 reading 4;
+# this part writes none.
+id: concepts/nicht-fuer-eine-rhythmuskontrolle-infrage-kommend
+type: concept
+lang: de
+label: "nicht für eine Rhythmuskontrolle infrage kommend"
+short_label: "nicht für Rhythmuskontrolle infrage kommend"
+facet: patient_state
+source: modelling
