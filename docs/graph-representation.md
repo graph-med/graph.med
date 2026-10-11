@@ -1473,9 +1473,27 @@ source that answers its question otherwise (D).
   the delegation in its label; its statement's action is what the sentence
   names, its label keeping the delegation ("nach Abb. N"), and no slot holds
   the figure's content. Its footnotes follow the figure: they stay on the
-  page while its content does. Its caption is text, a place like any
-  other. Whether a later view transcribes such a figure is open (open
-  question figures-without-text).
+  page while its content does — except a footnote that prints, in the text
+  layer, a rule another place of the source's text prints otherwise, a
+  body-text place or a marked recommendation (another value, time, group or
+  rating for one term, case or action, as D reads it). That footnote is a
+  claim of its own: its `kind` by form (§3.1), never graded (K), its
+  `section` the figure's, its quote the footnote's line, once on its page
+  (§6.2). `disagrees_with` joins it to each claim that prints the rule
+  otherwise (D), and it gets no R, L or S edge, which would read the one
+  through the other. The exception is narrow: a footnote that agrees with
+  the text, or prints a rule the text prints nowhere else, follows its
+  figure as before; and what the figure prints only in its image stays on
+  the page whatever the text says, no quote reaching it, a contradiction
+  there named in the pass's pull request (open question
+  figures-without-text). The graph reflects the text (§5): a contradiction
+  the text layer prints is shown wherever a quote reaches it, never hidden
+  behind the figure it annotates — the maintainer's principle (card #341),
+  applied on card #328 to a figure's footnote that bounds a score „≥7“
+  against the body text's „> 6“ three pages on, both recorded and the
+  difference shown (card #379, 2026-10-11). Its caption is text, a place
+  like any other. Whether a later view transcribes such a figure is open
+  (open question figures-without-text).
 - **E edge** — to each claim of the section whose wording carries the term, the
   case or the action, none to the other sentences of its recommendation; a
   definition the source marks for its term as such — not an item of a list
