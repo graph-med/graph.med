@@ -81,6 +81,11 @@ rules a document schema cannot state because they span files:
     whole-word rule needs the page, below; and a quote holds no ASCII double
     quote, which pdf.js strips from the link's search, so the link would not
     find it;
+  - a source's version and the date it prints for it hold together (spec §6.1):
+    the date is a real calendar date at the precision recorded (a year, a month
+    or a day), and every word of the version lies as a whole word in one of the
+    quotes that give it, which are the source's own; reading a printed date as
+    ISO 8601 is left to review, so no month name of any language is held here;
 
 With --verify-quotes it also downloads each source (hash-checked, cached) and
 verifies every quote is a verbatim passage of `pdftotext -layout` on the cited
@@ -99,6 +104,7 @@ its anchor (spec §6.2). Exit status 1 on any error.
 from __future__ import annotations
 
 import argparse
+import datetime
 import hashlib
 import re
 import subprocess
@@ -128,6 +134,20 @@ def walk(node, path=()):
     elif isinstance(node, list):
         for i, v in enumerate(node):
             yield from walk(v, path + (i,))
+
+
+def as_refs(refs) -> list[dict]:
+    """A provenance value as a list of references: one reference, a list of them, or none (`modelling`)."""
+    if isinstance(refs, dict):
+        return [refs]
+    return [r for r in refs if isinstance(r, dict)] if isinstance(refs, list) else []
+
+
+def printed(token: str, quote) -> bool:
+    """Whether a quote prints a token whole: a word with no word character beside it, not inside a longer one; a
+    symbol with no other symbol beside it, never inside a longer run of symbols."""
+    beside = r"\w" if re.search(r"\w", token) else r"[^\w\s]"
+    return re.search(rf"(?<!{beside}){re.escape(token)}(?!{beside})", str(quote)) is not None
 
 
 def main(argv=None) -> int:
@@ -229,6 +249,7 @@ def main(argv=None) -> int:
     errors += check_grading(ids, entities)
     errors += check_evidence(ids, entities)
     errors += check_quote_form(docs)
+    errors += check_version_and_date(ids, entities)
     if any(e.get("type") == "view" and "scope_root" in e for e in entities.values()):
         if errors:   # members are computed by the build's reader, which expects a pool that fits the schema
             print("the scope trees of views are checked once the errors below are fixed")
@@ -508,13 +529,6 @@ def check_grading(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
     class or scheme of any guideline is named here."""
     errs: list[str] = []
     source_of = lambda at: str(at).split("#")[0]
-    as_refs = lambda refs: [refs] if isinstance(refs, dict) else [r for r in refs or [] if isinstance(r, dict)] if isinstance(refs, list) else []
-
-    def printed(token: str, quote) -> bool:
-        """A word with no word character beside it; a symbol with no other symbol beside it."""
-        beside = r"\w" if re.search(r"\w", token) else r"[^\w\s]"
-        return re.search(rf"(?<!{beside}){re.escape(token)}(?!{beside})", str(quote)) is not None
-
     schemes: dict[str, dict] = {}
     readings: dict[str, dict[str, tuple]] = {}   # a wording → {source: (open, negated)}
     for sid, src in sorted(entities.items()):
@@ -605,6 +619,37 @@ def check_grading(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
                 if outside:
                     errs.append(f"{rel}: {cid} prints the share {claim['consensus_share']!r}, outside the bounds of "
                                 f"{claim['consensus']!r} in the grading scheme of {own} ({', '.join(outside)})")
+    return errs
+
+
+def check_version_and_date(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
+    """A source's version and the date it prints for it (spec §6.1). The schema holds the shape — the version is
+    text, the date ISO 8601 at a year's, a month's or a day's precision, each with its quotes — and this checks what it
+    cannot: that the date is one the calendar has at that precision, and that every word of the version lies, as a
+    whole word, in one of the quotes that give it, as a grading scheme's words do (check_grading), quotes from the
+    source itself. The date is not held to its quotes: reading "November 2023" or "30.04.2025" as ISO is a reading
+    for review, and no month name of any language enters this file."""
+    errs: list[str] = []
+    for sid, src in sorted(entities.items()):
+        if src.get("type") != "source":
+            continue
+        rel, given = ids[sid], src.get("provenance") or {}
+        date = src.get("date")
+        if isinstance(date, str) and re.fullmatch(r"\d{4}(-\d{2}(-\d{2})?)?", date):
+            year, month, day = (list(map(int, date.split("-"))) + [1, 1])[:3]
+            try:
+                datetime.date(year, month, day)
+            except ValueError:
+                errs.append(f"{rel}: the date {date!r} is no calendar date at the precision it is recorded")
+        quoted = [r for refs in given.values() for r in as_refs(refs)]
+        for other in sorted({str(r.get("at", "")).split("#")[0] for r in quoted} - {sid}):
+            errs.append(f"{rel}: the version or date of {sid} is quoted from {other}; a source's version and date are read off the source itself")
+        if "version" in src:
+            refs = as_refs(given.get("version"))
+            missing = [w for w in str(src["version"]).split() if not any(printed(w, r.get("quote")) for r in refs)]
+            if refs and missing:
+                errs.append(f"{rel}: the version {src['version']!r} prints {', '.join(map(repr, missing))}, "
+                            f"which none of its quotes contains as a word")
     return errs
 
 
