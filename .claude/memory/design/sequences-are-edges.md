@@ -28,9 +28,9 @@ agent on the maintainer's delegation: questions 1, 2, 4, 5, 6 and 9 by the
 card's leanings, 3, 7, 8 and 10 from the evidence, those four the
 maintainer's to overturn at review. They overturn two decisions of the expert
 discussion of 2026-09-28 (parent card #293): its Decision 5 (a threshold
-field) and the review-state half of its Decision 2. Designed, not built:
-#295 writes the edge into `docs/graph-representation.md` (§5, §5.1 N(1),
-§8.1), `schema/schema.yaml`, `tools/validate.py` and `.claude/agents/judge.md`,
+field) and the review-state half of its Decision 2. #295 wrote the edge
+into `docs/graph-representation.md` (§5, §5.1 N(1), §8.1),
+`schema/schema.yaml`, `tools/validate.py` and `.claude/agents/judge.md`,
 with the criterion that tells a sequence from a condition; #296 writes the
 first edges.
 
@@ -91,9 +91,13 @@ Where it meets what the pool already has:
   the reference chain (4.6's and 8.1's `concepts/septischer-schock` is
   `in_scope_of` 4.5's population). (c) The `follows` edges whose `trigger` is
   neither `reevaluation` nor `target_reached` form no cycle; cycles through a
-  re-evaluation stay allowed. (d) `other` is counted, never a failure: the
-  build prints per view the number of `follows` edges and how many say
-  `other` (#297).
+  re-evaluation stay allowed, and so does one through an edge whose two
+  statements' claims `disagrees_with` joins — the source stating their order
+  both ways, each printing an edge of its own and none chosen
+  ([[source-disagreements-shown]]; added on #295, 2026-10-11, so that the
+  check never makes a linking pass drop one). (d) `other` is counted, never
+  a failure: the build prints per view the number of `follows` edges and how
+  many say `other` (#297).
 
 **Why:** a field on the statement, the discussion's proposal, has no
 provenance, no attestation and no staleness
@@ -119,7 +123,9 @@ trigger's wording in the rationale; never put a trigger, a threshold or a
 status on the edge, and never change a condition with it; replace a
 `complements` edge the same pair carries; name border cases, triggers the
 condition lacks and body-text steps the chain would need in the pull request.
-Nothing is written before #295 lands: until then the schema refuses the kind.
+Where the source states the order of two recommendations differently in
+two places, write each printing as an edge and join the claims that print
+them by `disagrees_with`; never pick one.
 What stays open is `docs/open-questions.md`, sequence-edge. Related:
 [[conditions-are-a-conjunction-list]], [[scope-tree-and-anchor]],
 [[generic-over-guidelines]].

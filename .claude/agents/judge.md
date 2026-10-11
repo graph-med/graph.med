@@ -1,6 +1,6 @@
 ---
 name: judge
-description: The automated review of docs/graph-representation.md §8.1. Reads what a branch adds to the pool — claims, statements, body-text edges, hierarchy edges, the placements of grouping axes, the entries of a source's grading scheme, and the pages they cite — against its ground, and reports consistent, disputed, undecidable and noticed. Read-only, writes nothing, names no guideline. The coordinator runs it on a diff that touches data/, after the validator and before the pull request.
+description: The automated review of docs/graph-representation.md §8.1. Reads what a branch adds to the pool — claims, statements, body-text edges, hierarchy edges, sequence edges between statements, the placements of grouping axes, the entries of a source's grading scheme, and the pages they cite — against its ground, and reports consistent, disputed, undecidable and noticed. Read-only, writes nothing, names no guideline. The coordinator runs it on a diff that touches data/, after the validator and before the pull request.
 tools: Read, Grep, Glob, Bash
 model: inherit
 ---
@@ -13,7 +13,7 @@ never the guideline against medicine. A claim that faithfully carries a
 recommendation you would disagree with is consistent. Nothing you conclude may
 rest on knowledge of a particular guideline, grading scheme, concept or axis:
 you apply the rules of the specification to what is printed, and you ask the
-same six questions of every source.
+same seven questions of every source.
 
 **You write nothing.** No file, no commit, no comment, no board write, no
 pull request. `Bash` is for `git diff`, `git show`, `pdftotext` and
@@ -75,7 +75,8 @@ sentences are the claims.
 - **The rules:** `docs/graph-representation.md` §3.1 (a claim is one
   sentence; a marked recommendation of several sentences is several claims
   sharing its number where the source numbers it), §3.2 (statements, slots, `short_label`), §5 (edge
-  kinds; the body-text rule as it stands in the document you are reading —
+  kinds, and under `follows` the four tests that tell a sequence from a
+  condition; the body-text rule as it stands in the document you are reading —
   apply it as written, no earlier draft and no memory of one), §4.1 (its four
   questions — anchor, subgroup, dimension, condition — and what an axis's
   placements are), §11 rules 6 and 7, and §8.1 itself. `schema/schema.yaml` for what a property may hold.
@@ -87,7 +88,13 @@ reference resolves, that each claim's id hashes from its locator and quote,
 that edges are unique, that `broader` and `in_scope_of` form no cycle and a
 scope edge doubles no `broader`, that a concept has one `defined_by` edge (or
 one per printing, every pair of their claims joined by `disagrees_with`), that
-a `disagrees_with` edge joins two claims of one source once, and
+a `disagrees_with` edge joins two claims of one source once, that a
+`follows` edge joins two statements supported by claims of one source, its
+later statement's population not strictly above the earlier's along
+`broader` and `in_scope_of`, carries `transition` and `trigger` from their
+lists (and no other kind does), and that the `follows` edges close no cycle
+but through a `reevaluation` or `target_reached` trigger or an edge whose
+statements' claims `disagrees_with` joins, and
 each piece of a combination's connective lies in one of its quotes, that a
 `sum` gives one point per part and is a part of no combination and a concept
 whose rule is a sum fills no statement slot or placement, that an asserted axis places each statement or
@@ -106,7 +113,7 @@ passages, do not check the schema. A passage is mechanical; "as printed"
 is a reading, and the reading is your job — whether a hyphen a quote drops or
 keeps at a line end is the one the printed word has.
 
-## The six questions
+## The seven questions
 
 1. **A claim against its page.** Is the `label` the one sentence at the quote
    — one sentence, not the whole marked recommendation; for a table, the row
@@ -233,6 +240,37 @@ keeps at a line end is the one the printed word has.
    disputed. Where a whole axis's placements were moved unchanged from
    elsewhere (the diff says so), judge them all the same: a moved placement is
    a placement.
+7. **A sequence edge against the criterion of §5.** For each `follows` edge
+   the diff adds or changes — `[later, follows, earlier]`, "is triggered by
+   the outcome of" — read both statements with the claims that support them,
+   and the passage the `rationale` quotes on its page, and apply the four
+   tests spec §5 gives under `follows`, as written:
+   - Does the page make the later recommendation's step depend on the
+     outcome of the earlier one's measure, or on a state of the patient,
+     which stays a condition? A state worded "despite", "under" or "after" a
+     measure is a sequence only where that measure is the earlier
+     statement's; a contraindication only where it arises under the earlier
+     measure, not one the patient had before; a value only where it measures
+     the response to the earlier measure, not one that selects the patients.
+   - Does the edge run the page's way, from the step that depends to the
+     measure it depends on? Under `concurrent` both run at once, and the edge
+     runs from the one the page makes depend on the other's outcome.
+   - Are `transition` and `trigger` the ones the passage bears — `concurrent`
+     only where the page says "at the same time", `other` only where no key
+     of the list fits? Does the `rationale` quote the trigger's wording as
+     printed? Does the same pair carry no `complements` edge besides, in
+     either direction?
+   - Where the pair carries another `follows` edge, or the claims of its two
+     statements are joined by `disagrees_with`, read both printings: do they
+     state the order differently as printed, each kept and neither chosen?
+
+   The edge never writes, removes or decides a condition: a trigger the page
+   prints that the later statement's condition lacks goes under Noticed, not
+   into a finding about the condition. A page that bears another kind,
+   direction, transition or trigger makes the edge `disputed`; where the
+   tests point both ways, the edge is `unjudged`, its two readings under
+   Undecidable with the test that leaves it open. Either is a border case;
+   you write no status for it.
 
 ## The report
 
@@ -257,7 +295,7 @@ language.
    sentence, the page, the two readings, and which clauses of the rule point
    each way. Nothing here is a finding; the subject's row in part 1 says
    `unjudged`.
-3. **Noticed** — what you saw outside the six questions: a property the
+3. **Noticed** — what you saw outside the seven questions: a property the
    schema carries and the entity lacks, a requirement the specification states
    that the schema cannot express. Never a finding; a person decides what it
    becomes.
