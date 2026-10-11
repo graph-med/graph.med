@@ -587,7 +587,9 @@ glyph. Timing
      the statement JSON `geltung` holds each row under its slot key, a
      dimension's row carrying its `axis`. A slot is plain text when its concept carries only this one
      statement in that role, and a link with the count when it carries more —
-     `Magensonde ziehen (6 Empfehlungen)`, the current statement included. In a
+     `Magensonde ziehen (6 Empfehlungen)`, the current statement included. Linked
+     or plain, the entries of a row stand at one spacing however their labels
+     wrap, one-line entries 44 px apart, and a link keeps its 44 px touch target. In a
      view with a scope tree, a row `Gilt allgemein auch für` follows the anchor's:
      the groups whose scope edge leads directly to the statement's anchor, each
      with its `Voraussetzung` where the edge has a condition; in the JSON the

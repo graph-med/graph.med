@@ -315,6 +315,19 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card dl.slots dd .families { flex-basis: 100%; color: var(--mute); font-size: .85rem; }
 .card dl.slots dd .families-label { margin-right: .15rem; }   /* "gehört zu:" — broader categories, not further requirements */
 .card dl.slots dd .families .node-link { min-height: 32px; }
+/* every entry of a row at one spacing, linked or plain, however its label wraps: the entries stand 44 px less one
+   line apart (--half above the first and below the last, twice it between two), so that one-line entries follow
+   each other every 44 px; a link reaches its 44 px touch target by reaching --half past its text into that space,
+   which it does not take (padding, and a margin as large taken back), painted above what it reaches over; the row's
+   word stands on the baseline of its first line */
+.card .applies dl.slots { --half: calc((44px - 1.45rem) / 2); align-items: baseline; }
+.card .applies dl.slots dd { padding: var(--half) 0; align-items: baseline; }
+.card .applies dl.slots dd > .and, .card .applies dl.slots dd.general-for > span + span { margin-top: calc(2 * var(--half)); }
+.card .applies dl.slots dd > .and > .entry { align-items: baseline; }
+.card .applies dl.slots dd > .node-link, .card .applies dl.slots dd > .and > .entry > .node-link,
+.card .applies dl.slots dd.general-for > span > .node-link {
+  display: inline-block; min-height: 0; padding: var(--half) 0; margin: calc(-1 * var(--half)) 0; position: relative; }
+.card .applies dl.slots dd .families { margin-top: var(--half); }   /* below the reach of the link above it */
 /* concepts that hold at once (a statement's conditions, a scope path's): every entry after the first on a line of its
    own, opened by the conjunction, so that no label's own "oder" reads across the join; in a row, the conjunction
    stands in a column of its own and the entry beside it is laid out like the row's first */
