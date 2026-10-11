@@ -144,7 +144,7 @@
 {% set ev = c.evidenz %}
 {% if ev.state in ("single", "by_outcome") %}
 {% for g in ev.groups %}
-{% for r in g.box %}<p class="value" lang="{{ r.lang }}">{{ rated(r, g) }}</p>
+{% for r in g.box %}<p class="value">{{ rated(r, g) }}</p>
 {% endfor %}
 {% if g.n == 1 %}
 <p class="value">{{ rated(g.rows[0], g) }}</p>
