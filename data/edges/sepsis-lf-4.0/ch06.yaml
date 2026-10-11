@@ -65,16 +65,25 @@
 - [claims/sepsis-lf-4.0/6834bd41, refines, claims/sepsis-lf-4.0/64062a0d, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "R: „Dosis“ — für die CVVHDF ((Substituatmenge + ggf. Citratflüssigkeit) + Dialysatfluss + Volumenentzug) /kgKG in ml/kg/h; Antwort 3 von 3."}]
 - [claims/sepsis-lf-4.0/8adebbe2, refines, claims/sepsis-lf-4.0/4972092d, {source: modelling, as_of: "2026-09-25", lang: de,
-   rationale: "R: „hochvolumige (high-volume)“ — Hochvolumen Dosis > 50 ml/kg/h; eine andere Schwelle für denselben Begriff als S. 101 („≥ 50ml/kg/h“), der Widerspruch ist benannt."}]
+   rationale: "R: „hochvolumige (high-volume)“ — Hochvolumen Dosis > 50 ml/kg/h; S. 101 druckt für denselben Begriff „≥ 50ml/kg/h“ (disagrees_with)."}]
 - [claims/sepsis-lf-4.0/22cce32f, refines, claims/sepsis-lf-4.0/64062a0d, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "R: „eine mittlere Dosis von 20-25 ml/kg/h … zu verabreichen“ — die Zieldosis; verschrieben wird etwas höher (z. B. 25-30 ml/h/kg)."}]
 - [claims/sepsis-lf-4.0/2ba7d97f, refines, claims/sepsis-lf-4.0/4972092d, {source: modelling, as_of: "2026-09-25", lang: de,
-   rationale: "R: „hochvolumige (high-volume) Hämofiltration“ — die Grenze bei einer Dosis von ≥ 50ml/kg/h; S. 99 druckt „> 50 ml/kg/h“ (eigener Claim), der Widerspruch ist benannt."}]
-# defined_by (spec §3.2, §5): one edge per derived concept, to the claim at the top of its rule
+   rationale: "R: „hochvolumige (high-volume) Hämofiltration“ — die Grenze bei einer Dosis von ≥ 50ml/kg/h; S. 99 druckt für denselben Begriff „> 50 ml/kg/h“ (disagrees_with)."}]
+# defined_by (spec §3.2, §5): one edge per derived concept, to the claim at the top of its rule — or one per printing
+# where the source prints the rule differently and disagrees_with joins them (#341)
 - [concepts/lebensbedrohliche-veraenderungen-fluessigkeits-saeure-basen-elektrolythaushalt, defined_by, claims/sepsis-lf-4.0/ed376099, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "„lebensbedrohlichen Veränderungen des Flüssigkeits-, Säure-Basen- oder Elektrolythaushaltes“ — „In der Tabelle werden lebensbedrohliche Veränderungen als absolute Indikationen für eine Nierenersatztherapie (NET) aufgeführt“: die Tabelle, deren vier Zeilen die Fälle nennen; wie sie sich verbinden, sagt die Seite nicht (not_stated). Die Zeile Urämie gehört zu keiner der drei Kategorien, die der Begriff nennt."}]
-- [concepts/kontinuierliche-hochvolumige-haemofiltration, defined_by, claims/sepsis-lf-4.0/2ba7d97f, {source: modelling, as_of: "2026-09-25", lang: de,
-   rationale: "„hochvolumige (high-volume) Hämofiltration“ — „Die Leitliniengruppe hat dabei entschieden, die Grenze für hochvolumige Hämofiltration bei einer Dosis von ≥ 50ml/kg/h zu setzen“ (S. 101): die Grenze, die die Leitlinie selbst für den Begriff der Empfehlung setzt. S. 99 druckt für die „Hochvolumen Dosis“ „> 50 ml/kg/h“ (eigener Claim, ohne Kante zum Begriff); keine Textstelle verbindet beide, der Widerspruch ist benannt."}]
+- [concepts/kontinuierliche-hochvolumige-haemofiltration, defined_by, claims/sepsis-lf-4.0/2ba7d97f, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„hochvolumige (high-volume) Hämofiltration“ — „Die Leitliniengruppe hat dabei entschieden, die Grenze für hochvolumige Hämofiltration bei einer Dosis von ≥ 50ml/kg/h zu setzen“ (S. 101): eine der zwei Fassungen der Regel; S. 99 druckt die andere (eigene Kante, disagrees_with), keine Textstelle verbindet beide."}]
+- [concepts/kontinuierliche-hochvolumige-haemofiltration, defined_by, claims/sepsis-lf-4.0/8adebbe2, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„hochvolumige (high-volume) Hämofiltration“ — „Hochvolumen Dosis (in der Literatur als high-volume CRRT beschrieben): > 50 ml/kg/h“ (S. 99), die Dosiskategorie der kontinuierlichen Verfahren: eine der zwei Fassungen der Regel; S. 101 druckt die andere (eigene Kante, disagrees_with), keine Textstelle verbindet beide."}]
+# disagreements (spec §5, §5.1 D): two places of the source that answer one question differently, each kept as printed,
+# neither chosen (#341)
+- [claims/sepsis-lf-4.0/8adebbe2, disagrees_with, claims/sepsis-lf-4.0/2ba7d97f, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„hochvolumige (high-volume) Hämofiltration“ — S. 99: „Hochvolumen Dosis …: > 50 ml/kg/h“, neben „Hohe Dosis: 30-50 ml/kg/h“; S. 101: „die Grenze für hochvolumige Hämofiltration bei einer Dosis von ≥ 50ml/kg/h zu setzen“. Sie weichen bei genau 50 ml/kg/h ab: nach S. 99 eine hohe, nach S. 101 eine hochvolumige Dosis."}]
+- [claims/sepsis-lf-4.0/398ceb7f, disagrees_with, claims/sepsis-lf-4.0/3fe6c8e3, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 6.7, Evidenzzeile „Hämodynamische Instabilität“ (S. 95): das Wort „Sehr niedrig“ über den Symbolen „⊕⊕⊝⊝“, die die nächste Zeile unter „Niedrig“ druckt („Hypotonie: Niedrig ⊕⊕⊝⊝“), während die Leitlinie zu „Sehr niedrig“ sonst „⊕⊝⊝⊝“ druckt (z. B. S. 39). Wort und Symbole nennen zwei Stufen; das Wort ist der Wert der Zeile auf dem Claim der Empfehlung."}]
 # cross-statement semantics (spec §5): what one box says of another (§5.1 N1)
 - [statements/konservative-massnahmen-wenn-nierenersatz-unklar, complements, statements/nierenersatzverfahren-ohne-zuwarten-wenn-zu-erwarten, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "Empfehlungen 6.3 und 6.4: „wenn … eine Nierenersatztherapie bei AKI zu erwarten ist“ und „Unklarheit, ob eine Nierenersatztherapie zu erwarten ist“ — der andere Fall derselben Frage, wann ein Nierenersatzverfahren begonnen wird."}]

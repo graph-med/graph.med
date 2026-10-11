@@ -334,8 +334,9 @@
   source:
     at: sources/sepsis-lf-4.0#page=94
     quote: "Bei den individuellen klinischen Situationen sind insbesondere klinische Besonderheiten, wie"
-# Empfehlung 6.7, p. 95 — the first row prints the word "Sehr niedrig" and the symbols ⊕⊕⊝⊝ (niedrig): the word
-# is recorded, the conflict named in the pull request (#215)
+# Empfehlung 6.7, p. 95 — the first row prints the word "Sehr niedrig" over the symbols ⊕⊕⊝⊝, which the next row
+# prints under "Niedrig": the word is the row's value (#215), the symbols a claim of their own below, the two
+# joined by disagrees_with (spec §3.1, #341)
 - id: claims/sepsis-lf-4.0/398ceb7f
   type: claim
   lang: de
@@ -363,6 +364,19 @@
     evidence:
       - {at: sources/sepsis-lf-4.0#page=95, quote: "Hämodynamische Instabilität"}
       - {at: sources/sepsis-lf-4.0#page=95, quote: "Hypotonie:"}
+# Empfehlung 6.7, p. 95 — the symbols of the first evidence row, the second printing of its rating: the row read
+# "Kopf: Zelle" with the symbols as the cell (spec §3.1, §5.1 K), quoting them — the page's first ⊕⊕⊝⊝ is this
+# row's. Never graded; disagrees_with 6.7's claim, whose row records the word "Sehr niedrig" (#341)
+- id: claims/sepsis-lf-4.0/3fe6c8e3
+  type: claim
+  lang: de
+  kind: fact
+  recommendation_no: "6.7"
+  section: "6.4"
+  label: "Hämodynamische Instabilität: ⊕⊕⊝⊝"
+  source:
+    at: sources/sepsis-lf-4.0#page=95
+    quote: "⊕⊕⊝⊝"
 # p. 96, 6.4 — body text restating 6.7 with "empfehlen wir" (the box: "Wir schlagen vor"); counts only for what it
 # adds, "deutlich" instabil (G3): R → 6.7
 - id: claims/sepsis-lf-4.0/74b78d18
@@ -522,8 +536,9 @@
   source:
     at: sources/sepsis-lf-4.0#page=99
     quote: "Dosis (ml/kg/h) = ((Substituatmenge + ggf. Citratflüssigkeit) + Dialysatfluss +"
-# p. 99, 6.6 — body text, the third dose category: a threshold for 6.10's "hochvolumige"; R → 6.10. P. 101
-# prints "≥ 50ml/kg/h" for the same term (another claim): the conflict is flagged (card #224 hard case 2)
+# p. 99, 6.6 — body text, the third dose category: a threshold for 6.10's "hochvolumige"; R → 6.10, and a rule its
+# concept reaches (defined_by). P. 101 prints "≥ 50ml/kg/h" for the same term: each printing a claim, joined by
+# disagrees_with, neither chosen (#341)
 - id: claims/sepsis-lf-4.0/8adebbe2
   type: claim
   lang: de
@@ -601,8 +616,8 @@
     evidence:
       - {at: sources/sepsis-lf-4.0#page=101, quote: "Mortalität (ICU)"}
       - {at: sources/sepsis-lf-4.0#page=101, quote: "Mortalität (28-Tage)"}
-# p. 101, 6.6 — body text: the guideline group's own limit for 6.10's term; R → 6.10, and the rule its concept
-# reaches (defined_by). P. 99 prints "> 50 ml/kg/h": the conflict is flagged (card #224 hard case 2)
+# p. 101, 6.6 — body text: the guideline group's own limit for 6.10's term; R → 6.10, and a rule its concept
+# reaches (defined_by). P. 99 prints "> 50 ml/kg/h": each printing a claim, joined by disagrees_with (#341)
 - id: claims/sepsis-lf-4.0/2ba7d97f
   type: claim
   lang: de

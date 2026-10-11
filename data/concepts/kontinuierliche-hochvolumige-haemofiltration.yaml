@@ -1,6 +1,7 @@
-# The action of 6.10 (p. 101). Derived: its one defined_by edge reaches p. 101's "Die Leitliniengruppe hat dabei
-# entschieden, die Grenze für hochvolumige Hämofiltration bei einer Dosis von ≥ 50ml/kg/h zu setzen"; p. 99 prints
-# "> 50 ml/kg/h" for the "Hochvolumen Dosis", a claim of its own. The conflict is flagged (card #224, hard case 2).
+# The action of 6.10 (p. 101). Derived, by two printings of its rule that disagree (#341): p. 99's "Hochvolumen
+# Dosis … > 50 ml/kg/h" and p. 101's "Die Leitliniengruppe hat dabei entschieden, die Grenze für hochvolumige
+# Hämofiltration bei einer Dosis von ≥ 50ml/kg/h zu setzen" — a defined_by edge to each, the two claims joined by
+# disagrees_with, neither chosen.
 id: concepts/kontinuierliche-hochvolumige-haemofiltration
 type: concept
 lang: de

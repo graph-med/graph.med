@@ -468,10 +468,23 @@
       - {at: sources/sepsis-lf-4.0#page=117, quote: "Konsensstärke: 100 %"}
       - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
     consensus_share: {at: sources/sepsis-lf-4.0#page=117, quote: "Konsensstärke: 100 %"}
-    evidence:   # the first row prints the word „Sehr niedrig“ over the symbols ⊕⊕⊝⊝, which read Niedrig: the word is recorded (#215)
+    evidence:   # the first row prints the word „Sehr niedrig“ over the symbols ⊕⊕⊝⊝, which the next rows print under „Niedrig“: the word is the row's value (#215), the symbols a claim of their own below (#341)
       - {at: sources/sepsis-lf-4.0#page=117, quote: "Inzidenz venöser"}
       - {at: sources/sepsis-lf-4.0#page=117, quote: "Inzidenz tiefer"}
       - {at: sources/sepsis-lf-4.0#page=117, quote: "Inzidenz von"}
+# Empfehlung 8.11, p. 117 — the symbols of the first evidence row, the second printing of its rating: the row read
+# "Kopf: Zelle" with the symbols as the cell (spec §3.1, §5.1 K), quoting them — the page's first ⊕⊕⊝⊝ is this
+# row's. Never graded; disagrees_with 8.11's claim, whose row records the word „Sehr niedrig“ (#341)
+- id: claims/sepsis-lf-4.0/020c9cdf
+  type: claim
+  lang: de
+  kind: fact
+  recommendation_no: '8.11'
+  section: '8.5'
+  label: "Inzidenz venöser Thromboembolien: ⊕⊕⊝⊝"
+  source:
+    at: sources/sepsis-lf-4.0#page=117
+    quote: "⊕⊕⊝⊝"
 # p. 118: IPC in combination with a pharmacological VTE prophylaxis for selected high-risk patients is decided
 # individually by the team: a measure beside 8.9's prophylaxis (hard case 9). S → 8.9. No verb a declared scheme
 # defines („muss“).

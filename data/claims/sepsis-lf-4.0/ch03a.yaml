@@ -432,6 +432,8 @@
     quote: "Molekularbiologische Nachweisverfahren (z. B. Multiplex PCR, Next-Generation Sequencing)"
   provenance:
     verb: {at: sources/sepsis-lf-4.0#page=38, quote: "können die kulturelle Erregerdiagnostik (aus Blut und anderen Probenmaterialien) ergänzen."}
+# p. 39, 3.2 — body text: gives sepsis the hour box 3.2 keeps for septic shock: D, disagrees_with 3.2's claim,
+# no R edge to it (#341)
 - id: claims/sepsis-lf-4.0/f2c9ee67
   type: claim
   lang: de
@@ -442,6 +444,7 @@
   source:
     at: sources/sepsis-lf-4.0#page=39
     quote: "schnellstmöglich zu beginnen (idealerweise innerhalb einer Stunde)."
+# p. 41, 3.2 — body text: R → 3.3's three hours; levels the shock distinction of 3.2: disagrees_with 3.2's claim (#341)
 - id: claims/sepsis-lf-4.0/f4b9f57d
   type: claim
   lang: de

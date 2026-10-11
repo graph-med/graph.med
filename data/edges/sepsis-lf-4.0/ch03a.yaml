@@ -177,13 +177,6 @@
     rationale: "S: weiteren Probenmaterialien — molekularbiologische Nachweisverfahren können die kulturelle Erregerdiagnostik aus anderen Probenmaterialien ergänzen"
     lang: de
     as_of: '2026-09-25'
-- - claims/sepsis-lf-4.0/f2c9ee67
-  - refines
-  - claims/sepsis-lf-4.0/74d560f7
-  - source: modelling
-    rationale: "R: so schnell wie möglich — idealerweise innerhalb einer Stunde, nach diesem Satz auch bei Sepsis, nicht nur beim septischen Schock"
-    lang: de
-    as_of: '2026-09-25'
 - - claims/sepsis-lf-4.0/f4b9f57d
   - refines
   - claims/sepsis-lf-4.0/93226a4c
@@ -513,3 +506,21 @@
     rationale: "Box 3.7, Bemerkung: „Bei einer kontinuierlichen Infusion ist auf die physikalisch-chemische Stabilität des Wirkstoffs zu achten.“ — was bei der kontinuierlichen Infusion zu beachten ist"
     lang: de
     as_of: '2026-09-25'
+# disagreements (spec §5, §5.1 D; #341): the time to the first antiinfective dose, answered three ways. P. 39's
+# body-text sentence gives sepsis the hour box 3.2 keeps for septic shock: D, so it no longer refines 3.2 (an R edge
+# would read the box through it). P. 41 levels the box's distinction by shock; it still refines 3.3's three hours,
+# which it answers alike. P. 39 and p. 41 are not joined: an ideal time beside a latest one, both for both groups.
+- - claims/sepsis-lf-4.0/74d560f7
+  - disagrees_with
+  - claims/sepsis-lf-4.0/f2c9ee67
+  - source: modelling
+    rationale: "Zeit bis zur antiinfektiven Therapie — Empfehlung 3.2 (S. 39): bei Sepsis „so schnell wie möglich“, „bei Patienten mit einem septischen Schock idealerweise innerhalb einer Stunde“; S. 39, Begleittext: „Der septische Schock und die Sepsis … schnellstmöglich zu beginnen (idealerweise innerhalb einer Stunde)“. Die Stunde, die die Empfehlung dem septischen Schock gibt, gilt hier auch für die Sepsis."
+    lang: de
+    as_of: '2026-10-11'
+- - claims/sepsis-lf-4.0/74d560f7
+  - disagrees_with
+  - claims/sepsis-lf-4.0/f4b9f57d
+  - source: modelling
+    rationale: "Zeit bis zur antiinfektiven Therapie — Empfehlung 3.2 (S. 39) unterscheidet nach Schock: bei Sepsis „so schnell wie möglich“, bei septischem Schock „idealerweise innerhalb einer Stunde“; S. 41: Antibiotika „spätenstens innerhalb von 3 Stunden nach Erkennen der Sepsis oder dem Eintreffen in der Notaufnahme … unabhängig davon, ob ein Schock vorliegt oder nicht“. Die Frist dort kennt die Unterscheidung nicht, die die Empfehlung trifft."
+    lang: de
+    as_of: '2026-10-11'
