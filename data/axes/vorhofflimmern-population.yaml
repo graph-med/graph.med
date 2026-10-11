@@ -19,13 +19,17 @@ rule: >-
   Jedes Konzept, das in einer Empfehlung der Sicht die Population nennt, und jede Familie über einem solchen
   steht unter dem einen Konzept, zu dem die Kante des Pools führt, an der es zur Wurzel der Sicht hin hängt —
   Patient*innen mit Vorhofflimmern (Zielsetzung, S. 10). Die erste Frage ist die Form des Vorhofflimmerns nach
-  Tabelle 3 (S. 14): erstdiagnostiziertes, paroxysmales, persistierendes, lang-persistierendes und permanentes
-  Vorhofflimmern hängen als erste Familien an der Wurzel (broader: jede Form ist in jeder Leitlinie ein
-  Vorhofflimmern). Jedes andere Konzept hängt unter dem engsten Konzept, dessen Sonderfall es ist (broader), wo
-  der Satz „X ist ein Y“ in jeder Leitlinie gilt: eine Gruppe, die eine Form um einen weiteren Zustand, eine
-  Indikation oder eine Dauer enger fasst, unter dieser Form. Perioperatives Vorhofflimmern (8.4) ist nach seinem
-  Anlass benannt, nicht nach der Episodendauer (S. 13: „Trigger“ induziertes AF), und hängt als eigene Familie
-  an der Wurzel, postoperativ neu aufgetretenes Vorhofflimmern (8.5) unter ihm (beide broader). Sonst hängt ein
+  Tabelle 3, „Klassifikation von klinischen Vorhofflimmern nach Episodendauer“ (S. 14), deren Zeilen nicht alle
+  nach der Dauer einteilen: „Erstdiagnostiziert“ gilt „unabhängig von seiner Dauer oder Symptomatik“, und die
+  Bezeichnung „Permanent“ stützt sich „vielmehr auf die aktuelle Behandlungsentscheidung“ (S. 13).
+  Erstdiagnostiziertes, paroxysmales, persistierendes, lang-persistierendes und permanentes Vorhofflimmern hängen
+  als erste Familien an der Wurzel (broader: Patient*innen mit einer Form des Vorhofflimmerns sind in jeder
+  Leitlinie Patient*innen mit Vorhofflimmern). Jedes andere Konzept hängt unter dem engsten Konzept, dessen
+  Sonderfall es ist (broader), wo der Satz „X ist ein Y“ in jeder Leitlinie gilt: eine Gruppe, die eine Form um
+  einen weiteren Zustand, eine Indikation oder eine Dauer enger fasst, unter dieser Form. Perioperatives
+  Vorhofflimmern (8.4) ist keine Zeile von Tabelle 3, sondern nach seinem Anlass benannt (S. 13: „Trigger“
+  induziertes AF), und hängt als eigene Familie an der Wurzel, postoperativ neu aufgetretenes Vorhofflimmern
+  (8.5) unter ihm (beide broader). Sonst hängt ein
   Konzept unter dem Konzept, dem die Leitlinie es in ihrem Geltungsbereich zuordnet (in_scope_of), der Wurzel
   oder der Form, die die Empfehlung nennt: ohne Bedingung, wo jedes Mitglied der Gruppe, das die Empfehlung
   anspricht, Vorhofflimmern hat (ein Zustand, eine Therapie, ein Score-Wert oder ein Eingriff, den eine

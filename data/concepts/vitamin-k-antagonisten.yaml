@@ -1,7 +1,7 @@
-# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): „Vitamin-K-Antagonisten“ (VKA; p. 42, p. 64, the
-# heading of 8.3, p. 84; „Vitamin K Antagonisten (VKA)“, p. 43), a drug class. Used by C3 (pp. 42–43), C5 (p. 64)
-# and C7 (pp. 84–86). Phenprocoumon, the one the guideline names for Germany, is a concept of its own (a drug of the
-# class).
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): „Vitamin-K-Antagonisten“ (p. 42, p. 64, the heading
+# of 8.3, p. 84) and „Vitamin K Antagonisten (VKA)“ (p. 43), the latter without hyphens: the label joins the
+# hyphenated spelling to p. 43's abbreviation. A drug class. Used by C3 (pp. 42–43), C5 (p. 64) and C7 (pp. 84–86).
+# Phenprocoumon, the one the guideline names for Germany, is a concept of its own (a drug of the class).
 id: concepts/vitamin-k-antagonisten
 type: concept
 lang: de

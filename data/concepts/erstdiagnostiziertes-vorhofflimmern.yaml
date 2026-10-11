@@ -1,10 +1,11 @@
 # A form of Tabelle 3 (p. 14), the AF form the first question of the tree asks (the maintainer, 2026-10-11, #314
 # question 1): one of the five families axes/vorhofflimmern-population proposes under the scope root (card #364,
-# Decisions 1 and 10). Labelled as the table prints the form, its row head with the table's head. The boxes print
-# the form as „neu diagnostiziertem AF“ (2.6, p. 22; 6.1, p. 49) and Tabelle 4 as „neu diagnostiziertem
-# Vorhofflimmern“ (p. 19): one concept, read as the table's „Erstmals diagnostiziertes AF“ (card #364, reading 1,
-# for the physician). The anchor of 2.3, 2.4 and 2.5 a) as well (#314 question 2). Derived once C1 writes its
-# defined_by edge to the table's row (the ledger's owner).
+# Decisions 1 and 10). Labelled as the table prints the form, its row head with the table's head. The source never
+# prints „erstdiagnostiziert“ outside the table: the boxes print „neu diagnostiziertem AF“ (2.6, p. 22; 6.1, p. 49),
+# Tabelle 4 „bei neu diagnostiziertem Vorhofflimmern“ (p. 19), and the body text „neu diagnostiziertem AF“ (p. 18,
+# l. 49; p. 22, l. 24; p. 48, l. 22). One concept, read as the table's „Erstmals diagnostiziertes AF“: a reading the
+# source does not state (card #364, reading 1, for the physician). The anchor of 2.3, 2.4 and 2.5 a) as well (#314
+# question 2). Derived once C1 writes its defined_by edge to the table's row (the ledger's owner).
 id: concepts/erstdiagnostiziertes-vorhofflimmern
 type: concept
 lang: de

@@ -5,7 +5,13 @@
 # physician). Its rule is printed three ways — „mehr als 12 Monate“ (Tabelle 3, p. 14), „seit mindestens 12 Monaten“
 # (p. 61), „Dauer über 1 Jahr“ (p. 62) —, so it reaches each printing by a defined_by edge of its own, every pair
 # joined by disagrees_with, and no printing is chosen (#341; card #364, Decision 5): C1 writes the first, X1 the
-# edges to C5's printings with the disagrees_with edges between the parts (proposed for the maintainer).
+# edges to C5's printings with the disagrees_with edges between the parts (proposed for the maintainer). p. 56
+# prints „Persistierendes, insbesondere lang-persistierendes AF“ (l. 48), which reads long-persistent AF as a case
+# of persistent AF, where Tabelle 3 prints the two as rows at one level, and draws a 12-month line counted from the
+# diagnosis, not from continuous presence: „frühes Vorhofflimmern, das kürzer als 12 Monate besteht“ (l. 50–51) and
+# „persistierendem AF (insbesondere, wenn das AF vor mehr als 12 Monaten diagnostiziert wurde)“ (l. 62–63). Each is
+# a printing to keep, not to choose between (#341); showing them as claims and edges is the work of the part that
+# reads p. 56 or of X2, not of this card.
 id: concepts/lang-persistierendes-vorhofflimmern
 type: concept
 lang: de
