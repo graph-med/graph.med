@@ -1401,7 +1401,7 @@ the passage exists.
 ### 6.1 Sources are entities
 
 Every source document — a PDF, a web page, a classification release — is an
-entity in `sources/` with a version, its public URL, a content hash and licence
+entity in `sources/` with its public URL, a content hash and licence
 information. Sources are **referenced, never rehosted**: the repository and its
 links are the only assets (see `README.md`, "Source documents"). Provenance
 points *into* sources with a locator whose syntax depends on the media type:
@@ -1416,6 +1416,23 @@ The build layer turns these into links using the fragment conventions of the
 target format (`#page=N&search=<quote>` for PDFs — viewers that understand
 `search` highlight the quote, the rest land on the page). Authors never write
 the final link; they write the locator.
+
+**Title, version and date.** A source's `title` is its title proper, as the
+document prints it — without its version, its date or its form ("Langfassung"),
+which the document prints apart from it. Where the document prints a version and
+the date it gives that version (its "Stand"), the source records both, each
+quoted where it is printed (`provenance.version`, `provenance.date`, §6.4): the
+`version` is the label as printed, without the word for it ("1.0", "4.0"), and
+the `date` is ISO 8601 at the precision printed — a year, a month (`2023-11` for
+"November 2023") or a day (`2025-04-30` for "30.04.2025"). The quote keeps the
+printed form checkable; reading it as ISO is a reading for review, and no month
+name of any language enters the schema or the validator. The date is the one the
+document gives its version — not a register's publication date, an adoption date
+or the date of a download. It is shown with the source and never used to rank or
+overrule (§3.4, §11 rule 4); a version is no view's cut (§4) and pins no edge
+(§5, "Staleness without version pins"). A source that prints neither records
+neither, and nothing is parsed out of a title. The period a document declares
+itself valid for is not recorded yet.
 
 ### 6.2 A reference is a locator plus a verbatim quote
 
@@ -2011,8 +2028,13 @@ POMGAT S3 guideline (AWMF 088-010OL), quotes verified against the document.
   type: source
   lang: de
   kind: leitlinie                                                           # what kind of document it is: the index groups by it
-  title: "S3-Leitlinie Perioperatives Management bei gastrointestinalen Tumoren (POMGAT), Langversion 1.0"
+  title: "S3-Leitlinie Perioperatives Management bei gastrointestinalen Tumoren (POMGAT)"   # the title proper (§6.1)
   short_label: S3 POMGAT 2023                                               # one line on a card; the title stays the citation
+  version: "1.0"                                                            # as printed, without the word for it
+  date: "2023-11"                                                           # the date of that version, ISO 8601 at the precision printed
+  provenance:                                                               # where both are printed (§6.1)
+    version: {at: sources/pomgat-lv-1.0#page=1, quote: "Version 1.0 – November 2023"}
+    date:    {at: sources/pomgat-lv-1.0#page=1, quote: "Version 1.0 – November 2023"}
   awmf_register: "088-010OL"
   url: "https://register.awmf.org/assets/guidelines/008-010OLl_S3_Perioperatives-Management-bei-gastrointestinalen-Tumoren-POMGAT_2023-12.pdf"
   content_hash: "sha256:…"

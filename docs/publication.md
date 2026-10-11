@@ -86,8 +86,12 @@ language of the views' sources (`lang`, as recorded: *de*), under each one node 
 kind of source (`kind`, its word from the view layer's table: *Leitlinien*), and under
 each one box per view that names its source — a level only as far as all of a view's
 sources agree on it and record it, the box hanging from the last. The box gives its title as the source
-prints it, in the source's language (`lang`); its register number where the source
-records one (`awmf_register`); and what the graph holds: its recommendations (the
+prints it, in the source's language (`lang`); on a line of their own under it, its
+version and the date it prints for that version where the source records them
+(`version`, `date`; `graph-representation.md` §6.1), in the page chrome's words and
+the date at the precision recorded — *Version 1.0, Stand November 2023*,
+*Version 4.0, Stand 30.04.2025* —, and no line where it records neither; its
+register number where the source records one (`awmf_register`); and what the graph holds: its recommendations (the
 statements), the patient groups a reader meets in its tree (the junctions of its first
 grouping, each concept once) and the claims they rest on, or, while it holds no claim,
 that none has been extracted, and while it holds claims but no statement, that none has
@@ -108,13 +112,13 @@ beside *Graph öffnen* a toggle, *Im Graphen zeigen*, selects the entry's box an
 pressed again, returns the sheet to its home, as tapping the canvas or a level
 does, the focus staying on the entry (on a phone, on the strip's link); it is shown
 only where the graph is drawn. A selection that changes nothing — the home again, the
-same box again — leaves the sheet as it is. The entry gives the title as printed —
-a source's version and date stand in it; the schema has no field for either —, what the
-graph holds, and for each source its register number, a link to the source's page and
-its licence line with the note beside it (§5); the entry is one link to the graph, its
-title stretched over it with *Graph öffnen* below, and the toggle and the source's
-lines lie apart from it, so that the source's page can be reached and its licence
-read. The deep link is the view's id (`graph.med/#views/<view-id>`); a hash that names no view, or is no well-formed escape,
+same box again — leaves the sheet as it is. The entry gives the title as printed, what
+the graph holds, and for each source its version and date on a line of their own, its
+register number, a link to the source's page and its licence line with the note beside
+it (§5); the entry is one link to the graph, its title stretched over it with
+*Graph öffnen* below, and the toggle and the source's lines lie apart from it, so that
+the source's page can be reached and its licence read. The deep link is the view's id
+(`graph.med/#views/<view-id>`); a hash that names no view, or is no well-formed escape,
 selects nothing. The sheet's home is the page's text — what graph.med is, *an open collaborative
 medical knowledge graph*, in English and bound to no kind of source — and every entry,
 in the page's HTML: the graph is read from them, so that the page reads the same without
@@ -175,7 +179,8 @@ decision-graph-derivation):
 - **The questions are ours; every answer is data.** "Welche Population?" and
   "Welche Bedingung?" are the only text the build adds, with the conjunction
   below, in the view's source language (a language the build has no words for
-  fails the build; nothing falls back to English). Each answer on an edge is a
+  fails the build; nothing falls back to English); the words of the root's line
+  for its source's version and date are the page chrome's (below). Each answer on an edge is a
   population or condition concept; each box is a statement with its claims' grade;
   each aim an outcome concept. Nothing else is invented — in particular no yes/no
   branches and no ordering between conditions, which is what authored pathways will
@@ -200,6 +205,14 @@ decision-graph-derivation):
   section to one condition selects it wherever it is named, alone or with
   others, the box it leads to included; the search finds the answer by any of
   them.
+- **The root names the source.** The root box gives the view's source by its title as
+  printed and, on a line of its own below it, its version and date as the index's box
+  does (§2), from the page chrome's words; a section view's root names its section
+  instead, and the sheet beside it the source. Tapping the root opens the source's
+  details, and the sheet's home names it the same way. Every other place a page names a
+  source by its title — a card's citation (zone 8), the source's own page, a claim's
+  citation line — carries the same line, and a source that records neither shows none.
+  The date is shown, never used to order anything.
 - **Patient groups converge.** Statements sharing a population hang from one
   junction, so the tree shows at a glance what the guideline says for, say,
   colorectal resection. A condition is asked within its group.
@@ -507,7 +520,7 @@ glyph. Timing
   | 5 | Applies to | `Gilt für` | the `population`, `condition`, `action` slots, then the value of every dimension axis that places the statement, named by that axis's `short_label` (else `label`) | no slot filled |
   | 6 | Body text | `Hinweise aus dem Begleittext` | `limits`, `refines`, `supplements` | never (empty state) |
   | 7 | Contradiction | `Widersprechende Empfehlung(en)` | `contests` | no contesting claim |
-  | 8 | Citation | `Beleg` | the supporting claims' `source`, the source's title | never |
+  | 8 | Citation | `Beleg` | the supporting claims' `source`, the source's title, `version` and `date` | never |
   | 9 | More | `Mehr zu dieser Aussage` | `specializes`, `complements`, `conflicts`, the ids, the slots as stored | never (closed) |
 
   1. **Title.** The short label, exactly once on the card. Under it one muted
@@ -737,7 +750,8 @@ glyph. Timing
      2's rules, its wording, and its own citation with recommendation number
      and page. Heading singular or plural by count. Its existence is what the
      marker in zone 2 announces.
-  8. **Citation.** Each source named once, by its title, in the order of its
+  8. **Citation.** Each source named once, by its title with its version and date
+     on a line of their own under it, in the order of its
      first supporting claim; under it one entry per supporting claim from that
      source, in the guideline's order — by recommendation number, and a
      recommendation number that is not a number ("Definition 1") by the page it
@@ -821,7 +835,9 @@ what is seen and what is heard: visible text, `title`, `aria-label`, `placeholde
 `alt` and the meta description. That is the legend; the controls; the search
 counter and the chapter panel, which the script reads from the page; the sheet's
 home — its kind line, its counts (a pair per count, as the index's), its links and
-its hint; the index's words (§2); the note beside every licence line that the
+its hint; the index's words (§2); the line that says a source's version and date
+wherever a page names the source (its words, and the month names that write its
+date); the note beside every licence line that the
 document is linked at its public URL and never served here (§5), the project's rule
 said once and not part of the source's line; the preview strip, the footer, the
 share image's description, and an entity page's description by its type. The
