@@ -1418,7 +1418,7 @@ source that answers its question otherwise (D).
   inflected otherwise, is the same rating; another word is another rating,
   though the two may name one level, since the page does not equate them
   ("sehr niedrige" against the box's "sehr gering"), and the rationale quotes
-  both and says so. It is a claim, joined to the recommendation's claim by
+  both and says so (card #372). It is a claim, joined to the recommendation's claim by
   `disagrees_with` (§5) — where it rates the evidence, to every claim that
   carries a row it rates: each sentence with a statement of its own, as the
   row goes to each (§3.1), so that every recommendation's card shows it —,
