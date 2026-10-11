@@ -42,7 +42,7 @@
 - [claims/vorhofflimmern-lf-1.1/bface3c7, supplements, claims/vorhofflimmern-lf-1.1/af72319e, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "S: Wahl des oralen Antikoagulans — bei der Behandlung mit Phenprocoumon „muss allerdings auf eine qualitativ hochwertige Einstellung mit einer hohen TTR geachtet werden“: eine Maßnahme neben der Wahl."}]
 - [claims/vorhofflimmern-lf-1.1/23233a47, refines, claims/vorhofflimmern-lf-1.1/af72319e, {source: modelling, as_of: "2026-10-11", lang: de,
-   rationale: "R: Wahl des oralen Antikoagulans — bei „stabil auf VKA eingestellten fragilen, älteren Patient*innen“ besteht „ohne relevanten Grund keine Indikation zur Umstellung auf DOAK“: das Antikoagulans, bei dem die Wahl für diese Gruppe bleibt. Die Umstellung ist keine Handlung der Empfehlung, die der Satz herausnähme (nicht L)."}]
+   rationale: "R: Wahl des oralen Antikoagulans — bei „stabil auf VKA eingestellten fragilen, älteren Patient*innen“ besteht „ohne relevanten Grund keine Indikation zur Umstellung auf DOAK“: ohne relevanten Grund bleibt die Wahl für diese Gruppe beim VKA, auf den sie eingestellt ist. Die Umstellung ist keine Handlung der Empfehlung, die der Satz herausnähme (nicht L)."}]
 - [claims/vorhofflimmern-lf-1.1/11b1cde6, refines, claims/vorhofflimmern-lf-1.1/af72319e, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "R: unter Berücksichtigung der individuellen Komorbiditäten, der individuellen Lebensumstände und Anwendungsbeschränkungen — „die einfachere Handhabung der DOAK ohne erforderliche engmaschige INR-Kontrollen“ ist zu berücksichtigen."}]
 
