@@ -104,9 +104,10 @@ rating_systems:   # spec §3.1: the Langfassung prints no method line and leaves
     name: GRADE
     source: {at: sources/vorhofflimmern-lf-1.1#page=29, quote: "GRADE moderat"}
     rationale: "Die Langfassung druckt keine Zeile zur Methode der Evidenzbewertung; für die Methodik, darunter „Auswahl und
-      Bewertung der Evidenz“, verweist sie auf den Leitlinienreport zur Version 1 (S. 11). Ihre Kästen drucken die
-      „Qualität der Evidenz“ je Zeile mit ⊕-Symbolen, und ihre Begründungen nennen GRADE neben einer solchen Bewertung, hier
-      „GRADE moderat“ (S. 29)."
+      Bewertung der Evidenz“, verweist sie auf den Leitlinienreport zur Version 1 (S. 11). Ihre Kästen überschreiben ihre
+      Bewertungen mit „Aussagesicherheit der Evidenz“, so Empfehlung 4.1 (S. 29), die Kästen 2.1 (S. 16), 2.3 (S. 18), 3.1
+      (S. 24) und 8.6 (S. 89) mit „Qualität der Evidenz“; ihre bewerteten Zeilen drucken die Bewertung mit ⊕-Symbolen. Ihre
+      Begründungen nennen GRADE neben einer solchen Bewertung, hier „GRADE moderat“ (S. 29)."
 outline:   # the 84 numbered entries of the table of contents (pp. 7–9), physical page = printed page, each checked against
            # the page where its heading starts; its two unnumbered entries, „Vorwort“ (p. 6) and „Einführung“ (p. 10), are
            # left out. The table's wording is taken where a heading reads otherwise: 5.4.1–5.4.3 (the headings add
