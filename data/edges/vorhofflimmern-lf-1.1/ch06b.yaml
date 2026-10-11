@@ -89,3 +89,14 @@
    rationale: "Empfehlung 6.16 (S. 65): „Nach Kardioversion soll daher das weiterführende Management geplant werden.“; der Hintergrund (S. 65, Z. 35): „Bei der Planung einer Kardioversion empfiehlt die Leitliniengruppe, ein langfristiges Therapiekonzept festzulegen“. Der Kasten plant nach der Kardioversion, der Text schon bei ihrer Planung."}]
 - [claims/vorhofflimmern-lf-1.1/0a1ddd56, disagrees_with, claims/vorhofflimmern-lf-1.1/67f9ae24, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "Abschnitt 6.8.5 nennt zwei Zeitpunkte für das langfristige Therapiekonzept: „Bei der Planung einer Kardioversion“ (Hintergrund, S. 65, Z. 35) und „dass ein langfristiges Therapiekonzept nach Kardioversion geplant werden soll“ (Begründung, S. 65, Z. 60–61): vor und nach der Kardioversion."}]
+
+# sequences (spec §5 `follows`; #294, #295): within these pages, by the four tests — 6.16 follows each cardioversion
+# of 6.12, 6.13 and 6.15 („Nach Kardioversion“, the measure of a statement of the guideline), the cardioversion staying
+# 6.16's condition; no edge between 6.12 and 6.13, from 6.13 to 6.14, from 6.14 to 6.15, or from 6.16 to 6.17 (#378
+# Decision 11, readings 9 and 16)
+- [statements/planung-des-weiterfuehrenden-managements-nach-kardioversion, follows, statements/unmittelbare-elektrische-kardioversion-bei-haemodynamischer-instabilitaet, {source: modelling, as_of: "2026-10-11", lang: de, transition: follows, trigger: other,
+   rationale: "Empfehlung 6.16: „Nach Kardioversion soll daher das weiterführende Management geplant werden.“ — nach der elektrischen Kardioversion der Empfehlung 6.12."}]
+- [statements/planung-des-weiterfuehrenden-managements-nach-kardioversion, follows, statements/elektive-kardioversion-zur-pruefung-der-symptome, {source: modelling, as_of: "2026-10-11", lang: de, transition: follows, trigger: other,
+   rationale: "Empfehlung 6.16: „Nach Kardioversion soll daher das weiterführende Management geplant werden.“ — nach der elektiven Kardioversion der Empfehlung 6.13."}]
+- [statements/planung-des-weiterfuehrenden-managements-nach-kardioversion, follows, statements/kardioversion-auch-nach-48-stunden-wait-and-watch, {source: modelling, as_of: "2026-10-11", lang: de, transition: follows, trigger: other,
+   rationale: "Empfehlung 6.16: „Nach Kardioversion soll daher das weiterführende Management geplant werden.“ — nach der Kardioversion der Empfehlung 6.15."}]
