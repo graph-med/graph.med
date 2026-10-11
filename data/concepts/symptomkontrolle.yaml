@@ -1,0 +1,11 @@
+# A concept of card #377 (C6), chapter 7 of sources/vorhofflimmern-lf-1.1.
+# An endpoint of box 7.1's second evidence row, „Nicht-Unterlegenheit für Mortalität, Hospitalisierungen,
+# Symptomkontrolle, Blutungen:“ (p. 71), „Nicht-Unterlegenheit für“ left out (#326 Decision 8). Box 7.4 prints
+# „zur Symptomkontrolle“ (p. 73) as an aim, which stays in its label; 7.3's „zur Symptomreduktion“ (p. 72) likewise —
+# one concept or two is card #377's reading 15. A shared candidate (card #377 Decision 12): another part may mint it.
+id: concepts/symptomkontrolle
+type: concept
+lang: de
+label: "Symptomkontrolle"
+facet: outcome
+source: modelling

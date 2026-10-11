@@ -1,0 +1,659 @@
+# Claims of card #377 (#314's part C6) from chapter 7 of sources/vorhofflimmern-lf-1.1, „Frequenzkontrolle“ (p. 70, l. 6 –
+# p. 77, l. 38; the Literatur from p. 77, l. 39 is not read). Boxes 7.1–7.6, one claim per sentence (spec §3.1), the rule
+# printed inside 7.4's sentence (#328), Tabelle 15's eleven rows (§5.1 K; #325 Decision 8), and the body-text places spec
+# §5.1 admits (#325, #341, #372), in page order. Ids: sha256("<at>|<quote>")[:8]. Line numbers are lines of
+# `pdftotext -layout`, counted from 1 with blank lines.
+# Every box prints „Neu 2024“, its kind line and a „Literatur:“ line; all stay on the page (#314 Decision 5). Abb. 5
+# (p. 70) is a raster image whose text layer holds only its caption: its content stays on the page (§5.1 F), and its
+# caption (l. 21–22), a title with the figure's abbreviations, adds nothing (G3).
+
+# Section 7's own text, before 7.1 (p. 70, l. 9 – p. 71, l. 19), has 7.1–7.6 as its marked recommendations (§5.1). p. 70,
+# l. 9–10: rate control beside rhythm control, for patients under rhythm control — an action and a group no box of
+# chapter 7 names: §5.1 U, a claim without an edge and in no statement (card #377 reading 9). The cross-reference
+# „(s. Kapitel 6. Rhythmuskontrolle)“ stays in the label (N4 gives it no edge of its own). l. 11 (a fact), l. 11–12
+# („überholt“, an evaluation), l. 12–15 (effects, N2) and l. 15–16 (Abb. 5 introduced) stay on the page.
+- id: claims/vorhofflimmern-lf-1.1/ded78d30
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7"
+  label: "Für viele symptomatische Patient*innen mit AF steht eine rhythmuskontrollierende Therapie im Vordergrund (s. Kapitel 6. Rhythmuskontrolle); diese sollte in der Regel von einer adäquaten Frequenzkontrolle flankiert werden."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=70
+    quote: "diese sollte in der Regel von einer adäquaten Frequenzkontrolle flankiert werden."
+# p. 71, l. 4–9 (the two targets and „pace and ablate“: the boxes carry the values; G3, G2), l. 11–13 (the drug classes,
+# adapted to the patient: Tabelle 15 and 7.6; G3) and l. 13–17's three-step algorithm (a restatement of 7.1–7.3, whose
+# order is a sequence between statements: N1) stay on the page; „Patienten*in“ (l. 13) as printed. l. 17: the algorithm
+# holds „insbesondere“ for patients with heart failure — R to 7.1, whose group is the algorithm's first step („für alle
+# Patient*innen, bei denen sich für eine frequenzkontrollierende Therapie entschieden wurde“, l. 14–15), as #325's
+# checklist read it (card #377 reading 9; R to each of 7.1–7.3 and G3 are the other readings). It states which cases
+# the group covers: kind criterion, no grade.
+- id: claims/vorhofflimmern-lf-1.1/71fc9106
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7"
+  label: "Dies gilt insbesondere für Patient*innen mit einer Herzinsuffizienz."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=71
+    quote: "Dies gilt insbesondere für Patient*innen mit einer Herzinsuffizienz."
+# p. 71, l. 18–19: the check of a switch to rhythm control, „in jedem Fall“ and „auch im Verlauf“ — a measure beside 7.1's
+# target for its group, S to 7.1 for what it adds beyond 7.2's second clause (card #377 reading 9; G3 is the other
+# reading). „ist … zu prüfen“ is no declared wording: no verb. „[1-6]“ is left out of the label.
+- id: claims/vorhofflimmern-lf-1.1/f3e76614
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7"
+  label: "In jedem Fall ist aber, auch im Verlauf, die Sinnhaftigkeit eines Wechsels zur rhythmuskontrollierenden Therapie immer zu prüfen (siehe Abbildung 5)."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=71
+    quote: "die Sinnhaftigkeit eines Wechsels zur rhythmuskontrollierenden Therapie"
+
+# Box 7.1 (p. 71, l. 26–43), in section 7.1: one sentence, ⇑ beside it (l. 30), „Konsensstärke: 100%“. „unter 110 Schlägen
+# / Minute“ is what the action aims at, not for whom: no narrower claim, no threshold (card #377 Decision 4). Its evidence
+# block, in printed order (spec §3.1; #326 Decisions 7, 8): „Reduktion Schlaganfälle: gering ⊕⊕⊝⊝“ — the endpoint
+# Schlaganfall, the result word left out —, then „Nicht-Unterlegenheit für Mortalität, Hospitalisierungen,
+# Symptomkontrolle, Blutungen: sehr gering ⊕⊝⊝⊝“, one entry per endpoint, „Nicht-Unterlegenheit für“ left out (P3
+# readings 8, 9). Each entry quotes the line printing its endpoint, l. 40 once for each of its two. „Literatur: AHRQ 2013“
+# stays on the page. Its Begründung rates the stroke evidence in other words (l. 51–54): disagrees_with.
+- id: claims/vorhofflimmern-lf-1.1/7f65153a
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "7.1"
+  section: "7.1"
+  label: "Bei Patient*innen mit AF unter frequenzkontrollierender Therapie sollte eine Ruheherzfrequenz von unter 110 Schlägen / Minute mit Symptomfreiheit das initiale Therapieziel sein."
+  grade: "⇑"
+  verb: sollte
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {outcome: concepts/schlaganfall, value: "gering", system: grade}
+    - {outcome: concepts/mortalitaet, value: "sehr gering", system: grade}
+    - {outcome: concepts/hospitalisierung, value: "sehr gering", system: grade}
+    - {outcome: concepts/symptomkontrolle, value: "sehr gering", system: grade}
+    - {outcome: concepts/blutungsrate, value: "sehr gering", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=71
+    quote: "Bei Patient*innen mit AF unter frequenzkontrollierender Therapie sollte"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=71, quote: "⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=71, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=71, quote: "Reduktion Schlaganfälle:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=71, quote: "Nicht-Unterlegenheit für Mortalität,"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=71, quote: "Hospitalisierungen,"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=71, quote: "Symptomkontrolle, Blutungen:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=71, quote: "Symptomkontrolle, Blutungen:"}
+# Section 7.1, Begründung (p. 71, l. 51–54): rates the evidence for the stroke rate „niedrigen“, where box 7.1's row prints
+# „Reduktion Schlaganfälle: gering“ — another word, another rating (§5.1 D; #372): a fact claim joined to 7.1's claim, the
+# one claim carrying the row, by disagrees_with (card #377 Decision 7). Its subject is the evidence; N2's exception admits
+# it. „Frequenzkotrolle“ as printed (#314 Decision 4); „[1,2]“ is left out. The rest of the Begründung reports studies
+# (l. 49–51, 54–58: G2) or gives reasons (l. 58–64: N2) and stays on the page.
+- id: claims/vorhofflimmern-lf-1.1/96693379
+  type: claim
+  lang: de
+  kind: fact
+  section: "7.1"
+  label: "Für die Schlaganfallrate konnte ein Vorteil der moderaten Frequenzkotrolle im Vergleich zur strikten Kontrolle gezeigt werden (HR 0.35 (90% CI, 0.13 vs. 0.92)) allerdings mit einer niedrigen Evidenzstärke und bei moderatem „risk of bias“ der eingeschlossenen RCT und der zwei eingeschlossenen Beobachtungsstudien."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=71
+    quote: "allerdings mit einer niedrigen Evidenzstärke"
+
+# Box 7.2 (p. 72, l. 8–19), in section 7.2: one sentence, ⇑ beside it (l. 12), „Konsensstärke: 100%“. Its first line is
+# justified and reads as one run (#371; spec §6.2); „fortbestehender“ alone recurs (l. 39), the anchor does not. One claim
+# with one verb, sollte, from its main clause, and two statements: the lower rate, and the check its „wobei“ clause
+# instructs (spec §3.1; #325 Decision 16; card #377 Decision 3). „(<80 Schläge/min)“ is what the action aims at: no
+# narrower claim, no threshold (Decision 4). The row without a label, „sehr gering ⊕⊝⊝⊝“: one entry without an outcome or
+# a key, carried once; its quote recurs on the page (7.3's row), reported only. „Literatur:“ stays on the page.
+- id: claims/vorhofflimmern-lf-1.1/a516cb41
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "7.2"
+  section: "7.2"
+  label: "Bei fortbestehender AF-induzierter Symptomatik unter frequenzkontrollierender Therapie sollte eine niedrigere Herzfrequenz (<80 Schläge/min) angestrebt werden, wobei insbesondere geprüft werden sollte, ob eine rhythmuserhaltende Therapie in Frage kommt."
+  grade: "⇑"
+  verb: sollte
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {value: "sehr gering", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=72
+    quote: "Bei fortbestehender AF-induzierter Symptomatik unter frequenzkontrollierender Therapie sollte"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=72, quote: "⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=72, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=72, quote: "sehr gering ⊕⊝⊝⊝"}
+# Section 7.2, Begründung of 7.2 (p. 72, l. 25–27): how 7.2's lower rate is reached and for whom — „unabhängig vom
+# Herzinsuffizienz-Status“, by „Intensivierung der medikamentösen Frequenzkontrolle“: R to 7.2 (card #377 reading 10).
+# „empfiehlt“ is the wording empfehlen another declared scheme gives (spec §3.1, step 3). The rest stays: l. 27–30 and
+# 32–33 (effects and reasons: N2), l. 30–32 („Entscheidend ist hierbei zu berücksichtigen …“: what the strategy can and
+# cannot achieve, an effect, N2 — reading 10's other option is S to 7.2), l. 33–36 (RACE II: G2), l. 38–39 (the reasons
+# for the grade; „Die indirekte Evidenz“ names a kind of evidence, not a level: no disagreement), l. 39–40 (7.2's second
+# clause again: G3).
+- id: claims/vorhofflimmern-lf-1.1/63b3f9ce
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.2"
+  label: "Sind Patient*innen unter einer moderaten Frequenzkontrolle weiterhin durch tachykarde Überleitung während AF symptomatisch beeinträchtigt, empfiehlt die Leitliniengruppe unabhängig vom Herzinsuffizienz-Status eine Intensivierung der medikamentösen Frequenzkontrolle."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=72
+    quote: "empfiehlt die Leitliniengruppe unabhängig vom Herzinsuffizienz-Status eine"
+
+# Box 7.3 (p. 72, l. 46–58), in section 7.2: one sentence, ⇑ beside it (l. 50), „Konsensstärke: 86,7%“; „sollte …
+# empfohlen werden“ is sollte. „intensivierte Frequenzkontrolle“ alone recurs (l. 65), the anchor does not. „AV-Knoten
+# Ablation“ as printed (#314 Decision 4). The row without a label, „sehr gering ⊕⊝⊝⊝“, one entry; its quote recurs (7.2's
+# row). Its Begründung rates the evidence in other words (p. 73, l. 46–48) and widens its group (p. 73, l. 8–9):
+# disagrees_with each.
+- id: claims/vorhofflimmern-lf-1.1/dd91ee26
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "7.3"
+  section: "7.2"
+  label: "Patient*innen, die nicht adäquat auf eine intensivierte Frequenzkontrolle ansprechen und nicht für eine Rhythmuskontrolle infrage kommen, sollte zur Symptomreduktion eine Schrittmachertherapie mit AV-Knoten Ablation empfohlen werden."
+  grade: "⇑"
+  verb: sollte
+  direction: for
+  consensus_share: "86,7%"
+  evidence:
+    - {value: "sehr gering", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=72
+    quote: "Patient*innen, die nicht adäquat auf eine intensivierte Frequenzkontrolle"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=72, quote: "⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=72, quote: "Konsensstärke: 86,7%"}
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=72, quote: "sollte zur Symptomreduktion eine Schrittmachertherapie mit AV-Knoten Ablation empfohlen werden."}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=72, quote: "sehr gering ⊕⊝⊝⊝"}
+# Section 7.2, Begründung of 7.3 (p. 72, l. 64–65): what „nicht adäquat auf eine intensivierte Frequenzkontrolle
+# ansprechen“ covers — distressing symptoms „trotz strikter und tolerierter Frequenzkontrolle“: R to 7.3 (card #377
+# reading 3; G3 is the other reading). „besteht … Handlungsbedarf“ says that something is to be done: kind
+# recommendation, no declared wording, no verb.
+- id: claims/vorhofflimmern-lf-1.1/12dd7d05
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.2"
+  label: "Besteht trotz strikter und tolerierter Frequenzkontrolle weiterhin eine belastende AF-assoziierte Symptomatik, besteht nach Ansicht der Leitliniengruppe Handlungsbedarf."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=72
+    quote: "Besteht trotz strikter und tolerierter Frequenzkontrolle weiterhin eine belastende"
+# Section 7.2, Begründung of 7.3 (p. 72, l. 65 – p. 73, l. 4): the sentence runs across the page break and is quoted on
+# p. 72, where its term lies: „(in der Regel zweizeitiger)“ says which technique 7.3's „Schrittmachertherapie mit
+# AV-Knoten Ablation“ stands for — R to 7.3 (card #377 reading 10). „erscheint … als eine wichtige Option“ is no declared
+# wording: no verb. „AV-Knoten-“ / „Ablation“ keeps its hyphen across the page break.
+- id: claims/vorhofflimmern-lf-1.1/73eef58d
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.2"
+  label: "Ist eine weiter intensivierte Frequenzkontrolle nicht medikamentös erreichbar, so erscheint die Schrittmachertherapie plus (in der Regel zweizeitiger) AV-Knoten-Ablation als eine wichtige Option, Tachykardie-assoziierte Beschwerden zu reduzieren."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=72
+    quote: "so erscheint die Schrittmachertherapie plus (in der Regel zweizeitiger)"
+# Section 7.2, Begründung of 7.3 (p. 73, l. 4–6): its effects (l. 4–5) are N2; „sollte vor allem bei älteren
+# Patient*innen diskutiert werden“ says who is above all in 7.3's group — R to 7.3 (card #377 reading 10; U is the other
+# reading). The verb is the instructing clause's, sollte; „[8]“ is left out.
+- id: claims/vorhofflimmern-lf-1.1/361b83c9
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.2"
+  label: "Diese Strategie reduziert die linksventrikuläre Funktion in der Regel nicht, sondern kann in einzelnen Fällen die kardiale Funktion verbessern und sollte vor allem bei älteren Patient*innen diskutiert werden."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=73
+    quote: "sollte vor allem bei älteren Patient*innen diskutiert werden"
+# Section 7.2 (p. 73, l. 8–9): the same measure for another group — symptomatic patients whose target rate is not reached
+# with drugs, without 7.3's intensified rate control and without its „nicht für eine Rhythmuskontrolle infrage kommen“:
+# a distinction the box draws and the text erases, §5.1 D, joined to 7.3's claim by disagrees_with, no R, L or S (card
+# #377 reading 2; U and R are the other readings). Abb. 5 draws the same route from the first target (reading 1).
+# „kann … diskutiert werden“ is the wording kann. l. 6–8 (a trial under way) is N4.
+- id: claims/vorhofflimmern-lf-1.1/ea51b59d
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.2"
+  label: "Auch kann bei symptomatischen Patient*innen, bei denen medikamentös die gewünschte Zielfrequenz nicht erreicht wird, eine AV-Knoten-Ablation plus Schrittmachertherapie diskutiert werden."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=73
+    quote: "Auch kann bei symptomatischen Patient*innen, bei denen medikamentös die"
+# Section 7.2 (p. 73, l. 11–12): which pacing modes 7.3's „Schrittmachertherapie“ covers and what the choice depends on —
+# R to 7.3 (card #377 reading 10; „it stays“ is the other reading). It instructs nothing: kind criterion. „Die Auswahl der
+# Schrittmacherstimulations-Modus“ as printed (#314 Decision 4); the quote is cut before the ASCII quotation marks
+# around „conduction-system“, which the label keeps.
+- id: claims/vorhofflimmern-lf-1.1/a51cd2c7
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.2"
+  label: "Die Auswahl der Schrittmacherstimulations-Modus (rechtsventrikulär, biventrikulär, \"conduction-system\") hängt von individuellen Patientenfaktoren und lokaler Verfügbarkeit ab."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=73
+    quote: "Die Auswahl der Schrittmacherstimulations-Modus (rechtsventrikulär, biventrikulär,"
+# Section 7.2 (p. 73, l. 12–14): when the ablation of 7.3 is done, „einige Wochen nach Schrittmacherimplantation“ — a time
+# beside p. 72's „zweizeitiger“, which it makes precise: R to 7.3 for what it adds (card #377 reading 10; a repetition,
+# G3, is the other reading). A time a term stands for: kind criterion.
+- id: claims/vorhofflimmern-lf-1.1/2ed7fdf6
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.2"
+  label: "Die AV-Knoten-Ablation erfolgt in der Regel einige Wochen nach Schrittmacherimplantation und stellt eine definitive Strategie dar, Patient*innen sind danach dauerhaft schrittmacherabhängig."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=73
+    quote: "Die AV-Knoten-Ablation erfolgt in der Regel einige Wochen nach Schrittmacherimplantation"
+# Section 7.2 (p. 73, l. 16–18): the risks of the implantation and the ablation to be weighed — a measure beside 7.3's,
+# S to 7.3 (card #377 reading 10). „müssen … einbezogen werden“ is no declared wording: no verb. „[10]“ is left out.
+# l. 18–32 (APAF-CRT, Tabelle 14 and „EF < 50%“: G2, N2; „unklar“, l. 29–30: N2) stay on the page.
+- id: claims/vorhofflimmern-lf-1.1/aba62a06
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.2"
+  label: "Es müssen die potentiellen Risiken einer notwendigen Schrittmacherimplantation sowie der AV-Knoten-Ablation (s.u.) in die Abwägung mit einbezogen werden, wobei diese Strategie bei den in der Empfehlung charakterisierten Patientengruppen oftmals alternativlos ist."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=73
+    quote: "Es müssen die potentiellen Risiken einer notwendigen Schrittmacherimplantation"
+# Section 7.2 (p. 73, l. 46–48), before 7.4's heading: rates the evidence „geringen“ for the box it justifies, read as 7.3
+# (card #377 reading 11), whose row prints „sehr gering“ — another word, another rating (§5.1 D; #372): a fact claim
+# joined to 7.3's claim by disagrees_with (Decision 7). If „diesen Patient*innen“ are l. 18–32's HFrEF patients, it rates
+# 7.4 instead (reading 11).
+- id: claims/vorhofflimmern-lf-1.1/74cdcc0c
+  type: claim
+  lang: de
+  kind: fact
+  section: "7.2"
+  label: "Da zur Frequenzkontrolle bei diesen Patient*innen keine Alternativen zur Verfügung stehen und andererseits nur begrenzte Daten vorliegen, ergibt sich mit der geringen Aussagesicherheit der Evidenz der abgeschwächte Empfehlungsgrad."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=73
+    quote: "ergibt sich mit der geringen Aussagesicherheit der Evidenz der abgeschwächte"
+
+# Box 7.4 (p. 73, l. 52–64), in section 7.2: one sentence, ⇑ beside it (l. 56), „Konsensstärke: 100%“; „sollte …
+# empfohlen werden“ is sollte. „hochsymptomatischem permanenten AF“ (against the Begründung's „permanentem“, p. 74, l. 6)
+# and „AV-Knoten Ablation“ as printed (#314 Decision 4). The row without a label, „moderat ⊕⊕⊕⊝“, one entry. The
+# Begründung's „GRADE moderat“ (p. 74, l. 15) agrees with it and stays (N2). „Literatur:“ stays on the page.
+- id: claims/vorhofflimmern-lf-1.1/8c8d4759
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "7.4"
+  section: "7.2"
+  label: "Patient*innen mit hochsymptomatischem permanenten AF und Herzinsuffizienz mit mindestens einer herzinsuffizienzbedingten Hospitalisierung in den letzten 12 Monaten sollte zur Symptomkontrolle und Prognoseverbesserung eine kardiale Resynchronisations-Therapie (CRT) mit anschließender AV-Knoten Ablation empfohlen werden."
+  grade: "⇑"
+  verb: sollte
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {value: "moderat", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=73
+    quote: "Patient*innen mit hochsymptomatischem permanenten AF und Herzinsuffizienz"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=73, quote: "⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=73, quote: "Konsensstärke: 100%"}
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=73, quote: "sollte zur Symptomkontrolle und Prognoseverbesserung"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=73, quote: "moderat ⊕⊕⊕⊝"}
+# 7.4, the rule printed inside its sentence (spec §3.1; #328 Decision 10; card #377 Decision 4): a narrower criterion
+# claim quoting the whole qualifier, with the box's number, section and share, no grade, no evidence, no statement. Its
+# threshold bounds the counted heart-failure hospitalisations (concepts/herzinsuffizienzbedingte-hospitalisierungen, a
+# finding beside the endpoint concepts/hospitalisierung): „mindestens“ is ≥, the value „einer“ as printed, never
+# converted to a number, „in den letzten 12 Monaten“ its time. The group the qualifier gives reaches it by defined_by.
+- id: claims/vorhofflimmern-lf-1.1/274463a4
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: "7.4"
+  section: "7.2"
+  label: "mit mindestens einer herzinsuffizienzbedingten Hospitalisierung in den letzten 12 Monaten"
+  consensus_share: "100%"
+  threshold: {quantity: concepts/herzinsuffizienzbedingte-hospitalisierungen, comparator: "≥", value: "einer", when: "in den letzten 12 Monaten"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=73
+    quote: "mit mindestens einer herzinsuffizienzbedingten Hospitalisierung in den letzten 12 Monaten"
+  provenance:
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=73, quote: "Konsensstärke: 100%"}
+# Section 7.2, Begründung of 7.4 (p. 74, l. 4–36). l. 6–17 has the evidence and a trial as subject (G2; its „schmalem QRS
+# Komplex (≤ 110 ms)“ stays with it, reading 7), l. 8–9 and 17–18 are N4, l. 20–21, 23–24 („> 90%“, a condition of the
+# effect) and 33–36 are N2, l. 26–30 is G2. l. 24–26: for patients with preserved AV conduction and AF, high biventricular
+# pacing by drugs or — „falls dies nicht ausreicht“ — by AV-node ablation, against 7.4's unconditional „mit anschließender
+# AV-Knoten Ablation“: §5.1 D (card #377 reading 8; S and U are the other readings). Its two members name two measures,
+# a claim each, cut at the connective (§5.1 K; #314 Decision 20, „Members“), each joined to 7.4's claim by
+# disagrees_with. The shared predicate „sollte … erzielt wird“ as printed (#314 Decision 4) is sollte. First member:
+- id: claims/vorhofflimmern-lf-1.1/cfea3e79
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.2"
+  label: "Bei Patient*innen mit erhaltener AV-Leitung und AF sollte entweder medikamentös"
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=74
+    quote: "Bei Patient*innen mit erhaltener AV-Leitung und AF sollte entweder medikamentös"
+# The same sentence, second member: the AV-node ablation, „falls dies nicht ausreicht“.
+- id: claims/vorhofflimmern-lf-1.1/9e5ecb21
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.2"
+  label: "– falls dies nicht ausreicht – mittels AV-Knoten-Ablation ein möglichst hoher Anteil an biventrikulärer Stimulation erzielt wird."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=74
+    quote: "falls dies nicht ausreicht – mittels AV-Knoten-Ablation ein möglichst hoher Anteil"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=74, quote: "AF sollte entweder medikamentös oder"}
+# Section 7.2 (p. 74, l. 32–33): ECG checks beside the CRT of 7.4 — S to 7.4 (card #377 reading 8). „empfehlenswert“ is no
+# predicate of a declared wording: no verb.
+- id: claims/vorhofflimmern-lf-1.1/c72ee2ce
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.2"
+  label: "Da die integrierten Zähler verfügbarer CRT-Systeme oftmals eine falsch-hohe Rate an Resynchronisation zeigen können, sind hier EKG-Kontrollen mit dem Fokus auf Fusionsschläge empfehlenswert."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=74
+    quote: "sind hier EKG-Kontrollen mit dem Fokus auf Fusionsschläge empfehlenswert."
+
+# Box 7.5 (p. 74, l. 44–63), in section 7.3: one sentence, ⇑⇑ on its own line (l. 48), „Konsensstärke: 96,8%“; „sollen“ is
+# the wording soll. It names Tabelle 15, whose rows refine it (below). Its evidence block, two rows keyed by comparison
+# (spec §3.1; #326 Decision 11): „Vergleiche der Wirkstoffe untereinander: sehr niedrig“, „für alle Wirkstoffvergleiche und
+# Outcomes“ left out as words that only say what the rating covers, and „Vergleiche vs. Placebo: moderat“. „sehr niedrig“
+# stands beside the source's „sehr gering“ elsewhere: values are never mapped. „Literatur: AHRQ 2013, NICE 2021“ stays on
+# the page. p. 77, l. 7–9 rates the comparisons in other words: disagrees_with.
+- id: claims/vorhofflimmern-lf-1.1/cdc24372
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "7.5"
+  section: "7.3"
+  label: "Zur Frequenzkontrolle sollen Wirkstoffe gemäß Tabelle 15 eingesetzt werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  consensus_share: "96,8%"
+  evidence:
+    - {key: "Vergleiche der Wirkstoffe untereinander", value: "sehr niedrig", system: grade}
+    - {key: "Vergleiche vs. Placebo", value: "moderat", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=74
+    quote: "Zur Frequenzkontrolle sollen Wirkstoffe gemäß Tabelle 15 eingesetzt werden."
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=74, quote: "⇑⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=74, quote: "Konsensstärke: 96,8%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=74, quote: "Vergleiche der Wirkstoffe untereinander:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=74, quote: "Vergleiche vs. Placebo:"}
+# Box 7.6 (p. 75, l. 4–20), in section 7.3, opening the page without an „Empfehlung“ heading, marked by its frame, number
+# and kind line (#314 Decision 3): one sentence, ⇑⇑ beside it (l. 8), „Konsensstärke: 100%“. Its one row, as printed:
+# „Vergleiche der Wirkstoffe untereinander: sehr niedrig“, the words „für alle Wirkstoffvergleiche und Outcomes“ left out.
+- id: claims/vorhofflimmern-lf-1.1/dd77d603
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "7.6"
+  section: "7.3"
+  label: "Die Auswahl und Dosierung der zur Frequenzkontrolle eingesetzten Substanzen soll sich am Nebenwirkungsspektrum, an den jeweiligen Komorbiditäten und der individuellen Verträglichkeit orientieren."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {key: "Vergleiche der Wirkstoffe untereinander", value: "sehr niedrig", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=75
+    quote: "Die Auswahl und Dosierung der zur Frequenzkontrolle eingesetzten"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=75, quote: "⇑⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=75, quote: "Konsensstärke: 100%"}
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=75, quote: "Substanzen soll sich am Nebenwirkungsspektrum"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=75, quote: "Vergleiche der Wirkstoffe untereinander:"}
+
+# Tabelle 15, „Wirkstoffe zur Frequenzkontrolle“ (p. 75, l. 24 – p. 76, l. 74), named by 7.5 („Wirkstoffe gemäß Tabelle
+# 15“): a table whose rows each give another agent, a claim per row (§5.1 K; #325 Decision 8), each refining 7.5, kind
+# criterion (the agents, approvals, doses and contraindications 7.5's „Wirkstoffe“ covers), section 7.3, no grade, no
+# threshold (a dose is none, §3.1). Each label reads „Kopf: Zelle; …“ with the head printed once on p. 75: the agent with
+# its group row („Beta-Blocker“, „Calcium-Antagonist“, „Digitalis“, „Andere“) under „Wirkstoffklasse / Wirkstoff“, the
+# „●“ items joined by „, “, „(Auswahl)“ kept in the head; a line break reads as a space and a line-end hyphen as the
+# printed word reads, as in a quote (spec §6.2); „-“ and „N/A“ as printed; an empty cell is left out. Each row quotes the
+# agent's cell, on its own page; „Digoxin“ lies twice on p. 76, so its row quotes its approval cell (l. 45–47).
+# „Metoprolol-“ / „succinat Retard“ (p. 75, l. 39–40) is read as one word, „Metoprololsuccinat“ (the extractor's reading).
+# Doses and contraindications go with their row (reading 13). p. 75's rows:
+- id: claims/vorhofflimmern-lf-1.1/f8dc3b9f
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.3"
+  label: "Wirkstoffklasse / Wirkstoff: Beta-Blocker / Metoprololtartrat; Zulassung für Herzrhythmusstörungen: Tachykarde Rhythmusstörungen; Zulassung für Komorbidität: Hypertonie, KHK; Dosierung i. v. akute Therapie / Notfall: bis zu 5 mg i. v. (1 – 2 mg/Min.) max. 10 – 15 mg; Dosierung oral Dauertherapie: 1 – 2 x tgl. 2 Tabl. d.h. 100 – 200 mg; Kontraindikationen (Auswahl): akute/ unbehandelte/ dekompensierte Herzinsuffizienz, bronchiale Hyperreagibilität, Asthma bronchiale"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=75
+    quote: "Metoprololtartrat"
+- id: claims/vorhofflimmern-lf-1.1/847f6c72
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.3"
+  label: "Wirkstoffklasse / Wirkstoff: Beta-Blocker / Metoprololsuccinat Retard; Zulassung für Herzrhythmusstörungen: Tachykarde Rhythmusstörungen; Zulassung für Komorbidität: Chronische Herzinsuffizienz, Arterielle Hypertonie, Angina pectoris (Koronare Herzkrankheit); Dosierung i. v. akute Therapie / Notfall: -; Dosierung oral Dauertherapie: 1 x tgl. 50 – 200 mg; Kontraindikationen (Auswahl): Akute/ unbehandelte/ dekompensierte Herzinsuffizienz, Bronchiale Hyperreagibilität, Asthma bronchiale"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=75
+    quote: "Metoprololsuccinat Retard"
+- id: claims/vorhofflimmern-lf-1.1/b3e44526
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.3"
+  label: "Wirkstoffklasse / Wirkstoff: Beta-Blocker / Atenolol; Zulassung für Herzrhythmusstörungen: Supraventrikuläre Rhythmusstörungen; Zulassung für Komorbidität: Angina pectoris, Arterielle Hypertonie, Ventrikuläre Arrhythmien; Dosierung i. v. akute Therapie / Notfall: -; Dosierung oral Dauertherapie: 1-2 x tgl. 50 mg bzw. 1 x tgl. 25 bis 100 mg; Kontraindikationen (Auswahl): Bronchiale Hyperreagibilität, HFrEF, Akute/ unbehandelte/ dekompensierte / manifeste Herzinsuffizienz, Asthma bronchiale"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=75
+    quote: "Atenolol"
+- id: claims/vorhofflimmern-lf-1.1/205354e1
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.3"
+  label: "Wirkstoffklasse / Wirkstoff: Beta-Blocker / Carvedilol; Zulassung für Herzrhythmusstörungen: Nein; Zulassung für Komorbidität: Arterielle Hypertonie, Chronisch stabile Angina pectoris, Koronare Herzkrankheit, Chronische Herzinsuffizienz; Dosierung i. v. akute Therapie / Notfall: -; Dosierung oral Dauertherapie: 2 x tgl 3,125 – 50 mg; Kontraindikationen (Auswahl): Akute/ unbehandelte/ dekompensierte Herzinsuffizienz, Bronchiale Hyperreagibilität, Asthma bronchiale"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=75
+    quote: "Carvedilol"
+- id: claims/vorhofflimmern-lf-1.1/23d5b01f
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.3"
+  label: "Wirkstoffklasse / Wirkstoff: Beta-Blocker / Nebivolol; Zulassung für Herzrhythmusstörungen: Nein; Zulassung für Komorbidität: Arterielle Hypertonie, Herzinsuffizienz; Dosierung i. v. akute Therapie / Notfall: N/A; Dosierung oral Dauertherapie: 1 x tgl 2,5 – 10 mg; Kontraindikationen (Auswahl): Akute unbehandelte/dekompensierte Herzinsuffizienz, Bronchiale Hyperreagibilität, Asthma bronchiale"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=75
+    quote: "Nebivolol"
+# Bisoprolol's „Nein“ agrees with p. 77, l. 12–13 („nicht zugelassen“), which stays on the page.
+- id: claims/vorhofflimmern-lf-1.1/1a41c7bd
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.3"
+  label: "Wirkstoffklasse / Wirkstoff: Beta-Blocker / Bisoprolol; Zulassung für Herzrhythmusstörungen: Nein; Zulassung für Komorbidität: Arterielle Hypertonie, Angina pectoris, Koronare Herzkrankheit; Dosierung i. v. akute Therapie / Notfall: N/A; Dosierung oral Dauertherapie: 1 x tgl. 1,25 – 20mg; Kontraindikationen (Auswahl): Akute/ unbehandelte/ dekompensierte Herzinsuffizienz, Asthma/Bronchiale Hyperreagibilität"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=75
+    quote: "Bisoprolol"
+# Tabelle 15 on p. 76, its head not repeated. Verapamil's „Tachykardie/AF/Vorhof“ / „flattern“ (l. 6–7) breaks without a
+# hyphen and reads with a space, as a line break does; its contraindication cell holds ASCII quotation marks, kept in the
+# label (the quote is the agent's cell).
+- id: claims/vorhofflimmern-lf-1.1/4798524f
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.3"
+  label: "Wirkstoffklasse / Wirkstoff: Calcium-Antagonist / Verapamil; Zulassung für Herzrhythmusstörungen: supraventrikuläre Tachykardie/AF/Vorhof flattern mit tachykarder Überleitung; Zulassung für Komorbidität: KHK, Arterielle Hypertonie, HOCM (Hypertrophe obstruktive Kardiomyopathie); Dosierung i. v. akute Therapie / Notfall: Initial 5 mg Bolus ggf. nach 5 – 10 Min. weitere 5mg ggf. anschließend Dauertropfinfusion von 5 – 10 mg /h; bis zu Gesamtdosis von 100 mg /Tag.; Dosierung oral Dauertherapie: 3 x tgl 40 bis 120mg, max. 480 mg pro Tag; Kontraindikationen (Auswahl): HFrEF (\"heart failure with reduced ejection fraction\"), Präexzitation"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=76
+    quote: "Verapamil"
+- id: claims/vorhofflimmern-lf-1.1/53af4a81
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.3"
+  label: "Wirkstoffklasse / Wirkstoff: Calcium-Antagonist / Diltiazem; Zulassung für Herzrhythmusstörungen: Rhythmusstörungen; Zulassung für Komorbidität: Angina pectoris, Arterieller Hypertonus; Dosierung i. v. akute Therapie / Notfall: Bolus: 0,25 mg/kg KG (über 2 Min.), ggf. 2. Bolus (0,35 mg/kg KG) nach 15 Min. Kontinuierliche Infusion: 5 – 15 mg/h über 24 Stunden; Dosierung oral Dauertherapie: 3 x tgl 60 mg bis 1 x tgl 360 mg; Kontraindikationen (Auswahl): Manifeste Herzinsuffizienz"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=76
+    quote: "Diltiazem"
+# Digitoxin's contraindication cell holds a note and, after it, the citation of a journal article (l. 32–35): a reference
+# in the cell, not part of the row's reading, left out of the label as #325 Decision 8 says (card #377 reading 13); it
+# stays on the page. Its i. v. cell's unmatched „)“ as printed.
+- id: claims/vorhofflimmern-lf-1.1/d1eba440
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.3"
+  label: "Wirkstoffklasse / Wirkstoff: Digitalis / Digitoxin; Zulassung für Herzrhythmusstörungen: ja; Zulassung für Komorbidität: Herzinsuffizienz; Dosierung i. v. akute Therapie / Notfall: Im Allgemeinen wird mit einer mittelschnellen Sättigungsbehandlung begonnen: z. B. 1 –2 x tgl. d.h. 0,25 – 0,5 mg /Tag) 2. und 3. Tag: z. B. 1x tgl. d.h. 0,25 mg /Tag) Ab 4. Tag erfolgt die Erhaltungsdosis i. v. oder oral; Dosierung oral Dauertherapie: Aufsättigung: (p.o.) 0,5–1,0 mg (über 3 Tage) Tägliche Erhaltungsdosis: 0,035–0,1 mg Toxische Serumkonzentration: > 30 ng/ml; Kontraindikationen (Auswahl): – alternativ: Digoxin (u.a. Lieferengpass)"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=76
+    quote: "Digitoxin"
+- id: claims/vorhofflimmern-lf-1.1/1e596d3a
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.3"
+  label: "Wirkstoffklasse / Wirkstoff: Digitalis / Digoxin; Zulassung für Herzrhythmusstörungen: Tachyarrhythmia absoluta bei chronischem AF; Zulassung für Komorbidität: Manifeste chronische systolische Herzinsuffizienz; Dosierung i. v. akute Therapie / Notfall: Aufsättigung: (i.v.) 0,75–1,5 mg (über 3 Tage) Tägliche Erhaltungsdosis (i.v.): 0,05–0,25 mg; Dosierung oral Dauertherapie: Aufsättigung: (p.o.) 0,75–1,5 mg (über 3 Tage) Tägliche Erhaltungsdosis (p.o.): 0,05– 0,25 mg Zielkonzentration: 0,5–0,9 ng/ml (0,65– 1,15 nmol/l) Toxische Serumkonzentration: > 2 ng/ml; Kontraindikationen (Auswahl): Kammertachykardie, Präexzitation, Hypokaliämie, Hyperkalzämie, HOCM (Hypertrophe obstruktive Kardiomyopathie), Akuter Herzinfarkt, CAVE Dosisreduktion bei eingeschränkter Nierenfunktion"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=76
+    quote: "Tachyarrhythmia absoluta bei chronischem AF"
+# Amiodaron's „Zulassung für Komorbidität“ cell is empty and left out.
+- id: claims/vorhofflimmern-lf-1.1/594f3b52
+  type: claim
+  lang: de
+  kind: criterion
+  section: "7.3"
+  label: "Wirkstoffklasse / Wirkstoff: Andere / Amiodaron; Zulassung für Herzrhythmusstörungen: (Paroxysmales) AF; Dosierung i. v. akute Therapie / Notfall: einmalige Infusion in der Regel: 300 mg in 250ml 5%iger Glukoselösung in 20min bis 2 Std. Dauerinfusion: 10 – 20 mg/kg KG in 250 – 500 ml 5%iger Glukoselösung in 24 Std.; Dosierung oral Dauertherapie: Aufsättigung: 3 x tgl 200 mg für z.B. 10 Tage übliche Erhaltungsdosis 200 mg/Tag; Kontraindikationen (Auswahl): Schilddrüsenerkrankung, Hypokaliämie, Jodallergie, Vorbestehende QTc-Zeit-Verlängerung"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=76
+    quote: "Amiodaron"
+
+# Section 7.3, the Begründung 7.5 and 7.6 share (p. 77, l. 4–35), read against both (#325 Decision 2). l. 6–7 (G2), l. 9–11
+# (7.6 again: G3), l. 12–13 (Bisoprolol „nicht zugelassen“, a fact Tabelle 15's row prints), l. 13–15 (other guidelines:
+# G2; „sehr nützlich“: G3 beside Tabelle 15's row, reading 12), l. 19–20 (G2), l. 20–21 („moderat bewertet“ rates
+# digitalis's effect, not the evidence: N2), l. 22–24 (G3) and l. 32–35 (the reasons for both grades; „Die moderate
+# Aussagesicherheit“ agrees with 7.5's placebo row: N2, reading 12) stay on the page.
+# l. 7–9: rates the comparisons of the agents „sehr geringer“, where 7.5 and 7.6 each print „Vergleiche der Wirkstoffe
+# untereinander: sehr niedrig“ — another word, another rating, though the two may name one level (§5.1 D; #372, F6): a
+# fact claim joined by disagrees_with to both claims that carry the row (F5; card #377 Decision 7).
+- id: claims/vorhofflimmern-lf-1.1/9bbf0ba1
+  type: claim
+  lang: de
+  kind: fact
+  section: "7.3"
+  label: "Zum direkten Vergleich einzelner Wirkstoffe liegt nur Evidenz von sehr geringer Aussagesicherheit vor, aus der sich nicht ableiten lässt, ob einzelne Wirkstoffe anderen überlegen sind."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=77
+    quote: "liegt nur Evidenz von sehr geringer Aussagesicherheit vor"
+# l. 11–12: the first stage of drug rate control, which agents 7.5's „Wirkstoffe“ stand for first — R to 7.5 (card #377
+# reading 12; S is the other reading). Two members „oder“ joins, two agents: a claim each, cut at the connective (§5.1 K;
+# #314 Decision 20, „Members“). „werden … empfohlen“ is the wording empfehlen another declared scheme gives (§3.1, step
+# 3). First member:
+- id: claims/vorhofflimmern-lf-1.1/c682903d
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.3"
+  label: "Es werden Beta-Blocker"
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=77
+    quote: "Es werden Beta-Blocker"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=77, quote: "als erste Stufe der medikamentösen Frequenzkontrolle empfohlen"}
+# The same sentence, second member: the calcium antagonists.
+- id: claims/vorhofflimmern-lf-1.1/d3da9903
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.3"
+  label: "Calcium-Antagonisten (Verapamil, Diltiazem) als erste Stufe der medikamentösen Frequenzkontrolle empfohlen."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=77
+    quote: "Calcium-Antagonisten (Verapamil, Diltiazem) als erste Stufe"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=77, quote: "als erste Stufe der medikamentösen Frequenzkontrolle empfohlen"}
+# l. 17–19: the next stage when the first fails — S to 7.5 (card #377 reading 12). The parenthesis „(selten auch
+# Amiodaron)“ is joined by no connective and stays in the one claim. „ist … möglich“ is no declared wording: no verb.
+- id: claims/vorhofflimmern-lf-1.1/fa7a2645
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.3"
+  label: "Falls nach entsprechender Ausdosierung eines Beta-Blockers oder Calcium-Antagonisten keine adäquate Frequenzkontrolle erreicht wird, ist in einer nächsten Stufe eine Kombination mit Digitalispräparaten (selten auch Amiodaron) möglich."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=77
+    quote: "ist in einer nächsten Stufe eine Kombination mit Digitalispräparaten"
+# l. 21–22: what the dosing has to consider, after the sentences on digitalis — R to 7.6's „Dosierung“ (card #377
+# reading 12; S to 7.5 is the other reading). „muss“ is no declared wording: no verb.
+- id: claims/vorhofflimmern-lf-1.1/d4f9ecdb
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.3"
+  label: "Bei der Dosierung muss das enge therapeutische Fenster berücksichtigt werden."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=77
+    quote: "Bei der Dosierung muss das enge therapeutische Fenster berücksichtigt werden."
+# l. 24–26: amiodarone's use „überwiegend der Rhythmuskontrolle vorbehalten“ takes it largely out of 7.5's agents for
+# rate control — L to 7.5 (card #377 reading 12). A use reserved for other situations, read as neither for nor against
+# (no direction; the pool's precedent of a „vorbehalten“ sentence), no declared wording, no verb.
+- id: claims/vorhofflimmern-lf-1.1/c2bbb779
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.3"
+  label: "Der Einsatz von Amiodaron ist aufgrund des hohen Nebenwirkungspotentials vor allem im ambulanten Bereich überwiegend der Rhythmuskontrolle vorbehalten."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=77
+    quote: "Der Einsatz von Amiodaron ist aufgrund des hohen Nebenwirkungspotentials"
+# l. 28–30: which agents 7.5's „Wirkstoffe“ stand for in acute therapy — R to 7.5 (card #377 reading 12). Two members
+# „oder“ joins, a claim each (§5.1 K). „wird … vorgezogen“ is no declared wording: no verb. First member:
+- id: claims/vorhofflimmern-lf-1.1/cc644e3f
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.3"
+  label: "Aufgrund des schnellen Wirkeintritts und der effektiven Wirkung auch bei hohem Sympathikotonus wird in der Akuttherapie zur Frequenzkontrolle der Einsatz von ß-Blockern"
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=77
+    quote: "der Einsatz von ß-Blockern"
+# The same sentence, second member: the calcium antagonists.
+- id: claims/vorhofflimmern-lf-1.1/19fd8413
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "7.3"
+  label: "Calcium-Antagonisten der Therapie mit Digitalispräparaten vorgezogen."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=77
+    quote: "Calcium-Antagonisten der Therapie mit Digitalispräparaten vorgezogen."
