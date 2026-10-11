@@ -1,0 +1,12 @@
+# A statement of card #376 (C2), chapter 4 of sources/vorhofflimmern-lf-1.1.
+# Box 4.1 (p. 29), its first predicate: one of two statements its one claim supports (spec §3.1; #376 Decision 3).
+# Anchor: the root (card #364, convention row 1 and its sample).
+id: statements/regelmaessige-befragung-zur-koerperlichen-aktivitaet
+type: statement
+lang: de
+label: "Patient*innen mit AF hinsichtlich des Ausmaßes ihrer körperlichen Aktivität regelmäßig befragen."
+short_label: "Regelmäßig zur körperlichen Aktivität befragen"
+slots:
+  population: concepts/patientinnen-mit-vorhofflimmern
+  action: concepts/regelmaessige-befragung-zum-ausmass-der-koerperlichen-aktivitaet
+source: modelling

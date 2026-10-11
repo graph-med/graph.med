@@ -1,0 +1,9 @@
+# A concept of card #376 (C2), chapter 4 of sources/vorhofflimmern-lf-1.1.
+# The action of box 4.4, „Entspannungsverfahren können … empfohlen werden“ (p. 31). The methods the Begründung lists
+# („z.B. Qi Gong, Yoga, Progressive Muskelentspannung (PMR), Tai-Chi“, p. 31) stay on the page (#376 reading 5).
+id: concepts/entspannungsverfahren
+type: concept
+lang: de
+label: "Entspannungsverfahren"
+facet: intervention
+source: modelling

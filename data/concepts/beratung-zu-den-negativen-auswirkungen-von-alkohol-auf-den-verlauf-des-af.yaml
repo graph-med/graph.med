@@ -1,0 +1,10 @@
+# A concept of card #376 (C2), chapter 4 of sources/vorhofflimmern-lf-1.1.
+# The action of box 4.5's first sentence, „sollen hinsichtlich des Konsums von Alkohol zu den negativen Auswirkungen auf
+# den Verlauf des AF beraten werden“ (p. 32).
+id: concepts/beratung-zu-den-negativen-auswirkungen-von-alkohol-auf-den-verlauf-des-af
+type: concept
+lang: de
+label: "Beratung zu den negativen Auswirkungen des Alkoholkonsums auf den Verlauf des AF"
+short_label: "Beratung zu negativen Auswirkungen von Alkohol"
+facet: intervention
+source: modelling

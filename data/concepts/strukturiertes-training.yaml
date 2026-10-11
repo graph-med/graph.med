@@ -1,0 +1,9 @@
+# A concept of card #376 (C2), chapter 4 of sources/vorhofflimmern-lf-1.1.
+# The action of box 4.2, „soll ein strukturiertes Training (z.B. Herzsportgruppe) empfohlen werden“ (p. 30), the title
+# of section 4.2.1; the example stays in the claim's and the statement's labels (§5.1 G3).
+id: concepts/strukturiertes-training
+type: concept
+lang: de
+label: "strukturiertes Training"
+facet: intervention
+source: modelling

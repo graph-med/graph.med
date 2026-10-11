@@ -1,0 +1,12 @@
+# A statement of card #376 (C2), chapter 4 of sources/vorhofflimmern-lf-1.1.
+# Box 4.6 (p. 33). Anchor: the two groups „sowie“ joins, one concept naming both, in the tree (card #364, convention row
+# 12 and its sample); its scope edge and condition are X2's. The action is the abstinence, recorded for (#376 Decision 8).
+id: statements/verzicht-auf-tabakkonsum
+type: statement
+lang: de
+label: "Patient*innen mit AF sowie allen Patient*innen, die regelmäßig Zigaretten rauchen, empfehlen, auf Tabakkonsum zu verzichten."
+short_label: "Auf Tabakkonsum verzichten: AF und regelmäßig Rauchende"
+slots:
+  population: concepts/patientinnen-mit-af-sowie-alle-patientinnen-die-regelmaessig-zigaretten-rauchen
+  action: concepts/verzicht-auf-tabakkonsum
+source: modelling

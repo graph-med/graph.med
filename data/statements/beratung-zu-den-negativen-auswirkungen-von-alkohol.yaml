@@ -1,0 +1,11 @@
+# A statement of card #376 (C2), chapter 4 of sources/vorhofflimmern-lf-1.1.
+# Box 4.5, sentence 1 (p. 32). Anchor: the root (card #364, convention row 1).
+id: statements/beratung-zu-den-negativen-auswirkungen-von-alkohol
+type: statement
+lang: de
+label: "Patient*innen mit AF hinsichtlich des Konsums von Alkohol zu den negativen Auswirkungen auf den Verlauf des AF beraten."
+short_label: "Beratung zu negativen Auswirkungen von Alkohol"
+slots:
+  population: concepts/patientinnen-mit-vorhofflimmern
+  action: concepts/beratung-zu-den-negativen-auswirkungen-von-alkohol-auf-den-verlauf-des-af
+source: modelling

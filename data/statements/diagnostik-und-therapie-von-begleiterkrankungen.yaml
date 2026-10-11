@@ -1,0 +1,12 @@
+# A statement of card #376 (C2), chapter 4 of sources/vorhofflimmern-lf-1.1.
+# Box 4.9 (p. 35): one statement; „und soll sich an den jeweiligen Leitlinien orientieren“ says how (spec §3.1; #376
+# Decision 3). Anchor: the root (card #364, convention row 1).
+id: statements/diagnostik-und-therapie-von-begleiterkrankungen
+type: statement
+lang: de
+label: "Allen Patientinnen und Patienten mit Vorhofflimmern die Diagnostik und Therapie von Begleiterkrankungen wie Adipositas, arterielle Hypertonie, Diabetes mellitus, Herzinsuffizienz und schlafbezogene Atmungsstörungen zur ergänzenden Behandlung des Vorhofflimmerns empfehlen, orientiert an den jeweiligen Leitlinien (siehe Tabelle 7)."
+short_label: "Diagnostik und Therapie von Begleiterkrankungen"
+slots:
+  population: concepts/patientinnen-mit-vorhofflimmern
+  action: concepts/diagnostik-und-therapie-von-begleiterkrankungen
+source: modelling

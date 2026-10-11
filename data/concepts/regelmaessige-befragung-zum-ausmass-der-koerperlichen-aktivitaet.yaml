@@ -1,0 +1,11 @@
+# A concept of card #376 (C2), chapter 4 of sources/vorhofflimmern-lf-1.1.
+# The first action of box 4.1: „sollen hinsichtlich des Ausmaßes ihrer körperlichen Aktivität regelmäßig befragt … werden“
+# (p. 29), one of its two predicates (spec §3.1; #376 Decision 3). „körperliche Aktivität“ itself is not minted: a
+# concept other parts may need (C1's Tabelle 4, C7b's §8.10), named for the coordinator's sweep.
+id: concepts/regelmaessige-befragung-zum-ausmass-der-koerperlichen-aktivitaet
+type: concept
+lang: de
+label: "regelmäßige Befragung zum Ausmaß der körperlichen Aktivität"
+short_label: "Befragung zur körperlichen Aktivität"
+facet: intervention
+source: modelling

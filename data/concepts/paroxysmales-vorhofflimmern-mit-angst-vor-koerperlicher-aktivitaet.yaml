@@ -1,0 +1,12 @@
+# A concept of card #376 (C2), chapter 4 of sources/vorhofflimmern-lf-1.1.
+# The group box 4.2 addresses, „Patient*innen mit paroxysmalem AF sowie Angst vor körperlicher Aktivität“ (p. 30): an AF
+# form narrowed by a state, a subgroup anchor — card #364's convention row 4 and its sample, its label the sample's.
+# Read as the patients who have both (#376 reading 1); „Besonders“ stays in the statement's labels. Its broader edge to
+# concepts/paroxysmales-vorhofflimmern is X2's.
+id: concepts/paroxysmales-vorhofflimmern-mit-angst-vor-koerperlicher-aktivitaet
+type: concept
+lang: de
+label: "paroxysmales Vorhofflimmern mit Angst vor körperlicher Aktivität"
+short_label: "paroxysmales AF mit Angst vor körperlicher Aktivität"
+facet: patient_state
+source: modelling

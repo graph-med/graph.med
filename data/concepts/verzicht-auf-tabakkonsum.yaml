@@ -1,0 +1,9 @@
+# A concept of card #376 (C2), chapter 4 of sources/vorhofflimmern-lf-1.1.
+# The action of box 4.6, „auf Tabakkonsum zu verzichten“ (p. 33), recorded for under ⇑⇑ (spec §3.1 `direction`). POMGAT
+# records its „… verzichtet werden“ boxes against; named in the pull request (#376 Decision 8).
+id: concepts/verzicht-auf-tabakkonsum
+type: concept
+lang: de
+label: "Verzicht auf Tabakkonsum"
+facet: intervention
+source: modelling
