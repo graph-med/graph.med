@@ -23,8 +23,9 @@
 # connective is printed in its quotes; `at_least` counts no more parts than it
 # has; a `sum` gives each part its points, one per part, and is a part of no
 # combination, and a concept whose rule is a sum fills no statement slot and no
-# axis placement; a relative threshold is relative to another quantity than
-# its own),
+# axis placement; a threshold's `quantity` and `relative_to` are concepts of
+# facet `finding`, and a relative threshold is relative to another quantity
+# than its own),
 # a disagreement is the source's own (spec §5: `disagrees_with` joins two
 # claims of one source, never a claim to itself, one edge per pair),
 # a sequence holds together (spec §5 `follows`: some one source has claims
@@ -227,12 +228,12 @@ $defs:
     required: [quantity, comparator, value]
     additionalProperties: false
     properties:
-      quantity:    {$ref: '#/$defs/concept_ref'}   # what is measured or scored
+      quantity:    {$ref: '#/$defs/concept_ref'}   # what is measured or scored, a concept of facet `finding` (validator)
       comparator:  {enum: ["<", "≤", ">", "≥", "=", between]}   # `between`: `value` holds both bounds as printed
       value:       {$ref: '#/$defs/text'}          # as printed, a string ("5000", "zwei", "Dreifach"); never a number the loader may reshape
       unit:        {$ref: '#/$defs/text'}          # as printed ("U/L", "ml/Tag"); absent where the source prints none
       when:        {$ref: '#/$defs/text'}          # the time point of the measurement as printed ("am postop. Tag 1 und 3"); absent where none is printed
-      relative_to: {$ref: '#/$defs/concept_ref'}   # a relative threshold: the reference quantity, another than `quantity` (validator)
+      relative_to: {$ref: '#/$defs/concept_ref'}   # a relative threshold: the reference quantity, another than `quantity`, a concept of facet `finding` (validator)
   # how the parts of a rule combine (spec §3.1), read off the passage like a threshold: never a default,
   # never inferred from a word alone. The operator is the reading, from a closed set because it is logic
   # and arithmetic, like the comparators: all_of (UND), any_of (ODER), at_least with `n` (mindestens n von),
