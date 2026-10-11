@@ -9,7 +9,7 @@ url: https://register.awmf.org/assets/guidelines/079-001l_S3_Sepsis-Praevention-
 content_hash: sha256:0dcaf595d547c925326a3c00908a192ee4338ed38f3698f4c19d90e2def19b9d
 media_type: application/pdf
 license: "Deutsche Sepsis-Gesellschaft e. V. (federführend) et al., publiziert im AWMF-Register (079-001); das Dokument
-  nennt keine Lizenz — referenced at its public URL, never rehosted"
+  nennt keine Lizenz"
 structure: [versorgungspfad, modalitaetsbezogen]   # chapters 2–10 from screening through therapy by modality to follow-up and prevention
 grading_scheme:   # spec §3.1: Tabellen 7 and 8 (p. 148) and the count on p. 3, quoted cell by cell
   grades:   # the legend's order: Tabelle 7's rows, then EK, which fixes no wording

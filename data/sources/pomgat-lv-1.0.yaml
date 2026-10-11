@@ -8,8 +8,8 @@ awmf_register: 088-010OL
 url: https://register.awmf.org/assets/guidelines/008-010OLl_S3_Perioperatives-Management-bei-gastrointestinalen-Tumoren-POMGAT_2023-12.pdf
 content_hash: sha256:029c69784282f3dc81c5bdd1220cddda82672d77f8396c55372df4d3d2fdb974
 media_type: application/pdf
-license: © Leitlinienprogramm Onkologie (DKG, Deutsche Krebshilfe, AWMF) — referenced at its public URL, never rehosted;
-  written permission of the OL-Redaktion required for any reproduction
+license: © Leitlinienprogramm Onkologie (DKG, Deutsche Krebshilfe, AWMF); written permission of the OL-Redaktion required
+  for any reproduction
 structure: [chronologisch_perioperativ, anatomisch, modalitaetsbezogen]   # chapters 4–8 by phase, subsections by organ and by modality
 grading_scheme:   # spec §3.1: Tabelle 5 (p. 19), section 2.2.4 and Tabelle 6 (p. 20), quoted cell by cell
   grades:   # the legend's order: Tabelle 5's rows, then EK, which fixes no wording
