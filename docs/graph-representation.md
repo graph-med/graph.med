@@ -292,9 +292,10 @@ behind it is are two different facts, and a source may state the second per
 outcome — *hoch* for one endpoint, *sehr niedrig* for another — or per row of
 another kind: a component of the action, a subgroup, an arm, a comparator, a
 device, a regimen. A claim carries it as **`evidence`**: a list of entries, one
-per row the source prints, in its order, each the rating in the words of the
-system that made it (`value`, `system`: GRADE, Oxford, the ESC levels, whatever
-the source used), the outcome concept it applies to where the row names an
+per row the source prints and per endpoint where a row names several, in its
+order, each the rating in the words of the system that made it (`value`,
+`system`: GRADE, Oxford, the ESC levels, whatever the source used), the
+outcome concept it applies to where the row names an
 endpoint (`outcome`), and the row's **`key`** as printed where the row names
 anything else ("Sepsis-Screening", "Septischer Schock", "Dopamin", "HAT",
 "oXiris®"), its reference marks left out as a label's are (above). The key is
@@ -308,7 +309,19 @@ Mortalität") — belongs to the endpoint and is no key. **A component, a subgro
 or a comparator is never recorded as an outcome**: an `outcome` is a concept of
 facet `outcome` (validator). The key also keeps apart rows that would otherwise
 be the same entry — three devices rated *Sehr niedrig* for one endpoint — so no
-two rows the source prints become one entry. The `value` is the system's word
+two rows the source prints become one entry. A row that rates **several names
+under one rating** — several agents, comparators or other things that are no
+endpoint — is one entry, and its key lists the names of what the rating covers,
+as printed and in printed order, joined by ", ": without the effect data printed
+between them (effect sizes, intervals, ranks, a certainty repeated in words),
+and without a name the row mentions only to say that nothing reports on it,
+which the rating does not cover. It is the one case where a key joins words the
+page prints apart; one entry per row keeps the count the card shows equal to the
+page's, and the key tells the reader what each rating covers. A row that rates
+**several endpoints under one rating** gives one entry per endpoint, in printed
+order, each with the row's value and system and, where the row prints any, a key
+of the names it prints for that endpoint: every endpoint stays an `outcome`, and
+every quote stays paired with its entry. The `value` is the system's word
 **as printed**, "Moderat" where the box prints it capitalised: the case is the
 print's, not a second level, and a consumer compares the values of one system
 without regard to it. Where the source prints a rating twice, as a word and as
@@ -338,11 +351,12 @@ is given to one sentence by reading its key against the sentence. A sentence
 that supports another sentence's statement, or none, carries none: that
 statement's card shows the rows already, and a second claim repeating them would
 count each row twice. Like the grade, the rating is read off the source and
-never inferred: its provenance is required (§6.5) — one quote per row, in the
-rows' order, the line that prints the row's key or outcome (the rating's own
-line where the row prints neither), followed by the method section's line that
-names the system where the row prints a level no notation identifies (a bare
-"1", where GRADE's ⊕ symbols identify theirs).
+never inferred: its provenance is required (§6.5) — one quote per entry, in the
+entries' order, the line that prints the entry's key or outcome (for an endpoint
+of a row that names several, the line that prints that endpoint; the rating's
+own line where the row prints neither), followed by the method section's line
+that names the system where the row prints a level no notation identifies (a
+bare "1", where GRADE's ⊕ symbols identify theirs).
 
 A criterion or a definition may print a **threshold** — "Amylase im
 Drainagesekret unter 5000 U/L am ersten postop. Tag", "ASA Status von
