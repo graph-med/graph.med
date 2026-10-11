@@ -5,5 +5,5 @@ id: concepts/gerinnungsstoerung
 type: concept
 lang: de
 label: "Gerinnungsstörung"
-facet: finding
+facet: patient_state
 source: modelling

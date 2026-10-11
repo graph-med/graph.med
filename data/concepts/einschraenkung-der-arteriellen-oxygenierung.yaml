@@ -5,5 +5,5 @@ type: concept
 lang: de
 label: "Einschränkung der arteriellen Oxygenierung (PaO2/FiO2 < 150 mmHg)"
 short_label: "eingeschränkte Oxygenierung (PaO2/FiO2 < 150 mmHg)"
-facet: finding
+facet: patient_state
 source: modelling

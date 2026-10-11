@@ -5,5 +5,5 @@ type: concept
 lang: de
 label: "Nierenersatztherapie bei AKI aufgrund der klinischen Situation, des Krankheitsverlaufes und/oder der Vorerkrankungen zu erwarten"
 short_label: "Nierenersatztherapie bei AKI zu erwarten"
-facet: finding
+facet: patient_state
 source: modelling

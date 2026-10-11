@@ -5,5 +5,5 @@ id: concepts/dokumentierte-gerinnungsstoerung
 type: concept
 lang: de
 label: "dokumentierte Gerinnungsstörung"
-facet: finding
+facet: patient_state
 source: modelling

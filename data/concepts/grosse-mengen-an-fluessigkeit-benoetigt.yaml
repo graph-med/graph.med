@@ -5,5 +5,5 @@ type: concept
 lang: de
 label: große Mengen an Flüssigkeit benötigt, um eine hämodynamische Stabilität zu erreichen
 short_label: "große Flüssigkeitsmengen für hämodynamische Stabilität"
-facet: finding
+facet: patient_state
 source: modelling

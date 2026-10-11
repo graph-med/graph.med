@@ -3,5 +3,5 @@ type: concept
 lang: de
 label: operationsbedingte Notwendigkeit zur (Teil-)Haarentfernung
 short_label: "Haarentfernung operativ nötig"
-facet: finding
+facet: patient_state
 source: modelling

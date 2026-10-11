@@ -4,5 +4,5 @@ id: concepts/haemodynamisch-instabil
 type: concept
 lang: de
 label: "hämodynamisch instabil"
-facet: finding
+facet: patient_state
 source: modelling

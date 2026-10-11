@@ -3,5 +3,5 @@ id: concepts/angemessener-fluessigkeitsstatus
 type: concept
 lang: de
 label: angemessener Flüssigkeitsstatus
-facet: finding
+facet: patient_state
 source: modelling

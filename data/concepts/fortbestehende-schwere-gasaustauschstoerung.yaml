@@ -4,5 +4,5 @@ id: concepts/fortbestehende-schwere-gasaustauschstoerung
 type: concept
 lang: de
 label: "fortbestehende schwere Gasaustauschstörung"
-facet: finding
+facet: patient_state
 source: modelling

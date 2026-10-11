@@ -5,5 +5,5 @@ id: concepts/sepsis-induzierte-hypoperfusion
 type: concept
 lang: de
 label: "Sepsis-induzierte Hypoperfusion"
-facet: finding
+facet: patient_state
 source: modelling

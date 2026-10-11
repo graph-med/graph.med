@@ -5,5 +5,5 @@ id: concepts/metabolische-toleranz
 type: concept
 lang: de
 label: "metabolische Toleranz"
-facet: finding
+facet: patient_state
 source: modelling

@@ -6,5 +6,5 @@ id: concepts/hypoperfusion
 type: concept
 lang: de
 label: Hypoperfusion
-facet: finding
+facet: patient_state
 source: modelling
