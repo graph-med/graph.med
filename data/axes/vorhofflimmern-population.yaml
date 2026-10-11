@@ -1,0 +1,46 @@
+# The tree of patient groups proposed for views/vorhofflimmern-lf-1.1, as a hierarchy axis over its anchor slot
+# (spec §4.1 "4. Shown"): for each population concept and each family above one, the one edge of the pool it hangs
+# by, up to the view's scope root, concepts/patientinnen-mit-vorhofflimmern (the Zielsetzung, p. 10), which has no
+# place of its own. Its first question is the AF form of Tabelle 3 (p. 14), as the maintainer answered #314's
+# question 1 on 2026-10-11 (hence proposed_by: maintainer). Proposed by card #364 (#314's part P3) with the
+# placements of the five forms, the population concepts that card mints. The chapter parts' anchors are placed, the
+# broader and in_scope_of edges written, the axis tested on the statements, asserted, and listed first in the view's
+# group_by by the pass over the whole source that writes the scope tree (#314, X2). Until then tools/axes.py lists
+# every placement as carried by no edge of the pool, which is expected while the axis is proposed.
+id: axes/vorhofflimmern-population
+type: axis
+lang: de
+label: Population
+short_label: Population
+carrier: hierarchy
+slot: population
+several: false
+rule: >-
+  Jedes Konzept, das in einer Empfehlung der Sicht die Population nennt, und jede Familie über einem solchen
+  steht unter dem einen Konzept, zu dem die Kante des Pools führt, an der es zur Wurzel der Sicht hin hängt —
+  Patient*innen mit Vorhofflimmern (Zielsetzung, S. 10). Die erste Frage ist die Form des Vorhofflimmerns nach
+  Tabelle 3 (S. 14): erstdiagnostiziertes, paroxysmales, persistierendes, lang-persistierendes und permanentes
+  Vorhofflimmern hängen als erste Familien an der Wurzel (broader: jede Form ist in jeder Leitlinie ein
+  Vorhofflimmern). Jedes andere Konzept hängt unter dem engsten Konzept, dessen Sonderfall es ist (broader), wo
+  der Satz „X ist ein Y“ in jeder Leitlinie gilt: eine Gruppe, die eine Form um einen weiteren Zustand, eine
+  Indikation oder eine Dauer enger fasst, unter dieser Form. Perioperatives Vorhofflimmern (8.4) ist nach seinem
+  Anlass benannt, nicht nach der Episodendauer (S. 13: „Trigger“ induziertes AF), und hängt als eigene Familie
+  an der Wurzel, postoperativ neu aufgetretenes Vorhofflimmern (8.5) unter ihm (beide broader). Sonst hängt ein
+  Konzept unter dem Konzept, dem die Leitlinie es in ihrem Geltungsbereich zuordnet (in_scope_of), der Wurzel
+  oder der Form, die die Empfehlung nennt: ohne Bedingung, wo jedes Mitglied der Gruppe, das die Empfehlung
+  anspricht, Vorhofflimmern hat (ein Zustand, eine Therapie, ein Score-Wert oder ein Eingriff, den eine
+  Empfehlung für Patient*innen mit AF nennt, auch wo sie das Vorhofflimmern nur in der Maßnahme nennt); mit der
+  Bedingung, unter der ihre Mitglieder zur Zielgruppe gehören, für eine Gruppe, die die Leitlinie ohne
+  Vorhofflimmern in ihren Geltungsbereich nimmt (Screening, Rauchende, Nierenerkrankung, orale
+  Antikoagulation). Hat ein Konzept mehrere solche Kanten, hängt es an der zum engsten. Ein Konzept hängt an
+  genau einer Kante; die Wurzel selbst hat keinen Platz. Fehlt einem Konzept die Kante, wird zuerst sie in den
+  Pool geschrieben, mit eigener Begründung, und dann der Platz.
+proposed_by: maintainer
+views:
+  - {view: views/vorhofflimmern-lf-1.1, status: proposed, since: "2026-10-11"}
+placements:   # concept: parent — the five forms of Tabelle 3 at the root, each by the broader edge X2 writes (none yet)
+  concepts/erstdiagnostiziertes-vorhofflimmern: concepts/patientinnen-mit-vorhofflimmern
+  concepts/paroxysmales-vorhofflimmern: concepts/patientinnen-mit-vorhofflimmern
+  concepts/persistierendes-vorhofflimmern: concepts/patientinnen-mit-vorhofflimmern
+  concepts/lang-persistierendes-vorhofflimmern: concepts/patientinnen-mit-vorhofflimmern
+  concepts/permanentes-vorhofflimmern: concepts/patientinnen-mit-vorhofflimmern
