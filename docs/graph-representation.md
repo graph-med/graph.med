@@ -492,6 +492,31 @@ Three kinds of entity, kept apart because different edges attach to them:
   of about thirty); aim for 55. Shortening
   a clinical proposition can change its meaning, so a short label is reviewed
   like any other content, never generated on the fly.
+
+  **A concept's label is written in running-text case.** Its `label` and
+  `short_label` are written as their words read inside a sentence of the
+  label's language (its `lang`), the first word included: a first word that
+  language writes in lower case inside a sentence opens in lower case, and a
+  noun, a name or a token whose case is fixed (an acronym, a symbol, a unit)
+  keeps its case. In German an adjective, a participle, an adverb, a
+  preposition or a determiner opens in lower case — "angemessener
+  Flüssigkeitsstatus", "hämodynamisch instabil", "ohne Schocksymptomatik",
+  "ausgenommen Infektionen, die längere Therapie erfordern" — and
+  "Hypoperfusion", "ARDS", "pH", "β-Blocker" keep theirs. A label then reads
+  as its language wherever it stands: joined to the next condition by "und",
+  or inside a sentence. Its case is ours (§6.5) and carries no provenance; the
+  words a page prints keep their printed case — a claim's sentence, a quote,
+  an evidence `key` or `value`, a grade, verb or consensus word, an outline
+  title — and a statement's `label`, one sentence, begins as a sentence does.
+  The rule is the concepts'; the labels of statements, structural nodes, axes,
+  views and sources are not under it. The build never changes a label's case:
+  it shows every label as stored, so a concept's label standing alone — a
+  patient group's box, a concept page's title, the first line of an answer —
+  opens in lower case where its first word does, as a dictionary lists an
+  adjective. Nothing in the build, the schema or the validator names a word
+  class, a word list or a language; the validator cannot check the rule, since
+  it cannot tell a noun, so review checks it wherever a concept is minted or
+  relabelled. Decided on 2026-10-10 (card #257).
 - **Structure** — decision questions, branches, outcomes, explicit gaps: the
   pathway machinery. Structural nodes assert nothing about the world; they
   arrange statements into something navigable, and they are pure modelling.
@@ -1710,7 +1735,7 @@ POMGAT S3 guideline (AWMF 088-010OL), quotes verified against the document.
 - id: concepts/geringes-pankreasfistelrisiko   # derived: it has a defined_by edge (§3.2); nothing on it says so
   type: concept
   lang: de
-  label: "Geringes Pankreasfistelrisiko"
+  label: "geringes Pankreasfistelrisiko"
   facet: finding
   source: modelling
 
