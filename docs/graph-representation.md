@@ -436,8 +436,8 @@ value, and the symbols as a claim of their own — kind `fact`, the row read as
 ⊕⊕⊝⊝"), quoting the row from its head to the symbols ("Hämodynamische
 Instabilität: Sehr niedrig ⊕⊕⊝⊝"), because the same symbols recur on a page
 (§6.2), with the box's `recommendation_no` and `section` and nothing else the
-box prints — which `disagrees_with` joins to the
-recommendation's claim, its rationale quoting the word and the symbols (§5). A
+box prints — which `disagrees_with` joins to every claim that carries the row,
+its rationale quoting the word and the symbols (§5). A
 rating the body text gives otherwise than the box is the same disagreement (§5.1
 D). Two rules keep the field honest. **A value is never mapped between
 systems**: GRADE's *hoch* is not an Oxford level, and no table in the schema,
@@ -480,8 +480,8 @@ the certainty was not recorded, not that there is none. The entries are the rows
 of the box's evidence block **and nothing else**: a rating the source prints
 elsewhere for the recommendation's evidence — in the text that gives its
 reasons, say — is never an entry. Where it rates that evidence otherwise than
-the box, it is the disagreement above, a `fact` claim joined to the
-recommendation's claim by `disagrees_with` (§5.1 N(2), D), both shown and
+the box, it is the disagreement above, a `fact` claim joined to every claim
+that carries the row by `disagrees_with` (§5.1 N(2), D), both shown and
 neither chosen; where it rates an endpoint the box does not list, it stays on
 the page.
 
@@ -1403,12 +1403,25 @@ source that answers its question otherwise (D).
   Empfehlung" or "lassen eine Empfehlung … nicht zu", a "Ermessensspielraum"
   left to the reader; referring to another work instead is N4. Saying the
   action is not recommended ("kann nicht empfohlen werden") is against it;
-  saying only what is unknown ("unklar", "keine Studien") is N2.
+  saying only what is unknown ("unklar", "keine Studien") is N2. A need or
+  an indication denied is read by its verb, never by the noun: where the
+  verb says that none exists, it is a decline ("besteht … keine Indikation
+  zur Umstellung"); where the guideline itself denies the action one ("sieht
+  … keine Indikation für …"), it judges the action and is against it, as
+  "kann nicht empfohlen werden" is (card #372).
 - **D `disagrees_with`** — it answers a term, case or action of the
   recommendation otherwise than the recommendation itself prints it: another
-  value, time or rating, or a group the recommendation answers differently
-  (an hour for sepsis where the box gives the hour to septic shock alone). It
-  is a claim, joined to the recommendation's claim by `disagrees_with` (§5),
+  value, time or rating, a rating in other words included, or a group the
+  recommendation answers differently (an hour for sepsis where the box gives
+  the hour to septic shock alone). Ratings are compared by their words as
+  printed, never mapped onto each other (§3.1): the same word, capitalised or
+  inflected otherwise, is the same rating; another word is another rating,
+  though the two may name one level, since the page does not equate them
+  ("sehr niedrige" against the box's "sehr gering"), and the rationale quotes
+  both and says so. It is a claim, joined to the recommendation's claim by
+  `disagrees_with` (§5) — where it rates the evidence, to every claim that
+  carries a row it rates: each sentence with a statement of its own, as the
+  row goes to each (§3.1), so that every recommendation's card shows it —,
   and gets no R, L or S edge to it, which would read the one through the
   other. Places that answer one term differently where the recommendation
   prints no answer of its own each get the edge R, L or S gives them, and
@@ -1477,8 +1490,8 @@ source that answers its question otherwise (D).
   study summaries and rationale: nothing, also in a table or figure a marked
   recommendation names — except a place that rates the certainty of the
   recommendation's evidence otherwise than the box does, which is a `fact`
-  claim joined to the recommendation's claim (D). (3) A condition of the
-  statement: an
+  claim joined to every claim that carries the row (D). (3) A condition of
+  the statement: an
   edge relates two claims and never writes a slot, mints a statement or decides
   what a circumstance is to a statement (§4.1); a circumstance the statement
   lacks is named in the pull request. (4) A cross-reference, a referral to
