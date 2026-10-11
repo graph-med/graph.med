@@ -48,9 +48,11 @@
         {% if legend.undirected %}<span class="key"><span class="chip none" aria-hidden="true"></span> {{ W.undirected }}</span>{% endif %}
       </span></p>
       {% endif %}
-      {% if legend.grades %}
+      {% if legend.grades or legend.verb_grades %}
       <p class="lg"><span class="lg-name">{{ W.groups.grade }}</span><span class="keys">
+        {% if legend.grades %}
         <span class="key grades">{% for g in legend.grades %}<b>{{ g }}</b>{% if not loop.last %} · {% endif %}{% endfor %}</span>
+        {% endif %}
         {% if legend.verb_grades %}<span class="key">{{ W.verb | replace("{grades}", legend.verb_grades | join(" · ")) }}</span>{% endif %}
       </span></p>
       {% endif %}

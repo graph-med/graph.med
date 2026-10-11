@@ -454,7 +454,10 @@ def legend_of(statements: list[dict], groupings: list[dict], pool, sources: list
     """The keys a view's legend shows (docs/publication.md §3, "The legend"): what the view draws, and nothing
     else — computed from its trees under every grouping and from its statements' claims, never declared. Each
     entry is a structural key; the words are the view layer's (tools/site/words/<lang>.json). The grades stand in
-    their scheme's order (spec §3.1), a view's sources in the order of its filter."""
+    their scheme's order (spec §3.1), a view's sources in the order of its filter. `grades` are the grades the
+    boxes carry and `verb_grades` those under which a box writes its verb; where the two are the same (source,
+    grade) pairs — compared before tokens() merges a grade word that two schemes share —, every grade writes its
+    verb, the group is the one key `verb_grades` and `grades` is empty, so that no grade is named twice."""
     nodes = [n for g in groupings for n in g["nodes"]]
     kinds = {e["kind"] for g in groupings for e in g["edges"]}
     types = {n["type"] for n in nodes}
@@ -474,7 +477,7 @@ def legend_of(statements: list[dict], groupings: list[dict], pool, sources: list
         "open": "junction" in types,     # a patient group the reader opened: filled
         "directions": [{"word": w, "glyph": g} for w, g in DIRECTION_GLYPH.items() if w in directions],
         "undirected": None in directions,   # a statement without a direction (a fact): the page's colours, with a border
-        "grades": tokens(sorted(grades, key=order)),
+        "grades": [] if worded == grades else tokens(sorted(grades, key=order)),   # every grade writes its verb: one key
         "verb_grades": tokens(sorted(worded, key=order)),
         "states": [s for s, on in (("contested", any(n.get("contested") for n in boxes)),
                                    ("related", "relation" in kinds),
