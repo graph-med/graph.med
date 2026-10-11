@@ -43,7 +43,9 @@
 # and a claim's quote lies there once, counted as the link's search counts),
 # and a source's version and date hold together (spec §6.1: a date is a calendar
 # date at the precision recorded, and every word of the version lies in one of
-# its quotes, which are the source's own).
+# its quotes, which are the source's own), and an evidence row's `system` is one its
+# claim's source declares (spec §3.1: `rating_systems`, a slug declared once
+# per source, every word of its name in its quotes, the quotes the source's own).
 # CI runs it on every pull request and push to main (.github/workflows/validate.yml).
 #
 # Keywords prefixed `x-` are this project's annotations; JSON Schema validators
@@ -52,7 +54,7 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 $id: https://graph.med/schema/schema.yaml
 title: graph.med pool
-x-version: 0.22.0
+x-version: 0.23.0
 
 # ── layout: which definition each data file validates against ────────────────
 # (data/README.md). Globs are relative to the repository root. `one_per_file`
@@ -206,7 +208,8 @@ $defs:
                                                # what a rating covers — and never an enum
       system:  {$ref: '#/$defs/slug'}          # grade, oxford_loe, esc_loe, … — an open string, never an enum: the system whose table lists the row;
                                                # required wherever the entry states an outcome or a value, absent only from a note alone where no
-                                               # row of its box prints a rating
+                                               # row of its box prints a rating; one its claim's source declares in `rating_systems` (validator),
+                                               # which gives its name as printed
   # the threshold a criterion or definition claim prints (spec §3.1): which quantity, compared how,
   # with which value — read off the page, never inferred, rounded or completed. The comparator list
   # is closed because it is mathematics, not a guideline's vocabulary; nothing else is enumerated:
@@ -366,6 +369,23 @@ $defs:
     allOf:
       - not: {required: [above, at_least]}
       - not: {required: [at_most, below]}
+  # one system a source rates the certainty of its evidence in (spec §3.1): the slug its claims' evidence
+  # entries name as `system`, and the system's name as the source prints it ("GRADE", "Oxford 2011") — what
+  # the site shows; the slug stays in the data and the JSON. `source` quotes the source's own line that
+  # prints the name: its method line, or where the method is in a separate report, a body-text line naming the
+  # system beside a rating the source gives, with a `rationale` saying where the method is. Never `modelling`:
+  # a name the source does not print is not declared, and a notation alone (⊕⊕⊕⊝) prints none. Every word of
+  # `name` lies as a whole word in one of the quotes, the quotes are the source's own pages, and a slug is
+  # declared once per source (validator). No system is enumerated, and no value is mapped between systems
+  rating_system:
+    type: object
+    required: [system, name, source]
+    additionalProperties: false
+    properties:
+      system:    {$ref: '#/$defs/slug'}          # as an evidence entry names it
+      name:      {$ref: '#/$defs/text'}          # as the source prints it
+      source:    {$ref: '#/$defs/references'}    # the line that prints the name
+      rationale: {$ref: '#/$defs/text'}          # in the source's language, where the quotes alone do not carry it
 
   # ── provenance (spec §6.2–6.4) ────────────────────────────────────────────
   locator:
@@ -434,6 +454,12 @@ $defs:
         $ref: '#/$defs/grading_scheme'
         x-provenance: optional   # carried by each entry: its quotes of the method table, `modelling` with a
                                  # rationale for a form the source prints nowhere
+      rating_systems:   # the systems its evidence rows are rated in, each by its name as printed (spec §3.1); beside
+                        # the grading scheme, not in it: how certain the evidence is, not how binding the recommendation
+        type: array
+        minItems: 1
+        items: {$ref: '#/$defs/rating_system'}
+        x-provenance: optional   # carried by each entry: the line that prints the name, never `modelling`
     allOf:   # a version or a date is quoted where the source prints it, and a quote is of a field the source records;
              # a source with neither records neither
       - if: {required: [version]}

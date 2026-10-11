@@ -86,6 +86,11 @@ rules a document schema cannot state because they span files:
     or a day), and every word of the version lies as a whole word in one of the
     quotes that give it, which are the source's own; reading a printed date as
     ISO 8601 is left to review, so no month name of any language is held here;
+  - an evidence row is rated in a system its source declares (spec §3.1): an
+    entry's `system` is one its claim's own source lists in `rating_systems`;
+    within a source a slug is declared once, every word of a system's `name`
+    lies as a whole word in one of the quotes that give it, and those quotes
+    are the source's own;
 
 With --verify-quotes it also downloads each source (hash-checked, cached) and
 verifies every quote is a verbatim passage of `pdftotext -layout` on the cited
@@ -250,6 +255,7 @@ def main(argv=None) -> int:
     errors += check_evidence(ids, entities)
     errors += check_quote_form(docs)
     errors += check_version_and_date(ids, entities)
+    errors += check_rating_systems(ids, entities)
     if any(e.get("type") == "view" and "scope_root" in e for e in entities.values()):
         if errors:   # members are computed by the build's reader, which expects a pool that fits the schema
             print("the scope trees of views are checked once the errors below are fixed")
@@ -682,6 +688,49 @@ def check_evidence(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
             errs.append(f"{ids[cid]}: {cid} has {len(claim['evidence'])} evidence entries and {quotes} evidence quote(s); "
                         f"each entry has its quote, in the entries' order — the line that prints its key or endpoint, "
                         f"or the rating's own line where the row prints neither")
+    return errs
+
+
+def check_rating_systems(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
+    """The rating systems a source declares (spec §3.1): the systems its evidence rows are rated in, each by its slug
+    and its name as the source prints it, quoted from the source's own line that prints the name. A declaration is
+    read off its own source, as a grading scheme is: its quotes are the source's pages, every word of the name lies
+    as a whole word in one of them, and a slug is declared once per source. An evidence entry's `system` is one its
+    claim's own source declares; an entry without a `system` is not checked. No system, slug or name of any
+    guideline is named here, and nothing is mapped between systems."""
+    errs: list[str] = []
+    source_of = lambda at: str(at).split("#")[0]
+    as_refs = lambda refs: [refs] if isinstance(refs, dict) else [r for r in refs or [] if isinstance(r, dict)] if isinstance(refs, list) else []
+    printed = lambda word, quote: re.search(rf"(?<!\w){re.escape(word)}(?!\w)", str(quote)) is not None
+    declared: dict[str, set] = {}
+    for sid, src in sorted(entities.items()):
+        if src.get("type") != "source" or not isinstance(src.get("rating_systems"), list):
+            continue
+        rel = ids[sid]
+        systems = [r for r in src["rating_systems"] if isinstance(r, dict)]
+        slugs = [r.get("system") for r in systems]
+        declared[sid] = set(slugs)
+        for slug in sorted({s for s in slugs if slugs.count(s) > 1}, key=str):
+            errs.append(f"{rel}: the rating systems declare {slug!r} more than once")
+        for r in systems:
+            refs = as_refs(r.get("source"))
+            for other in sorted({source_of(q.get("at", "")) for q in refs} - {sid}):
+                errs.append(f"{rel}: the rating system {r.get('system')!r} quotes {other}; a declaration is read off its own source")
+            missing = [w for w in str(r.get("name", "")).split() if not any(printed(w, q.get("quote")) for q in refs)]
+            if missing:
+                errs.append(f"{rel}: the name {r.get('name')!r} of the rating system {r.get('system')!r} prints "
+                            f"{', '.join(map(repr, missing))}, which none of its quotes contains as a word")
+    for cid, claim in sorted(entities.items()):
+        if claim.get("type") != "claim" or not isinstance(claim.get("evidence"), list):
+            continue
+        own = source_of((claim.get("source") or {}).get("at", ""))
+        for i, entry in enumerate(claim["evidence"]):
+            if not isinstance(entry, dict) or "system" not in entry:
+                continue
+            if entry["system"] not in declared.get(own, set()):
+                has = ", ".join(sorted(map(str, declared[own]))) if own in declared else "none"
+                errs.append(f"{ids[cid]}: {cid} evidence {i} names the system {entry['system']!r}, which {own} does not "
+                            f"declare in its `rating_systems` ({has})")
     return errs
 
 
