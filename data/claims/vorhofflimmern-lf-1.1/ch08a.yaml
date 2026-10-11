@@ -1,0 +1,935 @@
+# Claims of card #382 (#314's part C7a) from chapter 8 of sources/vorhofflimmern-lf-1.1, „Spezielle Szenarien“, sections
+# 8.1–8.6 (p. 78, l. 39 – p. 86, l. 44; chapter 7's Literatur on p. 78, l. 1–38 is not read). Boxes 8.1–8.3, one claim per
+# sentence, each delegating to a figure without a text layer (spec §3.1, §5.1 F); Tabelle 16 as §5.1 K reads it; the
+# body-text places §5.1 admits against 8.1–8.3; the recommendations and declines of §§8.3–8.5.2, which hold no box, as
+# claims without an edge (§5.1 U; #325); the footnotes of Abb. 6 and 7 that print, in the text layer, a rule the body text
+# prints otherwise (#379); and the captions of Abb. 7 and 8 as the figures' sides of what their images print otherwise
+# (spec §5; #341). In page order. Ids: sha256("<at>|<quote>")[:8]. Line numbers are lines of `pdftotext -layout`.
+# Every box prints its kind line and „Neu 2024“; both stay on the page (#314 Decision 5). Abb. 6–8 are raster images
+# (`pdfimages` lists one on each of pp. 81–83, none on p. 80): their content stays on the page (§5.1 F).
+
+# Section 8.1, Begründung (p. 78, l. 58–60), read against 8.1: instructs how the management is to be tuned, its aim —
+# R to 8.1 (card #382 reading 5). „ist … abzustimmen“ is no declared wording: no verb. „Antikoagulantien“ as printed.
+# The Empfehlungsgrundlage (l. 41–49) and l. 60–62 are method and attribution; l. 53–54 reports a study (G2); l. 54–56,
+# what the management depends on (Abb. 6), describes what the figure weighs and stays (reading 5, G3).
+- id: claims/vorhofflimmern-lf-1.1/07656320
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.1"
+  label: "Das Management der Einnahme oraler Antikoagulantien vor geplanten operativen und interventionellen Eingriffen ist bestmöglich so abzustimmen, dass sowohl das individuelle Thromboembolierisiko minimiert als auch (Nach-)Blutungen vermieden werden."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=78
+    quote: "ist bestmöglich so abzustimmen, dass sowohl das individuelle Thromboembolierisiko minimiert"
+# Section 8.1, Begründung (p. 78, l. 62–63): two measures „und“ joins, a claim each (§5.1 K; #314 Decision 20, members),
+# each labelled with its own span, cut at the connective; S to 8.1 each (reading 5). „angeraten“ is no declared wording.
+# „alle Empfehlung“ as printed (#314 Decision 4). First member: the comparison with specialty guidelines.
+- id: claims/vorhofflimmern-lf-1.1/caa891fe
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.1"
+  label: "Es ist jedoch unmöglich, alle Empfehlung zu berücksichtigen, weshalb ein Abgleich mit fachspezifischen Leitlinien"
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=78
+    quote: "weshalb ein Abgleich mit fachspezifischen Leitlinien"
+# The same sentence, second member: the patient-oriented individualisation.
+- id: claims/vorhofflimmern-lf-1.1/6e719683
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.1"
+  label: "eine patientenorientierte Individualisierung angeraten sind."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=78
+    quote: "eine patientenorientierte Individualisierung angeraten sind"
+# Section 8.1, Begründung (p. 79, l. 13–14 and 14–15): cases of a high bleeding risk that Tabelle 16 does not list — a
+# procedure without mechanical compression, and „unter anderem“ neuroaxial regional anaesthesia: R to 8.1's „Eingriffen“,
+# as Tabelle 16's classes are (reading 5). l. 4–7 lists patient factors „zum Beispiel“ (G3, an example as a whole) and l.
+# 9–11 the procedural factors, introducing Tabelle 16, which carries the answer; both stay. l. 15–17 is a referral (N4).
+- id: claims/vorhofflimmern-lf-1.1/26a0afdc
+  type: claim
+  lang: de
+  kind: criterion
+  section: "8.1"
+  label: "Verfahren, bei denen eine mechanische Kompression nicht durchführbar ist, bergen ein hohes Risiko für schwere Blutungskomplikationen."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=79
+    quote: "Verfahren, bei denen eine mechanische Kompression nicht durchführbar ist"
+- id: claims/vorhofflimmern-lf-1.1/1d8d4718
+  type: claim
+  lang: de
+  kind: criterion
+  section: "8.1"
+  label: "Zu den Eingriffen mit hohem Blutungsrisiko gehören unter anderem neuroaxiale Regionalanästhesien."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=79
+    quote: "Zu den Eingriffen mit hohem Blutungsrisiko gehören unter anderem neuroaxiale"
+# Section 8.1, Begründung (p. 79, l. 19–21 and 21–22): two measures beside the procedure of 8.1 — weigh patient and
+# surgical factors when deciding when to stop and restart, and adapt the standard interval: S to 8.1 each (reading 5).
+# „müssen“ and „muss“ are no declared wording: no verb. „patientenbezogene und als auch“ as printed (#314 Decision 4).
+- id: claims/vorhofflimmern-lf-1.1/f20fec0b
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.1"
+  label: "Sowohl patientenbezogene und als auch chirurgische Faktoren müssen berücksichtigt werden, wenn entschieden wird, wann orale Antikoagulantien abgesetzt und wieder eingenommen werden sollen."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=79
+    quote: "Sowohl patientenbezogene und als auch chirurgische Faktoren müssen berücksichtigt werden"
+- id: claims/vorhofflimmern-lf-1.1/a32e29f1
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.1"
+  label: "Gegebenenfalls muss nach individueller Risiko-Nutzen-Abwägung das Standard-Zeitintervall der perioperativen Unterbrechung angepasst werden."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=79
+    quote: "muss nach individueller Risiko-Nutzen-Abwägung das Standard-Zeitintervall der perioperativen"
+# Box 8.1 (p. 79, l. 28–41), in section 8.1: one sentence, ⇑⇑, „Konsensstärke: 100%“, delegating to Abb. 6 (p. 81),
+# the delegation in its label (§5.1 F). Its evidence block, in printed order (spec §3.1; #326 Decision 12): the row
+# „Phenprocoumon: sehr gering ⊕⊝⊝⊝“, an agent a key, never an outcome; then „DOAK: Leitlinienadaptation“, words in place
+# of a level, a note beside its key, taking the system of the box's rated row, whose ⊕ line (l. 37) is quoted after the
+# rows. The heading „Aussagesicherheit der Evidenz“ only names the column; the „Literatur:“ lines stay on the page.
+# No narrower claim: the sentence prints no rule inside it.
+- id: claims/vorhofflimmern-lf-1.1/eeabf0df
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "8.1"
+  section: "8.1"
+  label: "Bei Patient*innen unter oraler Antikoagulation soll bei geplanten operativen und interventionellen Eingriffen nach dem in Abb. 6 dargestellten Algorithmus vorgegangen werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {key: "Phenprocoumon", value: "sehr gering", system: grade}
+    - {key: "DOAK", note: "Leitlinienadaptation", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=79
+    quote: "Bei Patient*innen unter oraler Antikoagulation soll bei geplanten operativen"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=79, quote: "⇑⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=79, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=79, quote: "Phenprocoumon: sehr gering"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=79, quote: "DOAK: Leitlinienadaptation"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=79, quote: "⊕⊝⊝⊝"}
+# Tabelle 16 (p. 80, l. 4–66), a text table introduced in section 8.1 („siehe Tabelle 16“, p. 79, l. 11), named inside
+# Abb. 6's image and by no box: read in 8.1, and printed there. One criterion claim per risk class, its head quoted
+# (each lies once on the page), labelled „Kopf: Zelle; …“ with the class's definition line and its two lists; R to 8.1's
+# „Eingriffen“ (card #382 reading 4 (a)). The item without a bullet (l. 55) is read as an item of its column. The source
+# line (l. 60–63) is attribution, its „teils evidenz-, teils erfahrungsbasiert“ N2; the note (l. 65–66) a referral (N4),
+# printing „S1-Leitlinie“ where p. 79 prints „S3-Leitlinie“ for the same work, both kept, and „Thrombembolieprophylaxe“.
+- id: claims/vorhofflimmern-lf-1.1/b7af69e2
+  type: claim
+  lang: de
+  kind: criterion
+  section: "8.1"
+  label: "Geringes Blutungsrisiko: Blutungen selten und mit geringen klinischen Auswirkungen; Operative Verfahren: Katarakt- oder Glaukom-Eingriffe, Oberflächliche Eingriffe (z. B. Abszessinzisionen, kleine Hautexzisionen/Biopsien), Zahnärztliche Eingriffe, Implantation von Herzschrittmachern oder ICDs (außer komplexe Verfahren); Interventionelle Verfahren/Punktionen: Elektrophysiologische Untersuchung oder Katheterablation, Elektive Koronarintervention/periphere arterielle Interventionen, Mitral-/Trikuspidalklappen-Clips (transcatheter edge-to-edge-repair), Endoskopie ohne Biopsie oder Resektion, Intramuskuläre Injektionen (z. B. Impfung)"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=80
+    quote: "Geringes Blutungsrisiko"
+- id: claims/vorhofflimmern-lf-1.1/aac13e9d
+  type: claim
+  lang: de
+  kind: criterion
+  section: "8.1"
+  label: "Moderates Blutungsrisiko: Blutungen selten oder ohne gravierende klinische Auswirkungen; Operative Verfahren: Kleine Abdominalchirurgie, Unkomplizierte Hernienchirurgie, Brustchirurgie, Kleine orthopädische Eingriffe, Augenchirurgie (ohne Katarakt), Komplexe zahnärztliche Eingriffe (multiple Zahnextraktionen); Interventionelle Verfahren/Punktionen: Gastroskopie oder Koloskopie mit einfacher Biopsie, Eingriffe mit großlumigen Kathetern (z. B. Knochenmark- oder Lymphknotenbiopsie), Klappenersatzverfahren"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=80
+    quote: "Moderates Blutungsrisiko"
+- id: claims/vorhofflimmern-lf-1.1/25c9a7f8
+  type: claim
+  lang: de
+  kind: criterion
+  section: "8.1"
+  label: "Hohes Blutungsrisiko: Blutungen häufig und/oder mit erheblichen klinischen Auswirkungen; Operative Verfahren: Herz- und Thoraxchirurgie, Gefäßchirurgie (z. B. Aortenchirurgie, endovaskuläre Aortenprothesen, Gefäßbypass, Aneurysma), Große Abdominalchirurgie, Ausgedehnte Tumorchirurgie, Große orthopädische Operationen, Große urologische Operationen/Biopsien (Prostatektomie, Blasentumorresektionen), Neurochirurgische Operationen (intrakraniell und spinal), Rekonstruktive plastische Chirurgie; Interventionelle Verfahren/Punktionen: Komplexe invasive kardiologische Eingriffe (Elektrodenextraktion, epikardiale VT-Ablation, PCI bei chronischen Komplettverschlüssen), Komplexe Endoskopie (z.B. multiple/große Polypektomie, ERCP mit Sphinkterotomie), Biopsien vaskularisierter Organe (Leber, Niere, Prostata), Extrakorporale Stoßwellenlithotripsie"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=80
+    quote: "Hohes Blutungsrisiko"
+# Abb. 6's caption (p. 81, l. 6–8), section 8.1, the figure 8.1 names: it narrows 8.1's group to patients with AF, a case
+# the box does not print — R to 8.1's „Patient*innen unter oraler Antikoagulation“ (card #382 reading 3). It speaks for
+# the guideline (G2: 8.1 names the figure; „Abbildung nach …; ergänzt und bearbeitet …“ is attribution). A title: fact.
+- id: claims/vorhofflimmern-lf-1.1/395f5fbd
+  type: claim
+  lang: de
+  kind: fact
+  section: "8.1"
+  label: "Abbildung 6: Empfehlung für das Management der oralen Antikoagulationstherapie bei Patient*innen mit Vorhofflimmern, die sich einem operativen oder interventionellen Eingriff unterziehen."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=81
+    quote: "Abbildung 6: Empfehlung für das Management der oralen Antikoagulationstherapie bei Patient*innen mit"
+# Abb. 6, footnote b (p. 81, l. 11–12), the cases of the image's „Ausgewählte Patienten mit einem sehr hohen
+# thromboembolischen Risiko“, for whom the image draws „ggf. Bridging“: the body text prints the high-risk constellations
+# for bridging otherwise (p. 85, l. 11–16), so the footnote is a claim of its own (#379; card #382 reading 9), its kind by
+# form, its section the figure's, joined by disagrees_with to p. 85's claim and to Abb. 7's footnote c (D), no R, L or S.
+# „Z. n. thromboembolischen Ereignis“ as printed. Footnotes a and d agree with the body text, or are printed otherwise by
+# none of it, and stay with the figure (#379); so does the line of abbreviations (l. 15).
+- id: claims/vorhofflimmern-lf-1.1/6422f312
+  type: claim
+  lang: de
+  kind: criterion
+  section: "8.1"
+  label: "b= Z. n. Schlaganfall oder TIA < 3 Monate, Z. n. thromboembolischen Ereignis bei perioperativer/periinterventioneller DOAK-Pause, rheumatische Herzklappenerkrankung"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=81
+    quote: "b= Z. n. Schlaganfall oder TIA < 3 Monate"
+# Abb. 6, footnote c (p. 81, l. 12–13): the image's „Bridging“ under „Mechanischer Klappenersatz“ is „Behandlung mit
+# unfraktioniertem Heparin“, where footnote d gives the very-high-risk group „unfraktioniertem Heparin oder
+# niedermolekularem Heparin“. p. 85, l. 26–29 calls bridging with low-molecular-weight heparin „prinzipiell möglich“ for
+# mechanical valves: under #379 the footnote is a claim, joined by disagrees_with (card #382 reading 9: D taken, the
+# distinction the figure draws between c and d being one the text erases). It instructs the bridging the image's row
+# „Empfehlung“ draws: a recommendation, for, no verb.
+- id: claims/vorhofflimmern-lf-1.1/5668cd5f
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.1"
+  label: "c= Behandlung mit unfraktioniertem Heparin"
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=81
+    quote: "c= Behandlung mit unfraktioniertem Heparin"
+# Section 8.2, Hintergrund (p. 81, l. 23–24), read against 8.2: for low-risk procedures the DOAK is not or only briefly
+# interrupted — which time the management stands for: R to 8.2 (card #382 reading 6; a need denied is #325 question 13's,
+# for the physician). „muss“ is no declared wording.
+- id: claims/vorhofflimmern-lf-1.1/dcea1cb2
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.2"
+  label: "Für chirurgische oder interventionelle Eingriffe, die mit einem minimalen oder niedrigen Blutungsrisiko assoziiert sind, muss die DOAK-Therapie nicht oder nur kurzzeitig unterbrochen werden."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=81
+    quote: "muss die DOAK-Therapie nicht oder nur kurzzeitig unterbrochen werden"
+# Section 8.2, Hintergrund (p. 81, l. 24–25): the high-risk counterpart, a temporary stop — R to 8.2 (reading 6). The
+# reference mark is left out of the label. The aim of the intervals (l. 26–28) and what the duration weighs (l. 28–31,
+# „berücksichtig“ as printed) are the scheme's rationale (N2) and stay.
+- id: claims/vorhofflimmern-lf-1.1/03905969
+  type: claim
+  lang: de
+  kind: fact
+  section: "8.2"
+  label: "Invasivere Eingriffe mit einem hohen Blutungsrisiko können allerdings ein vorübergehendes Absetzen der Antikoagulantien-Einnahme erfordern."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=81
+    quote: "Invasivere Eingriffe mit einem hohen Blutungsrisiko können allerdings ein vorübergehendes Absetzen"
+# Section 8.2, Hintergrund (p. 81, l. 33–34): the interruption is time-based, a plasma level as a rule not needed — the
+# technique the management stands for: R to 8.2 (reading 6; a need denied, or advice against an alternative, are the
+# options named). The reference marks are left out. The PAUSE report (l. 34–37) is G2.
+- id: claims/vorhofflimmern-lf-1.1/f061628d
+  type: claim
+  lang: de
+  kind: fact
+  section: "8.2"
+  label: "Eine zeitbasierte Unterbrechung scheint für die meisten Patient*innen und Eingriffe sicher zu sein, so dass eine Bestimmung des Plasmaspiegels in der Regel nicht erforderlich ist."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=81
+    quote: "so dass eine Bestimmung des Plasmaspiegels in der Regel nicht erforderlich ist"
+# Section 8.2, Hintergrund (p. 81, l. 37 – p. 82, l. 5): longer pauses for DOAK accumulation at a high bleeding risk —
+# which time: R to 8.2 (reading 6). Its group is wider than 8.3's kidney disease („hohes Alter, Niereninsuffizienz etc.“),
+# so 8.2. The sentence crosses the page: quoted on p. 81, the label whole. „kommen … infrage“: no verb. p. 82, l. 5–6
+# (the residual level after 72 hours) is effect data (N2).
+- id: claims/vorhofflimmern-lf-1.1/53c08cc9
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.2"
+  label: "Längere Pausierungen von 72-96 Stunden kommen bei Patient*innen mit DOAK-Akkumulation (hohes Alter, Niereninsuffizienz etc.), die sich einem chirurgischen Eingriff mit einem hohen Blutungsrisiko unterziehen, infrage."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=81
+    quote: "Längere Pausierungen von 72-96 Stunden kommen bei"
+# Box 8.2 (p. 82, l. 10–23), in section 8.2: one sentence, ⇑⇑ with „EK“ beside it (a basis, #323), „Konsensstärke: 100%“,
+# delegating to Abb. 7. Its evidence cell „EK basierend auf internationalen Leitlinien“ (l. 20–21; the heading row is
+# empty): „EK“ is the claim's basis, the words beside it a note alone, without a system, no row of the box being rated
+# (#326, 923dac1). „EK“ recurs on the page inside words: a recurring basis quote is only reported.
+- id: claims/vorhofflimmern-lf-1.1/f18014e6
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "8.2"
+  section: "8.2"
+  label: "Bei Patient*innen unter oraler Antikoagulation soll bei geplanten operativen und interventionellen Eingriffen das Management von OAK gemäß dem in Abb. 7 dargestellten Schema erfolgen."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  basis: EK
+  consensus_share: "100%"
+  evidence:
+    - {note: "basierend auf internationalen Leitlinien"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=82
+    quote: "Bei Patient*innen unter oraler Antikoagulation soll bei geplanten operativen"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=82, quote: "⇑⇑"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=82, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=82, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=82, quote: "EK basierend auf internationalen Leitlinien"}
+# Abb. 7's caption (p. 82, l. 28–29), section 8.2: a title, which would stay (G3), and the figure's side of what its image
+# prints otherwise than the text (spec §5; #341; card #382 reading 9, taken): the DOAK restart „Start DOAK nach ≥ 6 h“ at
+# a low bleeding risk against p. 83's „6 bis 8 Stunden“, and the phenprocoumon restart „nach ≥ 12–24 h“ (moderate) and
+# „nach ≥ 24 h“ (high) against p. 84's „oft 12-24 Stunden“. Its footnotes a and b and the first sentence of c agree with
+# the text or are printed otherwise by none of it, and stay with the figure (#379).
+- id: claims/vorhofflimmern-lf-1.1/412963c7
+  type: claim
+  lang: de
+  kind: fact
+  section: "8.2"
+  label: "Abbildung 7: Einnahme oraler Antikoagulantien bei Eingriffen unter Berücksichtigung des jeweiligen Blutungsrisikos."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=82
+    quote: "Abbildung 7: Einnahme oraler Antikoagulantien bei Eingriffen unter Berücksichtigung des jeweiligen"
+# Abb. 7, footnote c, its second sentence (p. 82, l. 35–38): the exceptions to „kein Bridging“, the first bounded by
+# „CHA2DS2-VA-Score ≥7“, where p. 85, l. 16 prints „CHA2DS2-VA > 6“. Under #379 a claim of its own (card #382 Decision 9),
+# its section the figure's, its kind by form (the cases the exceptions cover), its threshold on the score as printed,
+# nothing equating „≥7“ and „> 6“ (spec §3.1; #328 Decision 3). Joined by disagrees_with to p. 85's claim and to Abb. 6's
+# footnote b; no defined_by, since no statement uses the group (#328, physician item 12). The sentence prints no verb.
+- id: claims/vorhofflimmern-lf-1.1/8e1aa18c
+  type: claim
+  lang: de
+  kind: criterion
+  section: "8.2"
+  label: "Zu den wenigen Ausnahmen werden Patient*innen mit einem sehr hohen thromboembolischen Risiko mit CHA2DS2-VA-Score ≥7, Z. n. Schlaganfall oder TIA <3 Monate, Z. n. thromboembolischem Ereignis bei perioperativer/periinterventioneller DOAK-Pause, rheumatische Herzklappenerkrankungen, Z. n. mechanischem Herzklappenersatz."
+  threshold: {quantity: concepts/cha2ds2-va-score, comparator: "≥", value: "7"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=82
+    quote: "mit CHA2DS2-VA-Score ≥7"
+# Box 8.3 (p. 83, l. 8–21), in section 8.2: one sentence, ⇑⇑ with „EK“, „Konsensstärke: 90%“, delegating to Abb. 8
+# („Abb.8“ as printed, #314 Decision 4). Its evidence cell as 8.2's (l. 18–19); it prints no „Literatur:“.
+- id: claims/vorhofflimmern-lf-1.1/f818617a
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "8.3"
+  section: "8.2"
+  label: "Bei Patient*innen mit Nierenerkrankung unter oraler Antikoagulation soll bei geplanten operativen und interventionellen Eingriffen das Management von OAK gemäß dem in Abb.8 dargestellten Schema erfolgen."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  basis: EK
+  consensus_share: "90%"
+  evidence:
+    - {note: "basierend auf internationalen Leitlinien"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=83
+    quote: "Bei Patient*innen mit Nierenerkrankung unter oraler Antikoagulation soll"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=83, quote: "⇑⇑"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=83, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=83, quote: "Konsensstärke: 90%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=83, quote: "EK basierend auf internationalen Leitlinien"}
+# Abb. 8's caption (p. 83, l. 26–27), section 8.2: the figure's side (spec §5; #341; card #382 reading 9, taken) of the
+# DOAK restart its image prints in the low-risk header, „Wiederbeginn der Medikation ≥ 6 Stunden postoperativ möglich“,
+# against p. 83's „6 bis 8 Stunden“, and of „≥ 5 d“, the phenprocoumon pause at a high bleeding risk in every GFR band,
+# against p. 84's „5-7 Tage“. „Einnahme orale Antikoagulanzien“ as printed. Footnote a („Anwendung nicht empfohlen“)
+# agrees with the text; the image's mark b has no footnote.
+- id: claims/vorhofflimmern-lf-1.1/9f3428c1
+  type: claim
+  lang: de
+  kind: fact
+  section: "8.2"
+  label: "Abbildung 8: Zeitpunkt der letzten Einnahme orale Antikoagulanzien vor einer elektiven Operation in Abhängigkeit von der Nierenfunktion."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=83
+    quote: "Abbildung 8: Zeitpunkt der letzten Einnahme orale Antikoagulanzien vor einer elektiven Operation"
+# Section 8.2 after its boxes (p. 83, l. 34–38), read against 8.2 (the whole group; card #382 reading 7): the restart at a
+# low risk, the delay to 48–72 hours (two answers, two claims) and the physician's judgement — S to 8.2 each. The first is
+# joined by disagrees_with to the captions of Abb. 7 and 8, whose images print „≥ 6 h“. The PAUSE report (l. 40–42) is G2.
+- id: claims/vorhofflimmern-lf-1.1/ea3c43a9
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.2"
+  label: "Bei geringem Blutungsrisiko und schneller sowie vollständiger Hämostase kann die Therapie mit DOAK im Allgemeinen 6 bis 8 Stunden nach dem chirurgischen Eingriff wieder aufgenommen werden."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=83
+    quote: "kann die Therapie mit DOAK im Allgemeinen 6 bis 8 Stunden nach dem chirurgischen Eingriff"
+- id: claims/vorhofflimmern-lf-1.1/7a65ee14
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.2"
+  label: "Wenn jedoch das Blutungsrisiko bei Wiederaufnahme der vollen Antikoagulation das Risiko von Thromboembolien überwiegt, kann die therapeutische Antikoagulation auf 48 bis 72 Stunden nach dem Eingriff verschoben werden."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=83
+    quote: "kann die therapeutische Antikoagulation auf 48 bis 72 Stunden nach dem Eingriff verschoben werden"
+- id: claims/vorhofflimmern-lf-1.1/8752dc35
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.2"
+  label: "Die Beurteilung durch den behandelnden Arzt oder die behandelnde Ärztin ist in die Entscheidungsfindung einzubeziehen."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=83
+    quote: "die behandelnde Ärztin ist in die Entscheidungsfindung einzubeziehen"
+# Section 8.2 (p. 84, l. 4–6): heparin prophylaxis when the DOAK cannot be restarted — what to do when the step fails:
+# S to 8.2 (reading 7). p. 83, l. 44 – p. 84, l. 4 („als sicher angesehen“) is an appraisal (N2) and stays.
+- id: claims/vorhofflimmern-lf-1.1/f6c538a9
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.2"
+  label: "Eine postoperative Thromboseprophylaxe mit Heparin kommt infrage, wenn die Wiederaufnahme der DOAK-Therapie postoperativ nicht möglich ist, etwa bei Patient*innen mit anhaltendem Blutungsrisiko oder solchen, die keine orale Medikation einnehmen können."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=84
+    quote: "Eine postoperative Thromboseprophylaxe mit Heparin kommt infrage"
+# Section 8.2 (p. 84, l. 6–7): advises against reduced-dose DOAK, an action no box names (8.2 delegates the management to
+# its scheme) — a recommendation G1 does not admit: §5.1 U, a claim without an edge and in no statement (card #382
+# reading 7). „wird … nicht empfohlen“ is the wording empfehlen, against (spec §3.1, step 3).
+- id: claims/vorhofflimmern-lf-1.1/e38870fb
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.2"
+  label: "Der Off-Label-Einsatz von reduzierten Dosen DOAK zur Verringerung des Risikos postoperativer Blutungen wird bei fehlender Evidenz nicht empfohlen."
+  verb: empfehlen
+  direction: against
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=84
+    quote: "Off-Label-Einsatz von reduzierten Dosen DOAK zur Verringerung des Risikos postoperativer Blutungen"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=84, quote: "wird bei fehlender Evidenz nicht empfohlen"}
+    direction: {at: sources/vorhofflimmern-lf-1.1#page=84, quote: "wird bei fehlender Evidenz nicht empfohlen"}
+# Section 8.2 (p. 84, l. 10–12): for further planned procedures after the restart, a scheme like the low-risk one, a
+# 24-hour pause — which scheme the management stands for there: R to 8.2 (reading 7). „könnte“ is read as the
+# Konjunktiv of the wording kann (reading 7 names „none“ as the other reading). l. 9–10 („keine aussagekräftigen Daten“)
+# is N2; l. 12–15 lists the factors of the next sentence's „In diesen Fällen“ and stays.
+- id: claims/vorhofflimmern-lf-1.1/05ac435f
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.2"
+  label: "Bei bereits wiederaufgenommener DOAK-Therapie könnte in solchen Fällen ein ähnliches Schema wie bei Eingriffen mit einem geringen Blutungsrisiko angewendet werden, das eine Pause von 24 Stunden vorsieht."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=84
+    quote: "könnte in solchen Fällen ein ähnliches Schema wie bei Eingriffen"
+# Section 8.2 (p. 84, l. 15–16): a later restart where those factors lengthen the pause — S to 8.2, as the delay of p. 83,
+# l. 36–37 (reading 7). Its factors name kidney function among others; the restart is Abb. 7's, not 8.3's Abb. 8.
+- id: claims/vorhofflimmern-lf-1.1/d6595629
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.2"
+  label: "In diesen Fällen kann es ratsam sein, die DOAK-Therapie erst zu einem späteren Zeitpunkt zu beginnen."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=84
+    quote: "kann es ratsam sein, die DOAK-Therapie erst zu einem späteren Zeitpunkt zu beginnen"
+
+# Sections 8.3–8.5.2 hold no box, so no place in them has a marked recommendation (spec §5.1): each recommendation or
+# decline in the guideline's voice is a claim without an edge and in no statement, with no grade, basis, consensus or
+# number, kind by form, verb by §3.1's predicate rule (§5.1 U; #325 Decisions 14, 17; card #382 Decision 5). Each member
+# a connective joins that gives another measure is a claim of its own, labelled with its own span (Decision 20); a
+# connective joining two forms of one agent („niedermolekularem oder unfraktioniertem Heparin“, „PCC oder aktiviertes
+# PCC“) gives one measure, a claim. Facts, reports and reasons stay on the page.
+
+# Section 8.3 (p. 84, l. 22–24: facts on phenprocoumon, stay). l. 26–27: VKA procedures at a low risk without a pause. The
+# reference marks are left out.
+- id: claims/vorhofflimmern-lf-1.1/68b2f72f
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.3"
+  label: "Bei Patient*innen, die Vitamin-K-Antagonisten bei AF einnehmen, können invasive Eingriffe mit geringem Blutungsrisiko ohne Therapiepause durchgeführt werden."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=84
+    quote: "können invasive Eingriffe mit geringem Blutungsrisiko ohne Therapiepause durchgeführt werden"
+# Section 8.3 (p. 84, l. 27–28): two measures, „überwachen“ and „halten“, a claim each.
+- id: claims/vorhofflimmern-lf-1.1/ed626b89
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.3"
+  label: "Der INR-Wert ist dabei zu überwachen"
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=84
+    quote: "Der INR-Wert ist dabei zu überwachen"
+- id: claims/vorhofflimmern-lf-1.1/92962f37
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.3"
+  label: "idealerweise im unteren therapeutischen Bereich zu halten."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=84
+    quote: "idealerweise im unteren therapeutischen Bereich zu halten"
+# Section 8.3 (p. 84, l. 30–35: the review, G2; l. 35–37, „scheint … vorteilhafter zu sein“, an appraisal drawn from it,
+# stays — card #382 reading 8; its „sehr gering“ rates the review, which no box lists, and stays). l. 39–42:
+- id: claims/vorhofflimmern-lf-1.1/cbb50a74
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.3"
+  label: "Bei Patient*innen, die sich einem Eingriff mit moderatem Blutungsrisiko unterziehen, ist ein Fortführen von Phenprocoumon ebenfalls möglich."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=84
+    quote: "ist ein Fortführen von Phenprocoumon ebenfalls möglich"
+- id: claims/vorhofflimmern-lf-1.1/7aa83adb
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.3"
+  label: "Eingriffs- und patientenspezifische Risiken sind in diesen Fällen jedoch zu berücksichtigen."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=84
+    quote: "Eingriffs- und patientenspezifische Risiken sind in diesen Fällen jedoch zu berücksichtigen"
+# p. 84, l. 41–42: joined by disagrees_with to Abb. 8's caption, whose image prints „≥ 5 d“.
+- id: claims/vorhofflimmern-lf-1.1/4ed915b8
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.3"
+  label: "Bei Eingriffen mit hohem Blutungsrisiko wird empfohlen, Phenprocoumon 5-7 Tage vor dem Eingriff abzusetzen, um den INR-Wert auf unter 1,5 zu senken."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=84
+    quote: "Bei Eingriffen mit hohem Blutungsrisiko wird empfohlen, Phenprocoumon 5-7 Tage vor dem"
+# p. 84, l. 42–45: the action is the abstaining, for (card #382 Decision 5). The typographic quotation marks stay; the
+# reference mark is left out.
+- id: claims/vorhofflimmern-lf-1.1/b917a985
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.3"
+  label: "In Anlehnung an die BRIDGE-Studie, die zeigte, dass eine 3-5-tägige Pausierung von Warfarin ohne Umstellung auf Heparin mit einer vergleichbaren Inzidenz arterieller und venöser Thromboembolien und einer signifikant geringeren Inzidenz schwerer Blutungen verbunden war, wird empfohlen, bei den meisten Patient*innen auf das „Bridging“ zu verzichten."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=84
+    quote: "wird empfohlen, bei den meisten Patient*innen auf das „Bridging“ zu verzichten"
+# p. 84, l. 47–49: the relative clause instructs, „sollte“ (spec §3.1).
+- id: claims/vorhofflimmern-lf-1.1/c9463d6d
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.3"
+  label: "Der Zeitpunkt der Wiederaufnahme der Phenprocoumon-Therapie nach einem chirurgischen Eingriff ist eine komplexe Entscheidung, die individualisiert unter Berücksichtigung des chirurgischen Eingriffs getroffen werden sollte."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=84
+    quote: "unter Berücksichtigung des chirurgischen Eingriffs getroffen werden sollte"
+# p. 84, l. 49–50: joined by disagrees_with to Abb. 7's caption, whose image prints „≥ 12–24 h“ and „≥ 24 h“. l. 50–51
+# („Voraussetzung ist allerdings, dass …“) is a criterion and no recommendation, which U does not cover: it stays (card
+# #382 Decision 7, a gap #325's handover recorded).
+- id: claims/vorhofflimmern-lf-1.1/2a101352
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.3"
+  label: "Da Phenprocoumon mehrere Tage benötigt, um seine therapeutische Wirkung zu entfalten, kann die Einnahme oft 12-24 Stunden nach dem Eingriff wieder begonnen werden."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=84
+    quote: "kann die Einnahme oft 12-24 Stunden nach dem Eingriff wieder begonnen werden"
+# p. 84, l. 51–53: „Thromboseprohylaxe“ as printed (#314 Decision 4); one measure in two forms of heparin.
+- id: claims/vorhofflimmern-lf-1.1/8851a52d
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.3"
+  label: "Verzögern Patient*innen- und eingriffsbezogene Gründe die therapeutische Antikoagulation, kommt postoperativ zunächst eine Thromboseprohylaxe mit niedermolekularem oder unfraktioniertem Heparin infrage."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=84
+    quote: "kommt postoperativ zunächst eine Thromboseprohylaxe mit niedermolekularem oder unfraktioniertem"
+# p. 84, l. 53–56: printed again on p. 85, l. 39–41 („zu geben“): two claims with one answer, no disagreement.
+- id: claims/vorhofflimmern-lf-1.1/167cd124
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.3"
+  label: "Bei Patient*innen, die sich einem chirurgischen Eingriff mit hohem Blutungsrisiko unterziehen, wird empfohlen, die therapeutische Dosis mit Heparin (niedermolekular oder unfraktioniert) erst 48-72 Stunden nach Sicherstellung der Hämostase zu verabreichen."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=84
+    quote: "die therapeutische Dosis mit Heparin (niedermolekular oder unfraktioniert) erst 48-72 Stunden nach"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=84, quote: "unterziehen, wird empfohlen, die therapeutische Dosis mit"}
+
+# Section 8.4 (p. 84, l. 62–63): against the preoperative switch under a DOAK. The reasons that follow (p. 84, l. 63 –
+# p. 85, l. 5) and the BRIDGE report (p. 85, l. 7–9) stay (N2, G2).
+- id: claims/vorhofflimmern-lf-1.1/2b1c3eee
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.4"
+  label: "Bei Patient*innen, die mit einem DOAK behandelt werden, wird eine präoperative Umstellung mit niedermolekularem oder unfraktioniertem Heparin generell nicht empfohlen."
+  verb: empfehlen
+  direction: against
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=84
+    quote: "Umstellung mit niedermolekularem oder unfraktioniertem Heparin generell nicht empfohlen"
+# Section 8.4 (p. 85, l. 11–16): three constellations of one answer, one claim, the bound „CHA2DS2-VA > 6“ in its label
+# (a recommendation carries no threshold; card #382 Decision 5). „sehr hohen allgemeines“ as printed; the reference marks
+# are left out. Joined by disagrees_with to Abb. 7's footnote c („≥7“) and Abb. 6's footnote b, which print the
+# high-risk constellations otherwise.
+- id: claims/vorhofflimmern-lf-1.1/228b52eb
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.4"
+  label: "Auf dieser Grundlage gibt es für Patient*innen nur wenige Hochrisikokonstellationen, in denen ein Bridging nach präoperativem Absetzen der VKA diskutiert werden kann: dringende chirurgische Eingriffe mit hohem Blutungsrisiko bei Patient*innen mit einem kürzlich (≤ 3 Monate) eingetretenen thromboembolischen Ereignis (einschließlich Schlaganfall, systemischer Embolie oder venöser Thrombose/Lungenembolie), mit einem Ereignis während einer vorangegangenen adäquaten Unterbrechung der OAK-Therapie oder einem sehr hohen allgemeines Thromboserisiko CHA2DS2-VA > 6."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=85
+    quote: "nur wenige Hochrisikokonstellationen, in denen ein Bridging nach"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=85, quote: "präoperativem Absetzen der VKA diskutiert werden kann"}
+- id: claims/vorhofflimmern-lf-1.1/26ba9dde
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.4"
+  label: "In allen Fällen muss jedoch das Blutungsrisiko gegen das Thromboembolierisiko abgewogen werden."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=85
+    quote: "In allen Fällen muss jedoch das Blutungsrisiko gegen das Thromboembolierisiko abgewogen werden"
+# Section 8.4 (p. 85, l. 19–24): bridging „In der klinischen Praxis“, its regimens and when it starts — a practice
+# described, no recommendation: it stays (card #382 reading 8), its anti-FXa target 0,35-0,7 IU/ml with it (reading 10).
+# l. 26–29: in the guideline's voice, „prinzipiell möglich“ (card #382 reading 8, U taken); its second predicate reports
+# other guidelines' recommendation (G2) and gives no verb. Joined by disagrees_with to Abb. 6's footnote c.
+- id: claims/vorhofflimmern-lf-1.1/ad8bb085
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.4"
+  label: "Bei Patient*innen mit mechanischem Herzklappenersatz ist ein Bridging mit niedermolekularem Heparin prinzipiell möglich und wird in klinischen Leitlinien wie des American College of Cardiology (ACC) und der American Heart Association (AHA) sowie der European Society of Cardiology (ESC) als Alternative zu unfraktioniertem Heparin empfohlen."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=85
+    quote: "ist ein Bridging mit niedermolekularem Heparin prinzipiell möglich"
+# p. 85, l. 29–30: „Es ist … zu beachten“ instructs, as „zu berücksichtigen“ does (card #382 reading 8, U taken).
+- id: claims/vorhofflimmern-lf-1.1/16d91e85
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.4"
+  label: "Es ist allerdings zu beachten, dass NMH als Bridging-Antikoagulation nicht offiziell zugelassen ist und somit als Off-Label-Use gilt."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=85
+    quote: "Es ist allerdings zu beachten, dass NMH als Bridging-Antikoagulation nicht offiziell zugelassen ist"
+# p. 85, l. 32–34: „(siehe Abbildung 7)“ is a cross-reference and stays in the label.
+- id: claims/vorhofflimmern-lf-1.1/85f162d7
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.4"
+  label: "Bei Patient*innen, bei denen aufgrund des Blutungsrisikos eine postoperative Wiederaufnahme der OAK-Therapie nicht zeitnah möglich ist, sollte zumindest eine postoperative Thromboseprophylaxe mit NMH oder UFH in Erwägung gezogen werden (siehe Abbildung 7)."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=85
+    quote: "sollte zumindest eine postoperative Thromboseprophylaxe mit NMH oder UFH in Erwägung gezogen werden"
+# p. 85, l. 36–37: two measures „sowie“ joins, a claim each, sharing „kann … in Betracht gezogen werden“. Its target
+# 0,5-1,0 U/mL and the practice's 0,35-0,7 IU/ml (l. 20) are read as two answers for two situations, no disagreement
+# (card #382 reading 10).
+- id: claims/vorhofflimmern-lf-1.1/237c8968
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.4"
+  label: "Eine Überwachung der anti-FXa-Aktivität"
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=85
+    quote: "Eine Überwachung der anti-FXa-Aktivität"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=85, quote: "kann in Betracht gezogen werden"}
+- id: claims/vorhofflimmern-lf-1.1/0145ee51
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.4"
+  label: "eine Dosisanpassung auf einen Zielwert von 0,5-1,0 U/mL kann in Betracht gezogen werden."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=85
+    quote: "eine Dosisanpassung auf einen Zielwert von 0,5-1,0 U/mL kann in Betracht gezogen werden"
+- id: claims/vorhofflimmern-lf-1.1/fadfeb2a
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.4"
+  label: "Bei Patient*innen, die sich einem chirurgischen Eingriff mit hohem Blutungsrisiko unterziehen, wird empfohlen, die therapeutische Dosis mit Heparin (niedermolekular oder unfraktioniert) erst 48-72 Stunden nach Sicherstellung der Hämostase zu geben."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=85
+    quote: "wird empfohlen, die therapeutische Dosis mit Heparin"
+
+# Section 8.5 is a heading only. Section 8.5.1 (p. 85, l. 49–50): three agents the sentence names for the reversal, a
+# claim each, sharing „kann dies … erfolgen“.
+- id: claims/vorhofflimmern-lf-1.1/b35beabd
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.5.1"
+  label: "Bei dringenden operativen Eingriffen, die ein Aufheben der VKA Wirkung erfordern, kann dies mit Vitamin K"
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=85
+    quote: "kann dies mit Vitamin K"
+- id: claims/vorhofflimmern-lf-1.1/91541e1c
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.5.1"
+  label: "Prothrombinkomplexkonzentraten"
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=85
+    quote: "Prothrombinkomplexkonzentraten"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=85, quote: "Wirkung erfordern, kann dies"}
+- id: claims/vorhofflimmern-lf-1.1/bfef52c5
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.5.1"
+  label: "Gabe von gefrorenem Frischplasma erfolgen."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=85
+    quote: "Gabe von gefrorenem Frischplasma erfolgen"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=85, quote: "Wirkung erfordern, kann dies"}
+# p. 85, l. 50–52; the intravenous route (l. 52–53) is effect data (N2) and stays.
+- id: claims/vorhofflimmern-lf-1.1/2f15a14a
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.5.1"
+  label: "Vitamin K in einer Dosierung von 2-10 mg, abhängig vom INR-Wert, kann oral verabreicht werden und führt zu einer vorhersehbaren Senkung des INR-Wertes innerhalb von 18-24 Stunden."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=85
+    quote: "Vitamin K in einer Dosierung von 2-10 mg, abhängig vom INR-Wert, kann oral verabreicht werden"
+# p. 85, l. 53–55: „Es gilt zu beachten“ instructs (card #382 reading 8, U taken).
+- id: claims/vorhofflimmern-lf-1.1/a1ef42c8
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.5.1"
+  label: "Es gilt zu beachten, dass die Gerinnungsfaktoren trotz Normalisierung des INR-Wertes weiterhin unterhalb des Normalwertes liegen können, was bedeutet, dass das Blutungsrisiko möglicherweise noch nicht vollständig behoben ist."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=85
+    quote: "Es gilt zu beachten, dass die Gerinnungsfaktoren trotz Normalisierung des INR-Wertes"
+# p. 85, l. 55–57: two measures „oder“ joins, a claim each, sharing „werden … empfohlen“.
+- id: claims/vorhofflimmern-lf-1.1/a8ba7b71
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.5.1"
+  label: "Bei Patient*innen, die für eine sofortige größere Operation eine Normalisierung der Blutgerinnung benötigen, werden Prothrombinkomplexpräparate"
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=85
+    quote: "werden Prothrombinkomplexpräparate"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=85, quote: "Frischplasma empfohlen"}
+- id: claims/vorhofflimmern-lf-1.1/a5665e42
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.5.1"
+  label: "Frischplasma empfohlen."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=85
+    quote: "Frischplasma empfohlen"
+# p. 85, l. 57–59: how PPSB is dosed, in the guideline's voice after its recommendation (card #382 reading 8, U taken);
+# the dose bands are the answer's and stay in the label (a dose is no threshold, spec §3.1).
+- id: claims/vorhofflimmern-lf-1.1/1bba9a74
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.5.1"
+  label: "Prothrombinkomplex-Konzentrat (PPSB) wird auf der Grundlage von INR und Körpergewicht dosiert (INR 2-4 bei 25 U/kg, INR 4-6 bei 35 U/kg, INR >6 bei 50 U/kg, mit einer Höchstdosis von 5000 U bei 100 kg Körpergewicht)."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=85
+    quote: "Prothrombinkomplex-Konzentrat (PPSB) wird auf der Grundlage von INR und Körpergewicht dosiert"
+# p. 85, l. 59–61: two measures „sowie“ joins, a claim each, sharing „unerlässlich“ (no declared wording). The second
+# member's quote stops before the kept hyphen of „Thrombose-“ / „und“ (l. 60–61), which pdf.js's search would drop.
+# l. 61–62 („Dies ist notwendig, da …“) is a reason (N2).
+- id: claims/vorhofflimmern-lf-1.1/cc171751
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.5.1"
+  label: "Bei Patient*innen, die eine Aufhebung der VKA Wirkung benötigen, ist eine sorgfältige Überwachung der hämostatischen Parameter"
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=85
+    quote: "ist eine sorgfältige Überwachung der hämostatischen Parameter"
+- id: claims/vorhofflimmern-lf-1.1/aee3f826
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.5.1"
+  label: "eine Bewertung des Thrombose- und Blutungsrisikos in der perioperativen Phase unerlässlich."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=85
+    quote: "eine Bewertung des"
+# p. 85, l. 62–64: its line l. 63 is justified, „interdisziplinäre         Entscheidung“, quoted with one space (spec
+# §6.2; #371).
+- id: claims/vorhofflimmern-lf-1.1/7793add9
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.5.1"
+  label: "In solchen Fällen sollte eine interdisziplinäre Entscheidung über die frühzeitige Wiederaufnahme der Antikoagulationsbehandlung getroffen werden."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=85
+    quote: "sollte eine interdisziplinäre Entscheidung über die frühzeitige Wiederaufnahme"
+
+# Section 8.5.2 (p. 86, l. 7). The specific coagulation tests (l. 8–10) are reported from the literature (G2, N2).
+- id: claims/vorhofflimmern-lf-1.1/4cf1920d
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.5.2"
+  label: "Ist ein dringender chirurgischer Eingriff erforderlich, wird empfohlen, die Einnahme von DOAK sofort einzustellen."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=86
+    quote: "wird empfohlen, die Einnahme von DOAK sofort einzustellen"
+# p. 86, l. 10–11: its line l. 11 is justified, quoted with one space (#371). „der DOAK-Plasmaspiegels“ as printed. The
+# EACTS level „<30 ng/ml“ (l. 11–14) is another guideline's (G2) and stays.
+- id: claims/vorhofflimmern-lf-1.1/972f0f94
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.5.2"
+  label: "Für die Risikostratifizierung kann die Bestimmung der DOAK-Plasmaspiegels sinnvoll sein."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=86
+    quote: "kann die Bestimmung der DOAK-Plasmaspiegels sinnvoll sein"
+- id: claims/vorhofflimmern-lf-1.1/968d42c2
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.5.2"
+  label: "Falls höhere Werte gemessen werden und ein weiteres Abwarten nicht möglich ist, kann Idarucizumab bei Dabigatran eine Behandlungsoption darstellen."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=86
+    quote: "kann Idarucizumab bei Dabigatran eine Behandlungsoption darstellen"
+# p. 86, l. 20–21; the approval and off-label facts before it (l. 18–20) stay.
+- id: claims/vorhofflimmern-lf-1.1/b4a0cf20
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.5.2"
+  label: "Bei lebensbedrohlichen Blutungen kann Andexanet alpha unter Berücksichtigung der potenziellen prothrombogenen Wirkung in Erwägung gezogen werden."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=86
+    quote: "Bei lebensbedrohlichen Blutungen kann Andexanet alpha unter Berücksichtigung der"
+# p. 86, l. 21–23: „Es ist wichtig zu beachten“ instructs (card #382 reading 8, U taken).
+- id: claims/vorhofflimmern-lf-1.1/e75636b8
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.5.2"
+  label: "Es ist wichtig zu beachten, dass Andexanet alpha unspezifisch alle FXa-Inhibitoren bindet, was bedeutende Auswirkungen auf die weitere Behandlung, einschließlich der Verabreichung von UFH oder LMWH, haben kann."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=86
+    quote: "Es ist wichtig zu beachten, dass Andexanet alpha unspezifisch alle FXa-Inhibitoren bindet"
+# p. 86, l. 23–25: the class, its two agents an example („wie“): one claim.
+- id: claims/vorhofflimmern-lf-1.1/4da5b70f
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.5.2"
+  label: "Nach Einsatz von Andexanet alpha sollte deshalb auf die Verwendung von direkten Thrombininhibitoren wie Argatroban oder Bivalirudin zurückgegriffen werden."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=86
+    quote: "Nach Einsatz von Andexanet alpha sollte deshalb auf die Verwendung von direkten Thrombininhibitoren"
+# p. 86, l. 28–29; the rise it follows (l. 27–28) is a fact and stays. The reference marks are left out.
+- id: claims/vorhofflimmern-lf-1.1/9a66d497
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.5.2"
+  label: "Hier gilt es die kürzere Halbwertszeit nach der Verabreichung von Andexanet alpha zu berücksichtigen."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=86
+    quote: "Hier gilt es die kürzere Halbwertszeit nach der Verabreichung von Andexanet alpha zu berücksichtigen"
+# p. 86, l. 29–30: states the need for monitoring, a recommendation in other words (card #382 reading 8, U taken).
+- id: claims/vorhofflimmern-lf-1.1/34402802
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.5.2"
+  label: "Dieser Umstand unterstreicht die Notwendigkeit einer kontinuierlichen klinischen und laborchemischen Überwachung."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=86
+    quote: "Dieser Umstand unterstreicht die Notwendigkeit einer kontinuierlichen klinischen und laborchemischen"
+# p. 86, l. 32–33: one measure in two forms of one agent; „keine Evidenz“ (l. 33) is N2. Section 8.6 (l. 38–40) is a
+# referral only (N4).
+- id: claims/vorhofflimmern-lf-1.1/abc06067
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.5.2"
+  label: "Stehen keine spezifischen Antagonisten zur Verfügung, kommen Prothrombinkomplexkonzentrat (PCC) oder aktiviertes PCC infrage."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=86
+    quote: "Prothrombinkomplexkonzentrat (PCC) oder aktiviertes PCC infrage"
