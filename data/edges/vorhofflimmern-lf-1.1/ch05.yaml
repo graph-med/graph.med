@@ -37,9 +37,12 @@
 - [claims/vorhofflimmern-lf-1.1/aa5ab18c, refines, claims/vorhofflimmern-lf-1.1/92ff30df, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "R: (z.B. mit dem HAS-BLED-Score) — der ORBIT-Score „kann aber ebenfalls genutzt werden“: ein weiteres Instrument der Abschätzung."}]
 
-# body text (spec §5.1): section 5.3.2, p. 42; its two declines (l. 20–23, 28–30) are gap notices without an edge
+# body text (spec §5.1): section 5.3.2, p. 42; its decline (l. 20–23) is a gap notice without an edge, and l. 28–30,
+# denying the switch an indication, is against it (G4, card #372)
 - [claims/vorhofflimmern-lf-1.1/bface3c7, supplements, claims/vorhofflimmern-lf-1.1/af72319e, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "S: Wahl des oralen Antikoagulans — bei der Behandlung mit Phenprocoumon „muss allerdings auf eine qualitativ hochwertige Einstellung mit einer hohen TTR geachtet werden“: eine Maßnahme neben der Wahl."}]
+- [claims/vorhofflimmern-lf-1.1/23233a47, refines, claims/vorhofflimmern-lf-1.1/af72319e, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: Wahl des oralen Antikoagulans — bei „stabil auf VKA eingestellten fragilen, älteren Patient*innen“ besteht „ohne relevanten Grund keine Indikation zur Umstellung auf DOAK“: das Antikoagulans, bei dem die Wahl für diese Gruppe bleibt. Die Umstellung ist keine Handlung der Empfehlung, die der Satz herausnähme (nicht L)."}]
 - [claims/vorhofflimmern-lf-1.1/11b1cde6, refines, claims/vorhofflimmern-lf-1.1/af72319e, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "R: unter Berücksichtigung der individuellen Komorbiditäten, der individuellen Lebensumstände und Anwendungsbeschränkungen — „die einfachere Handhabung der DOAK ohne erforderliche engmaschige INR-Kontrollen“ ist zu berücksichtigen."}]
 

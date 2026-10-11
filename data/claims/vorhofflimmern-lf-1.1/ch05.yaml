@@ -592,15 +592,18 @@
   source:
     at: sources/vorhofflimmern-lf-1.1#page=42
     quote: "Bei der Behandlung mit Phenprocoumon muss allerdings auf eine qualitativ"
-# Section 5.3.2 (p. 42, l. 28–30): an indication that „besteht … nicht“, a decline by §5.1 G4's wording, sharing 5.5's
-# question: a gap notice without an edge (#365 reading 10; the other reading, against switching, L to 5.5, is the
-# physician's). „fragil, älter“ stays undelimited, as printed.
+# Section 5.3.2 (p. 42, l. 28–30): denies the switch to DOAK an indication — against it, whatever the verb, „keine
+# Indikation“ kept in the label as printed (§5.1 G4; card #372, the maintainer, 2026-10-11: „stay true to it“). It
+# passes G1–G3 for 5.5 (the choice of the agent, for a group and with an action 5.5 lacks), and R holds first: it says
+# which agent the choice keeps for this group and takes no case out, since the switch is no action of 5.5 (not L).
+# No declared wording: no verb. „fragil, älter“ stays undelimited, as printed.
 - id: claims/vorhofflimmern-lf-1.1/23233a47
   type: claim
   lang: de
-  kind: gap_notice
+  kind: recommendation
   section: "5.3.2"
   label: "Nach Ansicht der Leitliniengruppe besteht daher bei stabil auf VKA eingestellten fragilen, älteren Patient*innen ohne relevanten Grund keine Indikation zur Umstellung auf DOAK."
+  direction: against
   source:
     at: sources/vorhofflimmern-lf-1.1#page=42
     quote: "keine Indikation zur Umstellung auf DOAK"
