@@ -1,5 +1,6 @@
 # A condition of 5.14 (p. 86), as printed with the rule inside the box sentence (card #223; #217's convention row
-# 6 (b)). The rule stays in the box claim and the concept stays stated (#213 item 3).
+# 6 (b)). Derived: its one defined_by edge reaches the narrower criterion claim of „(PaO2/FiO2 < 150 mmHg)“ (spec
+# §3.1, #328; #355); the label keeps the bound as the box prints it.
 id: concepts/einschraenkung-der-arteriellen-oxygenierung
 type: concept
 lang: de

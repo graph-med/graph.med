@@ -283,7 +283,7 @@
     consensus_share: {at: sources/sepsis-lf-4.0#page=83, quote: "Konsensstärke: 100 %"}
     evidence:
       - {at: sources/sepsis-lf-4.0#page=83, quote: "Mortalität:"}
-# a rule inside the box sentence, „(PaO2/FiO2 100-300)“, stays in this claim without a threshold (#213 item 3; open question rule-claim-granularity)
+# 5.12: the sentence keeps its rule in its label; the rule „(PaO2/FiO2 100-300)“ is the narrower claim below (spec §3.1, #328; #355)
 - id: claims/sepsis-lf-4.0/7aa857fe
   type: claim
   lang: de
@@ -311,7 +311,27 @@
     evidence:
       - {at: sources/sepsis-lf-4.0#page=84, quote: "Mortalität:"}
       - {at: sources/sepsis-lf-4.0#page=84, quote: "Intensiv-Liegedauer:"}
-# a rule inside the box sentence, „länger als 24 Stunden invasiv beatmet“, stays in this claim without a threshold (#213 item 3)
+# 5.12, the rule printed inside the sentence above: a narrower criterion claim, reached by
+# concepts/milde-bis-moderate-akute-hypoxaemische-respiratorische-insuffizienz's defined_by; no grade, no evidence rows (#355)
+- id: claims/sepsis-lf-4.0/67979f39
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: '5.12'
+  section: '5.6'
+  label: "milder bis moderater akuter hypoxämischer respiratorischer Insuffizienz (PaO2/FiO2 100-300)"
+  consensus: starker_konsens
+  consensus_share: 100 %
+  threshold: {quantity: concepts/pao2-fio2-verhaeltnis, comparator: "between", value: "100-300"}
+  source:
+    at: sources/sepsis-lf-4.0#page=84
+    quote: "milder bis moderater akuter hypoxämischer respiratorischer Insuffizienz (PaO2/FiO2 100-300)"
+  provenance:
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=84, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=84, quote: "Konsensstärke: 100 %"}
+# 5.13: the sentence keeps its rule in its label; the rule „länger als 24 Stunden invasiv beatmet“ is the narrower claim below (#355)
 - id: claims/sepsis-lf-4.0/59f06067
   type: claim
   lang: de
@@ -337,7 +357,28 @@
     consensus_share: {at: sources/sepsis-lf-4.0#page=85, quote: "Konsensstärke: 100 %"}
     evidence:
       - {at: sources/sepsis-lf-4.0#page=85, quote: "Beatmungsdauer:"}
-# a rule inside the box sentence, „(PaO2/FiO2 < 150 mmHg)“, stays in this claim without a threshold (#213 item 3); Oxford level for the whole box (#215)
+# 5.13, the rule printed inside the sentence above: a narrower criterion claim, reached by
+# concepts/laenger-als-24-stunden-invasiv-beatmet's defined_by; its quantity the duration of invasive ventilation as
+# printed, not p. 122's „maschinelle Beatmung“ (concepts/dauer-der-invasiven-beatmung); no grade, no evidence rows (#355)
+- id: claims/sepsis-lf-4.0/fd33b94f
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: '5.13'
+  section: '5.7'
+  label: "länger als 24 Stunden invasiv beatmet wurden"
+  consensus: starker_konsens
+  consensus_share: 100 %
+  threshold: {quantity: concepts/dauer-der-invasiven-beatmung, comparator: ">", value: "24", unit: "Stunden"}
+  source:
+    at: sources/sepsis-lf-4.0#page=85
+    quote: "länger als 24 Stunden invasiv beatmet wurden"
+  provenance:
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=85, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=85, quote: "Konsensstärke: 100 %"}
+# 5.14: the sentence keeps its rule in its label; the rule „(PaO2/FiO2 < 150 mmHg)“ is the narrower claim below (#355); Oxford level for the whole box (#215)
 - id: claims/sepsis-lf-4.0/d75eafe7
   type: claim
   lang: de
@@ -364,6 +405,26 @@
     evidence:
       - {at: sources/sepsis-lf-4.0#page=86, quote: "Evidenzgrad: 1"}
       - {at: sources/sepsis-lf-4.0#page=147, quote: "nach GRADE und Oxford 2011 gekennzeichnet."}
+# 5.14, the rule printed inside the sentence above: a narrower criterion claim, reached by
+# concepts/einschraenkung-der-arteriellen-oxygenierung's defined_by; no grade, no evidence rows (#355)
+- id: claims/sepsis-lf-4.0/a620690a
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: '5.14'
+  section: '5.8'
+  label: "Einschränkung der arteriellen Oxygenierung (PaO2/FiO2 < 150 mmHg)"
+  consensus: starker_konsens
+  consensus_share: 100 %
+  threshold: {quantity: concepts/pao2-fio2-verhaeltnis, comparator: "<", value: "150", unit: "mmHg"}
+  source:
+    at: sources/sepsis-lf-4.0#page=86
+    quote: "Einschränkung der arteriellen Oxygenierung (PaO2/FiO2 < 150 mmHg)"
+  provenance:
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=86, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=86, quote: "Konsensstärke: 100 %"}
 # 5.15, first sentence; both sentences carry the box's Oxford level (#215)
 - id: claims/sepsis-lf-4.0/6c4a6eff
   type: claim
