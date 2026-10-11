@@ -756,15 +756,15 @@
     quote: "wenn eine orale Antikoagulation langfristig kontraindiziert ist"
 # Section 5.4.1, Begründung (p. 43, l. 65 – p. 44, l. 5): the next step after the closure — S to 5.8's first claim (#365
 # reading 12). The sentence names two measures, „einer dualen Plättchenhemmung oder oralen Antikoagulation“: one claim per
-# measure, each quoting its member (§5.1 K; the judge, 2026-10-11), each labelled with the sentence whole across the page
-# break. Its members lie on p. 44 (l. 4), where both quotes are taken; „dualen“ ends p. 43. First member: the dual
-# antiplatelet therapy.
+# measure, each quoting its member (§5.1 K; the judge, 2026-10-11) and labelled with its own span of the sentence, cut at
+# the connective „oder“, as §3.1 labels each member a connective joins (the sepsis precedent, p. 104). Its members lie on
+# p. 44 (l. 4), where both quotes are taken; „dualen“ ends p. 43. First member: the dual antiplatelet therapy.
 - id: claims/vorhofflimmern-lf-1.1/a4d6861a
   type: claim
   lang: de
   kind: recommendation
   section: "5.4.1"
-  label: "Nach katheterbasiertem Vorhofohrverschluss muss die vorübergehende Notwendigkeit einer dualen Plättchenhemmung oder oralen Antikoagulation zur Vermeidung einer Thrombenbildung auf der Oberfläche des Okkluders bedacht werden."
+  label: "Nach katheterbasiertem Vorhofohrverschluss muss die vorübergehende Notwendigkeit einer dualen Plättchenhemmung"
   direction: for
   source:
     at: sources/vorhofflimmern-lf-1.1#page=44
@@ -775,7 +775,7 @@
   lang: de
   kind: recommendation
   section: "5.4.1"
-  label: "Nach katheterbasiertem Vorhofohrverschluss muss die vorübergehende Notwendigkeit einer dualen Plättchenhemmung oder oralen Antikoagulation zur Vermeidung einer Thrombenbildung auf der Oberfläche des Okkluders bedacht werden."
+  label: "oralen Antikoagulation zur Vermeidung einer Thrombenbildung auf der Oberfläche des Okkluders bedacht werden."
   direction: for
   source:
     at: sources/vorhofflimmern-lf-1.1#page=44
