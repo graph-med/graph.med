@@ -183,7 +183,11 @@ graded, and which declines are gap notices), a claim in
 - `label`: the full sentence, source language, `lang` tagged; one claim per
   sentence of a box, never one per box (memory
   `box-granularity-per-sentence`); a table claim as §5.1 K reads it
-  ("Kopf: Zelle; …", reference marks left out);
+  ("Kopf: Zelle; …"). Every label — and every evidence `key` — leaves out the
+  reference marks its passage prints, glued ("erfolgen55, daher" → "erfolgen,
+  daher"), bracketed ("[274], [275]") or in parentheses, and keeps every
+  number that is a value ("SpO2", "HA330") and the words around a mark
+  ("nach Apfel 1999") (spec §3.1, memory `reference-marks-left-out`);
 - `quote`: a short **verbatim** passage of the extracted text in **whole
   words** (spec §6.2): it neither starts nor ends inside a word, and it may run
   across a line break where the text runs on — to the next line, or to the next

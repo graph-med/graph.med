@@ -53,7 +53,8 @@ lower-case values stay.
 **How to apply:** extract the rating as the source words it, one entry per
 row. Record an endpoint as `outcome` (a concept of facet `outcome`, which the
 validator checks) and anything else the row names as `key`, as printed, line
-breaks and end-of-line hyphens joined, reference marks left out; never mint a
+breaks and end-of-line hyphens joined, its reference marks left out as a
+label's are ([[reference-marks-left-out]], spec §3.1); never mint a
 component, subgroup or comparator as an outcome. An entry without `outcome`
 and `key` only where the source rates the recommendation as a whole; a bare
 level whose system only the method section names ("Evidenzgrad: 1") quotes

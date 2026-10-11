@@ -99,7 +99,11 @@ keeps at a line end is the one the printed word has.
    `recommendation_no` and `section` as printed at that place — a box's
    grade and consensus reaching its sentences as spec §3.1 says, a consensus
    class the one the source's table gives the printed share —, and is none
-   supplied where the page prints none? Is every number in the label the number on the page? A
+   supplied where the page prints none? Is every number in the label the number on the page? Does
+   the label — and an evidence `key` — leave out every reference mark its
+   passage prints, and keep every number that is a value (spec §3.1)? Which
+   number is a mark is your reading of the sentence and of the source's
+   reference list, never of its form alone. A
    body-text claim carries no `grade` and no `consensus`. A `threshold` is
    the quantity, comparator, value, unit and time point the page prints, one
    per claim. A claim with a `combination` quotes the passage its parts come

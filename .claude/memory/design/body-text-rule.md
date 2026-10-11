@@ -26,8 +26,8 @@ it from sentences to places and closed four gaps the second guideline opened:
   rows (or a cell's items): K counts answers, so rows listing one group's cases
   are one claim, a row with its own action is its own, and a table a
   recommendation names as one instrument is one answer. A table claim quotes
-  one line of one cell and is labelled "Kopf: Zelle; …" without reference
-  marks.
+  one line of one cell and is labelled "Kopf: Zelle; …", its reference marks
+  left out as every label's are ([[reference-marks-left-out]], spec §3.1).
 - **Voice of a table.** It speaks as the sentence introducing it does: a
   source line "nach …" is an attribution, like "nach Apfel 1999" in the first
   source; a table introduced as another guideline's options speaks for that

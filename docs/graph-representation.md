@@ -191,6 +191,25 @@ its own about what is true; it asserts what a source states at a location. Its
 a definition → `definition`; it states which cases, values or thresholds a term
 covers → `criterion`; otherwise → `fact`.
 
+A claim's **`label`** is the sentence at its quote as printed — for a table,
+the row or group §5.1 K reads ("Kopf: Zelle; …") — with its **reference marks
+left out**, and an evidence `key` (below) is read the same way. A reference
+mark is a number, or a range of numbers, that the source prints to point into
+its own reference list: glued to a word ("erfolgen55", "Caironi et al.249"),
+set in brackets ("[274]", "[14,15]", "[73–75]") or in parentheses ("(19)").
+Only the mark goes, with any spaces and commas whose only job is to separate
+marks; the sentence keeps its own punctuation ("erfolgen55, daher" →
+"erfolgen, daher", "verringert werden [274], [275]." → "verringert werden.")
+and the words around the mark — an author ("Caironi et al."), an attribution
+("nach Apfel 1999"), a cross-reference ("vgl hierzu auch 2 weitere S3
+Leitlinien"). A number that is a value stays, wherever it stands and however
+it is set: "HA330", "SpO2", "mm3", "Vitamin B1", a bracketed interval ("95% KI
+[1.67, 2.58]"). Its form does not tell a mark from a value, so which number is
+a mark is a reading of the sentence and of the source's reference list, which
+the judge checks (§8.1) and the validator does not. The quote keeps a mark
+where its passage holds one (§6.2); the quote and the link into the page are
+the way back to the reference, which the pool does not hold.
+
 Within a **marked recommendation** (§5.1) the unit is the **sentence**, not the
 box: every sentence of the box is a claim, whatever its form, sharing the box's
 `recommendation_no` and its `section` — the section the box lies in, never its
@@ -278,7 +297,8 @@ system that made it (`value`, `system`: GRADE, Oxford, the ESC levels, whatever
 the source used), the outcome concept it applies to where the row names an
 endpoint (`outcome`), and the row's **`key`** as printed where the row names
 anything else ("Sepsis-Screening", "Septischer Schock", "Dopamin", "HAT",
-"oXiris®"). The key is a string, never a concept and never a kind: rows keyed by
+"oXiris®"), its reference marks left out as a label's are (above). The key is
+a string, never a concept and never a kind: rows keyed by
 comparator and rows keyed by subgroup are told apart by the words they print, and
 no vocabulary of row kinds exists for the next source to break. A row naming
 both, an endpoint for a device ("Mortalität oXiris®") or under a comparison
@@ -983,7 +1003,8 @@ Every other place stays on the page.
   one answer (the cases one group comprises) are one claim. A table's members
   are its rows or a cell's items, and a table a recommendation names is one
   answer; it quotes within one cell (a caption or head for a whole) and
-  reads "Kopf: Zelle; …" as printed, reference marks left out.
+  reads "Kopf: Zelle; …" as printed, its label leaving out the reference
+  marks as every claim's does (§3.1).
 - **E edge** — to each claim of the section whose wording carries the term, the
   case or the action, none to the other sentences of its recommendation; a
   definition the source marks for its term as such — not an item of a list
@@ -1070,10 +1091,13 @@ the read-only server returns whole
 (`.claude/memory/design/quote-gate-follows-the-site.md`); a longer passage is
 cut back to its last whole word that fits.
 
-A claim's label is the sentence as printed, whole, and is no quote. Since a
-claim's id is derived from its quote (§2), re-cutting an existing quote
-renames the claim and every reference to it: an edit with history (§7),
-never a silent one.
+A quote stays a verbatim passage and keeps a reference mark where the passage
+holds one ("Apfel 1999 [93] gelten"); a mark glued to a word ends that word, so
+a quote may as well stop before the mark or start after it. A claim's label
+is the sentence as printed, whole, its reference marks left out (§3.1), and is
+no quote. Since a claim's id is derived from its quote (§2), re-cutting an
+existing quote renames the claim and every reference to it: an edit with
+history (§7), never a silent one.
 
 ### 6.3 Two kinds of provenance value
 
@@ -1269,7 +1293,9 @@ pool, and catches what was left out:
   consensus class the one the source's table gives the printed share —,
   and none is supplied where the page prints none (§11, rule 6; a body-text
   claim carries no grade, §5); a number in the label — a day, a dose, a value,
-  a threshold — is the number on the page. A `threshold` is what the page
+  a threshold — is the number on the page, and a reference mark the page
+  prints is left out of it (§3.1) — which number is a mark is the judge's
+  reading. A `threshold` is what the page
   prints, one per claim; a `combination` (§3.1) joins every member the passage
   joins and no other, its connective is what the page prints between them,
   and its operator is the reading the connective bears in its sentence, never

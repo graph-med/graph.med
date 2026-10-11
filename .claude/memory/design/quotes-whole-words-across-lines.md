@@ -14,10 +14,11 @@ hyphen at its end reads as the printed word does — dropped where it breaks
 the word ("Volu-" + "men" → "Volumen"), kept where it belongs to it
 ("Povidon-" + "Iod" → "Povidon-Iod", "Rektum-" + "und" → "Rektum- und"). A
 connective whose word the page breaks at a line end is that one word
-("Gleichzeitig"), inside one quote. Labels stay the sentence as printed and
-are no quotes. Written into `docs/graph-representation.md` §6.2 and §3.1,
-schema 0.16.0, and `tools/validate.py` (`page_reading`, `quote_pattern`, and
-the whole-word check).
+("Gleichzeitig"), inside one quote. Labels stay the sentence as printed, their
+reference marks left out ([[reference-marks-left-out]]), and are no quotes.
+Written into `docs/graph-representation.md` §6.2 and §3.1, schema 0.16.0,
+and `tools/validate.py` (`page_reading`, `quote_pattern`, and the whole-word
+check).
 
 Until then a quote was "contiguous on one line" of the extracted text, so a
 long passage was cut at the line end: 162 of the pool's 1,377 quoted strings
