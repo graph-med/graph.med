@@ -618,7 +618,7 @@
   kind: definition
   section: '8.8'
   label: "respiratorische Insuffizienz definiert als maschinelle Beatmung > 48 h"
-  threshold: {quantity: concepts/beatmungsdauer, comparator: ">", value: "48", unit: "h"}
+  threshold: {quantity: concepts/dauer-der-maschinellen-beatmung, comparator: ">", value: "48", unit: "h"}
   source:   # a part of p. 122's combination: the first factor, defined where it stands.
     at: sources/sepsis-lf-4.0#page=122
     quote: "respiratorische Insuffizienz definiert als maschinelle Beatmung"
