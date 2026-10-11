@@ -384,62 +384,101 @@ behind it is are two different facts, and a source may state the second per
 outcome — *hoch* for one endpoint, *sehr niedrig* for another — or per row of
 another kind: a component of the action, a subgroup, an arm, a comparator, a
 device, a regimen. A claim carries it as **`evidence`**: a list of entries, one
-per row the source prints and per endpoint where a row names several, in its
-order, each the rating in the words of the system that made it (`value`,
-`system`: GRADE, Oxford, the ESC levels, whatever the source used), the
-outcome concept it applies to where the row names an
-endpoint (`outcome`), and the row's **`key`** as printed where the row names
-anything else ("Sepsis-Screening", "Septischer Schock", "Dopamin", "HAT",
-"oXiris®"), its reference marks left out as a label's are (above). The key is
-a string, never a concept and never a kind: rows keyed by
-comparator and rows keyed by subgroup are told apart by the words they print, and
-no vocabulary of row kinds exists for the next source to break. A row naming
-both, an endpoint for a device ("Mortalität oXiris®") or under a comparison
-("CRRT vs. IHD" above "Mortalität"), carries both; what qualifies the endpoint
-itself — its time frame ("Mortalität (30 Tage)"), its setting ("ICU
-Mortalität") — belongs to the endpoint and is no key. **A component, a subgroup
-or a comparator is never recorded as an outcome**: an `outcome` is a concept of
-facet `outcome` (validator). The key also keeps apart rows that would otherwise
-be the same entry — three devices rated *Sehr niedrig* for one endpoint — so no
-two rows the source prints become one entry. A row that rates **several names
-under one rating** — several agents, comparators or other things that are no
-endpoint — is one entry, and its key lists the names of what the rating covers,
-as printed and in printed order, joined by ", ": without the effect data printed
-between them (effect sizes, intervals, ranks, a certainty repeated in words),
-and without a name the row mentions only to say that nothing reports on it,
-which the rating does not cover. It is the one case where a key joins words the
-page prints apart; one entry per row keeps the count the card shows equal to the
-page's, and the key tells the reader what each rating covers. A row that rates
-**several endpoints under one rating** gives one entry per endpoint, in printed
-order, each with the row's value and system and, where the row prints any, a key
-of the names it prints for that endpoint: every endpoint stays an `outcome`, and
-every quote stays paired with its entry. The `value` is the system's word
+per row of the recommendation's **evidence block** — what the box prints for the
+certainty of its evidence, under whatever heading — and per endpoint where a row
+names several, in its order, each the rating in the words of the system that
+made it (`value`, `system`: GRADE, Oxford, the ESC levels, whatever the source
+used), the outcome concept it applies to where the row names an endpoint
+(`outcome`), and the row's **`key`** as printed where the row names anything
+else ("Sepsis-Screening", "Septischer Schock", "Dopamin", "HAT", "oXiris®"), its
+reference marks left out as a label's are (above). The key is a string, never a
+concept and never a kind: rows keyed by comparator and rows keyed by subgroup
+are told apart by the words they print, and no vocabulary of row kinds exists
+for the next source to break. A row naming both, an endpoint for a device
+("Mortalität oXiris®") or under a comparison ("CRRT vs. IHD" above
+"Mortalität"), carries both; what qualifies the endpoint itself — its time frame
+("Mortalität (30 Tage)"), its setting ("ICU Mortalität") — belongs to the
+endpoint and is no key. **A component, a subgroup or a comparator is never
+recorded as an outcome**: an `outcome` is a concept of facet `outcome`
+(validator). The key also keeps apart rows that would otherwise be the same
+entry — three devices rated *Sehr niedrig* for one endpoint — so no two rows the
+source prints become one entry. A row that rates **several names under one
+rating** — several agents, comparators or other things that are no endpoint — is
+one entry, and its key lists the names of what the rating covers, as printed and
+in printed order, joined by ", ": without the effect data printed between them
+(effect sizes, intervals, ranks, a certainty repeated in words), and without a
+name the row mentions only to say that nothing reports on it, which the rating
+does not cover. It is the one case where a key joins words the page prints
+apart; one entry per row keeps the count the card shows equal to the page's, and
+the key tells the reader what each rating covers. A row that rates **several
+endpoints under one rating** gives one entry per endpoint, in printed order,
+each with the row's value and system and, where the row prints any, a key of the
+names it prints for that endpoint — also where the row names nothing but its
+endpoints, however its label joins them: every endpoint stays an `outcome`, and
+every quote stays paired with its entry. A row worded as a **result or an aim**
+of its endpoint ("Reduktion des PONV-Risikos") rates that endpoint: its
+`outcome` is the endpoint the label names, the words that state the result or
+the aim are effect data and go into no field, and a setting that belongs to the
+endpoint stays with it, as its time frame does. The `value` is the system's word
 **as printed**, "Moderat" where the box prints it capitalised: the case is the
 print's, not a second level, and a consumer compares the values of one system
-without regard to it. Where the source prints a rating twice, as a word and as
-symbols (⊕⊕⊕⊝), the value is the word. **Where the two disagree, both are
-recorded and neither is chosen**: the word as the entry's value, and the
-symbols as a claim of their own — kind `fact`, the row read as §5.1 K reads a
-table, its head and the symbols ("Hämodynamische Instabilität: ⊕⊕⊝⊝"),
-quoting the symbols, with the box's `recommendation_no` and `section` and
-nothing else the box prints — which `disagrees_with` joins to the
-recommendation's claim, its rationale quoting the word and the symbols (§5).
-A rating the body text gives otherwise than the box is the same disagreement
-(§5.1 D). Two rules keep the field honest. **A value is
-never mapped between systems**: GRADE's *hoch* is not an Oxford level, no table
-in the schema, the validator or the build says otherwise, and a system the site
-does not know is a valid state, not an error. **Several entries are never
-reduced to one**: a recommendation whose certainty differs by row carries every
-row, and no consumer forms a summary value from them — grades are shown, never
-composed (`docs/publication.md` §3). A source that rates the whole
-recommendation once produces one entry without an outcome or a key — a box's
-"Evidenzgrad: 1", where the method section names the system, is `value: "1"`
-with the system that section names. An outcome the source lists without a
-rating is an entry with its outcome and system and no value: it is recorded,
-not left out, so that a table with an empty cell keeps its count, and it reads
-*nicht erfasst*. Every entry states an outcome or a value, and an entry with
-neither is refused. An absent or empty list means the certainty was not
-recorded, not that there is none.
+without regard to it. A **range** printed as the rating, from one level to
+another, is one value, as printed, on every entry of its row: never split into
+two entries, never paired level by level with the row's endpoints, never
+composed into one of its levels. Words printed beside a level that only say what
+it covers are no part of the value: an entry without an `outcome` already says
+that its rating holds for the row as a whole. Where the source prints a rating
+twice, as a word and as symbols (⊕⊕⊕⊝), the value is the word. **Where the two
+disagree, both are recorded and neither is chosen**: the word as the entry's
+value, and the symbols as a claim of their own — kind `fact`, the row read as
+§5.1 K reads a table, its head and the symbols ("Hämodynamische Instabilität:
+⊕⊕⊝⊝"), quoting the symbols, with the box's `recommendation_no` and `section`
+and nothing else the box prints — which `disagrees_with` joins to the
+recommendation's claim, its rationale quoting the word and the symbols (§5). A
+rating the body text gives otherwise than the box is the same disagreement (§5.1
+D). Two rules keep the field honest. **A value is never mapped between
+systems**: GRADE's *hoch* is not an Oxford level, no table in the schema, the
+validator or the build says otherwise, and a system the site does not know is a
+valid state, not an error. **Several entries are never reduced to one**: a
+recommendation whose certainty differs by row carries every row, and no consumer
+forms a summary value from them — grades are shown, never composed
+(`docs/publication.md` §3). A source that rates the whole recommendation once
+produces one entry without an outcome or a key — a box's "Evidenzgrad: 1", where
+the method section names the system, is `value: "1"` with the system that
+section names. An outcome the source lists without a rating is an entry with its
+outcome and system and no value: it is recorded, not left out, so that a table
+with an empty cell keeps its count, and it reads *nicht erfasst*. A rating the
+source prints **for the box beside its rows** is an entry of its own, without an
+outcome or a key, in the place the source prints it among them — never merged
+with a row's rating and never in place of one: the summary is the source's own
+print, recorded as printed, not one a consumer composes. A cell that prints
+**words instead of a level** — that no study was found, or where the rating was
+taken from — gives no value (underestimate, never upgrade): its words, as
+printed, are the entry's **`note`**, beside the row's `key` where the row prints
+one, and the entry reads as those words, not as *nicht erfasst*. A heading that
+says **what kind of evidence its rows rate**, more than naming the column, goes
+into the `note` of each entry under it, as printed, and where it heads no rating
+it is one entry with that note alone; a heading that only names the column goes
+into no field. A note is never a level, never the basis the box prints beside
+its grade, never effect data and never words that only say what a rating covers.
+A cell that prints, in place of a level, the basis the box prints beside its
+grade gives no entry: the basis is the claim's `basis` (above), and what the
+cell adds about where the box comes from stays on the page with the box's other
+origin words (open question origin-and-status-labels). An entry names its
+**`system`** wherever it states an outcome or a value. An entry stating a note
+alone, or a box's own rating printed beside its rows without a notation, takes
+the system of the box's rated rows; where no row of the box prints a rating, a
+note alone names none — the one entry without a `system`, since a system there
+would be an inference no quote supports. Every entry states an outcome, a value
+or a note, and an entry with none of them is refused, whatever its key. An
+absent or empty list means the certainty was not recorded, not that there is
+none. The entries are the rows of the box's evidence block **and nothing else**:
+a rating the source prints elsewhere for the recommendation's evidence — in the
+text that gives its reasons, say — is never an entry. Where it rates that
+evidence otherwise than the box, it is the disagreement above, a `fact` claim
+joined to the recommendation's claim by `disagrees_with` (§5.1 N(2), D), both
+shown and neither chosen; where it rates an endpoint the box does not list, it
+stays on the page.
 
 The rows a marked recommendation prints once belong to **every sentence of it
 that supports a statement of its own**: each such claim carries all of them, in
@@ -451,10 +490,17 @@ statement's card shows the rows already, and a second claim repeating them would
 count each row twice. Like the grade, the rating is read off the source and
 never inferred: its provenance is required (§6.5) — one quote per entry, in the
 entries' order, the line that prints the entry's key or outcome (for an endpoint
-of a row that names several, the line that prints that endpoint; the rating's
-own line where the row prints neither), followed by the method section's line
-that names the system where the row prints a level no notation identifies (a
-bare "1", where GRADE's ⊕ symbols identify theirs).
+of a row that names several, the line that prints that endpoint, a line that
+prints several quoted once for each of their entries; for a cell that prints
+words instead of a level, the cell; the rating's own line where the row prints
+neither). After them, each once and in the order the page prints them, come the
+lines the box prints for its rows as a whole: the line that identifies the
+system where an entry's own line does not — the method section's line that
+names it where a row prints a level no notation identifies (a bare "1", where
+GRADE's ⊕ symbols identify theirs), or a rated row's notation line where an
+entry takes its system from the box's rated rows — and the heading whose words
+are the entries' `note`. The validator holds each entry to its quote, refusing
+fewer quotes than entries; which line a quote is, is the judge's reading (§8.1).
 
 A criterion or a definition may print a **threshold** — "Amylase im
 Drainagesekret unter 5000 U/L am ersten postop. Tag", "ASA Status von
@@ -696,7 +742,7 @@ Three kinds of entity, kept apart because different edges attach to them:
   as its language wherever it stands: joined to the next condition by "und",
   or inside a sentence. Its case is ours (§6.5) and carries no provenance; the
   words a page prints keep their printed case — a claim's sentence, a quote,
-  an evidence `key` or `value`, a grade, verb or consensus word, an outline
+  an evidence `key`, `value` or `note`, a grade, verb or consensus word, an outline
   title — and a statement's `label`, one sentence, begins as a sentence does.
   The rule is the concepts'; the labels of statements, structural nodes, axes,
   views and sources are not under it. The build never changes a label's case:
