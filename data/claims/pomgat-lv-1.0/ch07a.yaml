@@ -147,6 +147,24 @@
   source:
     at: sources/pomgat-lv-1.0#page=80
     quote: Bei Risikofaktoren für einen Harnverhalt (männliches Geschlecht, tiefe anteriore
+# 7.7, the rule printed inside the sentence above: a narrower criterion claim (spec §3.1, #328), reached by
+# concepts/risikofaktoren-harnverhalt's defined_by; the parenthesis lists its factors by commas, no connective (#355)
+- id: claims/pomgat-lv-1.0/752c4adc
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: '7.7'
+  section: "7.2"
+  label: Risikofaktoren für einen Harnverhalt (männliches Geschlecht, tiefe anteriore Rektumresektion, Rektumexstirpation)
+  consensus: starker_konsens
+  combination:
+    operator: not_stated
+    rationale: "„Risikofaktoren für einen Harnverhalt (männliches Geschlecht, tiefe anteriore Rektumresektion, Rektumexstirpation)“
+      zählt die Faktoren in der Klammer durch Kommas auf, ohne Bindewort; ob einer genügt oder mehrere vorliegen müssen, sagt
+      die Empfehlung nicht."
+  source:
+    at: sources/pomgat-lv-1.0#page=80
+    quote: Harnverhalt (männliches Geschlecht, tiefe anteriore Rektumresektion, Rektumexstirpation)
 - id: claims/pomgat-lv-1.0/f07134b0
   type: claim
   lang: de
@@ -203,6 +221,24 @@
   source:
     at: sources/pomgat-lv-1.0#page=82
     quote: Bei MIC-Eingriffen kann dann eine Epiduralanalgesie eingesetzt werden, wenn
+# 7.10, the rule printed inside the sentence above: a narrower criterion claim (spec §3.1, #328), reached by
+# concepts/risikokonstellation-lange-op-hoher-opioidbedarf's defined_by; no number printed, no connective (#355)
+- id: claims/pomgat-lv-1.0/b64085f2
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: '7.10'
+  section: "7.3.1"
+  label: Risiko-Konstellationen (lange OP-Zeiten, zu erwartender hoher postoperativer Opioidverbrauch)
+  consensus: konsens
+  combination:
+    operator: not_stated
+    rationale: "„Risiko-Konstellationen (lange OP-Zeiten, zu erwartender hoher postoperativer Opioidverbrauch)“ nennt die
+      beiden Konstellationen in der Klammer, durch ein Komma getrennt, ohne Bindewort; ob eine genügt oder beide vorliegen
+      müssen, sagt die Empfehlung nicht. Einen Wert für „lange“ druckt sie nicht."
+  source:
+    at: sources/pomgat-lv-1.0#page=82
+    quote: Risiko-Konstellationen (lange OP-Zeiten, zu erwartender hoher postoperativer Opioidverbrauch)
 - id: claims/pomgat-lv-1.0/51f44d3f
   type: claim
   lang: de

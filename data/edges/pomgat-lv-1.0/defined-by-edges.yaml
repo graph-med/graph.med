@@ -20,3 +20,11 @@
 # 5.1 — "Als Risikofaktoren nach Apfel 1999 gelten …", p. 41; no number of factors printed
 - [concepts/ponv-risikofaktoren, defined_by, claims/pomgat-lv-1.0/ad0f29aa, {source: modelling, as_of: "2026-09-24", lang: de,
    rationale: "„Risikofaktoren“ (für PONV) — „Als Risikofaktoren nach Apfel 1999 [93] gelten“: die aufgezählten Faktoren; eine Mindestzahl nennt die Leitlinie nicht."}]
+
+# 7.7 — p. 80: the rule printed inside the box sentence, a narrower criterion claim of its own (spec §3.1, #328; #355)
+- [concepts/risikofaktoren-harnverhalt, defined_by, claims/pomgat-lv-1.0/752c4adc, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„Risikofaktoren für einen Harnverhalt“ — die Klammer in Empfehlung 7.7 nennt die Faktoren: männliches Geschlecht, tiefe anteriore Rektumresektion, Rektumexstirpation; wie sie zusammenwirken, sagt sie nicht."}]
+
+# 7.10 — p. 82: the rule printed inside the box sentence, a narrower criterion claim of its own (spec §3.1, #328; #355)
+- [concepts/risikokonstellation-lange-op-hoher-opioidbedarf, defined_by, claims/pomgat-lv-1.0/b64085f2, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„Risiko-Konstellationen“ — die Klammer in Empfehlung 7.10 nennt sie: lange OP-Zeiten, zu erwartender hoher postoperativer Opioidverbrauch; ohne Wert und ohne Bindewort."}]
