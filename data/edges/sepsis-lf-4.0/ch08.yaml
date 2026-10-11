@@ -1,10 +1,12 @@
-# Edges of card #225 from chapter 8 of sources/sepsis-lf-4.0 (pp. 105–126), all modelling.
+# Edges of card #225 from chapter 8 of sources/sepsis-lf-4.0 (pp. 105–126), all modelling; card #355 added the
+# edges of the rules printed inside the sentences of 8.2, 8.4 and 8.13, and of 8.3's „sondern“ half.
 # evidence (spec §3.1): each recommendation-form box sentence supports its own statement; 8.1's Bemerkung 1 (the
 # dose) supports 8.1's. The gap notices 8.7 and 8.8, 8.1's Bemerkung 2 (a definition) and the body text support none
 - [claims/sepsis-lf-4.0/4801815e, supports, statements/hydrokortison-bei-septischem-schock-mit-anhaltendem-vasopressorbedarf, {source: modelling}]
 - [claims/sepsis-lf-4.0/3097e066, supports, statements/hydrokortison-bei-septischem-schock-mit-anhaltendem-vasopressorbedarf, {source: modelling}]
 - [claims/sepsis-lf-4.0/cb0c0066, supports, statements/erythrozytenkonzentrate-bei-hb-unter-7-g-dl-oder-physiologischen-kriterien, {source: modelling}]
 - [claims/sepsis-lf-4.0/8b72475e, supports, statements/kein-therapeutisches-plasma-bei-volumenmangel, {source: modelling}]
+- [claims/sepsis-lf-4.0/c481fb0a, supports, statements/therapeutisches-plasma-nach-indikationen-der-querschnitts-leitlinien, {source: modelling}]   # 8.3's „sondern“ half (#355)
 - [claims/sepsis-lf-4.0/580b46af, supports, statements/keine-thrombozytentransfusion-ohne-blutung-oder-schwere-thrombozytopenie, {source: modelling}]
 - [claims/sepsis-lf-4.0/12fce06b, supports, statements/thrombozytengabe-vor-eingriffen-nach-querschnitts-leitlinien, {source: modelling}]
 - [claims/sepsis-lf-4.0/68c18cb2, supports, statements/keine-intravenoesen-immunglobuline-bei-sepsis, {source: modelling}]
@@ -23,6 +25,9 @@
 - [claims/sepsis-lf-4.0/4608676a, refines, claims/sepsis-lf-4.0/8b72475e, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "R: therapeutisches Plasma — die vier in Deutschland verfügbaren Arten (GFP, SDP, MLP, LHP)."}]
 - [claims/sepsis-lf-4.0/05545852, refines, claims/sepsis-lf-4.0/8b72475e, {source: modelling, as_of: "2026-09-25", lang: de,
+   rationale: "R: Indikationen der „Querschnitts-Leitlinien …“ der BÄK — Plasma „bei dokumentierter Gerinnungsstörung … sowie aktiver Blutung oder geplanten Eingriffen“; aus Expertenmeinungen berichtet, ein Wert, den die Empfehlung braucht und nicht nennt (G2, Ausnahme)."}]
+# the same term in the claim of 8.3's „sondern“ half, whose wording carries it (§5.1 E; #355)
+- [claims/sepsis-lf-4.0/05545852, refines, claims/sepsis-lf-4.0/c481fb0a, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "R: Indikationen der „Querschnitts-Leitlinien …“ der BÄK — Plasma „bei dokumentierter Gerinnungsstörung … sowie aktiver Blutung oder geplanten Eingriffen“; aus Expertenmeinungen berichtet, ein Wert, den die Empfehlung braucht und nicht nennt (G2, Ausnahme)."}]
 
 # body text (spec §5.1): section 8.4.1, pp. 111–112
@@ -65,9 +70,20 @@
 - [concepts/risikofaktoren-fuer-gastrointestinale-blutungen, defined_by, claims/sepsis-lf-4.0/6cbc2502, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "„Risikofaktoren für gastrointestinale (GI) Blutungen“ — „einen oder mehrere der 3 unabhängigen Risikofaktoren (…)“ (S. 122): die Textstelle, die die drei Faktoren nennt und verknüpft."}]
 
+# defined_by (spec §3.1, §3.2, #328): the rules printed inside the sentences of 8.2, 8.4 and 8.13, each a narrower
+# criterion claim of its own, one edge each, to the top of the rule (#355)
+- [concepts/hb-wert-unter-4-34-mmol-l-oder-physiologische-transfusionskriterien, defined_by, claims/sepsis-lf-4.0/41d2a932, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„bei einem Hb-Wert von < 4,34 mmol/L (< 7.0 g/dl) oder beim Vorliegen physiologischer Transfusionskriterien“ — Empfehlung 8.2 (S. 107) nennt beide Fälle, mit „oder“ verknüpft; den Hb-Wert in zwei Einheiten."}]
+- [concepts/schwere-thrombozytopenie, defined_by, claims/sepsis-lf-4.0/24df5171, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„schwere Thrombozytopenie“ — die Klammer in Empfehlung 8.4 (S. 109) nennt die Grenze: < 10.000/µl."}]
+- [concepts/oberer-blutzuckerspiegel-ab-180-mg-dl, defined_by, claims/sepsis-lf-4.0/ef8ef6f2, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„bei einem oberen Blutzuckerspiegel von ≥ 180 mg/dl (≥ 10 mmol/l)“ — Empfehlung 8.13 (S. 120) nennt die Grenze in zwei Einheiten."}]
+
 # cross-statement semantics (spec §5; §5.1 N1): statement → statement within chapter 8
 - [statements/thrombozytengabe-vor-eingriffen-nach-querschnitts-leitlinien, complements, statements/keine-thrombozytentransfusion-ohne-blutung-oder-schwere-thrombozytopenie, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "Empfehlung 8.4: „Vor operativen Eingriffen, … soll die Gabe nach Vorgaben der „Querschnitts-Leitlinien …“ der BÄK erfolgen“ — was vor Eingriffen gilt, wo der erste Satz keine Transfusion vorschlägt."}]
+- [statements/therapeutisches-plasma-nach-indikationen-der-querschnitts-leitlinien, complements, statements/kein-therapeutisches-plasma-bei-volumenmangel, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 8.3: „NICHT zur Behandlung eines Volumenmangels, sondern ausschließlich entsprechend den Indikationen der „Querschnitts-Leitlinien …“ der BÄK einzusetzen“ — wofür therapeutisches Plasma eingesetzt wird, wo die erste Hälfte es bei Volumenmangel ausschließt."}]
 - [statements/kein-hochdosiertes-vitamin-c-bei-sepsis, complements, statements/hydrokortison-bei-septischem-schock-mit-anhaltendem-vasopressorbedarf, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "Empfehlung 8.16: hochdosiertes Vitamin C „weder als Monotherapie noch als Kombinationstherapie mit Hydrocortison und hochdosiertem Vitamin B1“ — das Hydrokortison der Empfehlung 8.1 wird nicht um hochdosiertes Vitamin C ergänzt."}]
 - [statements/nmh-mit-anti-xa-kontrollen-oder-ufh-bei-niereninsuffizienz-oder-hohem-vasopressorbedarf, specializes, statements/vte-prophylaxe-mit-nmh-bei-sepsis, {source: modelling, as_of: "2026-09-25", lang: de,

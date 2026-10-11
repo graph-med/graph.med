@@ -100,6 +100,113 @@
     evidence:
       - {at: sources/sepsis-lf-4.0#page=107, quote: "Mortalität (30 Tage):"}
       - {at: sources/sepsis-lf-4.0#page=107, quote: "Mortalität (90 Tage):"}
+# 8.2, the rule printed inside the sentence above (spec §3.1, #328; #355): the top of the rule of
+# concepts/hb-wert-unter-4-34-mmol-l-oder-physiologische-transfusionskriterien, reached by its defined_by; the „oder“
+# joins two parts, each a narrower claim of its own. No grade, no evidence rows.
+- id: claims/sepsis-lf-4.0/41d2a932
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: '8.2'
+  section: '8.2.1'
+  label: "Hb-Wert von < 4,34 mmol/L (< 7.0 g/dl) oder beim Vorliegen physiologischer Transfusionskriterien"
+  consensus: starker_konsens
+  consensus_share: 100 %
+  combination:
+    operator: any_of
+    of: [claims/sepsis-lf-4.0/8d7c6a72, claims/sepsis-lf-4.0/0d06d01e]
+    connective: "oder"
+    source: {at: sources/sepsis-lf-4.0#page=107, quote: "Hb-Wert von < 4,34 mmol/L (< 7.0 g/dl) oder beim Vorliegen physiologischer Transfusionskriterien"}
+    rationale: "„bei einem Hb-Wert von < 4,34 mmol/L (< 7.0 g/dl) oder beim Vorliegen physiologischer Transfusionskriterien“: jeder der beiden Fälle stellt die Indikation für sich (ODER)."
+  source:
+    at: sources/sepsis-lf-4.0#page=107
+    quote: "Hb-Wert von < 4,34 mmol/L (< 7.0 g/dl) oder beim Vorliegen physiologischer Transfusionskriterien"
+  provenance:
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=107, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=107, quote: "Konsensstärke: 100 %"}
+# 8.2, the first part the „oder“ joins: one value printed in two units, two claims (spec §3.1), joined by a
+# parenthesis and no word
+- id: claims/sepsis-lf-4.0/8d7c6a72
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: '8.2'
+  section: '8.2.1'
+  label: "Hb-Wert von < 4,34 mmol/L (< 7.0 g/dl)"
+  consensus: starker_konsens
+  consensus_share: 100 %
+  combination:
+    operator: not_stated
+    of: [claims/sepsis-lf-4.0/01e6d6cd, claims/sepsis-lf-4.0/fe8b3cac]
+    rationale: "„< 4,34 mmol/L (< 7.0 g/dl)“: die Klammer nennt die Grenze ein zweites Mal, in g/dl; ein Bindewort druckt die Seite nicht. Beide Werte stehen wie gedruckt, nichts wird umgerechnet."
+  source:
+    at: sources/sepsis-lf-4.0#page=107
+    quote: "Hb-Wert von < 4,34 mmol/L (< 7.0 g/dl)"
+  provenance:
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=107, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=107, quote: "Konsensstärke: 100 %"}
+# 8.2, the Hb value in mmol/L; its own quote prints the threshold
+- id: claims/sepsis-lf-4.0/01e6d6cd
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: '8.2'
+  section: '8.2.1'
+  label: "Hb-Wert von < 4,34 mmol/L"
+  consensus: starker_konsens
+  consensus_share: 100 %
+  threshold: {quantity: concepts/hb-wert, comparator: "<", value: "4,34", unit: "mmol/L"}
+  source:
+    at: sources/sepsis-lf-4.0#page=107
+    quote: "Hb-Wert von < 4,34 mmol/L"
+  provenance:
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=107, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=107, quote: "Konsensstärke: 100 %"}
+# 8.2, the Hb value in g/dl, printed in the parenthesis; its own quote prints the threshold
+- id: claims/sepsis-lf-4.0/fe8b3cac
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: '8.2'
+  section: '8.2.1'
+  label: "< 7.0 g/dl"
+  consensus: starker_konsens
+  consensus_share: 100 %
+  threshold: {quantity: concepts/hb-wert, comparator: "<", value: "7.0", unit: "g/dl"}
+  source:
+    at: sources/sepsis-lf-4.0#page=107
+    quote: "(< 7.0 g/dl)"
+  provenance:
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=107, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=107, quote: "Konsensstärke: 100 %"}
+# 8.2, the second part the „oder“ joins; the guideline defines no physiological transfusion criterion, so no threshold
+- id: claims/sepsis-lf-4.0/0d06d01e
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: '8.2'
+  section: '8.2.1'
+  label: "beim Vorliegen physiologischer Transfusionskriterien"
+  consensus: starker_konsens
+  consensus_share: 100 %
+  source:
+    at: sources/sepsis-lf-4.0#page=107
+    quote: "beim Vorliegen physiologischer Transfusionskriterien"
+  provenance:
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=107, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=107, quote: "Konsensstärke: 100 %"}
+# 8.3: the sentence's claim is the half it opens with, against („NICHT zur Behandlung eines Volumenmangels“); its
+# „sondern“ half is the narrower claim below (spec §3.1, #328; #355)
 - id: claims/sepsis-lf-4.0/8b72475e
   type: claim
   lang: de
@@ -118,6 +225,30 @@
   provenance:
     grade: {at: sources/sepsis-lf-4.0#page=109, quote: "EK"}
     direction: {at: sources/sepsis-lf-4.0#page=109, quote: "Schock therapeutisches Plasma NICHT zur Behandlung eines Volumenmangels"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=109, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=109, quote: "Konsensstärke: 100 %"}
+# 8.3, the half „sondern“ joins, printed with its own case and direction (spec §3.1, #328; #355): for, with the box's
+# grade (EK fixes no direction in this scheme), consensus and number, and the verb of the predicate both halves share
+- id: claims/sepsis-lf-4.0/c481fb0a
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: '8.3'
+  section: '8.2.3'
+  label: "sondern ausschließlich entsprechend den Indikationen der „Querschnitts-Leitlinien zur Therapie mit Blut-komponenten und Plasmaderivaten“ der BÄK einzusetzen."
+  grade: EK
+  verb: empfehlen
+  direction: for
+  consensus: starker_konsens
+  consensus_share: 100 %
+  source:
+    at: sources/sepsis-lf-4.0#page=109
+    quote: "sondern ausschließlich entsprechend den Indikationen der „Querschnitts-Leitlinien zur Therapie mit"
+  provenance:
+    grade: {at: sources/sepsis-lf-4.0#page=109, quote: "EK"}
+    verb: {at: sources/sepsis-lf-4.0#page=109, quote: "Wir empfehlen, bei Patienten mit Sepsis oder septischem"}
     consensus:
       - {at: sources/sepsis-lf-4.0#page=109, quote: "Konsensstärke: 100 %"}
       - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
@@ -217,6 +348,28 @@
   provenance:
     grade: {at: sources/sepsis-lf-4.0#page=109, quote: "EK"}
     direction: {at: sources/sepsis-lf-4.0#page=109, quote: "Schock KEINE Thrombozytentransfusion durchzuführen, es sei"}
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=109, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=109, quote: "Konsensstärke: 100 %"}
+# 8.4, the rule printed inside the sentence above: „(< 10.000/µl)“ says which cases „schwere Thrombozytopenie“
+# covers, a narrower criterion claim reached by concepts/schwere-thrombozytopenie's defined_by (spec §3.1, #328; #355).
+# The sentence's condition, concepts/ohne-relevante-blutung-oder-schwere-thrombozytopenie, stays stated: a definition
+# by exclusion has no operator (#204), and a negation is linked to nothing it negates (#217 row 10). No grade.
+- id: claims/sepsis-lf-4.0/24df5171
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: '8.4'
+  section: '8.2.4'
+  label: "schwere Thrombozytopenie vor (< 10.000/µl)"
+  consensus: starker_konsens
+  consensus_share: 100 %
+  threshold: {quantity: concepts/thrombozytenzahl, comparator: "<", value: "10.000", unit: "/µl"}
+  source:
+    at: sources/sepsis-lf-4.0#page=109
+    quote: "schwere Thrombozytopenie vor (< 10.000/µl)"
+  provenance:
     consensus:
       - {at: sources/sepsis-lf-4.0#page=109, quote: "Konsensstärke: 100 %"}
       - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
@@ -545,6 +698,70 @@
     consensus_share: {at: sources/sepsis-lf-4.0#page=120, quote: "Konsensstärke: 100 %"}
     evidence:
       - {at: sources/sepsis-lf-4.0#page=120, quote: "(110-144 mg/dl vgl."}
+# 8.13, the rule printed inside the sentence above (spec §3.1, #328; #355): the top of the rule of
+# concepts/oberer-blutzuckerspiegel-ab-180-mg-dl, reached by its defined_by. One value printed in two units, two claims
+# (spec §3.1), joined by a parenthesis and no word. Quoted with the words before it: „≥ 180 mg/dl (≥ 10 mmol/l)“ recurs
+# on p. 120, in the SCCM paragraph (§6.2). No grade, no evidence rows.
+- id: claims/sepsis-lf-4.0/ef8ef6f2
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: '8.13'
+  section: '8.7'
+  label: "oberen Blutzuckerspiegel von ≥ 180 mg/dl (≥ 10 mmol/l)"
+  consensus: starker_konsens
+  consensus_share: 100 %
+  combination:
+    operator: not_stated
+    of: [claims/sepsis-lf-4.0/94a90bfb, claims/sepsis-lf-4.0/1901e68d]
+    rationale: "„≥ 180 mg/dl (≥ 10 mmol/l)“: die Klammer nennt die Grenze ein zweites Mal, in mmol/l; ein Bindewort druckt die Seite nicht. Beide Werte stehen wie gedruckt, nichts wird umgerechnet."
+  source:
+    at: sources/sepsis-lf-4.0#page=120
+    quote: "oberen Blutzuckerspiegel von ≥ 180 mg/dl (≥ 10 mmol/l)"
+  provenance:
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=120, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=120, quote: "Konsensstärke: 100 %"}
+# 8.13, the value in mg/dl; its own quote prints the threshold
+- id: claims/sepsis-lf-4.0/94a90bfb
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: '8.13'
+  section: '8.7'
+  label: "Blutzuckerspiegel von ≥ 180 mg/dl"
+  consensus: starker_konsens
+  consensus_share: 100 %
+  threshold: {quantity: concepts/blutzuckerspiegel, comparator: "≥", value: "180", unit: "mg/dl"}
+  source:
+    at: sources/sepsis-lf-4.0#page=120
+    quote: "Blutzuckerspiegel von ≥ 180 mg/dl"
+  provenance:
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=120, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=120, quote: "Konsensstärke: 100 %"}
+# 8.13, the value in mmol/l, printed in the parenthesis; quoted with the sentence's full stop, since „(≥ 10 mmol/l)“
+# recurs on p. 120 (§6.2)
+- id: claims/sepsis-lf-4.0/1901e68d
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: '8.13'
+  section: '8.7'
+  label: "≥ 10 mmol/l"
+  consensus: starker_konsens
+  consensus_share: 100 %
+  threshold: {quantity: concepts/blutzuckerspiegel, comparator: "≥", value: "10", unit: "mmol/l"}
+  source:
+    at: sources/sepsis-lf-4.0#page=120
+    quote: "(≥ 10 mmol/l)."
+  provenance:
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=120, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=120, quote: "Konsensstärke: 100 %"}
 - id: claims/sepsis-lf-4.0/954220f1
   type: claim
   lang: de

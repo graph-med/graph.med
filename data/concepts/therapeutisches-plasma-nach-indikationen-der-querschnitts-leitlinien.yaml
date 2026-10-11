@@ -1,0 +1,10 @@
+# The action of 8.3's second half (p. 109), „sondern ausschließlich entsprechend den Indikationen der
+# „Querschnitts-Leitlinien …“ der BÄK einzusetzen“ (spec §3.1, #328; card #355): to follow the delegated guideline,
+# whose content is not extracted, as for 8.4's second sentence (concepts/thrombozytengabe-nach-querschnitts-leitlinien-der-baek).
+id: concepts/therapeutisches-plasma-nach-indikationen-der-querschnitts-leitlinien
+type: concept
+lang: de
+label: "therapeutisches Plasma entsprechend den Indikationen der Querschnitts-Leitlinien der BÄK"
+short_label: "Plasma nach Indikationen der BÄK-Leitlinien"
+facet: intervention
+source: modelling

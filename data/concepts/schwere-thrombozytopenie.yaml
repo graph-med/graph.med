@@ -1,0 +1,12 @@
+# The term 8.4's parenthesis bounds: „es liegt eine relevante Blutung oder eine schwere Thrombozytopenie vor
+# (< 10.000/µl)“ (p. 109, card #355). Derived: its one defined_by edge reaches the narrower criterion claim of the
+# parenthesis (spec §3.1, #328). It fills no slot: 8.4's condition is the negation,
+# concepts/ohne-relevante-blutung-oder-schwere-thrombozytopenie, which is linked to nothing it negates (#217 row 10).
+# p. 110's „schwerer Thrombozytopenie (Thrombozytenzahl ≤ 50/nl)“ is a study's (Wu et al.), not the guideline's
+# (spec §5.1 G2), and stays on the page.
+id: concepts/schwere-thrombozytopenie
+type: concept
+lang: de
+label: "schwere Thrombozytopenie"
+facet: patient_state
+source: modelling
