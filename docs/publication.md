@@ -781,17 +781,30 @@ glyph. Timing
      saying how it combines, shows the claim's sentence under its line. A
      points table (`graph-representation.md` §3.1, a `sum`) is such a line,
      `Summe der Punkte` with the head of its points column as printed
-     (`„Punkt(e)“`), and each of its parts has beside it, in a column of its
-     own at the part's first line, the points its row prints, as printed —
-     `1`, `2`, `jeweils 1 Punkt` —, so that the figures read down as the
-     table's column does; nothing is added up, and no total, maximum or band
-     is shown that the page does not print (the maintainer, 2026-10-11: each
+     (`„Punkt(e)“`), and each of its parts reads as its row does: the row's
+     own words, its label as §5.1 K reads the row with the points cell in
+     it (`Buchstabe: H; Merkmal: Hypertonie* (* nur unzureichend eingestellte
+     arterielle Hypertonie mit Werten > 160mmHg systolisch); Punkte: 1`), as
+     the entry that links to the claim's page; then, set in under them by a
+     line of their own, the rule the row prints or its footnote gives — its
+     threshold (`systolischer Blutdruck > 160 mmHg`), or its combination
+     with the parts under it —, by this same tree. The points are shown once,
+     in the row's own words: nothing is set beside the label, since telling
+     where a label prints its points would mean reading the label (card
+     #369, on the maintainer's delegation); the sum's `points` stay in the
+     JSON as printed. Nothing is added up, and no total, maximum or band is
+     shown that the page does not print (the maintainer, 2026-10-11: each
      criterion with its points; card #354). No
      operator is assumed anywhere: a claim without a combination is a single
      rule. Any other claim is one entry: the threshold it prints, as quantity,
      comparator, value, unit and time point (`Amylase-Konzentration im
-     Drainagesekret < 5000 U/L am ersten postop. Tag`), a relative one with `×
-     <reference quantity>`; a claim without a threshold shows its sentence.
+     Drainagesekret < 5000 U/L am ersten postop. Tag`), a relative one with
+     its reference quantity after the value — joined by `×` where the value
+     is a number alone (`> 80 % × Procalcitonin-Spitzenwert`), and as printed,
+     nothing added, where the value prints a sign or a word of its own
+     (`Bilirubin > 2x Normalwert`, `< Dreifach Amylase-Konzentration im
+     Serum`), so that no factor is said twice; a claim without a threshold
+     shows its sentence.
      The entry is itself the link to the claim's page; under it its page and
      section, linked into the source, only where they differ from the last
      ones the tree showed — parts printed on one page in one section are cited
