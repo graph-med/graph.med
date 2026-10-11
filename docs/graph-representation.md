@@ -1628,7 +1628,7 @@ POMGAT S3 guideline (AWMF 088-010OL), quotes verified against the document.
   awmf_register: "088-010OL"
   url: "https://register.awmf.org/assets/guidelines/008-010OLl_S3_Perioperatives-Management-bei-gastrointestinalen-Tumoren-POMGAT_2023-12.pdf"
   content_hash: "sha256:…"
-  license: "© Leitlinienprogramm Onkologie; referenced, not rehosted"
+  license: "© Leitlinienprogramm Onkologie"                                 # the source's own terms; the site says beside it that it links, never rehosts
   structure: [chronologisch_perioperativ, anatomisch, modalitaetsbezogen]   # how the document is organised (§6.7)
   outline:                                                                  # its complete table of contents
     - {section: "6.1",   title: "Intraoperative Einlage einer Drainage in das OP-Feld", page: 58}

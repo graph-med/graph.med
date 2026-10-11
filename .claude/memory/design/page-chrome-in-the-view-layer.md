@@ -30,7 +30,11 @@ its first client state (`localStorage`) for a small convenience.
 **How to apply:** A word the viewer reads outside the graph and the card goes
 into `tools/site/words/<lang>.json`, keyed structurally in English; no German
 string enters `tools/build.py`, the schema or `data/`. Keep `static/` the only
-directory copied into `assets/`. Do not move `WORDS` or `CARD_WORDS` on the
+directory copied into `assets/`. Since #254 (2026-10-11) every page follows it —
+`<html lang>`, the controls, what the script writes (read from the page's data
+attributes), the sheet's home, the footer, the note beside a licence line —
+and the hint's verb follows the reader's pointer by CSS alone, no script and no
+state. Do not move `WORDS` or `CARD_WORDS` on the
 strength of this. What a missing page language does (fail or fall back) and
 whether the sheet's hint belongs to page or source chrome are open
 (`docs/open-questions.md`). Related: [[direction-legend]],

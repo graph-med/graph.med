@@ -111,10 +111,10 @@ only where the graph is drawn. A selection that changes nothing — the home aga
 same box again — leaves the sheet as it is. The entry gives the title as printed —
 a source's version and date stand in it; the schema has no field for either —, what the
 graph holds, and for each source its register number, a link to the source's page and
-its licence line; the entry is one link to the graph, its title stretched over it with
-*Graph öffnen* below, and the toggle and the source's lines lie apart from it, so that
-the source's page can be reached and its licence read. The deep link is the view's id
-(`graph.med/#views/<view-id>`); a hash that names no view, or is no well-formed escape,
+its licence line with the note beside it (§5); the entry is one link to the graph, its
+title stretched over it with *Graph öffnen* below, and the toggle and the source's
+lines lie apart from it, so that the source's page can be reached and its licence
+read. The deep link is the view's id (`graph.med/#views/<view-id>`); a hash that names no view, or is no well-formed escape,
 selects nothing. The sheet's home is the page's text — what graph.med is, *an open collaborative
 medical knowledge graph*, in English and bound to no kind of source — and every entry,
 in the page's HTML: the graph is read from them, so that the page reads the same without
@@ -257,11 +257,11 @@ decision-graph-derivation):
   related to the selected box, applying generally to the selected group) and
   *Kanten* (answer, the way on, the aim). A chip carries a border that holds
   against the page in both themes, so that no key is told by a pastel alone.
-  Interaction hints are not keys: the legend has none, and "tap a box" is the
-  sheet's home text. Collapsed, the legend is a pill of at least 44 px carrying
-  the view's direction chips and the word *Legende*, so the corner says what it
-  opens; expanded, the panel of groups opens upward from it. It is open on a wide
-  screen and collapsed on a phone at every load, and nothing is remembered: the
+  Interaction hints are not keys: the legend has none, and the one hint — tap or
+  click a box — is the sheet's home text (its verb: "Language" below). Collapsed,
+  the legend is a pill of at least 44 px carrying the view's direction chips and
+  the word *Legende*, so the corner says what it opens; expanded, the panel of
+  groups opens upward from it. It is open on a wide screen and collapsed on a phone at every load, and nothing is remembered: the
   site keeps no client state. On a phone the legend and the chapter panel share
   the little height the graph leaves, so opening one closes the other.
   Claims are not nodes; they are the evidence and appear in the section.
@@ -436,7 +436,7 @@ kind:
   and no edge is computed, the rest is simply not shown. Sections without a claim
   are listed greyed, so the reader sees what the pool has not extracted. The
   chapter tree is a control, not the graph: the graph stays the one decision tree,
-  and the tree of headings never becomes its shape. Its "all" row stays fixed at
+  and the tree of headings never becomes its shape. Its *alle* row stays fixed at
   the top of the panel while the sections scroll, so that after any narrowing the
   whole tree is one tap away (whether the search also finds sections in this tree
   is open: `open-questions.md` → chapter-search).
@@ -446,8 +446,8 @@ kind:
   all the same, an answer naming several by each of them — without regard to case
   or diacritics; matches keep their colour
   and everything else fades without disappearing, so "Leber" shows every branch
-  the liver occurs in and, just as usefully, where it does not. A counter reads "n
-  matches in m sections". Hiding would destroy the overview the search exists to
+  the liver occurs in and, just as usefully, where it does not. A counter reads *n
+  Treffer in m Abschnitten*. Hiding would destroy the overview the search exists to
   give; fading keeps the structure. A node the chapter tree can reach and the
   search cannot is a bug. The search also **steps**, word-processor style: a
   pair of arrows beside the box, and ↓ and ↑ while the box has focus, move from
@@ -456,7 +456,7 @@ kind:
   exactly as a tap would: its details open, the graph fits to it, the rest of
   the fading stays as it is. Only visible matches are stepped, so a match
   behind a question the reader has closed is not visited. The counter then
-  leads with the reader's place, "3 of 12 matches in 4 sections", until the
+  leads with the reader's place, *3 von 12 Treffern in 4 Abschnitten*, until the
   query changes.
 
 Once concepts carry a `facet`, the search gets facet filters (only procedures,
@@ -743,17 +743,31 @@ language the tables do not cover fails the build, naming the language and the
 missing keys, so that no English word ever stands on a German card. The detail
 sections of a concept, a claim and a source, and the entity page's link to its
 JSON (§4), take their words from the same table in the entity's own language.
-**The page's own chrome is the reader's, not the source's.** The legend, the
-sheet's one hint and the index's words (§2) — but for what the index says about
-graph.med itself and its banner, which are English — are German, whatever the view's source
-language, from a table of the view layer — one file per language under
-`tools/site/words/`, read by the build and never published — and the build, the
-schema, the data and every identifier, key and comment behind them stay English:
-only what the viewer reads is German. A German and an English site are a later phase; they will be a second
-table, not a second template. The rest of the page chrome — header, footer,
-counter, the controls' titles — is still English (§9). Translation of content is a
-build-layer concern and can be added without a data change
-(`graph-representation.md` §2).
+**The page's own chrome is the reader's, not the source's.** Every word a page adds
+outside the graph and the card is German, whatever the view's source language —
+what is seen and what is heard: visible text, `title`, `aria-label`, `placeholder`,
+`alt` and the meta description. That is the legend; the controls; the search
+counter and the chapter panel, which the script reads from the page; the sheet's
+home — its kind line, its counts (a pair per count, as the index's), its links and
+its hint; the index's words (§2); the note beside every licence line that the
+document is linked at its public URL and never served here (§5), the project's rule
+said once and not part of the source's line; the preview strip, the footer, the
+share image's description, and an entity page's description by its type. The
+exceptions are what the index says about graph.med itself and the banner, which are
+English (§2), the ids, the name graph.med and the repository's licence name. Every
+page declares the page language (`<html lang>`), and a part in another language
+carries its own. The words come from a table of the view layer — one file per
+language under `tools/site/words/`, read by the build, handed to every page and
+never published — and the build, the schema, the data and every identifier, key and
+comment behind them stay English: only what the viewer reads is German. The hint
+names the reader's gesture: CSS shows *antippen* by default, the page being read
+on a phone first, and *anklicken* where a fine pointer can hover
+(`(hover: hover) and (pointer: fine)`); no script reads the device and nothing is
+remembered. The facet filter's entries are the facets' words in the view's source
+language, like the switch's — the card's table, not the page's. A German and an
+English site are a later phase; they will be a second table, not a second
+template. Translation of content is a build-layer concern and can be added without
+a data change (`graph-representation.md` §2).
 
 ### Where each part comes from
 
@@ -925,7 +939,10 @@ viewer that cannot highlight, the reader pastes it into the document's find. Eve
 link into a source opens in a tab of its own — the citation's, a body-text passage's,
 a contesting claim's, a rule's — so that the page keeps its open groups, search,
 chapter and axis. The source's license line, as
-recorded on the source entity, is shown on its page and on every view drawn from it.
+recorded on the source entity — the source's own terms —, is shown on its page, on
+the index and on every view drawn from it, and beside it, in the page language, the
+page chrome's note that the document is linked at its public URL and never served
+here (§3 "Language"). The files for programs carry the line as recorded (§4).
 
 ---
 
@@ -1494,13 +1511,12 @@ token and the deploy workflow (`.github/workflows/mcp.yml`) are a person's steps
   whether a cut has a PDF export.
 - **Branch guards** — yes/no and value-range branches come with authored pathways
   (`branch` edges carry a `guard`); the derived tree has only slot answers.
-- **The page chrome outside the legend** — the counter, the chapter panel's
-  "all", the controls' titles, header and footer are English; the legend, the
-  sheet's hint and the index's words are German from the view layer's table
-  (§3 "Language"); the questions and the direction words inside the graph, and
-  every word of the sheet — the statement card and the other entities' sections —
-  are in the source language. The maintainer decided on German now and a German and an
-  English site in a later phase; nothing selects a page language yet.
+- **The page language** — the page chrome is German from the view layer's table
+  (§3 "Language"), but for what the index says about graph.med itself and the
+  banner, which are English; the questions and the direction words inside the
+  graph, and every word of the sheet — the statement card and the other entities'
+  sections — are in the source language. The maintainer decided on German now and a
+  German and an English site in a later phase; nothing selects a page language yet.
 - **Translation** — a build-layer projection, not started.
 - **Other projections** — FHIR, RDF, diagram formats (`graph-representation.md` §13).
   The projections for programs and assistants — the machine-readable site, a

@@ -36,7 +36,10 @@ entity (drift and disappearance are detected loudly) plus verification
 attestations as the durable evidence once a public copy is gone.
 
 **How to apply:** Record on each source entity the public URL and the content
-hash of the downloaded bytes. Never commit a downloaded source, and never
+hash of the downloaded bytes; its `license` holds the source's own terms
+only — that it is linked and never rehosted is the project's rule, which the
+site says once as page chrome beside every licence line (#254, 2026-10-10).
+Never commit a downloaded source, and never
 serve one from project infrastructure. Build layers emit
 `<url>#page=N&search=<quote>` links — PDF.js-based viewers highlight the
 quote, others land on the page. Verify quotes at extraction time, while the
