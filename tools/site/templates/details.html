@@ -106,36 +106,40 @@
 {% for s in c.wortlaut %}<li><div class="surface"><p lang="{{ s.lang }}">{{ s.label }}</p></div>{{ disagreements(s) }}</li>
 {% endfor %}</ol>
 {% endif %}</section>
-{# zone 4: how certain the evidence is, in one of four states (docs/publication.md §3) — one value on one line; per
-   row a native <details>, closed, its <summary> the counting line and under it the table in the guideline's order,
-   one per system, the system named once as the table's caption and never per row; expert consensus only; nothing
-   recorded. A counting line takes its singular or plural form from the count (W(key, count)); the range line has
-   no singular, a range needing two values. A table with a row the source keys by anything but its endpoint (a
-   component, a subgroup, a comparator, …: the row's printed `key`) is read by its keys: a first column `Bezug`,
-   the endpoint column only where a row names one, and the counting line counts rows, not endpoints; a table
-   without a key reads as before. No value is composed from several, and no JavaScript is needed. #}
+{# zone 4: how certain the evidence is (docs/publication.md §3), one group per system, never merged. A group of one
+   row is one line: its value — `nicht erfasst` where the row has none — and its system by the name its source
+   declares, then what the value rates, its endpoint, its key or both; a single value for the whole recommendation
+   names nothing after the system. A group of more rows is a native <details>, closed, its <summary> the summary
+   line and under it the table in the guideline's order, the system named once as the table's caption and never
+   per row. A summary line counts two rows or more and has no singular. A table with a row the source keys by
+   anything but its endpoint (a component, a subgroup, a comparator, …: the row's printed `key`) is read by its
+   keys: a first column `Bezug`, the endpoint column only where a row names one, and the summary line counts
+   rows, not endpoints; a table without a key reads by its endpoints. A row that names no key or no endpoint
+   leaves that cell empty: `nicht erfasst` is said of a value only, never of a row's endpoint. Then expert
+   consensus only; nothing recorded. No line starts with the zone's heading, no value is composed from several,
+   and no JavaScript is needed. #}
 <section class="zone evidence" aria-labelledby="zone-evidence-h">
 <h3 id="zone-evidence-h">{{ W("zone.evidence") }}</h3>
 {% set ev = c.evidenz %}
-{% if ev.state == "single" %}{% set g = ev.groups[0] %}
-<p class="value">{{ W("evidence.single").format(wert=g.rows[0].value, system=g.system_name) }}</p>
-{% elif ev.state == "by_outcome" and ev.groups | length == 1 and ev.groups[0].n == 1 %}{% set r = ev.groups[0].rows[0] %}
-<p class="value">{{ W("evidence.one_row.key" if r.key else "evidence.one_row.outcome").format(wert=r.value or W("evidence.row.missing"), system=ev.groups[0].system_name, bezug=r.key or r.outcome.label) }}</p>
-{% elif ev.state == "by_outcome" %}
+{% if ev.state in ("single", "by_outcome") %}
 {% for g in ev.groups %}
+{% if g.n == 1 %}{% set r = g.rows[0] %}{% set wert = r.value or W("evidence.row.missing") %}
+<p class="value">{% if r.key and r.outcome %}{{ W("evidence.one_row.key_outcome").format(wert=wert, system=g.system_name, bezug=r.key, endpunkt=r.outcome.label) }}{% elif r.key %}{{ W("evidence.one_row.key").format(wert=wert, system=g.system_name, bezug=r.key) }}{% elif r.outcome %}{{ W("evidence.one_row.outcome").format(wert=wert, system=g.system_name, endpunkt=r.outcome.label) }}{% else %}{{ W("evidence.single").format(wert=wert, system=g.system_name) }}{% endif %}</p>
+{% else %}
 {% set keyed = g.rows | selectattr("key") | list | length > 0 %}
 {% set endpoints = not keyed or g.rows | selectattr("outcome") | list | length > 0 %}
 {% set by = "evidence.by_key" if keyed else "evidence.by_outcome" %}
 <details class="outcomes" data-keep="outcomes">
-<summary>{% if g.k < g.n %}{{ W(by ~ ".partial", g.n).format(k=g.k, n=g.n) }}{% elif g.range %}{{ W(by).format(n=g.n, von=g.range.von, bis=g.range.bis) }}{% else %}{{ W(by ~ ".no_range", g.n).format(n=g.n) }}{% endif %}</summary>
+<summary>{% if g.k < g.n %}{{ W(by ~ ".partial.many").format(k=g.k, n=g.n) }}{% elif g.range %}{{ W(by).format(n=g.n, von=g.range.von, bis=g.range.bis) }}{% else %}{{ W(by ~ ".no_range.many").format(n=g.n) }}{% endif %}</summary>
 <table>
 <caption>{{ g.system_name }}</caption>
 <thead><tr>{% if keyed %}<th scope="col">{{ W("evidence.table.key") }}</th>{% endif %}{% if endpoints %}<th scope="col">{{ W("evidence.table.outcome") }}</th>{% endif %}<th scope="col">{{ W("evidence.table.certainty") }}</th></tr></thead>
 <tbody>
-{% for r in g.rows %}<tr>{% if keyed %}<td lang="{{ r.lang }}">{{ r.key or "" }}</td>{% endif %}{% if endpoints %}{% if r.outcome %}<td lang="{{ r.outcome.lang }}">{{ r.outcome.label }}</td>{% else %}<td class="none">{{ W("evidence.row.missing") }}</td>{% endif %}{% endif %}{% if r.value %}<td lang="{{ r.lang }}">{{ r.value }}</td>{% else %}<td class="none">{{ W("evidence.row.missing") }}</td>{% endif %}</tr>
+{% for r in g.rows %}<tr>{% if keyed %}<td lang="{{ r.lang }}">{{ r.key or "" }}</td>{% endif %}{% if endpoints %}{% if r.outcome %}<td lang="{{ r.outcome.lang }}">{{ r.outcome.label }}</td>{% else %}<td></td>{% endif %}{% endif %}{% if r.value %}<td lang="{{ r.lang }}">{{ r.value }}</td>{% else %}<td class="none">{{ W("evidence.row.missing") }}</td>{% endif %}</tr>
 {% endfor %}</tbody>
 </table>
 </details>
+{% endif %}
 {% endfor %}{% elif ev.state == "ek_only" %}
 <p class="value">{{ W("evidence.ek_only") }}</p>
 {% else %}

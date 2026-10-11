@@ -516,7 +516,7 @@ glyph. Timing
   | 1 | Title | none | `short_label`, else `label` | never |
   | 2 | Judgement | none | supporting claims; whether a contesting claim exists | never |
   | 3 | Wording | `Wortlaut der Empfehlung` | `claim.label` per supporting claim | never |
-  | 4 | Evidence | `Evidenz` | the supporting claims' `evidence`, per row; else `Nicht erfasst` | never |
+  | 4 | Evidence | `Evidenz` | the supporting claims' `evidence`, per row; else `nicht erfasst` | never |
   | 5 | Applies to | `Gilt für` | the `population`, `condition`, `action` slots, then the value of every dimension axis that places the statement, named by that axis's `short_label` (else `label`) | no slot filled |
   | 6 | Body text | `Hinweise aus dem Begleittext` | `limits`, `refines`, `supplements` | never (empty state) |
   | 7 | Contradiction | `Widersprechende Empfehlung(en)` | `contests` | no contesting claim |
@@ -579,19 +579,28 @@ glyph. Timing
      there is one.
   4. **Evidence.** How certain the evidence is, separately from how binding
      the recommendation is (zone 2), from the supporting claims' `evidence`
-     entries, in one of four states and no fifth:
+     entries. The heading says `Evidenz` once, and no line under it starts
+     with it again. Each rating system is named by the name the claims' source
+     declares for it, as the source prints it (`GRADE`, `Oxford 2011`;
+     `rating_systems`, `graph-representation.md` §3.1), never by its slug; the
+     statement JSON keeps the slug as `evidenz.groups[].system` and the name
+     beside it as `system_name`. One group per system, never merged, in one of
+     five forms:
 
-     | State | What it renders |
+     | Form | What it renders |
      |---|---|
-     | One value | one line, no disclosure: `moderat (GRADE)` — the value as the claim stores it, the system by its name (`EVIDENCE_NAMES` in `tools/build.py`, else its slug); one entry with neither an outcome nor a key |
-     | One row | one line, no disclosure: `Moderat (GRADE) · Endpunkt: Klinisch relevante obere GI-Blutungen`, a keyed row `… · Bezug: <key>` — a table of one row is no table |
-     | Per row | a native `<details>`, closed — its summary already says how certain, the table is for whoever asks which endpoint —: its `<summary>` reads `endpunktabhängig (4 Endpunkte, hoch bis sehr niedrig)` — the zone's heading already says `Evidenz` —, under it a table `Endpunkt \| Sicherheit` in the guideline's order, never sorted, the system named once as the table's caption; a table with keyed rows reads by its keys (below) |
+     | One value | one line, no disclosure: `moderat nach GRADE`, `1 nach Oxford 2011` — the value as the claim stores it, then the system's name; one entry with neither an outcome nor a key |
+     | One row | one line, no disclosure: the value and the system's name, then what the value rates — `Moderat nach GRADE · Endpunkt: Klinisch relevante obere GI-Blutungen`, a keyed row `… · Bezug: <key>`, a row naming both `… · Bezug: <key> · Endpunkt: <endpoint>`; a row the source lists unrated reads `nicht erfasst nach GRADE · Endpunkt: …` — a table of one row is no table |
+     | Per row | a native `<details>`, closed — its summary already says what was rated and how certain, the table is for whoever asks which endpoint —: its `<summary>` reads `für 4 Endpunkte bewertet, hoch bis sehr niedrig`, under it a table `Endpunkt \| Sicherheit` in the guideline's order, never sorted, the system named once as the table's caption; a table with keyed rows reads by its keys (below) |
      | Expert consensus only | one line: `Expertenkonsens, keine Evidenzbewertung` — every supporting claim's grade one that fixes no wording in its scheme (`EK`, an expert consensus, `graph-representation.md` §3.1) and none carrying an entry |
-     | Nothing recorded | one line: `Nicht erfasst` — what is not recorded, never that the guideline says nothing |
+     | Nothing recorded | one line: `nicht erfasst` — what is not recorded, never that the guideline says nothing |
 
-     `endpunktabhängig` comes first in the summary line and the range follows
-     in brackets, so that the sentence's first word denies that a single value
-     exists and the range reads as what it is — a description of a set. The
+     The summary line says what the source rated and how many, and the range
+     follows it after a comma, as what it is — a description of a set, no value
+     of the recommendation. A table counts two rows or more, so the line has
+     no singular: one row is the one-row line, which names the endpoint or the
+     key its value belongs to, so that the certainty stays with what it rates
+     and no line claims that a single value depends on anything. The
      range is the highest and the lowest value present by the system's display
      order (`EVIDENCE_SCALES` in `tools/build.py`, keyed by system, read for
      this and nothing else), matched without regard to case — a value is
@@ -599,11 +608,13 @@ glyph. Timing
      are one level — and named in the form that order holds (`moderat bis
      sehr niedrig`), while each row shows its value as the claim stores it; a
      system the build has no order for keeps the
-     table and loses the range, `endpunktabhängig (4 Endpunkte)`, and
-     never fails the build. Where some rows carry a value and others do not,
+     table and loses the range, `für 4 Endpunkte bewertet`, and
+     never fails the build. A system its claim's source does not declare is
+     refused by the validator; the build shows its slug and stops at nothing.
+     Where some rows carry a value and others do not,
      those rows read `nicht erfasst` and the line counts only what is
-     recorded: `endpunktabhängig (3 von 5 Endpunkten erfasst)`. Several
-     systems give one disclosure per system, never merged. Nothing is composed
+     recorded: `für 3 von 5 Endpunkten erfasst`. Several
+     systems give one group per system, never merged. Nothing is composed
      — no average, no worst case, no certainty in zone 2 — and the disclosure
      needs no script; print shows the table open where the browser can.
 
@@ -611,15 +622,16 @@ glyph. Timing
      component of the action, a subgroup, an arm, a comparator, a device, a
      regimen —, and the entry then carries the row's printed `key`
      (`graph-representation.md` §3.1). A table with such a row is read by its
-     keys: a first column `Bezug` holds each row's key (empty for a row
-     without one), the `Endpunkt` column follows only where some row names an
-     endpoint, and the summary line counts rows, not endpoints, with the same
-     range rule, counted as ratings, the reader's word, not as rows:
-     `aufgeschlüsselt (2 Bewertungen, moderat bis sehr niedrig)`,
-     `aufgeschlüsselt (5 Bewertungen)`, `aufgeschlüsselt (3 von 5 Bewertungen
-     erfasst)`. `Sepsis-Screening | Moderat`,
+     keys: a first column `Bezug` holds each row's key, the `Endpunkt` column
+     follows only where some row names an endpoint, and the summary line
+     counts rows, not endpoints, with the same range rule:
+     `in 2 Zeilen aufgeschlüsselt, moderat bis sehr niedrig`,
+     `in 5 Zeilen aufgeschlüsselt`, `in 5 Zeilen aufgeschlüsselt, 3 davon
+     erfasst`. `Sepsis-Screening | Moderat`,
      `Dopamin | Hoch`, `oXiris® | Mortalität | Sehr niedrig`: the key is never
-     shown as an endpoint. A table without a key reads as above, and a row
+     shown as an endpoint. A row without a key leaves its `Bezug` cell empty,
+     and a row without an endpoint its `Endpunkt` cell: `nicht erfasst` is said
+     of a value, never of what a row rates. A table without a key reads as above, and a row
      of the statement JSON carries `key` only where its entry has one.
   5. **Applies to.** The slots as rows: `Patientengruppe` (population, with the
      families it belongs to below it, after `gehört zu:`, so that they read as

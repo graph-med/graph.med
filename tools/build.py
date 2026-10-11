@@ -73,10 +73,8 @@ DIRECTION_GLYPH = {"für": "✓", "gegen": "✗", "abwägen": "⚖\ufe0e", "Lüc
 # A system not in the table is a valid state that costs the range, never the build. A display order,
 # not a fact about the world, which is why it lives here and not in the schema (WP-0025).
 EVIDENCE_SCALES = {"grade": ("hoch", "moderat", "niedrig", "sehr niedrig")}
-# An evidence system's name as a reader knows it, keyed by the same `system` slug: the caption of zone 4's table and
-# the bracket of its one-line forms ("Moderat (GRADE)"). A display name, like the order above, so it lives here; a
-# system not in the table is named by its slug, which costs the reader a capital and never the build.
-EVIDENCE_NAMES = {"grade": "GRADE", "oxford_loe": "Oxford LoE"}
+# An evidence system's name is no display word of the build: the claim's source declares it as printed, beside the
+# slug (`rating_systems`, spec §3.1), and Pool reads it from there (system_name()), as it reads the grading scheme.
 # The language of the page's own chrome — every word a page adds outside the graph and the card: the legend, the
 # controls, the sheet's home, the header and footer, the index's words, the note beside a licence line, `<html lang>`
 # — chosen for the reader, not by the data (docs/publication.md §3, "Language"). Its words are the view layer's: one
@@ -107,8 +105,9 @@ CHAPTERS = "section"   # the URL token and grouping id of the built-in chapter g
 # There is no fallback: a language that lacks any key of CARD_KEYS fails the build, naming the language
 # and the keys (card_words()). A line that counts something
 # is a pair, `<key>.one` and `<key>.many`, chosen by the count at render time (card_words(): word(key, count));
-# the grammar sits in the pair, never in the code. The range lines of zone 4 (`evidence.by_outcome`,
-# `evidence.by_key`) have no pair: a range needs two values, so it never counts one (evidence_of()).
+# the grammar sits in the pair, never in the code. The summary lines of zone 4's table (`evidence.by_outcome`,
+# `evidence.by_key` and their `.no_range.many` and `.partial.many`) have no pair: a table counts two rows or more,
+# one row being the one-row line (`evidence.one_row.*`), and a range needs two values (evidence_of()).
 CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", "zone.contested.one", "zone.contested.many",
              "zone.citation", "zone.more", "slot.population", "slot.condition", "slot.action", "slot.count", "slot.families",
              # the word joining concepts that hold at once — a statement's conditions, the conditions of a scope path (spec §3.2)
@@ -116,14 +115,13 @@ CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", 
              "cite.open", "cite.quote", "cite.review.pending", "cite.no", "cite.page", "cite.section",
              "grade", "consensus.share",
              "marker.contested", "body.limits", "body.refines", "body.supplements", "body.empty",
-             "evidence.single", "evidence.by_outcome", "evidence.by_outcome.no_range.one", "evidence.by_outcome.no_range.many",
-             "evidence.by_outcome.partial.one", "evidence.by_outcome.partial.many",
+             "evidence.single", "evidence.by_outcome", "evidence.by_outcome.no_range.many", "evidence.by_outcome.partial.many",
              "evidence.ek_only", "evidence.missing", "evidence.table.outcome", "evidence.table.certainty", "evidence.row.missing",
              # a table whose rows carry a printed key (spec §3.1): read by that key, counted in rows, not endpoints
-             "evidence.by_key", "evidence.by_key.no_range.one", "evidence.by_key.no_range.many",
-             "evidence.by_key.partial.one", "evidence.by_key.partial.many", "evidence.table.key",
-             # a table of one row is one line: its value, its system and what it rates (docs/publication.md §3, zone 4)
-             "evidence.one_row.outcome", "evidence.one_row.key",
+             "evidence.by_key", "evidence.by_key.no_range.many", "evidence.by_key.partial.many", "evidence.table.key",
+             # a table of one row is one line: its value, its system and what it rates — its endpoint, its key, or both
+             # (docs/publication.md §3, zone 4)
+             "evidence.one_row.outcome", "evidence.one_row.key", "evidence.one_row.key_outcome",
              # zone 6 past its first passages, folded; zone 5's row of the statements related to this one (spec §5)
              "body.more.one", "body.more.many", "slot.related",
              "related.specializes.to", "related.specializes.from", "related.complements.to", "related.complements.from",
@@ -162,19 +160,17 @@ CARD_WORDS = {"de": {
     "grade": "Grad {grade}", "consensus.share": "{name}, {share}",
     "marker.contested": "umstritten", "body.limits": "Grenzt ein", "body.refines": "Präzisiert", "body.supplements": "Ergänzt",
     "body.empty": "Der Begleittext schränkt diese Empfehlung nicht ein und ergänzt oder präzisiert sie nicht.",
-    "evidence.single": "{wert} ({system})", "evidence.by_outcome": "endpunktabhängig ({n} Endpunkte, {von} bis {bis})",
-    "evidence.by_outcome.no_range.one": "endpunktabhängig ({n} Endpunkt)",
-    "evidence.by_outcome.no_range.many": "endpunktabhängig ({n} Endpunkte)",
-    "evidence.by_outcome.partial.one": "endpunktabhängig ({k} von {n} Endpunkt erfasst)",
-    "evidence.by_outcome.partial.many": "endpunktabhängig ({k} von {n} Endpunkten erfasst)",
-    "evidence.ek_only": "Expertenkonsens, keine Evidenzbewertung", "evidence.missing": "Nicht erfasst",
+    "evidence.single": "{wert} nach {system}", "evidence.by_outcome": "für {n} Endpunkte bewertet, {von} bis {bis}",
+    "evidence.by_outcome.no_range.many": "für {n} Endpunkte bewertet",
+    "evidence.by_outcome.partial.many": "für {k} von {n} Endpunkten erfasst",
+    "evidence.ek_only": "Expertenkonsens, keine Evidenzbewertung", "evidence.missing": "nicht erfasst",
     "evidence.table.outcome": "Endpunkt", "evidence.table.certainty": "Sicherheit", "evidence.row.missing": "nicht erfasst",
-    "evidence.by_key": "aufgeschlüsselt ({n} Bewertungen, {von} bis {bis})",
-    "evidence.by_key.no_range.one": "aufgeschlüsselt ({n} Bewertung)",
-    "evidence.by_key.no_range.many": "aufgeschlüsselt ({n} Bewertungen)",
-    "evidence.by_key.partial.one": "aufgeschlüsselt ({k} von {n} Bewertung erfasst)",
-    "evidence.by_key.partial.many": "aufgeschlüsselt ({k} von {n} Bewertungen erfasst)",
-    "evidence.one_row.outcome": "{wert} ({system}) · Endpunkt: {bezug}", "evidence.one_row.key": "{wert} ({system}) · Bezug: {bezug}",
+    "evidence.by_key": "in {n} Zeilen aufgeschlüsselt, {von} bis {bis}",
+    "evidence.by_key.no_range.many": "in {n} Zeilen aufgeschlüsselt",
+    "evidence.by_key.partial.many": "in {n} Zeilen aufgeschlüsselt, {k} davon erfasst",
+    "evidence.one_row.outcome": "{wert} nach {system} · Endpunkt: {endpunkt}",
+    "evidence.one_row.key": "{wert} nach {system} · Bezug: {bezug}",
+    "evidence.one_row.key_outcome": "{wert} nach {system} · Bezug: {bezug} · Endpunkt: {endpunkt}",
     "body.more.one": "{n} weiterer Hinweis", "body.more.many": "{n} weitere Hinweise",
     "slot.related": "Verwandt",
     "related.specializes.to": "allgemeinere Empfehlung", "related.specializes.from": "speziellere Empfehlung",
@@ -313,35 +309,45 @@ def direction_of(claims: list[dict]) -> dict | None:
             "umstritten": any(c["edge"] == "contests" for c in claims)}
 
 
-def evidence_of(claims: list[dict], concept) -> dict:
+def evidence_of(claims: list[dict], concept, system_name) -> dict:
     """Zone 4 of the statement card (docs/publication.md §3): how certain the evidence is, from the supporting
-    claims' `evidence` entries (schema 0.6.0), in one of four states and no fifth — `single` (one entry, no
-    outcome and no key: one value for the whole recommendation), `by_outcome` (anything else with entries: one
-    group per system, its rows the entries in the claims' order, never sorted — sorting by certainty would rank
-    what the guideline did not), `ek_only` (no entry, and every supporting claim's grade one that fixes no wording
-    in its scheme — the expert consensus of spec §3.1, `unworded` —), `missing` (no entry). A row carries its
-    printed `key` where the entry has one (schema 0.14.0), and only there, and the template reads a group with a
-    keyed row by its keys. Nothing is composed: no value is derived from several. A group counts its rows (`n`)
-    and those with a value (`k`), and carries a range — the highest and the lowest value present, by
-    EVIDENCE_SCALES' order, matched without regard to case and named in the form the order holds — only where
-    every row has a value, the system is in that table, every value is on its scale and more than one level
-    occurs; no order is guessed, and a partial table is summarised by its count alone.
-    `concept` resolves an outcome id to {id, label, lang}."""
+    claims' `evidence` entries (schema 0.6.0), in one of four states — `single` (one entry, no outcome and no key:
+    one value for the whole recommendation), `by_outcome` (anything else with entries: one group per system, its
+    rows the entries in the claims' order, never sorted — sorting by certainty would rank what the guideline did
+    not), `ek_only` (no entry, and every supporting claim's grade one that fixes no wording in its scheme — the
+    expert consensus of spec §3.1, `unworded` —), `missing` (no entry). The template shows a group of one row as
+    one line and a group of more as a table (the fifth form of docs/publication.md §3); the data has these four.
+    A group carries its `system`, the slug as the claims store it — the statement JSON keeps it —, and its
+    `system_name`, the name the claims' source declares for it (`rating_systems`, spec §3.1), never a word of
+    the build; where the claims of one group come from sources that name the slug differently, the group carries
+    each name, in the claims' order. A row carries its printed `key` where the entry has one (schema 0.14.0), and
+    only there, and the template reads a group with a keyed row by its keys. Nothing is composed: no value is
+    derived from several. A group counts its rows (`n`) and those with a value (`k`), and carries a range — the
+    highest and the lowest value present, by EVIDENCE_SCALES' order, matched without regard to case and named in
+    the form the order holds — only where every row has a value, the system is in that table, every value is on
+    its scale and more than one level occurs; no order is guessed, and a partial table is summarised by its count
+    alone. `concept` resolves an outcome id to {id, label, lang}; `system_name` a (source, slug) pair to the
+    system's declared name (Pool.system_name)."""
     sup = [c for c in claims if c["edge"] == "supports"]
     entries = [(c, e) for c in sup for e in c.get("evidence") or []]
     if not entries:
         return {"state": "ek_only" if sup and all(c.get("unworded") for c in sup) else "missing", "groups": []}
     groups: list[dict] = []
+    names: dict[str, list[str]] = {}   # slug → the names its claims' sources declare, in the claims' order
     for c, e in entries:
         g = next((g for g in groups if g["system"] == e["system"]), None)
         if g is None:
-            g = {"system": e["system"], "system_name": EVIDENCE_NAMES.get(e["system"], e["system"]), "rows": []}
+            g = {"system": e["system"], "rows": []}
             groups.append(g)
+        name = system_name(c["source"], e["system"])
+        if name not in names.setdefault(e["system"], []):
+            names[e["system"]].append(name)
         row = {"outcome": concept(e["outcome"]) if e.get("outcome") else None, "value": e.get("value") or None, "lang": c["lang"]}
         if e.get("key"):
             row["key"] = e["key"]
         g["rows"].append(row)
     for g in groups:
+        g["system_name"] = " / ".join(names[g["system"]])
         values = [r["value"] for r in g["rows"] if r["value"]]
         g["n"], g["k"], g["range"] = len(g["rows"]), len(values), None
         scale = [s.casefold() for s in EVIDENCE_SCALES.get(g["system"], ())]
@@ -565,6 +571,10 @@ class Pool:
         # the grading scheme each source declares (spec §3.1), read for the order of its grades, the wordings and
         # their negated forms, which wording is an open recommendation, and the names of its consensus classes
         self.schemes: dict[str, dict] = {sid: e.get("grading_scheme") or {} for sid, e in self.entities.items() if e.get("type") == "source"}
+        # the rating systems each source declares (spec §3.1), slug → the name as the source prints it: what zone 4
+        # names a system by, never its slug
+        self.rating_names: dict[str, dict[str, str]] = {sid: {r["system"]: r["name"] for r in e.get("rating_systems") or []}
+                                                        for sid, e in self.entities.items() if e.get("type") == "source"}
         # the numbered recommendations of each source by the page they are printed on, source → [(page, number)]:
         # where a recommendation_no that is not a number stands among them (no_key)
         self.numbered: dict[str, list[tuple[int, list]]] = defaultdict(list)
@@ -596,6 +606,11 @@ class Pool:
             if entry:
                 return entry
         return {}
+
+    def system_name(self, source: str, system: str) -> str:
+        """An evidence system's name as the claim's source declares it (`rating_systems`, spec §3.1), or the slug for
+        a system the source does not declare — which the validator refuses; the build shows it and stops at nothing."""
+        return self.rating_names.get(source, {}).get(system) or system
 
     def badge_words(self, badge: dict) -> dict:
         """The source's own words for a badge (badge_of), read in the grading scheme of the badge's source: `grade`,
@@ -1552,7 +1567,7 @@ def main(argv=None) -> int:
             "urteil": {"direction": d["word"] if d else None, "glyph": d["glyph"] if d else None, "verbs": d["verbs"] if d else [],
                        "badges": d["badges"] if d else badges_of(claims), "umstritten": d["umstritten"] if d else any(c["edge"] == "contests" for c in claims)},
             "wortlaut": [{k: c[k] for k in ("id", "label", "lang", "disagrees_with") if k in c} for c in sup],
-            "evidenz": evidence_of(claims, concept),
+            "evidenz": evidence_of(claims, concept, pool.system_name),
             "geltung": geltung if any(geltung.values()) else None,
             "leitlinientext": {k: [passage(b) for c in claims for b in c.get("body", []) if b["kind"] == k] for k in BODY_TEXT},
             "widerspruch": contests_of(claims),
