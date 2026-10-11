@@ -170,7 +170,8 @@ decision-graph-derivation):
    ┌──┴────────┐   ┌───┴───────┐ ┌───┴───────┐
    │ recommend.│   │ recommend.│ │ recommend.│    the statements — boxes coloured by
    └─────┬─────┘   └───────────┘ └───────────┘    direction (für · gegen · abwägen · Lücke),
-         ┆ (dashed)                               its glyph, the grade as printed (A · B · 0 · EK),
+         ┆ (dashed)                               its glyph, the grade as printed (A · B · 0 · EK; ⇑⇑ · ⇔),
+         ┆                                        a basis printed beside it (⇑ EK),
          ┆                                        the verb a word where the grade does not carry it;
          ┆                                        dashed red border when contested
          ▷ aim                                    outcome slot
@@ -236,11 +237,20 @@ decision-graph-derivation):
   font — the selector alone did not keep Chromium from it where the system face
   lacks the glyph. **The grade** follows as the
   guideline prints it — `A · B · 0 · EK` in one, `Stark · Schwach · EK` in
-  another —, several in their scheme's order when the claims differ. The order,
+  another, `⇑⇑ · ⇑ · ⇔ · ⇓ · ⇓⇓` in a third, whose arrows carry the direction
+  —, several in their scheme's order when the claims differ: the order of the
+  scheme's table, which need not run strongest first (the arrows run from for to
+  against). The arrows are text in the page's font stack, a glyph on every
+  platform and never an empty box. The order,
   like everything else about a grade, is read from the grading scheme the source
-  declares (`graph-representation.md` §3.1): the build knows no grade, verb or
+  declares (`graph-representation.md` §3.1): the build knows no grade, verb, basis or
   consensus class by name. An EK box is coloured by its direction like every
-  other recommendation and marked "EK", not demoted. **The verb is a word where
+  other recommendation and marked "EK", not demoted. **A basis** — what a box
+  prints beside its grade, or in its place, for what it rests on (`EK` beside an
+  arrow, a `basis` of the scheme, §3.1) — follows the grade as the box prints it,
+  every basis the claims carry in its scheme's order: `✓ ⇑ EK · …`, `✗ ⇓ EK · …`,
+  and alone where the box prints no grade, `✗ EK empfehlen nicht · …`. A basis is
+  no grade: it changes neither the colour nor where the verb is written. **The verb is a word where
   the grade does not carry it.** The build computes, per grading scheme — the
   grade names its scheme through its claim's source, so the grades of two
   schemes are never pooled —, which verbs the supporting claims of that source
@@ -249,7 +259,10 @@ decision-graph-derivation):
   carry that grade writes its verb after it. The word carries its negation in
   the form the scheme prints — `soll nicht`, `schlagen nicht vor` for a
   recommendation against, never the verb with "nicht" appended — exactly as the
-  judgement writes it, so that box and card say the same thing. The rule reads
+  judgement writes it, so that box and card say the same thing; it is read from
+  the claim's own grade where that grade gives the claim's wording (a wording two
+  grades share, each fixing another direction: `soll` under `⇑⇑` and `⇓⇓`), else
+  from the scheme that defines the wording. The rule reads
   the claims, not the scheme's table, so one new claim can make a grade
   ambiguous and every box of that grade then writes its verb. Supporting claims
   that disagree on the verb give no word (the verb, like the grade, is shown and
@@ -273,7 +286,10 @@ decision-graph-derivation):
   the verb is written as a word; where every grade the boxes carry writes its
   verb — compared as grades of their schemes, so that a grade word two schemes
   share is not taken for one grade —, the two are one key, the grades with the
-  verb as a word, and no grade is named twice), *Rahmen = Zustand* (contested, related to the selected
+  verb as a word, and no grade is named twice; then, as a key of its own after
+  them, each basis the boxes' claims carry, its token and its scheme's
+  description, **EK** Expertenkonsens — never listed among the grades, which it is
+  not, and present only where a box carries one), *Rahmen = Zustand* (contested, related to the selected
   box, applying generally to the selected group) and *Kanten* (answer, the way
   on, the aim). The panel always holds every key the view has, whatever the
   reader has opened. A question the reader has closed (grey, dashed) has no
@@ -498,16 +514,22 @@ only outcomes). Everything here runs in the browser on the view's JSON.
 
 **Direction, in four words.** A recommendation's direction is one of *für*,
 *gegen*, *abwägen*, *Lücke*, derived at build time from the supporting claims, each
-read in its grading scheme (`graph-representation.md` §3.1): a claim whose verb is
-the wording of a grade the scheme declares `open` → abwägen, because an open
-recommendation is the guideline's own third category, neither for nor against — in
-the AWMF scheme grade 0, "kann" (the judgement adds the lean, "eher für" or "eher
-gegen"); any other recommendation → für with `direction: for`, gegen with
-`against` — `soll`, `sollte`, and a GRADE scheme's weak "schlagen vor" as much as its
-strong "empfehlen", since its table gives the weak grade an arrow up or down; `kind:
-gap_notice` → Lücke; claims that disagree in direction → abwägen; a fact has no
-direction. A verb another guideline's scheme defines (a *sollte* in a guideline
-graded by GRADE) is read in that scheme. The box's colour and the judgement at the
+read in its grading scheme (`graph-representation.md` §3.1). The grade the box
+prints decides first: a claim whose grade the scheme makes one for or one against
+(an arrow, `direction` on the grade) reads für or gegen by that direction, whatever
+its verb — a `kann` printed under `⇑` reads für —; a claim whose grade the scheme
+declares `open` → abwägen, with or without a verb of its own (a sentence under
+grade 0 that says only "ist als internationaler Standard anzusehen" weighs as the
+grade does). Only a claim whose grade fixes neither, or that has none, is read by
+its verb: the wording of a grade the scheme declares `open` → abwägen, because an
+open recommendation is the guideline's own third category, neither for nor against
+— in the AWMF scheme grade 0, "kann", in the arrow scheme `⇔` (the judgement adds
+the lean, "eher für" or "eher gegen"); any other recommendation → für with
+`direction: for`, gegen with `against` — `soll`, `sollte`, and a GRADE scheme's weak
+"schlagen vor" as much as its strong "empfehlen", since its table gives the weak
+grade an arrow up or down; `kind: gap_notice` → Lücke; claims that disagree in
+direction → abwägen; a fact has no direction. A verb another guideline's scheme
+defines (a *sollte* in a guideline graded by GRADE) is read in that scheme. The box's colour and the judgement at the
 top of the details carry it; the
 glyph (✓ ✗ ⚖ ∅) stands on the box, before its grade, in the judgement and in
 the legend; the legend lists the words this view has, each with its colour and
@@ -550,10 +572,17 @@ glyph. Timing
      supporting claim in claim order, its grade as text on the chip's own light
      fill — the grade as printed in the card's frame (`Grad A`, `Grad Stark`),
      and a grade that fixes no wording, an expert consensus, by its scheme's
-     description of it (`Expertenkonsens`) — and its consensus beside it: the
-     class as the scheme names it (`Starker Konsens`) and, where the claim
-     prints the share of votes, the share after it (`Konsens, 95 %`);
-     identical chips collapse to one with a count, `Grad A (2)`. A chip is
+     description of it (`Expertenkonsens`) —, a basis the claim prints beside
+     its grade by its scheme's description of it, after the grade (`Grad ⇑ ·
+     Expertenkonsens`; the token stays on the box), and its consensus beside
+     them: the class as the scheme names it (`Starker Konsens`) and, where the
+     claim prints the share of votes, the share after it (`Konsens, 95 %`); a
+     share whose scheme declares no class is named by the card's word, never
+     bare — `Grad ⇑ · Expertenkonsens · Konsensstärke 100%` —, since a bare number
+     does not say what it counts and `Konsens` alone is a class of other schemes.
+     Identical chips collapse to one with a count, `Grad A (2)`, a chip with a
+     basis never into one without; the statement JSON's badge carries `basis`
+     only where its claim prints one. A chip is
      read in its claim's own scheme: the same token from two schemes is two
      chips.
      The chips wrap under line 1 and never squeeze it. **Their order is the
@@ -605,7 +634,7 @@ glyph. Timing
      | One value | one line, no disclosure: `moderat nach GRADE`, `1 nach Oxford 2011` — the value as the claim stores it, then the system's name; one entry with neither an outcome nor a key |
      | One row | one line, no disclosure: the value and the system's name, then what the value rates — `Moderat nach GRADE · Endpunkt: Klinisch relevante obere GI-Blutungen`, a keyed row `… · Bezug: <key>`, a row naming both `… · Bezug: <key> · Endpunkt: <endpoint>`; a row the source lists unrated reads `nicht erfasst nach GRADE · Endpunkt: …` — a table of one row is no table |
      | Per row | a native `<details>`, closed — its summary already says what was rated and how certain, the table is for whoever asks which endpoint —: its `<summary>` reads `für 4 Endpunkte bewertet, hoch bis sehr niedrig`, under it a table `Endpunkt \| Sicherheit` in the guideline's order, never sorted, the system named once as the table's caption; a table with keyed rows reads by its keys (below) |
-     | Expert consensus only | one line: `Expertenkonsens, keine Evidenzbewertung` — every supporting claim's grade one that fixes no wording in its scheme (`EK`, an expert consensus, `graph-representation.md` §3.1) and none carrying an entry |
+     | Expert consensus only | one line: `Expertenkonsens, keine Evidenzbewertung` — no supporting claim carrying an entry, and each either graded by a grade that fixes no wording in its scheme (`EK`, an expert consensus, `graph-representation.md` §3.1) or printing a basis beside its grade (`⇑⇑ EK`); the first words are the scheme's description of that grade or basis, one line per description where the claims rest on different ones |
      | Nothing recorded | one line: `nicht erfasst` — what is not recorded, never that the guideline says nothing |
 
      The summary line says what the source rated and how many, and the range
@@ -646,6 +675,28 @@ glyph. Timing
      and a row without an endpoint its `Endpunkt` cell: `nicht erfasst` is said
      of a value, never of what a row rates. A table without a key reads as above, and a row
      of the statement JSON carries `key` only where its entry has one.
+
+     A cell may print words where a level would stand, and a heading may print
+     words for the kind of evidence its rows rate; the entry keeps them as its
+     `note` (`graph-representation.md` §3.1), and zone 4 shows them in their
+     words, never as a rating and never as unrated. Words in a level's place
+     stand there: they lead the line, with no system named after them
+     (`Keine Interventionsstudien identifiziert`; keyed, `Leitlinienadaptation
+     · Bezug: DOAK`), and fill the `Sicherheit` cell of a table. Words beside a
+     value follow it (`sehr gering nach GRADE · Endpunkt: … · Aussagesicherheit
+     der indirekten Evidenz`), in a table in a column `Anmerkung` that is there
+     only where a row has both. A summary line counts a row with a note as
+     recorded. An entry without a system — a note alone, where no row of its box
+     is rated — is a group of its own that names no system. The entries of a
+     group that name neither an endpoint nor a key — the box's own rating
+     (`Moderat nach GRADE`) beside rows that rate its endpoints, a cell's words
+     for the whole box — are lines of their own before the group's rows, never a
+     row of its table, and its summary counts the rows alone. The statement JSON
+     keeps them as the group's `box`, and a row's words as its `note`, each only
+     where there is one. A source's own level words the display order does not
+     hold (`gering`, `sehr gering`) stay unranked: the table keeps its rows and
+     loses the range, as a system without an order does, and no guideline's
+     words are added to `EVIDENCE_SCALES`.
   5. **Applies to.** The slots as rows: `Patientengruppe` (population, with the
      families it belongs to below it, after `gehört zu:`, so that they read as
      broader categories and not as further requirements), `Bedingung` (condition), `Maßnahme`

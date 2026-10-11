@@ -375,8 +375,9 @@ Nothing is mapped between schemes: a *Stark* is
 not an *A*, and a 95 % is *Konsens* where the table starts *Starker Konsens*
 above 95 %. What the site shows is read from the declaration too: the order of
 the grades, the words and their negated forms, and the direction — a claim
-whose verb is the wording of an open grade weighs (*abwägen*), any other
-recommendation is *für* or *gegen* by its direction —, and which grades carry
+whose grade fixes a direction is *für* or *gegen* by it, one whose grade is open
+weighs (*abwägen*); otherwise a claim whose verb is the wording of an open grade
+weighs, any other recommendation is *für* or *gegen* by its direction —, and which grades carry
 their verb is decided per scheme, never across two (`docs/publication.md` §3).
 
 How binding a recommendation is (`grade`, `verb`) and how certain the evidence
