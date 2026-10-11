@@ -1,10 +1,10 @@
 # A concept of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
 # The patients the second item of box 5.4 addresses, „Bei einem ermittelten CHA2DS2-VA Score von 1“ (p. 40, l. 45): a
 # group of its own beside concepts/patientinnen-mit-cha2ds2-va-score-ab-2, a subgroup anchor (card #364, reading 4).
-# Stated for now: the bound's narrower claim could not be written. The line is justified, and its pieces („ermittelten
-# CHA2DS2-VA“, „Score“, „von“, „1“) are each a run of the page's reading, none of which lies once on the page, so no
-# quote can anchor a claim there (spec §6.2; open question justified-spacing-in-a-quote). Its defined_by edge waits for
-# that question's answer (#365, reported).
+# Derived: it reaches the bound's narrower claim (claims/vorhofflimmern-lf-1.1/2ac61f32, `=` „1“ on
+# concepts/cha2ds2-va-score, quoting „Score von 1“) by its defined_by edge (spec §3.1, §3.2). The line is justified;
+# since #371 the page's reading keeps it one run inside the box's column, so the bound lies once on the page (spec
+# §6.2), where #365 found every piece of it recurring.
 id: concepts/patientinnen-mit-cha2ds2-va-score-1
 type: concept
 lang: de
