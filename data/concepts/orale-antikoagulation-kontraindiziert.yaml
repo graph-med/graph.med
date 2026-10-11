@@ -1,0 +1,10 @@
+# A concept of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# The group box 5.8 addresses: „Patient*innen mit AF …, bei denen eine orale Antikoagulation kontraindiziert ist“ (p. 43),
+# AF and a state, the state as printed (card #364, convention row 5). Its Begründung prints „langfristig kontraindiziert“
+# (p. 43, l. 63–64) and another group (l. 55–57): claims of their own, joined by disagrees_with (#365 reading 8).
+id: concepts/orale-antikoagulation-kontraindiziert
+type: concept
+lang: de
+label: "orale Antikoagulation kontraindiziert"
+facet: patient_state
+source: modelling

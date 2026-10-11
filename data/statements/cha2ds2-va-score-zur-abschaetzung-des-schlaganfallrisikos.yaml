@@ -1,0 +1,11 @@
+# A statement of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# Box 5.1 (p. 38). Anchor: the root (card #364, convention row 1).
+id: statements/cha2ds2-va-score-zur-abschaetzung-des-schlaganfallrisikos
+type: statement
+lang: de
+label: "Einsatz des CHA2DS2-VA-Scores zur Abschätzung des individuellen Schlaganfallrisikos bei Patient*innen mit AF."
+short_label: "CHA2DS2-VA-Score zur Abschätzung des Schlaganfallrisikos"
+slots:
+  population: concepts/patientinnen-mit-vorhofflimmern
+  action: concepts/einsatz-des-cha2ds2-va-scores
+source: modelling

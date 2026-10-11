@@ -1,0 +1,11 @@
+# A statement of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# Box 5.6 (p. 42). Anchor: a group outside AF, its own concept (convention row 6; whether AF is implied: #365 reading 7).
+id: statements/regelmaessige-dosisueberpruefung-bei-chronischer-nierenerkrankung
+type: statement
+lang: de
+label: "Bei Patient*innen mit chronischer Nierenerkrankung die Dosierung der Medikation, insbesondere der oralen Antikoagulanzien, regelmäßig überprüfen."
+short_label: "Dosis regelmäßig prüfen bei chronischer Nierenerkrankung"
+slots:
+  population: concepts/chronische-nierenerkrankung
+  action: concepts/regelmaessige-ueberpruefung-der-dosierung-der-medikation
+source: modelling

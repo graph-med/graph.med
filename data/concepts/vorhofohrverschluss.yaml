@@ -1,0 +1,11 @@
+# A concept of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# The measure boxes 5.8 and 5.9 judge, „Der Vorhofohrverschluss“ (p. 43), „Vorhofohrverschluss“ (p. 44), the heading of
+# 5.4; the Begründungen say „Verschluss des linken Herzohrs“, „katheterbasierter Vorhofohrverschluss“, „LAA-Verschluss“.
+# A measure a recommendation judges, intervention (card #364, reading 13). Box 5.10's surgical closure is a concept of
+# its own.
+id: concepts/vorhofohrverschluss
+type: concept
+lang: de
+label: "Vorhofohrverschluss"
+facet: intervention
+source: modelling

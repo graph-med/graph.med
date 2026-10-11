@@ -1,0 +1,9 @@
+# A concept of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# The action of box 5.8's second sentence, „Das periprozedurale Komplikationsrisiko ist zu beachten.“ (p. 43).
+id: concepts/beachtung-des-periprozeduralen-komplikationsrisikos
+type: concept
+lang: de
+label: "Beachtung des periprozeduralen Komplikationsrisikos"
+short_label: "periprozedurales Komplikationsrisiko beachten"
+facet: intervention
+source: modelling

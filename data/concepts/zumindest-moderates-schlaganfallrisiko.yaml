@@ -1,0 +1,10 @@
+# A concept of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# A condition of box 5.10, „ein zumindest moderates Schlaganfallrisiko aufweisen“ (p. 45). No page gives its rule: stated
+# (#328 Decision 7; #365 reading 4). A near-duplicate of chapter 3's „erhöhtes Schlaganfallrisiko“ (C1's), named, not
+# merged (card #364, reading 10).
+id: concepts/zumindest-moderates-schlaganfallrisiko
+type: concept
+lang: de
+label: "zumindest moderates Schlaganfallrisiko"
+facet: patient_state
+source: modelling

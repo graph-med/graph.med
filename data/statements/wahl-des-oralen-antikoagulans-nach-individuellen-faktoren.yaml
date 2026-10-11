@@ -1,0 +1,11 @@
+# A statement of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# Box 5.5 (p. 41). It prints no group: anchor the root (convention row 2; #365 reading 7, flagged).
+id: statements/wahl-des-oralen-antikoagulans-nach-individuellen-faktoren
+type: statement
+lang: de
+label: "Über die Wahl des oralen Antikoagulans unter Berücksichtigung der individuellen Komorbiditäten, der individuellen Lebensumstände und Anwendungsbeschränkungen entscheiden."
+short_label: "Wahl des oralen Antikoagulans nach individuellen Faktoren"
+slots:
+  population: concepts/patientinnen-mit-vorhofflimmern
+  action: concepts/wahl-des-oralen-antikoagulans
+source: modelling

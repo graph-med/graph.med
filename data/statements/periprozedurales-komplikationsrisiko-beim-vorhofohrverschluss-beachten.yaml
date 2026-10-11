@@ -1,0 +1,11 @@
+# A statement of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# Box 5.8, sentence 2 (p. 43): a statement of its own (#365 Decision 3; reading 9 is the physician's).
+id: statements/periprozedurales-komplikationsrisiko-beim-vorhofohrverschluss-beachten
+type: statement
+lang: de
+label: "Beim Vorhofohrverschluss bei Patient*innen mit AF, bei denen eine orale Antikoagulation kontraindiziert ist, das periprozedurale Komplikationsrisiko beachten."
+short_label: "Periprozedurales Komplikationsrisiko beachten"
+slots:
+  population: concepts/orale-antikoagulation-kontraindiziert
+  action: concepts/beachtung-des-periprozeduralen-komplikationsrisikos
+source: modelling

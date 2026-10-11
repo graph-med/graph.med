@@ -1,0 +1,13 @@
+# A statement of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# Box 5.10 (p. 45). Anchor: the operation, a subgroup; the risk a condition (convention row 8 and its sample; #365
+# reading 7).
+id: statements/chirurgischer-vorhofohrverschluss-bei-herzchirurgischem-eingriff
+type: statement
+lang: de
+label: "Bei Patient*innen mit AF, die sich einem herzchirurgischen Eingriff unterziehen und ein zumindest moderates Schlaganfallrisiko aufweisen, als Ergänzung zur Antikoagulation einen periprozeduralen chirurgischen Verschluss des linken Vorhofohrs empfehlen."
+short_label: "Vorhofohrverschluss ergänzend zur OAK bei Herzchirurgie"
+slots:
+  population: concepts/herzchirurgischer-eingriff
+  action: concepts/periprozeduraler-chirurgischer-verschluss-des-linken-vorhofohrs
+  condition: [concepts/zumindest-moderates-schlaganfallrisiko]
+source: modelling

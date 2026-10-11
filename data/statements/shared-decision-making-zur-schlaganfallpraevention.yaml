@@ -1,0 +1,12 @@
+# A statement of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# Box 5.3 (p. 40). One statement: „und dabei … abwägen“ says how the decision is taken (spec §3.1; #365 reading 15).
+# Anchor: the root; the actors stay in the label (convention row 11).
+id: statements/shared-decision-making-zur-schlaganfallpraevention
+type: statement
+lang: de
+label: "Patient*innen mit AF und die behandelnden Ärzt*innen entscheiden nach dem Prinzip des shared decision making über das therapeutische Vorgehen zur Prävention von Schlaganfällen und anderen thromboembolischen Komplikationen und wägen dabei individuell die ermittelten Risiken aus den beiden Scores und den zu erwartenden Nutzen ab."
+short_label: "Shared decision making zur Schlaganfallprävention"
+slots:
+  population: concepts/patientinnen-mit-vorhofflimmern
+  action: concepts/shared-decision-making
+source: modelling

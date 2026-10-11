@@ -1,0 +1,11 @@
+# A statement of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# Box 5.7 (p. 42). Anchor: one concept naming both groups (convention row 12; #365 reading 7).
+id: statements/individuelle-entscheidung-ueber-thromboembolieprophylaxe-bei-nierenversagen-und-dialyse
+type: statement
+lang: de
+label: "Bei Patient*innen mit Nierenversagen und Dialysepatient*innen individuell über die Form der Prävention thromboembolischer Ereignisse entscheiden."
+short_label: "Individuelle Prävention bei Nierenversagen und Dialyse"
+slots:
+  population: concepts/patientinnen-mit-nierenversagen-und-dialysepatientinnen
+  action: concepts/individuelle-entscheidung-ueber-die-form-der-thromboembolieprophylaxe
+source: modelling

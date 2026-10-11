@@ -1,0 +1,10 @@
+# A concept of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# The action of box 5.9: „Die Indikation zum Vorhofohrverschluss sollte … interdisziplinär in einem Zentrum mit
+# entsprechender Expertise geprüft werden“ (p. 44). The centre stays in the label (memory scope-tree-and-anchor).
+id: concepts/interdisziplinaere-indikationspruefung-zum-vorhofohrverschluss-im-zentrum
+type: concept
+lang: de
+label: "interdisziplinäre Prüfung der Indikation zum Vorhofohrverschluss in einem Zentrum mit entsprechender Expertise"
+short_label: "interdisziplinäre Indikationsprüfung im Zentrum"
+facet: intervention
+source: modelling

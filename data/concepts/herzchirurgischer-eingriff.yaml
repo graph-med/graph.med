@@ -1,0 +1,9 @@
+# A concept of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# The operation that defines the case of box 5.10, „Patient*innen mit AF, die sich einem herzchirurgischen Eingriff
+# unterziehen“ (p. 45), and of the heading of 5.4.3; a subgroup anchor (card #364, reading 4 and its sample).
+id: concepts/herzchirurgischer-eingriff
+type: concept
+lang: de
+label: "herzchirurgischer Eingriff"
+facet: procedure
+source: modelling

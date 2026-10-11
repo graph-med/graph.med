@@ -1,0 +1,12 @@
+# A statement of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# Box 5.4, first item (p. 40), „Orientierend“ kept from the lead-in (#325; #365 reading 16). Anchor: the group the bound
+# gives, a subgroup (convention row 7, reading 4 confirmed); the score fills no slot.
+id: statements/orale-antikoagulation-ab-cha2ds2-va-score-2
+type: statement
+lang: de
+label: "Orientierend: bei einem ermittelten CHA2DS2-VA-Score von ≥ 2 eine orale Antikoagulation empfehlen."
+short_label: "Orientierend: OAK bei CHA2DS2-VA-Score ≥ 2"
+slots:
+  population: concepts/patientinnen-mit-cha2ds2-va-score-ab-2
+  action: concepts/orale-antikoagulation
+source: modelling
