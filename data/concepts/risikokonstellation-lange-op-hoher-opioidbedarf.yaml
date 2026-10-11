@@ -2,6 +2,6 @@ id: concepts/risikokonstellation-lange-op-hoher-opioidbedarf
 type: concept
 lang: de
 label: 'Risiko-Konstellation für die perioperative Analgesie: lange OP-Zeit, zu erwartender hoher postoperativer Opioidverbrauch'
-short_label: "Lange OP, hoher Opioidbedarf erwartet"
+short_label: "lange OP, hoher Opioidbedarf erwartet"
 facet: patient_state
 source: modelling

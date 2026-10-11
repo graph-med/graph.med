@@ -3,6 +3,6 @@
 id: concepts/ohne-ards
 type: concept
 lang: de
-label: "Ohne ARDS"
+label: "ohne ARDS"
 facet: patient_state
 source: modelling

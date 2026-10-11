@@ -3,6 +3,6 @@
 id: concepts/laenger-als-24-stunden-invasiv-beatmet
 type: concept
 lang: de
-label: "Länger als 24 Stunden invasiv beatmet"
+label: "länger als 24 Stunden invasiv beatmet"
 facet: patient_state
 source: modelling

@@ -6,7 +6,7 @@
 id: concepts/lebensbedrohliche-veraenderungen-fluessigkeits-saeure-basen-elektrolythaushalt
 type: concept
 lang: de
-label: "Lebensbedrohliche Veränderungen des Flüssigkeits-, Säure-Basen- oder Elektrolythaushaltes"
-short_label: "Lebensbedrohlich: Flüssigkeit, Säure-Basen, Elektrolyte"
+label: "lebensbedrohliche Veränderungen des Flüssigkeits-, Säure-Basen- oder Elektrolythaushaltes"
+short_label: "lebensbedrohlich: Flüssigkeit, Säure-Basen, Elektrolyte"
 facet: patient_state
 source: modelling

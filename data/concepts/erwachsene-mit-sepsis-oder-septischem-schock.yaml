@@ -7,7 +7,7 @@
 id: concepts/erwachsene-mit-sepsis-oder-septischem-schock
 type: concept
 lang: de
-label: Erwachsene Patienten mit Sepsis oder septischem Schock
+label: erwachsene Patienten mit Sepsis oder septischem Schock
 short_label: "Erwachsene mit Sepsis oder septischem Schock"
 facet: patient_state
 definition: Erwachsene (>18 Jahre) Patienten mit Sepsis oder septischem Schock.

@@ -184,7 +184,7 @@ decision-graph-derivation):
   (`graph-representation.md` §3.2), so the condition question answers a statement
   with several by **one** answer naming all of them, in the order stored, each
   by its short form on a line of its own and every line after the first opened
-  by the conjunction from the build's words table (`und`): `Invasive Beatmung` /
+  by the conjunction from the build's words table (`und`): `invasive Beatmung` /
   `und ARDS` / `und PaO2/FiO2 < 150`. The box is reached exactly once, and never
   through one condition alone — one answer per condition would draw a path to
   the box that names one of them, as if it sufficed; asking one after another
@@ -296,7 +296,7 @@ the tree readable at ninety recommendations:
   `graph-representation.md` §5): the first question's answers are the roots of
   that hierarchy — or, in a view with a scope tree (below), the groups directly
   under its root: for the first view *Operation eines gastrointestinalen
-  Tumors*, *Kardiale Dauermedikation*, … — each with the number of
+  Tumors*, *kardiale Dauermedikation*, … — each with the number of
   recommendations anywhere below it, heaviest first. Opening a family shows its own
   recommendations and its member groups, each folded until opened in turn; closing
   it folds everything below. A recommendation hangs from the group it was made
@@ -602,7 +602,7 @@ glyph. Timing
      legend keys the junction a statement hangs from as a patient group, and the
      index reads the trees "von der Patientengruppe über die Bedingung zur
      Empfehlung" — and it holds for an operation (`Gastrektomie`) and a state
-     (`Septischer Schock`) alike. The label of the view's first axis cannot
+     (`septischer Schock`) alike. The label of the view's first axis cannot
      name the row: the card belongs to the statement, not to a view — it is the
      same on the entity page, which has no view, and in every view the
      statement is in.

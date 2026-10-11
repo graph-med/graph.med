@@ -2,7 +2,7 @@
 id: concepts/mittlere-dosis-20-25-ml-kg-h
 type: concept
 lang: de
-label: "Mittlere Dosis von 20-25 ml/kg/h über die geplante Behandlungsdauer"
-short_label: "Mittlere Dosis von 20-25 ml/kg/h"
+label: "mittlere Dosis von 20-25 ml/kg/h über die geplante Behandlungsdauer"
+short_label: "mittlere Dosis von 20-25 ml/kg/h"
 facet: intervention
 source: modelling

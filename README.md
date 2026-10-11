@@ -139,8 +139,8 @@ like everything else.
 id: concepts/geringes-pankreasfistelrisiko
 type: concept
 lang: de
-label: Geringes Risiko einer postoperativen Pankreasfistel (nach initialem Drainagesekret)
-short_label: "Geringes Pankreasfistelrisiko"
+label: geringes Risiko einer postoperativen Pankreasfistel (nach initialem Drainagesekret)
+short_label: "geringes Pankreasfistelrisiko"
 facet: finding
 source: modelling
 ```

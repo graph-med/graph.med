@@ -4,6 +4,6 @@ id: concepts/beruecksichtigung-individuelle-klinische-situation
 type: concept
 lang: de
 label: "Berücksichtigung der individuellen klinischen Situation bei der Auswahl des Verfahrens"
-short_label: "Individuelle klinische Situation bei Verfahrenswahl"
+short_label: "individuelle klinische Situation bei Verfahrenswahl"
 facet: intervention
 source: modelling

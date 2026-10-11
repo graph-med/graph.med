@@ -5,7 +5,7 @@
 id: concepts/nicht-erfolgreiche-fokussanierung-bestimmte-erreger-spezielle-organinfektionen
 type: concept
 lang: de
-label: Nicht erfolgreiche Fokussanierung, bestimmte Erreger sowie spezielle Organinfektionen
-short_label: "Erfolglose Fokussanierung, best. Erreger, Organinfektion"
+label: nicht erfolgreiche Fokussanierung, bestimmte Erreger sowie spezielle Organinfektionen
+short_label: "erfolglose Fokussanierung, best. Erreger, Organinfektion"
 facet: patient_state
 source: modelling

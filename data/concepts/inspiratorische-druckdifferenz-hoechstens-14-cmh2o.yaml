@@ -2,7 +2,7 @@
 id: concepts/inspiratorische-druckdifferenz-hoechstens-14-cmh2o
 type: concept
 lang: de
-label: "Inspiratorische Druckdifferenz von ≤ 14 cmH2O anstreben"
-short_label: "Inspiratorische Druckdifferenz ≤ 14 cmH2O"
+label: "inspiratorische Druckdifferenz von ≤ 14 cmH2O anstreben"
+short_label: "inspiratorische Druckdifferenz ≤ 14 cmH2O"
 facet: intervention
 source: modelling

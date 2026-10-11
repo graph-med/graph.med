@@ -3,7 +3,7 @@
 id: concepts/oberer-blutzuckerspiegel-ab-180-mg-dl
 type: concept
 lang: de
-label: "Oberer Blutzuckerspiegel von ≥ 180 mg/dl (≥ 10 mmol/l)"
+label: "oberer Blutzuckerspiegel von ≥ 180 mg/dl (≥ 10 mmol/l)"
 short_label: "Blutzucker ≥ 180 mg/dl (≥ 10 mmol/l)"
 facet: finding
 source: modelling

@@ -3,7 +3,7 @@
 id: concepts/milde-bis-moderate-akute-hypoxaemische-respiratorische-insuffizienz
 type: concept
 lang: de
-label: "Milde bis moderate akute hypoxämische respiratorische Insuffizienz (PaO2/FiO2 100-300)"
-short_label: "Milde bis moderate akute hypoxämische Insuffizienz"
+label: "milde bis moderate akute hypoxämische respiratorische Insuffizienz (PaO2/FiO2 100-300)"
+short_label: "milde bis moderate akute hypoxämische Insuffizienz"
 facet: patient_state
 source: modelling

@@ -5,8 +5,8 @@
 id: concepts/ausgenommen-infektionen-die-eine-laengere-therapie-erfordern
 type: concept
 lang: de
-label: Ausgenommen Patienten mit Infektionen, die eine längere Therapie erfordern (z. B. S. aureus-Bakteriämie, Endokarditis,
+label: ausgenommen Patienten mit Infektionen, die eine längere Therapie erfordern (z. B. S. aureus-Bakteriämie, Endokarditis,
   Candidämie)
-short_label: "Ausgenommen Infektionen, die längere Therapie erfordern"
+short_label: "ausgenommen Infektionen, die längere Therapie erfordern"
 facet: patient_state
 source: modelling
