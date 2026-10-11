@@ -1268,6 +1268,81 @@ the different jobs of edges apart:
 - **cross-source semantics** — `specializes`, `complements`, `conflicts`:
   statement → statement. Our assertions, always `modelling`, with rationale and
   date.
+- **sequence** — `follows`: statement → statement, a kind beside
+  `specializes`, `complements` and `conflicts`, written
+  `[later statement, follows, earlier statement, {…}]` and read "is triggered
+  by the outcome of": the guideline takes the later recommendation's step
+  because of how the earlier one's measure went. It is not the structure edge
+  `sequence`, which arranges the nodes of an authored pathway; it joins two
+  recommendations where the text states the order, and is never read from a
+  figure. Two properties are required on it and allowed on no other kind,
+  closed lists with English keys, their words for a reader in the view layer
+  (`docs/publication.md`): **`transition`**, what the later measure does to
+  the earlier one — `replaces` it, `adds` to it, `follows` it once it has
+  ended, or runs `concurrent` with it, which is written only where the
+  guideline says "at the same time"; and **`trigger`**, which outcome of the
+  earlier measure calls for the later — its target missed (`target_missed`),
+  the patient's intolerance of it (`intolerance`), a contraindication arising
+  under it (`contraindication`), its target reached (`target_reached`), a
+  re-evaluation of it (`reevaluation`), a finding under it (`finding`), or
+  `other`. "Later" and "earlier" are the order of the decision, not of the
+  clock: under `concurrent` both measures run at once, and the edge runs from
+  the one the page makes depend on the other's outcome. Always `modelling`,
+  with a rationale that quotes the trigger's wording as printed, in „…“,
+  `lang` and `as_of`; the sentence is already a claim, where its quote is
+  checked, and the edge cites it as every modelling edge does.
+
+  **Sequence or condition.** Whether a circumstance a recommendation names
+  makes it the later step of another, or is a condition of its own statement,
+  is decided by four tests:
+  - a circumstance that describes the patient's state stays a condition; one
+    that is the outcome of a previous measure is a sequence;
+  - a state worded against a measure — "despite", "under" or "after" X
+    („trotz X“, „unter X“, „nach X“) — is a sequence only where X is the
+    measure of a statement of the same guideline; a state worded without
+    reference to a measure earns no edge;
+  - a contraindication the patient has before the first measure is a
+    condition; one arising under the previous measure is a sequence;
+  - a value that selects the patients is a condition; one that measures their
+    response to the previous measure is a sequence.
+
+  The edge says *to which measure*, the condition *what*: the circumstance
+  that triggers the step stays the later statement's `condition` concept,
+  usually of facet `finding` (§3.2), and the edge never writes, removes or
+  decides a condition entry (§5.1 N3) — a trigger the page prints that the
+  condition lacks is named in the linking pull request. It carries no
+  threshold: one the trigger prints sits on the criterion or definition claim
+  the condition concept's `defined_by` edge reaches, and is read through
+  condition → `defined_by` → `threshold`, never copied. And it carries no
+  status: a border case, where the tests above leave the reading open, is a
+  finding of the judge (§8.1) and a line in the linking pull request naming
+  the edge and the test that leaves it open; review state is derived (§3.3).
+  `complements` stays, unchanged, for a measure that adds to or stands beside
+  another without a trigger; `follows` with `adds` adds it because of the
+  earlier one's outcome. One pair of statements carries one of the two, never
+  both: a linking pass that reads a sequence where `complements` joins the
+  pair replaces that edge. A step only the body text gives is no node of a
+  chain: it stays `supplements`, claim → claim, with its recommendation's
+  claim (§5.1 S). Where the source states the order of two recommendations
+  differently in two places — another trigger, another transition, or the
+  one after the other in one place and the other way round in another —
+  each printing is an edge of its own (with a `discriminator` where two run
+  from the same statement to the same one), the claims that print them are
+  joined by `disagrees_with` (§5.1 D), and nothing picks one: the graph
+  reflects the text. The validator refuses an edge whose two statements no one source
+  supports with claims — a chain never runs across guidelines —, an edge
+  whose later statement's `population` lies strictly above the earlier's
+  along `broader` and `in_scope_of`, since a step the outcome of another
+  triggers is never for a wider group than that one (the same group, a
+  narrower one or one the pool relates to it by no edge passes), and a cycle
+  of `follows` edges none of whose triggers is `reevaluation` or
+  `target_reached`: a loop that a re-evaluation or a reached target closes is
+  one the guideline may run, and stays allowed, and so is one through an
+  edge whose two statements are supported by claims `disagrees_with` joins,
+  the source stating their order both ways. Decided on 2026-10-10 on the
+  maintainer's delegation (card #294; memory `sequences-are-edges`); the
+  cycle a disagreement states passes by the maintainer's principle of card
+  #341, applied on 2026-10-11 (card #295).
 
 **Staleness without version pins.** An edge whose meaning depends on its
 endpoints' content records the endpoints' content hashes at assertion time. When
@@ -1391,7 +1466,8 @@ source that answers its question otherwise (D).
   the rule does not give and lists it, with its clause, in its pull request.
 - **N — not a body-text relation.** (1) Sentences of one marked recommendation,
   or of two: each is linked as §3.1 says; what one says of the other is
-  said between statements (`specializes`, `complements`) — and where they
+  said between statements (`specializes`, `complements`, `follows` where the
+  outcome of one triggers the other, §5) — and where they
   answer one question differently, `disagrees_with` joins their claims as
   well (D). (2) How certain the
   evidence is: `evidence` on the recommendation's claim (§3.1); effect data,
@@ -1695,7 +1771,7 @@ with a recorded identity, not a writer: everything it finds lands as
 attestations by it, never as an edit, and everything else about it follows
 from the rules of §8 above.
 
-**What it checks.** Six questions. Five are asked of one subject the pull
+**What it checks.** Seven questions. Six are asked of one subject the pull
 request adds — a claim, a statement, an edge, a placement of an axis — against
 the ground the pool already holds for it, and catch what was invented or
 misread. The fourth is asked of the ground itself — the page — against the
@@ -1809,6 +1885,30 @@ pool, and catches what was left out:
   and a rule that does not let it decide makes the placement *undecidable*.
   That a hierarchy placement is an edge of the pool the validator has
   checked.
+- **A sequence edge against the criterion of §5.** For each `follows` edge
+  the branch adds or changes, the judge reads both statements with the
+  claims that support them, and the passage the rationale quotes on its
+  page, and asks the four tests of §5: does the page make the later
+  recommendation's step depend on the outcome of the earlier one's measure,
+  or on a state of the patient, which stays a condition — a state worded
+  "despite", "under" or "after" a measure only where that measure is the
+  earlier statement's, a contraindication only where it arises under it, a
+  value only where it measures the response to it? Does the edge run the
+  page's way, from the step that depends to the measure it depends on? Are
+  `transition` and `trigger` the ones the passage bears — `concurrent` only
+  where the page says "at the same time" —, does the rationale quote the
+  trigger's wording as printed, and does the pair carry no `complements`
+  edge besides? Where the edge's pair carries another `follows` edge, or its
+  claims are joined by `disagrees_with`, it reads both printings and asks
+  whether they state the order differently, each kept. A finding that the
+  page bears another kind, direction, transition or trigger is `disputed`;
+  where the tests point both ways the edge is unjudged, its two readings
+  under *undecidable* with the test that leaves it open. Either is the
+  border case the linking pull request names in a line of its own; nothing
+  writes a status on the edge (§5). That both statements are supported by
+  claims of one source, that the later population is not wider, that the
+  chain closes no cycle but as §5 allows, and that the two properties are
+  present and from their lists, the validator has checked.
 
 The subjects of a run are the entities and edges the branch adds or changes
 against `main`, plus every statement whose evidence the branch changes — a new
@@ -1819,8 +1919,8 @@ no other guideline, no textbook, no medical judgement. It judges the
 extraction against the page, never the guideline against medicine; a claim
 that faithfully carries a recommendation the judge would disagree with is
 consistent. Nothing in it names a guideline, a grading scheme or a concept —
-the six questions are stated over the schema's properties and this
-document's rules, and the same six are asked of every source (memory
+the seven questions are stated over the schema's properties and this
+document's rules, and the same seven are asked of every source (memory
 `generic-over-guidelines`).
 
 **What it writes.** One attestation per subject read, by the judge, shaped as
@@ -1935,7 +2035,7 @@ part, *undecidable*, with the sentence, the page and the two readings, for the
 package that owns the rule to settle. Nothing under it becomes an attestation:
 an undecided subject is unjudged, not consistent, and its row in the report
 says so in that one word. The third part is *noticed*:
-what the judge saw on the page or in the pool outside its six questions — a
+what the judge saw on the page or in the pool outside its seven questions — a
 property the schema carries and the claim lacks, a requirement this document
 states and the schema cannot express. It is written down because a reader was
 there, and it is never a finding, because the judge judges only what it was
