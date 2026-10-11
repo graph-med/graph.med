@@ -439,9 +439,10 @@ box prints — which `disagrees_with` joins to the
 recommendation's claim, its rationale quoting the word and the symbols (§5). A
 rating the body text gives otherwise than the box is the same disagreement (§5.1
 D). Two rules keep the field honest. **A value is never mapped between
-systems**: GRADE's *hoch* is not an Oxford level, no table in the schema, the
-validator or the build says otherwise, and a system the site does not know is a
-valid state, not an error. **Several entries are never reduced to one**: a
+systems**: GRADE's *hoch* is not an Oxford level, and no table in the schema,
+the validator or the build says otherwise. A system its claim's source does not
+declare (below) is refused by the validator; a system the build has no display
+order for is shown unranked and is never an error. **Several entries are never reduced to one**: a
 recommendation whose certainty differs by row carries every row, and no consumer
 forms a summary value from them — grades are shown, never composed
 (`docs/publication.md` §3). A source that rates the whole recommendation once
@@ -504,6 +505,24 @@ GRADE's ⊕ symbols identify theirs), or a rated row's notation line where an
 entry takes its system from the box's rated rows — and the heading whose words
 are the entries' `note`. The validator holds each entry to its quote, refusing
 fewer quotes than entries; which line a quote is, is the judge's reading (§8.1).
+
+**A source declares the rating systems its rows use**, as it declares its
+grading scheme and beside it, not inside it — how certain the evidence is and
+how binding the recommendation is stay two facts: `rating_systems` on the source
+entity, one entry per system, with its slug (`system`, what an evidence entry
+names), its **name as the source prints it** (`name`: "GRADE", "Oxford 2011"),
+and the source's own line that prints the name, quoted (`source`). Every word of
+the name lies in one of the entry's quotes, the quotes are the source's own
+pages, a slug is declared once per source, and an evidence entry's `system` is
+one its claim's source declares (validator). The line is the method line where
+the source has one — "Tabelle 4: Evidenzgraduierung nach GRADE", "nach GRADE und
+Oxford 2011 gekennzeichnet." Where the source leaves its method to a separate
+report, it is a body-text line that names the system beside a rating the source
+gives ("GRADE moderat"), and a `rationale` says where the method is; the
+separate report is not quoted. A declaration is never `modelling`: a name the
+source does not print is not declared, and a notation alone (⊕⊕⊕⊝) prints
+none. The site names a system by its declared name and never by its slug,
+which stays in the data and the JSON (`docs/publication.md` §3, zone 4).
 
 A criterion or a definition may print a **threshold** — "Amylase im
 Drainagesekret unter 5000 U/L am ersten postop. Tag", "ASA Status von

@@ -41,7 +41,12 @@ else: a rating printed elsewhere is never an entry, and where it disagrees
 with the box it is a `fact` claim joined by `disagrees_with`
 ([[source-disagreements-shown]]). Absent or empty means "not recorded".
 Neither `system`, `value`, `note` nor `key` is an enum, and the list is the
-only shape — no scalar, no scalar-or-list alternative. Its provenance is
+only shape — no scalar, no scalar-or-list alternative. The `system` is a
+slug its claim's source declares in `rating_systems`, beside its grading
+scheme: the system's name as the source prints it ("GRADE", "Oxford 2011")
+and the source's own line that prints it, quoted — the validator refuses a
+slug the source does not declare, and the site names the system by that name,
+never by its slug. Its provenance is
 `required`, like `grade` and `consensus`: one quote per entry, the line
 printing its key or outcome (for an endpoint of a row that names several,
 the line printing that endpoint, a line printing several quoted once per
@@ -67,13 +72,21 @@ card #326 and schema 0.19.0 (`note`; `system` optional on a note alone): its
 Decisions 6–15, answered by the agent on the maintainer's delegation
 (2026-10-10), the physician's halves answered by the maintainer on
 2026-10-11 (the range one span, the box's rating its own entry, the cells'
-words and the indirect evidence shown to the reader).
+words and the indirect evidence shown to the reader). `rating_systems` came
+with card #256 (its Decision 1, 2026-10-10, by the agent on the maintainer's
+delegation, by the card's leaning), awaiting the maintainer's confirmation at
+review.
 
 **Why:** two rules make the field safe, and both are about not inventing a
 value. A value is never mapped between systems: the ESC evidence levels
 (A/B/C) and GRADE's four words have no correspondence that would not be made
-up, so an unknown system is a valid state a consumer shows as it is
-([[generic-over-guidelines]]: no guideline's vocabulary is privileged).
+up, so the build holds no table of systems: a system's name is its source's
+declaration, read like its grading scheme, and a system the build has no
+display order for is shown unranked ([[generic-over-guidelines]],
+[[grading-scheme-on-the-source]]: no guideline's vocabulary is privileged).
+A system its source does not declare is refused, so that the name a reader
+sees is the source's own, quoted — a table of names in the build would be the
+vocabulary of systems this rules out, and would show an unknown one by its slug.
 Several entries are never reduced to one: POMGAT rates per outcome under a
 box, and a single summary certainty would be a value the guideline never
 stated — `docs/publication.md` §3, grades are shown, never composed. A
@@ -135,9 +148,16 @@ or none, which would show each row twice. An outcome the source lists with an
 empty certainty cell is recorded as the outcome alone, never dropped:
 dropping it would shrink the count the card shows (`3 von 5 Endpunkten
 erfasst`) without saying so. Its `system` is the system of the table that
-lists it. Never add an enum of systems, values or row kinds, or a mapping
-table, to the schema, the validator or the build; a renderer may hold a
-display order per system it knows and shows an unknown one unranked. Never
+lists it. Declare every system a row uses in its source's `rating_systems`,
+quoting the source's own line that prints its name — the method line, or
+where the method is in a separate report, a body-text line naming the system
+beside a rating the source gives, with a `rationale` saying where the method
+is; never the separate report, never `modelling`, never a notation alone.
+Show a system by its declared name, never by its slug, which stays in the
+data and the JSON. Never add an enum of systems, values or row kinds, a
+table of system names, or a mapping table, to the schema, the validator or
+the build; a renderer may hold a display order per system it knows and shows
+an unknown one unranked. Never
 compute one certainty for a claim or a statement from several entries. The
 effect data under a rating (effect sizes, intervals, study counts) is not
 this field. Related: [[box-granularity-per-sentence]],
