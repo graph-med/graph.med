@@ -79,10 +79,13 @@ that edges are unique, that `broader` and `in_scope_of` form no cycle and a
 scope edge doubles no `broader`, that a concept has one `defined_by` edge and
 each piece of a combination's connective lies in one of its quotes, that an asserted axis places each statement or
 concept once and each hierarchy placement is an edge of the pool, that a
-dimension's values are among its declared ones, that a claim's grade and
-consensus are of its source's `grading_scheme`, its verb one a declared scheme
-defines, a printed share within its class's bounds, and every word of a
-scheme in the entry's quotes, and (with `--verify-quotes`)
+dimension's values are among its declared ones, that a claim's grade, basis
+and consensus are of its source's `grading_scheme`, its direction the one its
+grade fixes where the scheme fixes one, its verb one a declared scheme
+defines, a printed share within its class's bounds, that a wording stands
+under two grades of one scheme only where each fixes another direction and
+both read it alike, and every word of a scheme in the entry's quotes, a symbol
+as a whole token, and (with `--verify-quotes`)
 that each quote is a passage of the page in whole words, a line break read as
 a space and a line-end hyphen either way (spec §6.2). You do not recompute ids, do not test quotes as
 passages, do not check the schema. A passage is mechanical; "as printed"
@@ -95,16 +98,20 @@ keeps at a line end is the one the printed word has.
    — one sentence, not the whole marked recommendation; for a table, the row
    or group spec §5.1 K names? Does `kind` follow
    the sentence's form? Are
-   `grade`, `verb`, `direction`, `consensus`, `consensus_share`,
+   `grade`, `verb`, `direction`, `basis`, `consensus`, `consensus_share`,
    `recommendation_no` and `section` as printed at that place — a box's
-   grade and consensus reaching its sentences as spec §3.1 says, a consensus
-   class the one the source's table gives the printed share —, and is none
-   supplied where the page prints none? Is every number in the label the number on the page? Does
+   grade, basis and consensus reaching its sentences as spec §3.1 says, a
+   consensus class the one the source's table gives the printed share, the
+   statement's action under a grade that fixes a direction what the sentence
+   says to do —, and is none supplied where the page prints none? Where the
+   grade quote holds another character than the scheme's grade (a font's
+   private character), does the scheme entry's rationale name that box? You
+   read the text layer only: say so, and leave the rendered glyph to a person. Is every number in the label the number on the page? Does
    the label — and an evidence `key` — leave out every reference mark its
    passage prints, and keep every number that is a value (spec §3.1)? Which
    number is a mark is your reading of the sentence and of the source's
    reference list, never of its form alone. A
-   body-text claim carries no `grade` and no `consensus`. A `threshold` is
+   body-text claim carries no `grade`, no `basis` and no `consensus`. A `threshold` is
    the quantity, comparator, value, unit and time point the page prints, one
    per claim. A claim with a `combination` quotes the passage its parts come
    from, and each part is one member the passage joins, a narrower place in
@@ -114,10 +121,14 @@ keeps at a line end is the one the printed word has.
    alone ("und" between groups each counting on its own is `any_of`)? Is a
    list the page gives without saying how it combines marked `not_stated`
    rather than read? Of an entry of a source's `grading_scheme` ask the same
-   against the method table it quotes: is each grade, wording, negated form
-   and class as the table prints it, in the table's order? Is `open` set only
-   where the table makes the grade an open recommendation, and `modelling`
-   only for a form the source prints nowhere?
+   against the pages it quotes: is each grade, wording, negated form and class
+   as the table prints it, in the table's order? Is `open` set only where the
+   table makes the grade an open recommendation, `direction` only where it
+   makes the grade one for or one against, and `modelling` only for a form the
+   source prints nowhere? Is a negated form quoted from a recommendation that
+   prints it under that grade? Is a basis the token the recommendations print
+   beside the grade or in its place, and does its description say what the
+   quoted passage says it means?
 2. **A statement against its supporting claims.** Does the `label` assert
    nothing absent from every supporting claim, and nothing a supporting claim
    contradicts? Does each slot name what the claims' sentences name in that
