@@ -141,7 +141,10 @@ CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", 
              # wherever the card or a page shows it: a counting pair, one other printing or several
              "disagrees.one", "disagrees.many", "disagrees.differ",
              # how a rule's parts combine (spec §3.1), by the schema's operators: the word the card says for each
-             "op.all_of", "op.any_of", "op.at_least", "op.not_stated",
+             "op.all_of", "op.any_of", "op.at_least", "op.not_stated", "op.sum",
+             # a sum's points beside each part, as printed: what the figure is, for a pointer that rests on it; and the line
+             # over the rule of a threshold's quantity where that quantity is itself derived (a score under its bound)
+             "sum.points", "derivation.quantity.rule", "derivation.quantity.rules",
              # an axis's page (docs/publication.md §4): its carrier, rule and question, its status per view, its placements
              "carrier.dimension", "carrier.hierarchy", "axis.rule", "axis.question", "axis.views", "axis.since",
              "status.proposed", "status.asserted", "status.withdrawn", "axis.placements",
@@ -193,6 +196,9 @@ CARD_WORDS = {"de": {
     "disagrees.one": "Die Leitlinie nennt hierzu eine abweichende Angabe:", "disagrees.many": "Die Leitlinie nennt hierzu abweichende Angaben:",
     "disagrees.differ": "Worin die Angaben abweichen",
     "op.all_of": "UND", "op.any_of": "ODER", "op.at_least": "mindestens {n} von {m}", "op.not_stated": "Verknüpfung nicht angegeben",
+    "op.sum": "Summe der Punkte", "sum.points": "Punkte, wie in der Leitlinie gedruckt",
+    "derivation.quantity.rule": "{quantity}: abgeleitet, nach der Regel",
+    "derivation.quantity.rules": "{quantity}: abgeleitet; die Leitlinie gibt die Regel an {n} Stellen abweichend an:",
     "carrier.dimension": "Dimension", "carrier.hierarchy": "Hierarchie", "axis.rule": "Regel", "axis.question": "Frage",
     "axis.views": "Sichten", "axis.since": "seit {date}",
     "status.proposed": "vorgeschlagen", "status.asserted": "zugesichert", "status.withdrawn": "zurückgezogen",
@@ -750,38 +756,54 @@ def derivation_of(pool: "Pool", cid: str) -> dict:
     the link into the source) with the `threshold` it prints, its quantity and reference quantity resolved
     to their concepts, or the `combination` it quotes: the operator, `n`, the connective as printed with its
     pages and the link to its first quote, the reading, and its parts, each such a node in turn (spec §3.1,
-    operators nesting through claims). Nothing is composed and no operator is assumed: a claim without a
-    combination is a single rule. A rule without a threshold is shown by its sentence, which says itself
+    operators nesting through claims); a `sum` also its `points`, one per part and in its order, each as its row
+    prints it — strings, never added up (spec §3.1). Nothing is composed and no operator is assumed: a claim without a
+    combination is a single rule. A threshold whose quantity (or reference quantity) is itself derived — a score,
+    the quantity a points table defines — carries that quantity's `derivation` and `rules` on the resolved
+    quantity, by this same path, so that the bound a recommendation puts on a score opens to the score's criteria
+    and their points; a stated quantity is resolved as before. A rule without a threshold is shown by its sentence, which says itself
     whether a number is printed: nothing in the pool tells a quantity-like rule from a categorical one, so
-    no "no threshold given" is claimed. A node whose claim disagrees with another printing than the concept's own
+    no "no threshold given" is claimed. A node whose claim disagrees with another printing than its concept's own
     carries it (`disagrees_with`, Pool.disagreements_of). One code path for whatever row the concept stands in —
     anchor, condition or any other — and for the concept's own page."""
     ref = lambda q: {"id": q, "label": pool.entities[q].get("short_label") or pool.entities[q]["label"], "lang": pool.entities[q]["lang"]} \
         if q in pool.entities else {"id": q, "label": q, "lang": None}
-    printings = sorted((to for kind, to, _ in pool.out.get(cid, []) if kind == "defined_by" and to in pool.entities),
-                       key=lambda c: (page_of(pool.entities[c]["source"]["at"]) or 0, c))
-    def node(claim_id: str, above: frozenset) -> dict:
+    printings_of = lambda c: sorted((to for kind, to, _ in pool.out.get(c, []) if kind == "defined_by" and to in pool.entities),
+                                    key=lambda x: (page_of(pool.entities[x]["source"]["at"]) or 0, x))
+    def quantity(q: str, above: frozenset) -> dict:
+        """A threshold's quantity resolved to its concept — and, where that concept is derived and not already on
+        the way here (a rule that bounds its own concept would loop), with its rules under it."""
+        row, printings = ref(q), printings_of(q)
+        if printings and q not in above:
+            row.update(derivation="derived", rules=[node(to, printings, above | {q}) for to in dict.fromkeys(printings) if to not in above])
+        return row
+    def node(claim_id: str, printings: list, above: frozenset) -> dict:
         claim = pool.entities[claim_id]
         view = pool.claim_view(claim)
         row = {k: view.get(k) for k in ("id", "kind", "label", "lang", "page", "section", "link", "quote")}
         disagree = pool.disagreements_of(claim_id, besides=frozenset(printings))   # the concept's other printings stand beside it
         if disagree:
             row["disagrees_with"] = disagree
-        t = claim.get("threshold")
-        row["threshold"] = {**{k: t.get(k) for k in ("comparator", "value", "unit", "when")}, "quantity": ref(t["quantity"]),
-                            "relative_to": ref(t["relative_to"]) if t.get("relative_to") else None} if t else None
+        t, here = claim.get("threshold"), above | {claim_id}
+        row["threshold"] = {**{k: t.get(k) for k in ("comparator", "value", "unit", "when")}, "quantity": quantity(t["quantity"], here),
+                            "relative_to": quantity(t["relative_to"], here) if t.get("relative_to") else None} if t else None
         comb, row["combination"] = claim.get("combination"), None
         if comb:
             refs = comb.get("source") or []
             refs = [refs] if isinstance(refs, dict) else refs
             pages = list(dict.fromkeys(r["at"].partition("#page=")[2] for r in refs if "#page=" in r["at"]))
             url = pool.entities.get(view["source"], {}).get("url", "")
+            # each part with the points its row prints, kept beside it so that a part left out keeps the rest in step
+            parts = [(p, pts) for p, pts in zip(comb.get("of") or [], comb.get("points") or [None] * len(comb.get("of") or []))
+                     if p in pool.entities and p not in here]   # the validator refuses a cycle
             row["combination"] = {**{k: comb.get(k) for k in ("operator", "n", "connective", "rationale")}, "pages": pages,
                                   "link": source_link(url, pages[0], refs[0]["quote"]) if pages else None,
-                                  "of": [node(p, above | {claim_id}) for p in comb.get("of") or []
-                                         if p in pool.entities and p not in above | {claim_id}]}   # the validator refuses a cycle
+                                  "of": [node(p, printings, here) for p, _ in parts],
+                                  **({"points": [pts for _, pts in parts]} if "points" in comb else {})}
         return row
-    return {"derivation": "derived" if printings else "stated", "rules": [node(to, frozenset()) for to in dict.fromkeys(printings)]}
+    printings = printings_of(cid)
+    return {"derivation": "derived" if printings else "stated",
+            "rules": [node(to, printings, frozenset({cid})) for to in dict.fromkeys(printings)]}
 
 
 def source_link(url: str, page: str | None, quote: str) -> str:

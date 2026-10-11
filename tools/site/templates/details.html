@@ -47,20 +47,28 @@
    and every printing's rule, each its own tree, none chosen (spec §5 `defined_by`). A node that combines parts (spec §3.1) is a line with the operator in words — UND, ODER,
    mindestens n von m, Verknüpfung nicht angegeben —, the connective as printed with its page linked into the source,
    and a link to the claim's page, then its parts nested under it; a combination the page leaves open and names no
-   parts for shows the claim's sentence under that line. Any other node is the threshold its claim prints (quantity,
+   parts for shows the claim's sentence under that line. A sum (a points table, spec §3.1) is the same line —
+   "Summe der Punkte", the head of the points column as printed — and each part has beside it, in a column of its
+   own, the points its row prints, as printed ("2", "jeweils 1 Punkt"): nothing is added up. Any other node is the threshold its claim prints (quantity,
    comparator, value, unit, time point; a relative one "× <reference>") or, without one, the claim's sentence; its
-   page linked into the source and a link to the claim's page. One macro for the card's rows, whatever the slot, and
-   the concept's page; it calls itself for the parts. #}
+   page linked into the source and a link to the claim's page. Where the threshold's quantity is itself derived (a
+   score, which a points table defines), a line naming it, linked to its page, and its rule follow under the
+   threshold, by this macro: the bound a recommendation puts on a score opens to the score's criteria and their
+   points. One macro for the card's rows, whatever the slot, and the concept's page; it calls itself for the parts. #}
 {% macro rule_node(r, seen) -%}
 {% if r.combination %}{% set c = r.combination %}<p class="op"><strong>{{ W("op." ~ c.operator).format(n=c.n, m=c.of | length) }}</strong>{% if c.connective %} <span class="connective" lang="{{ r.lang }}">„{{ c.connective }}“</span>{% endif %}
     <span class="cite">{% if c.pages %}<a href="{{ c.link }}" target="_blank" rel="noopener">{{ W("cite.page").format(nr=c.pages | join(", ")) }}</a> · {% endif %}<a href="{{ base }}{{ r.id }}/">{{ W("rule.claim") }}</a></span></p>
-{% if c.of %}<ul class="plain rule-list">
-{% for x in c.of %}  <li>{{ rule_node(x, seen) }}</li>
+{% if c.of %}<ul class="plain rule-list{% if c.points %} scored{% endif %}">
+{% for x in c.of %}  <li>{% if c.points %}<span class="points" title="{{ W("sum.points") }}" lang="{{ r.lang }}">{{ c.points[loop.index0] }}</span><div class="part">{{ rule_node(x, seen) }}</div>{% else %}{{ rule_node(x, seen) }}{% endif %}</li>
 {% endfor %}</ul>{% else %}<span class="rule" lang="{{ r.lang }}">{{ r.label }}</span>{% endif %}
 {%- else %}<a class="rule" href="{{ base }}{{ r.id }}/" title="{{ W("rule.claim") }}" lang="{{ r.lang }}">{% if r.threshold %}{% set t = r.threshold %}<span class="threshold"><span lang="{{ t.quantity.lang }}">{{ t.quantity.label }}</span> {% if t.comparator == "between" %}{{ W("comparator.between") }}{% else %}{{ t.comparator }}{% endif %} {{ t.value }}{% if t.unit %} {{ t.unit }}{% endif %}{% if t.relative_to %} × <span lang="{{ t.relative_to.lang }}">{{ t.relative_to.label }}</span>{% endif %}{% if t.when %} {{ t.when }}{% endif %}</span>{% else %}{{ r.label }}{% endif %}</a>
 {%- set at = (r.page, r.section) %}{% if (r.page or r.section) and at != seen.at %}{% set seen.at = at %}
     <span class="cite">{{ where(r) }}</span>{% endif %}{% endif %}
 {{ disagreements(r) }}
+{%- if r.threshold %}{% for q in [r.threshold.quantity, r.threshold.relative_to] if q and q.rules %}{% set name %}<a href="{{ base }}{{ q.id }}/" lang="{{ q.lang }}">{{ q.label }}</a>{% endset %}
+<div class="quantity-rule"><p class="derived">{{ ((W("derivation.quantity.rules") if q.rules | length > 1 else W("derivation.quantity.rule")) | e).format(quantity=name, n=q.rules | length) }}</p>
+{% for x in q.rules %}<div class="rule-tree">{{ rule_node(x, seen) }}</div>
+{% endfor %}</div>{% endfor %}{% endif %}
 {%- endmacro %}
 {# concepts that hold at once (spec §3.2) — a statement's conditions, the conditions of a scope path: each entry once, in
    the order stored, every entry after the first on a line of its own opened by the conjunction, so that no label's
