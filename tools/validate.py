@@ -45,15 +45,19 @@ rules a document schema cannot state because they span files:
     and `relative_to` resolve like every reference, and a relative threshold is
     relative to another quantity than the one it bounds;
   - a claim is read in its source's grading scheme (spec §3.1): its `grade` is
-    one its own source's `grading_scheme` lists and its `consensus` one of its
-    classes; its `verb` is a wording some declared scheme defines — its own
-    source's, or others that read it alike (open or not, one negated form); a
-    printed `consensus_share` shows a number, carries the class where its
-    source classes shares, and lies within that class's bounds where the scheme
-    reads them as numbers; within a scheme a grade, a wording and a class are
-    listed once, every word of a grade, wording, negated form, class name and
-    bounds lies as a whole word in one of the quotes that give it, and those
-    quotes are the source's own;
+    one its own source's `grading_scheme` lists, its `basis` one of its bases
+    and its `consensus` one of its classes; its `direction` is the one its grade
+    fixes, where the grade fixes one; its `verb` is a wording some declared
+    scheme defines — its own source's, or others that read it alike (open or
+    not, one negated form); a printed `consensus_share` shows a number, carries
+    the class where its source classes shares, and lies within that class's
+    bounds where the scheme reads them as numbers; within a scheme a grade, a
+    basis and a class are listed once, a wording once or under grades that each
+    fix another direction and read it alike, every word of a grade, wording,
+    negated form, basis, class name and bounds lies as a whole word in one of
+    the quotes that give it — a token of no word character, a symbol, as a whole
+    token, never inside a longer run of symbols —, and those quotes are the
+    source's own;
   - an evidence row names its endpoint as `outcome` and anything else as its
     printed `key` (spec §3.1): an entry's `outcome` is a concept of facet
     `outcome`, so a component, a subgroup, an arm, a comparator, a device or a
@@ -395,21 +399,30 @@ def check_definitions(ids: dict[str, str], entities: dict[str, dict],
 
 
 def check_grading(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
-    """A claim's grade, verb and consensus in its source's grading scheme (spec §3.1, §6.5). A source declares the
-    scheme as data, quoted from its method table; the schema enumerates none of its words, so this is where a claim's
-    values are held to them. `grade` and `consensus` are its own source's; `verb` may be another guideline's wording
-    — recorded wherever a declared scheme defines it, read in its own source's scheme first, otherwise in the schemes
+    """A claim's grade, verb, direction, basis and consensus in its source's grading scheme (spec §3.1, §6.5). A source
+    declares the scheme as data, quoted from its own pages; the schema enumerates none of its words, so this is where a
+    claim's values are held to them. `grade`, `basis` and `consensus` are its own source's; `direction` is the one its
+    grade fixes, where the scheme makes the grade one for or one against; `verb` may be another guideline's wording —
+    recorded wherever a declared scheme defines it, read in its own source's scheme first, otherwise in the schemes
     that define it, which must read it alike, or its direction would depend on which guideline one asked. A printed
     share carries its class where the source classes shares, and lies within the class's bounds where the scheme
-    reads them as numbers. Within a scheme, each grade, wording and class is listed once, and every word of a grade,
-    wording, negated form, class name and bounds lies, as a whole word, in one of the quotes that give it — quotes
-    from the source itself — so that the words are the source's; a form marked `modelling` is not read against
-    quotes. That grade and verb agree is not checked: which grade a sentence carries is the rule of §3.1 and §5.1.
-    No grade, verb, class or scheme of any guideline is named here."""
+    reads them as numbers. Within a scheme, each grade, basis and class is listed once; a wording is listed once, or
+    under grades that each fix another direction and read it alike (open or not, one negated form), so that a
+    sentence's wording and direction name its grade. Every word of a grade, wording, negated form, basis, class name
+    and bounds lies, as a whole word, in one of the quotes that give it — quotes from the source itself — so that the
+    words are the source's; a token of no word character, a symbol, lies there as a whole token, so that a symbol is
+    never found inside a longer run of symbols; a form marked `modelling` is not read against quotes. That grade and
+    verb agree is not checked: which grade a sentence carries is the rule of §3.1 and §5.1. No grade, verb, basis,
+    class or scheme of any guideline is named here."""
     errs: list[str] = []
     source_of = lambda at: str(at).split("#")[0]
     as_refs = lambda refs: [refs] if isinstance(refs, dict) else [r for r in refs or [] if isinstance(r, dict)] if isinstance(refs, list) else []
-    printed = lambda word, quote: re.search(rf"(?<!\w){re.escape(word)}(?!\w)", str(quote)) is not None
+
+    def printed(token: str, quote) -> bool:
+        """A word with no word character beside it; a symbol with no other symbol beside it."""
+        beside = r"\w" if re.search(r"\w", token) else r"[^\w\s]"
+        return re.search(rf"(?<!{beside}){re.escape(token)}(?!{beside})", str(quote)) is not None
+
     schemes: dict[str, dict] = {}
     readings: dict[str, dict[str, tuple]] = {}   # a wording → {source: (open, negated)}
     for sid, src in sorted(entities.items()):
@@ -417,15 +430,32 @@ def check_grading(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
             continue
         rel, scheme = ids[sid], src["grading_scheme"]
         grades = [g for g in scheme.get("grades") or [] if isinstance(g, dict)]
+        bases = [b for b in scheme.get("bases") or [] if isinstance(b, dict)]
         classes = [c for c in scheme.get("consensus") or [] if isinstance(c, dict)]
         schemes[sid] = {"grades": [g.get("grade") for g in grades], "verbs": {g["verb"] for g in grades if "verb" in g},
-                        "classes": {c.get("class"): c for c in classes}}
-        for field, entries, what in (("grade", grades, "grade"), ("verb", grades, "wording"), ("class", classes, "consensus class")):
+                        "bases": [b.get("basis") for b in bases], "classes": {c.get("class"): c for c in classes},
+                        "fixed": {g["grade"]: g["direction"] for g in grades
+                                  if isinstance(g.get("grade"), str) and g.get("direction") in ("for", "against")}}
+        for field, entries, what in (("grade", grades, "grade"), ("basis", bases, "basis"), ("class", classes, "consensus class")):
             values = [e[field] for e in entries if field in e]
             for value in sorted({v for v in values if values.count(v) > 1}, key=str):
                 errs.append(f"{rel}: the grading scheme lists the {what} {value!r} more than once")
-        for entry, fields in [(g, ("grade", "verb", "negated")) for g in grades] + [(c, ("name", "bounds")) for c in classes]:
-            name = entry.get("grade", entry.get("class"))
+        for verb in sorted({g["verb"] for g in grades if isinstance(g.get("verb"), str)}):
+            under = [g for g in grades if g.get("verb") == verb]
+            if len(under) < 2:
+                continue
+            names = ", ".join(repr(g.get("grade")) for g in under)
+            fixed = [g.get("direction") for g in under]
+            if None in fixed or len(set(fixed)) < len(fixed):
+                errs.append(f"{rel}: the grading scheme lists the wording {verb!r} under the grades {names}, which do not "
+                            f"each fix another direction; a wording stands under several grades only where its direction "
+                            f"tells them apart")
+            if len({(bool(g.get("open")), g.get("negated")) for g in under}) > 1:
+                errs.append(f"{rel}: the grading scheme reads the wording {verb!r} differently under the grades {names} "
+                            f"(open or not, or another negated form)")
+        for entry, fields in ([(g, ("grade", "verb", "negated")) for g in grades] + [(b, ("basis",)) for b in bases]
+                              + [(c, ("name", "bounds")) for c in classes]):
+            name = entry.get("grade", entry.get("basis", entry.get("class")))
             quoted = as_refs(entry.get("source")) + [r for v in (entry.get("provenance") or {}).values() for r in as_refs(v)]
             for other in sorted({source_of(r.get("at", "")) for r in quoted} - {sid}):
                 errs.append(f"{rel}: the grading scheme quotes {other} for {name!r}; a scheme is read off its own source")
@@ -448,7 +478,11 @@ def check_grading(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
             continue
         rel, own = ids[cid], source_of((claim.get("source") or {}).get("at", ""))
         scheme = schemes.get(own)
-        for field, listed in (("grade", "grades"), ("consensus", "classes")):
+        fixed = scheme["fixed"].get(claim.get("grade")) if scheme and isinstance(claim.get("grade"), str) else None
+        if fixed and "direction" in claim and claim["direction"] != fixed:
+            errs.append(f"{rel}: {cid} has grade {claim['grade']!r}, which fixes the direction {fixed!r} in the grading "
+                        f"scheme of {own}, and direction {claim['direction']!r}")
+        for field, listed in (("grade", "grades"), ("basis", "bases"), ("consensus", "classes")):
             if field not in claim:
                 continue
             if scheme is None:

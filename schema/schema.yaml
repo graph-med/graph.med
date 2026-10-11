@@ -20,11 +20,14 @@
 # parts are such claims of the same source, nest without a cycle, and its
 # connective is printed in its quotes; `at_least` counts no more parts than it
 # has; a relative threshold is relative to another quantity than its own),
-# a claim is read in its source's grading scheme (spec §3.1: its grade and
-# consensus are of its own source's `grading_scheme`, its verb one a declared
-# scheme defines, a printed share lies in its class's bounds, and every word of
-# a scheme lies in the quotes of its entry), an evidence row's `outcome` is
-# an endpoint (spec §3.1: a concept of facet `outcome`; whatever else the row
+# a claim is read in its source's grading scheme (spec §3.1: its grade, basis and
+# consensus are of its own source's `grading_scheme`, its direction the one its
+# grade fixes, its verb one a declared scheme defines, a printed share lies in
+# its class's bounds; a wording stands under several grades of a scheme only
+# where each fixes another direction and all read it alike; and every word of a
+# scheme lies in the quotes of its entry, a symbol as a whole token), an
+# evidence row's `outcome` is an endpoint (spec §3.1: a concept of facet
+# `outcome`; whatever else the row
 # names is its printed `key`), and a quote ends on a whole word (spec §6.2: none
 # ends in a hyphen after a letter or a digit, and none holds an ASCII double
 # quote, which pdf.js strips from the link's search; with --verify-quotes, none
@@ -37,7 +40,7 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 $id: https://graph.med/schema/schema.yaml
 title: graph.med pool
-x-version: 0.16.0
+x-version: 0.17.0
 
 # ── layout: which definition each data file validates against ────────────────
 # (data/README.md). Globs are relative to the repository root. `one_per_file`
@@ -228,29 +231,38 @@ $defs:
       - if: {required: [operator], properties: {operator: {enum: [all_of, any_of, at_least]}}}
         then: {required: [of, connective]}   # an operator the page states: its parts, and the words it states it with
 
-  # a source's grading scheme (spec §3.1): how binding its recommendations are and how it classes the
-  # agreement of its panel, in its own words, quoted from its method table. A claim's grade, verb and
-  # consensus are checked against it (validator); the schema enumerates no grade, verb or class, and no
-  # value is mapped between schemes. The build reads the order, the words, the negated forms and the
-  # open grade from here, never from literals
+  # a source's grading scheme (spec §3.1): how binding its recommendations are, what its recommendations
+  # print beside the grade, and how it classes the agreement of its panel, in its own words, quoted from its
+  # pages. A claim's grade, verb, direction, basis and consensus are checked against it (validator); the
+  # schema enumerates no grade, verb, basis or class, and no value is mapped between schemes. The build
+  # reads the order, the words, the negated forms, the open grade and the fixed directions from here, never
+  # from literals
   grading_scheme:
     type: object
     required: [grades]
     additionalProperties: false
     properties:
-      grades:      # in the order the legend follows: the table's rows, strongest first; a grade that fixes
+      grades:      # in the order the legend follows: the table's rows in the table's order; a grade that fixes
                    # no wording (an expert consensus whose strength its wording carries) after them
         type: array
         minItems: 1
         items: {$ref: '#/$defs/scheme_grade'}
-      consensus:   # the classes the source's table sorts the agreement into, in the table's order
+      bases:       # what the recommendations print beside their grade, or in its place, for what they rest on
+                   # (spec §3.1): a token a claim carries as `basis`, never a grade
+        type: array
+        minItems: 1
+        items: {$ref: '#/$defs/scheme_basis'}
+      consensus:   # the classes the source's table sorts the agreement into, in the table's order; absent where
+                   # the source prints shares and names no class (a claim then carries `consensus_share` alone)
         type: array
         minItems: 1
         items: {$ref: '#/$defs/consensus_class'}
   # one grade of a scheme. Every word of `grade`, `verb` and `negated` lies in one of the quotes that give
-  # it — `source`, or the entry's `provenance` for its negated form — as a whole word (validator); the
+  # it — `source`, or the entry's `provenance` for its negated form — as a whole word, and a token of no
+  # word character (a symbol) as a whole token, never inside a longer run of symbols (validator); the
   # description, whose cell a table may break across lines, is read by review. Unique per scheme: the
-  # grade, and the wording (validator)
+  # grade (validator). A wording stands under one grade, or under several that each fix a direction, no
+  # two the same, and read it alike: open or not, one negated form (validator)
   scheme_grade:
     type: object
     required: [grade, source]
@@ -258,12 +270,15 @@ $defs:
     properties:
       grade:       {$ref: '#/$defs/text'}      # as the recommendations print it: what a claim carries as `grade`
       description: {$ref: '#/$defs/text'}      # as the table describes the grade, a word the table breaks across lines joined
-      verb:        {$ref: '#/$defs/text'}      # the wording the table gives the grade, as it prints it; absent for a grade
-                                               # that fixes none, whose claims' own wording carries the strength
+      verb:        {$ref: '#/$defs/text'}      # the wording the table gives the grade, as it prints it, without a
+                                               # negation the row prints with it; absent for a grade that fixes
+                                               # none, whose claims' own wording carries the strength
       negated:     {$ref: '#/$defs/text'}      # that wording negated, as the source prints it — never the verb with a
                                                # negation appended (spec §3.1)
       open:        {type: boolean}             # the table makes the grade an open recommendation: a claim with its
                                                # wording weighs, neither for nor against
+      direction:   {enum: [for, against]}      # the table makes the grade one for or one against: every claim of
+                                               # the grade records it (validator); absent where the wording says it
       source:      {$ref: '#/$defs/references'}   # where the source prints the grade: its table row, cell by cell
       provenance:  # where the negated form is printed, when not in the row; `modelling` for a form printed nowhere
         type: object
@@ -274,8 +289,24 @@ $defs:
     dependentRequired:
       negated: [verb]
       open: [verb]
-    if: {required: [provenance], properties: {provenance: {required: [negated], properties: {negated: {const: modelling}}}}}
-    then: {required: [rationale]}
+    allOf:
+      - if: {required: [provenance], properties: {provenance: {required: [negated], properties: {negated: {const: modelling}}}}}
+        then: {required: [rationale]}
+      - if: {required: [open], properties: {open: {const: true}}}   # an open grade weighs: it fixes no direction
+        then: {properties: {direction: {not: {}}}}
+  # one basis of a scheme: a token the recommendations print beside their grade, or in its place, for what a
+  # recommendation rests on (spec §3.1). `basis` is what a claim carries as `basis`, unique per scheme, and
+  # each of its words lies in one of the quotes of `source` (validator), as a grade's does; the description
+  # is read by review. A basis is no grade: it fixes no wording, no strength and no direction
+  scheme_basis:
+    type: object
+    required: [basis, source]
+    additionalProperties: false
+    properties:
+      basis:       {$ref: '#/$defs/text'}         # as the recommendations print it
+      description: {$ref: '#/$defs/text'}         # what the source says the recommendation rests on, in its words
+      source:      {$ref: '#/$defs/references'}   # where the source prints the token, and where it says what it means
+      rationale:   {$ref: '#/$defs/text'}         # the reading, in the source's language, where the quotes alone do not carry it
   # one class of the source's consensus table. `class` is what a claim carries as `consensus`: the printed name
   # slugified (lower case, words joined by `_`), unique per scheme (validator). Every word of `name` and
   # `bounds` lies in one of the quotes of `source` (validator). Where the source prints shares, the bounds are
@@ -386,12 +417,16 @@ $defs:
              # the wording the sentence uses, in the form a scheme gives it (never inflected, never negated): one
              # some declared `grading_scheme` defines — its own source's, or another's (validator)
       direction: {enum: [for, against], x-provenance: required}
+             # as the sentence reads; the one its grade fixes, where the grade fixes one (validator; spec §3.1)
+      basis:     {$ref: '#/$defs/text', x-provenance: required}
+             # what the box prints beside its grade, or in its place, for what it rests on: as printed, one of the
+             # bases its own source's `grading_scheme` lists (validator; spec §3.1); never a grade
       consensus: {$ref: '#/$defs/slug', x-provenance: required}
              # a class of its own source's `grading_scheme` (validator): the one the box prints, or the one the
              # source's table gives the printed share
       consensus_share: {$ref: '#/$defs/text', x-provenance: required}
              # the share of agreement as printed, where the source prints one; beside `consensus`, within its
-             # class's bounds (validator)
+             # class's bounds, where the source's scheme classes shares, and alone where it names no class (validator)
       evidence:  # how certain the evidence is, per printed row, in the words of the system that rated it
                  # (spec §3.1); absent or [] is "not recorded". A list even where the source states one
                  # value (one entry, no `outcome`, no `key`): never a scalar, and never reduced to one value
@@ -420,6 +455,7 @@ $defs:
           grade:             {$ref: '#/$defs/references'}
           verb:              {$ref: '#/$defs/references'}
           direction:         {$ref: '#/$defs/references'}
+          basis:             {$ref: '#/$defs/references'}
           consensus:         {$ref: '#/$defs/references'}
           consensus_share:   {$ref: '#/$defs/references'}
           evidence:          {$ref: '#/$defs/references'}
