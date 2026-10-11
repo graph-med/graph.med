@@ -1,0 +1,260 @@
+# Claims of card #378 (#314's part C5) from sections 6.6–6.8 of sources/vorhofflimmern-lf-1.1, „Persistierendes
+# Vorhofflimmern“, „Lang-persistierendes Vorhofflimmern“ and „Kardioversion“ (p. 61, l. 5 – p. 66, l. 45; the Literatur
+# from p. 66, l. 46 is not read). Boxes 6.10–6.17, one claim per sentence (spec §3.1), the rule printed inside 6.14's
+# second sentence (#328), and the body-text places spec §5.1 admits (#325, #341), in page order. Ids:
+# sha256("<at>|<quote>")[:8]. Line numbers are lines of `pdftotext -layout`. No table or figure is printed on these pages.
+# Every box prints „Neu 2024“ and its kind line; both stay on the page, as do the „Literatur:“ lines (#314 Decision 5).
+
+# Box 6.10 (p. 61, l. 25–39), in section 6.6: one sentence, ⇑⇑, „Konsensstärke: 100%“; „sollen … beraten werden“ is the
+# wording soll, the quote keeping the plural (#314 Decision 4). „Nutzen-Risiko-“ ends l. 29, a hyphen the word keeps: the
+# label reads it whole, and no quote runs across it. Its evidence row „Freiheit von Arrhythmien, Hospitalisierung: moderat
+# ⊕⊕⊕⊝“ (l. 34–37) names two endpoints, an entry each in printed order, each quoting its endpoint's line (spec §3.1; #326
+# Decision 7, case M). The Begründung's „Rezidiv: RR 2.08 …“ (l. 46) is effect data (§5.1 N2), and its „moderater“ and
+# „GRADE moderat“ inflect or repeat the row's word: no disagreement (#372).
+- id: claims/vorhofflimmern-lf-1.1/8ca72d91
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.10"
+  section: "6.6"
+  label: "Zur Reduktion von AF-Episoden, Krankenhausaufenthalten und Kardioversionen sollen symptomatische Patient*innen mit persistierendem AF über eine Katheterablation auf Grundlage einer Nutzen-Risiko-Abwägung beraten werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {outcome: concepts/freiheit-von-arrhythmien, value: "moderat", system: grade}
+    - {outcome: concepts/hospitalisierung, value: "moderat", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=61
+    quote: "Zur Reduktion von AF-Episoden, Krankenhausaufenthalten und"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=61, quote: "⇑⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=61, quote: "Konsensstärke: 100%"}
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=61, quote: "Kardioversionen sollen symptomatische Patient*innen mit persistierendem"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=61, quote: "Freiheit von Arrhythmien,"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=61, quote: "Hospitalisierung:"}
+# Box 6.11 (p. 62, l. 14–28), in section 6.7: one sentence, ⇑, „Konsensstärke: 100%“, the row „Freiheit von Arrhythmien:
+# moderat ⊕⊕⊕⊝“ (l. 24–26). „langanhaltend persistierend“ against the heading's „Lang-persistierendes“ (#364 reading 1).
+# „(epi-/und endokardial)“ says what the procedure comprises and „nach interdisziplinärer Evaluation“ how it is checked:
+# no narrower claim (spec §3.1: a rule says for whom, never how). The Begründung's „moderater“ and „GRADE moderat“
+# inflect or repeat the row's word (#372); its ratings of other endpoints stay (p. 62, l. 35–37).
+- id: claims/vorhofflimmern-lf-1.1/8d887787
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.11"
+  section: "6.7"
+  label: "Bei symptomatischen Patient*innen mit langanhaltend persistierendem AF sowie dilatiertem linken Vorhof sollte nach interdisziplinärer Evaluation des Nutzens und der Risiken neben der Katheterablation eine chirurgische Ablation im Sinne eines Hybrid-Verfahrens (epi-/und endokardial) geprüft werden."
+  grade: "⇑"
+  verb: sollte
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {outcome: concepts/freiheit-von-arrhythmien, value: "moderat", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=62
+    quote: "Bei symptomatischen Patient*innen mit langanhaltend persistierendem AF"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=62, quote: "⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=62, quote: "Konsensstärke: 100%"}
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=62, quote: "sowie dilatiertem linken Vorhof sollte nach interdisziplinärer Evaluation"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=62, quote: "Freiheit von Arrhythmien:"}
+# Box 6.12 (p. 63, l. 6–13), in section 6.8.1: one sentence, ⇑⇑ with „EK“ beside it (a basis), „Konsensstärke: 100%“;
+# „sollen“ is the wording soll. ⇑⇑ fixes for: the action is the electrical cardioversion, „nicht pharmakologisch“ stays
+# in the label (#378 Decision 5; spec §3.1). „unmittelbar“ says how the action is done: no narrower claim. The
+# Hintergrund restates the box after its reason (p. 62, l. 58–61, G3; „Dringlichkeit des Handels“ as printed); the
+# Begründung gives the grade's reason and reports studies (p. 63, l. 19–24, N2 and G2).
+- id: claims/vorhofflimmern-lf-1.1/09e4afab
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.12"
+  section: "6.8.1"
+  label: "Hämodynamisch instabile Patient*innen mit AF sollen unmittelbar elektrisch, nicht pharmakologisch kardiovertiert werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  basis: EK
+  consensus_share: "100%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=63
+    quote: "Hämodynamisch instabile Patient*innen mit AF sollen unmittelbar elektrisch, nicht pharmakologisch"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=63, quote: "⇑⇑"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=63, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=63, quote: "Konsensstärke: 100%"}
+# Box 6.13 (p. 63, l. 43–50), in section 6.8.2: one sentence, ⇔ with „EK“, „Konsensstärke: 100%“. The page shows ⇔; the
+# text layer gives the private-use character U+F0F3 (l. 47): the claim carries ⇔, its provenance quotes the cell as the
+# text layer gives it (spec §3.1; #378 Decision 2; the scheme's ⇔ entry names the box). The open grade's wording kann,
+# read for. „(z. B. Dyspnoe, Leistungsminderung)“ gives examples: no narrower claim. The Begründung gives the method and
+# the grade's reason (l. 56–62, N2).
+- id: claims/vorhofflimmern-lf-1.1/04224392
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.13"
+  section: "6.8.2"
+  label: "Bei hämodynamisch stabilen Patient*innen mit AF kann eine elektive Kardioversion eingesetzt werden, um zu verifizieren, ob Symptome (z. B. Dyspnoe, Leistungsminderung) durch AF verursacht werden."
+  grade: "⇔"
+  verb: kann
+  direction: for
+  basis: EK
+  consensus_share: "100%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=63
+    quote: "Bei hämodynamisch stabilen Patient*innen mit AF kann eine elektive"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=63, quote: "\uF0F3"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=63, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=63, quote: "Konsensstärke: 100%"}
+# Box 6.14 (p. 64, l. 31–39), in section 6.8.3: two sentences, ⇑⇑ with „EK“, „Konsensstärke: 92%“. Sentence 1: the
+# wording soll. „3-“ / „wöchige“ (l. 33–34) breaks after a digit, a hyphen the word keeps; l. 34 is set justified and
+# reads as one run (spec §6.2; #371). One predicate, two alternatives „oder“ joins: one statement, its action one
+# concept naming both (#378 reading 1). „(medikamentös oder elektrisch)“ stays in the label, no narrower claim (#378
+# reading 2), „3-wöchige“ being what the action prescribes (spec §3.1).
+- id: claims/vorhofflimmern-lf-1.1/2c0f14f0
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.14"
+  section: "6.8.3"
+  label: "Vor elektiver Kardioversion (medikamentös oder elektrisch) soll eine 3-wöchige ununterbrochene orale Antikoagulation oder ein Thrombenausschluss mittels transösophagealem Ultraschall erfolgen."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  basis: EK
+  consensus_share: "92%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=64
+    quote: "Vor elektiver Kardioversion (medikamentös oder elektrisch) soll eine"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=64, quote: "⇑⇑"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=64, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=64, quote: "Konsensstärke: 92%"}
+# Box 6.14, sentence 2: an exception without a modal, restricting sentence 1 — a fact, no grade, the box's basis and
+# share (spec §3.1; #378 Decision 3). It supports sentence 1's statement. „geringem thromboembolischem Risiko“ prints no
+# number: no threshold (#328 Decision 7; #378 reading 3).
+- id: claims/vorhofflimmern-lf-1.1/eb18d2f3
+  type: claim
+  lang: de
+  kind: fact
+  recommendation_no: "6.14"
+  section: "6.8.3"
+  label: "Eine Ausnahme stellen Patient*innen mit AF <24h und geringem thromboembolischem Risiko dar."
+  basis: EK
+  consensus_share: "92%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=64
+    quote: "Eine Ausnahme stellen Patient*innen mit AF <24h und geringem thromboembolischem Risiko dar."
+  provenance:
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=64, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=64, quote: "Konsensstärke: 92%"}
+# 6.14, the rule printed inside sentence 2: a narrower criterion claim quoting its whole qualifier (spec §3.1; #328
+# Decision 10), the box's number, section, basis and share, no grade, no evidence, no statement; `<` „24“ „h“ on the
+# AF's duration. concepts/af-unter-24-h reaches it by defined_by.
+- id: claims/vorhofflimmern-lf-1.1/e92bc393
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: "6.14"
+  section: "6.8.3"
+  label: "AF <24h"
+  basis: EK
+  consensus_share: "92%"
+  threshold: {quantity: concepts/dauer-des-af, comparator: "<", value: "24", unit: "h"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=64
+    quote: "AF <24h"
+  provenance:
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=64, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=64, quote: "Konsensstärke: 92%"}
+# Box 6.15 (p. 65, l. 8–20), in section 6.8.4: one sentence, ⇔, „Konsensstärke: 100%“, the row „AF-Freiheit: gering
+# ⊕⊕⊝⊝“ (l. 16–18). The page shows ⇔, the text layer U+F0F3 (l. 12): the claim carries ⇔, its provenance quotes the text
+# layer (#378 Decision 2). The open grade's wording kann, read for. „auch nach 48 Stunden“ is read as the action's time,
+# no narrower claim (#378 reading 8). The typographic marks around „wait and watch“ stay in the label. The Begründung's
+# „geringe“ inflects the row's word (#372) and gives the grade's reason (l. 26–27, N2).
+- id: claims/vorhofflimmern-lf-1.1/975e983c
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.15"
+  section: "6.8.4"
+  label: "Eine Kardioversion kann bei akutem symptomatischem AF mit hämodynamischer Stabilität auch nach 48 Stunden angeboten werden („wait and watch“-Strategie)."
+  grade: "⇔"
+  verb: kann
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {outcome: concepts/af-freiheit, value: "gering", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=65
+    quote: "Eine Kardioversion kann bei akutem symptomatischem AF mit"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=65, quote: "\uF0F3"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=65, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=65, quote: "AF-Freiheit:"}
+# Box 6.16 (p. 65, l. 44–52), in section 6.8.5: two sentences, ⇑⇑ with „EK“, „Konsensstärke: 100%“. Sentence 1: a fact
+# giving the reason („daher“) for sentence 2 — no grade, the box's basis and share; it supports sentence 2's statement
+# (spec §3.1; #378 Decision 3). No body-text edge joins two sentences of a box (§5.1 N1).
+- id: claims/vorhofflimmern-lf-1.1/7563ac71
+  type: claim
+  lang: de
+  kind: fact
+  recommendation_no: "6.16"
+  section: "6.8.5"
+  label: "Eine Kardioversion zielt darauf ab, eine Episode von AF zu beenden."
+  basis: EK
+  consensus_share: "100%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=65
+    quote: "Eine Kardioversion zielt darauf ab, eine Episode von AF zu beenden."
+  provenance:
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=65, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=65, quote: "Konsensstärke: 100%"}
+# Box 6.16, sentence 2: the wording soll; it runs from l. 46 to l. 47 in the box's column.
+- id: claims/vorhofflimmern-lf-1.1/2251b543
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.16"
+  section: "6.8.5"
+  label: "Nach Kardioversion soll daher das weiterführende Management geplant werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  basis: EK
+  consensus_share: "100%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=65
+    quote: "Nach Kardioversion soll daher das weiterführende Management geplant werden."
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=65, quote: "⇑⇑"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=65, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=65, quote: "Konsensstärke: 100%"}
+# Box 6.17 (p. 66, l. 21–29), in section 6.8.6: one sentence, ⇔ with „EK“, „Konsensstärke: 100%“. The page shows ⇔, the
+# text layer U+F0F3 (l. 25): the claim carries ⇔, its provenance quotes the text layer (#378 Decision 2). The open
+# grade's wording kann, read for. The label keeps the ASCII quotation marks around „pill-in-the-pocket“ as printed; the
+# quote ends before them (spec §6.2).
+- id: claims/vorhofflimmern-lf-1.1/23e4bdab
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.17"
+  section: "6.8.6"
+  label: "Bei strukturell herzgesunden Patient*innen kann eine \"pill-in-the-pocket\"-Therapie mit Klasse-IC Antiarrhythmika zur Konversion von gelegentlich auftretenden symptomatischen AF-Episoden erfolgen."
+  grade: "⇔"
+  verb: kann
+  direction: for
+  basis: EK
+  consensus_share: "100%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=66
+    quote: "Bei strukturell herzgesunden Patient*innen kann eine"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=66, quote: "\uF0F3"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=66, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=66, quote: "Konsensstärke: 100%"}
