@@ -1,0 +1,9 @@
+# A concept of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1: The endpoint of box 5.5's row „Schwere Blutungen, Hirnblutungen:“ (p. 41), one of its two endpoints, each an entry of
+# its own (spec §3.1; #365 reading 17: two concepts). Chapter-only (card #364, reading 8). Not concepts/blutungsrate,
+# the bleeding rate, nor the „schwere Blutung“ of a combined endpoint (pp. 41, 43).
+id: concepts/schwere-blutungen
+type: concept
+lang: de
+label: "schwere Blutungen"
+facet: outcome
+source: modelling

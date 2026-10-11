@@ -1,0 +1,313 @@
+# Claims of card #365 (#314's part C3, the pilot) from chapter 5 of sources/vorhofflimmern-lf-1.1, „Schlaganfallprävention“
+# (p. 37, l. 39 – p. 45, l. 49; the Literatur from p. 45, l. 50 is not read). Boxes 5.1–5.10, one claim per sentence (spec
+# §3.1), the rule printed inside 5.4's first item (#328), Tabellen 8 and 9 as sums (#328), and the body-text places spec §5.1
+# admits (#325, #341), in page order. Ids: sha256("<at>|<quote>")[:8]. Line numbers are lines of `pdftotext -layout`.
+# Every box prints „Neu 2024“ and its kind line; both stay on the page (#314 Decision 5).
+
+# Box 5.1 (p. 38, l. 6–12), in section 5.1: one sentence, ⇑⇑, „Konsensstärke: 100%“. Its evidence row „Testgüte: moderat ⊕⊕⊕⊝“
+# is recorded as printed; the Begründung says the rating was made for the CHA2DS2-VASc score and taken over for CHA2DS2-VA
+# by the guideline group (p. 38, l. 21–22), which stays on the page (§5.1 N2: it agrees with the row). „Testgüte“ is
+# concepts/diagnostische-genauigkeit (card #364, reading 9; the physician's at review).
+- id: claims/vorhofflimmern-lf-1.1/5471a6c4
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "5.1"
+  section: "5.1"
+  label: "Zur Abschätzung des individuellen Risikos für einen Schlaganfall bei Patient*innen mit AF soll der CHA2DS2-VA Score eingesetzt werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {outcome: concepts/diagnostische-genauigkeit, value: "moderat", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=38
+    quote: "Zur Abschätzung des individuellen Risikos für einen Schlaganfall bei"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=38, quote: "⇑⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=38, quote: "Konsensstärke: 100%"}
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=38, quote: "Patient*innen mit AF soll der CHA2DS2-VA Score eingesetzt werden."}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=38, quote: "Testgüte:"}
+# Box 5.2 (p. 39, l. 6–13), in section 5.2: one sentence, ⇑, „Konsensstärke: 96,3%“. The HAS-BLED score is an example
+# („z.B.“), no rule printed inside the sentence: no narrower claim.
+- id: claims/vorhofflimmern-lf-1.1/92ff30df
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "5.2"
+  section: "5.2"
+  label: "Das Blutungsrisiko sollte bei Patient*innen mit AF abgeschätzt werden (z.B. mit dem HAS-BLED-Score), um identifizierte Risikofaktoren für Blutungen bestmöglich minimieren zu können."
+  grade: "⇑"
+  verb: sollte
+  direction: for
+  consensus_share: "96,3%"
+  evidence:
+    - {outcome: concepts/diagnostische-genauigkeit, value: "moderat", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "Das Blutungsrisiko sollte bei Patient*innen mit AF abgeschätzt werden"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=39, quote: "⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=39, quote: "Konsensstärke: 96,3%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=39, quote: "Testgüte:"}
+# Box 5.3 (p. 40, l. 6–17), in section 5.3: one sentence, ⇑⇑, „Konsensstärke: 96,8%“; „sollen“ is the wording soll. The
+# label keeps the print: „anderer thromboembolischer Komplikationen“ and the mixed quotation marks around „shared decision
+# making“ (#314 Decision 4); the quote is cut before them, the closing mark being an ASCII one (spec §6.2). Patients and
+# physicians stay in the label as printed (#314 Decision 10). The row „Schlaganfallreduktion“ rates the endpoint
+# Schlaganfall, its result word left out (#326 Decision 8). Its Begründung rates the evidence otherwise: disagrees_with.
+- id: claims/vorhofflimmern-lf-1.1/f120f96e
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "5.3"
+  section: "5.3"
+  label: "Über das therapeutische Vorgehen zur Prävention von Schlaganfällen und anderer thromboembolischer Komplikationen sollen Patient*innen mit AF und die behandelnden Ärzt*innen nach dem Prinzip des “shared decision making\" entscheiden und dabei individuell die ermittelten Risiken aus den beiden o.g. Scores und den zu erwartenden Nutzen abwägen (siehe Tabelle 10)."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  consensus_share: "96,8%"
+  evidence:
+    - {outcome: concepts/schlaganfall, value: "moderat", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=40
+    quote: "Über das therapeutische Vorgehen zur Prävention von Schlaganfällen und"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=40, quote: "⇑⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=40, quote: "Konsensstärke: 96,8%"}
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=40, quote: "anderer thromboembolischer Komplikationen sollen Patient*innen mit AF"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=40, quote: "Schlaganfallreduktion:"}
+# Box 5.4 (p. 40, l. 40–52), in section 5.3.1: the lead-in „Orientierend sollen für die Therapieentscheidung zur
+# Antikoagulation folgende Werte herangezogen werden:“ is no claim; each item is a full sentence with its own „soll“, a
+# claim labelled as printed, both statements keeping „Orientierend“ (spec §3.1; #325). ⇑⇑, „Konsensstärke: 100%“, and
+# the row „Schlaganfallreduktion: moderat ⊕⊕⊕⊝“ on both items. First item:
+- id: claims/vorhofflimmern-lf-1.1/3f359374
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "5.4"
+  section: "5.3.1"
+  label: "Bei einem ermittelten CHA2DS2-VA Score von ≥2 soll eine orale Antikoagulation empfohlen werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {outcome: concepts/schlaganfall, value: "moderat", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=40
+    quote: "Bei einem ermittelten CHA2DS2-VA Score von ≥2 soll eine orale Antikoagulation empfohlen werden."
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=40, quote: "⇑⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=40, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=40, quote: "Schlaganfallreduktion:"}
+# 5.4, the rule printed inside the first item: a narrower criterion claim (spec §3.1; #328 Decision 10), the box's number,
+# section and share, no grade, no evidence, no statement; concepts/patientinnen-mit-cha2ds2-va-score-ab-2 reaches it by
+# defined_by. The second item's bound („von 1“) has no such claim: see the comment of concepts/patientinnen-mit-cha2ds2-va-score-1.
+- id: claims/vorhofflimmern-lf-1.1/0300b924
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: "5.4"
+  section: "5.3.1"
+  label: "Bei einem ermittelten CHA2DS2-VA Score von ≥2"
+  consensus_share: "100%"
+  threshold: {quantity: concepts/cha2ds2-va-score, comparator: "≥", value: "2"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=40
+    quote: "Bei einem ermittelten CHA2DS2-VA Score von ≥2"
+  provenance:
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=40, quote: "Konsensstärke: 100%"}
+# 5.4, second item. Its first line is justified („Bei    einem      ermittelten CHA2DS2-VA      Score    von   1“, l. 45):
+# the page's reading splits it into runs, so the quote lies on l. 46–47 (open question justified-spacing-in-a-quote).
+# „orale Antikoagulation Therapie“ as printed (#314 Decision 4).
+- id: claims/vorhofflimmern-lf-1.1/e4064446
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "5.4"
+  section: "5.3.1"
+  label: "Bei einem ermittelten CHA2DS2-VA Score von 1 soll die Indikation für eine orale Antikoagulation Therapie individuell geprüft werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {outcome: concepts/schlaganfall, value: "moderat", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=40
+    quote: "soll die Indikation für eine orale Antikoagulation Therapie individuell geprüft werden."
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=40, quote: "⇑⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=40, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=40, quote: "Schlaganfallreduktion:"}
+# Box 5.5 (p. 41, l. 48–58), in section 5.3.2: one sentence, ⇑⇑, „Konsensstärke: 100%“. Its evidence block, in printed
+# order (spec §3.1; #326; #365 Decision 5): the box's own rating „Moderat“ on the heading line (l. 52), no outcome or key,
+# its capital kept, its system that of the box's rated row, whose ⊕ line is quoted after the rows' quotes; then the row
+# „Schwere Blutungen, Hirnblutungen: moderat ⊕⊕⊕⊝ bis gering ⊕⊕⊝⊝“, one entry per endpoint, the range one value as
+# printed, never split. Its Begründung rates the evidence otherwise: disagrees_with.
+- id: claims/vorhofflimmern-lf-1.1/af72319e
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "5.5"
+  section: "5.3.2"
+  label: "Über die Wahl des oralen Antikoagulans soll unter Berücksichtigung der individuellen Komorbiditäten, der individuellen Lebensumstände und Anwendungsbeschränkungen entschieden werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {value: "Moderat", system: grade}
+    - {outcome: concepts/schwere-blutungen, value: "moderat bis gering", system: grade}
+    - {outcome: concepts/hirnblutungen, value: "moderat bis gering", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=41
+    quote: "Über die Wahl des oralen Antikoagulans soll unter Berücksichtigung der"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=41, quote: "⇑⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=41, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=41, quote: "Moderat"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=41, quote: "Schwere Blutungen,"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=41, quote: "Hirnblutungen:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=41, quote: "moderat ⊕⊕⊕⊝ bis gering ⊕⊕⊝⊝"}
+# Box 5.6 (p. 42, l. 43–47), in section 5.3.3: one sentence, ⇑⇑ with „EK“ beside it (a basis, #323), „Konsensstärke:
+# 100%“. „Antikoagulantien“ as printed (#314 Decision 4). 5.6 and 5.7 share one „Empfehlung“ heading and one Begründung,
+# which is body text of section 5.3.3, read against both (#325 Decision 2).
+- id: claims/vorhofflimmern-lf-1.1/cdba391a
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "5.6"
+  section: "5.3.3"
+  label: "Bei Patient*innen mit chronischer Nierenerkrankung soll die Dosierung der Medikation, insbesondere der oralen Antikoagulantien, regelmäßig überprüft werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  basis: EK
+  consensus_share: "100%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=42
+    quote: "Bei Patient*innen mit chronischer Nierenerkrankung soll die Dosierung der"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=42, quote: "⇑⇑"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=42, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=42, quote: "Konsensstärke: 100%"}
+# Box 5.7 (p. 42, l. 48–52), in section 5.3.3, no heading of its own: one sentence, ⇑⇑ with „EK“, „Konsensstärke: 100%“.
+- id: claims/vorhofflimmern-lf-1.1/d4207119
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "5.7"
+  section: "5.3.3"
+  label: "Bei Patient*innen mit Nierenversagen und Dialysepatient*innen soll über die Form der Prävention thromboembolischer Ereignisse individuell entschieden werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  basis: EK
+  consensus_share: "100%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=42
+    quote: "Bei Patient*innen mit Nierenversagen und Dialysepatient*innen soll über"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=42, quote: "⇑⇑"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=42, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=42, quote: "Konsensstärke: 100%"}
+# Box 5.8 (p. 43, l. 42–50), in section 5.4.1: two sentences, ⇔ (U+21D4 in the text layer), „Konsensstärke: 100%“; the
+# row without a label, „sehr gering ⊕⊝⊝⊝“, one entry without an outcome or a key, on both sentences (each supports a
+# statement of its own). Sentence 1: the open grade's wording kann, read for (#323).
+- id: claims/vorhofflimmern-lf-1.1/738956f5
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "5.8"
+  section: "5.4.1"
+  label: "Der Vorhofohrverschluss kann als Option bei Patient*innen mit AF erwogen werden, bei denen eine orale Antikoagulation kontraindiziert ist."
+  grade: "⇔"
+  verb: kann
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {value: "sehr gering", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=43
+    quote: "Der Vorhofohrverschluss kann als Option bei Patient*innen mit AF erwogen werden"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=43, quote: "⇔"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=43, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=43, quote: "sehr gering ⊕⊝⊝⊝"}
+# 5.8, sentence 2: a remark that instructs in another wording — the box's grade ⇔, no verb (spec §3.1, step 4), direction
+# for, a statement of its own (#365 Decision 3; reading 9 is the physician's).
+- id: claims/vorhofflimmern-lf-1.1/2c27b224
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "5.8"
+  section: "5.4.1"
+  label: "Das periprozedurale Komplikationsrisiko ist zu beachten."
+  grade: "⇔"
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {value: "sehr gering", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=43
+    quote: "Das periprozedurale Komplikationsrisiko ist zu beachten."
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=43, quote: "⇔"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=43, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=43, quote: "sehr gering ⊕⊝⊝⊝"}
+# Box 5.9 (p. 44, l. 38–43), in section 5.4.2: one sentence, ⇑ with „EK“, „Konsensstärke: 90,9%“. The score is named
+# as an instrument without a bound: no narrower claim (#365 reading 6). „CHA2DS2-“ / „VA Score“ (l. 39–40) keeps its
+# hyphen in the label; the quote is cut before it. A structural measure, listed unclassified for #94.
+- id: claims/vorhofflimmern-lf-1.1/fa94516e
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "5.9"
+  section: "5.4.2"
+  label: "Die Indikation zum Vorhofohrverschluss sollte ausgehend vom CHA2DS2-VA Score für die Patient*innen, die für diese Prozedur in Frage kommen, interdisziplinär in einem Zentrum mit entsprechender Expertise geprüft werden."
+  grade: "⇑"
+  verb: sollte
+  direction: for
+  basis: EK
+  consensus_share: "90,9%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=44
+    quote: "Die Indikation zum Vorhofohrverschluss sollte ausgehend vom"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=44, quote: "⇑"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=44, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=44, quote: "Konsensstärke: 90,9%"}
+# Box 5.10 (p. 45, l. 9–22), in section 5.4.3: one sentence, ⇑, „Konsensstärke: 96,8%“, the row „Schlaganfall: moderat
+# ⊕⊕⊕⊝“. „zumindest moderates Schlaganfallrisiko“ prints no number and stays stated (#328 Decision 7; #365 reading 4).
+- id: claims/vorhofflimmern-lf-1.1/09298c54
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "5.10"
+  section: "5.4.3"
+  label: "Bei Patient*innen mit AF, die sich einem herzchirurgischen Eingriff unterziehen und ein zumindest moderates Schlaganfallrisiko aufweisen, sollte als Ergänzung zur Antikoagulation ein periprozeduraler chirurgischer Verschluss des linken Vorhofohrs empfohlen werden."
+  grade: "⇑"
+  verb: sollte
+  direction: for
+  consensus_share: "96,8%"
+  evidence:
+    - {outcome: concepts/schlaganfall, value: "moderat", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=45
+    quote: "Bei Patient*innen mit AF, die sich einem herzchirurgischen Eingriff"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=45, quote: "⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=45, quote: "Konsensstärke: 96,8%"}
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=45, quote: "sollte als Ergänzung zur Antikoagulation ein periprozeduraler chirurgischer"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=45, quote: "Schlaganfall:"}
