@@ -664,9 +664,11 @@ Three kinds of entity, kept apart because different edges attach to them:
   ("Hb-Wert von < 4,34 mmol/L"), signs ("Hinweise für eine kardiale
   Dysfunktion"), the result of a test ("plausibler Erregernachweis"). A
   derived concept is therefore no finding for being derived; the quantities
-  its rule bounds are. A term the source uses both as a circumstance and as an
-  endpoint stays two concepts, the circumstance and an `outcome`
-  ("hämodynamisch instabil" beside the evidence row's "hämodynamische
+  its rule bounds are. The validator holds a threshold's `quantity` and its
+  `relative_to` to facet `finding`, as it holds an evidence row's endpoint to
+  facet `outcome` (§3.1; card #356). A term the source uses both as a
+  circumstance and as an endpoint stays two concepts, the circumstance and an
+  `outcome` ("hämodynamisch instabil" beside the evidence row's "hämodynamische
   Instabilität"): an endpoint counts events, not a state the patient is in, and
   the check that an evidence row's endpoint is an `outcome` (§3.1) is what keeps
   a subgroup or a comparator out of the row. Decided on 2026-10-11 by the
