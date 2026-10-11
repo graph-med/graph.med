@@ -727,7 +727,15 @@ glyph. Timing
      into the source and `Textstelle`, a link to the claim's page; its parts
      follow under it, set in by a line of their own, each such an entry in
      turn. A combination that names no parts, a list the page gives without
-     saying how it combines, shows the claim's sentence under its line. No
+     saying how it combines, shows the claim's sentence under its line. A
+     points table (`graph-representation.md` §3.1, a `sum`) is such a line,
+     `Summe der Punkte` with the head of its points column as printed
+     (`„Punkt(e)“`), and each of its parts has beside it, in a column of its
+     own at the part's first line, the points its row prints, as printed —
+     `1`, `2`, `jeweils 1 Punkt` —, so that the figures read down as the
+     table's column does; nothing is added up, and no total, maximum or band
+     is shown that the page does not print (the maintainer, 2026-10-11: each
+     criterion with its points; card #354). No
      operator is assumed anywhere: a claim without a combination is a single
      rule. Any other claim is one entry: the threshold it prints, as quantity,
      comparator, value, unit and time point (`Amylase-Konzentration im
@@ -736,7 +744,14 @@ glyph. Timing
      The entry is itself the link to the claim's page; under it its page and
      section, linked into the source, only where they differ from the last
      ones the tree showed — parts printed on one page in one section are cited
-     once, at the first of them. A
+     once, at the first of them. Where a threshold's quantity (or reference
+     quantity) is itself derived — a score, which a points table defines
+     (`graph-representation.md` §3.2) — a line under the entry names it,
+     linked to its page, `CHA2DS2-VA Score: abgeleitet, nach der Regel` (or
+     the line of several printings), and its rule follows set in, by the same
+     tree: so the bound a recommendation puts on a score, `CHA2DS2-VA Score ≥
+     2` (S. 40), opens to the score's criteria with their points. A rule that
+     would reach its own concept again stops there. A
      claim without a threshold says nothing about a missing number: its
      sentence shows whether one is printed, and nothing in the pool tells a
      quantity-like rule ("lange OP-Zeit") from a categorical one ("koronare
@@ -746,10 +761,12 @@ glyph. Timing
      computed from the edges) and `rules`, a list of trees — one, or one per
      printing — empty for a stated concept: per node the claim's `id`,
      `kind`, `label`, `page`, `section`, `link`, `quote`, its `threshold` with
-     `quantity` and `relative_to` resolved to `{id, label, lang}`, and its
-     `combination` with `operator`, `n`, `connective`, `rationale`, the
-     connective's `pages` and `link`, its parts under `of`, each a node, and
-     `disagrees_with` where the claim disagrees with a claim that is not
+     `quantity` and `relative_to` resolved to `{id, label, lang}` — a derived
+     one with its own `derivation` and `rules` beside them, in this shape —,
+     and its `combination` with `operator`, `n`, `connective`, `rationale`,
+     the connective's `pages` and `link`, its parts under `of`, each a node,
+     a sum's `points` beside them, one per part and in its order, as printed,
+     and `disagrees_with` where the claim disagrees with a claim that is not
      another printing of the same rule (as zone 3 gives it);
      the view JSON carries the same two keys for every concept its statements
      hold, under `concepts`, and the concept's own JSON and page carry them
