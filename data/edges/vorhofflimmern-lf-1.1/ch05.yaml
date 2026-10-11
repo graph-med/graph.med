@@ -1,0 +1,9 @@
+# Edges of card #365 (#314's part C3, the pilot) from chapter 5 of sources/vorhofflimmern-lf-1.1 (pp. 37–45), all
+# modelling. Edges across parts are X1's, the scope and hierarchy edges X2's (#314 Decision 6).
+# defined_by (spec §3.2, §5): the scores, each to the top of its table's sum, and the quantity a footnote defines
+- [concepts/cha2ds2-va-score, defined_by, claims/vorhofflimmern-lf-1.1/5194002a, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„CHA2DS2-VA Score“ — Tabelle 8 (S. 38) gibt seine sieben Merkmale mit ihren Punkten; die Spalte „Punkt(e)“ sagt, dass sie sich addieren (Summe)."}]
+- [concepts/has-bled-score, defined_by, claims/vorhofflimmern-lf-1.1/270f2989, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„HAS-BLED Score“ — Tabelle 9 (S. 39) gibt seine Merkmale mit ihren Punkten, die Fußnoten die Regeln der markierten Merkmale; die Spalte „Punkte“ sagt, dass sie sich addieren (Summe)."}]
+- [concepts/ttr, defined_by, claims/vorhofflimmern-lf-1.1/c9757e91, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„TTR“ — Fußnote $ der Tabelle 9 (S. 39): „TTR = time in therapeutic range (INR 2-3)“."}]

@@ -30,6 +30,96 @@
     verb: {at: sources/vorhofflimmern-lf-1.1#page=38, quote: "Patient*innen mit AF soll der CHA2DS2-VA Score eingesetzt werden."}
     evidence:
       - {at: sources/vorhofflimmern-lf-1.1#page=38, quote: "Testgüte:"}
+# Tabelle 8's rows, each a part of its sum (spec §3.1), quoting its cell in the column „Merkmal“, in printed order;
+# no body-text edge (§5.1 N5): the table's claim carries it. Its points lie on the sum, as printed. A slash inside a
+# cell („Schlaganfall / TIA“) is one part naming both (#365 reading 3). The age bands are two parts, each with its
+# threshold on concepts/alter as printed; nothing is computed between them (no exclusivity, no total).
+- id: claims/vorhofflimmern-lf-1.1/c95b417f
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.1"
+  label: "Buchstabe: C; Merkmal: Herzinsuffizienz; Punkt(e): 1"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=38
+    quote: "Herzinsuffizienz"
+- id: claims/vorhofflimmern-lf-1.1/0424030c
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.1"
+  label: "Buchstabe: H; Merkmal: Hypertonie; Punkt(e): 1"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=38
+    quote: "Hypertonie"
+- id: claims/vorhofflimmern-lf-1.1/3143a82c
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.1"
+  label: "Buchstabe: A2; Merkmal: Alter ≥ 75 Jahre; Punkt(e): 2"
+  threshold: {quantity: concepts/alter, comparator: "≥", value: "75", unit: "Jahre"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=38
+    quote: "Alter ≥ 75 Jahre"
+- id: claims/vorhofflimmern-lf-1.1/efd807fb
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.1"
+  label: "Buchstabe: D; Merkmal: Diabetes; Punkt(e): 1"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=38
+    quote: "Diabetes"
+- id: claims/vorhofflimmern-lf-1.1/2f304979
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.1"
+  label: "Buchstabe: S2; Merkmal: Schlaganfall / TIA; Punkt(e): 2"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=38
+    quote: "Schlaganfall / TIA"
+- id: claims/vorhofflimmern-lf-1.1/9374e5f5
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.1"
+  label: "Buchstabe: V; Merkmal: Vaskuläre Erkrankung; Punkt(e): 1"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=38
+    quote: "Vaskuläre Erkrankung"
+- id: claims/vorhofflimmern-lf-1.1/fa77bf75
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.1"
+  label: "Buchstabe: A; Merkmal: Alter 65 – 74 Jahre; Punkt(e): 1"
+  threshold: {quantity: concepts/alter, comparator: "between", value: "65 – 74", unit: "Jahre"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=38
+    quote: "Alter 65 – 74 Jahre"
+# Tabelle 8 (p. 38, l. 38–54), a points table: the top of its sum (spec §3.1; #328), quoting its caption, its label the
+# table as §5.1 K reads it. Its section is 5.1, where the Begründung of box 5.1 introduces it („siehe Tabelle 8“, l. 24),
+# and where it is printed. One answer, the instrument box 5.1 names (K): R to 5.1's claim. concepts/cha2ds2-va-score
+# reaches it by defined_by. The page prints no total, no maximum and no word for how the points combine but the head of
+# the points column.
+- id: claims/vorhofflimmern-lf-1.1/5194002a
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.1"
+  label: "Tabelle 8: CHA2DS2-VA Score zur Risikoeinstufung thromboembolischer Ereignisse bei AF: Buchstabe C, Merkmal Herzinsuffizienz, Punkt(e) 1; H, Hypertonie, 1; A2, Alter ≥ 75 Jahre, 2; D, Diabetes, 1; S2, Schlaganfall / TIA, 2; V, Vaskuläre Erkrankung, 1; A, Alter 65 – 74 Jahre, 1"
+  combination:
+    operator: sum
+    points: ["1", "1", "2", "1", "2", "1", "1"]
+    of: [claims/vorhofflimmern-lf-1.1/c95b417f, claims/vorhofflimmern-lf-1.1/0424030c, claims/vorhofflimmern-lf-1.1/3143a82c, claims/vorhofflimmern-lf-1.1/efd807fb, claims/vorhofflimmern-lf-1.1/2f304979, claims/vorhofflimmern-lf-1.1/9374e5f5, claims/vorhofflimmern-lf-1.1/fa77bf75]
+    connective: "Punkt(e)"
+    source: {at: sources/vorhofflimmern-lf-1.1#page=38, quote: "Punkt(e)"}
+    rationale: "Die Spalte „Punkt(e)“ gibt jedem Merkmal seine Punkte; der Score ist ihre Summe. Die Punkte stehen wie gedruckt, nichts wird addiert, keine Höchstzahl und keine Ausschließlichkeit der Altersstufen wird angenommen."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=38
+    quote: "Tabelle 8: CHA2DS2-VA Score zur Risikoeinstufung thromboembolischer Ereignisse bei AF"
 # Box 5.2 (p. 39, l. 6–13), in section 5.2: one sentence, ⇑, „Konsensstärke: 96,3%“. The HAS-BLED score is an example
 # („z.B.“), no rule printed inside the sentence: no narrower claim.
 - id: claims/vorhofflimmern-lf-1.1/92ff30df
@@ -53,6 +143,237 @@
     consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=39, quote: "Konsensstärke: 96,3%"}
     evidence:
       - {at: sources/vorhofflimmern-lf-1.1#page=39, quote: "Testgüte:"}
+# Tabelle 9, footnote # (p. 39, l. 36): the three members „oder … oder“ joins, each a leaf of the liver part (#204).
+- id: claims/vorhofflimmern-lf-1.1/27ab95e0
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.2"
+  label: "Leberzirrhose"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "Leberzirrhose"
+- id: claims/vorhofflimmern-lf-1.1/4f45f64d
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.2"
+  label: "Bilirubin >2x normal"
+  threshold: {quantity: concepts/bilirubin, comparator: ">", value: "2x", relative_to: concepts/normalwert}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "Bilirubin >2x normal"
+# „AST/ALT/AP“: one quantity naming the three as printed, the slash read as naming alternatives in one concept
+# (#365 reading 3).
+- id: claims/vorhofflimmern-lf-1.1/d1145f09
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.2"
+  label: "AST/ALT/AP >3x normal"
+  threshold: {quantity: concepts/ast-alt-ap, comparator: ">", value: "3x", relative_to: concepts/normalwert}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "AST/ALT/AP >3x normal"
+# Tabelle 9, footnote + (p. 39, l. 37): its three items, the comma list's members, and the creatinine bound printed in two
+# units, two claims under the „oder“ that joins them (spec §3.1), nothing converted.
+- id: claims/vorhofflimmern-lf-1.1/9c7c13fc
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.2"
+  label: "Dialyse"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "Dialyse"
+- id: claims/vorhofflimmern-lf-1.1/0fe9b7ec
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.2"
+  label: "Z.n. Nierentransplantation"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "Z.n. Nierentransplantation"
+- id: claims/vorhofflimmern-lf-1.1/c86e13c1
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.2"
+  label: "Kreatinin >2.26 mg/dl"
+  threshold: {quantity: concepts/serumkreatinin, comparator: ">", value: "2.26", unit: "mg/dl"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "Kreatinin >2.26 mg/dl"
+- id: claims/vorhofflimmern-lf-1.1/576ea47c
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.2"
+  label: "> 200 μmol/l"
+  threshold: {quantity: concepts/serumkreatinin, comparator: ">", value: "200", unit: "μmol/l"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "> 200 μmol/l"
+- id: claims/vorhofflimmern-lf-1.1/260eccc9
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.2"
+  label: "Kreatinin >2.26 mg/dl oder > 200 μmol/l"
+  combination:
+    operator: any_of
+    of: [claims/vorhofflimmern-lf-1.1/c86e13c1, claims/vorhofflimmern-lf-1.1/576ea47c]
+    connective: "oder"
+    source: {at: sources/vorhofflimmern-lf-1.1#page=39, quote: "Kreatinin >2.26 mg/dl oder > 200 μmol/l"}
+    rationale: "„Kreatinin >2.26 mg/dl oder > 200 μmol/l“: eine Grenze in zwei Einheiten, mit „oder“ verbunden; jede der beiden erfüllt die Bedingung (ODER). Nichts wird umgerechnet."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "Kreatinin >2.26 mg/dl oder > 200 μmol/l"
+# Tabelle 9, footnote $ (p. 39, l. 38): what row L's „TTR“ is, a definition claim reached by concepts/ttr's defined_by
+# (#365 reading 3), its range „(INR 2-3)“ a threshold on concepts/inr as printed. No body-text edge: it is reached through
+# the rule of the score (§5.1 N5).
+- id: claims/vorhofflimmern-lf-1.1/c9757e91
+  type: claim
+  lang: de
+  kind: definition
+  section: "5.2"
+  label: "TTR = time in therapeutic range (INR 2-3)"
+  threshold: {quantity: concepts/inr, comparator: "between", value: "2-3"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "TTR = time in therapeutic range (INR 2-3)"
+# Tabelle 9's rows (p. 39, l. 16–39), each a part of its sum in printed order (spec §3.1; #328), quoting its cell in the
+# column „Merkmal“; no body-text edge (§5.1 N5). A row whose rule a footnote gives carries the footnote's threshold or
+# combination, its label the footnote's words. Row H: footnote *'s bound, on systolic pressure, its provenance the
+# footnote's line. „Hypertonie“ alone lies twice on the page (row and footnote): the quote keeps the mark.
+- id: claims/vorhofflimmern-lf-1.1/debe2563
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.2"
+  label: "Buchstabe: H; Merkmal: Hypertonie* (* nur unzureichend eingestellte arterielle Hypertonie mit Werten > 160mmHg systolisch); Punkte: 1"
+  threshold: {quantity: concepts/systolischer-blutdruck, comparator: ">", value: "160", unit: "mmHg"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "Hypertonie*"
+  provenance:
+    threshold: {at: sources/vorhofflimmern-lf-1.1#page=39, quote: "nur unzureichend eingestellte arterielle Hypertonie mit Werten > 160mmHg systolisch"}
+# Row A is two parts, the liver and the kidney, each „jeweils 1 Punkt“ as printed (spec §3.1), so the row keeps that it
+# counts up to two. The liver part carries footnote #'s combination.
+- id: claims/vorhofflimmern-lf-1.1/6e9577b4
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.2"
+  label: "Buchstabe: A; Merkmal: Abnormale Leber-# (# Leberzirrhose oder Bilirubin >2x normal oder AST/ALT/AP >3x normal); Punkte: jeweils 1 Punkt"
+  combination:
+    operator: any_of
+    of: [claims/vorhofflimmern-lf-1.1/27ab95e0, claims/vorhofflimmern-lf-1.1/4f45f64d, claims/vorhofflimmern-lf-1.1/d1145f09]
+    connective: "oder … oder"
+    source: {at: sources/vorhofflimmern-lf-1.1#page=39, quote: "Leberzirrhose oder Bilirubin >2x normal oder AST/ALT/AP >3x normal"}
+    rationale: "Fußnote #: „Leberzirrhose oder Bilirubin >2x normal oder AST/ALT/AP >3x normal“ — jedes der drei Glieder macht die Leberwerte abnormal (ODER)."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "Abnormale Leber-#"
+# The kidney part carries footnote +: a comma list whose join the page does not word (#365 reading 3), the „oder“ standing
+# between the two units of the creatinine bound.
+- id: claims/vorhofflimmern-lf-1.1/e985dfb3
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.2"
+  label: "Buchstabe: A; Merkmal: Nierenwerte+ (+ Dialyse, Z.n. Nierentransplantation, Kreatinin >2.26 mg/dl oder > 200 μmol/l); Punkte: jeweils 1 Punkt"
+  combination:
+    operator: not_stated
+    of: [claims/vorhofflimmern-lf-1.1/9c7c13fc, claims/vorhofflimmern-lf-1.1/0fe9b7ec, claims/vorhofflimmern-lf-1.1/260eccc9]
+    rationale: "Fußnote +: „Dialyse, Z.n. Nierentransplantation, Kreatinin >2.26 mg/dl oder > 200 μmol/l“ — eine Aufzählung mit Kommas, deren Verknüpfung die Seite nicht nennt; das „oder“ verbindet die zwei Einheiten der Kreatiningrenze, nicht die Aufzählung."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "Nierenwerte+"
+- id: claims/vorhofflimmern-lf-1.1/bcf60cfa
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.2"
+  label: "Buchstabe: S; Merkmal: Schlaganfall; Punkte: 1"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "Schlaganfall"
+- id: claims/vorhofflimmern-lf-1.1/85b7a267
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.2"
+  label: "Buchstabe: B; Merkmal: Blutungsanamnese; Punkte: 1"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "Blutungsanamnese"
+# Row L bounds TTR, which footnote $ defines (its own claim above).
+- id: claims/vorhofflimmern-lf-1.1/7ff4377a
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.2"
+  label: "Buchstabe: L; Merkmal: Labile INR-Werte (TTR$ < 60%); Punkte: 1"
+  threshold: {quantity: concepts/ttr, comparator: "<", value: "60", unit: "%"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "Labile INR-Werte (TTR$ < 60%)"
+# Row E: no unit printed.
+- id: claims/vorhofflimmern-lf-1.1/f5da4279
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.2"
+  label: "Buchstabe: E; Merkmal: Alter > 65; Punkte: 1"
+  threshold: {quantity: concepts/alter, comparator: ">", value: "65"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "Alter > 65"
+# Row D is two parts, the two the cell joins by „oder“, each „Jeweils 1 Punkt“. „Drogen/Alkohol“ is one part naming both
+# (#365 reading 3); footnote §, marked on it, gives its bound, its provenance the footnote's line.
+- id: claims/vorhofflimmern-lf-1.1/fa31f174
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.2"
+  label: "Buchstabe: D; Merkmal: Drogen/Alkohol§ (§ ≥ 8 alkoholische Getränke/Woche); Punkte: Jeweils 1 Punkt"
+  threshold: {quantity: concepts/alkoholkonsum, comparator: "≥", value: "8", unit: "alkoholische Getränke/Woche"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "Drogen/Alkohol§"
+  provenance:
+    threshold: {at: sources/vorhofflimmern-lf-1.1#page=39, quote: "≥ 8 alkoholische Getränke/Woche"}
+- id: claims/vorhofflimmern-lf-1.1/ac88d7d1
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.2"
+  label: "Buchstabe: D; Merkmal: andere Medikamente, die das Blutungsrisiko erhöhen (NSAID, Plättchenhemmer); Punkte: Jeweils 1 Punkt"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "andere Medikamente, die das Blutungsrisiko erhöhen (NSAID, Plättchenhemmer)"
+# Tabelle 9 (p. 39, l. 16–39), a points table: the top of its sum, quoting its caption. Its section is 5.2, where the
+# Hintergrund introduces it („siehe Tabelle 9“, p. 38, l. 66–67) and where it is printed. The instrument box 5.2 names as
+# its example: R to 5.2's claim (#365 reading 2). concepts/has-bled-score reaches it by defined_by. No page bounds this
+# score; its footnotes are carried by the rows they mark.
+- id: claims/vorhofflimmern-lf-1.1/270f2989
+  type: claim
+  lang: de
+  kind: criterion
+  section: "5.2"
+  label: "Tabelle 9: HAS-BLED Score zur Risikoeinstufung des Blutungsrisikos bei Vorhofflimmern.: Buchstabe H, Merkmal Hypertonie*, Punkte 1; A, Abnormale Leber-# oder Nierenwerte+, jeweils 1 Punkt; S, Schlaganfall, 1; B, Blutungsanamnese, 1; L, Labile INR-Werte (TTR$ < 60%), 1; E, Alter > 65, 1; D, Drogen/Alkohol§ oder andere Medikamente, die das Blutungsrisiko erhöhen (NSAID, Plättchenhemmer), Jeweils 1 Punkt"
+  combination:
+    operator: sum
+    points: ["1", "jeweils 1 Punkt", "jeweils 1 Punkt", "1", "1", "1", "1", "Jeweils 1 Punkt", "Jeweils 1 Punkt"]
+    of: [claims/vorhofflimmern-lf-1.1/debe2563, claims/vorhofflimmern-lf-1.1/6e9577b4, claims/vorhofflimmern-lf-1.1/e985dfb3, claims/vorhofflimmern-lf-1.1/bcf60cfa, claims/vorhofflimmern-lf-1.1/85b7a267, claims/vorhofflimmern-lf-1.1/7ff4377a, claims/vorhofflimmern-lf-1.1/f5da4279, claims/vorhofflimmern-lf-1.1/fa31f174, claims/vorhofflimmern-lf-1.1/ac88d7d1]
+    connective: "Punkte"
+    source: {at: sources/vorhofflimmern-lf-1.1#page=39, quote: "Punkte"}
+    rationale: "Die Spalte „Punkte“ gibt jedem Merkmal seine Punkte; der Score ist ihre Summe. Zeile A und Zeile D drucken je einmal „jeweils 1 Punkt“ für zwei Teile: jeder Teil zählt einen Punkt, die Zeile also bis zu zwei. Die Punkte stehen wie gedruckt, nichts wird addiert."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "Tabelle 9: HAS-BLED Score zur Risikoeinstufung des Blutungsrisikos bei Vorhofflimmern."
 # Box 5.3 (p. 40, l. 6–17), in section 5.3: one sentence, ⇑⇑, „Konsensstärke: 96,8%“; „sollen“ is the wording soll. The
 # label keeps the print: „anderer thromboembolischer Komplikationen“ and the mixed quotation marks around „shared decision
 # making“ (#314 Decision 4); the quote is cut before them, the closing mark being an ASCII one (spec §6.2). Patients and

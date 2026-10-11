@@ -1,0 +1,8 @@
+# A concept of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1: The reference quantity of footnote #'s two relative bounds, „>2x normal“ and „>3x normal“ (Tabelle 9, p. 39): the
+# normal value of the quantity each bounds, as printed („normal“); the factor is the threshold's value (spec §3.1).
+id: concepts/normalwert
+type: concept
+lang: de
+label: "Normalwert"
+facet: finding
+source: modelling

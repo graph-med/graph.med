@@ -1,0 +1,9 @@
+# A concept of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1: The quantity row L of Tabelle 9 bounds, „TTR$ < 60%“, defined by footnote $: „TTR = time in therapeutic range (INR 2-3)“
+# (p. 39), so derived by its defined_by edge (#365 reading 3). p. 42 prints it as „TTR (time in therapeutic range (TTR),
+# INR 2-3)“ and „hohen TTR“.
+id: concepts/ttr
+type: concept
+lang: de
+label: "TTR (time in therapeutic range)"
+facet: finding
+source: modelling
