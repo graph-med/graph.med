@@ -54,6 +54,16 @@ rules a document schema cannot state because they span files:
   - a disagreement is the source's own (spec §5, §5.1 D): `disagrees_with` joins two
     claims of one source — between two sources it is `contests` —, never a claim
     to itself, and once per pair, whichever its direction, being symmetric;
+  - a sequence holds together (spec §5 `follows`, [later, follows, earlier]):
+    (a) some one source has claims supporting both statements, so that no chain
+    runs across guidelines; (b) the later statement's `population` does not lie
+    strictly above the earlier's along `broader` and `in_scope_of` — the same
+    population, a narrower one or an unrelated one passes; (c) the `follows`
+    edges whose `trigger` is neither `reevaluation` nor `target_reached` form no
+    cycle, a loop through a re-evaluation or a reached target staying allowed.
+    That `transition` and `trigger` stand on `follows` alone, both present and
+    from their closed lists, is the schema's; nothing relates the edge to the
+    later statement's `condition`;
   - a claim is read in its source's grading scheme (spec §3.1): its `grade` is
     one its own source's `grading_scheme` lists, its `basis` one of its bases
     and its `consensus` one of its classes; its `direction` is the one its grade
@@ -227,6 +237,8 @@ def main(argv=None) -> int:
     scope: list[tuple[str, int, str, str, dict]] = []     # the same, for in_scope_of
     defined_by: list[tuple[str, int, str, str, dict]] = []   # the same, for defined_by
     disagree: list[tuple[str, int, str, str, dict]] = []     # the same, for disagrees_with
+    follows: list[tuple[str, int, str, str, dict]] = []      # the same, for follows
+    supports: list[tuple[str, int, str, str, dict]] = []     # the same, for supports
     for rel, doc, _ in docs:
         for path, value in walk(doc):
             if isinstance(value, str) and ref_pattern.match(value) and value.split("#")[0] not in ids:
@@ -246,11 +258,16 @@ def main(argv=None) -> int:
                         defined_by.append((rel, i, edge[0], edge[2], edge[3]))
                     elif edge[1] == "disagrees_with":
                         disagree.append((rel, i, edge[0], edge[2], edge[3]))
+                    elif edge[1] == "follows":
+                        follows.append((rel, i, edge[0], edge[2], edge[3]))
+                    elif edge[1] == "supports":
+                        supports.append((rel, i, edge[0], edge[2], edge[3]))
 
     errors += check_axes(schema, ids, entities, broader, scope)
     errors += check_scope_edges(broader, scope)
     errors += check_definitions(ids, entities, defined_by, disagree)
     errors += check_disagreements(entities, disagree)
+    errors += check_sequences(entities, broader, scope, supports, follows)
     errors += check_grading(ids, entities)
     errors += check_evidence(ids, entities)
     errors += check_quote_form(docs)
@@ -514,6 +531,64 @@ def check_disagreements(entities: dict[str, dict], disagree: list[tuple[str, int
             errs.append(f"{where}: {frm} and {to} are already joined by disagrees_with ({seen[pair]}); the edge is symmetric, "
                         f"one per pair")
         seen.setdefault(pair, where)
+    return errs
+
+
+def check_sequences(entities: dict[str, dict], broader: list[tuple[str, int, str, str, dict]],
+                    scope: list[tuple[str, int, str, str, dict]], supports: list[tuple[str, int, str, str, dict]],
+                    follows: list[tuple[str, int, str, str, dict]]) -> list[str]:
+    """A sequence (spec §5 `follows`): [later, follows, earlier], the later recommendation's step taken because of how
+    the earlier one's measure went. Three facts across files, none a clinical reading. (a) One source: some source has
+    claims supporting both statements, read off their `supports` edges, since a chain never runs across guidelines;
+    a statement no claim supports has no source and joins none. (b) Population: a step the outcome of another
+    triggers is never for a wider group than that one, so the later statement's `population` never lies strictly
+    above the earlier's along `broader` and `in_scope_of`, the edges a view climbs to its root; the same population or
+    a narrower one passes, an unrelated one too, the pool stating no relation to check, and a statement without one
+    is not compared. (c) Cycles: the `follows` edges whose
+    `trigger` is neither `reevaluation` nor `target_reached` form no cycle, by the one cycle check `broader` uses; a
+    loop through a re-evaluation or a reached target is one the guideline may run, and stays allowed. That
+    `transition` and `trigger` are present, closed and on `follows` alone is the schema's; that the page bears them,
+    and the edge at all, is the judge's (spec §8.1). Nothing here relates the edge to the later statement's
+    `condition`, which the edge never writes (spec §5.1 N3). No trigger beyond the two that close a loop, no
+    population and no guideline is named here."""
+    errs: list[str] = []
+    source_of = lambda cid: str((entities.get(cid, {}).get("source") or {}).get("at", "")).split("#")[0]
+    sources: dict[str, set[str]] = defaultdict(set)   # statement → the sources of the claims supporting it
+    for _, _, claim, statement, _ in supports:
+        if claim in entities:
+            sources[statement].add(source_of(claim))
+    wider: dict[str, list[str]] = defaultdict(list)   # concept → the concepts it is a case of
+    for _, _, frm, to, _ in broader + scope:
+        wider[frm].append(to)
+
+    def above(concept: str) -> set[str]:
+        seen: set[str] = set()
+        todo = list(wider.get(concept, []))
+        while todo:
+            c = todo.pop()
+            if c not in seen:
+                seen.add(c)
+                todo.extend(wider.get(c, []))
+        return seen
+
+    population = lambda sid: ((entities.get(sid) or {}).get("slots") or {}).get("population")
+    loops = ("reevaluation", "target_reached")
+    graph: dict[str, list[str]] = {}
+    for rel, i, later, earlier, props in follows:
+        where = f"{rel} at {i}"
+        if later in entities and earlier in entities and not sources[later] & sources[earlier]:
+            errs.append(f"{where}: {later} follows {earlier}, but no one source has claims supporting both "
+                        f"({', '.join(sorted(sources[later])) or 'none'} / {', '.join(sorted(sources[earlier])) or 'none'}); "
+                        f"a sequence runs within one guideline (spec §5)")
+        lp, ep = population(later), population(earlier)
+        if lp and ep and lp != ep and lp in above(ep):
+            errs.append(f"{where}: {later} follows {earlier}, but its population {lp} lies above the earlier's, {ep}, along "
+                        f"broader and in_scope_of; a later step is never for a wider group than the one whose outcome triggers it (spec §5)")
+        if props.get("trigger") not in loops:
+            graph.setdefault(later, []).append(earlier)
+    for cycle in cycles(graph):
+        errs.append(f"follows edges form a cycle with no trigger of {' or '.join(loops)}: {' -> '.join(cycle)}; only a "
+                    f"re-evaluation or a reached target closes a loop (spec §5)")
     return errs
 
 

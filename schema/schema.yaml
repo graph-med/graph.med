@@ -27,6 +27,10 @@
 # its own),
 # a disagreement is the source's own (spec §5: `disagrees_with` joins two
 # claims of one source, never a claim to itself, one edge per pair),
+# a sequence holds together (spec §5 `follows`: some one source has claims
+# supporting both statements, the later statement's population lies not strictly
+# above the earlier's along `broader` and `in_scope_of`, and the `follows` edges
+# whose trigger is neither `reevaluation` nor `target_reached` form no cycle),
 # a claim is read in its source's grading scheme (spec §3.1: its grade, basis and
 # consensus are of its own source's `grading_scheme`, its direction the one its
 # grade fixes, its verb one a declared scheme defines, a printed share lies in
@@ -54,7 +58,7 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 $id: https://graph.med/schema/schema.yaml
 title: graph.med pool
-x-version: 0.23.0
+x-version: 0.24.0
 
 # ── layout: which definition each data file validates against ────────────────
 # (data/README.md). Globs are relative to the repository root. `one_per_file`
@@ -836,6 +840,9 @@ $defs:
       as_of:         {$ref: '#/$defs/date'}
       guard:         {}
       condition:     {$ref: '#/$defs/concept_ref'}   # in_scope_of only: under which circumstance the membership holds; absent = unconditional (spec §5)
+      transition:    {enum: [replaces, adds, follows, concurrent]}   # follows only: what the later measure does to the earlier (spec §5)
+      trigger:       {enum: [target_missed, intolerance, contraindication, target_reached, reevaluation, finding, other]}
+                       # follows only: which outcome of the earlier measure calls for the later (spec §5)
     dependentRequired:
       rationale: [lang]
   modelling_edge_props:
@@ -852,7 +859,7 @@ $defs:
     prefixItems:
       - $ref: '#/$defs/entity_ref'
       - enum: [supports, contests, refines, supplements, limits, disagrees_with, codes_as, broader, in_scope_of,
-               defined_by, sequence, branch, about, specializes, complements, conflicts]
+               defined_by, sequence, branch, about, specializes, complements, conflicts, follows]
       - $ref: '#/$defs/entity_ref'
       - $ref: '#/$defs/edge_props'
     allOf:
@@ -917,3 +924,17 @@ $defs:
         then:
           prefixItems: [{$ref: '#/$defs/statement_ref'}, true, {$ref: '#/$defs/statement_ref'},
                         {$ref: '#/$defs/modelling_edge_props'}]
+      # sequence — "is triggered by the outcome of": [later, follows, earlier], the later recommendation's step
+      # taken because of how the earlier one's measure went, where the text states the order (spec §5). Not the
+      # structure edge `sequence`, which arranges an authored pathway. Statement → statement, modelling, with a
+      # rationale quoting the trigger as printed; `transition` (what the later measure does to the earlier) and
+      # `trigger` (which outcome calls for it) are required, closed, and allowed on no other kind. It writes no
+      # condition, carries no threshold and no status. The validator checks that some one source supports both
+      # statements, that the later's population lies not strictly above the earlier's, and that the edges whose
+      # trigger is neither `reevaluation` nor `target_reached` form no cycle
+      - if: {prefixItems: [true, {const: follows}]}
+        then:
+          prefixItems: [{$ref: '#/$defs/statement_ref'}, true, {$ref: '#/$defs/statement_ref'},
+                        {allOf: [{$ref: '#/$defs/modelling_edge_props'}, {required: [transition, trigger]}]}]
+      - if: {prefixItems: [true, true, true, {anyOf: [{required: [transition]}, {required: [trigger]}]}]}
+        then: {prefixItems: [true, {const: follows}]}
