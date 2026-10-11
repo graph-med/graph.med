@@ -343,7 +343,7 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card .disagrees { border-left: 3px solid var(--disagree); padding: .1rem 0 .1rem .6rem; margin: .3rem 0 .6rem; max-width: 70ch; }
 .card .disagrees .disagrees-head { margin: 0 0 .15rem; color: var(--disagree); font-size: .9rem; font-weight: 600; }
 .card .disagrees .disagrees-head .glyph { font-weight: 400; }
-.card .disagrees ul { margin: 0; }
+.card .disagrees ul { margin: 0; padding-left: 0; list-style: none; }   /* the rule beside the block sets it apart; no bullet inside it */
 .card .disagrees li { padding: .2rem 0; border-top: 0; }
 .card .disagrees li p { margin: .1rem 0; }
 .card .disagrees .cite a { min-height: 32px; }
