@@ -30,7 +30,8 @@
 # a sequence holds together (spec §5 `follows`: some one source has claims
 # supporting both statements, the later statement's population lies not strictly
 # above the earlier's along `broader` and `in_scope_of`, and the `follows` edges
-# whose trigger is neither `reevaluation` nor `target_reached` form no cycle),
+# whose trigger is neither `reevaluation` nor `target_reached` form no cycle, an
+# edge between two statements whose claims `disagrees_with` joins left out),
 # a claim is read in its source's grading scheme (spec §3.1: its grade, basis and
 # consensus are of its own source's `grading_scheme`, its direction the one its
 # grade fixes, its verb one a declared scheme defines, a printed share lies in
@@ -931,7 +932,8 @@ $defs:
       # `trigger` (which outcome calls for it) are required, closed, and allowed on no other kind. It writes no
       # condition, carries no threshold and no status. The validator checks that some one source supports both
       # statements, that the later's population lies not strictly above the earlier's, and that the edges whose
-      # trigger is neither `reevaluation` nor `target_reached` form no cycle
+      # trigger is neither `reevaluation` nor `target_reached` form no cycle — unless the source states the order
+      # both ways, the two statements' claims joined by `disagrees_with`: shown, never resolved
       - if: {prefixItems: [true, {const: follows}]}
         then:
           prefixItems: [{$ref: '#/$defs/statement_ref'}, true, {$ref: '#/$defs/statement_ref'},

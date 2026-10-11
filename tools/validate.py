@@ -60,7 +60,9 @@ rules a document schema cannot state because they span files:
     strictly above the earlier's along `broader` and `in_scope_of` — the same
     population, a narrower one or an unrelated one passes; (c) the `follows`
     edges whose `trigger` is neither `reevaluation` nor `target_reached` form no
-    cycle, a loop through a re-evaluation or a reached target staying allowed.
+    cycle, a loop through a re-evaluation or a reached target staying allowed,
+    and so does one through an edge whose two statements are supported by
+    claims `disagrees_with` joins: the source stating their order both ways.
     That `transition` and `trigger` stand on `follows` alone, both present and
     from their closed lists, is the schema's; nothing relates the edge to the
     later statement's `condition`;
@@ -267,7 +269,7 @@ def main(argv=None) -> int:
     errors += check_scope_edges(broader, scope)
     errors += check_definitions(ids, entities, defined_by, disagree)
     errors += check_disagreements(entities, disagree)
-    errors += check_sequences(entities, broader, scope, supports, follows)
+    errors += check_sequences(entities, broader, scope, supports, follows, disagree)
     errors += check_grading(ids, entities)
     errors += check_evidence(ids, entities)
     errors += check_quote_form(docs)
@@ -536,7 +538,8 @@ def check_disagreements(entities: dict[str, dict], disagree: list[tuple[str, int
 
 def check_sequences(entities: dict[str, dict], broader: list[tuple[str, int, str, str, dict]],
                     scope: list[tuple[str, int, str, str, dict]], supports: list[tuple[str, int, str, str, dict]],
-                    follows: list[tuple[str, int, str, str, dict]]) -> list[str]:
+                    follows: list[tuple[str, int, str, str, dict]],
+                    disagree: list[tuple[str, int, str, str, dict]]) -> list[str]:
     """A sequence (spec §5 `follows`): [later, follows, earlier], the later recommendation's step taken because of how
     the earlier one's measure went. Three facts across files, none a clinical reading. (a) One source: some source has
     claims supporting both statements, read off their `supports` edges, since a chain never runs across guidelines;
@@ -546,7 +549,10 @@ def check_sequences(entities: dict[str, dict], broader: list[tuple[str, int, str
     a narrower one passes, an unrelated one too, the pool stating no relation to check, and a statement without one
     is not compared. (c) Cycles: the `follows` edges whose
     `trigger` is neither `reevaluation` nor `target_reached` form no cycle, by the one cycle check `broader` uses; a
-    loop through a re-evaluation or a reached target is one the guideline may run, and stays allowed. That
+    loop through a re-evaluation or a reached target is one the guideline may run, and stays allowed. So is a loop
+    through an edge whose two statements are supported by claims that `disagrees_with` joins: where the source states
+    the order of two recommendations both ways, each printing is shown and none chosen (spec §5, §5.1 D), so the
+    check never makes a linking pass drop one. That
     `transition` and `trigger` are present, closed and on `follows` alone is the schema's; that the page bears them,
     and the edge at all, is the judge's (spec §8.1). Nothing here relates the edge to the later statement's
     `condition`, which the edge never writes (spec §5.1 N3). No trigger beyond the two that close a loop, no
@@ -554,9 +560,13 @@ def check_sequences(entities: dict[str, dict], broader: list[tuple[str, int, str
     errs: list[str] = []
     source_of = lambda cid: str((entities.get(cid, {}).get("source") or {}).get("at", "")).split("#")[0]
     sources: dict[str, set[str]] = defaultdict(set)   # statement → the sources of the claims supporting it
+    claims: dict[str, set[str]] = defaultdict(set)    # statement → the claims supporting it
     for _, _, claim, statement, _ in supports:
+        claims[statement].add(claim)
         if claim in entities:
             sources[statement].add(source_of(claim))
+    joined = {frozenset((frm, to)) for _, _, frm, to, _ in disagree}
+    disagree_on = lambda a, b: any(frozenset((x, y)) in joined for x in claims[a] for y in claims[b])
     wider: dict[str, list[str]] = defaultdict(list)   # concept → the concepts it is a case of
     for _, _, frm, to, _ in broader + scope:
         wider[frm].append(to)
@@ -584,11 +594,12 @@ def check_sequences(entities: dict[str, dict], broader: list[tuple[str, int, str
         if lp and ep and lp != ep and lp in above(ep):
             errs.append(f"{where}: {later} follows {earlier}, but its population {lp} lies above the earlier's, {ep}, along "
                         f"broader and in_scope_of; a later step is never for a wider group than the one whose outcome triggers it (spec §5)")
-        if props.get("trigger") not in loops:
+        if props.get("trigger") not in loops and not disagree_on(later, earlier):
             graph.setdefault(later, []).append(earlier)
     for cycle in cycles(graph):
         errs.append(f"follows edges form a cycle with no trigger of {' or '.join(loops)}: {' -> '.join(cycle)}; only a "
-                    f"re-evaluation or a reached target closes a loop (spec §5)")
+                    f"re-evaluation or a reached target closes a loop, or the source stating an order both ways, its "
+                    f"claims joined by disagrees_with (spec §5)")
     return errs
 
 
