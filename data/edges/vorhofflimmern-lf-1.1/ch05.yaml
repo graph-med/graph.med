@@ -78,3 +78,12 @@
    rationale: "Empfehlung 5.8 (S. 43): „bei denen eine orale Antikoagulation kontraindiziert ist“; ihre Begründung (S. 43, Z. 63–64): die Therapieform wird „dann als sinnvoll angesehen, wenn eine orale Antikoagulation langfristig kontraindiziert ist“. Der Text zieht eine Grenze in der Zeit, „langfristig“, die der Kasten nicht zieht."}]
 - [claims/vorhofflimmern-lf-1.1/661bdf89, disagrees_with, claims/vorhofflimmern-lf-1.1/3a766d15, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "Die Begründung der Empfehlung 5.8 nennt zwei Gruppen für den Vorhofohrverschluss: bei „erhöhtem Thromboembolie- und Blutungsrisiko“ als „mögliche Therapiealternative zur dauerhaften oralen Antikoagulation“ (S. 43, Z. 55–57), und „wenn eine orale Antikoagulation langfristig kontraindiziert ist“ (S. 43, Z. 63–64): die eine setzt eine mögliche Antikoagulation voraus, die andere ihre Kontraindikation."}]
+
+# sequences (spec §5 `follows`; #294, #295): within chapter 5, by the four tests; 5.1 → 5.4 and 5.4 → 5.5 are no edge
+# (#365 Decision 9, named in the pull request)
+- [statements/shared-decision-making-zur-schlaganfallpraevention, follows, statements/cha2ds2-va-score-zur-abschaetzung-des-schlaganfallrisikos, {source: modelling, as_of: "2026-10-11", lang: de, transition: follows, trigger: finding,
+   rationale: "Empfehlung 5.3 wägt „individuell die ermittelten Risiken aus den beiden o.g. Scores“ ab — das Schlaganfallrisiko, das der CHA2DS2-VA-Score der Empfehlung 5.1 ermittelt."}]
+- [statements/shared-decision-making-zur-schlaganfallpraevention, follows, statements/abschaetzung-des-blutungsrisikos-bei-vorhofflimmern, {source: modelling, as_of: "2026-10-11", lang: de, transition: follows, trigger: finding,
+   rationale: "Empfehlung 5.3 wägt „individuell die ermittelten Risiken aus den beiden o.g. Scores“ ab — das Blutungsrisiko, das die Empfehlung 5.2 abschätzt."}]
+- [statements/interdisziplinaere-indikationspruefung-zum-vorhofohrverschluss-im-zentrum, follows, statements/vorhofohrverschluss-bei-kontraindizierter-oraler-antikoagulation, {source: modelling, as_of: "2026-10-11", lang: de, transition: follows, trigger: other,
+   rationale: "Empfehlung 5.9 prüft die Indikation „für die Patient*innen, die für diese Prozedur in Frage kommen“ — die Prozedur ist der Vorhofohrverschluss, den Empfehlung 5.8 als Option erwägt."}]
