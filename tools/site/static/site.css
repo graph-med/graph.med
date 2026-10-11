@@ -417,13 +417,10 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card .rules .rule-tree > span, .card .rules ul.rule-list li > span, .card .rules ul.rule-list li > a.rule { display: block; }
 .card .rules .threshold { white-space: normal; }
 .card .rules .cite a { min-height: 32px; }
-/* a sum's parts (a points table): each part with the points its row prints beside it, as printed, in a column of
-   their own at the part's first line, so that the figures read down as the table's column does — nothing added up */
-.card .rules ul.rule-list.scored > li { display: flex; gap: .5rem; align-items: baseline; }
-.card .rules .points { flex: none; min-width: 1.8rem; padding: 0 .35rem; border: 1px solid var(--mute); border-radius: .3rem;
-  text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; }
-.card .rules .part { flex: 1 1 auto; min-width: 0; }
-.card .rules .part > span, .card .rules .part > a.rule { display: block; }
+/* a sum's part (a points table) is its row: the row's words, its points among them, then set in under them the rule
+   the row prints or its footnote gives — a threshold, or a combination with its parts — behind a line of its own */
+.card .rules .row-rule { margin: .15rem 0 0; padding-left: .6rem; border-left: 2px solid var(--line); }
+.card .rules .row-rule > .threshold { display: block; }
 /* under a threshold whose quantity is itself derived (a score under its bound): a line naming the quantity, then its
    rule, set in behind a line of its own as a combination's parts are */
 .card .rules .quantity-rule { margin: .25rem 0 0; padding-left: .6rem; border-left: 2px solid var(--line); }

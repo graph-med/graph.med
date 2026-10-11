@@ -150,9 +150,9 @@ CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", 
              "disagrees.one", "disagrees.many", "disagrees.differ",
              # how a rule's parts combine (spec §3.1), by the schema's operators: the word the card says for each
              "op.all_of", "op.any_of", "op.at_least", "op.not_stated", "op.sum",
-             # a sum's points beside each part, as printed: what the figure is, for a pointer that rests on it; and the line
-             # over the rule of a threshold's quantity where that quantity is itself derived (a score under its bound)
-             "sum.points", "derivation.quantity.rule", "derivation.quantity.rules",
+             # the line over the rule of a threshold's quantity where that quantity is itself derived (a score under its
+             # bound); a sum's points have no word of their own: each part's label prints its row's points cell
+             "derivation.quantity.rule", "derivation.quantity.rules",
              # an axis's page (docs/publication.md §4): its carrier, rule and question, its status per view, its placements
              "carrier.dimension", "carrier.hierarchy", "axis.rule", "axis.question", "axis.views", "axis.since",
              "status.proposed", "status.asserted", "status.withdrawn", "axis.placements",
@@ -206,7 +206,7 @@ CARD_WORDS = {"de": {
     "disagrees.one": "Die Leitlinie nennt hierzu eine abweichende Angabe:", "disagrees.many": "Die Leitlinie nennt hierzu abweichende Angaben:",
     "disagrees.differ": "Worin die Angaben abweichen",
     "op.all_of": "UND", "op.any_of": "ODER", "op.at_least": "mindestens {n} von {m}", "op.not_stated": "Verknüpfung nicht angegeben",
-    "op.sum": "Summe der Punkte", "sum.points": "Punkte, wie in der Leitlinie gedruckt",
+    "op.sum": "Summe der Punkte",
     "derivation.quantity.rule": "{quantity}: abgeleitet, nach der Regel",
     "derivation.quantity.rules": "{quantity}: abgeleitet; die Leitlinie gibt die Regel an {n} Stellen abweichend an:",
     "carrier.dimension": "Dimension", "carrier.hierarchy": "Hierarchie", "axis.rule": "Regel", "axis.question": "Frage",
@@ -902,6 +902,16 @@ def natural(s: str):
     return [int(p) if p.isdigit() else p for p in re.split(r"(\d+)", s)]
 
 
+def numeral(value) -> bool:
+    """Whether a threshold's value is printed as a number alone — digits with any decimal or group separator, or a
+    range of two ("2", "1,5", "50 000", "65 – 74") —, so that the card joins it to a relative threshold's reference
+    quantity by its own sign, "× <reference>" (docs/publication.md §3 zone 5). A value that prints a sign or a word of
+    its own beside or instead of its digits ("2x", "Dreifach") is shown as printed, nothing added to it. Nothing reads
+    what the value says beyond whether it is digits: no sign, word or language is recognised."""
+    n = r"\d(?:[\d\s.,]*\d)?"
+    return re.fullmatch(rf"{n}(?:\s*[–-]\s*{n})?", str(value).strip()) is not None
+
+
 def numbered(no) -> bool:
     """Whether a `recommendation_no` is a number — digits, dot-separated ("2.1", "10.4") — which the card cites after
     its word for a recommendation; anything else ("Definition 1") names itself and is cited as printed."""
@@ -1483,6 +1493,7 @@ def main(argv=None) -> int:
     # a source's version and date wherever a page names it, by its id, in the page chrome's words (edition_of)
     env.globals["edition"] = lambda sid: edition_of(pool.entities[sid]) if sid in pool.entities else None
     env.tests["numbered"] = numbered                 # a recommendation number the card cites after its word, else as printed
+    env.tests["numeral"] = numeral                   # a threshold's value the card joins to its reference quantity by "×"
 
     out = args.out
     if out.exists():
