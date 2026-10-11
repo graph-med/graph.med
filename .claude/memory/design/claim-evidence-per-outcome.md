@@ -32,9 +32,9 @@ outcome the source lists without a rating is an entry with `outcome` and
 no value: its words are the entry's `note`, beside the row's `key`; a
 heading that says what kind of evidence its rows rate is the `note` of each
 entry under it, and where it heads no rating one entry with that note alone.
-A cell that prints the box's basis in place of a level gives no entry (the
-claim's `basis`). Every entry states an outcome, a value or a note, and
-names its `system` wherever it states an outcome or a value; a note alone
+A cell that prints the box's basis in place of a level gives that token to
+the claim's `basis`, and the words beside it are a note alone. Every entry
+states an outcome, a value or a note, and names its `system` wherever it states an outcome or a value; a note alone
 takes the system of its box's rated rows, and names none where no row of the
 box prints a rating. The entries are the box's evidence block and nothing
 else: a rating printed elsewhere is never an entry, and where it disagrees

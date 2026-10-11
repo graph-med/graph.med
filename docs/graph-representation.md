@@ -462,23 +462,24 @@ it is one entry with that note alone; a heading that only names the column goes
 into no field. A note is never a level, never the basis the box prints beside
 its grade, never effect data and never words that only say what a rating covers.
 A cell that prints, in place of a level, the basis the box prints beside its
-grade gives no entry: the basis is the claim's `basis` (above), and what the
-cell adds about where the box comes from stays on the page with the box's other
-origin words (open question origin-and-status-labels). An entry names its
-**`system`** wherever it states an outcome or a value. An entry stating a note
-alone, or a box's own rating printed beside its rows without a notation, takes
-the system of the box's rated rows; where no row of the box prints a rating, a
-note alone names none — the one entry without a `system`, since a system there
-would be an inference no quote supports. Every entry states an outcome, a value
-or a note, and an entry with none of them is refused, whatever its key. An
-absent or empty list means the certainty was not recorded, not that there is
-none. The entries are the rows of the box's evidence block **and nothing else**:
-a rating the source prints elsewhere for the recommendation's evidence — in the
-text that gives its reasons, say — is never an entry. Where it rates that
-evidence otherwise than the box, it is the disagreement above, a `fact` claim
-joined to the recommendation's claim by `disagrees_with` (§5.1 N(2), D), both
-shown and neither chosen; where it rates an endpoint the box does not list, it
-stays on the page.
+grade gives that token to the claim's `basis` (above), never to a note; the
+words it prints beside the token — where the box's recommendation comes from,
+say — are a note alone, like those of any cell that prints words instead of a
+level, and the reader sees them. An entry names its **`system`** wherever it
+states an outcome or a value. An entry stating a note alone, or a box's own
+rating printed beside its rows without a notation, takes the system of the box's
+rated rows; where no row of the box prints a rating, a note alone names none —
+the one entry without a `system`, since a system there would be an inference no
+quote supports. Every entry states an outcome, a value or a note, and an entry
+with none of them is refused, whatever its key. An absent or empty list means
+the certainty was not recorded, not that there is none. The entries are the rows
+of the box's evidence block **and nothing else**: a rating the source prints
+elsewhere for the recommendation's evidence — in the text that gives its
+reasons, say — is never an entry. Where it rates that evidence otherwise than
+the box, it is the disagreement above, a `fact` claim joined to the
+recommendation's claim by `disagrees_with` (§5.1 N(2), D), both shown and
+neither chosen; where it rates an endpoint the box does not list, it stays on
+the page.
 
 The rows a marked recommendation prints once belong to **every sentence of it
 that supports a statement of its own**: each such claim carries all of them, in
