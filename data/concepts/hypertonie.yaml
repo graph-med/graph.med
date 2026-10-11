@@ -1,0 +1,10 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): hypertension, the comorbidity, as Tabellen 6 and 8
+# print it („Hypertonie“, pp. 25, 38; „arterieller Hypertonie“, 4.9, p. 35). Used by C1, C2 and C3. Tabelle 9's
+# „Hypertonie*“ (p. 39), „nur unzureichend eingestellte arterielle Hypertonie mit Werten > 160mmHg systolisch“, is
+# narrower and C3's own.
+id: concepts/hypertonie
+type: concept
+lang: de
+label: "Hypertonie"
+facet: patient_state
+source: modelling

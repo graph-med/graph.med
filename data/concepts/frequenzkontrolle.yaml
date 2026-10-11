@@ -1,0 +1,9 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): the strategy of rate control („Frequenzkontrolle“,
+# „frequenzkontrollierende Therapie“): 2.3 (p. 18), 6.7 (p. 57), 7.1–7.6, and the body text of chapters 6–8. A
+# strategy, intervention (card #364, Decision 4). Used by C1, C4, C5 and C6.
+id: concepts/frequenzkontrolle
+type: concept
+lang: de
+label: "Frequenzkontrolle"
+facet: intervention
+source: modelling

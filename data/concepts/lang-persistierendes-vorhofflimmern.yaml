@@ -1,0 +1,16 @@
+# A form of Tabelle 3 (p. 14), the AF form the first question of the tree asks (the maintainer, 2026-10-11, #314
+# question 1): one of the five families axes/vorhofflimmern-population proposes under the scope root (card #364,
+# Decisions 1 and 10). Labelled as the table prints the form, its row head with the table's head. 6.11 prints
+# „langanhaltend persistierendem AF“ (p. 62): one concept, read as the table's form (card #364, reading 1, for the
+# physician). Its rule is printed three ways — „mehr als 12 Monate“ (Tabelle 3, p. 14), „seit mindestens 12 Monaten“
+# (p. 61), „Dauer über 1 Jahr“ (p. 62) —, so it reaches each printing by a defined_by edge of its own, every pair
+# joined by disagrees_with, and no printing is chosen (#341; card #364, Decision 5): C1 writes the first, X1 the
+# edges to C5's printings with the disagrees_with edges between the parts (proposed for the maintainer).
+id: concepts/lang-persistierendes-vorhofflimmern
+type: concept
+lang: de
+label: "lang-persistierendes Vorhofflimmern"
+facet: patient_state
+source:
+  - {at: sources/vorhofflimmern-lf-1.1#page=14, quote: "Klassifikation von Vorhofflimmern"}
+  - {at: sources/vorhofflimmern-lf-1.1#page=14, quote: "Lang-persistierend"}

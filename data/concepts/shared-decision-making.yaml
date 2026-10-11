@@ -1,0 +1,11 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): the decision taken together, „nach dem Prinzip des
+# shared decision making“ as 5.3 (p. 40) and p. 39 print it, the English words in quotation marks; the body text of
+# chapters 1, 2, 4 and 6 says „partizipative Entscheidung(sfindung)“ (pp. 10, 11, 17, 28). A strategy, intervention
+# (card #364, Decision 4). Used by C1, C2, C3, C4 and C5. Not concepts/partizipative-entscheidungsfindung, an
+# outcome of the first source (card #364, Decision 9): a near-duplicate named, never merged.
+id: concepts/shared-decision-making
+type: concept
+lang: de
+label: "shared decision making"
+facet: intervention
+source: modelling

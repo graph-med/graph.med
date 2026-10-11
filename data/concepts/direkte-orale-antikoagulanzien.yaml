@@ -1,0 +1,9 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): „direkte orale Antikoagulanzien (DOAK)“ (p. 41; the
+# heading of 8.2, p. 81; „direktes orales Antikoagulanz“, p. 81), a drug class beside the Vitamin-K antagonists.
+# Used by C3 (pp. 41–43), C5 (6.14, p. 64) and C7 (8.1's row „DOAK: Leitlinienadaptation“, p. 79; pp. 81–86).
+id: concepts/direkte-orale-antikoagulanzien
+type: concept
+lang: de
+label: "direkte orale Antikoagulanzien (DOAK)"
+facet: medication
+source: modelling

@@ -1,0 +1,10 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): the endpoint cardiovascular death, one concept for
+# „Kardiovaskuläre Mortalität“ (2.3, p. 18) and „CV-Tod“ (6.1, p. 49; 6.2, p. 50), read as one endpoint (card #364,
+# reading 8). Used by C1 and C4. Not concepts/mortalitaet, all-cause mortality („Gesamtmortalität“, „Mortalität“),
+# which this source reuses.
+id: concepts/kardiovaskulaere-mortalitaet
+type: concept
+lang: de
+label: "kardiovaskuläre Mortalität"
+facet: outcome
+source: modelling

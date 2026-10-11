@@ -1,0 +1,13 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): the class of 1.6 („Weitere Einteilungen“, p. 13, l.
+# 50–51): „Je nach akuter bzw. chronischer klinischer Präsentation wird AF auch in hämodynamisch stabil/instabil
+# bzw. asymptomatisch/symptomatisch eingeteilt.“ A condition wherever a box prints it (card #364, Decision 7 and
+# reading 5): a dimension would need a person's proposal. Printed in 6.13 („Bei hämodynamisch stabilen Patient*innen
+# mit AF“, p. 63) and 6.15 („mit hämodynamischer Stabilität“, p. 65). Used by C1 and C5. Its counterpart is reused:
+# concepts/haemodynamisch-instabil, a condition only (card #364, Decision 9).
+id: concepts/haemodynamisch-stabil
+type: concept
+lang: de
+label: "hämodynamisch stabil"
+facet: patient_state
+source:
+  - {at: sources/vorhofflimmern-lf-1.1#page=13, quote: "hämodynamisch stabil"}

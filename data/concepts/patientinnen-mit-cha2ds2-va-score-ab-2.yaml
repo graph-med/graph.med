@@ -1,0 +1,11 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): the patients the bound „≥2“ on
+# concepts/cha2ds2-va-score gives (spec §3.2: a group of its own, never the score): 5.4, p. 40, „Bei einem
+# ermittelten CHA2DS2-VA Score von ≥2“, and 6.2, p. 50, „(CHA2DS2-VA Score ≥2)“. Derived once C3 writes its
+# defined_by edge to 5.4's narrower criterion claim (owner C3); 6.2 prints the same bound, so C4 adds no second
+# edge. A subgroup anchor of 5.4 and 6.2 by card #364's reading 4, for the physician.
+id: concepts/patientinnen-mit-cha2ds2-va-score-ab-2
+type: concept
+lang: de
+label: "Patient*innen mit CHA2DS2-VA-Score ≥ 2"
+facet: patient_state
+source: modelling

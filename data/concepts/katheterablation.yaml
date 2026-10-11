@@ -1,0 +1,9 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): the procedure „Katheterablation“ (6.4–6.6, pp. 52–56;
+# 6.10, 6.11, pp. 61–62; 8.6's „(Ablation)“, p. 89; the body text of chapters 5 and 7). Used by C4, C5, C7, C3 and
+# C6.
+id: concepts/katheterablation
+type: concept
+lang: de
+label: "Katheterablation"
+facet: procedure
+source: modelling

@@ -1,0 +1,9 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): the drug class of 6.8 and 6.17 (Flecainid,
+# Propafenon), labelled as the heading of 6.5.1 prints it (p. 57); also „Klasse IC Antiarrhythmika“ (pp. 57, 66) and
+# „Klasse-IC Antiarrhythmika“ (pp. 58, 66). Used by C4 (6.8), C5 (6.17), C6 and C7 (body text).
+id: concepts/klasse-ic-antiarrhythmika
+type: concept
+lang: de
+label: "Klasse IC-Antiarrhythmika"
+facet: medication
+source: modelling

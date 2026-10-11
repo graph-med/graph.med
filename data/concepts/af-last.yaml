@@ -1,0 +1,10 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): the share of time in AF, „AF-Last“ (pp. 12, 17, 18,
+# 20, 25, 26, 54), „Vorhofflimmern-Last“ (3.1, p. 24), „Vorhofflimmerlast“ (p. 11, with its parenthesis „Anteil des
+# AF-Anteils in einem bestimmten Zeitintervall“). A measured quantity, finding. Used by C1 and C4. Derived once C1
+# writes its defined_by edge to p. 11's parenthesis, if spec §5.1 admits it (owner C1).
+id: concepts/af-last
+type: concept
+lang: de
+label: "AF-Last"
+facet: finding
+source: modelling

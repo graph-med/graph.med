@@ -1,0 +1,10 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): the Vitamin-K antagonist the guideline names for
+# Germany („Phenprocoumon, dem in Deutschland überwiegend eingesetzten Vitamin-K Antagonist“, p. 42). Used by C3
+# (pp. 42–43) and C7 (8.1's row „Phenprocoumon: sehr gering“, p. 79; p. 84). A drug, beside its class
+# concepts/vitamin-k-antagonisten.
+id: concepts/phenprocoumon
+type: concept
+lang: de
+label: "Phenprocoumon"
+facet: medication
+source: modelling

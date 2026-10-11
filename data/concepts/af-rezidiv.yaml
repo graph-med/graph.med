@@ -1,0 +1,11 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): the endpoint recurrence of AF, one concept for
+# „Rezidiv AF“ (4.1–4.5, pp. 29–32) and „AF-Rezidiv“ (6.5, p. 53; 6.6, p. 56). Used by C2 and C4; for 8.6's „höhere
+# Rezidivrate nach Ablation“ (p. 89) proposed to C7 (card #364, reading 8). Not „AF-Freiheit“ (6.15) or „Freiheit
+# von Arrhythmien“ (6.10, 6.11), endpoints of C5's own: an arrhythmia is wider than AF, and neither is merged
+# (reading 8).
+id: concepts/af-rezidiv
+type: concept
+lang: de
+label: "AF-Rezidiv"
+facet: outcome
+source: modelling

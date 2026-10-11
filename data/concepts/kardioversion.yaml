@@ -1,0 +1,10 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): the procedure „Kardioversion“ (6.12–6.16, pp. 63–65;
+# Tabelle 3, p. 14; the body text of chapters 6–8), medication-induced or electrical. Used by C1, C4, C5 and C7. Not
+# 6.10's endpoint „Kardioversionen“ (p. 61), an outcome of C5's (card #364, Decision 4); „elektrische“ and „elektive
+# Kardioversion“ are concepts of C5's beside it.
+id: concepts/kardioversion
+type: concept
+lang: de
+label: "Kardioversion"
+facet: procedure
+source: modelling

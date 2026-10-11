@@ -1,0 +1,10 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): a stroke or TIA before, the circumstance:
+# „Schlaganfall oder TIA in der Anamnese“ (Tabelle 6, p. 25) and „Schlaganfall / TIA“ (Tabelle 8, p. 38). Used by C1
+# and C3. Not the endpoint concepts/schlaganfall (card #364, Decision 4), and not Tabelle 9's „Schlaganfall“ (p.
+# 39), which names no TIA and is C3's own.
+id: concepts/schlaganfall-oder-tia-in-der-anamnese
+type: concept
+lang: de
+label: "Schlaganfall oder TIA in der Anamnese"
+facet: patient_state
+source: modelling

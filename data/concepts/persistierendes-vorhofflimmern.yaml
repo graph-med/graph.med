@@ -1,0 +1,14 @@
+# A form of Tabelle 3 (p. 14), the AF form the first question of the tree asks (the maintainer, 2026-10-11, #314
+# question 1): one of the five families axes/vorhofflimmern-population proposes under the scope root (card #364,
+# Decisions 1 and 10). Labelled as the table prints the form, its row head with the table's head. The boxes print
+# „persistierendem AF“ (6.10, p. 61); 6.7's „deren AF seit mindestens zwei Jahren persistiert“ (p. 57) is a narrower
+# group of C4's. Not the endpoint „Progression zu persistierendem AF“ (6.6, p. 56), an outcome of its own (card
+# #364, Decision 4). Derived once C1 writes its defined_by edge to the table's row (the ledger's owner).
+id: concepts/persistierendes-vorhofflimmern
+type: concept
+lang: de
+label: "persistierendes Vorhofflimmern"
+facet: patient_state
+source:
+  - {at: sources/vorhofflimmern-lf-1.1#page=14, quote: "Klassifikation von Vorhofflimmern"}
+  - {at: sources/vorhofflimmern-lf-1.1#page=14, quote: "Persistierend"}

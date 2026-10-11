@@ -1,0 +1,13 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): the score of Tabelle 8 (p. 38), a scored quantity
+# (spec §3.2), whatever the spelling: „CHA2DS2-VA Score“ (5.1, p. 38; Tabelle 8), „CHA2DS2-VA-Score“ (p. 38; 8.5, p.
+# 87), „CHA2DS2VA Score“ (p. 38), the subscripts inline as the text layer gives them. Used by C3 (5.1, 5.4, 5.9;
+# Tabelle 8), C4 (6.2), C7 (8.5) and C1 (Tabelle 4, p. 19; p. 18). Derived once C3 writes its defined_by edge to
+# Tabelle 8's sum (owner C3). It fills no slot and no placement; the patients a bound gives are a concept of their
+# own (concepts/patientinnen-mit-cha2ds2-va-score-ab-2). Not CHA2DS2-VASc (pp. 12, 25, 38), another score: a concept
+# of its own where a claim needs one, never mapped (#328 Decision 2).
+id: concepts/cha2ds2-va-score
+type: concept
+lang: de
+label: "CHA2DS2-VA-Score"
+facet: finding
+source: modelling
