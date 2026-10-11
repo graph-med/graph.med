@@ -1,0 +1,9 @@
+# A concept of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# A condition of box 6.8: „im Falle einer medikamentösen antiarrhythmischen Therapie“ (p. 58), the anchor being the
+# patients without structural heart disease (reading 15). A drug therapy, medication (spec §3.2).
+id: concepts/medikamentoese-antiarrhythmische-therapie
+type: concept
+lang: de
+label: "medikamentöse antiarrhythmische Therapie"
+facet: medication
+source: modelling

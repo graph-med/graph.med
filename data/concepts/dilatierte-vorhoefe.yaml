@@ -1,0 +1,10 @@
+# A concept of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# A condition of box 6.7: „dilatierte Vorhöfe bestehen“ (p. 57). Derived: it reaches the definition of p. 57, l. 36,
+# „(definiert durch ein erhöhtes LA-Volumen)“, by defined_by (reading 8); the volume and its „Cut-off“ (l. 7–10) refine
+# 6.7. A shared candidate: 6.11's „dilatiertem linken Vorhof“ (C5; Abb. 3's row for 6.11).
+id: concepts/dilatierte-vorhoefe
+type: concept
+lang: de
+label: "dilatierte Vorhöfe"
+facet: patient_state
+source: modelling

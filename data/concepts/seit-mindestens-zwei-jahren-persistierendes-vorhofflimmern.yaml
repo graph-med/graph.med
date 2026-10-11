@@ -1,0 +1,13 @@
+# A concept of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# The group box 6.7 addresses: „Patient*Innen, bei denen das AF bereits seit mindestens zwei Jahren persistiert“
+# (p. 57), an AF form narrowed by a duration (card #364, convention row 4), one concept naming both. Derived: it reaches
+# the narrower criterion claim of the duration by defined_by (card #381 Decision 3). p. 56 names the group otherwise
+# („mit lang-persistierendem Vorhofflimmern“, l. 46), a claim joined to 6.7's by disagrees_with. Whether it hangs under
+# persistent or long-persistent AF is X2's (reading 7).
+id: concepts/seit-mindestens-zwei-jahren-persistierendes-vorhofflimmern
+type: concept
+lang: de
+label: "seit mindestens zwei Jahren persistierendes Vorhofflimmern"
+short_label: "seit mindestens zwei Jahren persistierendes AF"
+facet: patient_state
+source: modelling

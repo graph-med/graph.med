@@ -1,0 +1,14 @@
+# A statement of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# Box 6.5 (p. 53). Anchor: the eligibility the box prints, a subgroup (card #364, convention row 8, reading 4
+# confirmed); symptomatic, younger and without relevant comorbidity are its conditions (rows 8 and 9). The aim and
+# „als Erstlinientherapie“ stay in the label (reading 15).
+id: statements/katheterablation-als-erstlinientherapie
+type: statement
+lang: de
+label: "Zur Reduktion von AF-Episoden und Krankenhausaufenthalten die Katheterablation jüngeren, symptomatischen Patient*innen ohne relevante Begleiterkrankungen und mit Indikation zu einer rhythmuskontrollierenden Behandlung als Erstlinientherapie empfehlen."
+short_label: "Katheterablation als Erstlinientherapie"
+slots:
+  population: concepts/indikation-zu-einer-rhythmuskontrollierenden-behandlung
+  action: concepts/katheterablation
+  condition: [concepts/symptomatisch, concepts/juengere-patientinnen, concepts/ohne-relevante-begleiterkrankungen]
+source: modelling

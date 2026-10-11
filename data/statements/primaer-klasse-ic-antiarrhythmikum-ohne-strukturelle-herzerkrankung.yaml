@@ -1,0 +1,13 @@
+# A statement of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# Box 6.8 (p. 58). Anchor: the patients without structural heart disease, an AF subgroup (card #364, reading 7; the
+# ledger); the drug therapy its condition (reading 15). „primär“ and the members stay in the label.
+id: statements/primaer-klasse-ic-antiarrhythmikum-ohne-strukturelle-herzerkrankung
+type: statement
+lang: de
+label: "Patient*innen ohne strukturelle Herzerkrankung im Falle einer medikamentösen antiarrhythmischen Therapie primär ein Klasse IC-Antiarrhythmikum (Flecainid, Propafenon) empfehlen."
+short_label: "Primär Klasse IC-Antiarrhythmikum (Flecainid, Propafenon)"
+slots:
+  population: concepts/strukturell-herzgesund
+  action: concepts/klasse-ic-antiarrhythmika
+  condition: [concepts/medikamentoese-antiarrhythmische-therapie]
+source: modelling

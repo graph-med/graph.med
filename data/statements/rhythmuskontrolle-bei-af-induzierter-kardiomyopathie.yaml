@@ -1,0 +1,11 @@
+# A statement of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# Box 6.3 (p. 51). Anchor: the state the box names beside AF (card #364, convention row 5).
+id: statements/rhythmuskontrolle-bei-af-induzierter-kardiomyopathie
+type: statement
+lang: de
+label: "Bei Patient*innen mit AF-induzierter Kardiomyopathie die Durchführung einer Rhythmuskontrolle empfehlen."
+short_label: "Rhythmuskontrolle bei AF-induzierter Kardiomyopathie"
+slots:
+  population: concepts/af-induzierte-kardiomyopathie
+  action: concepts/rhythmuskontrolle
+source: modelling

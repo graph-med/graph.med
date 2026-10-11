@@ -1,0 +1,12 @@
+# A statement of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# Box 6.6 (p. 56). Anchor: the AF form narrowed by the indication, one subgroup concept (card #364, convention rows 4 and
+# 8, as 4.2's sample; reading 15). The aim stays in the label.
+id: statements/katheterablation-zur-reduktion-der-progression-bei-paroxysmalem-af
+type: statement
+lang: de
+label: "Patient*innen mit paroxysmalem AF und Indikation zu einer rhythmuskontrollierenden Therapie eine Katheterablation empfehlen, um die Progression zu persistierendem AF zu reduzieren."
+short_label: "Katheterablation, um die Progression zu reduzieren"
+slots:
+  population: concepts/paroxysmales-vorhofflimmern-mit-indikation-zu-einer-rhythmuskontrollierenden-therapie
+  action: concepts/katheterablation
+source: modelling

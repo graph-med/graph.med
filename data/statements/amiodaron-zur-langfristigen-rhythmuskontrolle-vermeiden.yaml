@@ -1,0 +1,12 @@
+# A statement of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# Box 6.9 (p. 59), against: ⇓ fixes the direction, the action is what the sentence avoids, amiodarone (#323 Decision 8).
+# The sentence names no group: by convention row 2 the anchor is the root, flagged (card #364, reading 6).
+id: statements/amiodaron-zur-langfristigen-rhythmuskontrolle-vermeiden
+type: statement
+lang: de
+label: "Eine antiarrhythmische Therapie mit Amiodaron zur langfristigen Rhythmuskontrolle wenn möglich vermeiden."
+short_label: "Langfristig Amiodaron wenn möglich vermeiden"
+slots:
+  population: concepts/patientinnen-mit-vorhofflimmern
+  action: concepts/amiodaron
+source: modelling

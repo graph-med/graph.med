@@ -1,0 +1,13 @@
+# A statement of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# Box 6.2 (p. 50). Anchor: the group the bound gives, a subgroup (card #364, convention row 7, reading 4 confirmed; the
+# ledger), the score filling no slot. Whether the parenthesis bounds the whole group or names an example is reading 2,
+# the physician's. „vor allem“, „unabhängig von Beschwerden“ and the absolute effects stay in the label.
+id: statements/fruehe-rhythmuskontrolle-vor-allem-ab-cha2ds2-va-score-2
+type: statement
+lang: de
+label: "Eine frühe Rhythmuskontrolle unabhängig von Beschwerden vor allem bei Patient*innen mit AF und relevanten kardiovaskulären Risikofaktoren, höherem Lebensalter oder Komorbiditäten (CHA2DS2-VA-Score ≥ 2) unter Berücksichtigung der absoluten Effekte (vgl. Tabelle 11) empfehlen."
+short_label: "Frühe Rhythmuskontrolle, vor allem bei CHA2DS2-VA-Score ≥ 2"
+slots:
+  population: concepts/patientinnen-mit-cha2ds2-va-score-ab-2
+  action: concepts/fruehe-rhythmuskontrolle
+source: modelling

@@ -1,6 +1,30 @@
 # Edges of card #381 (#314's part C4) from sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1 (pp. 47–60), all
 # modelling. Edges across parts are X1's, the scope and hierarchy edges X2's (#314 Decision 6).
 
+# evidence (spec §3.1): each box sentence of recommendation form supports a statement of its own; the narrower claims of
+# 6.2 and 6.7 and the body text support none
+- [claims/vorhofflimmern-lf-1.1/ff70d07b, supports, statements/pruefung-der-indikation-zur-fruehen-rhythmuskontrolle-bei-neu-diagnostiziertem-af, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/14bd6456, supports, statements/fruehe-rhythmuskontrolle-vor-allem-ab-cha2ds2-va-score-2, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/7e3529f4, supports, statements/rhythmuskontrolle-bei-af-induzierter-kardiomyopathie, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/4c8d05a4, supports, statements/rhythmuskontrolle-bei-schwerer-herzinsuffizienz-erwaegen, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/863e3fe0, supports, statements/katheterablation-bei-geeigneten-patientinnen, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/847a70c8, supports, statements/katheterablation-als-erstlinientherapie, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/4306f0d0, supports, statements/katheterablation-zur-reduktion-der-progression-bei-paroxysmalem-af, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/ebbc8539, supports, statements/frequenzkontrolle-anstelle-einer-rhythmuskontrolle, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/6ff40fc9, supports, statements/primaer-klasse-ic-antiarrhythmikum-ohne-strukturelle-herzerkrankung, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/66aecd2c, supports, statements/amiodaron-zur-langfristigen-rhythmuskontrolle-vermeiden, {source: modelling}]
+
+# defined_by (spec §3.1, §3.2, §5): the concepts this part derives — 6.7's group to its narrower claim (card #381
+# Decision 3), and the two terms the Begründungen define as such (readings 8 and 12). 6.2's bound adds no edge: its group
+# reaches 5.4's equal printing (C3's), and the edge to p. 50's „>2“ is X1's. concepts/strukturell-herzgesund stays
+# stated (reading 9).
+- [concepts/seit-mindestens-zwei-jahren-persistierendes-vorhofflimmern, defined_by, claims/vorhofflimmern-lf-1.1/455a20be, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„seit mindestens zwei Jahren persistierendes Vorhofflimmern“ — Empfehlung 6.7 (S. 57): „bei denen das AF bereits seit mindestens zwei Jahren persistiert“."}]
+- [concepts/fruehe-rhythmuskontrolle, defined_by, claims/vorhofflimmern-lf-1.1/a56cd1a3, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„frühe Rhythmuskontrolle“ — Begründung von 6.2 (S. 50): „Eine „frühe“ Rhythmuskontrolle wird dabei für Patient*innen mit einer AF Diagnose < 1 Jahr definiert“."}]
+- [concepts/dilatierte-vorhoefe, defined_by, claims/vorhofflimmern-lf-1.1/074a710e, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„dilatierte Vorhöfe“ — Begründung von 6.7 (S. 57): der linke Vorhof ist dilatiert, „definiert durch ein erhöhtes LA-Volumen“."}]
+
 # body text (spec §5.1): section 6.1.1, p. 49; p. 48's permanent AF is U, without an edge
 - [claims/vorhofflimmern-lf-1.1/8b9ab59a, refines, claims/vorhofflimmern-lf-1.1/ff70d07b, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "R: Prüfung der Indikation — „Die starke Empfehlung bezieht sich explizit auf die Prüfung der Indikation, daraus resultiert nicht in jedem Falle auch eine entsprechende Therapie“: die Empfehlung gilt der Prüfung, nicht der Therapie."}]
