@@ -1,0 +1,11 @@
+# A concept of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# The AF's duration, the quantity 6.7's „seit mindestens zwei Jahren persistiert“ bounds (p. 57, l. 18–19); p. 57,
+# l. 39 names it: „Die in der Empfehlung genannten zwei Jahre der AF-Dauer“. A measured quantity (spec §3.2). Not the
+# time since the diagnosis (concepts/zeit-seit-der-af-diagnose), which p. 50 bounds and from which p. 56 draws its
+# 12-month line (card #364, noticed 2). A shared candidate: Tabelle 3 (C1) and pp. 61–62 (C5) bound a duration too.
+id: concepts/af-dauer
+type: concept
+lang: de
+label: "AF-Dauer"
+facet: finding
+source: modelling
