@@ -1398,19 +1398,20 @@ source that answers its question otherwise (D).
   repetition that adds counts only for what it adds.
 - **G4 decline** — saying that no recommendation, or no value one needs, is
   given is a gap notice, no edge, also where its subject is the evidence:
-  "keine Empfehlung", "weder für noch gegen", a recommendation that "besteht
-  nicht" or "existiert nicht", data that "sprechen gegen eine Empfehlung" or
-  "lassen eine Empfehlung … nicht zu", a "Ermessensspielraum" left to the
-  reader; referring to another work instead is N4. Saying the action is not
-  recommended ("kann nicht empfohlen werden") is against it, and so is
-  denying the action an indication or a need, whatever the verb ("besteht …
+  "keine Empfehlung", "weder für noch gegen", a recommendation or a need that
+  "besteht nicht" or "existiert nicht", data that "sprechen gegen eine
+  Empfehlung" or "lassen eine Empfehlung … nicht zu", a "Ermessensspielraum"
+  left to the reader; referring to another work instead is N4. Saying the
+  action is not recommended ("kann nicht empfohlen werden") is against it,
+  and so is denying the action an indication, whatever the verb ("besteht …
   keine Indikation, X fortzusetzen", "sieht … keine Indikation zu X", "X ist
   nicht indiziert"): the sentence says something about the action, which a
   decline would drop, and its label keeps its words as printed, so that the
   reader reads "keine Indikation" and no word of ours for it (the
   maintainer, 2026-10-11, on the principle that the graph reflects the text:
-  "stay true to it"; card #372). Saying only what is unknown ("unklar",
-  "keine Studien") is N2.
+  "stay true to it"; card #372). An indication for an action is no need for
+  a recommendation, so the declines above do not catch it. Saying only what
+  is unknown ("unklar", "keine Studien") is N2.
 - **D `disagrees_with`** — it answers a term, case or action of the
   recommendation otherwise than the recommendation itself prints it: another
   value, time or rating, a rating in other words included, or a group the
