@@ -1,6 +1,6 @@
 ---
 name: body-text-rule
-description: A body-text place (a sentence, a footnote, a table or figure, read in rows) earns a claim and an edge only through spec §5.1 — gate G1–G4 in its section (a float's is that of the box naming it; a section's own text also has its subsections' boxes, a boxless subsection its parent's, never a sibling's), then D (disagrees_with: it answers the recommendation otherwise than the recommendation prints it, a rating in other words included, a rating joined to every claim carrying its row, #341, #372) → R (refines) → L (limits) → S (supplements), first that holds, and `disagrees_with` to every place answering its question otherwise; a decline is a gap notice without an edge (an indication or a need denied for the action is against it, whatever the verb, #372), an evidence gap nothing; a recommendation in the guideline's voice no box of its section covers is a claim without an edge in no statement (U); a definition a heading marks is a claim wherever it stands when a box uses its term; kind by form, never graded, one claim per answer (a table one per instrument or per row); no edge between sentences of marked recommendations, none for evidence certainty or effect data, and an edge never decides a statement's condition.
+description: A body-text place (a sentence, a footnote, a table or figure, read in rows) earns a claim and an edge only through spec §5.1 — gate G1–G4 in its section (a float's is that of the box naming it; a section's own text also has its subsections' boxes, a boxless subsection its parent's, never a sibling's), then D (disagrees_with: it answers the recommendation otherwise than the recommendation prints it, a rating in other words included, a rating joined to every claim carrying its row, #341, #372) → R (refines) → L (limits) → S (supplements), first that holds, and `disagrees_with` to every place answering its question otherwise; a decline is a gap notice without an edge (an indication denied for the action is against it, whatever the verb, #372), an evidence gap nothing; a recommendation in the guideline's voice no box of its section covers is a claim without an edge in no statement (U); a definition a heading marks is a claim wherever it stands when a box uses its term; kind by form, never graded, one claim per answer (a table one per instrument or per row); no edge between sentences of marked recommendations, none for evidence certainty or effect data, and an edge never decides a statement's condition.
 metadata:
   type: project
 ---
@@ -119,23 +119,25 @@ each keep their edge and are joined to each other
 Card #372 (2026-10-11) wrote the maintainer's answers to three findings of
 the third guideline's pilot (F3, F5 and F6 of #370) into G4 and D:
 
-- **An indication or a need denied for the action is against it, whatever
-  the verb (G4).** The pilot read "besteht … keine Indikation zur
-  Umstellung" (p. 42) by its verb, as a decline, and "sieht … keine
-  Indikation für …" (p. 41) as against. The maintainer first answered "By
-  the verb, as now"; shown that this made the second guideline's "besteht
-  keine Indikation die antiinfektive Therapie fortzusetzen" a decline, they
-  answered "reflect the text somehow, stay true to it". A sentence that
-  denies an action an indication says something about that action, and a
-  decline, which says that no recommendation is given, would drop it. So
-  each such sentence is against the action, as "kann nicht empfohlen
-  werden" is, and its label keeps "keine Indikation" as printed: the reader
-  reads the source's words, not a word of ours. A decline stays what says
-  that no recommendation, or no value one needs, is given; G4's example "a
-  recommendation or a need that 'besteht nicht'" lost its "need", which
-  would have caught an indication. A need for an action denied ("eine
-  grundsätzliche Notwendigkeit zum KHK-Screening … besteht nicht", the third
-  guideline's p. 18, a decline under #325) reads against it too.
+- **An indication denied for the action is against it, whatever the verb
+  (G4).** The pilot read "besteht … keine Indikation zur Umstellung"
+  (p. 42) by its verb, as a decline, and "sieht … keine Indikation für …"
+  (p. 41) as against. The maintainer first answered "By the verb, as now";
+  shown that this made the second guideline's "besteht keine Indikation die
+  antiinfektive Therapie fortzusetzen" a decline, they answered "reflect the
+  text somehow, stay true to it". A sentence that denies an action an
+  indication says something about that action, and a decline, which says
+  that no recommendation is given, would drop it. So each such sentence is
+  against the action, as "kann nicht empfohlen werden" is, and its label
+  keeps "keine Indikation" as printed: the reader reads the source's words,
+  not a word of ours. An indication for an action is no need for a
+  recommendation, so G4's declines ("a recommendation or a need that
+  'besteht nicht'") do not catch it. The answer is about an indication,
+  not a need: a need denied for an action ("eine grundsätzliche
+  Notwendigkeit zum KHK-Screening … besteht nicht", the third guideline's
+  p. 18) says the action is not needed, not that it is to be avoided. #325
+  read it as a decline and left it to the physician (#325 Q13); it is not
+  decided here.
 - **A disagreeing rating joins every claim that carries the row (D).** A
   row goes to every sentence of its box with a statement of its own
   ([[claim-evidence-per-outcome]]), so a place that rates it otherwise is

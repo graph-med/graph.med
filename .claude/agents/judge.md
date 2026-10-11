@@ -118,10 +118,11 @@ keeps at a line end is the one the printed word has.
 1. **A claim against its page.** Is the `label` the one sentence at the quote
    — one sentence, not the whole marked recommendation; for a table, the row
    or group spec §5.1 K names? Does `kind` follow
-   the sentence's form — a sentence that denies the action an indication or
-   a need against it, whatever the verb, its words kept in the label, and a
-   decline only what says that no recommendation, or no value one needs, is
-   given (spec §5.1 G4)? Are
+   the sentence's form — a sentence that denies the action an indication
+   against it, whatever the verb, its words kept in the label, since an
+   indication for an action is no need for a recommendation, and a decline
+   only what says that no recommendation, or no value one needs, is given
+   (spec §5.1 G4)? Are
    `grade`, `verb`, `direction`, `basis`, `consensus`, `consensus_share`,
    `recommendation_no` and `section` as printed at that place — a box's
    grade, basis and consensus reaching its sentences as spec §3.1 says (a
