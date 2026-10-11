@@ -270,7 +270,10 @@ decision-graph-derivation):
   recommendation; aim), *Richtung* (a chip in the box's
   fill with the glyph inside it, and a box without a direction), *Grad* (the
   grades the boxes carry, in their scheme's order, and the grades under which
-  the verb is written as a word), *Rahmen = Zustand* (contested, related to the selected
+  the verb is written as a word; where every grade the boxes carry writes its
+  verb — compared as grades of their schemes, so that a grade word two schemes
+  share is not taken for one grade —, the two are one key, the grades with the
+  verb as a word, and no grade is named twice), *Rahmen = Zustand* (contested, related to the selected
   box, applying generally to the selected group) and *Kanten* (answer, the way
   on, the aim). The panel always holds every key the view has, whatever the
   reader has opened. A question the reader has closed (grey, dashed) has no
