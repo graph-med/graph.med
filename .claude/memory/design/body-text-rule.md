@@ -28,6 +28,9 @@ it from sentences to places and closed four gaps the second guideline opened:
   recommendation names as one instrument is one answer. A table claim quotes
   one line of one cell and is labelled "Kopf: Zelle; …", its reference marks
   left out as every label's are ([[reference-marks-left-out]], spec §3.1).
+  A figure printed as an image, without a text layer, stays on the page with
+  its footnotes, its caption a place like any other (§5.1 F, card #327,
+  [[figures-without-text]]).
 - **Voice of a table.** It speaks as the sentence introducing it does: a
   source line "nach …" is an attribution, like "nach Apfel 1999" in the first
   source; a table introduced as another guideline's options speaks for that

@@ -1068,7 +1068,8 @@ is every other place of its section, the lowest numbered heading above it: a
 sentence, a footnote, a table or a figure. A place becomes a claim with an edge
 exactly when it passes G1–G4 and one of R, L, S, tried in that order — the
 first that holds decides; a decline that passes G1–G3 is a claim without one.
-Every other place stays on the page.
+Every other place stays on the page, and so does a figure without a text
+layer (F).
 
 - **G1 topic** — it is about the action of a marked recommendation of its
   section, for that recommendation's population; a decline, or a place on a
@@ -1108,6 +1109,16 @@ Every other place stays on the page.
   answer; it quotes within one cell (a caption or head for a whole) and
   reads "Kopf: Zelle; …" as printed, its label leaving out the reference
   marks as every claim's does (§3.1).
+- **F figure without a text layer** — a figure printed as an image, of which
+  the extracted text holds only the caption and the footnotes, stays on the
+  page, whether a marked recommendation delegates to it or not: no quote
+  reaches its content (§6.2), so no claim, statement, concept or edge holds
+  it. The sentence of a marked recommendation that delegates to it, telling
+  the reader to proceed as the figure shows, is a claim as printed (§3.1),
+  the delegation in its label. Its footnotes follow the figure: they stay on
+  the page while its content does. Its caption is text, a place like any
+  other. Whether a later view transcribes such a figure is open (open
+  question figures-without-text).
 - **E edge** — to each claim of the section whose wording carries the term, the
   case or the action, none to the other sentences of its recommendation; a
   definition the source marks for its term as such — not an item of a list
