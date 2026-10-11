@@ -27,7 +27,7 @@
 # claim; the second's since #371, which made its justified line one run of the page's reading (spec §6.2)
 - [concepts/patientinnen-mit-cha2ds2-va-score-ab-2, defined_by, claims/vorhofflimmern-lf-1.1/0300b924, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "„Patient*innen mit CHA2DS2-VA-Score ≥ 2“ — Empfehlung 5.4 (S. 40), erster Spiegelstrich: „Bei einem ermittelten CHA2DS2-VA Score von ≥2“."}]
-- [concepts/patientinnen-mit-cha2ds2-va-score-1, defined_by, claims/vorhofflimmern-lf-1.1/2ac61f32, {source: modelling, as_of: "2026-10-11", lang: de,
+- [concepts/patientinnen-mit-cha2ds2-va-score-1, defined_by, claims/vorhofflimmern-lf-1.1/f6b8ede6, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "„Patient*innen mit CHA2DS2-VA-Score 1“ — Empfehlung 5.4 (S. 40), zweiter Spiegelstrich: „Bei einem ermittelten CHA2DS2-VA Score von 1“."}]
 
 # body text (spec §5.1): section 5.1, p. 38; the table's parts carry no edge (N5)

@@ -50,8 +50,9 @@ against the reading before:
 - **Both together** changed no quote's whole-word result, place count or
   first-match place. There were 181 recurring-quote notices before and 181
   after. The validator's count then agreed with pdf.js's own find
-  (pdfjs-dist 6.4.299) on all 1,598 quoted fields, including „Score von 1“.
-  Before the change it had missed that one.
+  (pdfjs-dist 6.4.299) on all 1,598 quoted fields, including the new
+  claim's quote of 5.4's bound, „Bei einem ermittelten CHA2DS2-VA Score
+  von 1“. Before the change it had missed that one.
 
 Both tests together make 112 joins over every page of the three sources.
 Each one reads a line along its row:

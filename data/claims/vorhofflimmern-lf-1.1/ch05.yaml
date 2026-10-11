@@ -472,7 +472,7 @@
       - {at: sources/vorhofflimmern-lf-1.1#page=40, quote: "Schlaganfallreduktion:"}
 # 5.4, the rule printed inside the first item: a narrower criterion claim (spec §3.1; #328 Decision 10), the box's number,
 # section and share, no grade, no evidence, no statement; concepts/patientinnen-mit-cha2ds2-va-score-ab-2 reaches it by
-# defined_by. The second item's bound has its own (2ac61f32, after the second item).
+# defined_by. The second item's bound has its own (f6b8ede6, after the second item).
 - id: claims/vorhofflimmern-lf-1.1/0300b924
   type: claim
   lang: de
@@ -513,9 +513,9 @@
       - {at: sources/vorhofflimmern-lf-1.1#page=40, quote: "Schlaganfallreduktion:"}
 # 5.4, the rule printed inside the second item: a narrower criterion claim (spec §3.1; #371), shaped as 0300b924 — the
 # box's number, section and share, no grade, no evidence, no statement; concepts/patientinnen-mit-cha2ds2-va-score-1
-# reaches it by defined_by. Its justified line reads as one run since #371 (spec §6.2); the quote is the bound with
-# its term, „Score von 1“, which lies once on the page (l. 43 prints „Score von ≥2“).
-- id: claims/vorhofflimmern-lf-1.1/2ac61f32
+# reaches it by defined_by. Its justified line (l. 45) reads as one run since #371 (spec §6.2), so its quote is the
+# whole qualifier, as 0300b924's is, and lies once on the page (l. 43 prints „… Score von ≥2“).
+- id: claims/vorhofflimmern-lf-1.1/f6b8ede6
   type: claim
   lang: de
   kind: criterion
@@ -526,7 +526,7 @@
   threshold: {quantity: concepts/cha2ds2-va-score, comparator: "=", value: "1"}
   source:
     at: sources/vorhofflimmern-lf-1.1#page=40
-    quote: "Score von 1"
+    quote: "Bei einem ermittelten CHA2DS2-VA Score von 1"
   provenance:
     consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=40, quote: "Konsensstärke: 100%"}
 # Section 5.3.1, Begründung (p. 41, l. 31–32): the score 0, which box 5.4 does not name — no indication for oral

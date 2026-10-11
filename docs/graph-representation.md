@@ -1585,11 +1585,11 @@ row's block to start its next column, and a heading set in one block with a box
 runs across the gutter beside the box's labels. A quote across a justified line
 is written as its words read, one space between them: a box item printed
 "Bei    einem      ermittelten CHA2DS2-VA      Score    von   1" is quoted
-"Score von 1", which pdf.js finds as well. On the pool of 2026-10-11 this
-changed no quote's place or count, and the validator's count agreed with
-pdf.js's own find on every quoted field. Decided on 2026-10-11 on the
-maintainer's delegation (card #371), settling the open question
-justified-spacing-in-a-quote.
+"Bei einem ermittelten CHA2DS2-VA Score von 1", which pdf.js finds as well.
+On the pool of 2026-10-11 this changed no quote's place or count, and the
+validator's count agreed with pdf.js's own find on every quoted field. Decided
+on 2026-10-11 on the maintainer's delegation (card #371), settling the open
+question justified-spacing-in-a-quote.
 
 The quote is the same text in the link into the source (§6.1), so a viewer's
 search finds it as a reader's would. pdf.js joins a line break and its hyphen
