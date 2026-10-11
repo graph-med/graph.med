@@ -21,7 +21,10 @@
 # claims is joined by `disagrees_with`; a combination's
 # parts are such claims of the same source, nest without a cycle, and its
 # connective is printed in its quotes; `at_least` counts no more parts than it
-# has; a relative threshold is relative to another quantity than its own),
+# has; a `sum` gives each part its points, one per part, and is a part of no
+# combination, and a concept whose rule is a sum fills no statement slot and no
+# axis placement; a relative threshold is relative to another quantity than
+# its own),
 # a disagreement is the source's own (spec §5: `disagrees_with` joins two
 # claims of one source, never a claim to itself, one edge per pair),
 # a claim is read in its source's grading scheme (spec §3.1: its grade, basis and
@@ -44,7 +47,7 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 $id: https://graph.med/schema/schema.yaml
 title: graph.med pool
-x-version: 0.18.0
+x-version: 0.19.0
 
 # ── layout: which definition each data file validates against ────────────────
 # (data/README.md). Globs are relative to the repository root. `one_per_file`
@@ -204,9 +207,16 @@ $defs:
       when:        {$ref: '#/$defs/text'}          # the time point of the measurement as printed ("am postop. Tag 1 und 3"); absent where none is printed
       relative_to: {$ref: '#/$defs/concept_ref'}   # a relative threshold: the reference quantity, another than `quantity` (validator)
   # how the parts of a rule combine (spec §3.1), read off the passage like a threshold: never a default,
-  # never inferred from a word alone. The operator is the reading, from a closed set because it is logic,
-  # like the comparators: all_of (UND), any_of (ODER), at_least with `n` (mindestens n von), and
-  # not_stated for a passage that lists parts without saying how they combine. The connective is the
+  # never inferred from a word alone. The operator is the reading, from a closed set because it is logic
+  # and arithmetic, like the comparators: all_of (UND), any_of (ODER), at_least with `n` (mindestens n von),
+  # not_stated for a passage that lists parts without saying how they combine, and sum for a points
+  # table, where each part adds the points its row prints. A sum yields a number, not whether a rule
+  # holds: `points` are the points as printed, strings, one per entry of `of` and in its order, never a
+  # total, a maximum or a number the loader may reshape; a sum is a part of no combination, and the
+  # concept whose rule it is (a score) is a quantity, which a threshold may bound but which fills no
+  # statement slot and no axis placement (validator). Its connective is the head of the points column
+  # as printed, quoted like any connective; the points themselves lie in no quote, and the judge reads
+  # each against its row (spec §3.1, §8.1). The connective is the
   # word or words the page prints for it ("entweder … oder … oder aber", pieces joined by " … "; a word
   # the page breaks at a line end is one piece, read as its quotes read it, spec §6.2), each
   # piece inside a quote of `source`, so --verify-quotes checks it on the page; how it is read ("und"
@@ -219,8 +229,9 @@ $defs:
     required: [operator, rationale]
     additionalProperties: false
     properties:
-      operator:   {enum: [all_of, any_of, at_least, not_stated]}
+      operator:   {enum: [all_of, any_of, at_least, not_stated, sum]}
       n:          {type: integer, minimum: 1}         # at_least only
+      points:     {type: array, minItems: 2, items: {$ref: '#/$defs/text'}}   # sum only: each part's points as printed ("2", "jeweils 1 Punkt"), one per entry of `of`, in its order (validator)
       of:         {type: array, minItems: 2, uniqueItems: true, items: {$ref: '#/$defs/claim_ref'}}
       connective: {$ref: '#/$defs/text'}              # as printed, source language; absent only where not stated
       source:     {$ref: '#/$defs/references'}        # where the connective is printed; every piece in one of its quotes (validator)
@@ -232,7 +243,10 @@ $defs:
       - if: {required: [operator], properties: {operator: {const: at_least}}}
         then: {required: [n]}
         else: {properties: {n: {not: {}}}}   # `{not: {}}` rather than `false`: the error then names the field
-      - if: {required: [operator], properties: {operator: {enum: [all_of, any_of, at_least]}}}
+      - if: {required: [operator], properties: {operator: {const: sum}}}
+        then: {required: [points]}
+        else: {properties: {points: {not: {}}}}
+      - if: {required: [operator], properties: {operator: {enum: [all_of, any_of, at_least, sum]}}}
         then: {required: [of, connective]}   # an operator the page states: its parts, and the words it states it with
 
   # a source's grading scheme (spec §3.1): how binding its recommendations are, what its recommendations
@@ -443,10 +457,12 @@ $defs:
                    # the page joins are two claims, and a `combination` joins them with the page's connective
         $ref: '#/$defs/threshold'
         x-provenance: required   # the number on the page, like the grade; never from the extractor
-      combination: # how the claims that are the parts of this rule combine (spec §3.1): criterion and definition
-                   # claims only, and never beside a threshold — a claim is either a part or combines parts
+      combination: # how the claims that are the parts of this rule combine (spec §3.1), or for a points table the
+                   # points each adds (`sum`): criterion and definition claims only, and never beside a threshold —
+                   # a claim is either a part or combines parts
         $ref: '#/$defs/combination'
-        x-provenance: required   # each operator carries its own `source`, the connective's quotes; its reading is its `rationale`
+        x-provenance: required   # each operator carries its own `source`, the connective's quotes; its reading is its `rationale`;
+                                 # a sum's points lie in no quote, read against their rows by the judge (spec §3.1)
       source: {$ref: '#/$defs/reference'}
       provenance:
         description: Per-property overrides. A `required`-provenance property may only be overridden with a passage.

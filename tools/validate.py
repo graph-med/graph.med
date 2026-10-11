@@ -43,9 +43,14 @@ rules a document schema cannot state because they span files:
     `combination`'s parts are claims of those kinds from the claim's own source,
     its connective's quotes are from that source too, each piece of the connective
     lies in one of them, `at_least` counts no more parts than it names, and
-    combinations nest through claims without a cycle; a threshold's `quantity`
-    and `relative_to` resolve like every reference, and a relative threshold is
-    relative to another quantity than the one it bounds;
+    combinations nest through claims without a cycle; a `sum` — a points table —
+    gives each of its parts the points printed for it, one per entry of `of`,
+    and is a part of no combination, since it yields a number, not whether a
+    rule holds; a concept whose rule is a sum is a score, a quantity, which a
+    threshold may bound (`quantity`, `relative_to`) but which fills no
+    statement slot and no axis placement, a quantity being no group; a
+    threshold's `quantity` and `relative_to` resolve like every reference, and a
+    relative threshold is relative to another quantity than the one it bounds;
   - a disagreement is the source's own (spec §5, §5.1 D): `disagrees_with` joins two
     claims of one source — between two sources it is `contests` —, never a claim
     to itself, and once per pair, whichever its direction, being symmetric;
@@ -361,13 +366,22 @@ def check_definitions(ids: dict[str, str], entities: dict[str, dict],
     combination's parts are criterion or definition claims of the
     claim's own source, as are the quotes of its connective, and every piece of the connective ("entweder …
     oder") lies in one of those quotes, so that --verify-quotes checks the words on the page; `at_least` names
-    at most as many as its parts; combinations nest through claims and never reach their own claim. That the
-    operator states its parts, connective and `n`, and that a combining claim prints no threshold, is the
+    at most as many as its parts; combinations nest through claims and never reach their own claim. A `sum`, the
+    operator of a points table, gives each part the points its row prints, so it holds one entry of `points` per
+    entry of `of`; its result is a number, not whether a rule holds, so a sum is a part of no combination; and
+    the concept a `defined_by` edge leads to it from — a score, a quantity — is what a threshold bounds, never a
+    group: it fills no statement slot and no placement of an axis, as a key or as a place, and stands as a
+    threshold's `quantity` or `relative_to` instead. That the operator states its parts, connective, `n` and
+    `points`, that `points` stands with a sum alone, and that a combining claim prints no threshold, is the
     schema's. A threshold's `relative_to` names another quantity than its `quantity`; that both resolve is the
-    reference check's. No operator word, kind of concept, quantity or unit of a guideline is named here."""
+    reference check's. No operator word, kind of concept, quantity, point value or unit of a guideline is named
+    here."""
+    sys.path.insert(0, str(ROOT / "tools"))
+    from build import fillers, places   # noqa: E402 — one reading of a slot and a placement for the validator, the tool and the site
     errs: list[str] = []
     rules = ("criterion", "definition")
     joined = {frozenset((frm, to)) for _, _, frm, to, _ in disagree}
+    operator = lambda cid: ((entities.get(cid) or {}).get("combination") or {}).get("operator")
     earlier: dict[str, list[tuple[str, str]]] = defaultdict(list)   # concept → [(where, claim)] of its edges so far
     for rel, i, frm, to, _ in defined_by:
         kind = entities.get(to, {}).get("kind")
@@ -401,8 +415,14 @@ def check_definitions(ids: dict[str, str], entities: dict[str, dict],
                 errs.append(f"{rel}: the combination of {cid} names {part}, a claim of kind {entities[part].get('kind')!r}; a part is a criterion or a definition")
             if source_of((entities[part].get("source") or {}).get("at", "")) != own:
                 errs.append(f"{rel}: the combination of {cid} names {part}, a claim of another source; a combination is read off one passage")
+            if operator(part) == "sum":
+                errs.append(f"{rel}: the combination of {cid} names {part}, a sum; a sum yields a number, not whether a rule "
+                            f"holds, so it is a part of no combination — a bound on it is a threshold on its concept")
         if comb.get("operator") == "at_least" and isinstance(comb.get("n"), int) and comb["n"] > len(parts):
             errs.append(f"{rel}: the combination of {cid} asks for at least {comb['n']} of {len(parts)} parts")
+        if comb.get("operator") == "sum" and isinstance(comb.get("points"), list) and len(comb["points"]) != len(comb.get("of") or []):
+            errs.append(f"{rel}: the sum of {cid} gives {len(comb['points'])} points for {len(comb.get('of') or [])} parts; "
+                        f"each part has the points its row prints, one entry of `points` per entry of `of`, in its order")
         refs = comb.get("source")
         refs = [refs] if isinstance(refs, dict) else [r for r in refs or [] if isinstance(r, dict)]
         for r in refs:
@@ -414,6 +434,19 @@ def check_definitions(ids: dict[str, str], entities: dict[str, dict],
                     errs.append(f"{rel}: the connective of {cid} prints {piece!r}, which none of its quotes contains")
     for cycle in cycles(graph):
         errs.append(f"combinations form a cycle through claims: {' -> '.join(cycle)}")
+    scores = {frm: to for _, _, frm, to, _ in defined_by if operator(to) == "sum"}   # a concept whose rule is a sum → that sum
+    for eid, ent in sorted(entities.items()):
+        held = []   # (where, concept) of every slot or placement that holds a concept
+        if ent.get("type") == "statement":
+            held = [(f"slot {slot!r}", c) for slot in (ent.get("slots") or {}) for c in fillers(ent, slot)]
+        elif ent.get("type") == "axis":
+            for key, val in (ent.get("placements") or {}).items():
+                held += [(f"placements, as the placed {key}", key)] + [(f"placements, as the place of {key}", c) for c in places(val)]
+        for where, concept in held:
+            if concept in scores:
+                errs.append(f"{ids[eid]}: {eid} holds {concept} in {where}, a score — its rule {scores[concept]} is a sum, "
+                            f"so it is a quantity, no group; the group a bound on it gives is a concept of its own, whose "
+                            f"rule is the claim printing that bound as a threshold on {concept}")
     return errs
 
 
