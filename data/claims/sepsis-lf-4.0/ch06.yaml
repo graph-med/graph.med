@@ -93,8 +93,10 @@
     at: sources/sepsis-lf-4.0#page=89
     quote: "Urämie"
 # p. 89, 6.2 — the uncaptioned table, one claim (#213 item 2): its rows are the cases one group comprises.
-# R → 6.2; the top of the rule of 6.2's population (defined_by), its four rows the parts
-- id: claims/sepsis-lf-4.0/ed376099
+# R → 6.2; the top of the rule of 6.2's population (defined_by), its four rows the parts. Quoted from the sentence
+# that introduces the table: its head „Absolute Indikationen“ recurs on the page, and no passage running on from the head
+# is found once both down its column and along its row (spec §5.1 K, §6.2; #347)
+- id: claims/sepsis-lf-4.0/eed6b48d
   type: claim
   lang: de
   kind: criterion
@@ -106,7 +108,7 @@
     rationale: "Die Tabelle „Absolute Indikationen | Richtwerte | Anmerkungen“ listet vier Zeilen ohne Bindewort; ob eine Zeile genügt oder mehrere vorliegen müssen, sagt die Seite nicht."
   source:
     at: sources/sepsis-lf-4.0#page=89
-    quote: "Absolute Indikationen"
+    quote: "Absolute Indikationen: In der Tabelle"
 # Empfehlung 6.2, p. 89 — EK: no evidence rows
 - id: claims/sepsis-lf-4.0/107e01da
   type: claim
@@ -365,9 +367,10 @@
       - {at: sources/sepsis-lf-4.0#page=95, quote: "Hämodynamische Instabilität"}
       - {at: sources/sepsis-lf-4.0#page=95, quote: "Hypotonie:"}
 # Empfehlung 6.7, p. 95 — the symbols of the first evidence row, the second printing of its rating: the row read
-# "Kopf: Zelle" with the symbols as the cell (spec §3.1, §5.1 K), quoting them — the page's first ⊕⊕⊝⊝ is this
-# row's. Never graded; disagrees_with 6.7's claim, whose row records the word "Sehr niedrig" (#341)
-- id: claims/sepsis-lf-4.0/3fe6c8e3
+# "Kopf: Zelle" with the symbols as the cell (spec §3.1, §5.1 K), quoting the row from its head to the symbols,
+# which the next row prints too (spec §6.2, #347). Never graded; disagrees_with 6.7's claim, whose row records the word
+# "Sehr niedrig" (#341)
+- id: claims/sepsis-lf-4.0/2b4386d5
   type: claim
   lang: de
   kind: fact
@@ -376,7 +379,7 @@
   label: "Hämodynamische Instabilität: ⊕⊕⊝⊝"
   source:
     at: sources/sepsis-lf-4.0#page=95
-    quote: "⊕⊕⊝⊝"
+    quote: "Hämodynamische Instabilität: Sehr niedrig ⊕⊕⊝⊝"
 # p. 96, 6.4 — body text restating 6.7 with "empfehlen wir" (the box: "Wir schlagen vor"); counts only for what it
 # adds, "deutlich" instabil (G3): R → 6.7
 - id: claims/sepsis-lf-4.0/74b78d18

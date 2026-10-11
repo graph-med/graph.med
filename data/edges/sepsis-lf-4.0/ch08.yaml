@@ -77,5 +77,5 @@
 - [statements/stressulkusprophylaxe-mit-ppi-bei-risikofaktoren-fuer-gi-blutungen, specializes, statements/stressulkusprophylaxe-nur-bei-risikofaktoren-fuer-gi-blutungen, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "Empfehlung 8.15: die Stressulkusprophylaxe „mit Protonenpumpeninhibitoren“ — womit die Prophylaxe bei vorliegenden Risikofaktoren (8.14) erfolgt."}]
 # disagreement (spec §3.1, §5; #341): a rating's word against its symbols, each printing kept, neither chosen
-- [claims/sepsis-lf-4.0/918ad0c8, disagrees_with, claims/sepsis-lf-4.0/020c9cdf, {source: modelling, as_of: "2026-10-11", lang: de,
+- [claims/sepsis-lf-4.0/918ad0c8, disagrees_with, claims/sepsis-lf-4.0/43c713bf, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "Empfehlung 8.11, Evidenzzeile „Inzidenz venöser Thromboembolien“ (S. 117): das Wort „Sehr niedrig“ über den Symbolen „⊕⊕⊝⊝“, die die zwei nächsten Zeilen unter „Niedrig“ drucken, während die Leitlinie zu „Sehr niedrig“ sonst „⊕⊝⊝⊝“ druckt (z. B. S. 39). Wort und Symbole nennen zwei Stufen; als Evidenzstufe der Zeile ist das Wort erfasst."}]

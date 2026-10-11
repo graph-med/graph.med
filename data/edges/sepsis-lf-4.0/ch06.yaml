@@ -18,7 +18,7 @@
    rationale: "S: „extrakorporale Nierenersatzverfahren … indiziert und durchgeführt“ — eine Maßnahme daneben: die Nierenersatztherapie in das ganzheitliche Behandlungskonzept der Intensivpatienten integrieren."}]
 - [claims/sepsis-lf-4.0/b8ea8c8e, supplements, claims/sepsis-lf-4.0/e98e2366, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "S: „extrakorporale Nierenersatzverfahren … indiziert und durchgeführt“ — eine Maßnahme daneben: darauf achten, dass die Nierenersatztherapie kompatibel zu anderen apparativen Organunterstützungssystemen angewendet wird."}]
-- [claims/sepsis-lf-4.0/ed376099, refines, claims/sepsis-lf-4.0/107e01da, {source: modelling, as_of: "2026-09-25", lang: de,
+- [claims/sepsis-lf-4.0/eed6b48d, refines, claims/sepsis-lf-4.0/107e01da, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "R: „lebensbedrohlichen Veränderungen des Flüssigkeits-, Säure-Basen- oder Elektrolythaushaltes“ — die Tabelle der absoluten Indikationen nennt die Fälle (Hyperkaliämie, Azidose, Volumenüberladung, Urämie)."}]
 - [claims/sepsis-lf-4.0/dd250a50, refines, claims/sepsis-lf-4.0/0daf9a85, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "R: „wenn aufgrund der klinischen Situation, des Krankheitsverlaufes und/oder der Vorerkrankungen eine Nierenersatztherapie bei AKI zu erwarten ist“ — das KDIGO-Stadium allein ist keine valide Entscheidungsgrundlage für den Beginn."}]
@@ -72,7 +72,7 @@
    rationale: "R: „hochvolumige (high-volume) Hämofiltration“ — die Grenze bei einer Dosis von ≥ 50ml/kg/h; S. 99 druckt für denselben Begriff „> 50 ml/kg/h“, die beiden Fassungen sind als abweichend verbunden."}]
 # defined_by (spec §3.2, §5): one edge per derived concept, to the claim at the top of its rule — or one per printing
 # where the source prints the rule differently and disagrees_with joins them (#341)
-- [concepts/lebensbedrohliche-veraenderungen-fluessigkeits-saeure-basen-elektrolythaushalt, defined_by, claims/sepsis-lf-4.0/ed376099, {source: modelling, as_of: "2026-09-25", lang: de,
+- [concepts/lebensbedrohliche-veraenderungen-fluessigkeits-saeure-basen-elektrolythaushalt, defined_by, claims/sepsis-lf-4.0/eed6b48d, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "„lebensbedrohlichen Veränderungen des Flüssigkeits-, Säure-Basen- oder Elektrolythaushaltes“ — „In der Tabelle werden lebensbedrohliche Veränderungen als absolute Indikationen für eine Nierenersatztherapie (NET) aufgeführt“: die Tabelle, deren vier Zeilen die Fälle nennen; wie sie sich verbinden, sagt die Seite nicht (not_stated). Die Zeile Urämie gehört zu keiner der drei Kategorien, die der Begriff nennt."}]
 - [concepts/kontinuierliche-hochvolumige-haemofiltration, defined_by, claims/sepsis-lf-4.0/2ba7d97f, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "„hochvolumige (high-volume) Hämofiltration“ — „Die Leitliniengruppe hat dabei entschieden, die Grenze für hochvolumige Hämofiltration bei einer Dosis von ≥ 50ml/kg/h zu setzen“ (S. 101): eine der zwei Fassungen der Regel; S. 99 druckt die andere, mit einer Kante zum Begriff; die beiden Fassungen sind als abweichend verbunden, keine Textstelle verbindet beide."}]
@@ -82,7 +82,7 @@
 # neither chosen (#341)
 - [claims/sepsis-lf-4.0/8adebbe2, disagrees_with, claims/sepsis-lf-4.0/2ba7d97f, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "„hochvolumige (high-volume) Hämofiltration“ — S. 99: „Hochvolumen Dosis …: > 50 ml/kg/h“, neben „Hohe Dosis: 30-50 ml/kg/h“; S. 101: „die Grenze für hochvolumige Hämofiltration bei einer Dosis von ≥ 50ml/kg/h zu setzen“. Sie weichen bei genau 50 ml/kg/h ab: nach S. 99 eine hohe, nach S. 101 eine hochvolumige Dosis."}]
-- [claims/sepsis-lf-4.0/398ceb7f, disagrees_with, claims/sepsis-lf-4.0/3fe6c8e3, {source: modelling, as_of: "2026-10-11", lang: de,
+- [claims/sepsis-lf-4.0/398ceb7f, disagrees_with, claims/sepsis-lf-4.0/2b4386d5, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "Empfehlung 6.7, Evidenzzeile „Hämodynamische Instabilität“ (S. 95): das Wort „Sehr niedrig“ über den Symbolen „⊕⊕⊝⊝“, die die nächste Zeile unter „Niedrig“ druckt („Hypotonie: Niedrig ⊕⊕⊝⊝“), während die Leitlinie zu „Sehr niedrig“ sonst „⊕⊝⊝⊝“ druckt (z. B. S. 39). Wort und Symbole nennen zwei Stufen; als Evidenzstufe der Zeile ist das Wort erfasst."}]
 # cross-statement semantics (spec §5): what one box says of another (§5.1 N1)
 - [statements/konservative-massnahmen-wenn-nierenersatz-unklar, complements, statements/nierenersatzverfahren-ohne-zuwarten-wenn-zu-erwarten, {source: modelling, as_of: "2026-09-25", lang: de,

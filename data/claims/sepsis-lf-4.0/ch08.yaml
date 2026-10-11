@@ -473,9 +473,10 @@
       - {at: sources/sepsis-lf-4.0#page=117, quote: "Inzidenz tiefer"}
       - {at: sources/sepsis-lf-4.0#page=117, quote: "Inzidenz von"}
 # Empfehlung 8.11, p. 117 — the symbols of the first evidence row, the second printing of its rating: the row read
-# "Kopf: Zelle" with the symbols as the cell (spec §3.1, §5.1 K), quoting them — the page's first ⊕⊕⊝⊝ is this
-# row's. Never graded; disagrees_with 8.11's claim, whose row records the word „Sehr niedrig“ (#341)
-- id: claims/sepsis-lf-4.0/020c9cdf
+# "Kopf: Zelle" with the symbols as the cell (spec §3.1, §5.1 K), quoting the row from its head to the symbols,
+# which the next two rows print too (spec §6.2, #347). Never graded; disagrees_with 8.11's claim, whose row records the
+# word „Sehr niedrig“ (#341)
+- id: claims/sepsis-lf-4.0/43c713bf
   type: claim
   lang: de
   kind: fact
@@ -484,7 +485,7 @@
   label: "Inzidenz venöser Thromboembolien: ⊕⊕⊝⊝"
   source:
     at: sources/sepsis-lf-4.0#page=117
-    quote: "⊕⊕⊝⊝"
+    quote: "Inzidenz venöser Thromboembolien: Sehr niedrig ⊕⊕⊝⊝"
 # p. 118: IPC in combination with a pharmacological VTE prophylaxis for selected high-risk patients is decided
 # individually by the team: a measure beside 8.9's prophylaxis (hard case 9). S → 8.9. No verb a declared scheme
 # defines („muss“).
