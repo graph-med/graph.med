@@ -432,8 +432,10 @@ twice, as a word and as symbols (⊕⊕⊕⊝), the value is the word. **Where t
 disagree, both are recorded and neither is chosen**: the word as the entry's
 value, and the symbols as a claim of their own — kind `fact`, the row read as
 §5.1 K reads a table, its head and the symbols ("Hämodynamische Instabilität:
-⊕⊕⊝⊝"), quoting the symbols, with the box's `recommendation_no` and `section`
-and nothing else the box prints — which `disagrees_with` joins to the
+⊕⊕⊝⊝"), quoting the row from its head to the symbols ("Hämodynamische
+Instabilität: Sehr niedrig ⊕⊕⊝⊝"), because the same symbols recur on a page
+(§6.2), with the box's `recommendation_no` and `section` and nothing else the
+box prints — which `disagrees_with` joins to the
 recommendation's claim, its rationale quoting the word and the symbols (§5). A
 rating the body text gives otherwise than the box is the same disagreement (§5.1
 D). Two rules keep the field honest. **A value is never mapped between
@@ -1343,8 +1345,9 @@ source that answers its question otherwise (D).
   are its rows or a cell's items: a table a marked recommendation names as one
   instrument is one answer, one whose rows each give another action or agent a
   claim per row, and a row one claim with one edge, the first of R, L, S that
-  holds. A table claim quotes within one cell (a caption or head for a whole)
-  and reads "Kopf: Zelle; …" as printed, its label leaving out the reference
+  holds. A table claim quotes within one cell (a caption or head for a whole;
+  where the head recurs on the page, the caption or the sentence that
+  introduces the table, §6.2) and reads "Kopf: Zelle; …" as printed, its label leaving out the reference
   marks as every claim's does (§3.1). A rule the source prints differently in
   two places is a claim per printing that passes, the disagreement shown in
   the graph and never resolved (card #341).
@@ -1452,6 +1455,23 @@ other characters and stay. A quote stays within 100 characters, the longest
 the read-only server returns whole
 (`.claude/memory/design/quote-gate-follows-the-site.md`); a longer passage is
 cut back to its last whole word that fits.
+
+A quote lies **once** on its page. pdf.js finds a phrase, not an occurrence:
+its search ignores case and matches inside a word as well, and the link lands
+on the page's first match. And a claim's id hashes its locator and its quote
+(§2), so two claims quoting one recurring passage of a page would be one. A
+passage the page prints more than once is lengthened, along the text it lies
+in, until it lies there once: a symbols cell with its row's head
+("Hämodynamische Instabilität: Sehr niedrig ⊕⊕⊝⊝", §3.1). Where it cannot be
+lengthened into a passage that both readings find once — a table's head,
+which the validator reads down its column and pdf.js along its row — the
+quote is cut from the table's caption, or from the sentence that introduces
+the table (§5.1 K). The validator counts a quote's places on its page the
+way the link's search does: in its reading of the page, ignoring case,
+inside a word or not. It refuses a claim's anchor that lies there more than
+once. Any other quote that recurs, it reports and does not refuse. A grade,
+a consensus or an evidence row recurs wherever a page prints two boxes, and
+its claim's anchor already fixes which one is meant.
 
 A quote stays a verbatim passage and keeps a reference mark where the passage
 holds one ("Apfel 1999 [93] gelten"); a mark glued to a word ends that word, so

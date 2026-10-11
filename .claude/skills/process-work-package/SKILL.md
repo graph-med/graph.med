@@ -205,7 +205,15 @@ claim in
   stays within 100 characters, the longest quote the read-only server returns
   whole (memory `quote-gate-follows-the-site`), a longer passage cut back to
   its last whole word that fits. The same holds for every quoted field —
-  per-property, `combination` and concept quotes. Check each with
+  per-property, `combination` and concept quotes. A claim's quote also lies
+  **once** on its page, counted as pdf.js's search counts (ignoring case,
+  inside a word too), because the link lands on the page's first match and
+  the id hashes the quote. A passage the page prints more than once is
+  lengthened until it is unique: a symbols cell with its row's head
+  („Hämodynamische Instabilität: Sehr niedrig ⊕⊕⊝⊝“); a table's head that
+  recurs is quoted from its caption or from the sentence that introduces the
+  table (spec §5.1 K, §6.2). `--verify-quotes` refuses a claim quote that
+  recurs and reports any other quote that does. Check each with
   `uv run tools/validate.py --verify-quotes` before committing;
 - `grade` and `consensus` as the box prints them, reaching its sentences as
   spec §3.1 says (the grade to its recommendation and gap-notice sentences,

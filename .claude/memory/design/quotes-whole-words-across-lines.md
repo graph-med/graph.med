@@ -52,7 +52,8 @@ the sentence allows, avoid a kept hyphen at a line end between two
 lower-case letters, after a capital or after a letter with a diacritic, which
 pdf.js reads as a broken word; hold no ASCII double quote, which pdf.js strips
 from the link's search (the validator refuses one); stay within the server's
-100 characters ([[quote-gate-follows-the-site]]). Re-cutting
+100 characters ([[quote-gate-follows-the-site]]); a claim's quote lies once
+on its page ([[quote-once-on-its-page]]). Re-cutting
 an existing quote renames its claim (the id hashes locator and quote,
 [[two-layer-identity]]): script it, rewrite every reference in the same
 change, and name the count in the pull request. Related:

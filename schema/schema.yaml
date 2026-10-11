@@ -39,7 +39,8 @@
 # in its order, before any line that follows the rows), and a quote ends on a whole word (spec §6.2: none
 # ends in a hyphen after a letter or a digit, and none holds an ASCII double
 # quote, which pdf.js strips from the link's search; with --verify-quotes, none
-# starts or ends inside a word of its page, read in columns with line ends joined).
+# starts or ends inside a word of its page, read in columns with line ends joined,
+# and a claim's quote lies there once, counted as the link's search counts).
 # CI runs it on every pull request and push to main (.github/workflows/validate.yml).
 #
 # Keywords prefixed `x-` are this project's annotations; JSON Schema validators
