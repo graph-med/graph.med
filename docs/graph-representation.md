@@ -1572,6 +1572,25 @@ of these a line-end hyphen is, is a reading of the page, the extractor's; the
 validator accepts each and refuses a quote that lies on its page only inside a
 word.
 
+The validator reads a page in columns. It cuts each line where its columns
+part, at a run of two or more spaces, so that the columns of a box or a table
+stay apart. A line set in justified type has such runs between its words as
+well, and stays one inside its column. Two neighbouring pieces of a line are
+one, read with one space between them, where the gap between them lies inside
+one column of the line's block, the lines between two blank lines: another line
+of the block runs across the whole gap, and no other line of the block starts a
+piece inside it, up to where the second piece starts. Neither test alone tells
+a column. A table whose rows stand apart by blank lines has no other row in a
+row's block to start its next column, and a heading set in one block with a box
+runs across the gutter beside the box's labels. A quote across a justified line
+is written as its words read, one space between them: a box item printed
+"Bei    einem      ermittelten CHA2DS2-VA      Score    von   1" is quoted
+"Score von 1", which pdf.js finds as well. On the pool of 2026-10-11 this
+changed no quote's place or count, and the validator's count agreed with
+pdf.js's own find on every quoted field. Decided on 2026-10-11 on the
+maintainer's delegation (card #371), settling the open question
+justified-spacing-in-a-quote.
+
 The quote is the same text in the link into the source (§6.1), so a viewer's
 search finds it as a reader's would. pdf.js joins a line break and its hyphen
 the same way, except that it drops every line-end hyphen between two
