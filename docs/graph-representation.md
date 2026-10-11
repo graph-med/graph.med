@@ -213,7 +213,10 @@ the way back to the reference, which the pool does not hold.
 Within a **marked recommendation** (§5.1) the unit is the **sentence**, not the
 box: every sentence of the box is a claim, whatever its form, sharing the box's
 `recommendation_no` and its `section` — the section the box lies in, never its
-number (memory `box-granularity-per-sentence`). A lead-in that introduces items
+number (memory `box-granularity-per-sentence`). Beside its own claim, a
+sentence yields a narrower one for a rule printed inside it, for each member
+a rule's connective joins and for a half a „sondern“ joins, and for nothing
+else (below). A lead-in that introduces items
 each of which is a full sentence with a predicate of its own ("… folgende Werte
 herangezogen werden:") is no sentence of its own: each item is a claim,
 labelled as printed, and what the lead-in says of every item ("Orientierend")
@@ -262,13 +265,34 @@ recommendation; a sentence whose subject is the evidence and that says only
 what the evidence shows ("Die Daten … sind widersprüchlich") asserts no action
 or comparison a statement could hold, and stays unlinked. A definition
 sentence, and a criterion of a marked definition, supports none: the concept it
-establishes reaches it by `defined_by` (§5). A rule printed inside a box
-sentence — a threshold or a range in parentheses, a duration qualifying the
-group — stays in that sentence's claim, which carries no threshold, and the
-concept it gives stays stated until the open question rule-claim-granularity is
-settled; the pass that meets one names it in its pull request. Which places
-outside the marked recommendations become claims, and how they attach, is the
-rule of §5.1.
+establishes reaches it by `defined_by` (§5).
+
+A **rule printed inside a box sentence** — a parenthesis or a qualifier that
+states which cases a term covers: a threshold or a range in parentheses, a
+duration qualifying the group, a score's bound ("bei einem … Score von ≥2") —
+is a **criterion claim of its own**, a narrower place in the sentence quoting
+the qualifier's words and labelled with them, as each member a connective
+joins is (below). It takes what the box gives every sentence of it — its
+`recommendation_no`, its `section`, the consensus and the basis —, no grade,
+being a criterion, the threshold it prints or the combination where it joins
+parts, and supports no statement; the concept the qualifier gives reaches it
+by its one `defined_by` edge, and so is derived (§3.2). The sentence's own
+claim keeps the whole sentence, the qualifier in its label, and its statement
+stays as it is. A **sentence of two directions** is read the same way: where
+it joins two halves by „sondern“ and prints each with its own case and
+direction ("… NICHT zur Behandlung eines Volumenmangels, sondern ausschließlich
+entsprechend den Indikationen … einzusetzen"), each half is a claim with its
+own direction — the sentence's claim the half it opens with, and a narrower
+place quoting the other —, both with the box's grade, consensus and number
+and the verb of the predicate they share, each supporting a statement of its
+own. Where the box's grade fixes a direction (below), a half of the other
+direction cannot carry that grade: it stays in its sentence's claim and its
+statement's label. What a „nur“ only implies ("… nur bei vorliegenden
+Risikofaktoren …": and none without them) is no half and is not recorded.
+Decided on 2026-10-10 on the maintainer's delegation (card #328), settling the
+open questions rule-claim-granularity and two-directions-in-one-sentence. Which
+places outside the marked recommendations become claims, and how they attach,
+is the rule of §5.1.
 
 A claim's **grade, verb and consensus are read in its source's own grading
 scheme**, and the source declares that scheme as data: `grading_scheme` on the
@@ -454,14 +478,16 @@ number on the page: its provenance is required (§6.5), and adding it to an
 existing claim is an edit with history (§7).
 
 A rule may have several parts, and the page says how they combine — "entweder
-… oder … oder aber", "sowie", "mindestens zwei", or nothing. A claim carries
+… oder … oder aber", "sowie", "mindestens zwei", a column of points, or
+nothing. A claim carries
 that as its **`combination`**, read off the page like a threshold and never
 set by a default. It has four fields:
 
-- **`operator`**, the reading, from a set closed because it is logic, like
-  the comparators: `all_of` (UND), `any_of` (ODER), `at_least` with `n`
-  (mindestens n von), and `not_stated` for a passage that lists parts without
-  saying how they combine.
+- **`operator`**, the reading, from a set closed because it is logic and
+  arithmetic, like the comparators: `all_of` (UND), `any_of` (ODER),
+  `at_least` with `n` (mindestens n von), `not_stated` for a passage that
+  lists parts without saying how they combine, and `sum` with `points` for a
+  points table (below).
 - **`of`**, the parts: criterion or definition claims of the same source.
 - **`connective`**, the word or words the page prints for the combination,
   as printed, the pieces of a word spread over the passage joined by " … ".
@@ -487,6 +513,50 @@ gelten …") is marked, not guessed. How a threshold's `when` is worded ("am
 postop. Tag 1 und 3") stays as printed, and a statement's several conditions
 stay a conjunction (§3.2): neither is a combination. Adding one to an
 existing claim is an edit with history (§7).
+
+A **points score** is printed as a table whose rows each give a criterion its
+points ("Punkt(e)" beside each "Merkmal") — and a column of points says how
+the parts combine: they add up. Its combination is a **`sum`**, admitted
+because it is arithmetic, as the comparators are, and read off the page like
+every operator. The table's claim is the **top**: the one answer §5.1 K reads
+(quoting its caption or head, its label the table as K reads it), carrying
+that answer's edge. Each criterion the page gives points to is a **part**, a
+`criterion` claim of its row quoting its cell: a leaf with the threshold the
+cell prints, or a claim with a combination of its own where the cell joins
+parts ("… oder … oder …"); a graded criterion is one part per band (`between`
+"65 – 74", `≥` "75"). The sum carries **`points`**, one per entry of `of` and
+in its order, each the points its row prints, **as printed** ("2", "jeweils 1
+Punkt"): strings, never numbers, never added up. A cell printed once for two
+parts goes to each of them as printed, the rationale reading it ("jeweils 1
+Punkt": one point each), so the row keeps that it counts up to two. A row
+whose rule a footnote gives is the part itself — the row's claim, quoting its
+own cell —, carrying the footnote's threshold or combination, its provenance
+for that property quoting the footnote's line (§6.4), and its label the
+footnote's narrowing words as printed ("nur unzureichend eingestellte
+arterielle Hypertonie"), not only the number. A value printed in two units is
+two values the page joins ("Kreatinin >2.26 mg/dl oder > 200 μmol/l"): two
+claims under the combination the page's word gives, nothing converted.
+
+The **connective** of a sum is the head of the points column as printed
+("Punkt(e)", "Punkte"), quoted in its `source` like every connective. The
+points themselves lie in **no quote**: a lone "1" in a cell is found anywhere
+on its page, so the quote check (§6.2) proves nothing for them, and the judge
+reads each against its row (§8.1) — the one value read off a page that no
+quote carries, a departure from §6.5's practice accepted for it (card #328).
+A sum yields a **number, not whether a rule holds**: it is a part of no
+combination, and nothing is computed from it or stored beside it — no total,
+no maximum, no exclusivity between bands. Every bound on the score sits on
+the claim that prints it, as a `threshold` with the score as its `quantity`
+(§3.2), never on the table's claim, each as printed: "≥7" on one page and
+"> 6" on another are two printings, never equated, and where they bound one
+term they are a disagreement (§5). No rule is rewritten into a tree of
+`at_least` and `any_of` the arithmetic would allow and no page prints. A
+score whose scale its source does not print stays a quantity bounded by its
+threshold, with no `defined_by` edge, and a table of ordinal classes with
+neither points nor a sum ("1 Keine … 4 behindernd") is no combination: its
+classes are values of one quantity, a bound on one a threshold whose value is
+the class as printed. The validator refuses `points` beside another
+operator, a count of points other than of parts, and a sum as a part.
 
 ### 3.2 The semantic layer
 
@@ -564,6 +634,23 @@ Three kinds of entity, kept apart because different edges attach to them:
   proposed on 2026-09-24 (card #187); the combination extracted from the
   source replaced that card's third choice, several rules as alternatives by
   convention, the same day (card #204).
+
+  **A score is a quantity.** The concept a points table defines — the
+  score — is a scored quantity, a `finding`, derived because its one
+  `defined_by` edge reaches the table's claim, the top of the sum (§3.1).
+  A quantity is no group: the score fills no statement slot and no axis
+  placement (validator), and stands where a quantity stands, as the
+  `quantity` of every threshold that bounds it. The patients a bound gives
+  ("bei einem … Score von ≥2") are a concept of their own, which reaches the
+  claim printing the bound by its `defined_by` edge; a recommendation to use
+  the score names the use, a concept of its own beside the score's. Two
+  scores are two concepts — one that adds a category the other leaves out is
+  another score —, and nothing reads a bound on one as a bound on the other,
+  as no grade is mapped between schemes; every spelling of one score is one
+  concept, its labels and quotes as printed. Decided on 2026-10-10 on the
+  maintainer's delegation (card #328); on 2026-10-11 the maintainer answered
+  that a reader under a bounded score needs each criterion with its points,
+  as data.
 - **Statements** — propositions with a truth claim: "after pancreatic
   resection, the drain can be removed early when the drain amylase indicates a
   low fistula risk." Statements are what claims *support* or *contest*. A
@@ -1532,7 +1619,12 @@ pool, and catches what was left out:
   joins and no other, its connective is what the page prints between them,
   and its operator is the reading the connective bears in its sentence, never
   decided by the word alone; a list the page does not combine is marked
-  `not_stated`, not read. An entry of a source's `grading_scheme` (§3.1) is
+  `not_stated`, not read; a `sum`'s points are each the cell its row prints,
+  in the order of its parts — no quote carries them (§3.1), so this reading
+  is their only check. A rule printed inside a box sentence, and a half a
+  „sondern“ joins, is a narrower claim of its own as §3.1 says, and a bound
+  on a score a threshold on the claim that prints it, never on the table's.
+  An entry of a source's `grading_scheme` (§3.1) is
   read the same way against the pages it quotes: each grade, wording,
   negated form and class as the table prints it, in its order, `open` only
   where the table makes the grade an open recommendation, `direction` only

@@ -88,7 +88,9 @@ that edges are unique, that `broader` and `in_scope_of` form no cycle and a
 scope edge doubles no `broader`, that a concept has one `defined_by` edge (or
 one per printing, every pair of their claims joined by `disagrees_with`), that
 a `disagrees_with` edge joins two claims of one source once, and
-each piece of a combination's connective lies in one of its quotes, that an asserted axis places each statement or
+each piece of a combination's connective lies in one of its quotes, that a
+`sum` gives one point per part and is a part of no combination and a concept
+whose rule is a sum fills no statement slot or placement, that an asserted axis places each statement or
 concept once and each hierarchy placement is an edge of the pool, that a
 dimension's values are among its declared ones, that a claim's grade, basis
 and consensus are of its source's `grading_scheme`, its direction the one its
@@ -139,7 +141,23 @@ keeps at a line end is the one the printed word has.
    reading the connective bears in its sentence, never decided by the word
    alone ("und" between groups each counting on its own is `any_of`)? Is a
    list the page gives without saying how it combines marked `not_stated`
-   rather than read? Of an entry of a source's `grading_scheme` ask the same
+   rather than read? For a `sum` — a points table —, is its `connective` the
+   head of the points column, and is each entry of `points` the points cell
+   of its part's row, as printed and in the order of `of`: a cell printed
+   once for two parts given to each, a row whose rule a footnote gives
+   carrying that footnote's threshold or combination, its provenance for it
+   the footnote's line? No quote carries a point, so your reading is its only
+   check. Is every bound on a score a `threshold` with the score as its
+   `quantity`, on the claim that prints it, never on the table's claim, and
+   is a bound printed twice otherwise recorded twice, never equated? Is a
+   rule printed inside a sentence of a marked recommendation — a parenthesis
+   or qualifier stating which cases a term covers — a narrower `criterion`
+   claim of its own, quoting the qualifier, with the number, section,
+   consensus and basis of its marked recommendation and no grade? Is each
+   half a „sondern“ joins, where the page prints each with its own case and
+   direction, a claim with its own direction — unless the grade fixes the
+   other direction, where the half stays in its sentence's claim —, and is
+   nothing recorded for what a „nur“ only implies? Of an entry of a source's `grading_scheme` ask the same
    against the pages it quotes: is each grade, wording, negated form and class
    as the table prints it, in the table's order? Is `open` set only where the
    table makes the grade an open recommendation, `direction` only where it
@@ -166,7 +184,9 @@ keeps at a line end is the one the printed word has.
    sides and say what they differ in?
 4. **A page against the pool.** For every cited page, read it the other way
    round: does every sentence of every recommendation the source marks on it
-   have a claim, sharing its number where the source numbers it? Does every
+   have a claim, sharing its number where the source numbers it, and every
+   rule printed inside such a sentence a narrower claim of its own (spec
+   §3.1)? Does every
    body-text place (a sentence, a footnote, a table's row) that passes the
    rule's gate, in the section §5.1 gives it, have a claim with its edge —
    and every recommendation or decline in the guideline's voice the gate does
@@ -175,8 +195,8 @@ keeps at a line end is the one the printed word has.
    without one? Is every alternative of an enumeration a claim of its own,
    and every row of a table as §5.1 K counts them? Is every claim of a marked
    recommendation linked as spec §3.1 says (a statement it supports or
-   contests, one per action its sentence instructs; a definition's concept by
-   `defined_by`; a gap notice, and a sentence saying only what the evidence
+   contests, one per action its sentence instructs; a definition's concept,
+   and the concept a rule inside a sentence gives, by `defined_by`; a gap notice, and a sentence saying only what the evidence
    shows, unlinked), and does every body-text claim carry its edge (except a
    decline, §5.1 G4; a place §5.1 U admits; a definition only §5.1 G1's clause
    admits, which its concept reaches by `defined_by`; and the top or a part of

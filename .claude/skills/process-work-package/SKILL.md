@@ -214,6 +214,21 @@ claim in
   `recommendation_no` and `section` (the section the box lies in, never its
   number) as printed; nothing the box does not state (underestimate, never
   upgrade);
+- a **rule printed inside a box sentence** — a parenthesis or qualifier
+  stating which cases a term covers — is a narrower `criterion` claim of its
+  own, quoting and labelled by the qualifier's words, with the box's
+  `recommendation_no`, `section`, consensus and basis, no grade, and the
+  threshold or combination it prints; each half a „sondern“ joins, printed
+  with its own case and direction, is a claim with its own direction and the
+  box's grade, unless that grade fixes the other direction; nothing for what
+  a „nur“ only implies (spec §3.1);
+- a **points table** (a score) is the top claim of a `combination` of
+  operator `sum`: a `criterion` part per row the page gives points (one per
+  band of a graded criterion, one per part of a row whose cell gives each
+  its points), its `points` the cells as printed in the order of `of`, its
+  connective the head of the points column, a footnote's rule carried on its
+  row's own part with the footnote's line as that property's provenance; a
+  bound on the score is a threshold on the claim that prints it (spec §3.1);
 - locator `#page=N` with the **physical** page.
 
 Phase two, linking, judgment, all `modelling`: for each claim, search
@@ -224,9 +239,11 @@ terminology namespaces before minting a concept; a new concept gets its
 `facet`. A box's sentence of recommendation form supports a statement per
 action it instructs, a fact or criterion sentence the statement spec §3.1
 names, a fact saying only what the evidence shows none, a definition sentence
-none (its concept's `defined_by` reaches it), a gap notice none; a rule printed inside a box sentence stays in that claim and its
-concept stays stated — name each in the pull request (open question
-rule-claim-granularity). A body-text claim supports no statement: it gets the
+none (its concept's `defined_by` reaches it), a gap notice none; the
+narrower claim of a rule printed inside a box sentence none, the concept it
+gives reaching it by `defined_by` (spec §3.1). A score's concept reaches the
+top of its table's `sum` by `defined_by` and fills no slot: the group a bound
+on it gives is a concept of its own (spec §3.2). A body-text claim supports no statement: it gets the
 edge spec §5.1 gives it (`refines`, `limits`, `supplements`, to the claim the
 rule names, its `rationale` naming the clause and the term), a decline and a
 recommendation outside the marked ones (§5.1 U) none and no statement, a
