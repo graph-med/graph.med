@@ -1,7 +1,7 @@
 # Edges of card #365 (#314's part C3, the pilot) from chapter 5 of sources/vorhofflimmern-lf-1.1 (pp. 37–45), all
 # modelling. Edges across parts are X1's, the scope and hierarchy edges X2's (#314 Decision 6).
-# evidence (spec §3.1): each box sentence of recommendation form supports a statement of its own; the narrower claim
-# of 5.4 and the body text support none
+# evidence (spec §3.1): each box sentence of recommendation form supports a statement of its own; the narrower
+# claims of 5.4 (one per bound) and the body text support none
 - [claims/vorhofflimmern-lf-1.1/5471a6c4, supports, statements/cha2ds2-va-score-zur-abschaetzung-des-schlaganfallrisikos, {source: modelling}]
 - [claims/vorhofflimmern-lf-1.1/92ff30df, supports, statements/abschaetzung-des-blutungsrisikos-bei-vorhofflimmern, {source: modelling}]
 - [claims/vorhofflimmern-lf-1.1/f120f96e, supports, statements/shared-decision-making-zur-schlaganfallpraevention, {source: modelling}]
