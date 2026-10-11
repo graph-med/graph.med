@@ -423,17 +423,42 @@ Three kinds of entity, kept apart because different edges attach to them:
   the concept is, and edges — `codes_as` into terminology namespaces, `broader`
   to the concept it is a special case of (§5). A concept cannot be contested; it
   means, it does not claim. The facet is one of `procedure` (the operation that
-  defines the case: *leberresektion-komplex*), `patient_state` (a risk profile or
-  pre-existing condition), `medication` (a drug or long-term therapy),
-  `intervention` (the measure a recommendation judges: *epiduralanalgesie*,
-  *abdominelle-drainage*), `outcome` (an endpoint or complication), `finding`
-  (a result that triggers a decision) or `qualifier` (a value of a statement
+  defines the case: *leberresektion-komplex*), `patient_state` (what the
+  patient has or is, acute or pre-existing: a disease, an organ dysfunction, a
+  risk, a need for a measure or a contraindication to one: *septischer-schock*,
+  *vasopressorbedarf*, *kardiovaskulaerer-hochrisikopatient*), `medication` (a
+  drug or long-term therapy), `intervention` (the measure a recommendation
+  judges: *epiduralanalgesie*, *abdominelle-drainage*), `outcome` (an endpoint
+  or complication), `finding` (a measured or observed result that triggers a
+  decision: a value, a sign, the result of a test: *laktat-im-blut*,
+  *plausibler-erregernachweis*) or `qualifier` (a value of a statement
   dimension, §4.1 — a phase, a setting, a line of therapy — which qualifies a
   recommendation and is nothing in the case itself). It describes the concept's nature, which
   is fixed; the slots a statement puts it in describe its role there, which
   varies (`mpom` is the action of one statement and the condition of another).
   Where the two seem to collide, ask whether the concept describes the case or
   the act.
+
+  **Between `patient_state` and `finding`, the label decides by what it
+  names.** A state the patient is in is a `patient_state` whether it is acute
+  or pre-existing, so that an intensive-care guideline's acute states and a
+  surgical guideline's pre-existing ones fall on one side, and whether a
+  clinician states it or establishes it by a rule (below): "Vasopressorbedarf"
+  and "anhaltender Vasopressorbedarf", "hämodynamisch instabil",
+  "Hypoperfusion", a low risk of a pancreatic fistula that the drain amylase
+  indicates. What a measurement or an observation yields is a `finding`: a
+  measured or scored quantity, such as the one a threshold bounds
+  ("Noradrenalindosis", "Laktat im Blut"), a value the label names as one
+  ("Hb-Wert von < 4,34 mmol/L"), signs ("Hinweise für eine kardiale
+  Dysfunktion"), the result of a test ("plausibler Erregernachweis"). A
+  derived concept is therefore no finding for being derived; the quantities
+  its rule bounds are. A term the source uses both as a circumstance and as an
+  endpoint stays two concepts, the circumstance and an `outcome`
+  ("hämodynamisch instabil" beside the evidence row's "hämodynamische
+  Instabilität"): an endpoint counts events, not a state the patient is in, and
+  the check that an evidence row's endpoint is an `outcome` (§3.1) is what keeps
+  a subgroup or a comparator out of the row. Decided on 2026-10-11 by the
+  maintainer (card #342), whose pass aligned the concepts of both graphs.
 
   A concept is **derived** (*abgeleitet*) when a clinician cannot observe it
   but establishes it by a rule — a threshold on a measured quantity, a score
@@ -1736,7 +1761,7 @@ POMGAT S3 guideline (AWMF 088-010OL), quotes verified against the document.
   type: concept
   lang: de
   label: "geringes Pankreasfistelrisiko"
-  facet: finding
+  facet: patient_state                      # a risk the patient has; the drain amylase that indicates it is a finding
   source: modelling
 
 - id: statements/fruehe-drainageentfernung-pankreasresektion
