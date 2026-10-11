@@ -1,0 +1,197 @@
+id: sources/vorhofflimmern-lf-1.1
+type: source
+lang: de
+kind: leitlinie
+title: S3-Leitlinie Vorhofflimmern   # the title proper: the cover prints "S3-Leitlinie" (p. 1, l. 8) and "Vorhofflimmern" (l. 12),
+                                     # the citation line (p. 4, l. 15) joins them; the running header's "S3-LL" is an abbreviation
+short_label: S3 Vorhofflimmern 2025
+version: "1.1"   # as the cover (p. 1, l. 14) and the register sheet (p. 93, l. 1) print it. The source prints its version a
+                 # second way: the citation line „S3-Leitlinie Vorhofflimmern – Version 1.“ (p. 4, l. 15) and „Leitlinienreport
+                 # zur Version 1“ (p. 11, l. 27–28), and nothing on what changed from 1 to 1.1. `version` holds one label;
+                 # the other printing is named here and in the pull request, not resolved (#363 Decision 1)
+date: "2025-04-14"   # the running header's "Stand 14.04.2025"; p. 4 dates the adoption (11.02.2025) and p. 93 the first
+                     # publication (02/2025), neither the date the source gives its version (spec §6.1)
+provenance:   # spec §6.1: the cover's version line and its running header
+  version: {at: sources/vorhofflimmern-lf-1.1#page=1, quote: "Version 1.1"}
+  date: {at: sources/vorhofflimmern-lf-1.1#page=1, quote: "Stand 14.04.2025"}
+awmf_register: "019-014"
+url: https://register.awmf.org/assets/guidelines/019-014l_S3_Vorhofflimmern_2025-07.pdf
+content_hash: sha256:4c1d93f32481b632de9567e82f758df124cbffa7815992d9d5f75da3081bad6e
+media_type: application/pdf
+license: "Deutsche Gesellschaft für Kardiologie und 16 weitere Herausgeber, publiziert im AWMF-Register (019-014); laut
+  „Besonderer Hinweis“ (S. 2): „Jede Verwertung außerhalb der Bestimmung des Urheberrechtsgesetzes ist ohne schriftliche
+  Zustimmung der Träger des NVL-Programms unzulässig und strafbar.“"   # p. 3: under „Herausgeber“ the DGK „sowie“ 16
+  # organisations; p. 2, l. 22–24: the notice as printed, naming whose consent it requires (#363 Decision 4)
+structure: [versorgungspfad, modalitaetsbezogen]   # chapters 2–4 diagnose, screen and prevent; 5–7 treat by modality
+                                                   # (stroke prevention, rhythm control, rate control); 8 collects situations
+grading_scheme:   # spec §3.1: Tabelle 1 (p. 10), quoted cell by cell; the basis from the boxes and a Begründung (p. 44)
+  grades:   # Tabelle 1's rows in the table's order; the letter of the column „Empfehlungsgrad“ is quoted, kept in no field
+    - grade: "⇑⇑"
+      description: Starke Positiv-Empfehlung
+      verb: soll
+      negated: soll nicht
+      direction: for
+      source:
+        - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "⇑⇑"}
+        - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "soll"}
+        - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "Starke Positiv-Empfehlung"}
+        - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "A"}
+      provenance:   # the row prints the affirmative only; the row of ⇓⇓ prints the form against
+        negated: {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "soll nicht"}
+    - grade: "⇑"
+      description: Positiv-Empfehlung
+      verb: sollte
+      negated: sollte nicht
+      direction: for
+      source:
+        - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "⇑"}
+        - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "sollte"}
+        - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "Positiv-Empfehlung"}
+        - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "B"}
+      provenance:   # as for ⇑⇑: the row of ⇓
+        negated: {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "sollte nicht"}
+    - grade: "⇔"
+      description: Offene Empfehlung
+      verb: kann
+      negated: kann verzichtet werden
+      open: true
+      source:
+        - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "⇔"}
+        - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "kann erwogen werden/kann verzichtet werden"}
+        - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "Offene Empfehlung"}
+        - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "0"}
+      rationale: "Die Zeile druckt zwei Formulierungen, „kann erwogen werden/kann verzichtet werden“. Die Formulierung ist das
+        Modalverb „kann“, wie jede andere Zeile der Spalte ein Modalverb gibt, und „kann verzichtet werden“ ist ihre Form gegen
+        etwas. In den Kästen 4.4 (S. 31), 6.13 (S. 63), 6.15 (S. 65) und 6.17 (S. 66) zeigt die gedruckte Seite ⇔, die
+        Textebene aber ein Zeichen des privaten Unicode-Bereichs (U+F0F3): ihre Sätze tragen den Grad ⇔, und seine Herkunft
+        zitiert die Zelle, wie die Textebene sie gibt."
+    - grade: "⇓"
+      description: Negativ-Empfehlung
+      verb: sollte
+      negated: sollte nicht
+      direction: against
+      source:
+        - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "⇓"}
+        - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "sollte nicht"}
+        - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "Negativ-Empfehlung"}
+        - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "B"}
+    - grade: "⇓⇓"
+      description: Starke Negativ-Empfehlung   # the cell breaks after „Negativ-“; the quote runs across the line
+      verb: soll
+      negated: soll nicht
+      direction: against
+      source:
+        - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "⇓⇓"}
+        - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "soll nicht"}
+        - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "Starke Negativ-Empfehlung"}
+        - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "A"}
+  bases:
+    - basis: EK
+      description: Expertenkonsens
+      source:
+        - {at: sources/vorhofflimmern-lf-1.1#page=44, quote: "EK"}
+        - {at: sources/vorhofflimmern-lf-1.1#page=44, quote: "Die Empfehlung beruht auf Expertenkonsens und beschreibt gute klinische Praxis."}
+      rationale: "Tabelle 1 nennt „EK“ nicht, und die Langfassung schreibt es nirgends aus. Die Kästen drucken es neben dem
+        Pfeil, in jeder „Konsensbasierten“ und „Adaptierten Empfehlung“, und mit „Statement“ ohne Pfeil in den „Konsensbasierten
+        Statements“; die Begründung von Empfehlung 5.9, deren Kasten „⇑“ und „EK“ druckt, sagt, worauf sie beruht. Den Pfeil
+        eines solchen Kastens nennt der Text seinen Empfehlungsgrad (S. 20 zu 2.4, S. 21 zu 2.5): EK ist kein Grad, sondern
+        die Grundlage der Empfehlung, und ihre Stärke gibt der Pfeil."
+  # no consensus classes: the boxes print the share („Konsensstärke: 96,8 %“), and no page names a class or its bounds
+  # (p. 11 refers to the Leitlinienreport); a claim carries `consensus_share` as printed and no `consensus`
+rating_systems:   # spec §3.1: the Langfassung prints no method line and leaves its method to the Leitlinienreport, which is
+                  # not declared (#314 question 6, answered 2026-10-11); the system is named by a body-text line beside a rating
+  - system: grade
+    name: GRADE
+    source: {at: sources/vorhofflimmern-lf-1.1#page=29, quote: "GRADE moderat"}
+    rationale: "Die Langfassung druckt keine Zeile zur Methode der Evidenzbewertung; für die Methodik, darunter „Auswahl und
+      Bewertung der Evidenz“, verweist sie auf den Leitlinienreport zur Version 1 (S. 11). Ihre Kästen drucken die
+      „Qualität der Evidenz“ je Zeile mit ⊕-Symbolen, und ihre Begründungen nennen GRADE neben einer solchen Bewertung, hier
+      „GRADE moderat“ (S. 29)."
+outline:   # the 84 numbered entries of the table of contents (pp. 7–9), physical page = printed page, each checked against
+           # the page where its heading starts; its two unnumbered entries, „Vorwort“ (p. 6) and „Einführung“ (p. 10), are
+           # left out. The table's wording is taken where a heading reads otherwise: 5.4.1–5.4.3 (the headings add
+           # „Vorhofohrverschluss: “) and 8.5.1–8.5.2 (the headings read „"Antagonisierung" von …“ for „Reversierung von …“)
+  - {section: "1", title: "Definition, Einteilung und Epidemiologie von Vorhofflimmern", page: 11}
+  - {section: "1.1", title: "Definition", page: 11}
+  - {section: "1.2", title: "Diagnostische Kriterien", page: 11}
+  - {section: "1.3", title: "Subklinisches Vorhofflimmern (Device – detected subclinical AF)", page: 12}
+  - {section: "1.4", title: "Klassifikation", page: 13}
+  - {section: "1.5", title: "Progression des Verteilungsmusters", page: 13}
+  - {section: "1.6", title: "Weitere Einteilungen", page: 13}
+  - {section: "1.7", title: "Epidemiologie", page: 14}
+  - {section: "1.7.1", title: "Prävalenz, Inzidenz", page: 14}
+  - {section: "1.7.2", title: "Morbidität und Mortalität", page: 14}
+  - {section: "1.7.3", title: "Risikofaktoren und Komorbiditäten", page: 14}
+  - {section: "2", title: "Diagnostik", page: 16}
+  - {section: "2.1", title: "Sicherung der Diagnose Vorhofflimmern", page: 16}
+  - {section: "2.2", title: "Generelle Empfehlungen zur Diagnostik/Management bei Vorhofflimmer-Patient*innen", page: 17}
+  - {section: "2.3", title: "Evaluation von Symptomen, Lebensqualität und psychosozialen Faktoren", page: 19}
+  - {section: "2.3.1", title: "Erfassung der Vorhofflimmer-Symptome bei Patient*innen mit Vorhofflimmern", page: 20}
+  - {section: "2.3.2", title: "Erfassung von Begleiterkrankungen sowie der psychosozialen Komponente bei Patient*innen mit Vorhofflimmern", page: 21}
+  - {section: "2.4", title: "Bildgebung und erweiterte Diagnostik", page: 21}
+  - {section: "3", title: "Screening von Vorhofflimmern", page: 24}
+  - {section: "3.1", title: "Risikoadaptiertes Screening", page: 24}
+  - {section: "3.2", title: "Bedeutung der Vorhofflimmer-Last für Behandlungsentscheidungen bei Vorhofflimmern / generelles Screening", page: 25}
+  - {section: "4", title: "Prävention und Lebensstil-bezogene Maßnahmen", page: 28}
+  - {section: "4.1", title: "Primärprävention und Lebensstil-Modifikation", page: 28}
+  - {section: "4.2", title: "Körperliche Aktivität", page: 28}
+  - {section: "4.2.1", title: "Strukturiertes Training", page: 29}
+  - {section: "4.3", title: "Psychovegetativer Stress / Entspannungsverfahren", page: 31}
+  - {section: "4.4", title: "Alkohol", page: 32}
+  - {section: "4.5", title: "Rauchen / Nikotinkonsum", page: 33}
+  - {section: "4.6", title: "Koffein", page: 34}
+  - {section: "4.7", title: "Cannabis", page: 34}
+  - {section: "4.8", title: "Therapie von Begleiterkrankungen", page: 35}
+  - {section: "4.9", title: "Zusammenfassung: Risikofaktoren und Lebensstil-Modifikation", page: 35}
+  - {section: "5", title: "Schlaganfallprävention", page: 37}
+  - {section: "5.1", title: "Abschätzung des Thromboembolierisikos", page: 37}
+  - {section: "5.2", title: "Abschätzung des Blutungsrisikos", page: 38}
+  - {section: "5.3", title: "Antikoagulation", page: 39}
+  - {section: "5.3.1", title: "Indikation zur Antikoagulation", page: 40}
+  - {section: "5.3.2", title: "Wirkstoffwahl der oralen Antikoagulation", page: 41}
+  - {section: "5.3.3", title: "Chronische Nierenerkrankung", page: 42}
+  - {section: "5.4", title: "Vorhofohrverschluss", page: 43}
+  - {section: "5.4.1", title: "Indikation", page: 43}
+  - {section: "5.4.2", title: "Indikationsprüfung in Zentrum", page: 44}
+  - {section: "5.4.3", title: "Herzchirurgische Patient*innen mit Vorhofflimmern", page: 45}
+  - {section: "6", title: "Rhythmuskontrolle", page: 47}
+  - {section: "6.1", title: "Indikation zur rhythmuskontrollierenden Therapie", page: 47}
+  - {section: "6.1.1", title: "Prüfung der Indikation zur Rhythmuskontrolle bei allen AF-Patient*innen", page: 47}
+  - {section: "6.1.2", title: "Frühe Rhythmuskontrolle", page: 50}
+  - {section: "6.1.3", title: "Rhythmuskontrolle bei AF-induzierter Kardiomyopathie", page: 51}
+  - {section: "6.1.4", title: "Rhythmuskontrolle bei AF und Herzinsuffizienz", page: 52}
+  - {section: "6.2", title: "Katheterablation bei Patient*innen mit dem Therapieziel der Rhythmuskontrolle", page: 53}
+  - {section: "6.3", title: "Katheterablation bei Patient*innen zur Verhinderung einer Progression der Erkrankung", page: 55}
+  - {section: "6.4", title: "Empfehlungen zum Verzicht auf eine Rhythmuskontrolle", page: 56}
+  - {section: "6.5", title: "Empfehlungen zur medikamentösen Rhythmuskontrolle", page: 57}
+  - {section: "6.5.1", title: "Medikamentöse Rhythmuskontrolle mit Klasse IC-Antiarrhythmika", page: 57}
+  - {section: "6.5.2", title: "Medikamentöse Rhythmuskontrolle mit Amiodaron", page: 58}
+  - {section: "6.6", title: "Persistierendes Vorhofflimmern", page: 61}
+  - {section: "6.7", title: "Lang-persistierendes Vorhofflimmern", page: 61}
+  - {section: "6.8", title: "Kardioversion", page: 62}
+  - {section: "6.8.1", title: "Notfallmäßige elektrische Kardioversion", page: 62}
+  - {section: "6.8.2", title: "Elektive Kardioversion", page: 63}
+  - {section: "6.8.3", title: "Thromboembolieprophylaxe bei Kardioversion", page: 64}
+  - {section: "6.8.4", title: "\"Wait and watch\" Strategie vor Kardioversion", page: 64}
+  - {section: "6.8.5", title: "Festlegung der Therapiestrategien nach Kardioversion", page: 65}
+  - {section: "6.8.6", title: "Rhythmuskontrolle mit einer \"pill-in-the-pocket\" Strategie", page: 66}
+  - {section: "7", title: "Frequenzkontrolle", page: 70}
+  - {section: "7.1", title: "Therapieziel", page: 71}
+  - {section: "7.2", title: "Unzureichende Symptomkontrolle", page: 72}
+  - {section: "7.3", title: "Wirkstoffe und Wirkstoffwahl", page: 74}
+  - {section: "8", title: "Spezielle Szenarien", page: 78}
+  - {section: "8.1", title: "OAK-Management bei geplanten Operationen", page: 78}
+  - {section: "8.2", title: "Direkte orale Antikoagulanzien", page: 81}
+  - {section: "8.3", title: "Vitamin-K-Antagonisten", page: 84}
+  - {section: "8.4", title: "Bridging bei oralen Antikoagulanzien", page: 84}
+  - {section: "8.5", title: "Dringliche Eingriffe", page: 85}
+  - {section: "8.5.1", title: "Reversierung von Vitamin-K-Antagonisten", page: 85}
+  - {section: "8.5.2", title: "Reversierung von DOAK", page: 86}
+  - {section: "8.6", title: "Blutungen", page: 86}
+  - {section: "8.7", title: "Perioperatives Vorhofflimmern (POAF)", page: 86}
+  - {section: "8.7.1", title: "Prävention von perioperativem Vorhofflimmern", page: 87}
+  - {section: "8.7.2", title: "Management", page: 87}
+  - {section: "8.7.3", title: "Postoperatives Management", page: 87}
+  - {section: "8.8", title: "Interventionelle Therapie von Vorhofflimmern bei Patient*innen mit Adipositas", page: 89}
+  - {section: "8.9", title: "Schlafapnoe", page: 90}
+  - {section: "8.10", title: "Leistungssport", page: 90}
