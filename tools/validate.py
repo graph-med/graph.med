@@ -71,7 +71,11 @@ rules a document schema cannot state because they span files:
   - an evidence row names its endpoint as `outcome` and anything else as its
     printed `key` (spec §3.1): an entry's `outcome` is a concept of facet
     `outcome`, so a component, a subgroup, an arm, a comparator, a device or a
-    regimen is never recorded as one;
+    regimen is never recorded as one; and each entry has its quote — the
+    provenance of `evidence` holds at least one quote per entry, the lines a
+    box prints once for its rows following them (that an entry states an
+    outcome, a value or a note, and its system wherever it states an outcome or
+    a value, is the schema's);
   - a quote ends on a whole word (spec §6.2): none ends in a hyphen after a
     letter or a digit, the cut a line-end hyphen leaves — the rest of the
     whole-word rule needs the page, below; and a quote holds no ASCII double
@@ -595,12 +599,17 @@ def check_grading(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
 
 
 def check_evidence(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
-    """A claim's evidence rows (spec §3.1): each is one row the source prints, keyed by its endpoint (`outcome`)
-    and, where the row names anything else, by its printed `key`. The schema cannot see a concept's facet, so this
-    is where an `outcome` is held to be an endpoint — a concept of facet `outcome` — and a row keyed by a component,
-    a subgroup, an arm, a comparator, a device or a regimen cannot pass that key off as one. That no two entries are
-    alike is the schema's (`uniqueItems`); the key is what keeps rows apart that would otherwise be one entry. No
-    system, value or kind of row is named here."""
+    """A claim's evidence entries (spec §3.1): one per row of the box's evidence block, and per endpoint where a row
+    names several, keyed by its endpoint (`outcome`) and, where the row names anything else, by its printed `key`. The
+    schema cannot see a concept's facet, so this is where an `outcome` is held to be an endpoint — a concept of facet
+    `outcome` — and a row keyed by a component, a subgroup, an arm, a comparator, a device or a regimen cannot pass that
+    key off as one. That no two entries are alike is the schema's (`uniqueItems`); the key is what keeps rows apart
+    that would otherwise be one entry. That an entry states an outcome, a value or a note, and a system wherever it
+    states an outcome or a value, is the schema's too. And each entry has its quote: the provenance of `evidence` (the
+    claim's `source` where it gives none) holds at least as many quotes as there are entries, quote i being entry i's;
+    the lines a box prints once for its rows (the method line, the notation line, the heading) follow them, so there
+    may be more, and which line a quote is stays the judge's reading. No system, value, note or kind of row is named
+    here."""
     errs: list[str] = []
     for cid, claim in sorted(entities.items()):
         if claim.get("type") != "claim" or not isinstance(claim.get("evidence"), list):
@@ -612,6 +621,12 @@ def check_evidence(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
                 errs.append(f"{ids[cid]}: {cid} evidence {i}: {outcome} is no endpoint (facet {concept.get('facet') or 'none'}); "
                             f"a row naming a component, a subgroup, an arm, a comparator, a device or a regimen records it as "
                             f"its printed `key`, its endpoint as `outcome`")
+        given = (claim.get("provenance") or {}).get("evidence", claim.get("source"))
+        quotes = 1 if isinstance(given, dict) else len(given) if isinstance(given, list) else 0
+        if quotes < len(claim["evidence"]):
+            errs.append(f"{ids[cid]}: {cid} has {len(claim['evidence'])} evidence entries and {quotes} evidence quote(s); "
+                        f"each entry has its quote, in the entries' order — the line that prints its key or endpoint, "
+                        f"or the rating's own line where the row prints neither")
     return errs
 
 
