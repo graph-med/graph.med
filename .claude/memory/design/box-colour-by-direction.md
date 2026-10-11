@@ -1,6 +1,6 @@
 ---
 name: box-colour-by-direction
-description: A recommendation box on the view page is coloured by its direction (für, gegen, abwägen, Lücke — the banner's four colours) and its label begins with the glyph, the grade as the guideline prints it and, where the grade does not carry it in its scheme, the verb as a word; EK is coloured like any other and marked "EK". Not by grade, not by verb; the border carries only state.
+description: A recommendation box on the view page is coloured by its direction (für, gegen, abwägen, Lücke — the banner's four colours) and its label begins with the glyph, the grade as the guideline prints it (letters, words or arrows, in its table's order), a basis printed beside it ("⇑ EK"), and, where the grade does not carry it in its scheme, the verb as a word; EK is coloured like any other and marked "EK". Not by grade, not by verb; the border carries only state.
 metadata:
   type: project
 ---
@@ -57,5 +57,24 @@ the grade back into colour; a new grade scale is its source's grading scheme, it
 grades shown as printed and ordered as declared, never a literal in the build. Never
 declare which grades imply which verb — compute it per scheme from its source's
 claims — and never give the border a meaning beyond state.
+
+**Arrows and a basis (2026-10-11, #324).** A scheme may print its grades as
+arrows that carry the direction (`⇑⇑ · ⇑ · ⇔ · ⇓ · ⇓⇓`, read off the source's
+table with `direction` on each grade, [[grading-scheme-on-the-source]]): the box
+writes the arrow as printed, in the table's order, which runs from for to
+against and so is not strongest first, and the glyph stays before it — the glyph
+is the statement's derived direction (abwägen where its claims disagree), the
+arrow is the grade as printed, and dropping either would lose the colour-blind
+redundancy or a grade the guideline printed. The arrows are text in the page's
+font stack (`--font`, the faces named for `⚖`), drawn as glyphs on desktop and
+phone. A **basis** printed beside the grade (`EK` under an arrow, the scheme's
+`bases`) follows the grade on the box as the cell prints it — `✓ ⇑ EK · …`,
+`✗ ⇓ EK · …`, alone where the box prints no grade —; on the card's chip it is its
+scheme's description after the grade (`Grad ⇑ · Expertenkonsens`), in the legend
+a key of its own in the *Grad* row (**EK** Expertenkonsens) that a view gets
+only where a box carries one. A basis is no grade: it neither colours the box
+nor takes part in which grades write their verb. Several grades or bases on one
+box are listed in their scheme's order, never reduced to one. A box against
+something keeps its negated verb as recorded (#249).
 Related: [[direction-legend]] derives the direction; [[view-page-is-a-decision-tree]]
 fixes the tree this colours.
