@@ -1,0 +1,11 @@
+# A concept of card #378 (C5), sections 6.6–6.8 of sources/vorhofflimmern-lf-1.1.
+# The action of 6.12 (p. 63): „sollen unmittelbar elektrisch, nicht pharmakologisch kardiovertiert werden“; also
+# printed p. 62, l. 61, p. 63, l. 39, p. 64, l. 22–23 and 51, p. 65, l. 58. Beside the ledger's concepts/kardioversion
+# (medicinal or electrical), as its comment says. C1 (p. 14), C4 (p. 51) and C7 (p. 87) print it too: named for the
+# coordinator's sweep (#378 Decision 8).
+id: concepts/elektrische-kardioversion
+type: concept
+lang: de
+label: "elektrische Kardioversion"
+facet: intervention
+source: modelling

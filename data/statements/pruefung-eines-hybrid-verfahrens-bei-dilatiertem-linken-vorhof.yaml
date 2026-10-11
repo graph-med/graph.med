@@ -1,0 +1,13 @@
+# A statement of card #378 (C5), sections 6.6–6.8 of sources/vorhofflimmern-lf-1.1.
+# Box 6.11 (p. 62). Anchor: the form narrowed by the atrium, a subgroup (convention row 4; #378 reading 13);
+# „symptomatisch“ a condition (row 9). „nach interdisziplinärer Evaluation“ listed unclassified for #94 (row 10).
+id: statements/pruefung-eines-hybrid-verfahrens-bei-dilatiertem-linken-vorhof
+type: statement
+lang: de
+label: "Bei symptomatischen Patient*innen mit langanhaltend persistierendem AF sowie dilatiertem linken Vorhof nach interdisziplinärer Evaluation des Nutzens und der Risiken neben der Katheterablation eine chirurgische Ablation im Sinne eines Hybrid-Verfahrens (epi-/und endokardial) prüfen."
+short_label: "Hybrid-Verfahren prüfen bei dilatiertem linken Vorhof"
+slots:
+  population: concepts/langanhaltend-persistierendes-af-sowie-dilatierter-linker-vorhof
+  action: concepts/pruefung-einer-chirurgischen-ablation-im-sinne-eines-hybrid-verfahrens
+  condition: [concepts/symptomatisch]
+source: modelling

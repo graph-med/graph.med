@@ -1,0 +1,11 @@
+# A concept of card #378 (C5), sections 6.6–6.8 of sources/vorhofflimmern-lf-1.1.
+# The action of 6.11 (p. 62): „sollte … neben der Katheterablation eine chirurgische Ablation im Sinne eines
+# Hybrid-Verfahrens (epi-/und endokardial) geprüft werden“ — the check (card #364's action rule). „nach
+# interdisziplinärer Evaluation“ stays in the statement's label; listed unclassified for #94 (convention row 10).
+id: concepts/pruefung-einer-chirurgischen-ablation-im-sinne-eines-hybrid-verfahrens
+type: concept
+lang: de
+label: "Prüfung einer chirurgischen Ablation im Sinne eines Hybrid-Verfahrens"
+short_label: "Prüfung eines Hybrid-Verfahrens"
+facet: intervention
+source: modelling

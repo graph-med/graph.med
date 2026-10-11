@@ -1,5 +1,19 @@
 # Edges of card #378 (#314's part C5) from sections 6.6–6.8 of sources/vorhofflimmern-lf-1.1 (pp. 61–66), all modelling.
 # Edges across parts are X1's, the scope and hierarchy edges X2's (#314 Decision 6).
+# evidence (spec §3.1): each box sentence of recommendation form supports a statement of its own, and the facts of
+# 6.14 and 6.16 the statement of the sentence they restrict or give the reason for; the narrower claim of 6.14 and
+# the body text support none
+- [claims/vorhofflimmern-lf-1.1/8ca72d91, supports, statements/beratung-ueber-katheterablation-bei-persistierendem-vorhofflimmern, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/8d887787, supports, statements/pruefung-eines-hybrid-verfahrens-bei-dilatiertem-linken-vorhof, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/09e4afab, supports, statements/unmittelbare-elektrische-kardioversion-bei-haemodynamischer-instabilitaet, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/04224392, supports, statements/elektive-kardioversion-zur-pruefung-der-symptome, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/2c0f14f0, supports, statements/antikoagulation-oder-thrombenausschluss-vor-elektiver-kardioversion, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/eb18d2f3, supports, statements/antikoagulation-oder-thrombenausschluss-vor-elektiver-kardioversion, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/975e983c, supports, statements/kardioversion-auch-nach-48-stunden-wait-and-watch, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/7563ac71, supports, statements/planung-des-weiterfuehrenden-managements-nach-kardioversion, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/2251b543, supports, statements/planung-des-weiterfuehrenden-managements-nach-kardioversion, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/23e4bdab, supports, statements/pill-in-the-pocket-therapie-bei-strukturell-herzgesunden-patientinnen, {source: modelling}]
+
 # defined_by (spec §3.1, §3.2, §5): the concepts the rules of these pages establish, owned by this part (#378 Decision 8)
 - [concepts/af-unter-24-h, defined_by, claims/vorhofflimmern-lf-1.1/e92bc393, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "„AF <24h“ — Empfehlung 6.14 (S. 64), Satz 2: „Eine Ausnahme stellen Patient*innen mit AF <24h und geringem thromboembolischem Risiko dar.“"}]

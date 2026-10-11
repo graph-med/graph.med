@@ -1,0 +1,11 @@
+# A concept of card #378 (C5), sections 6.6–6.8 of sources/vorhofflimmern-lf-1.1.
+# The action of 6.14's first sentence (p. 64): one predicate, two alternatives „oder“ joins, one concept naming both as
+# printed (spec §3.2: an „oder“ is one concept; #378 reading 1). The thrombus exclusion is C7's too (p. 87): named for
+# the coordinator's sweep.
+id: concepts/3-woechige-orale-antikoagulation-oder-thrombenausschluss-mittels-tee
+type: concept
+lang: de
+label: "3-wöchige ununterbrochene orale Antikoagulation oder Thrombenausschluss mittels transösophagealem Ultraschall"
+short_label: "3-wöchige orale Antikoagulation oder Thrombenausschluss"
+facet: intervention
+source: modelling

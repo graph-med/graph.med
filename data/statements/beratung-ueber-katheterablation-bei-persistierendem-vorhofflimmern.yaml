@@ -1,0 +1,13 @@
+# A statement of card #378 (C5), sections 6.6–6.8 of sources/vorhofflimmern-lf-1.1.
+# Box 6.10 (p. 61). Anchor: the AF form (card #364, convention row 3); „symptomatisch“ a condition (row 9). The aim
+# „Zur Reduktion von …“ stays in the label (#378 reading 12).
+id: statements/beratung-ueber-katheterablation-bei-persistierendem-vorhofflimmern
+type: statement
+lang: de
+label: "Symptomatische Patient*innen mit persistierendem AF zur Reduktion von AF-Episoden, Krankenhausaufenthalten und Kardioversionen auf Grundlage einer Nutzen-Risiko-Abwägung über eine Katheterablation beraten."
+short_label: "Über eine Katheterablation beraten (Nutzen-Risiko-Abwägung)"
+slots:
+  population: concepts/persistierendes-vorhofflimmern
+  action: concepts/beratung-ueber-eine-katheterablation
+  condition: [concepts/symptomatisch]
+source: modelling

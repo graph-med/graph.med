@@ -1,0 +1,10 @@
+# A concept of card #378 (C5), sections 6.6–6.8 of sources/vorhofflimmern-lf-1.1.
+# The action of 6.13 („eine elektive Kardioversion eingesetzt werden“, p. 63) and the condition of 6.14 („Vor elektiver
+# Kardioversion (medikamentös oder elektrisch)“, p. 64); the heading of 6.8.2. Beside the ledger's
+# concepts/kardioversion, as its comment says.
+id: concepts/elektive-kardioversion
+type: concept
+lang: de
+label: "elektive Kardioversion"
+facet: intervention
+source: modelling

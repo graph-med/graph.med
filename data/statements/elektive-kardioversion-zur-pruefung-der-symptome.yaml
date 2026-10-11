@@ -1,0 +1,12 @@
+# A statement of card #378 (C5), sections 6.6–6.8 of sources/vorhofflimmern-lf-1.1.
+# Box 6.13 (p. 63). Anchor: the root, „hämodynamisch stabil“ a condition (convention row 9); the aim in the label.
+id: statements/elektive-kardioversion-zur-pruefung-der-symptome
+type: statement
+lang: de
+label: "Bei hämodynamisch stabilen Patient*innen mit AF eine elektive Kardioversion einsetzen, um zu verifizieren, ob Symptome (z. B. Dyspnoe, Leistungsminderung) durch AF verursacht werden."
+short_label: "Elektive Kardioversion: Symptome durch AF verursacht?"
+slots:
+  population: concepts/patientinnen-mit-vorhofflimmern
+  action: concepts/elektive-kardioversion
+  condition: [concepts/haemodynamisch-stabil]
+source: modelling

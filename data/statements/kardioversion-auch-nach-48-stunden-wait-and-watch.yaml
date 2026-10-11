@@ -1,0 +1,13 @@
+# A statement of card #378 (C5), sections 6.6–6.8 of sources/vorhofflimmern-lf-1.1.
+# Box 6.15 (p. 65). Anchor: the root, the acute symptoms and the haemodynamic stability conditions (convention row 9;
+# card #364, Decision 7's table; #378 reading 8 — the other reading is a subgroup „akutes symptomatisches AF“).
+id: statements/kardioversion-auch-nach-48-stunden-wait-and-watch
+type: statement
+lang: de
+label: "Bei akutem symptomatischem AF mit hämodynamischer Stabilität eine Kardioversion auch nach 48 Stunden anbieten („wait and watch“-Strategie)."
+short_label: "Kardioversion auch nach 48 Stunden („wait and watch“)"
+slots:
+  population: concepts/patientinnen-mit-vorhofflimmern
+  action: concepts/kardioversion
+  condition: [concepts/akut-symptomatisch, concepts/haemodynamisch-stabil]
+source: modelling

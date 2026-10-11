@@ -1,0 +1,15 @@
+# A statement of card #378 (C5), sections 6.6–6.8 of sources/vorhofflimmern-lf-1.1.
+# Box 6.14 (p. 64), both sentences: the second, a fact restricting the first, supports this statement (#378 Decision 3),
+# and its exception stands in the label (#378 reading 3). One statement for the two alternatives (#378 reading 1).
+# The box names no group: anchor the root, the cardioversion a condition — convention row 2's reading, flagged (card
+# #364, reading 6; #314 Decision 20, "Anchors").
+id: statements/antikoagulation-oder-thrombenausschluss-vor-elektiver-kardioversion
+type: statement
+lang: de
+label: "Vor elektiver Kardioversion (medikamentös oder elektrisch) eine 3-wöchige ununterbrochene orale Antikoagulation oder einen Thrombenausschluss mittels transösophagealem Ultraschall durchführen; eine Ausnahme stellen Patient*innen mit AF <24h und geringem thromboembolischem Risiko dar."
+short_label: "Antikoagulation oder Thrombenausschluss vor Kardioversion"
+slots:
+  population: concepts/patientinnen-mit-vorhofflimmern
+  action: concepts/3-woechige-orale-antikoagulation-oder-thrombenausschluss-mittels-tee
+  condition: [concepts/elektive-kardioversion]
+source: modelling
