@@ -197,7 +197,10 @@ keeps at a line end is the one the printed word has.
    the `rationale` quote both sides and say what they differ in — for a
    rating in another word, that the page does not equate them? Where one side
    rates a row of a marked recommendation's evidence, does an edge join it to
-   every claim that carries that row?
+   every claim that carries that row? Where one side is a footnote of a
+   figure printed as an image, does it print, in the text layer, a rule the
+   other side prints otherwise, and does it carry no `refines`, `limits` or
+   `supplements` (spec §5.1 F)?
 4. **A page against the pool.** For every cited page, read it the other way
    round: does every sentence of every recommendation the source marks on it
    have a claim, sharing its number where the source numbers it, and every
@@ -208,7 +211,16 @@ keeps at a line end is the one the printed word has.
    and every recommendation or decline in the guideline's voice the gate does
    not admit (§5.1 U), and every definition or criterion a heading or table
    head marks for a term a marked recommendation uses (§5.1 G1), a claim
-   without one? Is every alternative of an enumeration a claim of its own,
+   without one? A figure printed as an image — its page's text holds only
+   its caption and footnotes — stays on the page with its footnotes (spec
+   §5.1 F), its caption a place like any other; but a footnote that prints,
+   in the text layer, a rule another place of the source prints otherwise
+   (a body-text place or a marked recommendation) is a claim of its own:
+   has it one, its `kind` by form, its `section` the figure's, quoting the
+   footnote's line, joined by `disagrees_with` to each claim that prints
+   the rule otherwise? A footnote that agrees, or prints a rule printed
+   nowhere else, has none, and what only the image prints stays on the
+   page. Is every alternative of an enumeration a claim of its own,
    and every row of a table as §5.1 K counts them? Is every claim of a marked
    recommendation linked as spec §3.1 says (a statement it supports or
    contests, one per action its sentence instructs; a definition's concept,
