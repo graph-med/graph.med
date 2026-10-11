@@ -532,6 +532,25 @@ glyph. Timing
      size, line height 1.6, a measure of about seventy characters, no indent,
      no rule, no shrunken type. Several supporting claims: one surface each, in
      zone 8's order. The number, page and section are in zone 8, not here.
+
+     **Where the source says otherwise.** A claim the source contradicts at
+     another place (`graph-representation.md` §5 `disagrees_with`) carries,
+     under its sentence, a line of its own in the disagreement's colour,
+     worded as the source's own inconsistency — `≠ Die Leitlinie nennt hierzu
+     eine abweichende Angabe:` (`… abweichende Angaben:` for several) — and
+     under it each other printing: its sentence, its recommendation number,
+     page and section linked into the source by its quote, `Textstelle` (its
+     claim's page), and a closed `Worin die Angaben abweichen`, the edge's
+     rationale, tagged *KI-erzeugt*. Every side is shown and none is marked
+     as the right one; the colour is not the contested red, which is two
+     sources (zone 7). The same line stands under a passage of zone 6, under
+     a node of a rule in zone 5 (for a printing that is not the concept's own,
+     below) and on a claim's page, so that each side's card shows the other.
+     In the statement JSON a `wortlaut` entry and a passage of
+     `leitlinientext` carry `disagrees_with`, the other printings, each with
+     `id`, `kind`, `label`, `lang`, `source`, `recommendation_no`, `page`,
+     `section`, `quote`, `link`, `rationale` and `rationale_lang`, only where
+     there is one.
   4. **Evidence.** How certain the evidence is, separately from how binding
      the recommendation is (zone 2), from the supporting claims' `evidence`
      entries, in one of four states and no fifth:
@@ -626,7 +645,12 @@ glyph. Timing
      derived (`graph-representation.md` §3.2: it has a `defined_by` edge) — the
      anchor, a condition, any row, by one code path — a line says so,
      `abgeleitet, nach der Regel`, and the rule the edge reaches follows as a
-     tree, nested where the source nests it. A claim that combines parts
+     tree, nested where the source nests it. Where the source prints the rule
+     differently in several places (§5: an edge to each printing), the line
+     says that instead, `abgeleitet; die Leitlinie gibt die Regel an 2 Stellen
+     abweichend an:`, and every printing's rule follows, each its own tree, in
+     the source's order — `> 50 ml/kg/h` (S. 99) above `≥ 50 ml/kg/h`
+     (S. 101) —, none chosen and nothing computed from them. A claim that combines parts
      (`graph-representation.md` §3.1) is a line with the operator in words —
      `UND`, `ODER`, `mindestens 2 von 4`, `Verknüpfung nicht angegeben` — the
      connective as printed (`„entweder … oder … oder aber“`), its page linked
@@ -646,11 +670,14 @@ glyph. Timing
      Herzkrankheit"), so the card never claims "the guideline gives no
      threshold". A stated concept's row is unchanged. In the statement JSON
      each row of `geltung` carries `derivation` (`derived` or `stated`,
-     computed from the edge) and `rule`, the tree: per node the claim's `id`,
+     computed from the edges) and `rules`, a list of trees — one, or one per
+     printing — empty for a stated concept: per node the claim's `id`,
      `kind`, `label`, `page`, `section`, `link`, `quote`, its `threshold` with
      `quantity` and `relative_to` resolved to `{id, label, lang}`, and its
      `combination` with `operator`, `n`, `connective`, `rationale`, the
-     connective's `pages` and `link`, and its parts under `of`, each a node;
+     connective's `pages` and `link`, its parts under `of`, each a node, and
+     `disagrees_with` where the claim disagrees with a claim that is not
+     another printing of the same rule (as zone 3 gives it);
      the view JSON carries the same two keys for every concept its statements
      hold, under `concepts`, and the concept's own JSON and page carry them
      too (§4). The
@@ -658,7 +685,8 @@ glyph. Timing
   6. **Body text.** Three groups in order of their effect on the decision, not
      by relation name: `Grenzt ein` (`limits`), `Präzisiert` (`refines`),
      `Ergänzt` (`supplements`) — each passage its wording, then page and section
-     linked into the source. The zone is named after what its passages do and
+     linked into the source, and where the source says otherwise at another
+     place, zone 3's line under it. The zone is named after what its passages do and
      where they stand: everything on the card is guideline text, and what sets
      these apart is that they stand beside the box, not in it, and each one
      bears on how the box is applied — `Ergänzt` without changing it. The
@@ -778,7 +806,8 @@ mark each part by where it comes from, read from the provenance `meta.provenance
 (§4): a small tag beside the title or a zone's heading — *KI-erzeugt* for content the
 project generated (`modelling`; *KI-erzeugt, mit Fundstelle* for `sourced`), *Zitat
 aus der Quelle* for a claim's sentence, quoted from its source (`anchored`): the
-statement's title and zone 5 (generated), zones 3, 6, 7 and 8 (quoted); a concept's
+statement's title and zone 5 (generated), zones 3, 6, 7 and 8 (quoted), and
+what two printings differ in under a disagreement (generated); a concept's
 label, and its list of statements where they all share one kind. The words are the
 card's table (`origin.*`, §3 "Language"). A tag says where a part comes from, never
 that it was checked.
@@ -792,8 +821,10 @@ Every entity gets a page whose content is the same as its sheet section, so that
 next to it that carries the entity as stored plus its incoming and outgoing edges
 resolved to ids. The JSON is what a program uses; the page is what a person lands
 on. Both are generated; neither is authored. A derived concept's page shows its
-rule under its label, as zone 5 of the card does (§3), and its JSON carries
-`derivation` and `rule`. An axis's page is where a grouping shows as data, since
+rule under its label — every printing, where the source prints it differently —
+as zone 5 of the card does (§3), and its JSON carries `derivation` and `rules`.
+A claim's page shows, under its quote, the claims where the source says
+otherwise, as zone 3 does. An axis's page is where a grouping shows as data, since
 an axis lies over the pool rather than in it (`graph-representation.md` §4.1): its
 carrier, its rule, its own question where it declares one, its status and date per
 view, and its placements grouped by where they place — a dimension's statements
@@ -804,7 +835,7 @@ where a proposal names a parent the pool holds no edge to), and a placement's
 rationale where it has one. The words come from the build's per-language table.
 
 **What a program walks and cites by.** Beside what the entity stores and its
-`edges` (and a statement's `card`, a derived concept's `derivation` and `rule`),
+`edges` (and a statement's `card`, a derived concept's `derivation` and `rules`),
 every entity JSON carries one key more, `meta`, and a concept two more,
 `statements` and `appears_in`. They are added, never in place of a stored key: a
 stored `url`, `license`, `provenance`, `rule` or `views` keeps its meaning, which

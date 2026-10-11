@@ -12,12 +12,13 @@
   --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif, "Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols", "DejaVu Sans", FreeSerif;
   --note: #f2d97a;   /* the preview strip */
   --surface: #f3f3f1;   /* the wording's own surface on the statement card (zone 3) */
+  --disagree: #8a4b00;   /* the source's own inconsistency (spec §5 disagrees_with): apart from the contested red, which is two sources */
   color-scheme: light dark;
 }
 @media (prefers-color-scheme: dark) {
   :root { --bg: #111; --fg: #eee; --mute: #999; --line: #333; --accent: #7cb7ff; --surface: #1d1d1b;
           --statement: #7cb7ff; --concept: #9ad17a; --contested: #ff6b6b; --edge: #555;
-          --dir-for: #7fc492; --dir-against: #dd8d92; --dir-weigh: #e5c95a; --dir-gap: #b4b4b4; }
+          --dir-for: #7fc492; --dir-against: #dd8d92; --dir-weigh: #e5c95a; --dir-gap: #b4b4b4; --disagree: #f0a35a; }
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
@@ -336,6 +337,19 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card dl.slots dd > .and { flex-basis: 100%; display: flex; align-items: baseline; column-gap: .4rem; }
 .card dl.slots dd > .and > .entry { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; column-gap: .4rem; }
 .card ul.body li p { margin: .2rem 0; }
+/* where the source says otherwise (docs/publication.md §3): a line of its own under the claim it concerns, the other
+   printings under it, set apart by a rule of their own colour — on the card's wording, its body text, a rule's node
+   and a claim's page alike */
+.card .disagrees { border-left: 3px solid var(--disagree); padding: .1rem 0 .1rem .6rem; margin: .3rem 0 .6rem; max-width: 70ch; }
+.card .disagrees .disagrees-head { margin: 0 0 .15rem; color: var(--disagree); font-size: .9rem; font-weight: 600; }
+.card .disagrees .disagrees-head .glyph { font-weight: 400; }
+.card .disagrees ul { margin: 0; }
+.card .disagrees li { padding: .2rem 0; border-top: 0; }
+.card .disagrees li p { margin: .1rem 0; }
+.card .disagrees .cite a { min-height: 32px; }
+.card .disagrees details.differ { margin: .1rem 0 0; font-size: .9rem; }
+.card .disagrees details.differ summary { cursor: pointer; color: var(--mute); min-height: 32px; display: list-item; }
+.card .disagrees details.differ p { margin: .2rem 0 .1rem; }
 /* what applies generally to a concept (docs/publication.md §3): set apart under its own heading, below the concept's
    own statements, each entry the statement, where it stands, the concept it was made for and the condition; and on
    the card, zone 5's row naming the groups a statement applies generally to, each with its condition */

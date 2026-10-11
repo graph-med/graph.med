@@ -231,7 +231,7 @@ export function files(base) {
       facet: c.facet,
       source: 'modelling',
       derivation: 'stated',
-      rule: null,
+      rules: [],
       edges: { in: [], out: [] },
       statements: { [VIEW]: { held_by: held } },
       appears_in: { [VIEW]: appearsIn(id) },

@@ -301,7 +301,7 @@ current leaning, so that nobody re-derives it. What was decided, and why, lives 
 | **concept** | a thing statements talk about; has a facet; can be a special case of another (`broader`) |
 | **axis** | what a view's first question groups by — proposed by a person for a guideline, tested by a tool, asserted by a linking pass, then offered by the view; an overlay on the pool: its placements give each statement a value (a dimension) or pick for each concept the `broader` or `in_scope_of` edge it hangs by (a hierarchy — the tree of patient groups a view opens with is one) |
 | **slot** | a statement's population, action, condition or outcome, filled with a concept (the condition with a list of them, all holding at once) |
-| **edge** | a typed link: `supports`/`contests` (claim → statement), `refines`/`supplements`/`limits` (claim → claim), `broader`, `in_scope_of` (concept → concept, the second only within one guideline's scope), `codes_as` (concept), `specializes`/`complements`/`conflicts` (statement → statement) |
+| **edge** | a typed link: `supports`/`contests` (claim → statement), `refines`/`supplements`/`limits` (claim → claim), `disagrees_with` (claim → claim: the same source says otherwise at another place, both shown), `broader`, `in_scope_of` (concept → concept, the second only within one guideline's scope), `codes_as` (concept), `specializes`/`complements`/`conflicts` (statement → statement) |
 | **section** | where in its document a claim was found; on the claim only |
 | **view** | a named filter over the pool; a page on the site. A **cut** is a frozen view |
 | **modelling** | provenance meaning "no document says this; we asserted it" |

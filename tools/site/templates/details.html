@@ -24,8 +24,23 @@
 {% set parts = [] %}{% if no and x.recommendation_no %}{% set _ = parts.append(no_of(x)) %}{% endif %}{% if x.page %}{% set _ = parts.append(W("cite.page").format(nr=x.page)) %}{% endif %}{% if x.section %}{% set _ = parts.append(W("cite.section").format(nr=x.section)) %}{% endif %}
 {%- if parts and link %}<a href="{{ x.link }}" target="_blank" rel="noopener">{{ parts | join(" · ") }}</a>{% elif parts %}{{ parts | join(" · ") }}{% endif %}
 {%- endmacro %}
-{# a derived concept's rule (docs/publication.md §3 zone 5, §4): one line saying it is derived, then the rule its one
-   edge reaches, as a tree. A node that combines parts (spec §3.1) is a line with the operator in words — UND, ODER,
+{# where the source says otherwise (spec §5 `disagrees_with`, docs/publication.md §3): under a claim, wherever the card
+   or a page shows it, a line of its own worded as the source's own inconsistency, then each other printing — its
+   sentence and where it stands, linked into the source by its quote, a link to its claim's page, and, closed, what
+   the two differ in — the edge's rationale, generated and tagged so. Every side is shown and none is marked as the
+   right one; the same macro on each side's card. #}
+{% macro disagreements(x) -%}
+{% if x.disagrees_with %}<div class="disagrees">
+<p class="disagrees-head"><span class="glyph" aria-hidden="true">≠</span> {{ W("disagrees", x.disagrees_with | length) }}</p>
+<ul class="plain">
+{% for d in x.disagrees_with %}  <li><p lang="{{ d.lang }}">{{ d.label }}</p><p class="cite">{{ where(d, no=true) }} · <a href="{{ base }}{{ d.id }}/">{{ W("rule.claim") }}</a></p>
+{% if d.rationale %}<details class="differ"><summary>{{ W("disagrees.differ") }} {{ from_tag("modelling") }}</summary><p lang="{{ d.rationale_lang }}">{{ d.rationale }}</p></details>{% endif %}</li>
+{% endfor %}</ul>
+</div>{% endif %}
+{%- endmacro %}
+{# a derived concept's rule (docs/publication.md §3 zone 5, §4): one line saying it is derived, then the rule its
+   edge reaches, as a tree — or, where the source prints the rule differently in several places, a line saying so
+   and every printing's rule, each its own tree, none chosen (spec §5 `defined_by`). A node that combines parts (spec §3.1) is a line with the operator in words — UND, ODER,
    mindestens n von m, Verknüpfung nicht angegeben —, the connective as printed with its page linked into the source,
    and a link to the claim's page, then its parts nested under it; a combination the page leaves open and names no
    parts for shows the claim's sentence under that line. Any other node is the threshold its claim prints (quantity,
@@ -40,6 +55,7 @@
 {% endfor %}</ul>{% else %}<span class="rule" lang="{{ r.lang }}">{{ r.label }}</span>{% endif %}
 {%- else %}<span class="rule" lang="{{ r.lang }}">{% if r.threshold %}{% set t = r.threshold %}<span class="threshold"><span lang="{{ t.quantity.lang }}">{{ t.quantity.label }}</span> {% if t.comparator == "between" %}{{ W("comparator.between") }}{% else %}{{ t.comparator }}{% endif %} {{ t.value }}{% if t.unit %} {{ t.unit }}{% endif %}{% if t.relative_to %} × <span lang="{{ t.relative_to.lang }}">{{ t.relative_to.label }}</span>{% endif %}{% if t.when %} {{ t.when }}{% endif %}</span>{% else %}{{ r.label }}{% endif %}</span>
     <span class="cite">{{ where(r) }}{% if r.page or r.section %} · {% endif %}<a href="{{ base }}{{ r.id }}/">{{ W("rule.claim") }}</a></span>{% endif %}
+{{ disagreements(r) }}
 {%- endmacro %}
 {# concepts that hold at once (spec §3.2) — a statement's conditions, the conditions of a scope path: each entry once, in
    the order stored, every entry after the first on a line of its own opened by the conjunction, so that no label's
@@ -51,9 +67,9 @@
 {%- endmacro %}
 {% macro rules_of(x) -%}
 {% if x.derivation == "derived" %}<div class="rules">
-<p class="derived">{{ W("derivation.rule") }}</p>
-<div class="rule-tree">{{ rule_node(x.rule) }}</div>
-</div>{% endif %}
+<p class="derived">{% if x.rules | length > 1 %}{{ W("derivation.rules").format(n=x.rules | length) }}{% else %}{{ W("derivation.rule") }}{% endif %}</p>
+{% for r in x.rules %}<div class="rule-tree">{{ rule_node(r) }}</div>
+{% endfor %}</div>{% endif %}
 {%- endmacro %}
 {% if e.type == "statement" %}
 {# The statement card (docs/publication.md §3 "What the section shows"): nine zones in a fixed order, whatever the
@@ -78,8 +94,9 @@
 <section class="zone wording" aria-labelledby="zone-wording-h">
 <h3 id="zone-wording-h">{{ W("zone.wording") }}{% if c.wortlaut %} {{ from_tag("anchored") }}{% endif %}</h3>
 {% if c.wortlaut | length == 1 %}<div class="surface"><p lang="{{ c.wortlaut[0].lang }}">{{ c.wortlaut[0].label }}</p></div>
+{{ disagreements(c.wortlaut[0]) }}
 {% elif c.wortlaut %}<ol class="surfaces">
-{% for s in c.wortlaut %}<li class="surface"><p lang="{{ s.lang }}">{{ s.label }}</p></li>
+{% for s in c.wortlaut %}<li><div class="surface"><p lang="{{ s.lang }}">{{ s.label }}</p></div>{{ disagreements(s) }}</li>
 {% endfor %}</ol>
 {% endif %}</section>
 {# zone 4: how certain the evidence is, in one of four states (docs/publication.md §3) — one value on one line; per
@@ -136,7 +153,7 @@
 {% for kind in ("limits", "refines", "supplements") %}{% if c.leitlinientext[kind] %}
 <h4>{{ W("body." ~ kind) }}</h4>
 <ul class="plain body">
-{% for b in c.leitlinientext[kind] %}<li><p lang="{{ b.lang }}">{{ b.label }}</p><p class="cite">{{ where(b) }}</p></li>
+{% for b in c.leitlinientext[kind] %}<li><p lang="{{ b.lang }}">{{ b.label }}</p><p class="cite">{{ where(b) }}</p>{{ disagreements(b) }}</li>
 {% endfor %}</ul>
 {% endif %}{% endfor %}
 {% else %}
@@ -191,7 +208,7 @@
 <p class="label">{{ e.label }}</p>
 {% if e.definition %}<p>{{ e.definition }}</p>{% endif %}
 {% if codes %}<p>{{ W("concept.codes") }} {% for c in codes %}<code>{{ c }}</code> {% endfor %}</p>{% endif %}
-{% if derivation == "derived" %}{{ rules_of({"derivation": derivation, "rule": rule}) }}
+{% if derivation == "derived" %}{{ rules_of({"derivation": derivation, "rules": rules}) }}
 {% endif %}{% if uses %}
 <section class="zone" aria-labelledby="zone-uses-h">
 <h3 id="zone-uses-h">{{ W("concept.uses") }} {{ from_tag(origin_of_all(uses | map(attribute="id"))) }}</h3>
@@ -238,6 +255,7 @@
 <p class="cite"><span lang="{{ c.source_lang }}">{{ c.source_title }}</span>{% if c.recommendation_no %} · {{ no_of(c) }}{% endif %}{% if c.page %} · {{ W("cite.page").format(nr=c.page) }}{% endif %}{% if c.section %} · {{ W("cite.section").format(nr=c.section) }}{% endif %}</p>
 <blockquote>„{{ c.quote }}“</blockquote>
 <p class="actions"><a class="btn" href="{{ c.link }}" target="_blank" rel="noopener">{{ W("cite.open") }}<span class="ext" aria-hidden="true">↗</span></a> <button type="button" class="copy" data-copy="{{ c.quote }}">{{ W("cite.quote") }}</button></p>
+{{ disagreements(c) }}
 {% if c.statements %}
 <section class="zone" aria-labelledby="zone-statements-h">
 <h3 id="zone-statements-h">{{ W("claim.statements") }}</h3>

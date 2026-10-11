@@ -125,8 +125,12 @@ CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", 
              "source.claims.one", "source.claims.many", "page.json",
              # what applies generally through a view's scope tree (docs/publication.md §3): on a concept, and on the card
              "concept.general", "scope.general_for", "scope.condition",
-             # a derived concept's rule, under its row of zone 5 and on its own page (docs/publication.md §3, §4)
-             "derivation.rule", "rule.claim", "comparator.between",
+             # a derived concept's rule, under its row of zone 5 and on its own page (docs/publication.md §3, §4); its
+             # several printings where the source prints the rule differently (spec §5 `defined_by`)
+             "derivation.rule", "derivation.rules", "rule.claim", "comparator.between",
+             # the other side of a disagreement the source has with itself (spec §5 `disagrees_with`), under a claim
+             # wherever the card or a page shows it: a counting pair, one other printing or several
+             "disagrees.one", "disagrees.many", "disagrees.differ",
              # how a rule's parts combine (spec §3.1), by the schema's operators: the word the card says for each
              "op.all_of", "op.any_of", "op.at_least", "op.not_stated",
              # an axis's page (docs/publication.md §4): its carrier, rule and question, its status per view, its placements
@@ -169,7 +173,10 @@ CARD_WORDS = {"de": {
     "edge.supports": "stützt", "edge.contests": "widerspricht",
     "source.claims.one": "{n} Textstelle erfasst", "source.claims.many": "{n} Textstellen erfasst", "page.json": "JSON",
     "concept.general": "Allgemein geltende Empfehlungen", "scope.general_for": "Gilt allgemein auch für", "scope.condition": "Voraussetzung",
-    "derivation.rule": "abgeleitet, nach der Regel", "rule.claim": "Textstelle", "comparator.between": "zwischen",
+    "derivation.rule": "abgeleitet, nach der Regel", "derivation.rules": "abgeleitet; die Leitlinie gibt die Regel an {n} Stellen abweichend an:",
+    "rule.claim": "Textstelle", "comparator.between": "zwischen",
+    "disagrees.one": "Die Leitlinie nennt hierzu eine abweichende Angabe:", "disagrees.many": "Die Leitlinie nennt hierzu abweichende Angaben:",
+    "disagrees.differ": "Worin die Angaben abweichen",
     "op.all_of": "UND", "op.any_of": "ODER", "op.at_least": "mindestens {n} von {m}", "op.not_stated": "Verknüpfung nicht angegeben",
     "carrier.dimension": "Dimension", "carrier.hierarchy": "Hierarchie", "axis.rule": "Regel", "axis.question": "Frage",
     "axis.views": "Sichten", "axis.since": "seit {date}",
@@ -581,6 +588,28 @@ class Pool:
         rows.sort(key=lambda r: (r["edge"] != "supports", self.no_key(r), r["id"]))
         return rows
 
+    def passage_of(self, claim: dict) -> dict:
+        """A claim as a card names it beside another: its sentence, where it stands — recommendation number, page,
+        section — and the link into its source, searching its quote."""
+        page = page_of(claim["source"]["at"])
+        page = str(page) if page is not None else None
+        url = self.entities.get(self.source_of(claim), {}).get("url", "")
+        return {"id": claim["id"], "kind": claim.get("kind"), "label": claim["label"], "lang": claim["lang"], "source": self.source_of(claim),
+                "recommendation_no": claim.get("recommendation_no"), "page": page, "section": claim.get("section"),
+                "quote": claim["source"]["quote"], "link": source_link(url, page, claim["source"]["quote"])}
+
+    def disagreements_of(self, claim_id: str, besides=frozenset()) -> list[dict]:
+        """The other printings a claim disagrees with (spec §5 `disagrees_with`): the edge is symmetric, so both
+        directions count, each other claim once, as passage_of() names it, in the source's order — by page, then
+        recommendation number —, with the edge's `rationale`, which quotes both sides and says what they differ in
+        (modelling, so the card tags it), and its language. `besides` leaves out claims the caller shows beside this
+        one already (a concept's other printings). Read off the edges, never composed: no side is marked as the right one."""
+        edges = {to: props for kind, to, props in self.out.get(claim_id, []) if kind == "disagrees_with"}
+        edges.update({frm: props for kind, frm, props in self.inc.get(claim_id, []) if kind == "disagrees_with"})
+        rows = [{**self.passage_of(self.entities[o]), "rationale": edges[o].get("rationale"), "rationale_lang": edges[o].get("lang")}
+                for o in set(edges) - set(besides) - {claim_id} if o in self.entities]
+        return sorted(rows, key=lambda r: (int(r["page"]) if r["page"] else 0, self.no_key(r), r["id"]))
+
     def claim_view(self, claim: dict) -> dict:
         at = claim["source"]["at"]
         src_id, _, frag = at.partition("#")
@@ -606,7 +635,11 @@ class Pool:
                 frag = b["source"]["at"].partition("#")[2]
                 row.setdefault("body", []).append({"kind": kind, "id": frm, "label": b["label"], "quote": b["source"]["quote"], "lang": b["lang"],
                                                    "page": frag.split("=", 1)[1] if frag.startswith("page=") else None, "section": b.get("section"),
-                                                   "link": source_link(src.get("url", ""), frag.split("=", 1)[1] if frag.startswith("page=") else None, b["source"]["quote"])})
+                                                   "link": source_link(src.get("url", ""), frag.split("=", 1)[1] if frag.startswith("page=") else None, b["source"]["quote"]),
+                                                   **({"disagrees_with": d} if (d := self.disagreements_of(frm)) else {})})
+        disagree = self.disagreements_of(claim["id"])   # the source's other printings of what this claim says (spec §5)
+        if disagree:
+            row["disagrees_with"] = disagree
         for kind, to, _ in self.out.get(claim["id"], []):
             if kind in CLAIM_EDGES:
                 row.setdefault("statements", []).append({"edge": kind, "id": to, "label": self.entities.get(to, {}).get("label", to)})
@@ -635,22 +668,30 @@ class Pool:
 
 def derivation_of(pool: "Pool", cid: str) -> dict:
     """Whether a concept is derived or stated, and by which rule (spec §3.2, docs/publication.md §3 zone 5):
-    computed from its one `defined_by` edge, never read off the concept — `derived` with the rule the edge
-    reaches, `stated` with none. The rule is a tree of claims, each node its claim (sentence, page, section,
+    computed from its `defined_by` edges, never read off the concept — `derived` with the rules they reach,
+    `stated` with none. `rules` is a list: one rule, or one per printing where the source prints the rule
+    differently in several places (spec §5), in the source's order, every printing shown and none chosen —
+    nothing computes a "true" rule from them. Each rule is a tree of claims, each node its claim (sentence, page, section,
     the link into the source) with the `threshold` it prints, its quantity and reference quantity resolved
     to their concepts, or the `combination` it quotes: the operator, `n`, the connective as printed with its
     pages and the link to its first quote, the reading, and its parts, each such a node in turn (spec §3.1,
     operators nesting through claims). Nothing is composed and no operator is assumed: a claim without a
     combination is a single rule. A rule without a threshold is shown by its sentence, which says itself
     whether a number is printed: nothing in the pool tells a quantity-like rule from a categorical one, so
-    no "no threshold given" is claimed. One code path for whatever row the concept stands in — anchor,
-    condition or any other — and for the concept's own page."""
+    no "no threshold given" is claimed. A node whose claim disagrees with another printing than the concept's own
+    carries it (`disagrees_with`, Pool.disagreements_of). One code path for whatever row the concept stands in —
+    anchor, condition or any other — and for the concept's own page."""
     ref = lambda q: {"id": q, "label": pool.entities[q].get("short_label") or pool.entities[q]["label"], "lang": pool.entities[q]["lang"]} \
         if q in pool.entities else {"id": q, "label": q, "lang": None}
+    printings = sorted((to for kind, to, _ in pool.out.get(cid, []) if kind == "defined_by" and to in pool.entities),
+                       key=lambda c: (page_of(pool.entities[c]["source"]["at"]) or 0, c))
     def node(claim_id: str, above: frozenset) -> dict:
         claim = pool.entities[claim_id]
         view = pool.claim_view(claim)
         row = {k: view.get(k) for k in ("id", "kind", "label", "lang", "page", "section", "link", "quote")}
+        disagree = pool.disagreements_of(claim_id, besides=frozenset(printings))   # the concept's other printings stand beside it
+        if disagree:
+            row["disagrees_with"] = disagree
         t = claim.get("threshold")
         row["threshold"] = {**{k: t.get(k) for k in ("comparator", "value", "unit", "when")}, "quantity": ref(t["quantity"]),
                             "relative_to": ref(t["relative_to"]) if t.get("relative_to") else None} if t else None
@@ -665,8 +706,7 @@ def derivation_of(pool: "Pool", cid: str) -> dict:
                                   "of": [node(p, above | {claim_id}) for p in comb.get("of") or []
                                          if p in pool.entities and p not in above | {claim_id}]}   # the validator refuses a cycle
         return row
-    to = next((to for kind, to, _ in pool.out.get(cid, []) if kind == "defined_by" and to in pool.entities), None)
-    return {"derivation": "derived" if to else "stated", "rule": node(to, frozenset()) if to else None}
+    return {"derivation": "derived" if printings else "stated", "rules": [node(to, frozenset()) for to in dict.fromkeys(printings)]}
 
 
 def source_link(url: str, page: str | None, quote: str) -> str:
@@ -1428,7 +1468,7 @@ def main(argv=None) -> int:
                 row["axis"] = {"id": a["id"], "label": a.get("short_label") or a["label"], "lang": a["lang"]}
             return row
 
-        passage = lambda b: {k: b.get(k) for k in ("id", "label", "lang", "page", "section", "link", "quote")}
+        passage = lambda b: {k: b[k] for k in ("id", "label", "lang", "page", "section", "link", "quote", "disagrees_with") if k in b}
         # the card's slots, then every slot a dimension axis adds that the statement fills, by slot key (spec §4.1),
         # each in the shape the pool stores it: the conditions a list, one row per condition
         geltung = {role: as_stored(st, role, lambda cid, role=role: slot_row(role, cid), slots)
@@ -1445,7 +1485,7 @@ def main(argv=None) -> int:
             "title": st.get("short_label") or st["label"], "label": st["label"],
             "urteil": {"direction": d["word"] if d else None, "glyph": d["glyph"] if d else None, "verbs": d["verbs"] if d else [],
                        "badges": d["badges"] if d else badges_of(claims), "umstritten": d["umstritten"] if d else any(c["edge"] == "contests" for c in claims)},
-            "wortlaut": [{"id": c["id"], "label": c["label"], "lang": c["lang"]} for c in sup],
+            "wortlaut": [{k: c[k] for k in ("id", "label", "lang", "disagrees_with") if k in c} for c in sup],
             "evidenz": evidence_of(claims, concept),
             "geltung": geltung if any(geltung.values()) else None,
             "leitlinientext": {k: [passage(b) for c in claims for b in c.get("body", []) if b["kind"] == k] for k in BODY_TEXT},
@@ -1539,7 +1579,7 @@ def main(argv=None) -> int:
         (out / eid).mkdir(parents=True, exist_ok=True)
         (out / eid / "index.html").write_text(entity_tpl.render(**d), encoding="utf-8")
         doc = {**ent, "edges": edges_json(eid), **({"card": d["card"]} if "card" in d else {}),
-               **({k: d[k] for k in ("derivation", "rule")} if "derivation" in d else {}),
+               **({k: d[k] for k in ("derivation", "rules")} if "derivation" in d else {}),
                **(walk_of(eid) if ent["type"] == "concept" else {})}
         (out / (eid + ".json")).write_text(dumps({**doc, "meta": meta_of(ent, doc)}), encoding="utf-8")
 

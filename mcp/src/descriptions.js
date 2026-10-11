@@ -65,7 +65,7 @@ export const tools = {
   get_entity: {
     title: 'Get an entity',
     description:
-      "Returns a recommendation or a concept by its id or URL. A recommendation: its wording (modelling, the project's own), grade, verb, consensus and direction as the guideline prints them, the claims it rests on by URL and page (without their text), and its related recommendations within its graph. A concept: the recommendations that hold it, per graph and slot, and the nodes where it stands in each grouping of each graph, each with its page link. A claim: its kind, page, section, grade, verb and consensus, without its text. With a graph, the result keeps to that graph; without one, it is grouped per graph.",
+      "Returns a recommendation or a concept by its id or URL. A recommendation: its wording (modelling, the project's own), grade, verb, consensus and direction as the guideline prints them, the claims it rests on by URL and page (without their text), and its related recommendations within its graph. A concept: the recommendations that hold it, per graph and slot, and the nodes where it stands in each grouping of each graph, each with its page link; for a concept established by a rule, the claim giving it, or each where the source prints the rule differently. A claim: its kind, page, section, grade, verb and consensus, without its text, and the claims where its source says otherwise, by URL. With a graph, the result keeps to that graph; without one, it is grouped per graph.",
     args: {
       entity: 'The id or URL of a recommendation (statements/…), a concept (concepts/…) or a claim (claims/…).',
       graph: 'Optional: the graph (id or page URL) to keep to.',

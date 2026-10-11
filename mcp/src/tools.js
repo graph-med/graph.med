@@ -674,8 +674,14 @@ function conceptEntity(L, e, views, searches, meta, offset, size) {
       facet: e.facet ?? null,
       source: typeof e.source === 'string' ? e.source : sourceRefs(e.source),
       derivation: e.derivation ?? null,
-      ...(e.rule && e.rule.id
-        ? { rule: { claim: e.rule.id, url: L.entityUrl(e.rule.id), kind: e.rule.kind ?? null, page: e.rule.page ?? null, section: e.rule.section ?? null } }
+      // its rule, or one per printing where the source prints the rule differently
+      // (spec §5 `defined_by`): every printing, in the source's order, none chosen
+      ...((e.rules || []).some((r) => r && r.id)
+        ? {
+            rules: e.rules
+              .filter((r) => r && r.id)
+              .map((r) => ({ claim: r.id, url: L.entityUrl(r.id), kind: r.kind ?? null, page: r.page ?? null, section: r.section ?? null })),
+          }
         : {}),
     },
     graphs: perView,
@@ -721,6 +727,12 @@ function sourceRefs(src) {
 
 function claimEntity(L, e, views, searches, meta) {
   const supports = (e.edges?.out || []).filter((x) => x.kind === 'supports' || x.kind === 'contests');
+  // where the same source says otherwise (spec §5 `disagrees_with`): symmetric,
+  // so both directions, each other claim once, by URL — its text is provenance's
+  const others = [
+    ...(e.edges?.out || []).filter((x) => x.kind === 'disagrees_with').map((x) => x.to),
+    ...(e.edges?.in || []).filter((x) => x.kind === 'disagrees_with').map((x) => x.from),
+  ].filter((id, i, all) => id !== e.id && all.indexOf(id) === i);
   return {
     entity: {
       id: e.id,
@@ -738,6 +750,7 @@ function claimEntity(L, e, views, searches, meta) {
       direction: e.direction ?? null,
       text: null,
       text_note: words.about.verbatim,
+      ...(others.length ? { disagrees_with: others.map((id) => ({ claim: id, url: L.entityUrl(id) })) } : {}),
     },
     graphs: views.map((v, i) => {
       const S = searchIndex(searches[i]);
