@@ -87,9 +87,13 @@ verifies every quote is a verbatim passage of `pdftotext -layout` on the cited
 physical page, read as spec §6.2 reads it: a line runs on to the next line of
 its column, a line break reads as a space, and a hyphen at a line end either
 joins the word it breaks or stays with the compound it belongs to
-(`page_reading`, `quote_pattern`); and that it lies there on whole words,
-neither starting nor ending inside a word of the page (`locate`). Exit status
-1 on any error.
+(`page_reading`, `quote_pattern`); that it lies there on whole words,
+neither starting nor ending inside a word of the page (`locate`); and that a
+claim's quote lies there once, counted the way the link's search counts
+(`places`): pdf.js ignores case, matches inside a word too, and lands on the
+page's first match. Any other quote that lies on its page more than once is
+reported, not refused: a claim's grade, consensus or evidence row is fixed by
+its anchor (spec §6.2). Exit status 1 on any error.
 """
 
 from __future__ import annotations
@@ -239,8 +243,14 @@ def main(argv=None) -> int:
         sources = {eid: next(e for _, d, _ in docs for e in (d if isinstance(d, list) else [d])
                              if isinstance(e, dict) and e.get("id") == eid)
                    for eid in ids if eid.startswith("sources/")}
-        errors += verify_quotes(docs, sources, args.cache)
+        found, notices = verify_quotes(docs, sources, args.cache)
+        errors += found
         print("verified quotes against the source text")
+        for line in notices:
+            print(f"notice: {line}")
+        if notices:
+            print(f"{len(notices)} quote(s) other than a claim's lie more than once on their page: reported, not refused "
+                  f"(spec §6.2)")
 
     for line in errors:
         print(f"error: {line}")
@@ -725,8 +735,10 @@ def check_quote_form(docs) -> list[str]:
     return errs
 
 
-def verify_quotes(docs, sources: dict[str, dict], cache: Path) -> list[str]:
+def verify_quotes(docs, sources: dict[str, dict], cache: Path) -> tuple[list[str], list[str]]:
+    """Every quote against its page (spec §6.2): errors, and notices of quotes other than a claim's that recur there."""
     errors: list[str] = []
+    notices: list[str] = []
     pdfs: dict[str, Path | None] = {}
     pages: dict[tuple[str, int], str] = {}
 
@@ -776,10 +788,22 @@ def verify_quotes(docs, sources: dict[str, dict], cache: Path) -> list[str]:
             found = locate(str(value["quote"]), text) if text is not None else "whole"
             if found == "missing":
                 errors.append(f"{where}: quote not found on page {m.group(2)}: {value['quote']!r}")
+                continue
             elif found != "whole":
                 errors.append(f"{where}: quote {found}s inside a word on page {m.group(2)}: {value['quote']!r}; "
                               f"a quote is whole words, across the line where a word goes on (spec §6.2)")
-    return errors
+            n = places(str(value["quote"]), text) if text is not None else 1
+            if n > 1:
+                owner = doc
+                for key in path[:-1]:
+                    owner = owner[key]
+                if path and path[-1] == "source" and isinstance(owner, dict) and owner.get("type") == "claim":
+                    errors.append(f"{where}: the quote of {owner.get('id')} lies {n} times on page {m.group(2)}: "
+                                  f"{value['quote']!r}; a claim's quote lies once on its page, lengthened until it is "
+                                  f"unique, since the link lands on the first and the id hashes the quote (spec §6.2)")
+                else:
+                    notices.append(f"{where}: quote lies {n} times on page {m.group(2)}: {value['quote']!r}")
+    return errors, notices
 
 
 BREAK = "\x00"   # in a page's reading: a line break after a hyphen, which a quote may read three ways (quote_pattern)
@@ -837,6 +861,18 @@ def quote_pattern(quote: str) -> re.Pattern:
         if ch == "-" and i < len(quote) - 1:
             out.append(f"{BREAK}?")
     return re.compile(f"(?=({''.join(out)}))")
+
+
+def places(quote: str, reading: str) -> int:
+    """How many places of a page the link into the source finds a quote at (spec §6.2). The link's search is pdf.js's
+    find (`#search=<quote>&phrase=true`), which ignores case, matches inside a word as well, and lands on the page's
+    first match; so the quote's pattern (`quote_pattern`) is matched in the page's reading ignoring case, cut or whole,
+    each place counted once where matches overlap, as pdf.js counts them."""
+    pattern, count, end = re.compile(quote_pattern(quote).pattern, re.IGNORECASE), 0, -1
+    for m in pattern.finditer(reading):
+        if m.start(1) >= end:
+            count, end = count + 1, m.end(1)
+    return count
 
 
 def locate(quote: str, reading: str) -> str:
