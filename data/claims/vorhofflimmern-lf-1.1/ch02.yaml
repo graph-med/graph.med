@@ -1,0 +1,201 @@
+# Claims of card #380 (#314's part C1) from chapter 2 of sources/vorhofflimmern-lf-1.1, „Diagnostik“ (p. 16, l. 13 –
+# p. 22, l. 30; the Literatur from p. 22, l. 31 is not read). Boxes 2.1–2.6, one claim per sentence (spec §3.1), 2.5's
+# lettered parts each with its own grade and share, Tabellen 4 and 5 (spec §5.1 K), and the body-text places spec
+# §5.1 admits (#325, #341, #372), in page order. Ids: sha256("<at>|<quote>")[:8]. Line numbers are lines of
+# `pdftotext -layout`. Every box prints „Neu 2024“ and its kind line; both stay on the page (#314 Decision 5).
+
+# Box 2.1 (p. 16, l. 43–53), in section 2.1: one sentence, ⇑⇑, „Konsensstärke: 100%“. Its evidence row „Testgüte: sehr
+# gering ⊕⊝⊝⊝“ under the heading „Qualität der Evidenz“, which only names the column; „Testgüte“ is
+# concepts/diagnostische-genauigkeit (card #364, reading 9; the physician's at review). The literature cell stays on the
+# page.
+- id: claims/vorhofflimmern-lf-1.1/05edbf70
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "2.1"
+  section: "2.1"
+  label: "Die Diagnosestellung soll bei Vorhofflimmern durch ärztliche Interpretation eines EKGs von ausreichender Qualität erfolgen."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {outcome: concepts/diagnostische-genauigkeit, value: "sehr gering", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=16
+    quote: "Die Diagnosestellung soll bei Vorhofflimmern durch ärztliche Interpretation"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=16, quote: "⇑⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=16, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=16, quote: "Testgüte:"}
+# Box 2.2 (p. 17, l. 16–28), in section 2.1: one sentence, ⇑ with „EK“ beside it (a basis, #323), „Konsensstärke: 96,8 %“
+# as printed, with its space. Its row „Testgüte: sehr gernig ⊕⊝⊝⊝“ keeps the misprint as the value (#314 Decision 4);
+# the heading above it, „Aussagesicherheit der indirekten Evidenz“ (l. 23–24), says what kind of evidence the row rates,
+# so it is the entry's note, quoted after the row (spec §3.1; #326 Decision 7).
+- id: claims/vorhofflimmern-lf-1.1/4498fa9c
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "2.2"
+  section: "2.1"
+  label: "Bei Patient*innen mit diagnostiziertem AF sollte ein 12-Kanal EKG geschrieben werden."
+  grade: "⇑"
+  verb: sollte
+  direction: for
+  basis: EK
+  consensus_share: "96,8 %"
+  evidence:
+    - {outcome: concepts/diagnostische-genauigkeit, value: "sehr gernig", note: "Aussagesicherheit der indirekten Evidenz", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=17
+    quote: "Bei Patient*innen mit diagnostiziertem AF sollte ein 12-Kanal EKG"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=17, quote: "⇑"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=17, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=17, quote: "Konsensstärke: 96,8 %"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=17, quote: "Testgüte:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=17, quote: "Aussagesicherheit der indirekten Evidenz"}
+# Box 2.3 (p. 18, l. 6–22), in section 2.2: one sentence of three parts, one predicate (#325 checklist case 12: one
+# statement), ⇑⇑ on the sentence's second line, „Konsensstärke: 100%“. Its evidence block, in printed order: the row
+# „Kardiovaskuläre Mortalität: gering ⊕⊕⊝⊝“, then one row rating three endpoints „sehr gering ⊕⊝⊝⊝“, one entry each
+# (spec §3.1): Gesamtmortalität is concepts/mortalitaet, Schlaganfälle concepts/schlaganfall, Blutungsrisiko
+# concepts/blutungsrate (card #364, reading 8); l. 18 is quoted once for each of its two endpoints. The Begründung rates
+# the evidence in other words (p. 18): disagrees_with.
+- id: claims/vorhofflimmern-lf-1.1/55b66d4f
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "2.3"
+  section: "2.2"
+  label: "Die Therapieplanung soll die Abschätzung des Schlaganfallrisikos, das Erfassen der Komorbiditäten und die Entscheidung über Rhythmus- oder Frequenzkontrolle umfassen."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {outcome: concepts/kardiovaskulaere-mortalitaet, value: "gering", system: grade}
+    - {outcome: concepts/mortalitaet, value: "sehr gering", system: grade}
+    - {outcome: concepts/schlaganfall, value: "sehr gering", system: grade}
+    - {outcome: concepts/blutungsrate, value: "sehr gering", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=18
+    quote: "Die Therapieplanung soll die Abschätzung des Schlaganfallrisikos"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=18, quote: "⇑⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=18, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=18, quote: "Kardiovaskuläre Mortalität:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=18, quote: "Gesamtmortalität, Schlaganfälle,"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=18, quote: "Gesamtmortalität, Schlaganfälle,"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=18, quote: "Blutungsrisiko:"}
+# Box 2.4 (p. 20, l. 9–17), in section 2.3.1: one sentence, ⇑⇑ with „EK“, „Konsensstärke: 96,8%“; no evidence row.
+# „(siehe Tabelle 5)“ stays in the label.
+- id: claims/vorhofflimmern-lf-1.1/52b752b4
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "2.4"
+  section: "2.3.1"
+  label: "Die Schwere der Symptomatik von AF soll mit dem modifizierten EHRA-Score erhoben werden (siehe Tabelle 5)."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  basis: EK
+  consensus_share: "96,8%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=20
+    quote: "Die Schwere der Symptomatik von AF soll mit dem modifizierten EHRA-Score"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=20, quote: "⇑⇑"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=20, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=20, quote: "Konsensstärke: 96,8%"}
+# Box 2.5 (p. 21, l. 10–28), in section 2.3.2: two lettered parts, each with its own grade, „EK“ and share (spec §3.1;
+# #325 Decision 9, the maintainer's answer to its question 5: two recommendations). No part takes the other's grade or
+# share; every sentence carries the number 2.5, and the letter stays in the label of the sentence that prints it. Part
+# a), sentence 1: ⇑, „Konsensstärke 100%“ (no colon, as printed). Its l. 14 is set justified and reads as one run (#371).
+# The examples „(z. B. Depression, …)“ state no rule: no narrower claim (reading 5).
+- id: claims/vorhofflimmern-lf-1.1/3bd908ef
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "2.5"
+  section: "2.3.2"
+  label: "a) Die Wahrscheinlichkeit für das Vorliegen einer relevanten psychischen Störung (z. B. Depression, Angststörung, posttraumatische Belastungsstörung, Schizophrenie, bipolare Störung) sollte erhoben werden."
+  grade: "⇑"
+  verb: sollte
+  direction: for
+  basis: EK
+  consensus_share: "100%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=21
+    quote: "a) Die Wahrscheinlichkeit für das Vorliegen einer relevanten psychischen"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=21, quote: "⇑"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=21, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=21, quote: "Konsensstärke 100%"}
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=21, quote: "bipolare Störung) sollte erhoben werden."}
+# 2.5 a), sentence 2: a remark that instructs how, in another wording than the grade's — it carries a)'s ⇑, „EK“ and
+# share (spec §3.1), verb kann by the predicate rule (step 1), direction for, which ⇑ fixes; it supports a statement
+# of its own (#325 checklist case 5). It prints no letter. „kann“ under ⇑ is #324's question 5.
+- id: claims/vorhofflimmern-lf-1.1/5a3e8ae9
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "2.5"
+  section: "2.3.2"
+  label: "Dies kann mittels Screening-Fragen im Anamnesegespräch oder standardisierter Fragebögen erfolgen."
+  grade: "⇑"
+  verb: kann
+  direction: for
+  basis: EK
+  consensus_share: "100%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=21
+    quote: "Dies kann mittels Screening-Fragen im Anamnesegespräch oder standardisierter Fragebögen erfolgen."
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=21, quote: "⇑"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=21, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=21, quote: "Konsensstärke 100%"}
+# 2.5 b): ⇑⇑ with „EK“, „Konsensstärke 93,5%“ (no colon, as printed).
+- id: claims/vorhofflimmern-lf-1.1/4a3f0cd0
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "2.5"
+  section: "2.3.2"
+  label: "b) Bei positivem Screening auf eine psychische Störung soll eine klinische Diagnosestellung mit expliziter Exploration aller Haupt- und Nebensymptome angestrebt werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  basis: EK
+  consensus_share: "93,5%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=21
+    quote: "b) Bei positivem Screening auf eine psychische Störung soll eine klinische"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=21, quote: "⇑⇑"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=21, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=21, quote: "Konsensstärke 93,5%"}
+# Box 2.6 (p. 22, l. 6–14), in section 2.4: one sentence, ⇑⇑ with „EK“, „Konsensstärke 100%“ (no colon); the plural
+# „sollen“ is the wording soll, and the sentence prints no full stop, kept as printed (#314 Decision 4).
+- id: claims/vorhofflimmern-lf-1.1/b9d6ad64
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "2.6"
+  section: "2.4"
+  label: "Alle Patient*innen mit neu diagnostiziertem AF sollen eine transthorakale Echokardiographie erhalten"
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  basis: EK
+  consensus_share: "100%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=22
+    quote: "Alle Patient*innen mit neu diagnostiziertem AF sollen eine transthorakale"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=22, quote: "⇑⇑"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=22, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=22, quote: "Konsensstärke 100%"}

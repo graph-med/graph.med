@@ -1,0 +1,119 @@
+# Claims of card #380 (#314's part C1) from chapter 3 of sources/vorhofflimmern-lf-1.1, „Screening von Vorhofflimmern“
+# (pp. 24–26, to l. 48 of p. 26; the Literatur from p. 26, l. 49 is not read). Boxes 3.1 and 3.2, one claim per
+# sentence (spec §3.1), the rule printed inside 3.1's sentence (#328 Decision 10), Tabelle 6 as the rule of „erhöhtes
+# Schlaganfallrisiko“ (spec §3.1, §5.1 K), and the body-text places spec §5.1 admits (#325, #341, #372), in page order.
+# Ids: sha256("<at>|<quote>")[:8]. Line numbers are lines of `pdftotext -layout`. Every box prints „Neu 2024“ and its
+# kind line; both stay on the page (#314 Decision 5).
+
+# Box 3.1 (p. 24, l. 36–57), in section 3.1: one sentence whose two items print „•“ (l. 40–41), ⇑ on its third line,
+# „Konsensstärke: 100%“. The verb is the finite modal of „sollte … empfohlen werden“ (spec §3.1, step 1; #325 Decision
+# 10). Its evidence block, four rows in printed order (spec §3.1; #326 Decision 8): „Vermeidung ischämischer
+# Schlaganfälle: gering“ rates the endpoint ischämische Schlaganfälle, the aim word „Vermeidung“ left out (card #364,
+# reading 8); „Detektion von Vorhofflimmern“ and „Initiierung Antikoagulation“ are endpoints of their own, as printed
+# (reading 11); „Blutungen“ is concepts/blutungsrate (card #364, reading 9). The literature cell stays on the page. The
+# Begründung rates the evidence in other words (p. 25): disagrees_with.
+- id: claims/vorhofflimmern-lf-1.1/efd6af04
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "3.1"
+  section: "3.1"
+  label: "Um bislang unerkanntes Vorhofflimmern mit hoher Vorhofflimmern-Last zu erkennen, sollte Menschen im Alter ≥75 Jahren und/oder mit erhöhtem Schlaganfallrisiko (siehe Tabelle 6) ein mindestens einmaliges EKG empfohlen werden."
+  grade: "⇑"
+  verb: sollte
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {outcome: concepts/ischaemische-schlaganfaelle, value: "gering", system: grade}
+    - {outcome: concepts/detektion-von-vorhofflimmern, value: "hoch", system: grade}
+    - {outcome: concepts/initiierung-antikoagulation, value: "hoch", system: grade}
+    - {outcome: concepts/blutungsrate, value: "hoch", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=24
+    quote: "Um bislang unerkanntes Vorhofflimmern mit hoher Vorhofflimmern-Last zu"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=24, quote: "⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=24, quote: "Konsensstärke: 100%"}
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=24, quote: "erkennen, sollte Menschen"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=24, quote: "Vermeidung ischämischer Schlaganfälle:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=24, quote: "Detektion von Vorhofflimmern:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=24, quote: "Initiierung Antikoagulation:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=24, quote: "Blutungen:"}
+# 3.1, the rule printed inside the sentence (spec §3.1; #328 Decision 10; #314 Decisions 19, 20 „Narrower claims“): the
+# qualifier of „Menschen“, its two items joined by „und/oder“, a narrower criterion claim quoting it whole, with the
+# box's number, section and share, no grade, no evidence, no statement. „und/oder“ is read as any_of (reading 7). The
+# group it gives reaches it by defined_by. „ein mindestens einmaliges EKG“ says how, not for whom: no threshold.
+- id: claims/vorhofflimmern-lf-1.1/a7f443b4
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: "3.1"
+  section: "3.1"
+  label: "im Alter ≥75 Jahren und/oder mit erhöhtem Schlaganfallrisiko (siehe Tabelle 6)"
+  consensus_share: "100%"
+  combination:
+    operator: any_of
+    of: [claims/vorhofflimmern-lf-1.1/0a2c23b0, claims/vorhofflimmern-lf-1.1/1bf9a328]
+    connective: "und/oder"
+    source: {at: sources/vorhofflimmern-lf-1.1#page=24, quote: "im Alter ≥75 Jahren und/oder"}
+    rationale: "„im Alter ≥75 Jahren und/oder mit erhöhtem Schlaganfallrisiko (siehe Tabelle 6)“: nach „und/oder“ genügt jedes der beiden Glieder allein, und beide zusammen ebenso (ODER)."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=24
+    quote: "im Alter ≥75 Jahren und/oder mit erhöhtem Schlaganfallrisiko (siehe Tabelle 6)"
+  provenance:
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=24, quote: "Konsensstärke: 100%"}
+# 3.1, the qualifier's first item: the age bound on concepts/alter, as printed.
+- id: claims/vorhofflimmern-lf-1.1/0a2c23b0
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: "3.1"
+  section: "3.1"
+  label: "im Alter ≥75 Jahren"
+  consensus_share: "100%"
+  threshold: {quantity: concepts/alter, comparator: "≥", value: "75", unit: "Jahren"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=24
+    quote: "im Alter ≥75 Jahren"
+  provenance:
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=24, quote: "Konsensstärke: 100%"}
+# 3.1, the qualifier's second item: a leaf without a threshold; its rule is Tabelle 6, which the item names and which
+# concepts/erhoehtes-schlaganfallrisiko reaches by its own defined_by edge (ch03 edges).
+- id: claims/vorhofflimmern-lf-1.1/1bf9a328
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: "3.1"
+  section: "3.1"
+  label: "mit erhöhtem Schlaganfallrisiko (siehe Tabelle 6)"
+  consensus_share: "100%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=24
+    quote: "mit erhöhtem Schlaganfallrisiko (siehe Tabelle 6)"
+  provenance:
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=24, quote: "Konsensstärke: 100%"}
+# Box 3.2 (p. 26, l. 12–19), in section 3.2, a „Konsensbasiertes Statement“: its grade cell prints „Statement“, which is
+# no grade, so the claim carries none, with the basis „EK“ printed below it (spec §3.1; #323 Decision 11). One
+# sentence, a recommendation against: „wird … nicht empfohlen“ is the wording empfehlen by step 3 (#325 Decision 13; the
+# maintainer's answer to its question 9). Its reason clause and the examples „(z. B. Smartwatches, Wearables)“ stay in
+# the label (reading 5); the box prints no group (reading 17).
+- id: claims/vorhofflimmern-lf-1.1/9eb3f7c0
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "3.2"
+  section: "3.2"
+  label: "Ein generelles Screening auf Vorhofflimmern mit Geräten, die ein kontinuierliches Monitoring ermöglichen (z. B. Smartwatches, Wearables), wird zum jetzigen Zeitpunkt nicht empfohlen, weil die therapeutischen Konsequenzen unklar sind."
+  verb: empfehlen
+  direction: against
+  basis: EK
+  consensus_share: "100%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=26
+    quote: "Ein generelles Screening auf Vorhofflimmern mit Geräten, die ein"
+  provenance:
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=26, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=26, quote: "Konsensstärke: 100%"}
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=26, quote: "wird zum jetzigen Zeitpunkt nicht empfohlen"}
+    direction: {at: sources/vorhofflimmern-lf-1.1#page=26, quote: "wird zum jetzigen Zeitpunkt nicht empfohlen"}

@@ -1,0 +1,10 @@
+# A concept of card #380 (C1), chapter 3 of sources/vorhofflimmern-lf-1.1.
+# The endpoint of box 3.1's third evidence row, „Initiierung Antikoagulation: hoch ⊕⊕⊕⊕“ (p. 24, l. 53–54), as printed
+# (reading 11; the other reading takes „Initiierung“ as a result word). Not concepts/orale-antikoagulation, the
+# measure. Chapter-only.
+id: concepts/initiierung-antikoagulation
+type: concept
+lang: de
+label: "Initiierung Antikoagulation"
+facet: outcome
+source: modelling
