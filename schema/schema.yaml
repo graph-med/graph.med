@@ -16,10 +16,14 @@
 # each member statement has one anchor, its first axis brings every anchor to the
 # view's `scope_root`, `in_scope_of` has no cycle and doubles no `broader`), and
 # a derived concept's rule holds together (spec §3.1, §5: a concept has one
-# `defined_by` edge, to a claim of kind criterion or definition; a combination's
+# `defined_by` edge, to a claim of kind criterion or definition, or one per
+# printing where its source prints the rule differently and every pair of those
+# claims is joined by `disagrees_with`; a combination's
 # parts are such claims of the same source, nest without a cycle, and its
 # connective is printed in its quotes; `at_least` counts no more parts than it
 # has; a relative threshold is relative to another quantity than its own),
+# a disagreement is the source's own (spec §5: `disagrees_with` joins two
+# claims of one source, never a claim to itself, one edge per pair),
 # a claim is read in its source's grading scheme (spec §3.1: its grade, basis and
 # consensus are of its own source's `grading_scheme`, its direction the one its
 # grade fixes, its verb one a declared scheme defines, a printed share lies in
@@ -40,7 +44,7 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 $id: https://graph.med/schema/schema.yaml
 title: graph.med pool
-x-version: 0.17.0
+x-version: 0.18.0
 
 # ── layout: which definition each data file validates against ────────────────
 # (data/README.md). Globs are relative to the repository root. `one_per_file`
@@ -765,7 +769,7 @@ $defs:
     maxItems: 4
     prefixItems:
       - $ref: '#/$defs/entity_ref'
-      - enum: [supports, contests, refines, supplements, limits, codes_as, broader, in_scope_of,
+      - enum: [supports, contests, refines, supplements, limits, disagrees_with, codes_as, broader, in_scope_of,
                defined_by, sequence, branch, about, specializes, complements, conflicts]
       - $ref: '#/$defs/entity_ref'
       - $ref: '#/$defs/edge_props'
@@ -776,6 +780,15 @@ $defs:
       # body-text relations — never inherit a recommendation's grade
       - if: {prefixItems: [true, {enum: [refines, supplements, limits]}]}
         then: {prefixItems: [{$ref: '#/$defs/claim_ref'}, true, {$ref: '#/$defs/claim_ref'}]}
+      # disagreement — "this source says otherwise at that place": two claims of one source that answer one
+      # question differently (another value, time, group or rating), each kept as printed and neither chosen
+      # (spec §5, §5.1 D). Symmetric: one edge per pair, either direction, never a claim to itself; between
+      # two sources it is `contests` (validator). Modelling, with a rationale quoting both sides and saying
+      # what they differ in. It carries no evidence and decides nothing
+      - if: {prefixItems: [true, {const: disagrees_with}]}
+        then:
+          prefixItems: [{$ref: '#/$defs/claim_ref'}, true, {$ref: '#/$defs/claim_ref'},
+                        {$ref: '#/$defs/modelling_edge_props'}]
       # coding — a code is a node, coding is an edge
       - if: {prefixItems: [true, {const: codes_as}]}
         then: {prefixItems: [{$ref: '#/$defs/concept_ref'}, true, {$ref: '#/$defs/terminology_ref'}]}
@@ -799,8 +812,11 @@ $defs:
       # definition — "is established by the rule this claim gives": a concept the clinician cannot
       # observe but establishes by a threshold, a score or a definition (spec §3.2, §5). Concept →
       # claim, modelling with a rationale. One edge per concept: several rules reach it through the
-      # combination the page prints, on the claim the edge leads to, never through a second edge. The
-      # validator checks that the claim is of kind criterion or definition and that no concept has two
+      # combination the page prints, on the claim the edge leads to, never through a second edge —
+      # except where the source prints the rule differently in several places: then one edge per
+      # printing, each claim as printed, and nothing computes a "true" rule. The validator checks that
+      # the claim is of kind criterion or definition, and that a concept with several edges has every
+      # pair of their claims joined by `disagrees_with`
       - if: {prefixItems: [true, {const: defined_by}]}
         then:
           prefixItems: [{$ref: '#/$defs/concept_ref'}, true, {$ref: '#/$defs/claim_ref'},

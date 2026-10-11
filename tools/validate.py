@@ -37,13 +37,18 @@ rules a document schema cannot state because they span files:
   - a derived concept's rule holds together (spec §3.1, §5): a concept has one
     `defined_by` edge, discriminator or not — several rules combine on the claim it
     reaches, as the page prints it, and a second edge would be a combination
-    nobody extracted —, to a claim of kind `criterion` or `definition`; a
+    nobody extracted —, to a claim of kind `criterion` or `definition`; or one per
+    printing, where its source prints the rule differently in several places and
+    every pair of those claims is joined by `disagrees_with`; a
     `combination`'s parts are claims of those kinds from the claim's own source,
     its connective's quotes are from that source too, each piece of the connective
     lies in one of them, `at_least` counts no more parts than it names, and
     combinations nest through claims without a cycle; a threshold's `quantity`
     and `relative_to` resolve like every reference, and a relative threshold is
     relative to another quantity than the one it bounds;
+  - a disagreement is the source's own (spec §5, §5.1 D): `disagrees_with` joins two
+    claims of one source — between two sources it is `contests` —, never a claim
+    to itself, and once per pair, whichever its direction, being symmetric;
   - a claim is read in its source's grading scheme (spec §3.1): its `grade` is
     one its own source's `grading_scheme` lists, its `basis` one of its bases
     and its `consensus` one of its classes; its `direction` is the one its grade
@@ -86,6 +91,7 @@ import re
 import subprocess
 import sys
 import urllib.request
+from collections import defaultdict
 from pathlib import Path
 
 import yaml
@@ -182,6 +188,7 @@ def main(argv=None) -> int:
     broader: list[tuple[str, int, str, str, dict]] = []   # (file, index, from, to, props)
     scope: list[tuple[str, int, str, str, dict]] = []     # the same, for in_scope_of
     defined_by: list[tuple[str, int, str, str, dict]] = []   # the same, for defined_by
+    disagree: list[tuple[str, int, str, str, dict]] = []     # the same, for disagrees_with
     for rel, doc, _ in docs:
         for path, value in walk(doc):
             if isinstance(value, str) and ref_pattern.match(value) and value.split("#")[0] not in ids:
@@ -199,10 +206,13 @@ def main(argv=None) -> int:
                         scope.append((rel, i, edge[0], edge[2], edge[3]))
                     elif edge[1] == "defined_by":
                         defined_by.append((rel, i, edge[0], edge[2], edge[3]))
+                    elif edge[1] == "disagrees_with":
+                        disagree.append((rel, i, edge[0], edge[2], edge[3]))
 
     errors += check_axes(schema, ids, entities, broader, scope)
     errors += check_scope_edges(broader, scope)
-    errors += check_definitions(ids, entities, defined_by)
+    errors += check_definitions(ids, entities, defined_by, disagree)
+    errors += check_disagreements(entities, disagree)
     errors += check_grading(ids, entities)
     errors += check_evidence(ids, entities)
     errors += check_quote_form(docs)
@@ -338,12 +348,17 @@ def check_scope_edges(broader: list[tuple[str, int, str, str, dict]],
 
 
 def check_definitions(ids: dict[str, str], entities: dict[str, dict],
-                      defined_by: list[tuple[str, int, str, str, dict]]) -> list[str]:
+                      defined_by: list[tuple[str, int, str, str, dict]],
+                      disagree: list[tuple[str, int, str, str, dict]]) -> list[str]:
     """A derived concept's rule (spec §3.1, §3.2, §5). A concept has one `defined_by` edge, to a claim of kind
     `criterion` or `definition` — the passage that gives the rule, not a recommendation that uses the term.
     Several rules of one concept are the parts of a `combination` on that claim, with the connective the page
     prints; a second edge would join them by a default nobody read off the page, so it is refused, to the same
-    claim or another, discriminator or not. A combination's parts are criterion or definition claims of the
+    claim or another, discriminator or not — unless the source prints the rule differently in several places:
+    then the concept reaches each printing by an edge of its own, and every pair of those claims is joined by
+    `disagrees_with`, so that the second edge records a disagreement the pool states rather than a combination
+    nobody read (spec §5; a claim never disagrees with itself, so two edges to one claim stay refused). A
+    combination's parts are criterion or definition claims of the
     claim's own source, as are the quotes of its connective, and every piece of the connective ("entweder …
     oder") lies in one of those quotes, so that --verify-quotes checks the words on the page; `at_least` names
     at most as many as its parts; combinations nest through claims and never reach their own claim. That the
@@ -352,15 +367,19 @@ def check_definitions(ids: dict[str, str], entities: dict[str, dict],
     reference check's. No operator word, kind of concept, quantity or unit of a guideline is named here."""
     errs: list[str] = []
     rules = ("criterion", "definition")
-    first: dict[str, tuple[str, str]] = {}
+    joined = {frozenset((frm, to)) for _, _, frm, to, _ in disagree}
+    earlier: dict[str, list[tuple[str, str]]] = defaultdict(list)   # concept → [(where, claim)] of its edges so far
     for rel, i, frm, to, _ in defined_by:
         kind = entities.get(to, {}).get("kind")
         if to in entities and kind not in rules:
             errs.append(f"{rel} at {i}: {frm} defined_by {to}, a claim of kind {kind!r}; a rule is a criterion or a definition")
-        if frm in first:
-            errs.append(f"{rel} at {i}: {frm} has a second defined_by edge (to {to}; the first, to {first[frm][1]}, is in "
-                        f"{first[frm][0]}); several rules combine on one claim as the page prints it (`combination`), never by a second edge")
-        first.setdefault(frm, (f"{rel} at {i}", to))
+        for where, other in earlier[frm]:
+            if frozenset((to, other)) not in joined or to == other:
+                errs.append(f"{rel} at {i}: {frm} has a second defined_by edge (to {to}; another, to {other}, is in {where}), and "
+                            f"the two claims are not joined by disagrees_with; several rules combine on one claim as the page "
+                            f"prints it (`combination`), and a concept reaches several only where they are printings of its rule "
+                            f"that disagree (spec §5)")
+        earlier[frm].append((f"{rel} at {i}", to))
     source_of = lambda at: str(at).split("#")[0]
     graph: dict[str, list[str]] = {}
     for cid, claim in sorted(entities.items()):
@@ -395,6 +414,32 @@ def check_definitions(ids: dict[str, str], entities: dict[str, dict],
                     errs.append(f"{rel}: the connective of {cid} prints {piece!r}, which none of its quotes contains")
     for cycle in cycles(graph):
         errs.append(f"combinations form a cycle through claims: {' -> '.join(cycle)}")
+    return errs
+
+
+def check_disagreements(entities: dict[str, dict], disagree: list[tuple[str, int, str, str, dict]]) -> list[str]:
+    """A disagreement the source has with itself (spec §5, §5.1 D): `disagrees_with` joins two claims of one source,
+    each kept as printed — the edge records that they answer one question differently and decides nothing. Between
+    two sources the relation is `contests` (a claim against another source's statement), so an edge across sources
+    is refused; a claim does not disagree with itself; and the edge is symmetric, so a pair is joined once, in
+    either direction, and a second edge between the same two claims — reversed or with a discriminator — is
+    refused. That the rationale quotes both sides is the judge's to read (spec §8.1)."""
+    errs: list[str] = []
+    source_of = lambda cid: str((entities.get(cid, {}).get("source") or {}).get("at", "")).split("#")[0]
+    seen: dict[frozenset, str] = {}
+    for rel, i, frm, to, _ in disagree:
+        where = f"{rel} at {i}"
+        if frm == to:
+            errs.append(f"{where}: {frm} disagrees_with itself; a disagreement joins two places of the source")
+            continue
+        if frm in entities and to in entities and source_of(frm) != source_of(to):
+            errs.append(f"{where}: {frm} disagrees_with {to}, a claim of another source ({source_of(to)}, not {source_of(frm)}); "
+                        f"a source disagreeing with itself is disagrees_with, two sources are `contests` (spec §5)")
+        pair = frozenset((frm, to))
+        if pair in seen:
+            errs.append(f"{where}: {frm} and {to} are already joined by disagrees_with ({seen[pair]}); the edge is symmetric, "
+                        f"one per pair")
+        seen.setdefault(pair, where)
     return errs
 
 
