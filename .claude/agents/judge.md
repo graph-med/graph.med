@@ -54,8 +54,9 @@ lettered part gives each part's sentences that part's. Everything the source
 does not mark is **body text** — a definition a heading or table head marks as
 one included, which spec §5.1 G1 admits wherever it stands. A body-text place
 is read in the section spec §5.1 gives it: a table's or figure's is that of
-the marked recommendation naming it, and a section's own text also has the
-marked recommendations of the sections below it, never a sibling's. "Box"
+the marked recommendation naming it; a section's own text also has the
+marked recommendations of the sections below it, and a section holding none
+those of the nearest section above that does — never a sibling's. "Box"
 appears nowhere below; "a marked recommendation" is the unit, and its
 sentences are the claims.
 

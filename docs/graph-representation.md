@@ -318,11 +318,12 @@ symbols (⇑ is not printed in "⇑⇑"); a form the source prints nowhere is
   provenance quoting the text layer, and the scheme entry's rationale naming
   the boxes;
 - `verb`, for a sentence of recommendation form, read off its **predicate**:
-  the finite modal of the clause that instructs its action — the main clause;
-  for a member §5.1 K quotes from a clause of its own, that clause — and the
-  participle or infinitive it governs, never an attributive participle ("die
-  empfohlene …"), a noun ("Empfehlung") or a clause that does not instruct the
-  action. In the form a scheme gives it ("sollten" is `sollte`), the verb is
+  the finite modal of the clause that instructs its action — as a rule the
+  main clause; a dependent clause where only that one instructs, as for a
+  member §5.1 K quotes from it — and the participle or infinitive it governs,
+  never an attributive participle ("die empfohlene …"), a noun ("Empfehlung")
+  or a clause that does not instruct the action. In the form a scheme gives
+  it ("sollten" is `sollte`), the verb is
   the first that holds: (1) a word of the predicate its own source's scheme
   gives as a wording, the finite modal winning where there are two ("soll …
   empfohlen werden" is `soll` under a scheme worded *soll*, `empfehlen` under
