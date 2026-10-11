@@ -30,7 +30,9 @@ it from sentences to places and closed four gaps the second guideline opened:
   left out as every label's are ([[reference-marks-left-out]], spec §3.1).
   A figure printed as an image, without a text layer, stays on the page with
   its footnotes, its caption a place like any other (§5.1 F, card #327,
-  [[figures-without-text]]).
+  [[figures-without-text]]) — except a footnote that prints, in the text
+  layer, a rule another place prints otherwise: a claim of its own, joined by
+  `disagrees_with` (card #379).
 - **Voice of a table.** It speaks as the sentence introducing it does: a
   source line "nach …" is an attribution, like "nach Apfel 1999" in the first
   source; a table introduced as another guideline's options speaks for that
