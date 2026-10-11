@@ -1,6 +1,6 @@
 ---
 name: source-disagreements-shown
-description: The graph reflects the text — where a source disagrees with itself (two printings of one rule, two places' answers to one question, a rating's word against its symbols or its text), each printing is a claim as printed and `disagrees_with` (claim → claim, one source, symmetric, once per pair, modelling with a rationale quoting both sides) joins every pair; a concept reaches each printing of its rule by `defined_by` only where every pair is so joined; each side's card shows the other; nothing picks a side, smooths it over or names it only in a pull request. The maintainer, 2026-10-11 (#341).
+description: The graph reflects the text — where a source disagrees with itself (two printings of one rule, two places' answers to one question, a rating's word against its symbols or its text, a rating in other words included), each printing is a claim as printed and `disagrees_with` (claim → claim, one source, symmetric, once per pair, modelling with a rationale quoting both sides) joins every pair, a disagreeing rating every claim that carries its row (#372); a concept reaches each printing of its rule by `defined_by` only where every pair is so joined; each side's card shows the other; nothing picks a side, smooths it over or names it only in a pull request. The maintainer, 2026-10-11 (#341).
 metadata:
   type: project
 ---
@@ -46,8 +46,18 @@ How the rules read it (spec §3.1, §5, §5.1):
 - **A rating's word against its symbols**: the word stays the evidence entry's
   value, the symbols become a `fact` claim of their own (the row read "Kopf:
   ⊕⊕⊝⊝", quoting the symbols, with the box's number and section), joined to
-  the recommendation's claim. A rating the body text gives otherwise than the
-  box is a `fact` claim joined the same way (§5.1 N2).
+  every claim that carries the row. A rating the body text gives otherwise
+  than the box is a `fact` claim joined the same way (§5.1 N2, D).
+- **Which claims a disagreeing rating joins, and when it disagrees** (card
+  #372, the maintainer's answers to the third guideline's pilot, 2026-10-11):
+  every claim that carries the row, each sentence of the box with a
+  statement of its own, so that every recommendation's card shows it
+  ("Every claim with the row"); and a rating in other words is another
+  rating, compared by its words as printed and never mapped ("sehr niedrige"
+  against "sehr gering": "Show it as a disagreement"), its rationale saying
+  that the page does not equate them, while the same word capitalised or
+  inflected otherwise is the same rating. Equating two words the source
+  does not equate would be a reading.
 - **Two marked recommendations** that answer one question differently keep
   their statements as §3.1 links them, and their claims are joined as well.
 - **A figure without a text layer** cannot be quoted: the claim of its caption

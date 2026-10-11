@@ -118,7 +118,9 @@ keeps at a line end is the one the printed word has.
 1. **A claim against its page.** Is the `label` the one sentence at the quote
    — one sentence, not the whole marked recommendation; for a table, the row
    or group spec §5.1 K names? Does `kind` follow
-   the sentence's form? Are
+   the sentence's form — a need or an indication the sentence denies read by
+   its verb, never by the noun (spec §5.1 G4: where none exists, a decline;
+   where the guideline denies the action one, against)? Are
    `grade`, `verb`, `direction`, `basis`, `consensus`, `consensus_share`,
    `recommendation_no` and `section` as printed at that place — a box's
    grade, basis and consensus reaching its sentences as spec §3.1 says (a
@@ -188,8 +190,12 @@ keeps at a line end is the one the printed word has.
    every step. For each `disagrees_with` edge, read both claims on their
    pages: do they answer one question differently as printed (spec §5.1 D:
    a distinction one draws and the other erases is a disagreement, an ideal
-   time beside a latest one is none), and does the `rationale` quote both
-   sides and say what they differ in?
+   time beside a latest one is none; a rating in another word is another
+   rating, the same word capitalised or inflected otherwise is not), and does
+   the `rationale` quote both sides and say what they differ in — for a
+   rating in another word, that the page does not equate them? Where one side
+   rates a row of a marked recommendation's evidence, does an edge join it to
+   every claim that carries that row?
 4. **A page against the pool.** For every cited page, read it the other way
    round: does every sentence of every recommendation the source marks on it
    have a claim, sharing its number where the source numbers it, and every

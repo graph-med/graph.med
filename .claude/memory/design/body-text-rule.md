@@ -1,6 +1,6 @@
 ---
 name: body-text-rule
-description: A body-text place (a sentence, a footnote, a table or figure, read in rows) earns a claim and an edge only through spec §5.1 — gate G1–G4 in its section (a float's is that of the box naming it; a section's own text also has its subsections' boxes, a boxless subsection its parent's, never a sibling's), then D (disagrees_with: it answers the recommendation otherwise than the recommendation prints it, #341) → R (refines) → L (limits) → S (supplements), first that holds, and `disagrees_with` to every place answering its question otherwise; a decline is a gap notice without an edge, an evidence gap nothing; a recommendation in the guideline's voice no box of its section covers is a claim without an edge in no statement (U); a definition a heading marks is a claim wherever it stands when a box uses its term; kind by form, never graded, one claim per answer (a table one per instrument or per row); no edge between sentences of marked recommendations, none for evidence certainty or effect data, and an edge never decides a statement's condition.
+description: A body-text place (a sentence, a footnote, a table or figure, read in rows) earns a claim and an edge only through spec §5.1 — gate G1–G4 in its section (a float's is that of the box naming it; a section's own text also has its subsections' boxes, a boxless subsection its parent's, never a sibling's), then D (disagrees_with: it answers the recommendation otherwise than the recommendation prints it, a rating in other words included, a rating joined to every claim carrying its row, #341, #372) → R (refines) → L (limits) → S (supplements), first that holds, and `disagrees_with` to every place answering its question otherwise; a decline is a gap notice without an edge (a denied need or indication read by its verb, #372), an evidence gap nothing; a recommendation in the guideline's voice no box of its section covers is a claim without an edge in no statement (U); a definition a heading marks is a claim wherever it stands when a box uses its term; kind by form, never graded, one claim per answer (a table one per instrument or per row); no edge between sentences of marked recommendations, none for evidence certainty or effect data, and an edge never decides a statement's condition.
 metadata:
   type: project
 ---
@@ -115,6 +115,31 @@ otherwise than the recommendation prints it is a claim joined to it by
 through the other; places answering a term the recommendation leaves open
 each keep their edge and are joined to each other
 ([[source-disagreements-shown]]).
+
+Card #372 (2026-10-11) wrote the maintainer's answers to three findings of
+the third guideline's pilot (F3, F5 and F6 of #370) into G4 and D:
+
+- **A denied need is read by its verb (G4).** "besteht … keine Indikation
+  zur Umstellung" says that no need exists: a decline, a gap notice without
+  an edge. "sieht … keine Indikation für …" says that the guideline denies
+  the action one: against it, as "kann nicht empfohlen werden" is. The noun
+  is the same in both, so it cannot decide; the verb does (the maintainer:
+  "By the verb, as now").
+- **A disagreeing rating joins every claim that carries the row (D).** A
+  row goes to every sentence of its box with a statement of its own
+  ([[claim-evidence-per-outcome]]), so a place that rates it otherwise is
+  joined to each, and every recommendation's card shows it (the maintainer:
+  "Every claim with the row"). The edges grow with the sentences; the
+  alternative, one edge to the first, would leave the other cards silent.
+- **A rating in other words is another rating (D).** Ratings are compared
+  by their words as printed and never mapped: "sehr niedrige" against the
+  box's "sehr gering" is a disagreement, shown, its rationale saying that
+  the page does not equate them (the maintainer: "Show it as a
+  disagreement"; equating them would be a reading the source does not
+  print). The same word capitalised or inflected otherwise is the same
+  rating, as the pilot left "moderater Aussagesicherheit" beside a row's
+  "moderat" on the page. This bears on the open question
+  rating-printed-as-symbols and does not settle it.
 
 **Why:** the first extraction read the relations differently from chapter to
 chapter — a box's second sentence was `refines` in one box, `supplements` in
