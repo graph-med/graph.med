@@ -48,12 +48,15 @@
         {% if legend.undirected %}<span class="key"><span class="chip none" aria-hidden="true"></span> {{ W.undirected }}</span>{% endif %}
       </span></p>
       {% endif %}
-      {% if legend.grades or legend.verb_grades %}
+      {% if legend.grades or legend.verb_grades or legend.bases %}
       <p class="lg"><span class="lg-name">{{ W.groups.grade }}</span><span class="keys">
         {% if legend.grades %}
         <span class="key grades">{% for g in legend.grades %}<b>{{ g }}</b>{% if not loop.last %} · {% endif %}{% endfor %}</span>
         {% endif %}
         {% if legend.verb_grades %}<span class="key">{{ W.verb | replace("{grades}", legend.verb_grades | join(" · ")) }}</span>{% endif %}
+        {# a basis printed beside the grade: a key of its own, its token and its scheme's description, never a further grade #}
+        {% for b in legend.bases %}<span class="key basis" lang="{{ b.lang }}"><b>{{ b.basis }}</b>{% if b.description %} {{ b.description }}{% endif %}</span>
+        {% endfor %}
       </span></p>
       {% endif %}
       {% if legend.states %}

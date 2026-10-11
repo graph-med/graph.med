@@ -107,13 +107,18 @@ CHAPTERS = "section"   # the URL token and grouping id of the built-in chapter g
 # is a pair, `<key>.one` and `<key>.many`, chosen by the count at render time (card_words(): word(key, count));
 # the grammar sits in the pair, never in the code. The summary lines of zone 4's table (`evidence.by_outcome`,
 # `evidence.by_key` and their `.no_range.many` and `.partial.many`) have no pair: a table counts two rows or more,
-# one row being the one-row line (`evidence.one_row.*`), and a range needs two values (evidence_of()).
+# one row being the one-row line (`evidence.one_row.*`), and a range needs two values (evidence_of()). A word the
+# source's scheme gives is a placeholder in its frame, never a key: the share of a source that declares no class
+# (`consensus.unclassed`), the description in zone 4's expert-consensus line (`evidence.ek_only`).
 CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", "zone.contested.one", "zone.contested.many",
              "zone.citation", "zone.more", "slot.population", "slot.condition", "slot.action", "slot.count", "slot.families",
              # the word joining concepts that hold at once — a statement's conditions, the conditions of a scope path (spec §3.2)
              "conjunction",
              "cite.open", "cite.quote", "cite.review.pending", "cite.no", "cite.page", "cite.section",
              "grade", "consensus.share",
+             # a share the source prints where its scheme declares no class: named, never bare (a bare number does not
+             # say what it counts, and "Konsens" alone is a class of other schemes)
+             "consensus.unclassed",
              "marker.contested", "body.limits", "body.refines", "body.supplements", "body.empty",
              "evidence.single", "evidence.by_outcome", "evidence.by_outcome.no_range.many", "evidence.by_outcome.partial.many",
              "evidence.ek_only", "evidence.missing", "evidence.table.outcome", "evidence.table.certainty", "evidence.row.missing",
@@ -122,6 +127,9 @@ CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", 
              # a table of one row is one line: its value, its system and what it rates — its endpoint, its key, or both
              # (docs/publication.md §3, zone 4)
              "evidence.one_row.outcome", "evidence.one_row.key", "evidence.one_row.key_outcome",
+             # an entry's note (spec §3.1): words a cell prints instead of a level lead its line in the level's place,
+             # never "nicht erfasst"; words beside a value stand after it, in a table in a column of their own
+             "evidence.note_row.outcome", "evidence.note_row.key", "evidence.note_row.key_outcome", "evidence.table.note",
              # zone 6 past its first passages, folded; zone 5's row of the statements related to this one (spec §5)
              "body.more.one", "body.more.many", "slot.related",
              "related.specializes.to", "related.specializes.from", "related.complements.to", "related.complements.from",
@@ -160,13 +168,13 @@ CARD_WORDS = {"de": {
     "slot.families": "gehört zu:", "conjunction": "und",
     "cite.open": "In der Leitlinie öffnen", "cite.quote": "Suchtext kopieren", "cite.review.pending": "Klinische Begutachtung: ausstehend",
     "cite.no": "Empf. {nr}", "cite.page": "S. {nr}", "cite.section": "Abschnitt {nr}",
-    "grade": "Grad {grade}", "consensus.share": "{name}, {share}",
+    "grade": "Grad {grade}", "consensus.share": "{name}, {share}", "consensus.unclassed": "Konsensstärke {share}",
     "marker.contested": "umstritten", "body.limits": "Grenzt ein", "body.refines": "Präzisiert", "body.supplements": "Ergänzt",
     "body.empty": "Der Begleittext schränkt diese Empfehlung nicht ein und ergänzt oder präzisiert sie nicht.",
     "evidence.single": "{wert} nach {system}", "evidence.by_outcome": "für {n} Endpunkte bewertet, {von} bis {bis}",
     "evidence.by_outcome.no_range.many": "für {n} Endpunkte bewertet",
     "evidence.by_outcome.partial.many": "für {k} von {n} Endpunkten erfasst",
-    "evidence.ek_only": "Expertenkonsens, keine Evidenzbewertung", "evidence.missing": "nicht erfasst",
+    "evidence.ek_only": "{description}, keine Evidenzbewertung", "evidence.missing": "nicht erfasst",
     "evidence.table.outcome": "Endpunkt", "evidence.table.certainty": "Sicherheit", "evidence.row.missing": "nicht erfasst",
     "evidence.by_key": "in {n} Zeilen aufgeschlüsselt, {von} bis {bis}",
     "evidence.by_key.no_range.many": "in {n} Zeilen aufgeschlüsselt",
@@ -174,6 +182,8 @@ CARD_WORDS = {"de": {
     "evidence.one_row.outcome": "{wert} nach {system} · Endpunkt: {endpunkt}",
     "evidence.one_row.key": "{wert} nach {system} · Bezug: {bezug}",
     "evidence.one_row.key_outcome": "{wert} nach {system} · Bezug: {bezug} · Endpunkt: {endpunkt}",
+    "evidence.note_row.outcome": "{hinweis} · Endpunkt: {endpunkt}", "evidence.note_row.key": "{hinweis} · Bezug: {bezug}",
+    "evidence.note_row.key_outcome": "{hinweis} · Bezug: {bezug} · Endpunkt: {endpunkt}", "evidence.table.note": "Anmerkung",
     "body.more.one": "{n} weiterer Hinweis", "body.more.many": "{n} weitere Hinweise",
     "slot.related": "Verwandt",
     "related.specializes.to": "allgemeinere Empfehlung", "related.specializes.from": "speziellere Empfehlung",
@@ -237,23 +247,28 @@ def card_words(lang: str):
 
 def badge_of(c: dict) -> dict:
     """A claim's badge (docs/publication.md §3, zone 2): its grade, its consensus class and the share it prints,
-    as the claim states them, and the source whose grading scheme they are read in — a grade of one scheme is
-    never the same badge as the same token of another (spec §3.1). The words are the scheme's, at render time."""
-    return {"source": c["source"], "grade": c.get("grade"), "consensus": c.get("consensus"), "share": c.get("consensus_share")}
+    as the claim states them, the basis it prints beside its grade (`basis`, only where it carries one), and the
+    source whose grading scheme they are read in — a grade of one scheme is never the same badge as the same token
+    of another (spec §3.1). The words are the scheme's, at render time."""
+    b = {"source": c["source"], "grade": c.get("grade"), "consensus": c.get("consensus"), "share": c.get("consensus_share")}
+    if c.get("basis"):
+        b["basis"] = c["basis"]
+    return b
 
 
 def badges_of(claims: list[dict]) -> list[dict]:
     """Line 2 of the judgement (docs/publication.md §3, zone 2): one badge per supporting claim, in the order
     of the claims — the order zone 8 lists them in, which is the only thing tying a badge to its citation —
-    each its grade and consensus as the claim states them (badge_of); identical badges collapse into one with a
-    count. Shown, never composed into one value. A claim stating none of them has no badge."""
+    each its grade, basis and consensus as the claim states them (badge_of); identical badges collapse into one
+    with a count, a badge with a basis never into one without. Shown, never composed into one value. A claim
+    stating none of them has no badge."""
     rows: list[dict] = []
     for c in claims:
-        if c["edge"] != "supports" or not (c.get("grade") or c.get("consensus") or c.get("consensus_share")):
+        if c["edge"] != "supports" or not (c.get("grade") or c.get("basis") or c.get("consensus") or c.get("consensus_share")):
             continue
         b = badge_of(c)
         for r in rows:
-            if {k: r[k] for k in b} == b:
+            if {k: v for k, v in r.items() if k != "count"} == b:
                 r["count"] += 1
                 break
         else:
@@ -289,13 +304,14 @@ def contests_of(claims: list[dict]) -> list[dict]:
 
 def direction_of(claims: list[dict]) -> dict | None:
     """The four-word direction of a statement, derived from its supporting claims (docs/publication.md §3), each
-    read in its grading scheme (Pool.claim_view): a claim whose verb is the wording of an open grade → abwägen
-    (the scheme's own open recommendation); any other recommendation für or gegen by its direction; a gap
-    notice → Lücke. Facts have no direction; claims that disagree give abwägen. With the word come the verbs
-    as the claims say them (`says`) — for an against claim the negated form its scheme prints ("soll nicht",
-    "schlagen nicht vor"), never the verb with a word appended —, the badges of the judgement's second line
-    (badges_of), and `umstritten`: whether a contesting claim exists, which the judgement marks so that a
-    reader who stops there does not leave with a one-sided answer."""
+    read in its grading scheme (Pool.claim_view, `open`): a claim whose grade the scheme makes open, or whose
+    grade fixes neither a direction nor openness and whose verb is the wording of an open grade → abwägen (the
+    scheme's own open recommendation); any other recommendation für or gegen by its direction — a grade that
+    fixes one decides, whatever the verb; a gap notice → Lücke. Facts have no direction; claims that disagree
+    give abwägen. With the word come the verbs as the claims say them (`says`) — for an against claim the
+    negated form its scheme prints ("soll nicht", "schlagen nicht vor"), never the verb with a word appended —,
+    the badges of the judgement's second line (badges_of), and `umstritten`: whether a contesting claim exists,
+    which the judgement marks so that a reader who stops there does not leave with a one-sided answer."""
     sup = [c for c in claims if c["edge"] == "supports"]
     if not sup:
         return None
@@ -320,50 +336,65 @@ def evidence_of(claims: list[dict], concept, system_name) -> dict:
     claims' `evidence` entries (schema 0.6.0), in one of four states — `single` (one entry, no outcome and no key:
     one value for the whole recommendation), `by_outcome` (anything else with entries: one group per system, its
     rows the entries in the claims' order, never sorted — sorting by certainty would rank what the guideline did
-    not), `ek_only` (no entry, and every supporting claim's grade one that fixes no wording in its scheme — the
-    expert consensus of spec §3.1, `unworded` —), `missing` (no entry). The template shows a group of one row as
-    one line and a group of more as a table (the fifth form of docs/publication.md §3); the data has these four.
-    A group carries its `system`, the slug as the claims store it — the statement JSON keeps it —, and its
-    `system_name`, the name the claims' source declares for it (`rating_systems`, spec §3.1), never a word of
-    the build; where the claims of one group come from sources that name the slug differently, the group carries
-    each name, in the claims' order. A row carries its printed `key` where the entry has one (schema 0.14.0), and
-    only there, and the template reads a group with a keyed row by its keys. Nothing is composed: no value is
-    derived from several. A group counts its rows (`n`) and those with a value (`k`), and carries a range — the
-    highest and the lowest value present, by EVIDENCE_SCALES' order, matched without regard to case and named in
-    the form the order holds — only where every row has a value, the system is in that table, every value is on
-    its scale and more than one level occurs; no order is guessed, and a partial table is summarised by its count
-    alone. `concept` resolves an outcome id to {id, label, lang}; `system_name` a (source, slug) pair to the
-    system's declared name (Pool.system_name)."""
+    not), `ek_only` (no entry, and every supporting claim either has a grade that fixes no wording in its scheme —
+    the expert consensus of spec §3.1, `unworded` — or carries a basis beside its grade, `basis`; the words are
+    each one's description in its own scheme, Pool.consensus_words), `missing` (no entry). The template shows a
+    group of one row as one line and a group of more as a table (the fifth form of docs/publication.md §3); the
+    data has these four. A group carries its `system`, the slug as the claims store it — the statement JSON keeps
+    it —, and its `system_name`, the name the claims' source declares for it (`rating_systems`, spec §3.1), never a
+    word of the build; where the claims of one group come from sources that name the slug differently, the group
+    carries each name, in the claims' order. An entry without a system — a note alone, where no row of its box is
+    rated (schema 0.20.0) — is a group whose `system` and `system_name` are None. A row carries its printed `key`
+    where the entry has one (schema 0.14.0), and its `note` — the words a cell prints instead of a level, or a
+    heading prints for the kind of evidence its rows rate — where the entry has one, and only there; the template
+    reads a group with a keyed row by its keys. In `by_outcome`, a group's entries that name neither an outcome nor
+    a key — the box's own rating, a cell's words for the whole box — stand apart from its rows as `box` (only where
+    there is one), shown beside the rows, never as one of them. Nothing is composed: no value is derived from
+    several. A group counts its rows (`n`) and those that record something, a value or a note (`k`), and carries
+    a range — the highest and the lowest value present, by EVIDENCE_SCALES' order, matched without regard to case
+    and named in the form the order holds — only where every row has a value, the system is in that table, every
+    value is on its scale and more than one level occurs; no order is guessed — a source's own level words that
+    table does not hold stay unranked —, and a partial table is summarised by its count alone. `concept` resolves
+    an outcome id to {id, label, lang}; `system_name` a (source, slug) pair to the system's declared name
+    (Pool.system_name)."""
     sup = [c for c in claims if c["edge"] == "supports"]
     entries = [(c, e) for c in sup for e in c.get("evidence") or []]
     if not entries:
-        return {"state": "ek_only" if sup and all(c.get("unworded") for c in sup) else "missing", "groups": []}
+        return {"state": "ek_only" if sup and all(c.get("unworded") or c.get("basis") for c in sup) else "missing", "groups": []}
     groups: list[dict] = []
     names: dict[str, list[str]] = {}   # slug → the names its claims' sources declare, in the claims' order
     for c, e in entries:
-        g = next((g for g in groups if g["system"] == e["system"]), None)
+        system = e.get("system")
+        g = next((g for g in groups if g["system"] == system), None)
         if g is None:
-            g = {"system": e["system"], "rows": []}
+            g = {"system": system, "rows": []}
             groups.append(g)
-        name = system_name(c["source"], e["system"])
-        if name not in names.setdefault(e["system"], []):
-            names[e["system"]].append(name)
+        if system:
+            name = system_name(c["source"], system)
+            if name not in names.setdefault(system, []):
+                names[system].append(name)
         row = {"outcome": concept(e["outcome"]) if e.get("outcome") else None, "value": e.get("value") or None, "lang": c["lang"]}
         if e.get("key"):
             row["key"] = e["key"]
+        if e.get("note"):
+            row["note"] = e["note"]
         g["rows"].append(row)
+    first = groups[0]["rows"][0]
+    single = len(entries) == 1 and first["outcome"] is None and "key" not in first
+    whole = lambda r: r["outcome"] is None and "key" not in r   # an entry for the whole box, not for one of its rows
     for g in groups:
-        g["system_name"] = " / ".join(names[g["system"]])
+        g["system_name"] = " / ".join(names.get(g["system"], [])) or None
+        if not single and any(whole(r) for r in g["rows"]):
+            g["box"] = [r for r in g["rows"] if whole(r)]
+            g["rows"] = [r for r in g["rows"] if not whole(r)]
         values = [r["value"] for r in g["rows"] if r["value"]]
-        g["n"], g["k"], g["range"] = len(g["rows"]), len(values), None
+        g["n"], g["k"], g["range"] = len(g["rows"]), sum(1 for r in g["rows"] if r["value"] or r.get("note")), None
         scale = [s.casefold() for s in EVIDENCE_SCALES.get(g["system"], ())]
         levels = {v.casefold() for v in values}
-        if scale and g["k"] == g["n"] and levels <= set(scale) and len(levels) > 1:
+        if scale and len(values) == g["n"] and levels <= set(scale) and len(levels) > 1:
             ranked = sorted(levels, key=scale.index)
             g["range"] = {"von": EVIDENCE_SCALES[g["system"]][scale.index(ranked[0])],
                           "bis": EVIDENCE_SCALES[g["system"]][scale.index(ranked[-1])]}
-    first = groups[0]["rows"][0]
-    single = len(entries) == 1 and first["outcome"] is None and "key" not in first
     return {"state": "single" if single else "by_outcome", "groups": groups}
 
 
@@ -463,7 +494,11 @@ def legend_of(statements: list[dict], groupings: list[dict], pool, sources: list
     their scheme's order (spec §3.1), a view's sources in the order of its filter. `grades` are the grades the
     boxes carry and `verb_grades` those under which a box writes its verb; where the two are the same (source,
     grade) pairs — compared before tokens() merges a grade word that two schemes share —, every grade writes its
-    verb, the group is the one key `verb_grades` and `grades` is empty, so that no grade is named twice."""
+    verb, the group is the one key `verb_grades` and `grades` is empty, so that no grade is named twice. `bases`
+    are the bases the boxes' supporting claims print beside their grade (spec §3.1), apart from the grades — a
+    basis is no grade —, each its token, its scheme's description and the language they are in, in their
+    scheme's order and once per token and description; present only where a box carries one, as the legend has
+    no key for what the view does not draw."""
     nodes = [n for g in groupings for n in g["nodes"]]
     kinds = {e["kind"] for g in groupings for e in g["edges"]}
     types = {n["type"] for n in nodes}
@@ -471,14 +506,21 @@ def legend_of(statements: list[dict], groupings: list[dict], pool, sources: list
     directions = {n.get("direction") for n in boxes}
     grades: set = set()
     worded: set = set()
+    based: set = set()
     for st in statements:
         claims = pool.claims_for(st["id"])
         sup = [c for c in claims if c["edge"] == "supports"]
         grades |= {(c["source"], c["grade"]) for c in sup if c.get("grade")}
+        based |= {(c["source"], c["basis"]) for c in sup if c.get("basis")}
         if worded_verb(claims, pool.implied):   # the grades under which this box writes its verb
             worded |= {(c["source"], c["grade"]) for c in sup if c.get("grade") and c.get("verb") and pool.implied.get((c["source"], c["grade"])) != c["verb"]}
     order = lambda p: (sources.index(p[0]) if p[0] in sources else len(sources), p[0], pool.grade_rank(*p))
-    return {
+    bases: list[dict] = []
+    for src, token in sorted(based, key=lambda p: (sources.index(p[0]) if p[0] in sources else len(sources), p[0], pool.basis_rank(*p))):
+        key = {"basis": token, "description": pool.basis_of(src, token).get("description"), "lang": pool.entities.get(src, {}).get("lang")}
+        if key not in bases:
+            bases.append(key)
+    return {**({"bases": bases} if bases else {}),
         "forms": [t for t in ("question", "junction", "statement", "aim") if t in types],
         "open": "junction" in types,     # a patient group the reader opened: filled
         "directions": [{"word": w, "glyph": g} for w, g in DIRECTION_GLYPH.items() if w in directions],
@@ -599,9 +641,41 @@ class Pool:
 
     def grade_rank(self, source: str, grade) -> tuple:
         """A grade's place in its source's scheme, the order the box and the legend write (spec §3.1: the table's
-        rows, strongest first, then a grade that fixes no wording); a grade the scheme does not list after them."""
+        rows in the table's order — not strongest first where the table runs from for to against —, then a grade
+        that fixes no wording); a grade the scheme does not list after them."""
         listed = [g.get("grade") for g in self.schemes.get(source, {}).get("grades") or []]
         return (listed.index(grade) if grade in listed else len(listed), str(grade))
+
+    def basis_of(self, source: str, basis) -> dict:
+        """A basis's entry in its own source's grading scheme (`bases`, spec §3.1), or {} for one the scheme does not
+        list — which the validator refuses; the build shows its token as printed and stops at nothing."""
+        return next((b for b in self.schemes.get(source, {}).get("bases") or [] if b.get("basis") == basis), {}) if basis else {}
+
+    def basis_rank(self, source: str, basis) -> tuple:
+        """A basis's place in its source's scheme (`bases`), the order the box and the legend write; one the scheme
+        does not list after them."""
+        listed = [b.get("basis") for b in self.schemes.get(source, {}).get("bases") or []]
+        return (listed.index(basis) if basis in listed else len(listed), str(basis))
+
+    def consensus_words(self, claims: list[dict]) -> list[str]:
+        """What zone 4's expert-consensus state names (docs/publication.md §3, evidence_of `ek_only`): for each
+        supporting claim, the description of its grade where that grade fixes no wording, else of the basis it
+        carries — each read in the claim's own scheme, the token where the scheme describes none —; each once, in
+        the claims' order. Shown, never composed: claims that rest on different things give a word each."""
+        words: list[str] = []
+        for c in claims:
+            if c["edge"] != "supports":
+                continue
+            grade = self.grade_of(c["source"], c.get("grade"))
+            if grade and not grade.get("verb"):
+                word = grade.get("description") or c["grade"]
+            elif c.get("basis"):
+                word = self.basis_of(c["source"], c["basis"]).get("description") or c["basis"]
+            else:
+                continue
+            if word not in words:
+                words.append(word)
+        return words
 
     def wording_of(self, source: str, verb) -> dict:
         """The scheme entry a claim's verb is read in (spec §3.1): the grade of its own source's scheme that gives
@@ -623,11 +697,14 @@ class Pool:
     def badge_words(self, badge: dict) -> dict:
         """The source's own words for a badge (badge_of), read in the grading scheme of the badge's source: `grade`,
         the description of a grade that fixes no wording — an expert consensus, whose token abbreviates it (spec
-        §3.1) — and none for a graded one, which the card names by its token in its own frame (`grade`); `consensus`,
-        the name of the class as the scheme prints it, else the value as stored."""
+        §3.1) — and none for a graded one, which the card names by its token in its own frame (`grade`); `basis`,
+        the description of the basis it prints beside its grade (`bases`), else its token, and none without one —
+        the token itself stays on the box's stamp; `consensus`, the name of the class as the scheme prints it, else
+        the value as stored."""
         g = self.grade_of(badge["source"], badge.get("grade"))
         cls = next((k for k in self.schemes.get(badge["source"], {}).get("consensus") or [] if k.get("class") == badge.get("consensus")), {})
         return {"grade": g.get("description") if g and not g.get("verb") else None,
+                "basis": (self.basis_of(badge["source"], badge["basis"]).get("description") or badge["basis"]) if badge.get("basis") else None,
                 "consensus": cls.get("name") or badge.get("consensus")}
 
     def no_key(self, c: dict) -> tuple:
@@ -701,14 +778,19 @@ class Pool:
             link = source_link(link, page, claim["source"]["quote"])
         row = {k: claim.get(k) for k in ("id", "kind", "recommendation_no", "section", "label", "grade", "verb", "direction", "consensus",
                                          "consensus_share", "evidence", "lang")}
+        if claim.get("basis"):   # what the box prints beside its grade (spec §3.1); only where the claim carries one
+            row["basis"] = claim["basis"]
         row.update({"quote": claim["source"]["quote"], "page": page, "source": src_id, "source_title": src.get("title"), "source_short": src.get("short_label"), "source_lang": src.get("lang"), "link": link})
-        # the claim read in its grading scheme (spec §3.1): whether its verb is the wording of an open grade; the verb as
-        # the sentence says it — the wording, or for a claim against the negated form the scheme prints, never the
-        # wording with a word appended, and none where the scheme gives no negated form; whether its grade is one that
-        # fixes no wording (an expert consensus)
+        # the claim read in its grading scheme (spec §3.1). Whether it is open: its grade decides where the scheme makes
+        # the grade one for or one against (never open, whatever its verb) or open (open, with or without a verb), its
+        # verb's wording otherwise — a grade that fixes neither, or no grade. The verb as the sentence says it: the
+        # wording, or for a claim against the negated form the scheme prints — its own grade's entry where that entry
+        # gives the claim's verb, else the entry the verb is read in —, never the wording with a word appended, and
+        # none where the scheme gives no negated form. Whether its grade is one that fixes no wording (an expert consensus)
         wording, grade = self.wording_of(src_id, claim.get("verb")), self.grade_of(src_id, claim.get("grade"))
-        row["open"] = bool(wording.get("open"))
-        row["says"] = (wording.get("negated") if claim.get("direction") == "against" else claim["verb"]) if claim.get("verb") else None
+        row["open"] = False if grade.get("direction") else True if grade.get("open") else bool(wording.get("open"))
+        said = grade if claim.get("verb") and grade.get("verb") == claim["verb"] else wording
+        row["says"] = (said.get("negated") if claim.get("direction") == "against" else claim["verb"]) if claim.get("verb") else None
         row["unworded"] = bool(grade) and not grade.get("verb")
         for kind, frm, _ in self.inc.get(claim["id"], []):   # what the body text adds to this claim (spec §5)
             if kind in BODY_TEXT and frm in self.entities:
@@ -1224,14 +1306,17 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
         conds, outc = fillers(st, "condition"), sl.get("outcome")
         d = direction_of(claims)
         again = st["id"] in seen   # under two answers (two chapters): one node, hung from both, its aim and relations once
-        # the box reads "✗ EK soll nicht · <short label>" (docs/publication.md §3): the direction's glyph, the
-        # redundancy for a reader who does not see the colour; the grade as printed, in its scheme's order (every
-        # grade when the claims differ — shown, never composed); the verb as a word, only where the grades do not
-        # already carry it — some supporting claim's grade does not determine its verb in its scheme
-        # (implied_verbs) — and never when the claims disagree on it; then the short form
+        # the box reads "✗ EK soll nicht · <short label>", "✓ ⇑ EK · <short label>" (docs/publication.md §3): the
+        # direction's glyph, the redundancy for a reader who does not see the colour; the grade as printed, in its
+        # scheme's order (every grade when the claims differ — shown, never composed); the basis printed beside it,
+        # as printed, after the grade as the box prints it, in its scheme's order (every basis the claims carry); the
+        # verb as a word, only where the grades do not already carry it — some supporting claim's grade does not
+        # determine its verb in its scheme (implied_verbs) — and never when the claims disagree on it; then the short form
         letters = "/".join(tokens(sorted(grades, key=lambda p: (p[0], pool.grade_rank(*p)))))
+        bases = {(c["source"], c["basis"]) for c in claims if c["edge"] == "supports" and c.get("basis")}
+        based = "/".join(tokens(sorted(bases, key=lambda p: (p[0], pool.basis_rank(*p)))))
         verb = verb_of(claims)
-        stamp = " ".join(filter(None, [d["glyph"] if d else None, letters, worded_verb(claims, pool.implied)]))
+        stamp = " ".join(filter(None, [d["glyph"] if d else None, letters, based, worded_verb(claims, pool.implied)]))
         sid = add(st["id"], ref=st["id"], type="statement", lang=st["lang"],
                   label=(stamp + " · " if stamp else "") + (st.get("short_label") or st["label"]), full=st["label"],
                   direction=d["word"] if d else None, verb=verb, facets=sorted({f for f in (facet(c) for _, c in pool.filled(st)) if f}),
@@ -1487,6 +1572,9 @@ def main(argv=None) -> int:
         d["origin_of_all"] = origin_of_all
         if t == "statement":
             d["card"] = card_of(ent)
+            # zone 4's expert-consensus state names what each supporting claim rests on, in its scheme's words; read
+            # here for the template, not stored in the card, whose `evidenz` keeps its state alone
+            d["consensus_words"] = pool.consensus_words(pool.claims_for(ent["id"])) if d["card"]["evidenz"]["state"] == "ek_only" else []
         elif t == "concept":
             # the statements that hold the concept, each under the name of its slot: the card's own word for
             # the card's slots, the axis's short label for a slot a dimension axis adds — never a slot key
