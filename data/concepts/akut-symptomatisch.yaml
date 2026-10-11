@@ -1,0 +1,10 @@
+# A concept of card #378 (C5), sections 6.6–6.8 of sources/vorhofflimmern-lf-1.1.
+# 6.15's „akutem symptomatischem AF“ (p. 65), defined on p. 64, l. 66: „Unter „akut symptomatisch“ ist AF gemeint, das
+# weniger als 36 h besteht.“ Derived, its defined_by edge reaching that claim (owner C5). Narrower than
+# concepts/symptomatisch, which it does not replace.
+id: concepts/akut-symptomatisch
+type: concept
+lang: de
+label: "akut symptomatisch"
+facet: patient_state
+source: modelling
