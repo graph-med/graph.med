@@ -108,10 +108,12 @@ rules a document schema cannot state because they span files:
 
 With --verify-quotes it also downloads each source (hash-checked, cached) and
 verifies every quote is a verbatim passage of `pdftotext -layout` on the cited
-physical page, read as spec §6.2 reads it: a line runs on to the next line of
-its column, a line break reads as a space, and a hyphen at a line end either
-joins the word it breaks or stays with the compound it belongs to
-(`page_reading`, `quote_pattern`); that it lies there on whole words,
+physical page, read as spec §6.2 reads it: a line parts where its columns
+part, and a line set in justified type stays one inside its column
+(`line_pieces`); a line runs on to the next line of its column, a line break
+reads as a space, and a hyphen at a line end either joins the word it breaks
+or stays with the compound it belongs to (`page_reading`, `quote_pattern`);
+that it lies there on whole words,
 neither starting nor ending inside a word of the page (`locate`); and that a
 claim's quote lies there once, counted the way the link's search counts
 (`places`): pdf.js ignores case, matches inside a word too, and lands on the
@@ -1005,15 +1007,16 @@ BREAK = "\x00"   # in a page's reading: a line break after a hyphen, which a quo
 
 def page_reading(text: str) -> str:
     """A page's `pdftotext -layout` text as a quote reads it (spec §6.2): its lines run on in columns. Each line is
-    cut into pieces at runs of two or more spaces, so that the columns of a box or a table stay apart. A piece runs on
-    to the first later line with text under it, when that text starts in the piece's column or lies within its width
-    (a centred line); otherwise it ends there. A line break reads as a space, except after a hyphen, where it is
-    marked: whether that hyphen breaks a word or belongs to it is a reading of the page, which the quote states
-    (`quote_pattern`). Every run of pieces is one line of the result, so a quote never crosses from one into the
-    next, and every piece lies in exactly one run: a quote on one line of the text, inside one column, lies in the
-    reading too. No column, word or hyphen of any source is named here."""
+    cut into pieces where its columns part, so that the columns of a box or a table stay apart, and a line set in
+    justified type stays one piece inside its column (`line_pieces`). A piece runs on to the first later line with
+    text under it, when that text starts in the piece's column or lies within its width (a centred line); otherwise
+    it ends there. A line break reads as a space, except after a hyphen, where it is marked: whether that hyphen
+    breaks a word or belongs to it is a reading of the page, which the quote states (`quote_pattern`). Every run of
+    pieces is one line of the result, so a quote never crosses from one into the next, and every piece lies in
+    exactly one run: a quote on one line of the text, inside one column, lies in the reading too. No column, word or
+    hyphen of any source is named here."""
     lines = text.replace("\f", "").split("\n")
-    pieces = [[(m.start(), m.end(), m.group()) for m in re.finditer(r"\S+(?: \S+)*", line)] for line in lines]
+    pieces = line_pieces(lines)
     after: dict[tuple[int, int], tuple[int, int]] = {}
     for i, row in enumerate(pieces):
         for k, (start, end, _) in enumerate(row):
@@ -1036,6 +1039,36 @@ def page_reading(text: str) -> str:
                 node = after.get(node)
             runs.append(run)
     return "\n".join(runs)
+
+
+def line_pieces(lines: list[str]) -> list[list[tuple[int, int, str]]]:
+    """Each line's pieces as a quote reads them (spec §6.2): (start column, end column, text). A line is cut at runs
+    of two or more spaces, where the columns of a box or a table part; a line set in justified type has such runs
+    between its words as well. So two neighbouring pieces of a line are one, read with one space between them, where
+    the gap between them lies inside one column of its block (the lines between two blank lines): another line of
+    the block runs across the whole gap, and no other line of the block starts a piece inside it, up to where the
+    second piece starts. Both are read off the lines as cut, before any is joined. Neither alone tells a column: a
+    table whose rows stand apart by blank lines has no other row in a row's block to start the next column, and a
+    heading set in one block with a box runs across the gutter beside the box's labels."""
+    cut = [[(m.start(), m.end()) for m in re.finditer(r"\S+(?: \S+)*", line)] for line in lines]
+    block, b = [], 0
+    for row in cut:
+        b += not row
+        block.append(b)
+    pieces = []
+    for i, row in enumerate(cut):
+        others = [p for j, other in enumerate(cut) if j != i and block[j] == block[i] for p in other]
+        groups: list[list[tuple[int, int]]] = []
+        for s, e in row:
+            if groups:
+                end = groups[-1][-1][1]
+                if (any(os <= end and oe >= s for os, oe in others)
+                        and not any(end < os <= s for os, _ in others)):
+                    groups[-1].append((s, e))
+                    continue
+            groups.append([(s, e)])
+        pieces.append([(g[0][0], g[-1][1], " ".join(lines[i][s:e] for s, e in g)) for g in groups])
+    return pieces
 
 
 def quote_pattern(quote: str) -> re.Pattern:
