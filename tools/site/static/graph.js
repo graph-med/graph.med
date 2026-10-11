@@ -14,10 +14,17 @@
    view is a shareable link.
    The legend under the graph keys what the view draws, open on a wide screen and a
    pill on a phone.
-   Data: the #graph-data JSON written by tools/build.py, one tree per grouping. */
+   Data: the #graph-data JSON written by tools/build.py, one tree per grouping. Words: what
+   this script writes outside the graph — the counter, the chapter panel, the failure, the
+   strip's close label — is the page chrome's, read from the page (#graph's data-words,
+   #sheet's data-close), so that no word is written here. */
 (function () {
   "use strict";
   var legend = document.getElementById("legend"), sheet = document.getElementById("sheet");
+  var words = JSON.parse(document.getElementById("graph").dataset.words || "{}");
+  /* a word with its blanks filled ("{n} …"), and of a pair the form its count takes (`one` for 1, else `many`) */
+  function say(text, values) { return text.replace(/\{(\w+)\}/g, function (m, k) { return k in values ? String(values[k]) : m; }); }
+  function pair(p, n) { return n === 1 ? p.one : p.many; }
   var home = sheet.innerHTML;
   var data = JSON.parse(document.getElementById("graph-data").textContent);
   var chapters = document.getElementById("chapters"), chaptersToggle = document.getElementById("chapters-toggle");
@@ -27,7 +34,7 @@
   if (!data.groupings.some(function (g) { return g.axis === by; })) by = first;   /* an unknown axis in the link: the first grouping */
   data.groupings.forEach(function (g) { var o = document.createElement("option"); o.value = g.axis; o.textContent = g.label; o.lang = g.lang; axisSel.appendChild(o); });
   axisSel.value = by; axisSel.hidden = data.groupings.length < 2;   /* a single grouping needs no switch */
-  function fail(msg) { legend.textContent = "The graph could not be drawn: " + msg; }
+  function fail(msg) { legend.textContent = say(words.failed, { message: msg }); }
 
   /* the legend: open on a wide screen, collapsed on a phone, at every load — nothing is remembered. The pill
      toggles the panel above it; the zoom does not follow, the fit button does (the free row is re-read) */
@@ -180,7 +187,7 @@
       if (mark) { var m = document.createElement("span"); m.className = "contested"; Array.prototype.forEach.call(mark.childNodes, function (n) { m.appendChild(n.cloneNode(true)); });   /* the glyph keeps its own span and weight */ verdict.appendChild(document.createTextNode(" · ")); verdict.appendChild(m); }
       text.appendChild(t); if (verdict.firstChild) text.appendChild(verdict);
       peek.appendChild(sw); peek.appendChild(text);
-      close.type = "button"; close.className = "peek-close"; close.setAttribute("aria-label", "close the details"); close.textContent = "✕";
+      close.type = "button"; close.className = "peek-close"; close.setAttribute("aria-label", sheet.dataset.close || ""); close.textContent = "✕";
       bar.appendChild(peek); bar.appendChild(close);
       sheet.insertBefore(bar, sheet.firstChild);
       sheet.classList.add("peeking");
@@ -199,7 +206,7 @@
 
   function draw() {
   var tree = data.groupings.filter(function (g) { return g.axis === by; })[0];
-  if (typeof cytoscape !== "function") throw new Error("library missing");
+  if (typeof cytoscape !== "function") throw new Error(words.missing);
   if (typeof cytoscapeDagre === "function") cytoscape.use(cytoscapeDagre);
 
   /* the search compares folded text: no case, no diacritics ("osophagus" finds Ösophagus), ß as ss */
@@ -450,12 +457,15 @@
       var n = statementsIn(e.section).length;
       var b = document.createElement("button"); b.type = "button"; b.dataset.section = e.section;
       b.innerHTML = '<span class="sec">' + e.section + '</span><span lang="' + (data.lang || "") + '">' + e.title.replace(/&/g, "&amp;").replace(/</g, "&lt;") + '</span><span class="n">' + (n || "") + "</span>";
-      if (!n) { b.classList.add("empty"); b.disabled = true; b.title = "no recommendation extracted from this section"; }
+      if (!n) { b.classList.add("empty"); b.disabled = true; b.title = words.chapters.empty; }
       return b;
     }
     var lists = { "": document.createElement("ul") };
     var all = document.createElement("button"); all.type = "button"; all.className = "all active"; all.dataset.section = "";
-    all.innerHTML = '<span class="sec">all</span><span>' + statements.length + " recommendations</span>";
+    var allSec = document.createElement("span"), allN = document.createElement("span");
+    allSec.className = "sec"; allSec.textContent = words.chapters.all;
+    allN.textContent = say(pair(words.chapters.recommendations, statements.length), { n: statements.length });
+    all.appendChild(allSec); all.appendChild(allN);
     chapters.appendChild(all);   /* fixed at the top of the panel; the sections scroll below it */
     var list = document.createElement("div"); list.className = "list"; list.appendChild(lists[""]); chapters.appendChild(list);
     outline.forEach(function (e) {
@@ -480,15 +490,13 @@
   }
 
   /* the search: a soft highlight — matches keep their colour, everything else fades but
-     stays; groups holding a match unfold; the counter reads "n matches in m sections".
+     stays; groups holding a match unfold; the counter counts the matches and the sections they lie in.
      Stepping — the arrows beside the box, ↓ and ↑ while it has focus — walks the visible
-     matches in graph order and selects each as a tap would; the counter then reads
-     "i of n matches in m sections" until the query changes */
+     matches in graph order and selects each as a tap would; the counter then leads with
+     the reader's place among the matches until the query changes */
   var query = "", facet = "", cursor = null;   /* cursor: the id of the match the reader stepped to */
   var stepBox = document.getElementById("step");
-  while (facetSel.options.length > 1) facetSel.remove(1);
-  (data.facets || []).forEach(function (f) { var o = document.createElement("option"); o.value = f; o.textContent = f.replace("_", " "); facetSel.appendChild(o); });
-  facetSel.hidden = !(data.facets || []).length;
+  facetSel.hidden = facetSel.options.length < 2;   /* its entries are the page's: each facet the view draws, by its word */
   function matches() {   /* the search text and the facet filter compose; either alone is a query */
     if (!query && !facet) return cy.collection();
     return scope().nodes().filter(function (n) {   /* a node matches by its own text or by the answer that leads to it — a condition is an edge */
@@ -517,12 +525,13 @@
     return out;
   }
   function position(list) { for (var i = 0; i < list.length; i++) if (list[i].id() === cursor) return i; return -1; }
-  function counter() {   /* "n matches in m sections" — with the reader's place first, "i of n", once they have stepped */
+  function counter() {   /* n matches in m sections — with the reader's place first, i of n, once they have stepped; the words and their pairs the page's */
     var m = matches().not(".folded");
     var st = m.filter("[type = 'statement']").union(m.not("[type = 'statement']").neighborhood("node[type = 'statement']")), secs = {};
     st.forEach(function (n) { n.data("sections").forEach(function (s) { secs[s] = 1; }); });
     var n = m.length, k = Object.keys(secs).length, i = cursor ? position(ordered()) : -1;
-    count.textContent = (i >= 0 ? (i + 1) + " of " : "") + n + (n === 1 ? " match" : " matches") + " in " + k + (k === 1 ? " section" : " sections");
+    var S = words.search;
+    count.textContent = say(S.counter, { matches: say(i >= 0 ? pair(S.at, n) : pair(S.matches, n), { i: i + 1, n: n }), sections: say(pair(S.sections, k), { k: k }) });
   }
   /* a step selects the next (or previous) visible match as a tap would — the sheet opens, the graph fits to it —
      and wraps at both ends; the fading stays as it is. Only visible matches are stepped: research() has unfolded

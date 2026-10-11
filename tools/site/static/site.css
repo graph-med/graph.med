@@ -166,6 +166,14 @@ button.copy { font: inherit; font-style: normal; font-size: .72rem; padding: 0 .
 button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: var(--fg); }
 .cite { font-size: .85rem; color: var(--mute); }
 .sheet .hint { margin: 0 0 .5rem; font-size: .85rem; color: var(--mute); }   /* the home text's one hint: where the details appear */
+/* the hint's verb follows the reader's pointer, chosen here and by no script: the touch sentence by default — the
+   page is read on a phone first —, the pointer one where a fine pointer can hover. Hidden by display: none, so a
+   screen reader reads only the sentence shown */
+.sheet .hint.pointer { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .sheet .hint.touch { display: none; }
+  .sheet .hint.pointer { display: block; }
+}
 .node-link { min-height: 44px; display: inline-flex; align-items: center; }   /* touch target */
 
 /* wide screens: the graph fills the height, the details sit beside it as a column */

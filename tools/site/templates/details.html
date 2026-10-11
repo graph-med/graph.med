@@ -252,7 +252,9 @@
 <p class="kind">{{ W("type.source") }}</p>
 <p class="label">{{ e.title }}</p>
 <p><a href="{{ e.url }}" target="_blank" rel="noopener">{{ e.url }}</a></p>
-<p><small>{{ e.license }}</small></p>
+{# the licence line as recorded, in the source's words, and beside it the page chrome's note that the document is
+   linked, never served (docs/publication.md §5) — in the page language, inside a card in the source's #}
+<p><small>{{ e.license }} — <span class="licence-note" lang="{{ page_lang }}">{{ page.source.licence_note }}</span></small></p>
 <p><small>{{ e.content_hash }}{% if e.awmf_register %} · AWMF {{ e.awmf_register }}{% endif %} · {{ W("source.claims", claim_count).format(n=claim_count) }}</small></p>
 </div>
 {% elif e.type == "axis" %}

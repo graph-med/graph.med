@@ -1,28 +1,36 @@
 {% extends "base.html" %}
 {% block title %}{{ vid }} — graph.med{% endblock %}
-{% block description %}{{ title }} · {{ counts.statement }} statements · {{ counts.concept }} concepts · {{ counts.claim }} claims{% endblock %}
+{# a count and its word, the pair chosen by the count (`one` for 1, else `many`), as on the index #}
+{% macro n(key, count) %}{{ count }} {{ page.view.counts[key].one if count == 1 else page.view.counts[key].many }}{% endmacro %}
+{% set counted %}{{ n("statement", counts.statement) }} · {{ n("concept", counts.concept) }} · {{ n("claim", counts.claim) }}{% endset %}
+{% block description %}{{ title }} · {{ counted }}{% endblock %}
 {% block path %}{{ vid }}/{% endblock %}
 {% block mainclass %}view{% endblock %}
 {% block crumbs %}<span class="crumb">{{ vid }}</span>{% endblock %}
 {% block main %}
 <section class="graph-wrap">
-  <div id="graph" role="img" aria-label="{{ title }}"></div>
+  {# the graph is drawn in its source's language; the words the script writes outside it are the page chrome's #}
+  <div id="graph" role="img" aria-label="{{ title }}" lang="{{ sources[0].lang }}"
+       data-words='{{ {"failed": page.view.failed, "missing": page.view.missing, "search": page.search, "chapters": page.chapters} | tojson }}'></div>
   <div class="controls">
     <div class="tools left">
-      <button type="button" id="chapters-toggle" title="chapters" aria-controls="chapters" aria-expanded="false">§</button>
-      <input type="search" id="search" placeholder="search" aria-label="search the graph" autocomplete="off">
-      <span class="step" id="step" hidden><button type="button" id="step-back" title="previous match (↑ in the search box)" aria-label="previous match">↑</button><button type="button" id="step-next" title="next match (↓ in the search box)" aria-label="next match">↓</button></span>
-      <select id="axis" aria-label="group by" title="group by" hidden></select>
-      <select id="facet" aria-label="only concepts of this kind" hidden><option value="">any kind</option></select>
+      <button type="button" id="chapters-toggle" title="{{ page.chapters.label }}" aria-controls="chapters" aria-expanded="false">§</button>
+      <input type="search" id="search" placeholder="{{ page.search.placeholder }}" aria-label="{{ page.search.label }}" autocomplete="off">
+      <span class="step" id="step" hidden><button type="button" id="step-back" title="{{ page.search.back.title }}" aria-label="{{ page.search.back.label }}">↑</button><button type="button" id="step-next" title="{{ page.search.next.title }}" aria-label="{{ page.search.next.label }}">↓</button></span>
+      <select id="axis" aria-label="{{ page.controls.grouping }}" title="{{ page.controls.grouping }}" hidden></select>
+      {# the facet filter's entries are the facets' words in the view's source language, like the switch's (the card's table) #}
+      <select id="facet" aria-label="{{ page.controls.facet.label }}" hidden><option value="">{{ page.controls.facet.any }}</option>
+        {%- for f in facets %}<option value="{{ f.value }}" lang="{{ f.lang }}">{{ f.label }}</option>{% endfor -%}
+      </select>
       <span class="count" id="count" hidden></span>
     </div>
     <div class="tools right">
-      <button type="button" id="fit" title="fit what is open" aria-label="fit what is open"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2.5h4v4M13.5 2.5 9 7M6.5 13.5h-4v-4M2.5 13.5 7 9"/></svg></button>
-      <button type="button" id="reset" title="reset: fold everything, clear the search and the chapter">↺</button>
+      <button type="button" id="fit" title="{{ page.controls.fit }}" aria-label="{{ page.controls.fit }}"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2.5h4v4M13.5 2.5 9 7M6.5 13.5h-4v-4M2.5 13.5 7 9"/></svg></button>
+      <button type="button" id="reset" title="{{ page.controls.reset }}" aria-label="{{ page.controls.reset }}">↺</button>
     </div>
   </div>
   <div class="free" id="free" aria-hidden="true"></div>
-  <nav class="chapters" id="chapters" aria-label="chapters" hidden></nav>
+  <nav class="chapters" id="chapters" aria-label="{{ page.chapters.label }}" hidden></nav>
   {% set W = page.legend %}
   <div class="legend" id="legend" lang="{{ page_lang }}">
     <div class="legend-panel" id="legend-panel" role="group" aria-label="{{ W.label }}" hidden>
@@ -73,13 +81,15 @@
     </button>
   </div>
 </section>
-<section class="sheet" id="sheet" aria-live="polite">
-  <p class="kind">view</p>
+<section class="sheet" id="sheet" aria-live="polite" data-close="{{ page.sheet.close }}">
+  <p class="kind">{{ page.view.kind }}</p>
   <p class="label" lang="{{ sources[0].lang }}">{{ title }}</p>
-  <p class="hint" lang="{{ page_lang }}">{{ page.sheet.hint }}</p>
-  <p class="cite">{{ counts.statement }} statements · {{ counts.concept }} concepts · {{ counts.claim }} claims</p>
-  {% for s in sources %}<p class="cite"><a href="{{ s.url }}" rel="noopener">{{ s.id | short }}</a> · <a href="{{ base }}{{ s.id }}/">source</a> · <small>{{ s.license }}</small></p>{% endfor %}
-  <p class="cite"><a href="{{ base }}{{ vid }}.json">json</a></p>
+  {# the hint in the reader's verb: the touch sentence by default, the pointer one where a fine pointer hovers (site.css) #}
+  <p class="hint touch" lang="{{ page_lang }}">{{ page.sheet.hint.touch }}</p>
+  <p class="hint pointer" lang="{{ page_lang }}">{{ page.sheet.hint.pointer }}</p>
+  <p class="cite">{{ counted }}</p>
+  {% for s in sources %}<p class="cite"><a href="{{ s.url }}" rel="noopener">{{ s.id | short }}</a> · <a href="{{ base }}{{ s.id }}/">{{ page.view.source }}</a> · <small><span lang="{{ s.lang }}">{{ s.license }}</span> — <span class="licence-note" lang="{{ page_lang }}">{{ page.source.licence_note }}</span></small></p>{% endfor %}
+  <p class="cite"><a href="{{ base }}{{ vid }}.json">{{ page.view.json }}</a></p>
 </section>
 <script type="application/json" id="graph-data">{{ graph_json | safe }}</script>
 {% endblock %}

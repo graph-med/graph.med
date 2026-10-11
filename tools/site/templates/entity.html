@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% set e = entity %}
 {% block title %}{{ e.id }} — graph.med{% endblock %}
-{% block description %}{{ e.type }} · {{ (e.label or e.title or e.id) | truncate(200, True, "…") }}{% endblock %}
+{# the description names the entity's type in the page chrome's word; its label is the data's, as stored #}
+{% block description %}{{ page.site.types[e.type] }} · {{ (e.label or e.title or e.id) | truncate(200, True, "…") }}{% endblock %}
 {% block path %}{{ e.id }}/{% endblock %}
 {% block crumbs %}<span class="crumb">{{ e.id }}</span>{% endblock %}
 {% block main %}

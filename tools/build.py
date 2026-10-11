@@ -72,9 +72,11 @@ DIRECTION_GLYPH = {"für": "✓", "gegen": "✗", "abwägen": "⚖\ufe0e", "Lüc
 # A system not in the table is a valid state that costs the range, never the build. A display order,
 # not a fact about the world, which is why it lives here and not in the schema (WP-0025).
 EVIDENCE_SCALES = {"grade": ("hoch", "moderat", "niedrig", "sehr niedrig")}
-# The language of the page's own chrome — the legend, and the hint on the sheet's home — chosen for the reader,
-# not by the data (docs/publication.md §3, "Language"). Its words are the view layer's: one table per language
-# under tools/site/words/, read here and never copied into assets/; this file holds no word of it.
+# The language of the page's own chrome — every word a page adds outside the graph and the card: the legend, the
+# controls, the sheet's home, the header and footer, the index's words, the note beside a licence line, `<html lang>`
+# — chosen for the reader, not by the data (docs/publication.md §3, "Language"). Its words are the view layer's: one
+# table per language under tools/site/words/, read here, handed to every page and never copied into assets/; this
+# file holds no word of it.
 PAGE_LANG = "de"
 CARD_SLOTS = ("population", "condition", "action")   # the rows of zone 5 "Gilt für", in order; `outcome` is the dimension the certainty varies along (zone 4), not a row here
 # The only words the build adds inside the graph, in the view's source language (docs/publication.md §3):
@@ -1243,6 +1245,10 @@ def main(argv=None) -> int:
                        version=schema.get("x-version"), repo=REPO, repository_license=REPOSITORY_LICENSE,
                        preview={"number": args.preview, "url": f"{REPO}/pull/{args.preview}"} if args.preview else None)
     env.filters["short"] = lambda eid: eid.split("/", 1)[-1]
+    # the page chrome's words and their language, for every page — the index, each view and each entity page, and
+    # the sections a view embeds — so that each declares its language and its chrome reads from the one table
+    words = page_words(PAGE_LANG)
+    env.globals.update(page=words, page_lang=PAGE_LANG)
     env.globals["badge_words"] = pool.badge_words   # a badge's words, from its source's grading scheme (spec §3.1)
     # the banner's text (docs/publication.md §3, §4), defined once in banner.html: the same string goes into
     # index.json, llms.txt and every entity JSON's meta as `disclaimer`
@@ -1528,9 +1534,8 @@ def main(argv=None) -> int:
         if ent["type"] == "view":
             continue
         d = details(ent)
-        page = out / eid
-        page.mkdir(parents=True, exist_ok=True)
-        (page / "index.html").write_text(entity_tpl.render(**d), encoding="utf-8")
+        (out / eid).mkdir(parents=True, exist_ok=True)
+        (out / eid / "index.html").write_text(entity_tpl.render(**d), encoding="utf-8")
         doc = {**ent, "edges": edges_json(eid), **({"card": d["card"]} if "card" in d else {}),
                **({k: d[k] for k in ("derivation", "rule")} if "derivation" in d else {}),
                **(walk_of(eid) if ent["type"] == "concept" else {})}
@@ -1539,7 +1544,6 @@ def main(argv=None) -> int:
     views = []
     machine = []   # each view's entry in index.json
     view_tpl = env.get_template("view.html")
-    page = page_words(PAGE_LANG)
     for view in sorted(pool.of_type("view"), key=lambda v: v["id"]):
         vid = view["id"].split("/", 1)[1]
         members = memberships[view["id"]]
@@ -1563,9 +1567,14 @@ def main(argv=None) -> int:
         data["legend"] = legend_of([m for m in members.values() if m["type"] == "statement"], groupings, pool, view["filter"]["sources"])   # what the view draws, keyed
         if scope:   # the origin of what the page shows for each concept, own or applying generally, for a reader of the JSON
             data["scope"] = {k: scope[k] for k in ("anchor_slot", "root", "concepts")}
+        # the facet filter's entries: each facet the view draws by its word in the view's source language, like the
+        # switch's entries (docs/publication.md §3 "Language") — the card's table, which knows every facet of the schema
+        view_lang = sources[0]["lang"]
+        facet_word = card_words(view_lang)
+        facets = [{"value": f, "label": facet_word("facet." + f), "lang": view_lang} for f in data["facets"]]
         (out / vid).mkdir(parents=True, exist_ok=True)
         (out / vid / "index.html").write_text(
-            view_tpl.render(view=view, vid=vid, title=title, sources=sources, counts=counts, legend=data["legend"], page=page, page_lang=PAGE_LANG,
+            view_tpl.render(view=view, vid=vid, title=title, sources=sources, counts=counts, legend=data["legend"], facets=facets,
                             graph_json=dumps(data).replace("</", "<\\/")), encoding="utf-8")   # safe inside <script>
         (out / (vid + ".json")).write_text(dumps(data), encoding="utf-8")
         # the view's entry on the index (docs/publication.md §2): what it holds — its recommendations, the patient
@@ -1573,7 +1582,7 @@ def main(argv=None) -> int:
         # — and its sources, each with its register number and licence line; the title in its source's language
         groups = len({n["ref"] for n in groupings[0]["nodes"] if n["type"] == "junction" and n.get("ref")})
         views.append({"id": view["id"], "vid": vid, "title": title, "lang": sources[0].get("lang") if len(sources) == 1 else None, "sources": sources,
-                      "holds": {"statement": counts["statement"], "group": groups, "claim": counts["claim"]}, "path": index_path(sources, page)})
+                      "holds": {"statement": counts["statement"], "group": groups, "claim": counts["claim"]}, "path": index_path(sources, words)})
 
         # the files for programs (docs/publication.md §4 "Files for programs"): a tree file per grouping, the
         # per-view file — the view JSON minus content and minus its groupings, which it lists by their tree
@@ -1599,7 +1608,7 @@ def main(argv=None) -> int:
 
     # the index: the only page where the views meet — one question, a box and an entry per view, the box drawn by
     # assets/home.js from the entry; its words are the page chrome's (tools/site/words/)
-    (out / "index.html").write_text(env.get_template("index.html").render(views=views, page=page, page_lang=PAGE_LANG), encoding="utf-8")
+    (out / "index.html").write_text(env.get_template("index.html").render(views=views), encoding="utf-8")
     # the index for programs and its description (docs/publication.md §2, §4): every view with its files and groupings,
     # at the root of the site and of every preview; llms.txt describes, in English, and instructs nothing
     index = {"commit": commit, "schema": {"version": schema.get("x-version"), "url": at("schema/schema.yaml")},

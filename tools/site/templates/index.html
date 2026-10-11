@@ -6,9 +6,9 @@
    under, its `data-box` parts the box's lines in their order), so the page reads the
    same without the script and with a screen reader, and a tapped box shows its entry alone; each entry's toggle
    selects its box from the keyboard (shown only where the graph is drawn). What the page says about graph.med
-   itself — its title, heading and lead — is English, like the header, the footer and the banner, and bound to no
-   kind of source; every other word the page adds is the page chrome's, from the view layer's table
-   (tools/site/words/); every other word is the data's, in its own language: the source's title as printed, its
+   itself — its title, heading and lead — is English, like the banner, and bound to no kind of source; every other
+   word the page adds is the page chrome's, from the view layer's table (tools/site/words/) — the note beside each
+   licence line among them; every other word is the data's, in its own language: the source's title as printed, its
    register number, its licence. #}
 {% set W = page.index %}
 {% set heading = "An open collaborative medical knowledge graph" %}
@@ -54,7 +54,7 @@
         {% if s.awmf_register %}<span data-box="2">{{ W.awmf_register | replace("{nr}", s.awmf_register) }}</span>{% endif %}
         <a href="{{ base }}{{ s.id }}/">{{ W.source }}</a>
       </p>
-      <p class="entry-licence">{{ s.license }}</p>
+      <p class="entry-licence"><span lang="{{ s.lang }}">{{ s.license }}</span> — <span class="licence-note" lang="{{ page_lang }}">{{ page.source.licence_note }}</span></p>
     {% endfor %}
     </div>
   </li>

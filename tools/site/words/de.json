@@ -37,8 +37,95 @@
     }
   },
   "sheet": {
-    "hint": "Ein Feld im Graphen antippen: hier erscheinen seine Details.",
+    "hint": {
+      "touch": "Ein Feld im Graphen antippen: hier erscheinen seine Details.",
+      "pointer": "Ein Feld im Graphen anklicken: hier erscheinen seine Details."
+    },
     "close": "Details schließen"
+  },
+  "view": {
+    "kind": "Graph",
+    "counts": {
+      "statement": {
+        "one": "Empfehlung",
+        "many": "Empfehlungen"
+      },
+      "concept": {
+        "one": "Begriff",
+        "many": "Begriffe"
+      },
+      "claim": {
+        "one": "Textstelle",
+        "many": "Textstellen"
+      }
+    },
+    "source": "Zur Quelle",
+    "json": "JSON",
+    "failed": "Der Graph konnte nicht gezeichnet werden: {message}",
+    "missing": "Eine Programmbibliothek wurde nicht geladen."
+  },
+  "controls": {
+    "grouping": "Gruppieren nach",
+    "facet": {
+      "label": "Nur Begriffe dieser Art",
+      "any": "Alle Arten"
+    },
+    "fit": "Alles Geöffnete einpassen",
+    "reset": "Zurücksetzen: alles zuklappen, Suche und Kapitel aufheben"
+  },
+  "search": {
+    "placeholder": "Suchen",
+    "label": "Im Graphen suchen",
+    "back": {
+      "label": "Vorheriger Treffer",
+      "title": "Vorheriger Treffer (↑ im Suchfeld)"
+    },
+    "next": {
+      "label": "Nächster Treffer",
+      "title": "Nächster Treffer (↓ im Suchfeld)"
+    },
+    "counter": "{matches} in {sections}",
+    "matches": {
+      "one": "{n} Treffer",
+      "many": "{n} Treffer"
+    },
+    "at": {
+      "one": "{i} von {n} Treffer",
+      "many": "{i} von {n} Treffern"
+    },
+    "sections": {
+      "one": "{k} Abschnitt",
+      "many": "{k} Abschnitten"
+    }
+  },
+  "chapters": {
+    "label": "Kapitel",
+    "all": "alle",
+    "recommendations": {
+      "one": "{n} Empfehlung",
+      "many": "{n} Empfehlungen"
+    },
+    "empty": "Aus diesem Abschnitt ist keine Empfehlung erfasst"
+  },
+  "source": {
+    "licence_note": "verlinkt über die öffentliche URL, nie auf graph.med bereitgestellt"
+  },
+  "site": {
+    "preview": "Vorschau von {link} · nicht die veröffentlichte Website",
+    "preview_link": "Pull-Request #{n}",
+    "share_alt": "graph.med: das Zeichen mit drei Zweigen auf seiner schwarzen Kachel, neben dem Schriftzug",
+    "footer": {
+      "built": "Erstellt aus {commit} am {date}",
+      "schema": "Schema {version}",
+      "repository": "Repository"
+    },
+    "types": {
+      "statement": "Empfehlung",
+      "concept": "Begriff",
+      "claim": "Textstelle",
+      "source": "Quelle",
+      "axis": "Achse"
+    }
   },
   "index": {
     "kinds": {
