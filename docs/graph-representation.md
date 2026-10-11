@@ -1398,17 +1398,19 @@ source that answers its question otherwise (D).
   repetition that adds counts only for what it adds.
 - **G4 decline** — saying that no recommendation, or no value one needs, is
   given is a gap notice, no edge, also where its subject is the evidence:
-  "keine Empfehlung", "weder für noch gegen", a recommendation or a need that
-  "besteht nicht" or "existiert nicht", data that "sprechen gegen eine
-  Empfehlung" or "lassen eine Empfehlung … nicht zu", a "Ermessensspielraum"
-  left to the reader; referring to another work instead is N4. Saying the
-  action is not recommended ("kann nicht empfohlen werden") is against it;
-  saying only what is unknown ("unklar", "keine Studien") is N2. A need or
-  an indication denied is read by its verb, never by the noun: where the
-  verb says that none exists, it is a decline ("besteht … keine Indikation
-  zur Umstellung"); where the guideline itself denies the action one ("sieht
-  … keine Indikation für …"), it judges the action and is against it, as
-  "kann nicht empfohlen werden" is (card #372).
+  "keine Empfehlung", "weder für noch gegen", a recommendation that "besteht
+  nicht" or "existiert nicht", data that "sprechen gegen eine Empfehlung" or
+  "lassen eine Empfehlung … nicht zu", a "Ermessensspielraum" left to the
+  reader; referring to another work instead is N4. Saying the action is not
+  recommended ("kann nicht empfohlen werden") is against it, and so is
+  denying the action an indication or a need, whatever the verb ("besteht …
+  keine Indikation, X fortzusetzen", "sieht … keine Indikation zu X", "X ist
+  nicht indiziert"): the sentence says something about the action, which a
+  decline would drop, and its label keeps its words as printed, so that the
+  reader reads "keine Indikation" and no word of ours for it (the
+  maintainer, 2026-10-11, on the principle that the graph reflects the text:
+  "stay true to it"; card #372). Saying only what is unknown ("unklar",
+  "keine Studien") is N2.
 - **D `disagrees_with`** — it answers a term, case or action of the
   recommendation otherwise than the recommendation itself prints it: another
   value, time or rating, a rating in other words included, or a group the
