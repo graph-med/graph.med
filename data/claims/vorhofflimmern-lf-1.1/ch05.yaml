@@ -374,6 +374,36 @@
   source:
     at: sources/vorhofflimmern-lf-1.1#page=39
     quote: "Tabelle 9: HAS-BLED Score zur Risikoeinstufung des Blutungsrisikos bei Vorhofflimmern."
+# Section 5.2, Begründung (p. 39, l. 50–52): another instrument for 5.2's estimate, in the guideline's voice — R to 5.2
+# (#365 reading 2). Body text: no grade, no number (§5.1 K). The reference mark after „NICE“ is left out.
+- id: claims/vorhofflimmern-lf-1.1/aa5ab18c
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.2"
+  label: "Der von NICE favorisierte ORBIT-Score ist nach Einschätzung der Leitliniengruppe in der Versorgung in Deutschland nicht ausreichend bekannt und etabliert, kann aber ebenfalls genutzt werden."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "favorisierte ORBIT-Score ist nach Einschätzung der Leitliniengruppe"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=39, quote: "kann aber ebenfalls genutzt werden."}
+# Section 5.2, Begründung (p. 39, l. 54–57): what the guideline stresses, read as a recommendation against forgoing
+# anticoagulation for a raised bleeding score — an action no box of section 5.2 names (5.2 estimates the risk): §5.1 U, a
+# claim without an edge and in no statement (#365 reading 5). The sentence's first half, the reason for the grade, is N2.
+- id: claims/vorhofflimmern-lf-1.1/ff95b3ec
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.2"
+  label: "Da keine vergleichenden Studien zwischen den einzelnen Instrumenten vorliegen, spricht die Leitliniengruppe insgesamt einen abgeschwächten Empfehlungsgrad aus und betont ausdrücklich, dass aufgrund der moderaten Vorhersagegenauigkeit der zur Verfügung stehenden \"Blutungs\"-Scores ein erhöhter Risiko-Score in der Regel nicht zu einem Verzicht einer oralen Antikoagulation führt."
+  direction: against
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=39
+    quote: "ein erhöhter Risiko-Score in der Regel nicht zu einem Verzicht einer oralen Antikoagulation führt"
+  provenance:
+    direction: {at: sources/vorhofflimmern-lf-1.1#page=39, quote: "ein erhöhter Risiko-Score in der Regel nicht zu einem Verzicht einer oralen Antikoagulation führt"}
 # Box 5.3 (p. 40, l. 6–17), in section 5.3: one sentence, ⇑⇑, „Konsensstärke: 96,8%“; „sollen“ is the wording soll. The
 # label keeps the print: „anderer thromboembolischer Komplikationen“ and the mixed quotation marks around „shared decision
 # making“ (#314 Decision 4); the quote is cut before them, the closing mark being an ASCII one (spec §6.2). Patients and
@@ -401,6 +431,18 @@
     verb: {at: sources/vorhofflimmern-lf-1.1#page=40, quote: "anderer thromboembolischer Komplikationen sollen Patient*innen mit AF"}
     evidence:
       - {at: sources/vorhofflimmern-lf-1.1#page=40, quote: "Schlaganfallreduktion:"}
+# Section 5.3, Begründung (p. 40, l. 23–24): rates the evidence of 5.3's row otherwise than the box („hoher“ against
+# „moderat“): a fact claim joined to 5.3's claim by disagrees_with and nothing else (spec §3.1, §5.1 D and N2; #341;
+# #365 Decision 6). Its subject is the evidence; N2's exception admits it.
+- id: claims/vorhofflimmern-lf-1.1/fbb59b97
+  type: claim
+  lang: de
+  kind: fact
+  section: "5.3"
+  label: "Prinzipiell liegt Evidenz von hoher Aussagesicherheit für die Wirksamkeit einer oralen Antikoagulation zur Reduktion des Schlaganfallrisikos vor."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=40
+    quote: "Prinzipiell liegt Evidenz von hoher Aussagesicherheit für die Wirksamkeit"
 # Box 5.4 (p. 40, l. 40–52), in section 5.3.1: the lead-in „Orientierend sollen für die Therapieentscheidung zur
 # Antikoagulation folgende Werte herangezogen werden:“ is no claim; each item is a full sentence with its own „soll“, a
 # claim labelled as printed, both statements keeping „Orientierend“ (spec §3.1; #325). ⇑⇑, „Konsensstärke: 100%“, and
@@ -467,6 +509,22 @@
     consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=40, quote: "Konsensstärke: 100%"}
     evidence:
       - {at: sources/vorhofflimmern-lf-1.1#page=40, quote: "Schlaganfallreduktion:"}
+# Section 5.3.1, Begründung (p. 41, l. 31–32): the score 0, which box 5.4 does not name — no indication for oral
+# anticoagulation, read as against it, for a group no box of the section names: §5.1 U, a claim without an edge and in no
+# statement (#365 reading 1). The bound stays in the label. Its neighbours restate 5.4 (l. 29–30, 34–36: G3) or report a
+# study (l. 36–40: G2) and stay on the page.
+- id: claims/vorhofflimmern-lf-1.1/584bf7e3
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.3.1"
+  label: "Bei einem CHA2DS2-VA Score von 0 schätzt sie den Nutzen einer oralen Antikoagulation als so gering ein, dass sie keine Indikation für eine orale Antikoagulation aufgrund des Blutungsrisikos unter dieser Therapie sieht."
+  direction: against
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=41
+    quote: "Bei einem CHA2DS2-VA Score von 0 schätzt sie den Nutzen einer oralen"
+  provenance:
+    direction: {at: sources/vorhofflimmern-lf-1.1#page=41, quote: "keine Indikation für eine orale Antikoagulation"}
 # Box 5.5 (p. 41, l. 48–58), in section 5.3.2: one sentence, ⇑⇑, „Konsensstärke: 100%“. Its evidence block, in printed
 # order (spec §3.1; #326; #365 Decision 5): the box's own rating „Moderat“ on the heading line (l. 52), no outcome or key,
 # its capital kept, its system that of the box's rated row, whose ⊕ line is quoted after the rows' quotes; then the row
@@ -498,6 +556,65 @@
       - {at: sources/vorhofflimmern-lf-1.1#page=41, quote: "Schwere Blutungen,"}
       - {at: sources/vorhofflimmern-lf-1.1#page=41, quote: "Hirnblutungen:"}
       - {at: sources/vorhofflimmern-lf-1.1#page=41, quote: "moderat ⊕⊕⊕⊝ bis gering ⊕⊕⊝⊝"}
+# Section 5.3.2, Begründung (p. 41, l. 63–66): rates the evidence for severe and intracranial bleeding „moderater“, where
+# box 5.5's row prints „moderat … bis gering“: a fact claim joined to 5.5's claim by disagrees_with (spec §5.1 D and N2;
+# #365 Decision 6, the maintainer on #326). The reference marks are left out of the label.
+- id: claims/vorhofflimmern-lf-1.1/59501365
+  type: claim
+  lang: de
+  kind: fact
+  section: "5.3.2"
+  label: "In den Zulassungsstudien der DOAK (direkte orale Antikoagulanzien) zeigte das jeweils untersuchte DOAK gegenüber Warfarin eine Überlegenheit in Bezug auf schwere und insbesondere intrakranielle Blutungen bei moderater Aussagesicherheit (intrakranielle Blutungen: OR 0.50, 95% KI 0.42 - 0.59); n=12 Studien; n=66,259 Teilnehmende; I2 = 55%."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=41
+    quote: "insbesondere intrakranielle Blutungen bei moderater Aussagesicherheit"
+# Section 5.3.2 (p. 42, l. 20–23): a decline sharing 5.5's question — „keine Empfehlung … auszusprechen“ (§5.1 G4): a gap
+# notice without an edge (#365 Decision 7). It departs „im Gegensatz zu anderen internationalen Leitlinien“, named.
+- id: claims/vorhofflimmern-lf-1.1/9d5b4b22
+  type: claim
+  lang: de
+  kind: gap_notice
+  section: "5.3.2"
+  label: "Die Leitliniengruppe hat sich daher dazu entschieden, im Gegensatz zu anderen internationalen Leitlinien keine Empfehlung für den Einsatz der direkten oralen Antikoagulanzien als Erstlinientherapie bei der oralen Antikoagulation von AF auszusprechen, sondern die Entscheidung, ob ein DOAK oder Phenprocoumon eingesetzt wird, den behandelnden Ärzt*innen und Patient*innen zu überlassen."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=42
+    quote: "keine Empfehlung für den Einsatz der direkten oralen Antikoagulanzien als"
+# Section 5.3.2 (p. 42, l. 23–24): a measure beside the choice of 5.5 when the choice is phenprocoumon — S to 5.5
+# (#365 reading 10). „muss“ is no declared wording: no verb.
+- id: claims/vorhofflimmern-lf-1.1/bface3c7
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.3.2"
+  label: "Bei der Behandlung mit Phenprocoumon muss allerdings auf eine qualitativ hochwertige Einstellung mit einer hohen TTR geachtet werden."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=42
+    quote: "Bei der Behandlung mit Phenprocoumon muss allerdings auf eine qualitativ"
+# Section 5.3.2 (p. 42, l. 28–30): an indication that „besteht … nicht“, a decline by §5.1 G4's wording, sharing 5.5's
+# question: a gap notice without an edge (#365 reading 10; the other reading, against switching, L to 5.5, is the
+# physician's). „fragil, älter“ stays undelimited, as printed.
+- id: claims/vorhofflimmern-lf-1.1/23233a47
+  type: claim
+  lang: de
+  kind: gap_notice
+  section: "5.3.2"
+  label: "Nach Ansicht der Leitliniengruppe besteht daher bei stabil auf VKA eingestellten fragilen, älteren Patient*innen ohne relevanten Grund keine Indikation zur Umstellung auf DOAK."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=42
+    quote: "keine Indikation zur Umstellung auf DOAK"
+# Section 5.3.2 (p. 42, l. 30–31): a further consideration of 5.5's „unter Berücksichtigung …“ — R to 5.5 (#365
+# reading 10). No declared wording: no verb.
+- id: claims/vorhofflimmern-lf-1.1/11b1cde6
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.3.2"
+  label: "Andererseits gilt es im klinischen Alltag, die einfachere Handhabung der DOAK ohne erforderliche engmaschige INR-Kontrollen zu berücksichtigen."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=42
+    quote: "die einfachere Handhabung der DOAK ohne erforderliche engmaschige INR-Kontrollen"
 # Box 5.6 (p. 42, l. 43–47), in section 5.3.3: one sentence, ⇑⇑ with „EK“ beside it (a basis, #323), „Konsensstärke:
 # 100%“. „Antikoagulantien“ as printed (#314 Decision 4). 5.6 and 5.7 share one „Empfehlung“ heading and one Begründung,
 # which is body text of section 5.3.3, read against both (#325 Decision 2).
@@ -540,6 +657,19 @@
     grade: {at: sources/vorhofflimmern-lf-1.1#page=42, quote: "⇑⇑"}
     basis: {at: sources/vorhofflimmern-lf-1.1#page=42, quote: "EK"}
     consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=42, quote: "Konsensstärke: 100%"}
+# Section 5.3.3, Begründung (p. 42, l. 59–61): the step after 5.6's check — S to 5.6 (#365 reading 11). The referral that
+# follows (l. 61–63) is N4; p. 43, l. 19–21 restates 5.7 (G3; #365 reading 11); the rest reports studies (G2) or gives
+# reasons (N2).
+- id: claims/vorhofflimmern-lf-1.1/867e7d10
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.3.3"
+  label: "In Abhängigkeit von der Kreatinin-Clearance muss gegebenenfalls eine Dosisanpassung erfolgen, um einerseits vermehrte Blutungen zu verhindern und andererseits einen optimalen Schutz vor thromboembolischen Ereignissen zu gewährleisten."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=42
+    quote: "In Abhängigkeit von der Kreatinin-Clearance muss gegebenenfalls eine Dosisanpassung"
 # Box 5.8 (p. 43, l. 42–50), in section 5.4.1: two sentences, ⇔ (U+21D4 in the text layer), „Konsensstärke: 100%“; the
 # row without a label, „sehr gering ⊕⊝⊝⊝“, one entry without an outcome or a key, on both sentences (each supports a
 # statement of its own). Sentence 1: the open grade's wording kann, read for (#323).
@@ -586,6 +716,67 @@
     consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=43, quote: "Konsensstärke: 100%"}
     evidence:
       - {at: sources/vorhofflimmern-lf-1.1#page=43, quote: "sehr gering ⊕⊝⊝⊝"}
+# Section 5.4.1, Begründung (p. 43, l. 55–57): another group for 5.8's measure — patients for whom anticoagulation is
+# possible, against the box's contraindication: §5.1 D, joined by disagrees_with to 5.8's first claim and to the
+# „langfristig“ printing below, no R, L or S (#365 reading 8).
+- id: claims/vorhofflimmern-lf-1.1/661bdf89
+  type: claim
+  lang: de
+  kind: fact
+  section: "5.4.1"
+  label: "Bei Patient*innen mit AF und gleichzeitig bestehendem erhöhtem Thromboembolie- und Blutungsrisiko ist der interventionelle Vorhofohrverschluss eine mögliche Therapiealternative zur dauerhaften oralen Antikoagulation."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=43
+    quote: "ist der interventionelle Vorhofohrverschluss eine mögliche Therapiealternative"
+# Section 5.4.1, Begründung (p. 43, l. 59–61): rates the evidence „niedrigen“, where box 5.8's row prints „sehr gering“
+# and p. 44, l. 7 „sehr niedrige“: a fact claim (§5.1 N2's exception, D), joined by disagrees_with to both claims of 5.8
+# that carry the row and to p. 44's printing (#365 reading 8; the coordinator's instruction of 2026-10-11).
+- id: claims/vorhofflimmern-lf-1.1/2e3fc7b0
+  type: claim
+  lang: de
+  kind: fact
+  section: "5.4.1"
+  label: "Die vorliegende Evidenz lässt wegen der niedrigen Aussagesicherheit keine abschließende Einschätzung zu, ob der Vorhofohrverschluss einer oralen Antikoagulation in Bezug auf die Prävention von Thromboembolien nicht unterlegen ist."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=43
+    quote: "Die vorliegende Evidenz lässt wegen der niedrigen Aussagesicherheit keine"
+# Section 5.4.1, Begründung (p. 43, l. 62–65): „langfristig kontraindiziert“ against the box's „kontraindiziert“ — a time
+# the box does not print: §5.1 D, joined by disagrees_with to 5.8's first claim and to l. 55–57, no R (#365 reading 8).
+# „als sinnvoll angesehen“ recommends in another wording: no verb.
+- id: claims/vorhofflimmern-lf-1.1/3a766d15
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.4.1"
+  label: "Da es sich beim katheterbasierten Vorhofohrverschluss um eine invasive Prozedur mit entsprechendem Risiko handelt, wird zum aktuellen Zeitpunkt diese Therapieform dann als sinnvoll angesehen, wenn eine orale Antikoagulation langfristig kontraindiziert ist, obwohl zu dieser Patientenkohorte keine randomisierten Studien vorliegen."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=43
+    quote: "wenn eine orale Antikoagulation langfristig kontraindiziert ist"
+# Section 5.4.1, Begründung (p. 43, l. 65 – p. 44, l. 5): the next step after the closure — S to 5.8's first claim (#365
+# reading 12). The sentence runs across the page break: quoted on p. 43, its label whole.
+- id: claims/vorhofflimmern-lf-1.1/375d339a
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.4.1"
+  label: "Nach katheterbasiertem Vorhofohrverschluss muss die vorübergehende Notwendigkeit einer dualen Plättchenhemmung oder oralen Antikoagulation zur Vermeidung einer Thrombenbildung auf der Oberfläche des Okkluders bedacht werden."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=43
+    quote: "Nach katheterbasiertem Vorhofohrverschluss muss die vorübergehende Notwendigkeit einer dualen"
+# Section 5.4.1, Begründung (p. 44, l. 7): a reason for the grade (N2) that rates the evidence „sehr niedrige“ — beside the
+# row's „sehr gering“ and p. 43's „niedrigen“. Each printing is kept and joined (#341; #365 reading 8); values are never
+# mapped, so whether „sehr niedrige“ and „sehr gering“ name one level is the physician's.
+- id: claims/vorhofflimmern-lf-1.1/3fdeec7d
+  type: claim
+  lang: de
+  kind: fact
+  section: "5.4.1"
+  label: "Der Empfehlungsgrad ist begründet durch die sehr niedrige Aussagesicherheit (Bias Risiko, Indirektheit) der Evidenz."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=44
+    quote: "Der Empfehlungsgrad ist begründet durch die sehr niedrige Aussagesicherheit"
 # Box 5.9 (p. 44, l. 38–43), in section 5.4.2: one sentence, ⇑ with „EK“, „Konsensstärke: 90,9%“. The score is named
 # as an instrument without a bound: no narrower claim (#365 reading 6). „CHA2DS2-“ / „VA Score“ (l. 39–40) keeps its
 # hyphen in the label; the quote is cut before it. A structural measure, listed unclassified for #94.
@@ -632,3 +823,18 @@
     verb: {at: sources/vorhofflimmern-lf-1.1#page=45, quote: "sollte als Ergänzung zur Antikoagulation ein periprozeduraler chirurgischer"}
     evidence:
       - {at: sources/vorhofflimmern-lf-1.1#page=45, quote: "Schlaganfall:"}
+# Section 5.4.3, Begründung (p. 45, l. 35–37): the trial's exclusions (l. 31–35, a report: G2) offered in the guideline's
+# voice as the circumstances in which the closure may not be done — L to 5.10 (#365 reading 13). „können … dienen“ is the
+# wording kann. The Begründung's rating of thromboembolism (l. 28–31) rates an endpoint the box does not list and stays;
+# l. 42–44 has the results as its subject (G2) and stays (#365 reading 13).
+- id: claims/vorhofflimmern-lf-1.1/c10f1903
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.4.3"
+  label: "Diese Ausschlusskriterien können als Entscheidungshilfe dienen, um mittels einer sorgfältigen Nutzen-Risiko-Abwägung zu entscheiden, ob Patient*innen einen Herzohrverschluss im Rahmen eines herzchirurgischen Eingriffs erhalten sollen."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=45
+    quote: "Diese Ausschlusskriterien können als Entscheidungshilfe dienen"
