@@ -1347,10 +1347,10 @@ source that answers its question otherwise (D).
   claim per row, and a row one claim with one edge, the first of R, L, S that
   holds. A table claim quotes within one cell (a caption or head for a whole;
   where the head recurs on the page, the caption or the sentence that
-  introduces the table, §6.2) and reads "Kopf: Zelle; …" as printed, its label leaving out the reference
-  marks as every claim's does (§3.1). A rule the source prints differently in
-  two places is a claim per printing that passes, the disagreement shown in
-  the graph and never resolved (card #341).
+  introduces the table, §6.2) and reads "Kopf: Zelle; …" as printed, its
+  label leaving out the reference marks as every claim's does (§3.1). A rule
+  the source prints differently in two places is a claim per printing that
+  passes, the disagreement shown in the graph and never resolved (card #341).
 - **F figure without a text layer** — a figure printed as an image, of which
   the extracted text holds only the caption and the footnotes, stays on the
   page, whether a marked recommendation delegates to it or not: no quote
@@ -1456,13 +1456,13 @@ the read-only server returns whole
 (`.claude/memory/design/quote-gate-follows-the-site.md`); a longer passage is
 cut back to its last whole word that fits.
 
-A quote lies **once** on its page. pdf.js finds a phrase, not an occurrence:
-its search ignores case and matches inside a word as well, and the link lands
-on the page's first match. And a claim's id hashes its locator and its quote
-(§2), so two claims quoting one recurring passage of a page would be one. A
-passage the page prints more than once is lengthened, along the text it lies
-in, until it lies there once: a symbols cell with its row's head
-("Hämodynamische Instabilität: Sehr niedrig ⊕⊕⊝⊝", §3.1). Where it cannot be
+A claim's quote lies **once** on its page. pdf.js finds a phrase, not an
+occurrence: its search ignores case and matches inside a word as well, and
+the link lands on the page's first match. And a claim's id hashes its locator
+and its quote (§2), so two claims quoting one recurring passage of a page
+would be one. A passage the page prints more than once is lengthened, along
+the text it lies in, until it lies there once: a symbols cell with its row's
+head ("Hämodynamische Instabilität: Sehr niedrig ⊕⊕⊝⊝", §3.1). Where it cannot be
 lengthened into a passage that both readings find once — a table's head,
 which the validator reads down its column and pdf.js along its row — the
 quote is cut from the table's caption, or from the sentence that introduces
