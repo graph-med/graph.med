@@ -432,8 +432,9 @@
     evidence:
       - {at: sources/vorhofflimmern-lf-1.1#page=40, quote: "Schlaganfallreduktion:"}
 # Section 5.3, Begründung (p. 40, l. 23–24): rates the evidence of 5.3's row otherwise than the box („hoher“ against
-# „moderat“): a fact claim joined to 5.3's claim by disagrees_with and nothing else (spec §3.1, §5.1 D and N2; #341;
-# #365 Decision 6). Its subject is the evidence; N2's exception admits it.
+# „moderat“): a fact claim joined by disagrees_with to 5.3's claim and to both claims of 5.4, whose box prints the same
+# row for the oral anticoagulation the sentence rates, and nothing else (spec §3.1, §5.1 D and N2; #341; #365 Decision 6;
+# the judge, 2026-10-11). Its subject is the evidence; N2's exception admits it.
 - id: claims/vorhofflimmern-lf-1.1/fbb59b97
   type: claim
   lang: de
@@ -754,8 +755,11 @@
     at: sources/vorhofflimmern-lf-1.1#page=43
     quote: "wenn eine orale Antikoagulation langfristig kontraindiziert ist"
 # Section 5.4.1, Begründung (p. 43, l. 65 – p. 44, l. 5): the next step after the closure — S to 5.8's first claim (#365
-# reading 12). The sentence runs across the page break: quoted on p. 43, its label whole.
-- id: claims/vorhofflimmern-lf-1.1/375d339a
+# reading 12). The sentence names two measures, „einer dualen Plättchenhemmung oder oralen Antikoagulation“: one claim per
+# measure, each quoting its member (§5.1 K; the judge, 2026-10-11), each labelled with the sentence whole across the page
+# break. Its members lie on p. 44 (l. 4), where both quotes are taken; „dualen“ ends p. 43. First member: the dual
+# antiplatelet therapy.
+- id: claims/vorhofflimmern-lf-1.1/a4d6861a
   type: claim
   lang: de
   kind: recommendation
@@ -763,8 +767,19 @@
   label: "Nach katheterbasiertem Vorhofohrverschluss muss die vorübergehende Notwendigkeit einer dualen Plättchenhemmung oder oralen Antikoagulation zur Vermeidung einer Thrombenbildung auf der Oberfläche des Okkluders bedacht werden."
   direction: for
   source:
-    at: sources/vorhofflimmern-lf-1.1#page=43
-    quote: "Nach katheterbasiertem Vorhofohrverschluss muss die vorübergehende Notwendigkeit einer dualen"
+    at: sources/vorhofflimmern-lf-1.1#page=44
+    quote: "Plättchenhemmung"
+# The same sentence, second member: the oral anticoagulation (§5.1 K).
+- id: claims/vorhofflimmern-lf-1.1/86ce2822
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "5.4.1"
+  label: "Nach katheterbasiertem Vorhofohrverschluss muss die vorübergehende Notwendigkeit einer dualen Plättchenhemmung oder oralen Antikoagulation zur Vermeidung einer Thrombenbildung auf der Oberfläche des Okkluders bedacht werden."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=44
+    quote: "oralen Antikoagulation"
 # Section 5.4.1, Begründung (p. 44, l. 7): a reason for the grade (N2) that rates the evidence „sehr niedrige“ — beside the
 # row's „sehr gering“ and p. 43's „niedrigen“. Each printing is kept and joined (#341; #365 reading 8); values are never
 # mapped, so whether „sehr niedrige“ and „sehr gering“ name one level is the physician's.
@@ -823,9 +838,9 @@
     verb: {at: sources/vorhofflimmern-lf-1.1#page=45, quote: "sollte als Ergänzung zur Antikoagulation ein periprozeduraler chirurgischer"}
     evidence:
       - {at: sources/vorhofflimmern-lf-1.1#page=45, quote: "Schlaganfall:"}
-# Section 5.4.3, Begründung (p. 45, l. 35–37): the trial's exclusions (l. 31–35, a report: G2) offered in the guideline's
-# voice as the circumstances in which the closure may not be done — L to 5.10 (#365 reading 13). „können … dienen“ is the
-# wording kann. The Begründung's rating of thromboembolism (l. 28–31) rates an endpoint the box does not list and stays;
+# Section 5.4.3, Begründung (p. 45, l. 35–37): the trial's exclusions (l. 31–35, a report: G2), which in the guideline's
+# voice „können als Entscheidungshilfe dienen“ whether patients receive the closure — L to 5.10 (#365 reading 13).
+# „können … dienen“ is the wording kann. The Begründung's rating of thromboembolism (l. 28–31) rates an endpoint the box does not list and stays;
 # l. 42–44 has the results as its subject (G2) and stays (#365 reading 13).
 - id: claims/vorhofflimmern-lf-1.1/c10f1903
   type: claim

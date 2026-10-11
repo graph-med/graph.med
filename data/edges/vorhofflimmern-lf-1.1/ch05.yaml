@@ -47,19 +47,25 @@
 - [claims/vorhofflimmern-lf-1.1/867e7d10, supplements, claims/vorhofflimmern-lf-1.1/cdba391a, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "S: Dosierung der Medikation — „In Abhängigkeit von der Kreatinin-Clearance muss gegebenenfalls eine Dosisanpassung erfolgen“: der Schritt nach der Überprüfung."}]
 
-# body text (spec §5.1): section 5.4.1, pp. 43–44
-- [claims/vorhofflimmern-lf-1.1/375d339a, supplements, claims/vorhofflimmern-lf-1.1/738956f5, {source: modelling, as_of: "2026-10-11", lang: de,
-   rationale: "S: Vorhofohrverschluss — „Nach katheterbasiertem Vorhofohrverschluss muss die vorübergehende Notwendigkeit einer dualen Plättchenhemmung oder oralen Antikoagulation … bedacht werden“: der nächste Schritt."}]
+# body text (spec §5.1): section 5.4.1, pp. 43–44; one edge per measure the sentence names (§5.1 K)
+- [claims/vorhofflimmern-lf-1.1/a4d6861a, supplements, claims/vorhofflimmern-lf-1.1/738956f5, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Vorhofohrverschluss — „Nach katheterbasiertem Vorhofohrverschluss muss die vorübergehende Notwendigkeit einer dualen Plättchenhemmung … bedacht werden“: der nächste Schritt."}]
+- [claims/vorhofflimmern-lf-1.1/86ce2822, supplements, claims/vorhofflimmern-lf-1.1/738956f5, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Vorhofohrverschluss — „Nach katheterbasiertem Vorhofohrverschluss muss die vorübergehende Notwendigkeit einer … oralen Antikoagulation … bedacht werden“: der nächste Schritt."}]
 
 # body text (spec §5.1): section 5.4.3, p. 45
 - [claims/vorhofflimmern-lf-1.1/c10f1903, limits, claims/vorhofflimmern-lf-1.1/09298c54, {source: modelling, as_of: "2026-10-11", lang: de,
-   rationale: "L: Patient*innen mit AF, die sich einem herzchirurgischen Eingriff unterziehen — die Ausschlusskriterien der LAAOS III (S. 45, Z. 31–35) „können als Entscheidungshilfe dienen“, ob Patient*innen den Verschluss erhalten sollen: Umstände, in denen er nicht erfolgt."}]
+   rationale: "L: Patient*innen mit AF, die sich einem herzchirurgischen Eingriff unterziehen — die Ausschlusskriterien der LAAOS III (S. 45, Z. 31–35) „können als Entscheidungshilfe dienen, um mittels einer sorgfältigen Nutzen-Risiko-Abwägung zu entscheiden, ob Patient*innen einen Herzohrverschluss im Rahmen eines herzchirurgischen Eingriffs erhalten sollen“."}]
 
 # disagreement (spec §3.1, §5, §5.1 D; #341): each printing kept as printed and shown, none chosen — two ratings of a box
 # against its Begründung (#365 Decision 6), the ratings of 5.8's Begründung, and the groups 5.8's Begründung gives the
 # closure (#365 reading 8)
 - [claims/vorhofflimmern-lf-1.1/f120f96e, disagrees_with, claims/vorhofflimmern-lf-1.1/fbb59b97, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "Empfehlung 5.3 (S. 40) bewertet ihre Evidenzzeile mit „Schlaganfallreduktion: moderat ⊕⊕⊕⊝“; ihre Begründung (S. 40, Z. 23–24): „Prinzipiell liegt Evidenz von hoher Aussagesicherheit für die Wirksamkeit einer oralen Antikoagulation zur Reduktion des Schlaganfallrisikos vor.“ Kasten und Text nennen für dieselbe Wirkung zwei Stufen, „moderat“ und „hoher“. Als Evidenz des Kastens ist seine Zeile erfasst; keine Stufe ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/3f359374, disagrees_with, claims/vorhofflimmern-lf-1.1/fbb59b97, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 5.4 (S. 40), erster Spiegelstrich, bewertet ihre Evidenzzeile mit „Schlaganfallreduktion: moderat ⊕⊕⊕⊝“ für die orale Antikoagulation; die Begründung der Empfehlung 5.3 (S. 40, Z. 23–24): „Prinzipiell liegt Evidenz von hoher Aussagesicherheit für die Wirksamkeit einer oralen Antikoagulation zur Reduktion des Schlaganfallrisikos vor.“ Kasten und Text nennen für dieselbe Wirkung zwei Stufen, „moderat“ und „hoher“. Als Evidenz des Kastens ist seine Zeile erfasst; keine Stufe ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/e4064446, disagrees_with, claims/vorhofflimmern-lf-1.1/fbb59b97, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 5.4 (S. 40), zweiter Spiegelstrich, trägt dieselbe Evidenzzeile „Schlaganfallreduktion: moderat ⊕⊕⊕⊝“; die Begründung der Empfehlung 5.3 (S. 40, Z. 23–24) nennt für die Wirksamkeit einer oralen Antikoagulation zur Reduktion des Schlaganfallrisikos Evidenz „von hoher Aussagesicherheit“. Kasten und Text nennen zwei Stufen, „moderat“ und „hoher“; keine ist gewählt."}]
 - [claims/vorhofflimmern-lf-1.1/af72319e, disagrees_with, claims/vorhofflimmern-lf-1.1/59501365, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "Empfehlung 5.5 (S. 41) bewertet „Schwere Blutungen, Hirnblutungen: moderat ⊕⊕⊕⊝ bis gering ⊕⊕⊝⊝“; ihre Begründung (S. 41, Z. 63–65) nennt die Überlegenheit „in Bezug auf schwere und insbesondere intrakranielle Blutungen bei moderater Aussagesicherheit“. Für dieselben Endpunkte druckt der Kasten eine Spanne von moderat bis gering, der Text die eine Stufe moderat. Als Evidenz des Kastens ist seine Zeile erfasst; keine Stufe ist gewählt."}]
 - [claims/vorhofflimmern-lf-1.1/738956f5, disagrees_with, claims/vorhofflimmern-lf-1.1/2e3fc7b0, {source: modelling, as_of: "2026-10-11", lang: de,

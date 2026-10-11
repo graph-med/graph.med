@@ -5,7 +5,7 @@ id: statements/chirurgischer-vorhofohrverschluss-bei-herzchirurgischem-eingriff
 type: statement
 lang: de
 label: "Bei Patient*innen mit AF, die sich einem herzchirurgischen Eingriff unterziehen und ein zumindest moderates Schlaganfallrisiko aufweisen, als Ergänzung zur Antikoagulation einen periprozeduralen chirurgischen Verschluss des linken Vorhofohrs empfehlen."
-short_label: "Vorhofohrverschluss ergänzend zur OAK bei Herzchirurgie"
+short_label: "Vorhofohrverschluss als Ergänzung zur Antikoagulation"
 slots:
   population: concepts/herzchirurgischer-eingriff
   action: concepts/periprozeduraler-chirurgischer-verschluss-des-linken-vorhofohrs
