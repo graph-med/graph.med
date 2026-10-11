@@ -1168,7 +1168,9 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
             each answer leads to a group's junction. One rule for every level of the tree."""
             q = add(f"q:{at}:population", type="question", lang=lang, label=words["population"])
             edge(at, q, "flow")
-            for c in sorted(groups, key=lambda c: (-weight[c], short(c))):
+            # heaviest first, then by label with case folded: a label is in running-text case (spec §3.2), so
+            # one that opens in lower case sorts among its siblings, not after every capitalised one
+            for c in sorted(groups, key=lambda c: (-weight[c], short(c).casefold())):
                 junction(c, q)
             return q
         def junction(c, q):
@@ -1191,7 +1193,7 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
         if rest:
             left = [st for c in rest for st in own[c]]
             hierarchy(unplaced(q, prefix, left), left, prefix + "unplaced:", None)
-        order = lambda st: (-weight.get(slots(st).get("population"), 0), label(slots(st).get("population") or ""), first_no(st), st["id"])
+        order = lambda st: (-weight.get(slots(st).get("population"), 0), label(slots(st).get("population") or "").casefold(), first_no(st), st["id"])
         for st in sorted((st for st in sts if slots(st).get("population") not in rest), key=order):   # the not-placed subtree hung its own
             pop = slots(st).get("population")
             hang(st, f"j:{prefix}{pop}" if pop in members else q)   # its own group's junction, never a family's
