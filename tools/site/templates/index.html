@@ -8,8 +8,9 @@
    selects its box from the keyboard (shown only where the graph is drawn). What the page says about graph.med
    itself — its title, heading and lead — is English, like the banner, and bound to no kind of source; every other
    word the page adds is the page chrome's, from the view layer's table (tools/site/words/) — the note beside each
-   licence line among them; every other word is the data's, in its own language: the source's title as printed, its
-   register number, its licence. #}
+   licence line among them, and those that say a source's version and the date it prints for it, on a line of their
+   own under the title (edition_of); every other word is the data's, in its own language: the source's title as
+   printed, its register number, its licence. #}
 {% set W = page.index %}
 {% set heading = "An open collaborative medical knowledge graph" %}
 {% set lead = "Passages from medical sources, anchored to the wording of their source, linked into recommendations and concepts, and drawn as graphs. Every identifier on this site resolves, and every quote leads to the page it was taken from." %}
@@ -38,7 +39,7 @@
     {# the title is the entry's one link to its graph, stretched over the entry; the source's lines and the toggle
        that selects the entry's box in the graph lie above it #}
     <h3 class="entry-title"><a id="entry-{{ v.vid }}" href="{{ base }}{{ v.vid }}/"{% if v.lang %} lang="{{ v.lang }}"{% endif %} data-box="1">{{ v.title }}</a></h3>
-    <p class="entry-holds" data-box="3">
+    <p class="entry-holds" data-box="4">
     {%- if not v.holds.claim %}{{ W.empty }}
     {%- elif not v.holds.statement %}{{ W.unlinked | e | replace("{claims}", n("claim", v.holds.claim)) }}
     {%- else %}{{ W.holds | e | replace("{statements}", n("statement", v.holds.statement)) | replace("{groups}", n("group", v.holds.group)) | replace("{claims}", n("claim", v.holds.claim)) }}
@@ -51,7 +52,9 @@
     {% for s in v.sources %}
       <p class="entry-meta">
         {% if v.sources | length > 1 %}<span class="entry-source-title" lang="{{ s.lang }}">{{ s.title }}</span>{% endif %}
-        {% if s.awmf_register %}<span data-box="2">{{ W.awmf_register | replace("{nr}", s.awmf_register) }}</span>{% endif %}
+        {% set ed = edition(s.id) %}
+        {% if ed %}<span class="entry-edition" data-box="2">{{ ed }}</span>{% endif %}
+        {% if s.awmf_register %}<span data-box="3">{{ W.awmf_register | replace("{nr}", s.awmf_register) }}</span>{% endif %}
         <a href="{{ base }}{{ s.id }}/">{{ W.source }}</a>
       </p>
       <p class="entry-licence"><span lang="{{ s.lang }}">{{ s.license }}</span> — <span class="licence-note" lang="{{ page_lang }}">{{ page.source.licence_note }}</span></p>

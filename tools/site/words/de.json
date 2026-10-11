@@ -108,7 +108,16 @@
     "empty": "Aus diesem Abschnitt ist keine Empfehlung erfasst"
   },
   "source": {
-    "licence_note": "verlinkt über die öffentliche URL, nie auf graph.med bereitgestellt"
+    "licence_note": "verlinkt über die öffentliche URL, nie auf graph.med bereitgestellt",
+    "version": "Version {version}",
+    "date": "Stand {date}",
+    "separator": ", ",
+    "dates": {
+      "year": "{year}",
+      "month": "{month_name} {year}",
+      "day": "{day}.{month}.{year}"
+    },
+    "months": ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
   },
   "site": {
     "preview": "Vorschau von {link} · nicht die veröffentlichte Website",

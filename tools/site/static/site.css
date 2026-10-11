@@ -92,6 +92,7 @@ ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1re
 .entry-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0 1rem; margin: 0; }
 .entry-meta a { display: inline-flex; align-items: center; min-height: 44px; }   /* touch target */
 .entry-meta .entry-source-title { flex-basis: 100%; padding-top: .6rem; color: var(--fg); }   /* a view of several sources names each */
+.entry-meta .entry-edition { flex-basis: 100%; padding-top: .6rem; }   /* the version and date: a line of their own */
 .entry-licence { margin: 0 0 .3rem; }
 .entry-licence + .entry-meta { border-top: 1px solid var(--line); margin-top: .4rem; }   /* a view of several sources: one block each */
 
@@ -157,6 +158,7 @@ ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1re
 .sheet .card + .card { margin-top: 1.2rem; padding-top: .6rem; border-top: 1px solid var(--line); }   /* several selected (an answer naming several conditions): a card each */
 .kind { margin: .2rem 0; color: var(--mute); font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; }
 .label { font-size: 1.15rem; margin: .2rem 0 .6rem; }
+.label + .edition { margin: -.4rem 0 .6rem; font-size: .85rem; color: var(--mute); }   /* a source's version and date, a line of their own under its title */
 dl.slots { display: grid; grid-template-columns: max-content 1fr; gap: .2rem .8rem; margin: 0 0 .5rem; }
 dl.slots dt { color: var(--mute); font-size: .85rem; }
 dl.slots dd { margin: 0; }
@@ -411,6 +413,7 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
    source, so that one source with one claim looks as before */
 .card .citation .source + .source { border-top: 1px solid var(--line); padding-top: .5rem; margin-top: .4rem; }
 .card .citation .source h4 { margin: 0; font-size: .85rem; font-weight: 500; color: var(--mute); text-transform: none; letter-spacing: 0; }
+.card .citation .source h4 + .edition { margin: 0; font-size: .8rem; color: var(--mute); }
 .card .citation .source ol.claims li:first-child { border-top: 0; padding-top: .1rem; }
 /* zone 8: the citation's two actions, unlike — the link into the source is the primary action (filled, opening
    in a new tab, marked as leaving the page), copying the quote a quiet text button beside it — and the review status */

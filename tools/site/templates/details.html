@@ -206,12 +206,14 @@
 {% endif %}
 <section class="zone citation" aria-labelledby="zone-citation-h">
 <h3 id="zone-citation-h">{{ W("zone.citation") }}{% if c.beleg.sources %} {{ from_tag("anchored") }}{% endif %}</h3>
-{# each source named once, by its title, with one entry per supporting claim under it — sources in the order of
+{# each source named once, by its title and on a line of their own its version and date (edition_of, the page
+   chrome's words), with one entry per supporting claim under it — sources in the order of
    their first supporting claim, entries in the order of the badges of zone 2; the entry's line is number, page and
    section, the link into the source is its button #}
 {% for s in c.beleg.sources %}<div class="source">
 <h4 lang="{{ s.lang }}">{{ s.title }}</h4>
-<ol class="claims">
+{% set ed = edition(s.id) %}{% if ed %}<p class="edition" lang="{{ page_lang }}">{{ ed }}</p>
+{% endif %}<ol class="claims">
 {% for x in s.claims %}  <li>
 {% set at = where(x, no=true, link=false) %}{% if at %}    <p class="cite">{{ at }}</p>
 {% endif %}    <blockquote lang="{{ x.lang }}">{{ excerpt_of(x.excerpt) }}</blockquote>
@@ -285,7 +287,7 @@
 {% endif %}</section>
 {% endif %}
 <p class="label">{{ c.label }}</p>
-<p class="cite"><span lang="{{ c.source_lang }}">{{ c.source_title }}</span>{% if c.recommendation_no %} · {{ no_of(c) }}{% endif %}{% if c.page %} · {{ W("cite.page").format(nr=c.page) }}{% endif %}{% if c.section %} · {{ W("cite.section").format(nr=c.section) }}{% endif %}</p>
+{% set ed = edition(c.source) %}<p class="cite"><span lang="{{ c.source_lang }}">{{ c.source_title }}</span>{% if ed %} · <span lang="{{ page_lang }}">{{ ed }}</span>{% endif %}{% if c.recommendation_no %} · {{ no_of(c) }}{% endif %}{% if c.page %} · {{ W("cite.page").format(nr=c.page) }}{% endif %}{% if c.section %} · {{ W("cite.section").format(nr=c.section) }}{% endif %}</p>
 <blockquote>{{ excerpt_of(c.excerpt) }}</blockquote>
 <p class="actions"><a class="btn" href="{{ c.link }}" target="_blank" rel="noopener">{{ W("cite.open") }}<span class="ext" aria-hidden="true">↗</span></a> <button type="button" class="copy" data-copy="{{ c.quote }}">{{ W("cite.quote") }}</button></p>
 {{ disagreements(c) }}
@@ -302,7 +304,8 @@
 <div class="card" lang="{{ e.lang }}">
 <p class="kind">{{ W("type.source") }}</p>
 <p class="label">{{ e.title }}</p>
-<p><a href="{{ e.url }}" target="_blank" rel="noopener">{{ e.url }}</a></p>
+{% set ed = edition(e.id) %}{% if ed %}<p class="edition" lang="{{ page_lang }}">{{ ed }}</p>
+{% endif %}<p><a href="{{ e.url }}" target="_blank" rel="noopener">{{ e.url }}</a></p>
 {# the licence line as recorded, in the source's words, and beside it the page chrome's note that the document is
    linked, never served (docs/publication.md §5) — in the page language, inside a card in the source's #}
 <p><small>{{ e.license }} — <span class="licence-note" lang="{{ page_lang }}">{{ page.source.licence_note }}</span></small></p>

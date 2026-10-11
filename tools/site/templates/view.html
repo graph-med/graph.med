@@ -84,6 +84,8 @@
 <section class="sheet" id="sheet" aria-live="polite" data-close="{{ page.sheet.close }}">
   <p class="kind">{{ page.view.kind }}</p>
   <p class="label" lang="{{ sources[0].lang }}">{{ title }}</p>
+  {# each source's version and date under the title, in the page chrome's words; a view of several names each by its id #}
+  {% for s in sources %}{% set ed = edition(s.id) %}{% if ed %}<p class="edition" lang="{{ page_lang }}">{% if sources | length > 1 %}{{ s.id | short }}: {% endif %}{{ ed }}</p>{% endif %}{% endfor %}
   {# the hint in the reader's verb: the touch sentence by default, the pointer one where a fine pointer hovers (site.css) #}
   <p class="hint touch" lang="{{ page_lang }}">{{ page.sheet.hint.touch }}</p>
   <p class="hint pointer" lang="{{ page_lang }}">{{ page.sheet.hint.pointer }}</p>

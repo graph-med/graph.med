@@ -38,6 +38,7 @@ import subprocess
 import sys
 from collections import defaultdict
 from datetime import datetime, timezone
+from functools import cache
 from pathlib import Path
 from urllib.parse import quote as urlquote
 
@@ -378,13 +379,34 @@ def implied_verbs(pool) -> dict[tuple[str, str], str]:
     return {g: next(iter(v)) for g, v in seen.items() if len(v) == 1}
 
 
+@cache
 def page_words(lang: str) -> dict:
     """The view layer's table of the page chrome's words in `lang` (tools/site/words/<lang>.json). A language
-    without a table stops the build, as the card's words do."""
+    without a table stops the build, as the card's words do. Read once per language; never written to."""
     path = SITE_SRC / "words" / f"{lang}.json"
     if not path.exists():
         raise SystemExit(f"no page words for language {lang!r} — add {path.relative_to(ROOT)}")
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def edition_of(source: dict) -> str | None:
+    """A source's version and the date it prints for it, as the page says them wherever it names the source
+    (docs/publication.md §2, §3): one line, each half only where the source records it, None where it records
+    neither. The words are the page chrome's (tools/site/words/<lang>.json, `source`), and so is the date's
+    printed form, read at the precision recorded (ISO 8601: a year, a month or a day; spec §6.1), the month's
+    name from the table. Nothing is parsed out of a title, and a date is shown, never compared or ranked by."""
+    words = page_words(PAGE_LANG).get("source")
+    if not words:
+        raise SystemExit(f"no page words for a source's version and date — add `source` to tools/site/words/{PAGE_LANG}.json")
+    parts = []
+    if source.get("version"):
+        parts.append(words["version"].format(version=source["version"]))
+    if source.get("date"):
+        year, month, day = (str(source["date"]).split("-") + [None, None])[:3]
+        form = "day" if day else "month" if month else "year"
+        named = words["months"][int(month) - 1] if month else None
+        parts.append(words["date"].format(date=words["dates"][form].format(year=year, month=month, day=day, month_name=named)))
+    return words["separator"].join(parts) or None
 
 
 def index_path(sources: list, page: dict) -> list[dict]:
@@ -1143,7 +1165,10 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
     sources = [members[s] for s in view["filter"]["sources"]]
     lang = sources[0]["lang"]
     words = WORDS[lang]
-    root = add(view["id"], ref=sources[0]["id"], type="root", lang=lang, label=title_of(view, members, root=True))
+    # the root names the view's one source by its title, its version and date on a line of their own below it
+    # (edition_of); a section view's root names the section, and the sheet beside it the source
+    edition = edition_of(sources[0]) if len(sources) == 1 and not view["filter"].get("section") else None
+    root = add(view["id"], ref=sources[0]["id"], type="root", lang=lang, label="\n".join(filter(None, [title_of(view, members, root=True), edition])))
     # the placements each hierarchy folds by: the view's first axis (None; nothing when it has none, and its
     # patient groups stay unfolded) and the axis chosen, when that is another hierarchy
     respects = {None: respect_of(tree_axis(view, pool), pool)}
@@ -1331,6 +1356,8 @@ def main(argv=None) -> int:
     # the banner's text (docs/publication.md §3, §4), defined once in banner.html: the same string goes into
     # index.json, llms.txt and every entity JSON's meta as `disclaimer`
     disclaimer = str(env.get_template("banner.html").module.text).strip()
+    # a source's version and date wherever a page names it, by its id, in the page chrome's words (edition_of)
+    env.globals["edition"] = lambda sid: edition_of(pool.entities[sid]) if sid in pool.entities else None
     env.tests["numbered"] = numbered                 # a recommendation number the card cites after its word, else as printed
 
     out = args.out
