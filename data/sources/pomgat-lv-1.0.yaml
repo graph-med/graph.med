@@ -36,17 +36,16 @@ grading_scheme:   # spec §3.1: Tabelle 5 (p. 19), section 2.2.4 and Tabelle 6 (
     - grade: "0"
       description: Empfehlung offen
       verb: kann
-      negated: kann nicht
+      negated: kann verzichtet werden
       open: true
       source:
         - {at: sources/pomgat-lv-1.0#page=19, quote: "0"}
         - {at: sources/pomgat-lv-1.0#page=19, quote: "Empfehlung offen"}
         - {at: sources/pomgat-lv-1.0#page=19, quote: "kann"}
-      provenance:
-        negated: modelling
-      rationale: "Tabelle 5 nennt nur die bejahende Ausdrucksweise, und die Leitlinie druckt „kann nicht“ nirgends: ihre offenen
-        Empfehlungen gegen etwas lauten „kann auf … verzichtet werden“. Die verneinte Form ist die, mit der die Seite solche
-        Empfehlungen bisher zeigt."
+      provenance:   # Tabelle 5 prints the affirmative only; box 4.8 (grade cell "0") prints the form against
+        negated: {at: sources/pomgat-lv-1.0#page=34, quote: "Prähabilitation mit strukturierten Programmen kann verzichtet werden."}
+      rationale: "Tabelle 5 nennt nur die bejahende Ausdrucksweise „kann“. Die offenen Empfehlungen gegen etwas drucken die
+        verneinte Form „kann verzichtet werden“ (hier Empfehlung 4.8; 7.30 „kann auf … verzichtet werden“)."
     - grade: EK
       description: Expertenkonsens
       source:
