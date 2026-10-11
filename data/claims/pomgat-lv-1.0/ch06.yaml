@@ -105,8 +105,9 @@
   verb: kann
   direction: for
   consensus: starker_konsens
-  evidence:
+  evidence:   # spec §3.1: the subgroup row is an entry of its own, keyed as printed; it prints no endpoint (#261)
     - {outcome: concepts/postoperative-pankreasfistel, value: moderat, system: grade}
+    - {key: "Subgruppenanalyse Pankreasgangdrainage mit externer Ableitung", value: moderat, system: grade}
     - {outcome: concepts/gesamtmorbiditaet, value: moderat, system: grade}
   source:
     at: sources/pomgat-lv-1.0#page=62
