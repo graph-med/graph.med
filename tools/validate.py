@@ -49,8 +49,10 @@ rules a document schema cannot state because they span files:
     rule holds; a concept whose rule is a sum is a score, a quantity, which a
     threshold may bound (`quantity`, `relative_to`) but which fills no
     statement slot and no axis placement, a quantity being no group; a
-    threshold's `quantity` and `relative_to` resolve like every reference, and a
-    relative threshold is relative to another quantity than the one it bounds;
+    threshold's `quantity` and `relative_to` resolve like every reference and
+    are concepts of facet `finding`, a measured or scored quantity (spec §3.2),
+    never the state the bound establishes; and a relative threshold is relative
+    to another quantity than the one it bounds;
   - a disagreement is the source's own (spec §5, §5.1 D): `disagrees_with` joins two
     claims of one source — between two sources it is `contests` —, never a claim
     to itself, and once per pair, whichever its direction, being symmetric;
@@ -433,9 +435,12 @@ def check_definitions(ids: dict[str, str], entities: dict[str, dict],
     group: it fills no statement slot and no placement of an axis, as a key or as a place, and stands as a
     threshold's `quantity` or `relative_to` instead. That the operator states its parts, connective, `n` and
     `points`, that `points` stands with a sum alone, and that a combining claim prints no threshold, is the
-    schema's. A threshold's `relative_to` names another quantity than its `quantity`; that both resolve is the
-    reference check's. No operator word, kind of concept, quantity, point value or unit of a guideline is named
-    here."""
+    schema's. A threshold's `quantity` and its `relative_to` are measured or scored quantities, concepts of facet
+    `finding` (spec §3.2): the schema cannot see a concept's facet, so this is where the state a bound establishes
+    — a concept of its own, reaching the claim by its `defined_by` edge — is kept from standing as the quantity
+    the bound is on, as check_evidence holds an evidence row's endpoint to facet `outcome`. `relative_to` names
+    another quantity than `quantity`; that both resolve is the reference check's. No operator word, kind of
+    concept, quantity, point value or unit of a guideline is named here."""
     sys.path.insert(0, str(ROOT / "tools"))
     from build import fillers, places   # noqa: E402 — one reading of a slot and a placement for the validator, the tool and the site
     errs: list[str] = []
@@ -462,6 +467,15 @@ def check_definitions(ids: dict[str, str], entities: dict[str, dict],
         th = claim.get("threshold")
         if isinstance(th, dict) and "relative_to" in th and th.get("relative_to") == th.get("quantity"):
             errs.append(f"{ids[cid]}: the threshold of {cid} is relative to {th['quantity']}, its own quantity; a relative threshold names the quantity it is relative to")
+        for field in ("quantity", "relative_to"):
+            ref = th.get(field) if isinstance(th, dict) else None
+            concept = entities.get(ref) if isinstance(ref, str) else None
+            if concept is not None and concept.get("facet") != "finding":
+                errs.append(f"{ids[cid]}: the threshold of {cid} names {ref} as its `{field}`, a concept of facet "
+                            f"{concept.get('facet') or 'none'}; what a threshold bounds, and what a relative one is "
+                            f"relative to, is a measured or scored quantity, a concept of facet `finding` — the state "
+                            f"the bound establishes is a concept of its own, whose defined_by edge reaches this claim "
+                            f"(spec §3.2)")
         comb = claim.get("combination")
         if not isinstance(comb, dict):
             continue
