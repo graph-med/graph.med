@@ -84,9 +84,18 @@ of its five ⇔ boxes through another guideline's scheme; "⇑ EK" as a grade of
 its own would split one strength over two grades no table row gives; and the
 whole-word test found "⇑" inside "⇑⇑", because a symbol is no word.
 
-**How to apply:** record `grade` and `verb` as the recommendation prints them
-(the verb in the form the scheme gives it: "sollten" is `sollte`, "empfohlen"
-is `empfehlen`), `direction` as the sentence reads — under a grade that fixes
+**How to apply:** record `grade` as the recommendation prints it and `verb`
+off its predicate in the order spec §3.1 gives (#325, Decision 10): a word its
+own source's scheme gives as a wording, the finite modal winning where there
+are two ("soll … empfohlen werden" is `soll` under a scheme worded by modals);
+else a modal another declared scheme gives; else another scheme's wording the
+predicate prints ("wird … nicht empfohlen" is `empfehlen`, against); else
+none — never an attributive participle ("die empfohlene …"), a noun or a
+clause that does not instruct the action, in the form a scheme gives it
+("sollten" is `sollte`). The order changed no claim of the first two sources;
+it keeps a box worded "können … empfohlen werden" under an open grade from
+reading as another scheme's strong *empfehlen*. Record `direction` as the
+sentence reads — under a grade that fixes
 one, that one, the action being what the sentence says to do ("auf
 Tabakkonsum zu verzichten" under ⇑⇑ is the abstinence, `for`) —, `basis` as
 the box prints it, to every sentence of the box like the consensus, a fact's

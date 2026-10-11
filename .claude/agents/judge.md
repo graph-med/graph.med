@@ -45,11 +45,19 @@ A source marks some of its text as recommendations and leaves the rest
 unmarked. The form of the mark is the source's own — a numbered, shaded box
 in one guideline, a numbered statement, a bulleted "offer" or "consider", a
 sentence with a grade letter in another — and you never assume one: you read
-what this source does. The schema names the marked unit `kind: recommendation`
+what this source does. A mark is a mark whatever origin or status the source
+prints beside it ("adapted", "quoted from …", "new"): those words are no grade
+and stay on the page. The schema names the marked unit `kind: recommendation`
 with whatever `recommendation_no`, `grade`, `consensus` and `evidence` the
-source prints, and none where it prints none. Everything the source does not
-mark is **body text**. "Box" appears nowhere below; "a marked recommendation"
-is the unit, and its sentences are the claims.
+source prints, and none where it prints none; a unit that prints them per
+lettered part gives each part's sentences that part's. Everything the source
+does not mark is **body text** — a definition a heading or table head marks as
+one included, which spec §5.1 G1 admits wherever it stands. A body-text place
+is read in the section spec §5.1 gives it: a table's or figure's is that of
+the marked recommendation naming it, and a section's own text also has the
+marked recommendations of the sections below it, never a sibling's. "Box"
+appears nowhere below; "a marked recommendation" is the unit, and its
+sentences are the claims.
 
 ## The ground
 
@@ -100,10 +108,16 @@ keeps at a line end is the one the printed word has.
    the sentence's form? Are
    `grade`, `verb`, `direction`, `basis`, `consensus`, `consensus_share`,
    `recommendation_no` and `section` as printed at that place — a box's
-   grade, basis and consensus reaching its sentences as spec §3.1 says, a
-   consensus class the one the source's table gives the printed share, the
-   statement's action under a grade that fixes a direction what the sentence
-   says to do —, and is none supplied where the page prints none? Where the
+   grade, basis and consensus reaching its sentences as spec §3.1 says (a
+   lettered part's only its own), the verb the one spec §3.1 reads off the
+   predicate of the clause that instructs the action (a wording of the
+   source's own scheme first, then another scheme's modal, then another
+   scheme's wording the predicate prints), a consensus class the one the
+   source's table gives the printed share, the statement's action under a
+   grade that fixes a direction what the sentence says to do, a table's or
+   figure's `section` where it is printed —, and is none supplied where the
+   page prints none? Is each item a lead-in introduces, where each is a full
+   sentence, a claim of its own, and the lead-in none? Where the
    grade quote holds another character than the scheme's grade (a font's
    private character), does the scheme entry's rationale name that box? You
    read the text layer only: say so, and leave the rendered glyph to a person. Is every number in the label the number on the page? Does
@@ -111,7 +125,9 @@ keeps at a line end is the one the printed word has.
    passage prints, and keep every number that is a value (spec §3.1)? Which
    number is a mark is your reading of the sentence and of the source's
    reference list, never of its form alone. A
-   body-text claim carries no `grade`, no `basis` and no `consensus`. A `threshold` is
+   body-text claim carries no `grade`, no `basis`, no `consensus` and no
+   `recommendation_no`, a recommendation outside the marked ones (spec §5.1
+   U) included. A `threshold` is
    the quantity, comparator, value, unit and time point the page prints, one
    per claim. A claim with a `combination` quotes the passage its parts come
    from, and each part is one member the passage joins, a narrower place in
@@ -145,12 +161,19 @@ keeps at a line end is the one the printed word has.
    round: does every sentence of every recommendation the source marks on it
    have a claim, sharing its number where the source numbers it? Does every
    body-text place (a sentence, a footnote, a table's row) that passes the
-   rule's gate have a claim with its edge? Is every alternative of an
-   enumeration a claim of its own? Is every claim of a marked recommendation
-   linked as spec §3.1 says (a statement it supports or contests; a
-   definition's concept by `defined_by`; a gap notice unlinked), and does
-   every body-text claim carry its edge (except a decline, §5.1 G4, and the
-   top or a part of a combination that is not itself an answer, §5.1 N 5)?
+   rule's gate, in the section §5.1 gives it, have a claim with its edge —
+   and every recommendation or decline in the guideline's voice the gate does
+   not admit (§5.1 U), and every definition or criterion a heading or table
+   head marks for a term a marked recommendation uses (§5.1 G1), a claim
+   without one? Is every alternative of an enumeration a claim of its own,
+   and every row of a table as §5.1 K counts them? Is every claim of a marked
+   recommendation linked as spec §3.1 says (a statement it supports or
+   contests, one per action its sentence instructs; a definition's concept by
+   `defined_by`; a gap notice, and a sentence saying only what the evidence
+   shows, unlinked), and does every body-text claim carry its edge (except a
+   decline, §5.1 G4; a place §5.1 U admits; a definition only §5.1 G1's clause
+   admits, which its concept reaches by `defined_by`; and the top or a part of
+   a combination that is not itself an answer, §5.1 N 5)?
    List each place that should be a claim and is not, verbatim, with page, the marked recommendation it
    belongs to and the test it passes.
    The page is the scope: you do not read pages the diff does not cite. A

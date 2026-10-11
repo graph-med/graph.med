@@ -13,8 +13,9 @@ summary of the recommendations, an algorithm, a schedule, a table drawn as a
 picture. No claim, statement, concept or edge holds its content, and no label
 carries a transcription of it. The sentence of a marked recommendation that
 delegates to it ("proceed as the figure shows") is a claim as printed (§3.1),
-the delegation in its label; how that claim and its statement read beyond
-that is #325's (its question 8). The figure's **footnotes follow the figure**,
+the delegation in its label; its statement's action is what the sentence
+names, the statement's label keeping "nach Abb. N", and no slot holds the
+figure's content (#325's question 8). The figure's **footnotes follow the figure**,
 as a table's follow the table, and stay on the page while its content does,
 which answers #325's question 3 for a figure's footnotes. Its **caption** is
 text and is read by §5.1 like any other place. A figure that has a text layer

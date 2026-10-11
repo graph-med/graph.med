@@ -213,8 +213,16 @@ the way back to the reference, which the pool does not hold.
 Within a **marked recommendation** (§5.1) the unit is the **sentence**, not the
 box: every sentence of the box is a claim, whatever its form, sharing the box's
 `recommendation_no` and its `section` — the section the box lies in, never its
-number (memory `box-granularity-per-sentence`). What the box prints once
-belongs to its sentences by one rule:
+number (memory `box-granularity-per-sentence`). A lead-in that introduces items
+each of which is a full sentence with a predicate of its own ("… folgende Werte
+herangezogen werden:") is no sentence of its own: each item is a claim,
+labelled as printed, and what the lead-in says of every item ("Orientierend")
+each item's statement keeps, the pass naming it in its pull request. A box
+the source adapts or quotes from another work is its marked recommendation
+like any other, and its kind line, origin and status words ("Adaptierte
+Empfehlung", "zitiert nach …", "Neu …") stay on the page (open question
+origin-and-status-labels). What the box prints once belongs to its sentences
+by one rule:
 
 - the **grade** to each sentence of recommendation or gap-notice form, whatever
   its wording — a remark that instructs in another wording than the grade's
@@ -229,25 +237,36 @@ belongs to its sentences by one rule:
 - the **basis**, where the box prints one beside its grade or in its place,
   to every sentence, a fact's too: like the vote, what the box rests on is said
   of the box;
-- the **verb** is the sentence's own, never the box's; where the scheme's
-  wording is itself the verb, a modal before it is not ("kann nicht empfohlen
-  werden" records the wording, against);
+- the **verb** is the sentence's own, never the box's, read off its
+  predicate (`verb`, below);
 - in a box the source marks as a definition no sentence is a `recommendation`:
   it is a `definition` where it says what the term is, a `criterion` where it
   says what establishes it ("… ist ein Anstieg … um ≥ 2 Punkte zu verwenden").
 
-A sentence of recommendation form supports a statement of its own; a
-gap notice stays unlinked (open question gap-notices). A fact or criterion
-sentence supports the statement of the box sentence it extends, restricts,
-fills or gives the reason for — a remark qualifies the sentence it follows, a
-"dies" or "davon" the one it names —, and a statement of its own only where it
-states another action or comparison, or the box holds no recommendation. A
-definition sentence, and a criterion of a marked definition, supports none: the
-concept it establishes reaches it by `defined_by` (§5). A rule printed inside a
-box sentence — a threshold or a range in parentheses, a duration qualifying the
+Where a box prints its grade, basis and consensus once per **lettered part**
+("a)", "b)"), each part's sentences take that part's by the same rule, and
+none takes one from another part: the box stays the unit, its number theirs
+and the letter in their labels.
+
+A sentence of recommendation form supports a statement of its own — one per
+action where it instructs two, in two predicates ("… befragt und … beraten
+werden") or in a clause instructing a second ("wobei … geprüft werden sollte");
+a predicate that says how the other's action is to be done ("… und soll sich an
+den jeweiligen Leitlinien orientieren") instructs none of its own, and the
+claim keeps one verb. A gap notice stays unlinked (open question gap-notices).
+A fact or criterion sentence supports the statement of the box sentence it
+extends, restricts, fills or gives the reason for — a remark qualifies the
+sentence it follows, a "dies" or "davon" the one it names —, and a statement of
+its own only where it states another action or comparison, or the box holds no
+recommendation; a sentence whose subject is the evidence and that says only
+what the evidence shows ("Die Daten … sind widersprüchlich") asserts no action
+or comparison a statement could hold, and stays unlinked. A definition
+sentence, and a criterion of a marked definition, supports none: the concept it
+establishes reaches it by `defined_by` (§5). A rule printed inside a box
+sentence — a threshold or a range in parentheses, a duration qualifying the
 group — stays in that sentence's claim, which carries no threshold, and the
-concept it gives stays stated until the open question rule-claim-granularity
-is settled; the pass that meets one names it in its pull request. Which places
+concept it gives stays stated until the open question rule-claim-granularity is
+settled; the pass that meets one names it in its pull request. Which places
 outside the marked recommendations become claims, and how they attach, is the
 rule of §5.1.
 
@@ -298,12 +317,21 @@ symbols (⇑ is not printed in "⇑⇑"); a form the source prints nowhere is
   font's private character for an arrow), the grade the page shows, its
   provenance quoting the text layer, and the scheme entry's rationale naming
   the boxes;
-- `verb`, the wording the sentence uses in the form a scheme gives it
-  ("sollten" is `sollte`, "empfohlen" is `empfehlen`), and a sentence may use
-  another guideline's wording (a *sollte* in a guideline graded by GRADE): the
-  verb is recorded wherever some declared scheme defines it, and read in its
-  own source's scheme if that defines it, otherwise in the schemes that do,
-  which must read it alike (open or not, one negated form);
+- `verb`, for a sentence of recommendation form, read off its **predicate**:
+  the finite modal of the clause that instructs its action — the main clause;
+  for a member §5.1 K quotes from a clause of its own, that clause — and the
+  participle or infinitive it governs, never an attributive participle ("die
+  empfohlene …"), a noun ("Empfehlung") or a clause that does not instruct the
+  action. In the form a scheme gives it ("sollten" is `sollte`), the verb is
+  the first that holds: (1) a word of the predicate its own source's scheme
+  gives as a wording, the finite modal winning where there are two ("soll …
+  empfohlen werden" is `soll` under a scheme worded *soll*, `empfehlen` under
+  one worded *empfehlen*); (2) a modal another declared scheme gives (a
+  *sollte* in a guideline graded by GRADE); (3) another declared scheme's
+  wording the predicate prints ("wird … nicht empfohlen" under a scheme worded
+  by modals is `empfehlen`, against); (4) none. It is read in its own source's
+  scheme if that defines it, otherwise in the schemes that do, which must read
+  it alike (open or not, one negated form);
 - `direction`, `for` or `against`, as the sentence reads; under a grade that
   fixes a direction, that one, the statement's action being what the sentence
   says to do ("auf Tabakkonsum zu verzichten" under an arrow up is the
@@ -1063,33 +1091,51 @@ attestations use.
 ### 5.1 The body-text rule
 
 A **marked recommendation** is what the source marks as one (a numbered box,
-statement or definition); each of its sentences is a claim (§3.1). **Body text**
-is every other place of its section, the lowest numbered heading above it: a
-sentence, a footnote, a table or a figure. A place becomes a claim with an edge
-exactly when it passes G1–G4 and one of R, L, S, tried in that order — the
-first that holds decides; a decline that passes G1–G3 is a claim without one.
-Every other place stays on the page, and so does a figure without a text
-layer (F).
+statement or definition), whatever origin or status it prints beside the mark;
+each of its sentences is a claim (§3.1). **Body text** is every other place: a
+sentence, a footnote, a table or a figure. Its **section** is the lowest
+numbered heading above it — a table's or figure's that of the marked
+recommendation naming it, else of the first sentence introducing it, else where
+printed (its claim's `section` stays where printed). A section's marked
+recommendations are those in its own text; one where neither it nor a section
+below it holds any also has those in the own text of the nearest section above
+that does; and a section's own text, before its first subsection, also has
+those of every section below it. Those of a sibling never count. A place
+becomes a claim with an edge exactly when it passes G1–G4 and one of R, L, S,
+tried in that order — the first that holds decides; a decline that passes G1–G3
+is a claim without one, and so is a place U admits. Every other place stays on
+the page, and so does a figure without a text layer (F).
 
 - **G1 topic** — it is about the action of a marked recommendation of its
   section, for that recommendation's population; a decline, or a place on a
   marked gap notice, need only share its question, whatever agent or population.
+  A definition or criterion the source marks for a term as such — a heading or
+  table head that calls it a definition, classification or criterion — also
+  passes wherever it stands, when a marked recommendation of the source uses
+  the term; where only this admits it, its concept reaches it by `defined_by`
+  (§5) and it carries no edge of this rule, E's included. One no marked
+  recommendation uses stays on the page.
 - **G2 voice** — it speaks for the guideline, its authors and "wir" included:
   its subject is not a study, a review, another work's author, another
   guideline or the evidence, nor a pronoun or connective continuing a sentence
-  whose subject was. A reference mark or a "nach …" alone is no report. A table
-  or figure speaks as the sentence introducing it does, and for the guideline
-  where a marked recommendation names it. Except: a value the recommendation's
-  wording needs and does not give passes even when reported from the studies,
-  if the guideline gives none.
+  whose subject was. A reference mark, a "nach …" or a table's or figure's
+  source line ("adaptiert nach …", "… bearbeitet durch die Leitliniengruppe")
+  alone is no report. A table or figure speaks as the sentence introducing it
+  does, and for the guideline where a marked recommendation names it. Except:
+  a value the recommendation's wording needs and does not give passes even when
+  reported from the studies, if the guideline gives none.
 - **G3 new** — it adds a case, value or action the recommendation lacks. A
   repetition (after a summary word, a reason, "this holds for all"), a decline
   restating a marked gap notice and an example as a whole add nothing; a
   repetition that adds counts only for what it adds.
 - **G4 decline** — saying that no recommendation, or no value one needs, is
-  given ("keine Empfehlung", "weder für noch gegen") is a gap notice, no edge;
-  saying the action is not recommended ("kann nicht empfohlen werden") is
-  against it; saying only what is unknown ("unklar", "keine Studien") is N2.
+  given is a gap notice, no edge, also where its subject is the evidence:
+  "keine Empfehlung", "weder für noch gegen", a recommendation or a need that
+  "besteht nicht" or "existiert nicht", data that "sprechen gegen eine
+  Empfehlung" or "lassen eine Empfehlung … nicht zu", a "Ermessensspielraum"
+  left to the reader; referring to another work instead is N4. Saying the
+  action is not recommended ("kann nicht empfohlen werden") is against it;
+  saying only what is unknown ("unklar", "keine Studien") is N2.
 - **R `refines`** — it says what a term of the recommendation covers: who is in
   its group; which value, time, dose, agent or technique a word stands for. It
   makes cases precise and takes none out.
@@ -1099,24 +1145,36 @@ layer (F).
 - **S `supplements`** — it instructs a further action for the recommendation's
   case: a next step, what to do when the action fails or is refused, a measure
   beside it. Describing an effect or a mechanism instructs nothing.
-- **K claim** — `kind` by form (§3.1); `verb` and `direction` as printed (a
-  verb only if a declared grading scheme defines it, §3.1); never `grade`,
-  `basis`, `consensus` or `recommendation_no`. **One claim per answer**: members giving
-  different answers — another threshold for the same term, another action,
-  another direction — are a claim each, each quoting its member; members sharing
-  one answer (the cases one group comprises) are one claim. A table's members
-  are its rows or a cell's items, and a table a recommendation names is one
-  answer; it quotes within one cell (a caption or head for a whole) and
-  reads "Kopf: Zelle; …" as printed, its label leaving out the reference
-  marks as every claim's does (§3.1).
+- **U unmarked recommendation** — a recommendation or a decline in the
+  guideline's voice (G2) that G1 does not admit, on an action or for a
+  population no marked recommendation of its section names, is a claim
+  without an edge and in no statement, unless it restates a marked
+  recommendation of the source (G3). "Diese Leitlinie empfiehlt" is no mark.
+- **K claim** — `kind` by form (§3.1); `verb` and `direction` as printed (the
+  verb by §3.1's predicate rule, and only if a declared grading scheme defines
+  it); never `grade`, `basis`, `consensus` or `recommendation_no`. **One claim
+  per answer**: members giving different answers — another threshold for the
+  same term, another action, another direction — are a claim each, each quoting
+  its member; members sharing one answer (the cases one group comprises) are
+  one claim. A table's members
+  are its rows or a cell's items: a table a marked recommendation names as one
+  instrument is one answer, one whose rows each give another action or agent a
+  claim per row, and a row one claim with one edge, the first of R, L, S that
+  holds. A table claim quotes within one cell (a caption or head for a whole)
+  and reads "Kopf: Zelle; …" as printed, its label leaving out the reference
+  marks as every claim's does (§3.1). A rule the source prints differently in
+  two places is a claim per printing that passes, the disagreement shown in
+  the graph and never resolved (card #341).
 - **F figure without a text layer** — a figure printed as an image, of which
   the extracted text holds only the caption and the footnotes, stays on the
   page, whether a marked recommendation delegates to it or not: no quote
   reaches its content (§6.2), so no claim, statement, concept or edge holds
   it. The sentence of a marked recommendation that delegates to it, telling
   the reader to proceed as the figure shows, is a claim as printed (§3.1),
-  the delegation in its label. Its footnotes follow the figure: they stay on
-  the page while its content does. Its caption is text, a place like any
+  the delegation in its label; its statement's action is what the sentence
+  names, its label keeping the delegation ("nach Abb. N"), and no slot holds
+  the figure's content. Its footnotes follow the figure: they stay on the
+  page while its content does. Its caption is text, a place like any
   other. Whether a later view transcribes such a figure is open (open
   question figures-without-text).
 - **E edge** — to each claim of the section whose wording carries the term, the
@@ -1130,11 +1188,13 @@ layer (F).
   or of two: each is linked as §3.1 says; what one says of the other is
   said between statements (`specializes`, `complements`). (2) How certain the
   evidence is: `evidence` on the recommendation's claim (§3.1); effect data,
-  study summaries and rationale: nothing. (3) A condition of the statement: an
+  study summaries and rationale: nothing, also in a table or figure a marked
+  recommendation names. (3) A condition of the statement: an
   edge relates two claims and never writes a slot, mints a statement or decides
   what a circumstance is to a statement (§4.1); a circumstance the statement
-  lacks is named in the pull request. (4) A cross-reference, a research
-  question, a quality indicator (→ quality-indicators). (5) The top or a
+  lacks is named in the pull request. (4) A cross-reference, a referral to
+  another work in place of a recommendation, a research question, a quality
+  indicator (→ quality-indicators). (5) The top or a
   part of a rule's combination (§3.1) that is not itself an answer: it is
   reached through the combination, and the answer's claim carries the edge.
 
@@ -1404,9 +1464,11 @@ pool, and catches what was left out:
   whole recommendation the source marks (§3.1) — for a table, the row or group
   §5.1 K names; `kind` follows the sentence's form; `grade`, `verb`, `direction`,
   `basis`, `consensus`, `consensus_share`, `recommendation_no` and `section` are as printed at that place —
-  a box's grade, basis and consensus reaching its sentences as §3.1 says, a
-  consensus class the one the source's table gives the printed share, a
-  direction the one the grade fixes where it fixes one —,
+  a box's grade, basis and consensus reaching its sentences as §3.1 says (a
+  lettered part's only its own), the verb the one §3.1 reads off the
+  predicate, a consensus class the one the source's table gives the printed
+  share, a direction the one the grade fixes where it fixes one, a table's or
+  figure's `section` where it is printed —,
   and none is supplied where the page prints none (§11, rule 6; a body-text
   claim carries no grade, §5); a number in the label — a day, a dose, a value,
   a threshold — is the number on the page, and a reference mark the page
@@ -1452,16 +1514,21 @@ pool, and catches what was left out:
   source marks on the page has a claim, sharing its number where the source
   numbers it (§3.1: a marked recommendation of two sentences is two claims),
   every body-text place that passes the rule is a claim with its edge
-  (§5.1), every alternative of an "entweder … oder" is a claim of its own,
-  every claim of a marked recommendation is linked as §3.1 says — it supports
-  or contests a statement, a definition's concept reaches it by `defined_by`,
-  a gap notice stays unlinked —, and every body-text claim has its edge — a
-  body-text claim supports no statement, the rule of §5.1 gives it the edge
-  instead; a decline (§5.1 G4) and the top or a part of a combination that is
-  not itself an answer carry none (§5.1 N 5). What "marks" means is
+  (§5.1), read in the section §5.1 gives it, every alternative of an
+  "entweder … oder" is a claim of its own, a table's rows as §5.1 K counts
+  them, every claim of a marked recommendation is linked as §3.1 says — it
+  supports or contests a statement, one per action it instructs, a
+  definition's concept reaches it by `defined_by`, a gap notice and a sentence
+  saying only what the evidence shows stay unlinked —, and every body-text
+  claim has its edge — a body-text claim supports no statement, the rule of
+  §5.1 gives it the edge instead; a decline (§5.1 G4), a recommendation or
+  decline outside the marked ones (§5.1 U), a definition admitted only where
+  it stands (§5.1 G1, reached by `defined_by`) and the top or a part of a
+  combination that is not itself an answer carry none (§5.1 N 5). What "marks" means is
   read off the source, never assumed: a numbered, shaded box in one
   guideline, a numbered statement, a bulleted "offer", a sentence with a
-  grade letter in another; the schema's `kind: recommendation` with whatever
+  grade letter in another, whatever origin or status it prints beside the
+  mark; the schema's `kind: recommendation` with whatever
   number, grade and consensus the source prints is the unit, and the judge's
   questions are stated over that, not over any one layout. The page is the
   scope, not the chapter: the branch cited it,

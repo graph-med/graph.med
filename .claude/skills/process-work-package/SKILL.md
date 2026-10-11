@@ -174,8 +174,10 @@ A card says what kind of work it is, in its text or by what it touches.
 **extraction** — phase one, claims, mechanical: for every sentence of every
 marked recommendation, whatever its form (spec §3.1), and for every body-text
 place — a sentence, a footnote, a table or figure read in rows — that passes
-the body-text rule (spec §5.1, which also says its `kind`, that it is never
-graded, and which declines are gap notices), a claim in
+the body-text rule (spec §5.1, which also says its section, its `kind`, that
+it is never graded, which declines are gap notices, and which recommendations
+outside the marked ones and which definitions are claims without an edge), a
+claim in
 `data/claims/<source-id>/<slug>.yaml`:
 
 - id `claims/<source-id>/<hash8>` where `hash8` = first 8 hex of
@@ -207,9 +209,11 @@ graded, and which declines are gap notices), a claim in
   `uv run tools/validate.py --verify-quotes` before committing;
 - `grade` and `consensus` as the box prints them, reaching its sentences as
   spec §3.1 says (the grade to its recommendation and gap-notice sentences,
-  the consensus to all); `verb`, `direction`, `recommendation_no` and
-  `section` (the section the box lies in, never its number) as printed;
-  nothing the box does not state (underestimate, never upgrade);
+  the consensus to all; a lettered part's to that part's sentences only);
+  `verb` read off the predicate by spec §3.1's rule; `direction`,
+  `recommendation_no` and `section` (the section the box lies in, never its
+  number) as printed; nothing the box does not state (underestimate, never
+  upgrade);
 - locator `#page=N` with the **physical** page.
 
 Phase two, linking, judgment, all `modelling`: for each claim, search
@@ -217,14 +221,17 @@ Phase two, linking, judgment, all `modelling`: for each claim, search
 `supports`/`contests` it; mint a statement only when none fits, its slots
 referencing concepts. For each slot, search `data/concepts/` and the
 terminology namespaces before minting a concept; a new concept gets its
-`facet`. A box's fact or criterion sentence supports the statement spec §3.1
-names, a definition sentence none (its concept's `defined_by` reaches it), a gap
-notice none; a rule printed inside a box sentence stays in that claim and its
+`facet`. A box's sentence of recommendation form supports a statement per
+action it instructs, a fact or criterion sentence the statement spec §3.1
+names, a fact saying only what the evidence shows none, a definition sentence
+none (its concept's `defined_by` reaches it), a gap notice none; a rule printed inside a box sentence stays in that claim and its
 concept stays stated — name each in the pull request (open question
 rule-claim-granularity). A body-text claim supports no statement: it gets the
 edge spec §5.1 gives it (`refines`, `limits`, `supplements`, to the claim the
-rule names, its `rationale` naming the clause and the term), a decline none,
-and the rule's N clauses say what gets none. Edges go to
+rule names, its `rationale` naming the clause and the term), a decline and a
+recommendation outside the marked ones (§5.1 U) none and no statement, a
+definition only §5.1 G1's clause admits none (its concept's `defined_by`
+reaches it), and the rule's N clauses say what gets none. Edges go to
 `data/edges/<source-id>/<slug>.yaml`.
 
 **linking** — edits existing entities or adds edges under spec §11: every change
