@@ -53,7 +53,9 @@ Where it meets what the pool already has:
   does; there is no free-text wording field and no second reference to the
   claim, which already carries the sentence and is checked by
   `--verify-quotes`. Whether the rationale's quote is on the page is the
-  judge's reading.
+  judge's reading; whether a quote inside a modelling rationale falls under
+  the server's quote gate ([[quote-gate-follows-the-site]]) stays #299's
+  question.
 - **Threshold** (Decision 5). The edge carries none. A printed threshold of a
   trigger sits on the criterion or definition claim that the condition
   concept's one `defined_by` edge reaches (8.1's
