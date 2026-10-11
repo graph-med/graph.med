@@ -5,7 +5,7 @@ id: statements/kein-therapeutisches-plasma-bei-volumenmangel
 type: statement
 lang: de
 label: "Bei Patienten mit Sepsis oder septischem Schock therapeutisches Plasma nicht zur Behandlung eines Volumenmangels."
-short_label: "Kein Plasma bei Volumenmangel"
+short_label: "Kein Plasma zur Behandlung eines Volumenmangels"
 slots:
   population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
   action: concepts/therapeutisches-plasma
