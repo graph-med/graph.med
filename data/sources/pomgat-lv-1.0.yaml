@@ -81,6 +81,10 @@ grading_scheme:   # spec §3.1: Tabelle 5 (p. 19), section 2.2.4 and Tabelle 6 (
       source:
         - {at: sources/pomgat-lv-1.0#page=20, quote: "Keine mehrheitliche Zustimmung"}
         - {at: sources/pomgat-lv-1.0#page=20, quote: "<50% der Stimmberechtigten"}
+rating_systems:   # spec §3.1: the system its evidence rows are rated in, named by the title of Tabelle 4 (p. 19)
+  - system: grade
+    name: GRADE
+    source: {at: sources/pomgat-lv-1.0#page=19, quote: "Tabelle 4: Evidenzgraduierung nach GRADE"}
 outline:   # the complete table of contents (pp. 2–5), physical page = printed page
   - {section: "1", title: "Informationen zu dieser Leitlinie", page: 6}
   - {section: "1.1", title: "Herausgeber", page: 6}

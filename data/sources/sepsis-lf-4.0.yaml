@@ -84,6 +84,14 @@ grading_scheme:   # spec §3.1: Tabellen 7 and 8 (p. 148) and the count on p. 3,
       source:
         - {at: sources/sepsis-lf-4.0#page=148, quote: "Keine mehrheitliche Zustimmung"}
         - {at: sources/sepsis-lf-4.0#page=148, quote: "< 50 % der Stimmberechtigten"}
+rating_systems:   # spec §3.1: the systems its evidence rows are rated in, both named on one line of section 13.5 (p. 147),
+                  # the line the claims of 5.14 and 5.15 quote after their „Evidenzgrad: 1“
+  - system: grade
+    name: GRADE
+    source: {at: sources/sepsis-lf-4.0#page=147, quote: "nach GRADE und Oxford 2011 gekennzeichnet."}
+  - system: oxford_loe
+    name: Oxford 2011
+    source: {at: sources/sepsis-lf-4.0#page=147, quote: "nach GRADE und Oxford 2011 gekennzeichnet."}
 outline:   # every numbered entry of the table of contents (pp. 13–16), physical page = printed page; its seven
            # unnumbered entries (pp. 2, 3, 3, 17, 18, 152, 157) carry no section number and are left out
   - {section: "1", title: "Geltungsbereich und Zweck", page: 19}
