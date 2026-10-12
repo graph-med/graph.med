@@ -91,6 +91,34 @@
   source:
     at: sources/vorhofflimmern-lf-1.1#page=12
     quote: "Die EKG-Charakteristika umfassen unregelmäßige atriale Aktivierung ohne abgrenzbare"
+# Section 1.3 (p. 12, l. 26–27): in the guideline's voice, on the confirmation of a device-detected diagnosis before
+# therapy, for which no box of the chapter stands: §5.1 U, a claim without an edge and in no statement (#380 Decision 9).
+# „muss“ is no declared wording: no verb. It and p. 26, l. 26–28 ask an ECG before therapy, where p. 26, l. 28–30 weighs
+# treatments without one: disagrees_with (reading 18, its first option; ch03 edges).
+- id: claims/vorhofflimmern-lf-1.1/ab2e7dbe
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "1.3"
+  label: "Eine definitive Diagnose muss allerdings weiterhin durch ein EKG bestätigt werden, bevor therapeutische Entscheidungen getroffen werden."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=12
+    quote: "Eine definitive Diagnose muss allerdings weiterhin durch ein EKG bestätigt werden"
+# Section 1.3 (p. 12, l. 31–35): an individual treatment decision for DDAF „aus Sicht der Leitliniengruppe“, after a
+# report of substudies — U, a claim without an edge (reading 18, its first option; the other leaves it on the page as a
+# report, G2). „sinnvoll ist“ is no declared wording: no verb. „und und/oder“ as printed (#314 Decision 4); the
+# reference marks „[27, 28]“ and „[29]“ are left out.
+- id: claims/vorhofflimmern-lf-1.1/89b8c447
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "1.3"
+  label: "Substudien aus ARTESiA zeigen allerdings, dass Patient*innen mit DDAF und einem CHA2DS2VASc > 4 und und/oder Patient*innen mit vorangegangenem Schlaganfall oder transitorisch ischämischer Attacke von einer oralen Antikoagulation zu profitieren scheinen, so dass eine individualisierte Therapieentscheidung bei DDAF aus Sicht der Leitliniengruppe und der DGK sinnvoll ist."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=12
+    quote: "so dass eine individualisierte Therapieentscheidung bei DDAF aus Sicht der"
 # Tabelle 2 (p. 13, l. 4–16), „Unterscheidung von Vorhofflimmern nach Dokumentation“, its head „Definition
 # Vorhofflimmern“: printed in section 1.3, introduced by §1.2 (p. 11, l. 59, „siehe Tabelle 2“). Its row „Klinisches
 # Vorhofflimmern“ (l. 8–9) is the second printing of the rule, „Kopf: Zelle“ (spec §5.1 K), quoting its cell, since the
@@ -143,6 +171,20 @@
   source:
     at: sources/vorhofflimmern-lf-1.1#page=13
     quote: "Wenn sowohl paroxysmales als auch persistierendes AF feststellbar ist"
+# Section 1.4 (p. 13, l. 35–36): a re-evaluation of the decision not to pursue rhythm control, in the guideline's voice,
+# for which no box stands — U, a claim without an edge and in no statement (#380 Decision 9). „kann … sinnvoll sein“ is
+# the wording kann.
+- id: claims/vorhofflimmern-lf-1.1/088803aa
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "1.4"
+  label: "Je nach klinischer Situation kann im Verlauf eine erneute Evaluation dieser Therapiefestlegung sinnvoll sein."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=13
+    quote: "Je nach klinischer Situation kann im Verlauf eine erneute Evaluation dieser"
 # Tabelle 3 (p. 14, l. 4–24), „Klassifikation von klinischen Vorhofflimmern nach Episodendauer“ (the typo as printed),
 # its head „Klassifikation von Vorhofflimmern“: printed in section 1.6, introduced by §1.4 (p. 13, l. 23). Its five
 # rows, each „Kopf: Zelle“ (spec §5.1 K), each quoting its cell, since „Paroxysmal“ and „Persistierend“ recur on the
@@ -202,3 +244,16 @@
   source:
     at: sources/vorhofflimmern-lf-1.1#page=14
     quote: "Repräsentiert die Entscheidung des/der Patienten*in und des behandelnden Arztes"
+# Section 1.7.3 (p. 14, l. 63–64): congenital heart disease, a group no box names; the relative clause instructs
+# (`sollte`) — U, a claim without an edge and in no statement (#380 Decision 9).
+- id: claims/vorhofflimmern-lf-1.1/fb639743
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "1.7.3"
+  label: "AF bei nativen und operierten angeborenen Herzfehlern stellt einen seltenen, in dieser Gruppe aber häufigen Sonderfall dar, der in Zusammenarbeit mit Spezialisten für angeborene Herzfehler behandelt werden sollte."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=14
+    quote: "der in Zusammenarbeit mit Spezialisten für angeborene Herzfehler behandelt werden sollte"

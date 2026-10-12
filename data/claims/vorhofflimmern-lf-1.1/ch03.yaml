@@ -93,6 +93,22 @@
     quote: "mit erhöhtem Schlaganfallrisiko (siehe Tabelle 6)"
   provenance:
     consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=24, quote: "Konsensstärke: 100%"}
+# Section 3.1 (p. 25, l. 4): „Wenn einer dieser Faktoren vorliegt, sollte ein EKG aufgezeichnet werden“ — a claim beside
+# the connective Tabelle 6's combination quotes from it (reading 7, its first option; the other leaves it on the page),
+# saying that one factor of the table suffices for 3.1's ECG: R to 3.1 („mit erhöhtem Schlaganfallrisiko (siehe
+# Tabelle 6)“). The wording sollte. p. 24, l. 59–62 (the factors „entsprechen im Wesentlichen den CHA2DS2VA -
+# Schlaganfallsrisikofaktoren“) stays (reading 7); p. 25, l. 4–6 refers to other guidelines (N4), l. 6–8 to studies (N2).
+- id: claims/vorhofflimmern-lf-1.1/e11e1faf
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "3.1"
+  label: "Wenn einer dieser Faktoren vorliegt, sollte ein EKG aufgezeichnet werden, um ggfs. AF zu erkennen."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=25
+    quote: "Wenn einer dieser Faktoren vorliegt, sollte ein EKG aufgezeichnet werden"
 # Tabelle 6's rows (p. 25, l. 13–32), each a part of its combination in printed order, a criterion claim quoting its
 # cell in the column „Risikofaktor“, labelled „Kopf: Zelle“ (spec §5.1 K); no body-text edge (§5.1 N5): the table's
 # claim carries it. The column „Leitlinienverweis“ (the links to other guidelines) is a referral (N4) and stays out of
@@ -190,6 +206,58 @@
   source:
     at: sources/vorhofflimmern-lf-1.1#page=25
     quote: "Tabelle 6: Risikofaktoren, bei denen ein EKG zur Erkennung von AF möglicherweise sinnvoll ist."
+# Section 3.1, Begründung of 3.1 (p. 25, l. 38–40): the results „sprechen zum jetzigen Zeitpunkt gegen eine Empfehlung“
+# for a general, systematic screening — a decline (spec §5.1 G4), a gap notice without an edge (#380 Decision 9; whether
+# it reads as against is the physician's, #325's question 13). Box 3.2 recommends against such a screening with
+# devices: disagrees_with (reading 18, its first option). The quote is cut after the ASCII marks of l. 39.
+- id: claims/vorhofflimmern-lf-1.1/baa52349
+  type: claim
+  lang: de
+  kind: gap_notice
+  section: "3.1"
+  label: "Die publizierten Ergebnisse von systematischem, populationsbasierten AF-Screening und die wahrscheinliche Bedeutung der AF-Last (sog. \"AF-Burden\") für das Risiko von AF-assoziierten Komplikationen sprechen zum jetzigen Zeitpunkt gegen eine Empfehlung für ein generelles, systematisches Screening von AF."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=25
+    quote: "jetzigen Zeitpunkt gegen eine Empfehlung für ein generelles, systematisches Screening von AF"
+# Section 3.1, Begründung of 3.1 (p. 25, l. 40–43): the opportunistic screening, with „ein hohes Schlaganfallsrisiko“ and
+# „ein 12-Kanal EKG“, and its independence of the occasion — R to 3.1 each (reading 9, its first option; the others
+# are D, another group word and ECG without an age, or U). The wording empfehlen.
+- id: claims/vorhofflimmern-lf-1.1/40af986d
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "3.1"
+  label: "Es wird daher lediglich ein opportunistisches Screening empfohlen, bei dem bei allen Personen, die ein hohes Schlaganfallsrisiko aufweisen, ein 12-Kanal EKG aufgezeichnet wird, um AF zu erkennen."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=25
+    quote: "lediglich ein opportunistisches Screening empfohlen, bei dem bei allen Personen"
+- id: claims/vorhofflimmern-lf-1.1/36ead3bf
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "3.1"
+  label: "Dies wird unabhängig vom Anlass der Vorstellung beim Arzt oder im Krankenhaus empfohlen."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=25
+    quote: "Dies wird unabhängig vom Anlass der Vorstellung beim Arzt oder im Krankenhaus"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=25, quote: "im Krankenhaus empfohlen"}
+# Section 3.1, Begründung of 3.1 (p. 25, l. 43–44): rates the evidence „für den prognostischen Vorteil“ „niedrige“, where
+# the box's row prints „gering“ for the avoidance of ischaemic strokes — a fact claim (§5.1 N2's exception) joined to
+# 3.1's claim by disagrees_with (reading 10, the leaning D, as C3 read p. 44, l. 7).
+- id: claims/vorhofflimmern-lf-1.1/388d39aa
+  type: claim
+  lang: de
+  kind: fact
+  section: "3.1"
+  label: "Die niedrige Aussagesicherheit der Evidenz für den prognostischen Vorteil begründet den abgeschwächten Empfehlungsgrad."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=25
+    quote: "Die niedrige Aussagesicherheit der Evidenz für den prognostischen Vorteil"
 # Box 3.2 (p. 26, l. 12–19), in section 3.2, a „Konsensbasiertes Statement“: its grade cell prints „Statement“, which is
 # no grade, so the claim carries none, with the basis „EK“ printed below it (spec §3.1; #323 Decision 11). One
 # sentence, a recommendation against: „wird … nicht empfohlen“ is the wording empfehlen by step 3 (#325 Decision 13; the
@@ -214,3 +282,71 @@
     consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=26, quote: "Konsensstärke: 100%"}
     verb: {at: sources/vorhofflimmern-lf-1.1#page=26, quote: "wird zum jetzigen Zeitpunkt nicht empfohlen"}
     direction: {at: sources/vorhofflimmern-lf-1.1#page=26, quote: "wird zum jetzigen Zeitpunkt nicht empfohlen"}
+# Section 3.2, Begründung of 3.2 (p. 26, l. 24–32, 42–43): on device-detected AF, an action that is not 3.2's screening —
+# five sentences, five answers, U, claims without an edge and in no statement (#380 Decision 9). l. 24–26: kann, the
+# quote cut after the ASCII marks of l. 24.
+- id: claims/vorhofflimmern-lf-1.1/0f0a9356
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "3.2"
+  label: "Wenn subklinisches AF (\"device-detected\" AF) vorliegt, kann dies zum Anlass genommen werden, Veränderungen des Lebensstils zu empfehlen, die kardiovaskuläre Ereignisse verhindern, etwa Alkoholkarenz und regelmäßige Bewegung."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=26
+    quote: "kann dies zum Anlass genommen werden, Veränderungen"
+# l. 26–28: sollte. With p. 12, l. 26–27, it asks an ECG before therapy, where l. 28–30 weighs treatments without one:
+# disagrees_with (reading 18).
+- id: claims/vorhofflimmern-lf-1.1/c74f58a1
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "3.2"
+  label: "Bevor eine Therapie mit Antikoagulanzien oder rhythmuserhaltender Therapie eingeleitet wird, sollte eine EKG-Bestätigung mittels Ein- oder Mehrkanal-EKG oder Langzeit-EKG erfolgen, um evidenzbasierte Empfehlungen zu ermöglichen."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=26
+    quote: "Bevor eine Therapie mit Antikoagulanzien oder rhythmuserhaltender Therapie eingeleitet wird"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=26, quote: "sollte eine EKG-Bestätigung mittels Ein- oder Mehrkanal-EKG oder Langzeit-EKG erfolgen"}
+# l. 28–30: empfehlen; the quote is cut before „Vor-“ / „und“ (l. 28–29), whose hyphen pdf.js drops.
+- id: claims/vorhofflimmern-lf-1.1/66548de2
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "3.2"
+  label: "Wenn keine EKG-Dokumentation vorliegt, wird ein individuelles Abwägen der Vor- und Nachteile möglicher Behandlungen empfohlen, welches die geringe Schlaganfallreduktion bei subklinischem AF und die Blutungsrisiken einer Antikoagulation berücksichtigt."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=26
+    quote: "Wenn keine EKG-Dokumentation vorliegt, wird ein individuelles Abwägen der"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=26, quote: "möglicher Behandlungen empfohlen"}
+# l. 30–32: sollte, another answer (what the weighing considers). Reference marks left out.
+- id: claims/vorhofflimmern-lf-1.1/a126340b
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "3.2"
+  label: "Diese Abwägung sollte die Vorhofflimmerlast („atrial fibrillation burden“) und das Ausmaß kardiovaskulärer Risikofaktoren wie insbesondere auch die Vorgeschichte (z.B. vorangehender Schlaganfall) berücksichtigen."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=26
+    quote: "Diese Abwägung sollte die Vorhofflimmerlast"
+# l. 42–43: an ECG diagnosis as the basis of therapy decisions, „scheint … sinnvoll“, no declared wording. It answers
+# as l. 26–28 does, so it too is joined to l. 28–30 by disagrees_with. l. 34–40 report studies (G2, N2), l. 39–40 an
+# evidence gap, l. 43–44 a fact; they stay. Reference mark left out.
+- id: claims/vorhofflimmern-lf-1.1/f65c5672
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "3.2"
+  label: "In der Zusammenschau der Daten zur AF-Last scheint es zum jetzigen Zeitpunkt sinnvoll, eine EKG-Diagnose von AF als Grundlage für Therapieentscheidungen heranzuziehen."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=26
+    quote: "In der Zusammenschau der Daten zur AF-Last scheint es zum jetzigen Zeitpunkt sinnvoll"

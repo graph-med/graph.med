@@ -18,6 +18,40 @@
 - [claims/vorhofflimmern-lf-1.1/a11a0b09, refines, claims/vorhofflimmern-lf-1.1/05edbf70, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "R: eines EKGs — „Die Diagnose “Vorhofflimmern” (AF) erfolgt anhand einer EKG-Dokumentation mittels eines Ein- oder Mehr-Kanal-EKG über eine Dauer von >30 Sekunden“: welches EKG und wie lange; die Empfehlung nennt keine Dauer."}]
 
+# body text (spec §5.1): section 2.1, pp. 16–17; one claim and edge per measure a sentence gives (§5.1 K); p. 16,
+# l. 36–38 are U and l. 38–39 a gap notice, without an edge
+- [claims/vorhofflimmern-lf-1.1/7e516fa6, supplements, claims/vorhofflimmern-lf-1.1/05edbf70, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "S: Diagnosestellung … durch ärztliche Interpretation eines EKGs — bei den Algorithmen implantierter Devices erachtet die Leitliniengruppe „die ärztlich validierte Sicherung der Diagnose mittels Sichtung der intrakardialen Ableitungen für erforderlich“."}]
+- [claims/vorhofflimmern-lf-1.1/0f320bc8, supplements, claims/vorhofflimmern-lf-1.1/05edbf70, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "S: Diagnosestellung … durch ärztliche Interpretation eines EKGs — „bei PPG-basiertem Verdacht auf AF“ wird „immer eine zusätzliche EKG-Dokumentation der Rhythmusstörung gefordert“."}]
+- [claims/vorhofflimmern-lf-1.1/2d814e73, refines, claims/vorhofflimmern-lf-1.1/05edbf70, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "R: eines EKGs von ausreichender Qualität — „Ein qualitativ gutes 1-Kanal-EKG wird als ausreichend erachtet“."}]
+- [claims/vorhofflimmern-lf-1.1/7ddfe0b6, refines, claims/vorhofflimmern-lf-1.1/05edbf70, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "R: durch ärztliche Interpretation — die finale Diagnose soll „ärztlich basiert und nicht allein über geräteeigene Algorithmen“ erfolgen."}]
+- [claims/vorhofflimmern-lf-1.1/b56b33c0, supplements, claims/vorhofflimmern-lf-1.1/05edbf70, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "S: Diagnosestellung — „bei Patient*innen mit seltenen Episoden von Herzrhythmusstörungen und/oder dem Verdacht auf AF“ kommen „gezielt tragbare Geräte (sog. Wearables) infrage“."}]
+- [claims/vorhofflimmern-lf-1.1/5e28837b, supplements, claims/vorhofflimmern-lf-1.1/05edbf70, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "S: Diagnosestellung — wenn die Ergebnisse über Wearables „nicht eindeutig sind“, ist „ein zusätzliches Mehr-Kanal- bzw. Langzeit-EKG für die Sicherung der Diagnose erforderlich“."}]
+
+# body text (spec §5.1): section 2.2, pp. 17–18, read against 2.3; p. 17, l. 49–51 and p. 18, l. 41–42 are U, l. 48–49 a
+# gap notice, without an edge; the two measures of l. 45–48 each a claim and an edge (§5.1 K)
+- [claims/vorhofflimmern-lf-1.1/cb77c290, refines, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "R: Therapieplanung — „Die Abschätzung von Symptomen, AF-Last sowie Komorbiditäten (siehe Tabelle 4) und damit verbunden das individuelle Risiko für thromboembolische Ereignisse, insbesondere ischämische Hirninfarkte sind Voraussetzung für die weitere Therapieplanung“."}]
+- [claims/vorhofflimmern-lf-1.1/44e7f655, refines, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "R: das Erfassen der Komorbiditäten — „Es sind alle kardiovaskulären Komorbiditäten zu erfassen, die modifizierbar sind beziehungsweise die den CHA2DS2-VA Score betreffen“: welche Komorbiditäten."}]
+- [claims/vorhofflimmern-lf-1.1/ad377767, limits, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "L: das Erfassen der Komorbiditäten — „Untersuchungen hinsichtlich einer koronaren Herzerkrankung (KHK) … empfiehlt die Leitliniengruppe nur bei begründetem Verdacht in Abhängigkeit von typischen Symptomen beziehungsweise in Abhängigkeit des kardiovaskulären Risikos“."}]
+- [claims/vorhofflimmern-lf-1.1/d14873e8, limits, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "L: das Erfassen der Komorbiditäten — Untersuchungen hinsichtlich „eines Diabetes mellitus empfiehlt die Leitliniengruppe nur bei begründetem Verdacht in Abhängigkeit von typischen Symptomen beziehungsweise in Abhängigkeit des kardiovaskulären Risikos“."}]
+- [claims/vorhofflimmern-lf-1.1/9f92b0b4, limits, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "L: das Erfassen der Komorbiditäten — „Auch bei Patient*innen mit bekannter KHK muss bei neu diagnostiziertem AF keine Ischämiediagnostik vorgenommen werden, sofern keine typische Angina pectoris oder andere Symptome als Grund für eine solche Diagnostik vorliegen“."}]
+- [claims/vorhofflimmern-lf-1.1/05521eeb, supplements, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "S: Therapieplanung — „Die Leitliniengruppe empfiehlt, mittels Laborchemie Störungen der Schilddrüsenfunktion auszuschließen beziehungsweise zu erfassen“: eine Maßnahme neben den Teilen der Empfehlung."}]
+- [claims/vorhofflimmern-lf-1.1/7a3b64b5, supplements, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "S: Therapieplanung — „die Erhebung eines Blutbildes sowie eine laborchemische Kontrolle von Serum-Kalium und der Nierenfunktion, letztere insbesondere vor Beginn einer Antikoagulation“ ist „empfohlen“: eine Maßnahme neben den Teilen der Empfehlung."}]
+- [claims/vorhofflimmern-lf-1.1/6e8b3039, supplements, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "S: Therapieplanung — „Bei Anzeichen für eine Herzinsuffizienz ist die Bestimmung des NT-proBNP Wertes sinnvoll“: eine Maßnahme neben den Teilen der Empfehlung."}]
+
 # body text (spec §5.1): section 2.2, Tabelle 4 (p. 19), read against 2.3, a claim per row; the rows that say what a part
 # of 2.3 covers refine it, those that add a measure beside them supplement it (reading 6)
 - [claims/vorhofflimmern-lf-1.1/8e8bf3ff, refines, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-11", lang: de,
@@ -33,6 +67,33 @@
 - [claims/vorhofflimmern-lf-1.1/b37bfd49, supplements, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "S: Therapieplanung — die Laboruntersuchungen der Primärevaluation (Tabelle 4, S. 19): „TSH“, „Hämoglobin (Hb)“, „Kalium“, „Kreatinin (GFR-Ermittlung)“, „Evtl. NT-pro BNP (bei Anzeichen einer Herzinsuffizienz)“, eine Maßnahme neben den Teilen der Empfehlung."}]
 
+# body text (spec §5.1): section 2.3's own text, p. 19, read against the boxes of 2.3.1 and 2.3.2; its first member is U,
+# without an edge, its second restates 2.3 (G3) and stays
+- [claims/vorhofflimmern-lf-1.1/d9051d76, supplements, claims/vorhofflimmern-lf-1.1/3bd908ef, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "S: die Wahrscheinlichkeit für das Vorliegen einer relevanten psychischen Störung — das Erfassen von „psychosozialen Faktoren bei Patient*innen mit AF“ ist „empfohlen“."}]
+
 # body text (spec §5.1): section 2.3.1, Tabelle 5 (p. 20), the instrument 2.4 names (K)
 - [claims/vorhofflimmern-lf-1.1/4808bb85, refines, claims/vorhofflimmern-lf-1.1/52b752b4, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "R: modifizierten EHRA-Score — Tabelle 5 (S. 20) nennt seine Klassen 1, 2a, 2b, 3 und 4 mit ihren Symptomen und Beschreibungen; die Empfehlung verweist darauf (siehe Tabelle 5)."}]
+
+# body text (spec §5.1): section 2.3.1, p. 20; l. 62 is a gap notice, without an edge
+- [claims/vorhofflimmern-lf-1.1/e39f0e79, supplements, claims/vorhofflimmern-lf-1.1/52b752b4, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "S: mit dem modifizierten EHRA-Score — der Einsatz des EHRA-Scores „mit der Option, bei Bedarf ausführlichere Instrumente zur Erfassung der Lebensqualität heranzuziehen“."}]
+
+# body text (spec §5.1): section 2.3.2, p. 21
+- [claims/vorhofflimmern-lf-1.1/3ffac246, supplements, claims/vorhofflimmern-lf-1.1/4a3f0cd0, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "S: klinische Diagnosestellung — die Leitliniengruppe „weist zudem auf die Möglichkeit hin, psychosoziale Beschwerden im Rahmen der psychosomatischen Grundversorgung zu thematisieren“."}]
+
+# disagreement (spec §3.1, §5, §5.1 D and N2; #372; #380 Decision 8, reading 10): the Begründung of 2.3 rates its
+# evidence in other words — joined to 2.3's claim, the one claim carrying its rows, and to each other where they rate the
+# same evidence; each printing kept and shown, none chosen
+- [claims/vorhofflimmern-lf-1.1/55b66d4f, disagrees_with, claims/vorhofflimmern-lf-1.1/d704e2b7, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Empfehlung 2.3 (S. 18) bewertet ihre Evidenz mit „Kardiovaskuläre Mortalität: gering ⊕⊕⊝⊝“ und „Gesamtmortalität, Schlaganfälle, Blutungsrisiko: sehr gering ⊕⊝⊝⊝“; ihre Begründung (S. 18, Z. 28–31) nennt für das Review, das Hinweise auf dieselben Endpunkte liefert, „niedriger bis sehr niedriger Aussagesicherheit“. Der Kasten druckt „gering“ und „sehr gering“, der Text „niedriger bis sehr niedriger“; ob die Wörter dieselben Stufen meinen, sagt die Seite nicht, und Werte werden nicht aufeinander abgebildet: beide Wortlaute stehen nebeneinander."}]
+- [claims/vorhofflimmern-lf-1.1/55b66d4f, disagrees_with, claims/vorhofflimmern-lf-1.1/446ab274, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Empfehlung 2.3 (S. 18) bewertet „Kardiovaskuläre Mortalität: gering ⊕⊕⊝⊝“; ihre Begründung (S. 18, Z. 33–34): „kardiovaskuläre Mortalität OR: 0.37; … (GRADE niedrig)“. Der Kasten druckt „gering“, der Text „niedrig“; ob beide Wörter dieselbe Stufe meinen, sagt die Seite nicht: beide Wortlaute stehen nebeneinander."}]
+- [claims/vorhofflimmern-lf-1.1/55b66d4f, disagrees_with, claims/vorhofflimmern-lf-1.1/1659cc8c, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Empfehlung 2.3 (S. 18) bewertet „Gesamtmortalität, Schlaganfälle, Blutungsrisiko: sehr gering ⊕⊝⊝⊝“; ihre Begründung (S. 18, Z. 34): „Schlaganfall OR: 0.55; … (GRADE sehr niedrig)“. Der Kasten druckt „sehr gering“, der Text „sehr niedrig“; ob beide Wörter dieselbe Stufe meinen, sagt die Seite nicht: beide Wortlaute stehen nebeneinander."}]
+- [claims/vorhofflimmern-lf-1.1/55b66d4f, disagrees_with, claims/vorhofflimmern-lf-1.1/a5b35ffe, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Empfehlung 2.3 (S. 18) bewertet drei ihrer Endpunkte mit „sehr gering ⊕⊝⊝⊝“ und die kardiovaskuläre Mortalität mit „gering ⊕⊕⊝⊝“; ihre Begründung (S. 18, Z. 35–36): „Trotz der geringen Aussagesicherheit erscheint eine starke Empfehlung gerechtfertigt“. Für die Evidenz als Ganzes nennt der Text die eine Stufe „gering“, wo der Kasten für drei Endpunkte „sehr gering“ druckt."}]
+- [claims/vorhofflimmern-lf-1.1/d704e2b7, disagrees_with, claims/vorhofflimmern-lf-1.1/a5b35ffe, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Die Begründung der Empfehlung 2.3 nennt die Aussagesicherheit derselben Evidenz zweimal: „mit niedriger bis sehr niedriger Aussagesicherheit“ (S. 18, Z. 31) und „Trotz der geringen Aussagesicherheit“ (Z. 35) — eine Spanne in den Wörtern „niedrig“ und „sehr niedrig“, und die eine Stufe „gering“; ob die Wörter dieselben Stufen meinen, sagt die Seite nicht: beide Wortlaute stehen nebeneinander."}]
