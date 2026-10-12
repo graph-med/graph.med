@@ -1,0 +1,18 @@
+# The condition of the scope edges that hang a group the guideline takes into its scope without AF under the scope
+# root of views/vorhofflimmern-lf-1.1 (spec §5 `in_scope_of`; data/edges/vorhofflimmern-lf-1.1/scope-edges.yaml):
+# the screened groups of 3.1 and 3.2, the smokers of 4.6, the kidney groups of 5.6 and 5.7 and the anticoagulated
+# patients of 8.1–8.3 belong to the target group only then. Minted by card #393 (#314's part X2) as card #364's
+# convention says, in the shape of concepts/bei-sepsis-oder-septischem-schock; flagged for the physician. It states
+# membership in the target group the Zielsetzung names (p. 10), not the disease's definition. Near-duplicates
+# named, not merged (card #393, reading 4): concepts/vorhofflimmern, the disease §1.1 defines (p. 11), and
+# concepts/diagnostiziertes-vorhofflimmern, the diagnosis made (§1.2, Tabelle 2, box 2.2).
+id: concepts/bei-vorhofflimmern
+type: concept
+lang: de
+label: bei Vorhofflimmern
+facet: patient_state
+definition: Die Person hat Vorhofflimmern, wie die Patient*innen, deren Versorgung die Leitlinie optimieren will.
+source: modelling
+provenance:
+  definition:
+    - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "Optimierung der Versorgung von Patient*innen mit AF"}
