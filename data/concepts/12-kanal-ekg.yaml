@@ -1,0 +1,10 @@
+# A concept of card #380 (C1), chapter 2 of sources/vorhofflimmern-lf-1.1.
+# The action of box 2.2: „sollte ein 12-Kanal EKG geschrieben werden“ (p. 17, l. 18–19), labelled as the body text
+# spells it („12-Kanal-EKG“, p. 16, l. 20, 24; p. 17, l. 35). A judged ECG is an intervention (spec §3.2; card #364,
+# reading 13). Another part may need it (the ECG actions are the inventory's shared candidates).
+id: concepts/12-kanal-ekg
+type: concept
+lang: de
+label: "12-Kanal-EKG"
+facet: intervention
+source: modelling

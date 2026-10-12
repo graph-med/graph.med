@@ -1,0 +1,12 @@
+# A statement of card #380 (C1), chapter 3 of sources/vorhofflimmern-lf-1.1.
+# Box 3.1 (p. 24). Anchor: the screened group the qualifier gives, a group outside AF (card #364, convention row 6;
+# #314's answer 3), derived by its defined_by edge to the narrower claim. The purpose clause stays in the label.
+id: statements/mindestens-einmaliges-ekg-zum-erkennen-von-vorhofflimmern
+type: statement
+lang: de
+label: "Um bislang unerkanntes Vorhofflimmern mit hoher Vorhofflimmern-Last zu erkennen, Menschen im Alter ≥75 Jahren und/oder mit erhöhtem Schlaganfallrisiko (siehe Tabelle 6) ein mindestens einmaliges EKG empfehlen."
+short_label: "Mindestens einmaliges EKG zum Erkennen von Vorhofflimmern"
+slots:
+  population: concepts/menschen-im-alter-ab-75-jahren-und-oder-mit-erhoehtem-schlaganfallrisiko
+  action: concepts/mindestens-einmaliges-ekg
+source: modelling

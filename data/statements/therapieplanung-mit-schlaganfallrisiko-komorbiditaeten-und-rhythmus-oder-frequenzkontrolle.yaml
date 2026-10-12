@@ -1,0 +1,13 @@
+# A statement of card #380 (C1), chapter 2 of sources/vorhofflimmern-lf-1.1.
+# Box 2.3 (p. 18), one statement for its three parts (reading 13, its first option; #325 checklist case 12). Anchor:
+# the box names no group — convention row 2's reading, flagged: newly diagnosed AF, as #314's answer 2 gives it for 2.3,
+# 2.4 and 2.5 a) (Tabelle 4's „Primärevaluation bei neu diagnostiziertem Vorhofflimmern“, p. 19).
+id: statements/therapieplanung-mit-schlaganfallrisiko-komorbiditaeten-und-rhythmus-oder-frequenzkontrolle
+type: statement
+lang: de
+label: "Die Therapieplanung umfasst die Abschätzung des Schlaganfallrisikos, das Erfassen der Komorbiditäten und die Entscheidung über Rhythmus- oder Frequenzkontrolle."
+short_label: "Therapieplanung: Risiko, Komorbiditäten, Rhythmus/Frequenz"
+slots:
+  population: concepts/erstdiagnostiziertes-vorhofflimmern
+  action: concepts/therapieplanung-mit-schlaganfallrisiko-komorbiditaeten-und-rhythmus-oder-frequenzkontrolle
+source: modelling

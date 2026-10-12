@@ -1,0 +1,12 @@
+# A statement of card #380 (C1), chapter 2 of sources/vorhofflimmern-lf-1.1.
+# Box 2.4 (p. 20). Anchor: „von AF“ names no group narrower than AF — convention row 2's reading, flagged: newly
+# diagnosed AF (#314's answer 2).
+id: statements/schwere-der-symptomatik-mit-dem-modifizierten-ehra-score-erheben
+type: statement
+lang: de
+label: "Die Schwere der Symptomatik von AF mit dem modifizierten EHRA-Score erheben (siehe Tabelle 5)."
+short_label: "Schwere der Symptomatik mit modifiziertem EHRA-Score"
+slots:
+  population: concepts/erstdiagnostiziertes-vorhofflimmern
+  action: concepts/einsatz-des-modifizierten-ehra-scores
+source: modelling

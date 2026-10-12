@@ -1,0 +1,12 @@
+# A concept of card #380 (C1), chapter 2 of sources/vorhofflimmern-lf-1.1.
+# The action of box 2.5 a), second sentence: „Dies kann mittels Screening-Fragen im Anamnesegespräch oder
+# standardisierter Fragebögen erfolgen.“ (p. 21, l. 17–18): one concept naming both means, as the sentence joins them
+# by „oder“ (spec §3.2). Chapter-only. Not concepts/regelmaessige-anwendung-eines-screeninginstruments (a look-alike,
+# named).
+id: concepts/screening-fragen-im-anamnesegespraech-oder-standardisierte-frageboegen
+type: concept
+lang: de
+label: "Screening-Fragen im Anamnesegespräch oder standardisierte Fragebögen"
+short_label: "Screening-Fragen oder standardisierte Fragebögen"
+facet: intervention
+source: modelling

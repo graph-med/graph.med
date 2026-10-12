@@ -1,0 +1,10 @@
+# A concept of card #380 (C1), chapter 2 of sources/vorhofflimmern-lf-1.1.
+# The action of box 2.4, „Die Schwere der Symptomatik von AF soll mit dem modifizierten EHRA-Score erhoben werden“
+# (p. 20, l. 12–13): the use of the score, a concept beside concepts/modifizierter-ehra-score, the quantity (spec §3.2),
+# as C3's concepts/einsatz-des-cha2ds2-va-scores stands beside its score.
+id: concepts/einsatz-des-modifizierten-ehra-scores
+type: concept
+lang: de
+label: "Einsatz des modifizierten EHRA-Scores"
+facet: intervention
+source: modelling

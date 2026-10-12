@@ -1,0 +1,13 @@
+# A statement of card #380 (C1), chapter 2 of sources/vorhofflimmern-lf-1.1.
+# Box 2.2 (p. 17). Anchor: the root, „Patient*innen mit diagnostiziertem AF“ naming nothing narrower than AF (card
+# #364, convention row 1; #380 Decision 10); „diagnostiziertem AF“ is no condition here (reading 16: the follows edge
+# from 2.1 carries it as a trigger, which no condition entry holds — named in the pull request).
+id: statements/12-kanal-ekg-bei-diagnostiziertem-vorhofflimmern
+type: statement
+lang: de
+label: "Bei Patient*innen mit diagnostiziertem AF ein 12-Kanal-EKG schreiben."
+short_label: "12-Kanal EKG bei diagnostiziertem AF"
+slots:
+  population: concepts/patientinnen-mit-vorhofflimmern
+  action: concepts/12-kanal-ekg
+source: modelling

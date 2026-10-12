@@ -1,0 +1,11 @@
+# A concept of card #380 (C1), chapter 3 of sources/vorhofflimmern-lf-1.1.
+# The action of statement box 3.2, recommended against: „Ein generelles Screening auf Vorhofflimmern mit Geräten, die
+# ein kontinuierliches Monitoring ermöglichen (z. B. Smartwatches, Wearables)“ (p. 26, l. 14–15), the examples left
+# in the statement's label. Chapter-only.
+id: concepts/generelles-screening-auf-vorhofflimmern-mit-geraeten-zum-kontinuierlichen-monitoring
+type: concept
+lang: de
+label: "generelles Screening auf Vorhofflimmern mit Geräten, die ein kontinuierliches Monitoring ermöglichen"
+short_label: "generelles Screening auf Vorhofflimmern mit Geräten"
+facet: intervention
+source: modelling

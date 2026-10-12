@@ -1,0 +1,12 @@
+# A concept of card #380 (C1), chapter 2 of sources/vorhofflimmern-lf-1.1.
+# The action of box 2.3, one action naming its three parts as printed (reading 13, its first option; #325 checklist
+# case 12): „Die Therapieplanung soll die Abschätzung des Schlaganfallrisikos, das Erfassen der Komorbiditäten und die
+# Entscheidung über Rhythmus- oder Frequenzkontrolle umfassen.“ (p. 18, l. 9–11). Chapter-only. Its short label
+# shortens two of the parts' words („Risiko“, „Rhythmus/Frequenz“) to fit a box.
+id: concepts/therapieplanung-mit-schlaganfallrisiko-komorbiditaeten-und-rhythmus-oder-frequenzkontrolle
+type: concept
+lang: de
+label: "Therapieplanung mit Abschätzung des Schlaganfallrisikos, Erfassen der Komorbiditäten und Entscheidung über Rhythmus- oder Frequenzkontrolle"
+short_label: "Therapieplanung: Risiko, Komorbiditäten, Rhythmus/Frequenz"
+facet: intervention
+source: modelling

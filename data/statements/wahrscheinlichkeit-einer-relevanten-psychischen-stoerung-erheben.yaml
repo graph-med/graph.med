@@ -1,0 +1,12 @@
+# A statement of card #380 (C1), chapter 2 of sources/vorhofflimmern-lf-1.1.
+# Box 2.5 a), first sentence (p. 21). Anchor: the box names no group — convention row 2's reading, flagged: newly
+# diagnosed AF (#314's answer 2). The examples stay in the label (reading 5).
+id: statements/wahrscheinlichkeit-einer-relevanten-psychischen-stoerung-erheben
+type: statement
+lang: de
+label: "Die Wahrscheinlichkeit für das Vorliegen einer relevanten psychischen Störung (z. B. Depression, Angststörung, posttraumatische Belastungsstörung, Schizophrenie, bipolare Störung) erheben."
+short_label: "Wahrscheinlichkeit einer psychischen Störung erheben"
+slots:
+  population: concepts/erstdiagnostiziertes-vorhofflimmern
+  action: concepts/erhebung-der-wahrscheinlichkeit-einer-relevanten-psychischen-stoerung
+source: modelling

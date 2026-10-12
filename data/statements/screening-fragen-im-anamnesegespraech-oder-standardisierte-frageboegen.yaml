@@ -1,0 +1,13 @@
+# A statement of card #380 (C1), chapter 2 of sources/vorhofflimmern-lf-1.1.
+# Box 2.5 a), second sentence (p. 21), „Dies kann mittels …“: a remark that instructs how, a statement of its own (#325
+# checklist case 5; #380 Decision 2). Its label holds only what the sentence prints. Anchor: the sentence names no
+# group — convention row 2's reading, flagged: newly diagnosed AF, as for a)'s first sentence (#314's answer 2).
+id: statements/screening-fragen-im-anamnesegespraech-oder-standardisierte-frageboegen
+type: statement
+lang: de
+label: "Screening-Fragen im Anamnesegespräch oder standardisierte Fragebögen einsetzen."
+short_label: "Screening-Fragen oder standardisierte Fragebögen"
+slots:
+  population: concepts/erstdiagnostiziertes-vorhofflimmern
+  action: concepts/screening-fragen-im-anamnesegespraech-oder-standardisierte-frageboegen
+source: modelling

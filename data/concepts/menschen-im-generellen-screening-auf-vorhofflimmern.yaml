@@ -1,0 +1,13 @@
+# A concept of card #380 (C1), chapter 3 of sources/vorhofflimmern-lf-1.1.
+# The group statement box 3.2 addresses, which it does not print (reading 17): the people a general screening for AF
+# would reach, labelled as close to the print as the page allows — „Ein generelles Screening auf Vorhofflimmern“
+# (p. 26, l. 14), „Menschen“ as box 3.1 calls the screened (p. 24, l. 39). A group outside AF (card #364, convention
+# rows 2 and 6), flagged for review. Its in_scope_of edge to the root, with the condition „bei Vorhofflimmern“, is
+# X2's.
+id: concepts/menschen-im-generellen-screening-auf-vorhofflimmern
+type: concept
+lang: de
+label: "Menschen im generellen Screening auf Vorhofflimmern"
+short_label: "im generellen Screening auf Vorhofflimmern"
+facet: patient_state
+source: modelling

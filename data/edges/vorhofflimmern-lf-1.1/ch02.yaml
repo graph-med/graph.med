@@ -1,6 +1,17 @@
 # Edges of card #380 (#314's part C1) from chapter 2 of sources/vorhofflimmern-lf-1.1 (pp. 16–22), all modelling. Edges
 # across parts are X1's, the scope and hierarchy edges X2's (#314 Decision 6).
 
+# evidence (spec §3.1): each box sentence of recommendation form supports a statement of its own, 2.5 a)'s second
+# sentence too (#325 checklist case 5); the body text supports none
+- [claims/vorhofflimmern-lf-1.1/05edbf70, supports, statements/diagnosestellung-durch-aerztliche-interpretation-eines-ekgs, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/4498fa9c, supports, statements/12-kanal-ekg-bei-diagnostiziertem-vorhofflimmern, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/55b66d4f, supports, statements/therapieplanung-mit-schlaganfallrisiko-komorbiditaeten-und-rhythmus-oder-frequenzkontrolle, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/52b752b4, supports, statements/schwere-der-symptomatik-mit-dem-modifizierten-ehra-score-erheben, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/3bd908ef, supports, statements/wahrscheinlichkeit-einer-relevanten-psychischen-stoerung-erheben, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/5a3e8ae9, supports, statements/screening-fragen-im-anamnesegespraech-oder-standardisierte-frageboegen, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/4a3f0cd0, supports, statements/klinische-diagnosestellung-bei-positivem-screening-auf-eine-psychische-stoerung, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/b9d6ad64, supports, statements/transthorakale-echokardiographie-bei-neu-diagnostiziertem-vorhofflimmern, {source: modelling}]
+
 # defined_by (spec §3.2, §5): the third printing of the rule of the diagnosis (reading 1, option (b)); the EHRA score to
 # Tabelle 5 (card #364, the ledger's owner C1)
 - [concepts/diagnostiziertes-vorhofflimmern, defined_by, claims/vorhofflimmern-lf-1.1/a11a0b09, {source: modelling, as_of: "2026-10-11", lang: de,

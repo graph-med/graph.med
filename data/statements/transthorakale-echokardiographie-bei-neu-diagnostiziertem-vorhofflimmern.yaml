@@ -1,0 +1,12 @@
+# A statement of card #380 (C1), chapter 2 of sources/vorhofflimmern-lf-1.1.
+# Box 2.6 (p. 22). Anchor: the AF form the box prints, „neu diagnostiziertem AF“ read as Tabelle 3's form (card #364,
+# convention row 3 and reading 1).
+id: statements/transthorakale-echokardiographie-bei-neu-diagnostiziertem-vorhofflimmern
+type: statement
+lang: de
+label: "Alle Patient*innen mit neu diagnostiziertem AF erhalten eine transthorakale Echokardiographie."
+short_label: "Transthorakale Echokardiographie bei neu diagnostiziertem AF"
+slots:
+  population: concepts/erstdiagnostiziertes-vorhofflimmern
+  action: concepts/transthorakale-echokardiographie
+source: modelling

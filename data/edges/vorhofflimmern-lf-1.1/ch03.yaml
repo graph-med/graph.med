@@ -2,6 +2,11 @@
 # across parts are X1's, the scope and hierarchy edges X2's, the condition „bei Vorhofflimmern“ of 3.1's and 3.2's
 # groups among them (#314 Decision 6).
 
+# evidence (spec §3.1): each box sentence supports a statement of its own, 3.2's against; the narrower claims of 3.1
+# and the body text support none
+- [claims/vorhofflimmern-lf-1.1/efd6af04, supports, statements/mindestens-einmaliges-ekg-zum-erkennen-von-vorhofflimmern, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/9eb3f7c0, supports, statements/kein-generelles-screening-auf-vorhofflimmern-mit-geraeten-zum-kontinuierlichen-monitoring, {source: modelling}]
+
 # defined_by (spec §3.1, §3.2, §5): the group 3.1's qualifier gives, to its narrower claim (#328 Decision 10); the risk
 # 3.1 names, to Tabelle 6 (card #364, the ledger's owner C1); obesity, to Tabelle 6's row (card #364; reading 7)
 - [concepts/menschen-im-alter-ab-75-jahren-und-oder-mit-erhoehtem-schlaganfallrisiko, defined_by, claims/vorhofflimmern-lf-1.1/a7f443b4, {source: modelling, as_of: "2026-10-11", lang: de,
