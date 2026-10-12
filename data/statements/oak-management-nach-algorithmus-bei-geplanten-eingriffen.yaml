@@ -1,0 +1,14 @@
+# A statement of card #382 (C7a), chapter 8 of sources/vorhofflimmern-lf-1.1.
+# Box 8.1 (p. 79), delegating to Abb. 6, a figure without a text layer: the action is what the sentence names, the label
+# keeps the delegation, no slot holds the figure's content (spec §5.1 F). Anchor: the group the box prints, outside AF
+# (convention rows 6 and 8); the occasion a condition (reading 4 of card #364).
+id: statements/oak-management-nach-algorithmus-bei-geplanten-eingriffen
+type: statement
+lang: de
+label: "Bei Patient*innen unter oraler Antikoagulation bei geplanten operativen und interventionellen Eingriffen nach dem in Abb. 6 dargestellten Algorithmus vorgehen."
+short_label: "Nach Abb. 6 vorgehen bei geplanten Eingriffen"
+slots:
+  population: concepts/patientinnen-unter-oraler-antikoagulation
+  action: concepts/management-von-oak
+  condition: [concepts/geplante-operative-und-interventionelle-eingriffe]
+source: modelling

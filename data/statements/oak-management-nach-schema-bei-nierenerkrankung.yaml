@@ -1,0 +1,13 @@
+# A statement of card #382 (C7a), chapter 8 of sources/vorhofflimmern-lf-1.1.
+# Box 8.3 (p. 83), delegating to Abb. 8, a figure without a text layer (spec §5.1 F); „Abb.8“ as printed. Anchor: the
+# anticoagulated group of 8.1 and 8.2, the kidney disease a condition beside the occasion (card #382 reading 1 (a)).
+id: statements/oak-management-nach-schema-bei-nierenerkrankung
+type: statement
+lang: de
+label: "Bei Patient*innen mit Nierenerkrankung unter oraler Antikoagulation bei geplanten operativen und interventionellen Eingriffen das Management von OAK gemäß dem in Abb.8 dargestellten Schema durchführen."
+short_label: "Management von OAK nach Abb.8 bei Nierenerkrankung"
+slots:
+  population: concepts/patientinnen-unter-oraler-antikoagulation
+  action: concepts/management-von-oak
+  condition: [concepts/nierenerkrankung, concepts/geplante-operative-und-interventionelle-eingriffe]
+source: modelling
