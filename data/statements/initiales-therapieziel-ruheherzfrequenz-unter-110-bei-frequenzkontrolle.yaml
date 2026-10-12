@@ -5,7 +5,7 @@ id: statements/initiales-therapieziel-ruheherzfrequenz-unter-110-bei-frequenzkon
 type: statement
 lang: de
 label: "Bei Patient*innen mit AF unter frequenzkontrollierender Therapie eine Ruheherzfrequenz von unter 110 Schlägen / Minute mit Symptomfreiheit als initiales Therapieziel anstreben."
-short_label: "Initiales Therapieziel: Ruheherzfrequenz unter 110/min"
+short_label: "Initial: Ruheherzfrequenz unter 110/min mit Symptomfreiheit"
 slots:
   population: concepts/patientinnen-mit-af-unter-frequenzkontrollierender-therapie
   action: concepts/ruheherzfrequenz-unter-110-schlaegen-minute-mit-symptomfreiheit

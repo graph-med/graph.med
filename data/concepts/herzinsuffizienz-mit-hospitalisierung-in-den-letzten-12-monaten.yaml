@@ -12,6 +12,6 @@ id: concepts/herzinsuffizienz-mit-hospitalisierung-in-den-letzten-12-monaten
 type: concept
 lang: de
 label: "Herzinsuffizienz mit mindestens einer herzinsuffizienzbedingten Hospitalisierung in den letzten 12 Monaten"
-short_label: "Herzinsuffizienz mit ≥ 1 Hospitalisierung in 12 Monaten"
+short_label: "≥ 1 herzinsuffizienzbedingte Hosp. in den letzten 12 Monaten"
 facet: patient_state
 source: modelling

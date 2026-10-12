@@ -42,9 +42,10 @@
 # adapted to the patient: Tabelle 15 and 7.6; G3) and l. 13–17's three-step algorithm (a restatement of 7.1–7.3, whose
 # order is a sequence between statements: N1) stay on the page; „Patienten*in“ (l. 13) as printed. l. 17: the algorithm
 # holds „insbesondere“ for patients with heart failure — R to 7.1, whose group is the algorithm's first step („für alle
-# Patient*innen, bei denen sich für eine frequenzkontrollierende Therapie entschieden wurde“, l. 14–15), as #325's
-# checklist read it (card #377 reading 9; R to each of 7.1–7.3 and G3 are the other readings). It states which cases
-# the group covers: kind criterion, no grade.
+# Patient*innen, bei denen sich für eine frequenzkontrollierende Therapie entschieden wurde“, l. 14–15), and, since
+# „Dies“ is the whole three-step algorithm, to 7.2 and 7.3, its second and third steps: §5.1 E gives the edge to each
+# claim of the section whose wording carries the term (the judge, 2026-10-12; card #377 reading 9, G3 the other reading).
+# It states which cases the group covers: kind criterion, no grade.
 - id: claims/vorhofflimmern-lf-1.1/71fc9106
   type: claim
   lang: de
@@ -263,9 +264,10 @@
   source:
     at: sources/vorhofflimmern-lf-1.1#page=73
     quote: "Die Auswahl der Schrittmacherstimulations-Modus (rechtsventrikulär, biventrikulär,"
-# Section 7.2 (p. 73, l. 12–14): when the ablation of 7.3 is done, „einige Wochen nach Schrittmacherimplantation“ — a time
-# beside p. 72's „zweizeitiger“, which it makes precise: R to 7.3 for what it adds (card #377 reading 10; a repetition,
-# G3, is the other reading). A time a term stands for: kind criterion.
+# Section 7.2 (p. 73, l. 12–14): when the AV-node ablation is done, „einige Wochen nach Schrittmacherimplantation“ — a time
+# beside p. 72's „zweizeitiger“, which it makes precise: R to 7.3 for what it adds, and to 7.4, whose „mit anschließender
+# AV-Knoten Ablation“ carries the term (§5.1 E; the judge, 2026-10-12; card #377 reading 10, G3 the other reading). A
+# time a term stands for: kind criterion.
 - id: claims/vorhofflimmern-lf-1.1/2ed7fdf6
   type: claim
   lang: de
@@ -533,15 +535,16 @@
   source:
     at: sources/vorhofflimmern-lf-1.1#page=76
     quote: "Diltiazem"
-# Digitoxin's contraindication cell holds a note and, after it, the citation of a journal article (l. 32–35): a reference
-# in the cell, not part of the row's reading, left out of the label as #325 Decision 8 says (card #377 reading 13); it
-# stays on the page. Its i. v. cell's unmatched „)“ as printed.
+# Digitoxin's contraindication cell holds a note and, after it, a cross-reference to a journal article (l. 32–35), kept
+# whole in the label as printed: spec §3.1 leaves out only reference marks, numbers pointing into the source's own
+# reference list, and keeps an author or a cross-reference (the coordinator, 2026-10-12, after the judge; card #377
+# reading 13). Its i. v. cell's unmatched „)“ as printed.
 - id: claims/vorhofflimmern-lf-1.1/d1eba440
   type: claim
   lang: de
   kind: criterion
   section: "7.3"
-  label: "Wirkstoffklasse / Wirkstoff: Digitalis / Digitoxin; Zulassung für Herzrhythmusstörungen: ja; Zulassung für Komorbidität: Herzinsuffizienz; Dosierung i. v. akute Therapie / Notfall: Im Allgemeinen wird mit einer mittelschnellen Sättigungsbehandlung begonnen: z. B. 1 –2 x tgl. d.h. 0,25 – 0,5 mg /Tag) 2. und 3. Tag: z. B. 1x tgl. d.h. 0,25 mg /Tag) Ab 4. Tag erfolgt die Erhaltungsdosis i. v. oder oral; Dosierung oral Dauertherapie: Aufsättigung: (p.o.) 0,5–1,0 mg (über 3 Tage) Tägliche Erhaltungsdosis: 0,035–0,1 mg Toxische Serumkonzentration: > 30 ng/ml; Kontraindikationen (Auswahl): – alternativ: Digoxin (u.a. Lieferengpass)"
+  label: "Wirkstoffklasse / Wirkstoff: Digitalis / Digitoxin; Zulassung für Herzrhythmusstörungen: ja; Zulassung für Komorbidität: Herzinsuffizienz; Dosierung i. v. akute Therapie / Notfall: Im Allgemeinen wird mit einer mittelschnellen Sättigungsbehandlung begonnen: z. B. 1 –2 x tgl. d.h. 0,25 – 0,5 mg /Tag) 2. und 3. Tag: z. B. 1x tgl. d.h. 0,25 mg /Tag) Ab 4. Tag erfolgt die Erhaltungsdosis i. v. oder oral; Dosierung oral Dauertherapie: Aufsättigung: (p.o.) 0,5–1,0 mg (über 3 Tage) Tägliche Erhaltungsdosis: 0,035–0,1 mg Toxische Serumkonzentration: > 30 ng/ml; Kontraindikationen (Auswahl): – alternativ: Digoxin (u.a. Lieferengpass) (siehe auch Bauersachs et al., Kardiologie 2023 · 17:39–42)"
   source:
     at: sources/vorhofflimmern-lf-1.1#page=76
     quote: "Digitoxin"
