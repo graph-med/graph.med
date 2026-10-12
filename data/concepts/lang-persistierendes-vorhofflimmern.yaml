@@ -2,16 +2,19 @@
 # question 1): one of the five families axes/vorhofflimmern-population proposes under the scope root (card #364,
 # Decisions 1 and 10). Labelled as the table prints the form, its row head with the table's head. 6.11 prints
 # „langanhaltend persistierendem AF“ (p. 62): one concept, read as the table's form (card #364, reading 1, for the
-# physician). Its rule is printed three ways — „mehr als 12 Monate“ (Tabelle 3, p. 14), „seit mindestens 12 Monaten“
-# (p. 61), „Dauer über 1 Jahr“ (p. 62) —, so it reaches each printing by a defined_by edge of its own, every pair
-# joined by disagrees_with, and no printing is chosen (#341; card #364, Decision 5): C1 writes the first, X1 the
-# edges to C5's printings with the disagrees_with edges between the parts (proposed for the maintainer). p. 56
-# prints „Persistierendes, insbesondere lang-persistierendes AF“ (l. 48), which reads long-persistent AF as a case
-# of persistent AF, where Tabelle 3 prints the two as rows at one level, and draws a 12-month line counted from the
-# diagnosis, not from continuous presence: „frühes Vorhofflimmern, das kürzer als 12 Monate besteht“ (l. 50–51) and
-# „persistierendem AF (insbesondere, wenn das AF vor mehr als 12 Monaten diagnostiziert wurde)“ (l. 62–63). Each is
-# a printing to keep, not to choose between (#341); showing them as claims and edges is the work of the part that
-# reads p. 56 or of X2, not of this card.
+# physician). Its rule is printed three ways, and the concept reaches each printing by a defined_by edge of its own,
+# every pair joined by disagrees_with, no printing chosen (#341; card #364, Decision 5): „mehr als 12 Monate
+# kontinuierlich vorhanden“, counted „zum Zeitpunkt der Entscheidung einer rhythmuskontrollierenden Strategie“
+# (Tabelle 3, p. 14, claim 1dd86d3a; C1's edge), „seit mindestens 12 Monaten“ (p. 61, 267a1e23) and „Dauer über 1
+# Jahr“ (p. 62, 18d45496), the last two reached by card #394 (X1, cross-chapter.yaml), which also joins Tabelle 3 to
+# each; the two of chapter 6 are joined by C5. Tabelle 3 bounds concepts/episodendauer, C5's printings
+# concepts/af-dauer: kept apart (#392). p. 56 prints the term in a fact (2d8ff97e, l. 44–46), which C5's two
+# definitions refine (E, X1). It prints two places more, neither a printing of this rule nor reached by an edge
+# (card #394, reading 5): „Persistierendes, insbesondere lang-persistierendes AF“ (l. 48) reads long-persistent AF as
+# a case of persistent AF, where Tabelle 3 prints the two as rows at one level, and l. 50–51 („frühes
+# Vorhofflimmern, das kürzer als 12 Monate besteht“) is no claim (G2); „persistierendem AF (insbesondere, wenn das AF
+# vor mehr als 12 Monaten diagnostiziert wurde)“ (l. 62–63, ab98ab2b) draws a 12-month line from the diagnosis and
+# names no long-persistent term.
 id: concepts/lang-persistierendes-vorhofflimmern
 type: concept
 lang: de

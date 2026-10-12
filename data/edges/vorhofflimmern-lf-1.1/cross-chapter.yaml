@@ -1,0 +1,52 @@
+# Edges between claims, concepts or statements of two parts of sources/vorhofflimmern-lf-1.1 (card #394, #314's part
+# X1), all modelling: what no chapter part could write, since none saw another's pages (#314 Decision 6), asserted once
+# after all of them. Five groups:
+#   - the second printings (spec §5 `defined_by`; #341): a rule two parts print differently, the concept reaching each
+#     printing by a defined_by edge of its own, every pair of printings joined by disagrees_with, none chosen;
+#   - E (spec §5.1 E): a definition the source marks for its term as such, to another part's claims using the term;
+#   - disagreement (spec §5, §5.1 D): places of two parts that answer one question otherwise;
+#   - statement edges (spec §5 `specializes`, `complements`, `follows`), each read by the four tests of spec §5, one
+#     edge per pair of statements, each rationale naming both boxes;
+#   - subsumption (spec §5 `broader`): the families across parts of concepts that fill no population or condition slot
+#     of a statement in views/vorhofflimmern-lf-1.1 (those that do are card #393's, in broader-edges.yaml and
+#     scope-edges.yaml).
+# Edges into concepts/mortalitaet and concepts/blutungsrate, which other sources use, are allowed; none leaves a reused
+# concept (#314 Decision 9; open question scope-edge-pinning). Nothing is inherited along `broader`. No figure gives an
+# edge here: Abb. 1, 2 and 4 are postponed (#327 question 4), Abb. 3's rows for 6.10 and 6.11 only leave words out,
+# and no figure is read for `follows` (#394 Decisions 4–6).
+
+# the second printings (#364 Decision 5; #314 answer 5; card #394 Decision 2): long-persistent AF, printed in Tabelle 3
+# (p. 14, C1's edge in ch01.yaml), on p. 61 and on p. 62 (C5's, joined to each other in ch06b.yaml); each pair joined
+# here, as the validator requires of a concept with several defined_by edges. No threshold is edited: Tabelle 3 bounds
+# concepts/episodendauer, C5's claims concepts/af-dauer (#392)
+- [concepts/lang-persistierendes-vorhofflimmern, defined_by, claims/vorhofflimmern-lf-1.1/267a1e23, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "„lang-persistierendes Vorhofflimmern“ — Abschnitt 6.7, Hintergrund (S. 61, Z. 58–59): „lang-persistierendem AF (definiert als AF, das seit mindestens 12 Monaten persistiert)“. Eine von drei Druckungen der Regel, neben Tabelle 3 (S. 14) und S. 62; jedes Paar ist durch disagrees_with verbunden, keine ist gewählt."}]
+- [concepts/lang-persistierendes-vorhofflimmern, defined_by, claims/vorhofflimmern-lf-1.1/18d45496, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "„lang-persistierendes Vorhofflimmern“ — Abschnitt 6.7, Begründung zu 6.11 (S. 62, Z. 36): „langanhaltend persistierendem AF (definiert als Dauer über 1 Jahr)“. Eine von drei Druckungen der Regel, neben Tabelle 3 (S. 14) und S. 61; jedes Paar ist durch disagrees_with verbunden, keine ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/1dd86d3a, disagrees_with, claims/vorhofflimmern-lf-1.1/267a1e23, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Das lang-persistierende AF, in zwei Kapiteln definiert: Tabelle 3 (S. 14, Z. 16–17) „AF, das zum Zeitpunkt der Entscheidung einer rhythmuskontrollierenden Strategie mehr als 12 Monate kontinuierlich vorhanden war“; Abschnitt 6.7 (S. 61, Z. 58–59) „(definiert als AF, das seit mindestens 12 Monaten persistiert)“. Die Tabelle verlangt mehr als 12 Monate („mehr als“), S. 61 schließt 12 Monate ein („mindestens“); die Tabelle zählt bis zur Entscheidung über eine rhythmuskontrollierende Strategie, S. 61 nennt keinen Zeitpunkt. Keine Grenze ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/1dd86d3a, disagrees_with, claims/vorhofflimmern-lf-1.1/18d45496, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Das lang-persistierende AF, in zwei Kapiteln definiert: Tabelle 3 (S. 14, Z. 16–17) „AF, das zum Zeitpunkt der Entscheidung einer rhythmuskontrollierenden Strategie mehr als 12 Monate kontinuierlich vorhanden war“; die Begründung zu 6.11 (S. 62, Z. 36) „(definiert als Dauer über 1 Jahr)“. S. 62 zieht die Grenze in Jahren, ohne Zeitpunkt und ohne „kontinuierlich“; dass „mehr als 12 Monate“ und „über 1 Jahr“ eine Grenze ziehen, sagt die Seite nicht. Keine ist gewählt."}]
+# 6.2's „>2“ (#381 Out; #314 Decision 20 F8; card #394 Decision 3): 6.2's Begründung prints the bound of the group ≥ 2
+# otherwise than 5.4 (p. 40); C4's edge joins it to 6.2's own „(CHA2DS2-VA Score ≥2)“ (fe1efb37), which prints 5.4's
+# bound and stays reached by no edge (open question equal-printings-one-defined-by)
+- [concepts/patientinnen-mit-cha2ds2-va-score-ab-2, defined_by, claims/vorhofflimmern-lf-1.1/08e21436, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "„Patient*innen mit CHA2DS2-VA-Score ≥ 2“ — Abschnitt 6.1.2, Begründung zu 6.2 (S. 50, Z. 53–54), unter den „o.g. Kriterien“ der frühen Rhythmuskontrolle: „CHA2DS2Va Score >2“. Die zweite Druckung der Grenze neben Empfehlung 5.4 (S. 40); beide sind durch disagrees_with verbunden, keine ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/08e21436, disagrees_with, claims/vorhofflimmern-lf-1.1/0300b924, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Die Grenze des CHA2DS2-VA-Scores, in zwei Kapiteln gedruckt: Empfehlung 5.4 (S. 40, Z. 43) „Bei einem ermittelten CHA2DS2-VA Score von ≥2“; die Begründung zu 6.2 (S. 50, Z. 54) „CHA2DS2Va Score >2“. „≥“ schließt den Wert 2 ein, „>“ schließt ihn aus. Die Textebene gibt „>“, der Druck zeigt es unterstrichen; die Begründung ist wie die Textebene erfasst, keine Grenze ist gewählt."}]
+
+# E (spec §5.1 E; card #394 reading 1): a definition the source marks for its term as such goes to every claim of the
+# source using the term. C5's two definitions of long-persistent AF reach C4's fact of p. 56, which uses the term and
+# does not define it. Both ends are body text: the leaning of open question body-text-to-body-text, for the
+# maintainer. Tabelle 3's row carries the term too and gets D above, not R. No other marked definition of one part
+# reaches another part's claim (card #394 Decisions 7–8, readings 2–5)
+- [claims/vorhofflimmern-lf-1.1/267a1e23, refines, claims/vorhofflimmern-lf-1.1/2d8ff97e, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "R: lang-persistierendem Vorhofflimmern — Abschnitt 6.7 definiert den Begriff als solchen (S. 61, Z. 58–59): „lang-persistierendem AF (definiert als AF, das seit mindestens 12 Monaten persistiert)“; S. 56 (Z. 44–46) nennt die Patient*innen „mit lang-persistierendem Vorhofflimmern“, ohne ihn zu definieren."}]
+- [claims/vorhofflimmern-lf-1.1/18d45496, refines, claims/vorhofflimmern-lf-1.1/2d8ff97e, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "R: lang-persistierendem Vorhofflimmern — die Begründung zu 6.11 definiert den Begriff als solchen (S. 62, Z. 36): „langanhaltend persistierendem AF (definiert als Dauer über 1 Jahr)“; S. 56 (Z. 44–46) nennt die Patient*innen „mit lang-persistierendem Vorhofflimmern“, ohne ihn zu definieren."}]
+
+# disagreement (spec §5.1 D; card #394 reading 6): p. 87 answers 6.12's question for new-onset perioperative AF, a group
+# 6.12 covers, and erases the distinction 6.12 draws; ff5eb55a keeps its R to 8.4 (ch08b.yaml). p. 87's „< 110/min“
+# against 7.1 is no disagreement: one bound, the page pointing to chapter 7 for it (reading 7)
+- [claims/vorhofflimmern-lf-1.1/ff5eb55a, disagrees_with, claims/vorhofflimmern-lf-1.1/09e4afab, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Die Kardioversion bei hämodynamischer Instabilität, in zwei Kapiteln beantwortet: Empfehlung 6.12 (S. 63, Z. 8–9) „Hämodynamisch instabile Patient*innen mit AF sollen unmittelbar elektrisch, nicht pharmakologisch kardiovertiert werden.“; Abschnitt 8.7.2 zum neu aufgetretenen perioperativen AF (S. 87, Z. 35–36) „Bei hämodynamischer Instabilität ist eine rasche, in der Regel elektrische Kardioversion erforderlich.“ 6.12 schließt die pharmakologische Kardioversion aus, S. 87 lässt sie mit „in der Regel“ offen, und „rasch“ steht gegen „unmittelbar“. Keine Stelle ist gewählt."}]
