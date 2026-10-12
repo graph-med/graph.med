@@ -45,6 +45,9 @@
 # G2/N2), l. 17–21 (Landiolol's pharmacology, N2) and l. 23–24 (a review of further measures, N4) stay on the page.
 # l. 15–16: two answers, one claim each (§5.1 K), each labelled with its own span of the sentence, cut at „allerdings“;
 # „wird empfohlen“ prints another declared scheme's wording (spec §3.1, step 3). The reference mark „[29]“ is left out.
+# The second answer is joined to Abb. 9's caption by disagrees_with: the image's prevention band considers a β-blocker for
+# cardiac and thoracic operations, and a thoracic operation is non-cardiac in this sentence's words (the judge,
+# 2026-10-12); footnote 1 of the figure sets „Herz und Thoraxchirurgie“ against „nicht herzchirurgischen Eingriffen“.
 - id: claims/vorhofflimmern-lf-1.1/c91595b6
   type: claim
   lang: de
@@ -293,8 +296,9 @@
 # Abb. 9 (p. 88), printed in section 8.7.3 and named by 8.4 in section 8.7, an image without a text layer: its content
 # stays on the page (spec §5.1 F; #327). Its caption (l. 6) is the figure's side where the image answers a question
 # otherwise than the text (spec §5, „the claim of its caption is its side“; #341; #383 Decision 7): against 8.5's
-# „gemäß den Empfehlungen 5.3 und 5.4“ (the image's „Siehe Empfehlungen 6.3 und 6.4“), and against p. 87's amiodarone
-# (reading 3). Its label is the caption's first sentence; the origin line „Abbildung nach [1]; bearbeitet durch die
+# „gemäß den Empfehlungen 5.3 und 5.4“ (the image, read off it and not quoted: Siehe Empfehlungen 6.3 und 6.4), against
+# p. 87's amiodarone (reading 3), and against p. 87's β-blocker not started before non-cardiac operations (the judge,
+# 2026-10-12). Its label is the caption's first sentence; the origin line „Abbildung nach [1]; bearbeitet durch die
 # Leitliniengruppe …“ stays on the page (#314 Decision 5). Footnotes 1 („gute Evidenz für Herz und Thoraxchirurgie; bei
 # nicht herzchirurgischen Eingriffen schwache Evidenz“) and 2 (examples of proarrhythmogenic triggers, as p. 87, l. 41
 # gives them) print no rule the body text prints otherwise: they follow the figure (#379). „Herz und Thoraxchirurgie“
@@ -313,7 +317,8 @@
 # „Adipositas (BMI >30)“ prints the bound of concepts/adipositas, whose rule is C1's (Tabelle 6).
 # Box 8.6 (p. 89, l. 20–36), in section 8.8: one sentence, ⇑⇑, „Konsensstärke: 100%“, „sollen“ the wording soll. Its
 # evidence block, headed „Qualität der Evidenz“ (which only names the column), prints two rated rows: „höhere Rezidivrate
-# nach Ablation: sehr gering ⊕⊝⊝⊝“, its endpoint concepts/af-rezidiv (#383 reading 7), and „längere Dauer und höhere
+# nach Ablation: sehr gering ⊕⊝⊝⊝“, its endpoint concepts/rezidivrate-nach-ablation, the setting „nach Ablation“ kept with
+# it (spec §3.1; #383 reading 7, the judge, 2026-10-12), and „längere Dauer und höhere
 # Strahlendosis: sehr gering ⊕⊝⊝⊝“, one entry per endpoint (spec §3.1; #261). „höhere“, „längere“ and „höhere“ state a
 # result and go into no field (#326 Decision 8). Each entry quotes the line that prints its endpoint; the rated rows' ⊕
 # line, which identifies the system, follows once. The literature line names authors and stays on the page. 8.6 and 8.7
@@ -330,7 +335,7 @@
   direction: for
   consensus_share: "100%"
   evidence:
-    - {outcome: concepts/af-rezidiv, value: "sehr gering", system: grade}
+    - {outcome: concepts/rezidivrate-nach-ablation, value: "sehr gering", system: grade}
     - {outcome: concepts/dauer-der-ablation, value: "sehr gering", system: grade}
     - {outcome: concepts/strahlendosis, value: "sehr gering", system: grade}
   source:

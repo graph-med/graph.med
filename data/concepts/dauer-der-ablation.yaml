@@ -2,7 +2,8 @@
 # The first endpoint of box 8.6's second evidence row, „längere Dauer und höhere Strahlendosis: sehr gering ⊕⊝⊝⊝“
 # (p. 89, l. 32–34): „längere“ states a result and goes into no field (#326 Decision 8). The row prints „Dauer“ alone;
 # labelled as the duration of the ablation the box names („invasive Therapie (Ablation)“, the first row „nach
-# Ablation“), its words the box's own — card #383 reading 7, for the physician. Chapter-only.
+# Ablation“), its words the box's own — card #383 reading 7, for the physician: the row prints no setting, so the
+# label adds one, where concepts/rezidivrate-nach-ablation keeps the one its row prints. Chapter-only.
 id: concepts/dauer-der-ablation
 type: concept
 lang: de

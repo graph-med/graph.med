@@ -1,0 +1,13 @@
+# A concept of card #383 (C7b), chapter 8 of sources/vorhofflimmern-lf-1.1.
+# The endpoint of box 8.6's first evidence row, „höhere Rezidivrate nach Ablation: sehr gering ⊕⊝⊝⊝“ (p. 89, l. 29–30),
+# labelled as printed: „höhere“ states a result and goes into no field (#326 Decision 8), „nach Ablation“ is the
+# endpoint's setting and stays with it (spec §3.1). The concept card #364's reading 8 proposed to C7 for exactly this
+# row; the judge, 2026-10-12. Near concept named, not merged: the ledger's concepts/af-rezidiv („AF-Rezidiv“, also
+# the boxes' „Rezidiv AF“, 4.1–4.5, 6.5, 6.6), the recurrence without a setting. The Hintergrund's „Bei einer Ablation
+# scheinen mit starker Adipositas die Rezidivraten anzusteigen“ (p. 89, l. 15) stays on the page. Chapter-only.
+id: concepts/rezidivrate-nach-ablation
+type: concept
+lang: de
+label: "Rezidivrate nach Ablation"
+facet: outcome
+source: modelling

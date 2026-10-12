@@ -2,7 +2,8 @@
 # The action of box 8.6, „sollen bei der Indikationsstellung für eine invasive Therapie (Ablation) die Zunahme
 # prozeduraler Risiken bei gleichzeitig Abnahme der Erfolgsaussichten berücksichtigt werden“ (p. 89): the weighing, its
 # words as printed („bei gleichzeitig Abnahme“, a typo kept, #314 Decision 4). The indication for the ablation is the
-# statement's condition (card #383, reading 6).
+# statement's condition (card #383, reading 6). Look-alike named, not a duplicate: C3's
+# concepts/beachtung-des-periprozeduralen-komplikationsrisikos (5.8, the left atrial appendage closure).
 id: concepts/beruecksichtigung-prozeduraler-risiken-und-erfolgsaussichten
 type: concept
 lang: de
