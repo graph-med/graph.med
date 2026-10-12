@@ -29,25 +29,28 @@
 - [claims/vorhofflimmern-lf-1.1/a11a0b09, refines, claims/vorhofflimmern-lf-1.1/05edbf70, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "R: eines EKGs — „Die Diagnose “Vorhofflimmern” (AF) erfolgt anhand einer EKG-Dokumentation mittels eines Ein- oder Mehr-Kanal-EKG über eine Dauer von >30 Sekunden“: welches EKG und wie lange; die Empfehlung nennt keine Dauer."}]
 
-# body text (spec §5.1): section 2.1, pp. 16–17; one claim and edge per measure a sentence gives (§5.1 K); p. 16,
-# l. 36–38 are U and l. 38–39 a gap notice, without an edge
-- [claims/vorhofflimmern-lf-1.1/7e516fa6, supplements, claims/vorhofflimmern-lf-1.1/05edbf70, {source: modelling, as_of: "2026-10-12", lang: de,
-   rationale: "S: Diagnosestellung … durch ärztliche Interpretation eines EKGs — bei den Algorithmen implantierter Devices erachtet die Leitliniengruppe „die ärztlich validierte Sicherung der Diagnose mittels Sichtung der intrakardialen Ableitungen für erforderlich“."}]
+# body text (spec §5.1): section 2.1, pp. 16–17; one claim and edge per measure a sentence gives (§5.1 K), the first
+# member of l. 30–34 refining 2.1 (R before S; the judge, 2026-10-12); p. 16, l. 36–38 are U and l. 38–39 a gap notice,
+# without an edge
+- [claims/vorhofflimmern-lf-1.1/7e516fa6, refines, claims/vorhofflimmern-lf-1.1/05edbf70, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "R: durch ärztliche Interpretation eines EKGs — bei den Algorithmen implantierter Devices erachtet die Leitliniengruppe „die ärztlich validierte Sicherung der Diagnose mittels Sichtung der intrakardialen Ableitungen für erforderlich“: welche Technik die ärztliche Interpretation dort ist."}]
 - [claims/vorhofflimmern-lf-1.1/0f320bc8, supplements, claims/vorhofflimmern-lf-1.1/05edbf70, {source: modelling, as_of: "2026-10-12", lang: de,
    rationale: "S: Diagnosestellung … durch ärztliche Interpretation eines EKGs — „bei PPG-basiertem Verdacht auf AF“ wird „immer eine zusätzliche EKG-Dokumentation der Rhythmusstörung gefordert“."}]
 - [claims/vorhofflimmern-lf-1.1/2d814e73, refines, claims/vorhofflimmern-lf-1.1/05edbf70, {source: modelling, as_of: "2026-10-12", lang: de,
    rationale: "R: eines EKGs von ausreichender Qualität — „Ein qualitativ gutes 1-Kanal-EKG wird als ausreichend erachtet“."}]
 - [claims/vorhofflimmern-lf-1.1/7ddfe0b6, refines, claims/vorhofflimmern-lf-1.1/05edbf70, {source: modelling, as_of: "2026-10-12", lang: de,
-   rationale: "R: durch ärztliche Interpretation — die finale Diagnose soll „ärztlich basiert und nicht allein über geräteeigene Algorithmen“ erfolgen."}]
+   rationale: "R: durch ärztliche Interpretation — „empfiehlt die Leitliniengruppe, dass die finale Diagnose ärztlich basiert und nicht allein über geräteeigene Algorithmen erfolgt“."}]
 - [claims/vorhofflimmern-lf-1.1/b56b33c0, supplements, claims/vorhofflimmern-lf-1.1/05edbf70, {source: modelling, as_of: "2026-10-12", lang: de,
    rationale: "S: Diagnosestellung — „bei Patient*innen mit seltenen Episoden von Herzrhythmusstörungen und/oder dem Verdacht auf AF“ kommen „gezielt tragbare Geräte (sog. Wearables) infrage“."}]
 - [claims/vorhofflimmern-lf-1.1/5e28837b, supplements, claims/vorhofflimmern-lf-1.1/05edbf70, {source: modelling, as_of: "2026-10-12", lang: de,
    rationale: "S: Diagnosestellung — wenn die Ergebnisse über Wearables „nicht eindeutig sind“, ist „ein zusätzliches Mehr-Kanal- bzw. Langzeit-EKG für die Sicherung der Diagnose erforderlich“."}]
 
-# body text (spec §5.1): section 2.2, pp. 17–18, read against 2.3; p. 17, l. 49–51 and p. 18, l. 41–42 are U, l. 48–49 a
-# gap notice, without an edge; the two measures of l. 45–48 each a claim and an edge (§5.1 K)
+# body text (spec §5.1): section 2.2, pp. 17–18, read against 2.3; p. 18, l. 41–42 are U, l. 48–49 a gap notice, without
+# an edge; the two measures of l. 45–48 and of l. 54–55 each a claim and an edge (§5.1 K; the judge, 2026-10-12)
 - [claims/vorhofflimmern-lf-1.1/cb77c290, refines, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-12", lang: de,
    rationale: "R: Therapieplanung — „Die Abschätzung von Symptomen, AF-Last sowie Komorbiditäten (siehe Tabelle 4) und damit verbunden das individuelle Risiko für thromboembolische Ereignisse, insbesondere ischämische Hirninfarkte sind Voraussetzung für die weitere Therapieplanung“."}]
+- [claims/vorhofflimmern-lf-1.1/910b1d70, refines, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "R: die Entscheidung über Rhythmus- oder Frequenzkontrolle — „Für alle Entscheidungen zur Therapie (Rhythmus- bzw. Frequenzkontrolle, Antikoagulation) empfiehlt die Leitliniengruppe eine partizipative Entscheidung“: wie die Entscheidung getroffen wird."}]
 - [claims/vorhofflimmern-lf-1.1/44e7f655, refines, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-12", lang: de,
    rationale: "R: das Erfassen der Komorbiditäten — „Es sind alle kardiovaskulären Komorbiditäten zu erfassen, die modifizierbar sind beziehungsweise die den CHA2DS2-VA Score betreffen“: welche Komorbiditäten."}]
 - [claims/vorhofflimmern-lf-1.1/ad377767, limits, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-12", lang: de,
@@ -58,8 +61,10 @@
    rationale: "L: das Erfassen der Komorbiditäten — „Auch bei Patient*innen mit bekannter KHK muss bei neu diagnostiziertem AF keine Ischämiediagnostik vorgenommen werden, sofern keine typische Angina pectoris oder andere Symptome als Grund für eine solche Diagnostik vorliegen“."}]
 - [claims/vorhofflimmern-lf-1.1/05521eeb, supplements, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-12", lang: de,
    rationale: "S: Therapieplanung — „Die Leitliniengruppe empfiehlt, mittels Laborchemie Störungen der Schilddrüsenfunktion auszuschließen beziehungsweise zu erfassen“: eine Maßnahme neben den Teilen der Empfehlung."}]
-- [claims/vorhofflimmern-lf-1.1/7a3b64b5, supplements, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-12", lang: de,
-   rationale: "S: Therapieplanung — „die Erhebung eines Blutbildes sowie eine laborchemische Kontrolle von Serum-Kalium und der Nierenfunktion, letztere insbesondere vor Beginn einer Antikoagulation“ ist „empfohlen“: eine Maßnahme neben den Teilen der Empfehlung."}]
+- [claims/vorhofflimmern-lf-1.1/2435ac90, supplements, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "S: Therapieplanung — „Zudem ist die Erhebung eines Blutbildes … empfohlen“: eine Maßnahme neben den Teilen der Empfehlung."}]
+- [claims/vorhofflimmern-lf-1.1/f41a8e19, supplements, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "S: Therapieplanung — „eine laborchemische Kontrolle von Serum-Kalium und der Nierenfunktion, letztere insbesondere vor Beginn einer Antikoagulation“ ist „empfohlen“: eine Maßnahme neben den Teilen der Empfehlung, mit ihrer eigenen Zeit."}]
 - [claims/vorhofflimmern-lf-1.1/6e8b3039, supplements, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-12", lang: de,
    rationale: "S: Therapieplanung — „Bei Anzeichen für eine Herzinsuffizienz ist die Bestimmung des NT-proBNP Wertes sinnvoll“: eine Maßnahme neben den Teilen der Empfehlung."}]
 
@@ -116,3 +121,15 @@
    rationale: "Empfehlung 2.2 gilt „Bei Patient*innen mit diagnostiziertem AF“ — der Diagnose, die Empfehlung 2.1 durch ärztliche Interpretation eines EKGs stellt."}]
 - [statements/klinische-diagnosestellung-bei-positivem-screening-auf-eine-psychische-stoerung, follows, statements/wahrscheinlichkeit-einer-relevanten-psychischen-stoerung-erheben, {source: modelling, as_of: "2026-10-12", lang: de, transition: follows, trigger: finding,
    rationale: "Empfehlung 2.5 b) gilt „Bei positivem Screening auf eine psychische Störung“ — dem Ergebnis der Erhebung, die Empfehlung 2.5 a) für die Wahrscheinlichkeit einer relevanten psychischen Störung empfiehlt."}]
+- [claims/vorhofflimmern-lf-1.1/a5b35ffe, disagrees_with, claims/vorhofflimmern-lf-1.1/446ab274, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Die Begründung der Empfehlung 2.3 bewertet dieselbe Evidenz in verschiedenen Wörtern: „Trotz der geringen Aussagesicherheit“ (S. 18, Z. 35) und für die kardiovaskuläre Mortalität „(GRADE niedrig)“ (Z. 33–34) — „gering“ und „niedrig“; ob beide Wörter dieselbe Stufe meinen, sagt die Seite nicht: beide Wortlaute stehen nebeneinander."}]
+- [claims/vorhofflimmern-lf-1.1/a5b35ffe, disagrees_with, claims/vorhofflimmern-lf-1.1/1659cc8c, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Die Begründung der Empfehlung 2.3 bewertet dieselbe Evidenz in verschiedenen Wörtern: „Trotz der geringen Aussagesicherheit“ (S. 18, Z. 35) und für den Schlaganfall „(GRADE sehr niedrig)“ (Z. 34) — „gering“ und „sehr niedrig“; ob die Wörter dieselbe Stufe meinen, sagt die Seite nicht: beide Wortlaute stehen nebeneinander."}]
+
+# disagreement (spec §5.1 D; #341; the judge, 2026-10-12): Tabelle 4's „insbesondere bei klinischem Verdacht“ against p. 18's
+# „nur bei begründetem Verdacht“ for the examinations of KHK and diabetes — a distinction one place draws and the other
+# does not; each keeps its R or L edge
+- [claims/vorhofflimmern-lf-1.1/c93ac471, disagrees_with, claims/vorhofflimmern-lf-1.1/ad377767, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Tabelle 4 (S. 19): „Somatische Komorbiditäten (insbesondere bei klinischem Verdacht evaluieren): … KHK“; die Begründung der Empfehlung 2.3 (S. 18, Z. 45–47): „Untersuchungen hinsichtlich einer koronaren Herzerkrankung (KHK) … empfiehlt die Leitliniengruppe nur bei begründetem Verdacht“. Die Tabelle nennt den Verdacht mit „insbesondere“, der Text mit „nur“: die eine Stelle beschränkt die Untersuchung auf den Verdacht, die andere nicht."}]
+- [claims/vorhofflimmern-lf-1.1/c93ac471, disagrees_with, claims/vorhofflimmern-lf-1.1/d14873e8, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Tabelle 4 (S. 19): „Somatische Komorbiditäten (insbesondere bei klinischem Verdacht evaluieren): … Diabetes …“; die Begründung der Empfehlung 2.3 (S. 18, Z. 46–47): Untersuchungen hinsichtlich „eines Diabetes mellitus empfiehlt die Leitliniengruppe nur bei begründetem Verdacht“. Die Tabelle nennt den Verdacht mit „insbesondere“, der Text mit „nur“: die eine Stelle beschränkt die Untersuchung auf den Verdacht, die andere nicht."}]

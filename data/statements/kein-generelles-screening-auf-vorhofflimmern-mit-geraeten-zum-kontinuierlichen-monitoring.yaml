@@ -1,11 +1,13 @@
 # A statement of card #380 (C1), chapter 3 of sources/vorhofflimmern-lf-1.1.
 # Statement box 3.2 (p. 26), a recommendation against. Anchor: the box prints no group — a group of its own for the
-# screened population, flagged (reading 17; card #364, convention rows 2 and 6). The reason clause stays in the label.
+# screened population, flagged (reading 17; card #364, convention rows 2 and 6). The reason clause stays in the label;
+# the short label keeps the box's qualifier „mit Geräten“ (as „Geräte-Screening“), „zum jetzigen Zeitpunkt“ and its
+# negation (the judge, 2026-10-12).
 id: statements/kein-generelles-screening-auf-vorhofflimmern-mit-geraeten-zum-kontinuierlichen-monitoring
 type: statement
 lang: de
 label: "Ein generelles Screening auf Vorhofflimmern mit Geräten, die ein kontinuierliches Monitoring ermöglichen (z. B. Smartwatches, Wearables), wird zum jetzigen Zeitpunkt nicht empfohlen, weil die therapeutischen Konsequenzen unklar sind."
-short_label: "Generelles Screening zum jetzigen Zeitpunkt nicht empfohlen"
+short_label: "Kein generelles Geräte-Screening zum jetzigen Zeitpunkt"
 slots:
   population: concepts/menschen-im-generellen-screening-auf-vorhofflimmern
   action: concepts/generelles-screening-auf-vorhofflimmern-mit-geraeten-zum-kontinuierlichen-monitoring

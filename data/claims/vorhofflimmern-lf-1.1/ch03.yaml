@@ -110,9 +110,10 @@
     at: sources/vorhofflimmern-lf-1.1#page=25
     quote: "Wenn einer dieser Faktoren vorliegt, sollte ein EKG aufgezeichnet werden"
 # Tabelle 6's rows (p. 25, l. 13–32), each a part of its combination in printed order, a criterion claim quoting its
-# cell in the column „Risikofaktor“, labelled „Kopf: Zelle“ (spec §5.1 K); no body-text edge (§5.1 N5): the table's
-# claim carries it. The column „Leitlinienverweis“ (the links to other guidelines) is a referral (N4) and stays out of
-# the labels; each cell's cross-reference „(vgl. …)“ stays. A row without a threshold carries its row in its label and
+# cell in the column „Risikofaktor“, labelled „Kopf: Zelle; …“ over both its columns (spec §3.1, §5.1 K); no body-text
+# edge (§5.1 N5): the table's claim carries it. The column „Leitlinienverweis“ (the links to other guidelines) is a
+# cross-reference, kept in the labels as printed, as each cell's „(vgl. …)“ is (spec §3.1; the judge, 2026-10-12, over
+# the card's Decision 6); the age row prints none. A row without a threshold carries its row in its label and
 # names no concept (F4): concepts/herzinsuffizienz, hypertonie, diabetes-mellitus and
 # schlaganfall-oder-tia-in-der-anamnese stay unlinked. The cell „Schlaganfall oder TIA in der Anamnese (vgl. S3-“ breaks
 # at „S3-“ / „LL“ (l. 25–26): the quote is cut before it.
@@ -121,7 +122,7 @@
   lang: de
   kind: criterion
   section: "3.1"
-  label: "Risikofaktor: Herzinsuffizienz (vgl. NVL Herzinsuffizienz)"
+  label: "Risikofaktor: Herzinsuffizienz (vgl. NVL Herzinsuffizienz); Leitlinienverweis: https://register.awmf.org/de/leitlinien/detail/nvl-006"
   source:
     at: sources/vorhofflimmern-lf-1.1#page=25
     quote: "Herzinsuffizienz (vgl. NVL Herzinsuffizienz)"
@@ -130,7 +131,7 @@
   lang: de
   kind: criterion
   section: "3.1"
-  label: "Risikofaktor: Hypertonie (vgl. NVL Hypertonie)"
+  label: "Risikofaktor: Hypertonie (vgl. NVL Hypertonie); Leitlinienverweis: https://register.awmf.org/de/leitlinien/detail/nvl-009"
   source:
     at: sources/vorhofflimmern-lf-1.1#page=25
     quote: "Hypertonie (vgl. NVL Hypertonie)"
@@ -150,7 +151,7 @@
   lang: de
   kind: criterion
   section: "3.1"
-  label: "Risikofaktor: Diabetes mellitus (vgl. NVL Typ-2-Diabetes)"
+  label: "Risikofaktor: Diabetes mellitus (vgl. NVL Typ-2-Diabetes); Leitlinienverweis: https://register.awmf.org/de/leitlinien/detail/nvl-001"
   source:
     at: sources/vorhofflimmern-lf-1.1#page=25
     quote: "Diabetes mellitus (vgl. NVL Typ-2-Diabetes)"
@@ -159,17 +160,18 @@
   lang: de
   kind: criterion
   section: "3.1"
-  label: "Risikofaktor: Schlaganfall oder TIA in der Anamnese (vgl. S3-LL Schlaganfall)"
+  label: "Risikofaktor: Schlaganfall oder TIA in der Anamnese (vgl. S3-LL Schlaganfall); Leitlinienverweis: https://register.awmf.org/de/leitlinien/detail/053-011"
   source:
     at: sources/vorhofflimmern-lf-1.1#page=25
     quote: "Schlaganfall oder TIA in der Anamnese"
-# „Koronare oder periphere Gefäßerkrankungen“: one row, one factor naming both (spec §5.1 K: members sharing one answer).
+# „Koronare oder periphere Gefäßerkrankungen“: one row, one factor naming both (spec §5.1 K: members sharing one answer);
+# its „Leitlinienverweis“ cell prints two links, one per line, kept in that order.
 - id: claims/vorhofflimmern-lf-1.1/44e20e8b
   type: claim
   lang: de
   kind: criterion
   section: "3.1"
-  label: "Risikofaktor: Koronare oder periphere Gefäßerkrankungen (vgl. NVL chronische KHK und S3-LL pAVK)"
+  label: "Risikofaktor: Koronare oder periphere Gefäßerkrankungen (vgl. NVL chronische KHK und S3-LL pAVK); Leitlinienverweis: https://register.awmf.org/de/leitlinien/detail/nvl-004 https://register.awmf.org/de/leitlinien/detail/065-003"
   source:
     at: sources/vorhofflimmern-lf-1.1#page=25
     quote: "Koronare oder periphere Gefäßerkrankungen (vgl. NVL chronische KHK und S3-LL pAVK)"
@@ -180,7 +182,7 @@
   lang: de
   kind: criterion
   section: "3.1"
-  label: "Risikofaktor: Übergewicht/Adipositas (BMI >30)"
+  label: "Risikofaktor: Übergewicht/Adipositas (BMI >30); Leitlinienverweis: https://register.awmf.org/de/leitlinien/detail/050-001"
   threshold: {quantity: concepts/bmi, comparator: ">", value: "30"}
   source:
     at: sources/vorhofflimmern-lf-1.1#page=25
@@ -196,7 +198,7 @@
   lang: de
   kind: criterion
   section: "3.1"
-  label: "Tabelle 6: Risikofaktoren, bei denen ein EKG zur Erkennung von AF möglicherweise sinnvoll ist.: Risikofaktor Herzinsuffizienz (vgl. NVL Herzinsuffizienz); Hypertonie (vgl. NVL Hypertonie); Alter ≥ 75 Jahre; Diabetes mellitus (vgl. NVL Typ-2-Diabetes); Schlaganfall oder TIA in der Anamnese (vgl. S3-LL Schlaganfall); Koronare oder periphere Gefäßerkrankungen (vgl. NVL chronische KHK und S3-LL pAVK); Übergewicht/Adipositas (BMI >30)"
+  label: "Tabelle 6: Risikofaktoren, bei denen ein EKG zur Erkennung von AF möglicherweise sinnvoll ist.: Risikofaktor Herzinsuffizienz (vgl. NVL Herzinsuffizienz), Leitlinienverweis https://register.awmf.org/de/leitlinien/detail/nvl-006; Hypertonie (vgl. NVL Hypertonie), https://register.awmf.org/de/leitlinien/detail/nvl-009; Alter ≥ 75 Jahre; Diabetes mellitus (vgl. NVL Typ-2-Diabetes), https://register.awmf.org/de/leitlinien/detail/nvl-001; Schlaganfall oder TIA in der Anamnese (vgl. S3-LL Schlaganfall), https://register.awmf.org/de/leitlinien/detail/053-011; Koronare oder periphere Gefäßerkrankungen (vgl. NVL chronische KHK und S3-LL pAVK), https://register.awmf.org/de/leitlinien/detail/nvl-004 https://register.awmf.org/de/leitlinien/detail/065-003; Übergewicht/Adipositas (BMI >30), https://register.awmf.org/de/leitlinien/detail/050-001"
   combination:
     operator: any_of
     of: [claims/vorhofflimmern-lf-1.1/3a208597, claims/vorhofflimmern-lf-1.1/8175ac63, claims/vorhofflimmern-lf-1.1/54ada41c, claims/vorhofflimmern-lf-1.1/1eeed304, claims/vorhofflimmern-lf-1.1/dbef526a, claims/vorhofflimmern-lf-1.1/44e20e8b, claims/vorhofflimmern-lf-1.1/0592ed37]

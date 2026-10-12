@@ -22,9 +22,11 @@
     quote: "über eine Dauer von >30 Sekunden (s. Kapitel 1)"
 # Section 2.1, Hintergrund (p. 16, l. 30–34): one sentence that gives two measures, each a claim of its own quoting its
 # member and labelled with its own span, cut at „so dass“ (spec §5.1 K; #314 Decision 20, „Members“): for the
-# algorithms of implanted devices, the physician-validated confirmation by the intracardiac leads; for a PPG-based
-# suspicion, an additional ECG documentation. Each supplements 2.1 (reading 8, its first option; the others are R, or D
-# for the first, which is no ECG). No declared wording: no verb. Reference marks left out.
+# algorithms of implanted devices, the physician-validated confirmation by the intracardiac leads, which is 2.1's
+# diagnosis itself for them — which technique „ärztliche Interpretation eines EKGs“ means: R to 2.1, tested before S (the
+# judge, 2026-10-12; as 7ddfe0b6 reads; D, being no ECG, is the other reading); for a PPG-based suspicion, an additional
+# ECG documentation, a further measure: S to 2.1 (reading 8, its first option). No declared wording: no verb. Reference
+# marks left out.
 - id: claims/vorhofflimmern-lf-1.1/7e516fa6
   type: claim
   lang: de
@@ -197,9 +199,9 @@
   source:
     at: sources/vorhofflimmern-lf-1.1#page=17
     quote: "Die Abschätzung von Symptomen, AF-Last sowie Komorbiditäten (siehe Tabelle 4)"
-# Section 2.2, Hintergrund (p. 17, l. 49–51): a participative decision for every therapy decision, an action no box of
-# the section names — U, a claim without an edge and in no statement (reading 12, its first option; the other is S to
-# 2.3). „empfiehlt“ is the wording empfehlen.
+# Section 2.2, Hintergrund (p. 17, l. 49–51): a participative decision for every therapy decision. 2.3 names „die
+# Entscheidung über Rhythmus- oder Frequenzkontrolle“, so the sentence passes G1, and it says how that decision is made:
+# R to 2.3 (the judge, 2026-10-12, over reading 12's first option U). „empfiehlt“ is the wording empfehlen.
 - id: claims/vorhofflimmern-lf-1.1/910b1d70
   type: claim
   lang: de
@@ -382,8 +384,10 @@
   source:
     at: sources/vorhofflimmern-lf-1.1#page=18
     quote: "Auch bei Patient*innen mit bekannter KHK muss bei neu diagnostiziertem AF keine Ischämiediagnostik"
-# Section 2.2, Begründung of 2.3 (p. 18, l. 53–57): the laboratory tests, a claim per sentence (reading 12, its first
-# option; the other is a claim per test), each supplementing 2.3. l. 57–59 states an effect (N2) and stays.
+# Section 2.2, Begründung of 2.3 (p. 18, l. 53–57): the laboratory tests, each supplementing 2.3 — a claim per sentence
+# (reading 12, its first option), and l. 54–55 one per measure its „sowie“ joins, each labelled with its own span, the
+# second with its own time (spec §5.1 K; #314 Decision 20, „Members“; the judge, 2026-10-12). l. 57–59 states an effect
+# (N2) and stays.
 - id: claims/vorhofflimmern-lf-1.1/05521eeb
   type: claim
   lang: de
@@ -395,17 +399,30 @@
   source:
     at: sources/vorhofflimmern-lf-1.1#page=18
     quote: "Die Leitliniengruppe empfiehlt, mittels Laborchemie Störungen der Schilddrüsenfunktion"
-- id: claims/vorhofflimmern-lf-1.1/7a3b64b5
+- id: claims/vorhofflimmern-lf-1.1/2435ac90
   type: claim
   lang: de
   kind: recommendation
   section: "2.2"
-  label: "Zudem ist die Erhebung eines Blutbildes sowie eine laborchemische Kontrolle von Serum-Kalium und der Nierenfunktion, letztere insbesondere vor Beginn einer Antikoagulation, empfohlen."
+  label: "Zudem ist die Erhebung eines Blutbildes"
   verb: empfehlen
   direction: for
   source:
     at: sources/vorhofflimmern-lf-1.1#page=18
-    quote: "Zudem ist die Erhebung eines Blutbildes sowie eine laborchemische Kontrolle von"
+    quote: "Zudem ist die Erhebung eines Blutbildes"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=18, quote: "insbesondere vor Beginn einer Antikoagulation, empfohlen"}
+- id: claims/vorhofflimmern-lf-1.1/f41a8e19
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "2.2"
+  label: "eine laborchemische Kontrolle von Serum-Kalium und der Nierenfunktion, letztere insbesondere vor Beginn einer Antikoagulation, empfohlen."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=18
+    quote: "eine laborchemische Kontrolle von Serum-Kalium und der Nierenfunktion"
   provenance:
     verb: {at: sources/vorhofflimmern-lf-1.1#page=18, quote: "insbesondere vor Beginn einer Antikoagulation, empfohlen"}
 - id: claims/vorhofflimmern-lf-1.1/6e8b3039
