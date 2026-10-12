@@ -226,3 +226,41 @@ and which card is next, is not a question and lives on the board (`uv run tools/
 **Options:** as #355 did, `not_stated` with a rationale saying the parenthesis restates the bound · `any_of` without a connective where the page joins the two by a parenthesis (the schema's connective requirement relaxed for that case, the parenthesis quoted) · one claim, its threshold the first unit as printed and the parenthesis in its label only
 **Leaning:** none; the first is what the rules give today, and the third would leave a printed value out of the data. (2026-10-11)
 **Settled by:** the maintainer.
+
+## equal-printings-one-defined-by  (graph-representation.md §3.1 rule printed inside a sentence, §5 `defined_by`; cards #380, #381)
+**Question:** A concept reaches its rule by one `defined_by` edge, and by one edge per printing only where every pair of printings is joined by `disagrees_with` (§5). §3.1 wants the concept a narrower claim gives to reach that claim, and G1's definition clause wants each admitted definition reached. Neither says what happens when two printings of one rule agree. The third source has two cases:
+- 6.2's „(CHA2DS2-VA Score ≥2)“ (p. 50) prints the bound 5.4 prints (p. 40); its group already reaches 5.4's claim, so 6.2's narrower claim is reached by no edge (#381, part 1, U6);
+- chapter 1's definition of AF (§1.1) and the three printings of the diagnosis rule (§1.2, Tabelle 2, p. 16) agree. One concept cannot reach all four, so C1 split them into `vorhofflimmern` (§1.1) and `diagnostiziertes-vorhofflimmern` (the three printings, which do disagree among themselves; #380 reading 1).
+
+**Options:**
+- one edge, the first printing, the others named in the concept's comment;
+- an edge per printing whenever printings agree too, §5's restriction kept for edges of disagreeing printings only;
+- a concept per printing, joined by a sameness edge.
+
+**Leaning:** none. The first is what C4 did; the second fits "the graph reflects the text". (2026-10-12)
+**Settled by:** the maintainer.
+
+## value-less-qualifier-in-a-box  (graph-representation.md §3.1 rule printed inside a sentence; cards #365, #378, #381)
+**Question:** §3.1 makes "a parenthesis or a qualifier that states which cases a term covers" a narrower criterion claim, and lists only valued forms (threshold, range, duration, score bound). Run 1 and Run 2 met qualifiers without a value, each left in the sentence's label and named as undecidable by its judge:
+- level words on an unscaled risk: 5.10's „zumindest moderates Schlaganfallrisiko“, 6.14's „geringem thromboembolischem Risiko“;
+- a parenthesis listing kinds of an act: 6.14's „(medikamentös oder elektrisch)“;
+- a parenthesis listing agents: 6.8's „(Flecainid, Propafenon)“;
+- an „oder“ list of states: 6.2's „relevanten kardiovaskulären Risikofaktoren, höherem Lebensalter oder Komorbiditäten“.
+
+**Options:**
+- valued forms only, as the parts read it: the words stay in the label and the concept stays stated;
+- any qualifier that states which cases: a narrower claim, a combination where a connective joins members, the concept derived;
+- level words only, as a threshold whose value is the level as printed (§3.1 already allows a class as a value).
+
+**Leaning:** none. (2026-10-12)
+**Settled by:** the maintainer, with the physician's readings of the cases.
+
+## figure-against-figure  (graph-representation.md §5 `disagrees_with` (figure side), §5.1 F; cards #327, #382)
+**Question:** §5 shows a figure that answers a recommendation otherwise through its caption's claim, the rationale saying what the image shows. It says nothing of two images that answer each other otherwise. In the third source, Abb. 6 prints „Fortführen mit INR im unteren Ziel-Bereich oder Pause“ for VKA outside high bleeding risk, and Abb. 7 „Keine Pause – Monitoring INR“ for phenprocoumon at low and moderate risk (#382, part 1, noticed 4).
+
+**Options:**
+- two caption claims joined, each rationale saying what its image shows;
+- nothing until a figure's content becomes data (#327 question 4).
+
+**Leaning:** the second, since neither side can be quoted. (2026-10-12)
+**Settled by:** the maintainer, with #327 question 4.
