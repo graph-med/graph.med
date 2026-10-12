@@ -4,8 +4,8 @@
 # §5.1 admits (#325, #341, #372), in page order. Ids: sha256("<at>|<quote>")[:8]. Line numbers are lines of
 # `pdftotext -layout`, counted from 1 with blank lines.
 # Every box prints „Neu 2024“, its kind line and a „Literatur:“ line; all stay on the page (#314 Decision 5). Abb. 5
-# (p. 70) is a raster image whose text layer holds only its caption: its content stays on the page (§5.1 F), and its
-# caption (l. 21–22), a title with the figure's abbreviations, adds nothing (G3).
+# (p. 70) is a raster image whose text layer holds only its caption: its content stays on the page (§5.1 F), and where it
+# answers a box otherwise, its caption's claim is its side of a disagreement (spec §5; #341; card #377 reading 1 (b)).
 
 # Section 7's own text, before 7.1 (p. 70, l. 9 – p. 71, l. 19), has 7.1–7.6 as its marked recommendations (§5.1). p. 70,
 # l. 9–10: rate control beside rhythm control, for patients under rhythm control — an action and a group no box of
@@ -23,6 +23,21 @@
   source:
     at: sources/vorhofflimmern-lf-1.1#page=70
     quote: "diese sollte in der Regel von einer adäquaten Frequenzkontrolle flankiert werden."
+# Abb. 5 (p. 70, l. 21–22), introduced by l. 15–16 in section 7 and named by no box: a raster image whose text layer holds
+# only this caption (`pdfimages`; §5.1 F). Where the image answers a box otherwise — its targets drawn as „≤“ against
+# 7.1's „unter“ and 7.2's „<“, and a missed first target leading straight to pacemaker therapy plus AV-node ablation
+# against 7.3's group — the caption's claim is the figure's side, joined by disagrees_with to each box claim, each
+# rationale saying what the image shows, as read off it and not quoted (spec §5; #341; card #377 reading 1 (b), the
+# coordinator's instruction of 2026-10-12). A title with the figure's abbreviations, it instructs nothing: kind fact.
+- id: claims/vorhofflimmern-lf-1.1/08021696
+  type: claim
+  lang: de
+  kind: fact
+  section: "7"
+  label: "Abbildung 5: Vereinfachtes Schema der Strategien zur adäquaten Frequenzkontrolle (AF = Vorhofflimmern, SM + AVN = Schrittmachertherapie plus AV-Knoten-Ablation, HF = Herzfrequenz)."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=70
+    quote: "Abbildung 5: Vereinfachtes Schema der Strategien zur adäquaten Frequenzkontrolle"
 # p. 71, l. 4–9 (the two targets and „pace and ablate“: the boxes carry the values; G3, G2), l. 11–13 (the drug classes,
 # adapted to the patient: Tabelle 15 and 7.6; G3) and l. 13–17's three-step algorithm (a restatement of 7.1–7.3, whose
 # order is a sequence between statements: N1) stay on the page; „Patienten*in“ (l. 13) as printed. l. 17: the algorithm

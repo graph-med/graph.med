@@ -80,8 +80,10 @@
    rationale: "R: Wirkstoffe — in der Akuttherapie zur Frequenzkontrolle wird der Einsatz von „Calcium-Antagonisten der Therapie mit Digitalispräparaten vorgezogen“ (S. 77, Z. 28–30)."}]
 
 # disagreement (spec §3.1, §5, §5.1 D; #341, #372): each printing kept as printed and shown, none chosen — three ratings
-# in other words than the box's row, each joined to every claim that carries the row (card #377 Decision 7), and two
-# answers of the text to a box's group or action (readings 2 and 8)
+# in other words than the box's row, each joined to every claim that carries the row (card #377 Decision 7), two
+# answers of the text to a box's group or action (readings 2 and 8), and Abb. 5, a figure without a text layer, whose
+# caption's claim is its side, each rationale saying what the image shows, read off it and not quoted (spec §5; reading
+# 1 (b))
 - [claims/vorhofflimmern-lf-1.1/7f65153a, disagrees_with, claims/vorhofflimmern-lf-1.1/96693379, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "Empfehlung 7.1 (S. 71) bewertet ihre Evidenz mit „Reduktion Schlaganfälle: gering ⊕⊕⊝⊝“; ihre Begründung (S. 71, Z. 51–53) nennt für den Vorteil bei der Schlaganfallrate „allerdings mit einer niedrigen Evidenzstärke“. Kasten und Text nennen zwei Wörter, „gering“ und „niedrigen“; ob sie dieselbe Stufe meinen, sagt die Seite nicht, und Werte werden nicht aufeinander abgebildet: beide Wortlaute stehen nebeneinander."}]
 - [claims/vorhofflimmern-lf-1.1/dd91ee26, disagrees_with, claims/vorhofflimmern-lf-1.1/74cdcc0c, {source: modelling, as_of: "2026-10-11", lang: de,
@@ -96,6 +98,12 @@
    rationale: "Empfehlung 7.4 (S. 73): „eine kardiale Resynchronisations-Therapie (CRT) mit anschließender AV-Knoten Ablation“; ihre Begründung (S. 74, Z. 25–26): „Bei Patient*innen mit erhaltener AV-Leitung und AF sollte entweder medikamentös oder – falls dies nicht ausreicht – mittels AV-Knoten-Ablation ein möglichst hoher Anteil an biventrikulärer Stimulation erzielt wird.“ Der Kasten nennt die Ablation nach der CRT ohne Bedingung, der Text zuerst den medikamentösen Weg."}]
 - [claims/vorhofflimmern-lf-1.1/8c8d4759, disagrees_with, claims/vorhofflimmern-lf-1.1/9e5ecb21, {source: modelling, as_of: "2026-10-11", lang: de,
    rationale: "Empfehlung 7.4 (S. 73): „eine kardiale Resynchronisations-Therapie (CRT) mit anschließender AV-Knoten Ablation“; ihre Begründung (S. 74, Z. 25–26): die AV-Knoten-Ablation erst, „falls dies nicht ausreicht“, nach dem medikamentösen Weg. Der Kasten nennt die Ablation ohne Bedingung, der Text unter einer Bedingung."}]
+- [claims/vorhofflimmern-lf-1.1/7f65153a, disagrees_with, claims/vorhofflimmern-lf-1.1/08021696, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Empfehlung 7.1 (S. 71): „eine Ruheherzfrequenz von unter 110 Schlägen / Minute mit Symptomfreiheit“ als initiales Therapieziel. Abbildung 5 (S. 70), ein Bild ohne Textebene, zeigt in ihrer ersten Stufe das Ziel einer Ruhe-Herzfrequenz kleiner oder gleich 110 pro Minute (mit dem Zeichen ≤). Kasten und Bild ziehen die Grenze verschieden, „unter“ und „kleiner oder gleich“; keine ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/a516cb41, disagrees_with, claims/vorhofflimmern-lf-1.1/08021696, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Empfehlung 7.2 (S. 72): „eine niedrigere Herzfrequenz (<80 Schläge/min)“. Abbildung 5 (S. 70), ein Bild ohne Textebene, zeigt in ihrer zweiten Stufe das Ziel einer Ruhe-Herzfrequenz kleiner oder gleich 80 pro Minute (mit dem Zeichen ≤). Kasten und Bild ziehen die Grenze verschieden, „<“ und „kleiner oder gleich“; keine ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/dd91ee26, disagrees_with, claims/vorhofflimmern-lf-1.1/08021696, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Empfehlung 7.3 (S. 72): die Schrittmachertherapie mit AV-Knoten Ablation für Patient*innen, „die nicht adäquat auf eine intensivierte Frequenzkontrolle ansprechen und nicht für eine Rhythmuskontrolle infrage kommen“. Abbildung 5 (S. 70), ein Bild ohne Textebene, führt schon in der ersten Stufe (Ziel kleiner oder gleich 110 pro Minute) die Antwort Nein auf die Frage, ob die Zielfrequenz medikamentös erreicht ist, unmittelbar zu Schrittmachertherapie plus AV-Knoten-Ablation, ohne die intensivierte Frequenzkontrolle der zweiten Stufe und ohne die Rhythmuskontrolle als Bedingung; deren Prüfung zeigt das Bild als Seitenpfeil. Kasten und Bild nennen für dieselbe Maßnahme verschiedene Gruppen."}]
 
 # sequences (spec §5 `follows`; #294, #295; card #377 Decision 11): within chapter 7, read from the boxes and p. 71, l.
 # 13–17, never from Abb. 5. 7.4 is a parallel branch; 7.5 and 7.6 set no step; a step only the body text gives stays
