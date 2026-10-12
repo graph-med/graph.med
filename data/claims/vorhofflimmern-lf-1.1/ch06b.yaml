@@ -61,7 +61,7 @@
   kind: definition
   section: "6.7"
   label: "lang-persistierendem AF (definiert als AF, das seit mindestens 12 Monaten persistiert)"
-  threshold: {quantity: concepts/dauer-des-af, comparator: "≥", value: "12", unit: "Monaten"}
+  threshold: {quantity: concepts/af-dauer, comparator: "≥", value: "12", unit: "Monaten"}
   source:
     at: sources/vorhofflimmern-lf-1.1#page=61
     quote: "lang-persistierendem AF (definiert als AF, das seit mindestens 12 Monaten persistiert)"
@@ -162,7 +162,7 @@
   kind: definition
   section: "6.7"
   label: "langanhaltend persistierendem AF (definiert als Dauer über 1 Jahr)"
-  threshold: {quantity: concepts/dauer-des-af, comparator: ">", value: "1", unit: "Jahr"}
+  threshold: {quantity: concepts/af-dauer, comparator: ">", value: "1", unit: "Jahr"}
   source:
     at: sources/vorhofflimmern-lf-1.1#page=62
     quote: "langanhaltend persistierendem AF (definiert als Dauer über 1 Jahr)"
@@ -424,7 +424,7 @@
   label: "AF <24h"
   basis: EK
   consensus_share: "92%"
-  threshold: {quantity: concepts/dauer-des-af, comparator: "<", value: "24", unit: "h"}
+  threshold: {quantity: concepts/af-dauer, comparator: "<", value: "24", unit: "h"}
   source:
     at: sources/vorhofflimmern-lf-1.1#page=64
     quote: "AF <24h"
@@ -473,7 +473,7 @@
   kind: definition
   section: "6.8.4"
   label: "Unter „akut symptomatisch“ ist AF gemeint, das weniger als 36 h besteht."
-  threshold: {quantity: concepts/dauer-des-af, comparator: "<", value: "36", unit: "h"}
+  threshold: {quantity: concepts/af-dauer, comparator: "<", value: "36", unit: "h"}
   source:
     at: sources/vorhofflimmern-lf-1.1#page=64
     quote: "Unter „akut symptomatisch“ ist AF gemeint, das weniger als 36 h besteht."

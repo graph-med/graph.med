@@ -5,7 +5,7 @@
 # Tabelle 4 „bei neu diagnostiziertem Vorhofflimmern“ (p. 19), and the body text „neu diagnostiziertem AF“ (p. 18,
 # l. 49; p. 22, l. 24; p. 48, l. 22). One concept, read as the table's „Erstmals diagnostiziertes AF“: a reading the
 # source does not state (card #364, reading 1, for the physician). The anchor of 2.3, 2.4 and 2.5 a) as well (#314
-# question 2). Derived once C1 writes its defined_by edge to the table's row (the ledger's owner).
+# question 2). Derived: C1 (#380) wrote its defined_by edge to the table's row (the ledger's owner).
 id: concepts/erstdiagnostiziertes-vorhofflimmern
 type: concept
 lang: de

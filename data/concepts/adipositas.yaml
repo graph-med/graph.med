@@ -1,6 +1,6 @@
 # A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): obesity, the comorbidity: Tabelle 6's
 # „Übergewicht/Adipositas (BMI >30)“ (p. 25), 4.9 (p. 35), 8.7's „Adipösen Menschen“ and the heading of 8.8 (p. 89).
-# Used by C1, C2 and C7. Derived once C1 writes its defined_by edge to Tabelle 6's row, a table 3.1 names (owner C1,
+# Used by C1, C2 and C7. Derived: C1 (#380) wrote its defined_by edge to Tabelle 6's row, a table 3.1 names (owner C1,
 # assigned by card #364; whether the row's „Übergewicht/“ is the same rule is C1's reading, and p. 89's „Adipositas
 # (BMI >30)“ prints the same bound). 8.6's „stark adipösen Menschen (BMI >35kg/m2)“ is narrower and C7's own (card
 # #364, reading 10).

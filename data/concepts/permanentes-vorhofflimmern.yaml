@@ -1,7 +1,7 @@
 # A form of Tabelle 3 (p. 14), the AF form the first question of the tree asks (the maintainer, 2026-10-11, #314
 # question 1): one of the five families axes/vorhofflimmern-population proposes under the scope root (card #364,
 # Decisions 1 and 10). Labelled as the table prints the form, its row head with the table's head. 7.4 prints
-# „permanenten AF“ (p. 73). Derived once C1 writes its defined_by edge to the table's row (the ledger's owner).
+# „permanenten AF“ (p. 73). Derived: C1 (#380) wrote its defined_by edge to the table's row (the ledger's owner).
 id: concepts/permanentes-vorhofflimmern
 type: concept
 lang: de
