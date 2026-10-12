@@ -44,8 +44,10 @@ proposed_by: maintainer
 views:
   - {view: views/vorhofflimmern-lf-1.1, status: asserted, since: "2026-10-12"}
 placements:   # concept: parent — each an edge of the pool, grouped by the kind of that edge
-  # along broader (12): the five forms of Tabelle 3, the four groups that narrow a form, the peri- and postoperative
-  # family, strong obesity under obesity (data/edges/vorhofflimmern-lf-1.1/broader-edges.yaml)
+  # along broader (17): the five forms of Tabelle 3, the four groups that narrow a form, the peri- and
+  # postoperative family, strong obesity, the two heart-failure groups and chronic kidney disease under the narrowest
+  # concept they are a case of, the two groups whose label prints AF under the root
+  # (data/edges/vorhofflimmern-lf-1.1/broader-edges.yaml)
   concepts/erstdiagnostiziertes-vorhofflimmern: concepts/patientinnen-mit-vorhofflimmern
   concepts/paroxysmales-vorhofflimmern: concepts/patientinnen-mit-vorhofflimmern
   concepts/persistierendes-vorhofflimmern: concepts/patientinnen-mit-vorhofflimmern
@@ -58,10 +60,15 @@ placements:   # concept: parent — each an edge of the pool, grouped by the kin
   concepts/perioperatives-vorhofflimmern: concepts/patientinnen-mit-vorhofflimmern
   concepts/postoperativ-neu-aufgetretenes-vorhofflimmern: concepts/perioperatives-vorhofflimmern
   concepts/stark-adipoese-menschen: concepts/adipositas
-  # along in_scope_of, without a condition (15): every member the box addresses has AF, the group names it or the
-  # box's measure, aim, section or chapter does; 7.4's group under the form it prints (scope-edges.yaml)
-  concepts/positives-screening-auf-eine-psychische-stoerung: concepts/patientinnen-mit-vorhofflimmern
+  concepts/schwere-herzinsuffizienz: concepts/herzinsuffizienz
+  concepts/herzinsuffizienz-mit-hospitalisierung-in-den-letzten-12-monaten: concepts/herzinsuffizienz
+  concepts/chronische-nierenerkrankung: concepts/nierenerkrankung
   concepts/patientinnen-mit-af-die-koerperlich-aktiv-sind-oder-es-werden-wollen: concepts/patientinnen-mit-vorhofflimmern
+  concepts/patientinnen-mit-af-unter-frequenzkontrollierender-therapie: concepts/patientinnen-mit-vorhofflimmern
+  # along in_scope_of, without a condition (12): every member the box addresses has AF, printed beside the
+  # group or in the box's measure, aim, section or chapter; heart failure, the family of 6.4's and 7.4's groups
+  # (scope-edges.yaml)
+  concepts/positives-screening-auf-eine-psychische-stoerung: concepts/patientinnen-mit-vorhofflimmern
   concepts/starke-psychovegetative-belastung: concepts/patientinnen-mit-vorhofflimmern
   concepts/patientinnen-mit-cha2ds2-va-score-ab-2: concepts/patientinnen-mit-vorhofflimmern
   concepts/patientinnen-mit-cha2ds2-va-score-1: concepts/patientinnen-mit-vorhofflimmern
@@ -69,17 +76,16 @@ placements:   # concept: parent — each an edge of the pool, grouped by the kin
   concepts/patientinnen-die-fuer-einen-vorhofohrverschluss-in-frage-kommen: concepts/patientinnen-mit-vorhofflimmern
   concepts/herzchirurgischer-eingriff: concepts/patientinnen-mit-vorhofflimmern
   concepts/af-induzierte-kardiomyopathie: concepts/patientinnen-mit-vorhofflimmern
-  concepts/schwere-herzinsuffizienz: concepts/patientinnen-mit-vorhofflimmern
   concepts/indikation-zu-einer-rhythmuskontrollierenden-behandlung: concepts/patientinnen-mit-vorhofflimmern
   concepts/strukturell-herzgesund: concepts/patientinnen-mit-vorhofflimmern
-  concepts/patientinnen-mit-af-unter-frequenzkontrollierender-therapie: concepts/patientinnen-mit-vorhofflimmern
   concepts/adipositas: concepts/patientinnen-mit-vorhofflimmern
-  concepts/herzinsuffizienz-mit-hospitalisierung-in-den-letzten-12-monaten: concepts/permanentes-vorhofflimmern
-  # along in_scope_of, with the condition concepts/bei-vorhofflimmern (6): groups the guideline takes into its scope
-  # without AF — the screened, the smokers, the kidney groups, the anticoagulated (scope-edges.yaml)
+  concepts/herzinsuffizienz: concepts/patientinnen-mit-vorhofflimmern
+  # along in_scope_of, with the condition concepts/bei-vorhofflimmern (6): groups the guideline takes into its
+  # scope without AF — the screened, the smokers, kidney disease, the dialysis group, the anticoagulated
+  # (scope-edges.yaml)
   concepts/menschen-im-alter-ab-75-jahren-und-oder-mit-erhoehtem-schlaganfallrisiko: concepts/patientinnen-mit-vorhofflimmern
   concepts/menschen-im-generellen-screening-auf-vorhofflimmern: concepts/patientinnen-mit-vorhofflimmern
   concepts/patientinnen-mit-af-sowie-alle-patientinnen-die-regelmaessig-zigaretten-rauchen: concepts/patientinnen-mit-vorhofflimmern
-  concepts/chronische-nierenerkrankung: concepts/patientinnen-mit-vorhofflimmern
+  concepts/nierenerkrankung: concepts/patientinnen-mit-vorhofflimmern
   concepts/patientinnen-mit-nierenversagen-und-dialysepatientinnen: concepts/patientinnen-mit-vorhofflimmern
   concepts/patientinnen-unter-oraler-antikoagulation: concepts/patientinnen-mit-vorhofflimmern
