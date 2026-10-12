@@ -3,8 +3,8 @@
 # sentence, each delegating to a figure without a text layer (spec §3.1, §5.1 F); Tabelle 16 as §5.1 K reads it; the
 # body-text places §5.1 admits against 8.1–8.3; the recommendations and declines of §§8.3–8.5.2, which hold no box, as
 # claims without an edge (§5.1 U; #325); the footnotes of Abb. 6 and 7 that print, in the text layer, a rule the body text
-# prints otherwise (#379); and the captions of Abb. 7 and 8 as the figures' sides of what their images print otherwise
-# (spec §5; #341). In page order. Ids: sha256("<at>|<quote>")[:8]. Line numbers are lines of `pdftotext -layout`.
+# prints otherwise (#379); and the caption of Abb. 7 as the figure's side of what its image prints otherwise (spec §5;
+# #341). In page order. Ids: sha256("<at>|<quote>")[:8]. Line numbers are lines of `pdftotext -layout`.
 # Every box prints its kind line and „Neu 2024“; both stay on the page (#314 Decision 5). Abb. 6–8 are raster images
 # (`pdfimages` lists one on each of pp. 81–83, none on p. 80): their content stays on the page (§5.1 F).
 
@@ -46,10 +46,11 @@
   source:
     at: sources/vorhofflimmern-lf-1.1#page=78
     quote: "eine patientenorientierte Individualisierung angeraten sind"
-# Section 8.1, Begründung (p. 79, l. 13–14 and 14–15): cases of a high bleeding risk that Tabelle 16 does not list — a
-# procedure without mechanical compression, and „unter anderem“ neuroaxial regional anaesthesia: R to 8.1's „Eingriffen“,
-# as Tabelle 16's classes are (reading 5). l. 4–7 lists patient factors „zum Beispiel“ (G3, an example as a whole) and l.
-# 9–11 the procedural factors, introducing Tabelle 16, which carries the answer; both stay. l. 15–17 is a referral (N4).
+# Section 8.1, Begründung (p. 79, l. 13–14): a case of a high bleeding risk that Tabelle 16 does not list, a procedure
+# without mechanical compression: R to 8.1's „Eingriffen“, as Tabelle 16's classes are (reading 5). l. 14–15 („gehören
+# unter anderem neuroaxiale Regionalanästhesien“) is an example as a whole (G3; the judge, part 2) and stays, as l. 4–7
+# („zum Beispiel“) does; l. 9–11 names the procedural factors, introducing Tabelle 16, which carries the answer, and
+# stays. l. 15–17 is a referral (N4).
 - id: claims/vorhofflimmern-lf-1.1/26a0afdc
   type: claim
   lang: de
@@ -59,15 +60,6 @@
   source:
     at: sources/vorhofflimmern-lf-1.1#page=79
     quote: "Verfahren, bei denen eine mechanische Kompression nicht durchführbar ist"
-- id: claims/vorhofflimmern-lf-1.1/1d8d4718
-  type: claim
-  lang: de
-  kind: criterion
-  section: "8.1"
-  label: "Zu den Eingriffen mit hohem Blutungsrisiko gehören unter anderem neuroaxiale Regionalanästhesien."
-  source:
-    at: sources/vorhofflimmern-lf-1.1#page=79
-    quote: "Zu den Eingriffen mit hohem Blutungsrisiko gehören unter anderem neuroaxiale"
 # Section 8.1, Begründung (p. 79, l. 19–21 and 21–22): two measures beside the procedure of 8.1 — weigh patient and
 # surgical factors when deciding when to stop and restart, and adapt the standard interval: S to 8.1 each (reading 5).
 # „müssen“ and „muss“ are no declared wording: no verb. „patientenbezogene und als auch“ as printed (#314 Decision 4).
@@ -166,12 +158,26 @@
   source:
     at: sources/vorhofflimmern-lf-1.1#page=81
     quote: "Abbildung 6: Empfehlung für das Management der oralen Antikoagulationstherapie bei Patient*innen mit"
-# Abb. 6, footnote b (p. 81, l. 11–12), the cases of the image's „Ausgewählte Patienten mit einem sehr hohen
-# thromboembolischen Risiko“, for whom the image draws „ggf. Bridging“: the body text prints the high-risk constellations
+# Abb. 6, footnote a (p. 81, l. 9–11), the case of the image's branch for a mechanical valve, which the image bridges at a
+# high bleeding and thromboembolic risk (read off the image): a mechanical aortic valve with at least one risk factor. Abb. 7's
+# footnote c counts any mechanical valve among its exceptions, and p. 85, l. 26–29 speaks of bridging for any mechanical
+# valve: under #379 a claim of its own (the judge, part 1), its kind by form (the cases a term covers), its section the
+# figure's, joined by disagrees_with to both (D), no R, L or S. The blank line l. 10 lies inside its parenthesis.
+- id: claims/vorhofflimmern-lf-1.1/9a9e16ca
+  type: claim
+  lang: de
+  kind: criterion
+  section: "8.1"
+  label: "a= Mechanischer Aortenklappenersatz plus min. 1 Risikofaktor (AF, hochgradige LV-Dysfunktion, hyperkoagulabler Zustand)"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=81
+    quote: "a= Mechanischer Aortenklappenersatz plus min. 1 Risikofaktor"
+# Abb. 6, footnote b (p. 81, l. 11–12), the cases of the image's selected patients with a very high thromboembolic risk,
+# for whom the image draws a bridging where needed (read off the image): the body text prints the high-risk constellations
 # for bridging otherwise (p. 85, l. 11–16), so the footnote is a claim of its own (#379; card #382 reading 9), its kind by
 # form, its section the figure's, joined by disagrees_with to p. 85's claim and to Abb. 7's footnote c (D), no R, L or S.
-# „Z. n. thromboembolischen Ereignis“ as printed. Footnotes a and d agree with the body text, or are printed otherwise by
-# none of it, and stay with the figure (#379); so does the line of abbreviations (l. 15).
+# „Z. n. thromboembolischen Ereignis“ as printed. Footnote d agrees with the body text and stays with the figure (#379);
+# so does the line of abbreviations (l. 15).
 - id: claims/vorhofflimmern-lf-1.1/6422f312
   type: claim
   lang: de
@@ -181,12 +187,12 @@
   source:
     at: sources/vorhofflimmern-lf-1.1#page=81
     quote: "b= Z. n. Schlaganfall oder TIA < 3 Monate"
-# Abb. 6, footnote c (p. 81, l. 12–13): the image's „Bridging“ under „Mechanischer Klappenersatz“ is „Behandlung mit
-# unfraktioniertem Heparin“, where footnote d gives the very-high-risk group „unfraktioniertem Heparin oder
-# niedermolekularem Heparin“. p. 85, l. 26–29 calls bridging with low-molecular-weight heparin „prinzipiell möglich“ for
+# Abb. 6, footnote c (p. 81, l. 12–13): the image's bridging in the mechanical-valve branch (read off the image) is
+# „Behandlung mit unfraktioniertem Heparin“, where footnote d gives the very-high-risk group „unfraktioniertem Heparin
+# oder niedermolekularem Heparin“. p. 85, l. 26–29 calls bridging with low-molecular-weight heparin „prinzipiell möglich“ for
 # mechanical valves: under #379 the footnote is a claim, joined by disagrees_with (card #382 reading 9: D taken, the
-# distinction the figure draws between c and d being one the text erases). It instructs the bridging the image's row
-# „Empfehlung“ draws: a recommendation, for, no verb.
+# distinction the figure draws between c and d being one the text erases). It instructs the bridging the image's row of
+# recommendations draws (read off the image): a recommendation, for, no verb (judge part 1, U1: or a criterion, a gloss).
 - id: claims/vorhofflimmern-lf-1.1/5668cd5f
   type: claim
   lang: de
@@ -276,9 +282,11 @@
     evidence:
       - {at: sources/vorhofflimmern-lf-1.1#page=82, quote: "EK basierend auf internationalen Leitlinien"}
 # Abb. 7's caption (p. 82, l. 28–29), section 8.2: a title, which would stay (G3), and the figure's side of what its image
-# prints otherwise than the text (spec §5; #341; card #382 reading 9, taken): the DOAK restart „Start DOAK nach ≥ 6 h“ at
-# a low bleeding risk against p. 83's „6 bis 8 Stunden“, and the phenprocoumon restart „nach ≥ 12–24 h“ (moderate) and
-# „nach ≥ 24 h“ (high) against p. 84's „oft 12-24 Stunden“. Its footnotes a and b and the first sentence of c agree with
+# prints otherwise than the text (spec §5; #341; card #382 reading 9, taken): the phenprocoumon restart, at least 12–24
+# hours at a moderate and at least 24 hours at a high bleeding risk (read off the image), against p. 84's „oft 12-24
+# Stunden“, which draws no such line. Its DOAK restart, at least 6 hours, against p. 83's „im Allgemeinen 6 bis 8
+# Stunden“ is a lower bound and a window inside it, two answers that differ only in kind: no disagreement (§5.1 D; the
+# judge, part 1). Its footnotes a and b and the first sentence of c agree with
 # the text or are printed otherwise by none of it, and stay with the figure (#379).
 - id: claims/vorhofflimmern-lf-1.1/412963c7
   type: claim
@@ -305,7 +313,11 @@
     at: sources/vorhofflimmern-lf-1.1#page=82
     quote: "mit CHA2DS2-VA-Score ≥7"
 # Box 8.3 (p. 83, l. 8–21), in section 8.2: one sentence, ⇑⇑ with „EK“, „Konsensstärke: 90%“, delegating to Abb. 8
-# („Abb.8“ as printed, #314 Decision 4). Its evidence cell as 8.2's (l. 18–19); it prints no „Literatur:“.
+# („Abb.8“ as printed, #314 Decision 4). Its evidence cell as 8.2's (l. 18–19); it prints no „Literatur:“. Abb. 8's
+# caption (l. 26–30) is a title and stays (G3): what its image prints beside the text, at least 6 hours to the DOAK
+# restart and at least 5 days of phenprocoumon pause, differs from p. 83's 6 to 8 hours and p. 84's 5–7 days only in
+# kind (a lower bound and a window inside it; §5.1 D; the judge, part 1). Its footnote a („Anwendung nicht empfohlen“)
+# agrees with the text; the image's mark b has no footnote.
 - id: claims/vorhofflimmern-lf-1.1/f818617a
   type: claim
   lang: de
@@ -329,23 +341,11 @@
     consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=83, quote: "Konsensstärke: 90%"}
     evidence:
       - {at: sources/vorhofflimmern-lf-1.1#page=83, quote: "EK basierend auf internationalen Leitlinien"}
-# Abb. 8's caption (p. 83, l. 26–27), section 8.2: the figure's side (spec §5; #341; card #382 reading 9, taken) of the
-# DOAK restart its image prints in the low-risk header, „Wiederbeginn der Medikation ≥ 6 Stunden postoperativ möglich“,
-# against p. 83's „6 bis 8 Stunden“, and of „≥ 5 d“, the phenprocoumon pause at a high bleeding risk in every GFR band,
-# against p. 84's „5-7 Tage“. „Einnahme orale Antikoagulanzien“ as printed. Footnote a („Anwendung nicht empfohlen“)
-# agrees with the text; the image's mark b has no footnote.
-- id: claims/vorhofflimmern-lf-1.1/9f3428c1
-  type: claim
-  lang: de
-  kind: fact
-  section: "8.2"
-  label: "Abbildung 8: Zeitpunkt der letzten Einnahme orale Antikoagulanzien vor einer elektiven Operation in Abhängigkeit von der Nierenfunktion."
-  source:
-    at: sources/vorhofflimmern-lf-1.1#page=83
-    quote: "Abbildung 8: Zeitpunkt der letzten Einnahme orale Antikoagulanzien vor einer elektiven Operation"
 # Section 8.2 after its boxes (p. 83, l. 34–38), read against 8.2 (the whole group; card #382 reading 7): the restart at a
-# low risk, the delay to 48–72 hours (two answers, two claims) and the physician's judgement — S to 8.2 each. The first is
-# joined by disagrees_with to the captions of Abb. 7 and 8, whose images print „≥ 6 h“. The PAUSE report (l. 40–42) is G2.
+# low risk and the delay to 48–72 hours (two answers, two claims) say which time „das Management von OAK“ stands for: R
+# to 8.2 each, R being tested before S (the judge, part 2); the physician's judgement is a measure beside it, S. The
+# restart's „im Allgemeinen 6 bis 8 Stunden“ lies inside the lower bound the images of Abb. 7 and 8 print, no
+# disagreement (the judge, part 1). The PAUSE report (l. 40–42) is G2.
 - id: claims/vorhofflimmern-lf-1.1/ea3c43a9
   type: claim
   lang: de
@@ -408,8 +408,8 @@
     verb: {at: sources/vorhofflimmern-lf-1.1#page=84, quote: "wird bei fehlender Evidenz nicht empfohlen"}
     direction: {at: sources/vorhofflimmern-lf-1.1#page=84, quote: "wird bei fehlender Evidenz nicht empfohlen"}
 # Section 8.2 (p. 84, l. 10–12): for further planned procedures after the restart, a scheme like the low-risk one, a
-# 24-hour pause — which scheme the management stands for there: R to 8.2 (reading 7). „könnte“ is read as the
-# Konjunktiv of the wording kann (reading 7 names „none“ as the other reading). l. 9–10 („keine aussagekräftigen Daten“)
+# 24-hour pause — which scheme the management stands for there: R to 8.2 (reading 7). „könnte“ is no declared wording:
+# no verb (spec §3.1, step 4; the judge, part 2). l. 9–10 („keine aussagekräftigen Daten“)
 # is N2; l. 12–15 lists the factors of the next sentence's „In diesen Fällen“ and stays.
 - id: claims/vorhofflimmern-lf-1.1/05ac435f
   type: claim
@@ -417,13 +417,13 @@
   kind: recommendation
   section: "8.2"
   label: "Bei bereits wiederaufgenommener DOAK-Therapie könnte in solchen Fällen ein ähnliches Schema wie bei Eingriffen mit einem geringen Blutungsrisiko angewendet werden, das eine Pause von 24 Stunden vorsieht."
-  verb: kann
   direction: for
   source:
     at: sources/vorhofflimmern-lf-1.1#page=84
     quote: "könnte in solchen Fällen ein ähnliches Schema wie bei Eingriffen"
-# Section 8.2 (p. 84, l. 15–16): a later restart where those factors lengthen the pause — S to 8.2, as the delay of p. 83,
-# l. 36–37 (reading 7). Its factors name kidney function among others; the restart is Abb. 7's, not 8.3's Abb. 8.
+# Section 8.2 (p. 84, l. 15–16): a later restart where those factors lengthen the pause — which time the management stands
+# for: R to 8.2, as the delay of p. 83, l. 36–37 (reading 7; the judge, part 2). Its factors name kidney function among
+# others; the restart is Abb. 7's, not 8.3's Abb. 8.
 - id: claims/vorhofflimmern-lf-1.1/d6595629
   type: claim
   lang: de
@@ -499,7 +499,8 @@
   source:
     at: sources/vorhofflimmern-lf-1.1#page=84
     quote: "Eingriffs- und patientenspezifische Risiken sind in diesen Fällen jedoch zu berücksichtigen"
-# p. 84, l. 41–42: joined by disagrees_with to Abb. 8's caption, whose image prints „≥ 5 d“.
+# p. 84, l. 41–42: Abb. 7's image stops phenprocoumon on day −5, Abb. 8's prints at least 5 days: inside or around the
+# window, no disagreement (§5.1 D; the judge, part 1).
 - id: claims/vorhofflimmern-lf-1.1/4ed915b8
   type: claim
   lang: de
@@ -536,7 +537,7 @@
   source:
     at: sources/vorhofflimmern-lf-1.1#page=84
     quote: "unter Berücksichtigung des chirurgischen Eingriffs getroffen werden sollte"
-# p. 84, l. 49–50: joined by disagrees_with to Abb. 7's caption, whose image prints „≥ 12–24 h“ and „≥ 24 h“. l. 50–51
+# p. 84, l. 49–50: joined by disagrees_with to Abb. 7's caption, whose image prints at least 12–24 and 24 hours. l. 50–51
 # („Voraussetzung ist allerdings, dass …“) is a criterion and no recommendation, which U does not cover: it stays (card
 # #382 Decision 7, a gap #325's handover recorded).
 - id: claims/vorhofflimmern-lf-1.1/2a101352

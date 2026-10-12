@@ -8,5 +8,6 @@ id: concepts/geplante-operative-und-interventionelle-eingriffe
 type: concept
 lang: de
 label: "geplante operative und interventionelle Eingriffe"
+short_label: "geplante Eingriffe"
 facet: procedure
 source: modelling
