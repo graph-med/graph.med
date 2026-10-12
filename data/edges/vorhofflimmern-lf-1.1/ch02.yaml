@@ -108,3 +108,11 @@
    rationale: "Empfehlung 2.3 (S. 18) bewertet drei ihrer Endpunkte mit „sehr gering ⊕⊝⊝⊝“ und die kardiovaskuläre Mortalität mit „gering ⊕⊕⊝⊝“; ihre Begründung (S. 18, Z. 35–36): „Trotz der geringen Aussagesicherheit erscheint eine starke Empfehlung gerechtfertigt“. Für die Evidenz als Ganzes nennt der Text die eine Stufe „gering“, wo der Kasten für drei Endpunkte „sehr gering“ druckt."}]
 - [claims/vorhofflimmern-lf-1.1/d704e2b7, disagrees_with, claims/vorhofflimmern-lf-1.1/a5b35ffe, {source: modelling, as_of: "2026-10-12", lang: de,
    rationale: "Die Begründung der Empfehlung 2.3 nennt die Aussagesicherheit derselben Evidenz zweimal: „mit niedriger bis sehr niedriger Aussagesicherheit“ (S. 18, Z. 31) und „Trotz der geringen Aussagesicherheit“ (Z. 35) — eine Spanne in den Wörtern „niedrig“ und „sehr niedrig“, und die eine Stufe „gering“; ob die Wörter dieselben Stufen meinen, sagt die Seite nicht: beide Wortlaute stehen nebeneinander."}]
+
+# sequences (spec §5 `follows`; #294, #295; #380 Decision 11): within chapter 2, by the four tests — each trigger is the
+# outcome of the earlier measure, not a state the patient brings (reading 15 and 16, their first options). The steps only
+# the body text gives (p. 16, l. 30–34; p. 17, l. 10–12) are no node of a chain and stay supplements (spec §5.1 S)
+- [statements/12-kanal-ekg-bei-diagnostiziertem-vorhofflimmern, follows, statements/diagnosestellung-durch-aerztliche-interpretation-eines-ekgs, {source: modelling, as_of: "2026-10-12", lang: de, transition: follows, trigger: finding,
+   rationale: "Empfehlung 2.2 gilt „Bei Patient*innen mit diagnostiziertem AF“ — der Diagnose, die Empfehlung 2.1 durch ärztliche Interpretation eines EKGs stellt."}]
+- [statements/klinische-diagnosestellung-bei-positivem-screening-auf-eine-psychische-stoerung, follows, statements/wahrscheinlichkeit-einer-relevanten-psychischen-stoerung-erheben, {source: modelling, as_of: "2026-10-12", lang: de, transition: follows, trigger: finding,
+   rationale: "Empfehlung 2.5 b) gilt „Bei positivem Screening auf eine psychische Störung“ — dem Ergebnis der Erhebung, die Empfehlung 2.5 a) für die Wahrscheinlichkeit einer relevanten psychischen Störung empfiehlt."}]
