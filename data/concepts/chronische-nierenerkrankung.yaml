@@ -1,0 +1,9 @@
+# A concept of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# The group box 5.6 addresses, „Patient*innen mit chronischer Nierenerkrankung“ (p. 42), as the section's title prints it;
+# AF is not named (card #364, Decision 3: a group outside AF, its own concept). Not concepts/akute-nierenschaedigung.
+id: concepts/chronische-nierenerkrankung
+type: concept
+lang: de
+label: "chronische Nierenerkrankung"
+facet: patient_state
+source: modelling

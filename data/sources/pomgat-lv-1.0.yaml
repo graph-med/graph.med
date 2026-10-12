@@ -2,14 +2,19 @@ id: sources/pomgat-lv-1.0
 type: source
 lang: de
 kind: leitlinie
-title: S3-Leitlinie Perioperatives Management bei gastrointestinalen Tumoren (POMGAT), Langversion 1.0, November
-  2023
+title: S3-Leitlinie Perioperatives Management bei gastrointestinalen Tumoren (POMGAT)   # the title proper, as the cover prints it
+short_label: S3 POMGAT 2023
+version: "1.0"
+date: "2023-11"   # the cover's "November 2023", at the month it prints
+provenance:   # spec §6.1: the cover's line under the title
+  version: {at: sources/pomgat-lv-1.0#page=1, quote: "Version 1.0 – November 2023"}
+  date: {at: sources/pomgat-lv-1.0#page=1, quote: "Version 1.0 – November 2023"}
 awmf_register: 088-010OL
 url: https://register.awmf.org/assets/guidelines/008-010OLl_S3_Perioperatives-Management-bei-gastrointestinalen-Tumoren-POMGAT_2023-12.pdf
 content_hash: sha256:029c69784282f3dc81c5bdd1220cddda82672d77f8396c55372df4d3d2fdb974
 media_type: application/pdf
-license: © Leitlinienprogramm Onkologie (DKG, Deutsche Krebshilfe, AWMF) — referenced at its public URL, never rehosted;
-  written permission of the OL-Redaktion required for any reproduction
+license: © Leitlinienprogramm Onkologie (DKG, Deutsche Krebshilfe, AWMF); written permission of the OL-Redaktion required
+  for any reproduction
 structure: [chronologisch_perioperativ, anatomisch, modalitaetsbezogen]   # chapters 4–8 by phase, subsections by organ and by modality
 grading_scheme:   # spec §3.1: Tabelle 5 (p. 19), section 2.2.4 and Tabelle 6 (p. 20), quoted cell by cell
   grades:   # the legend's order: Tabelle 5's rows, then EK, which fixes no wording
@@ -36,17 +41,16 @@ grading_scheme:   # spec §3.1: Tabelle 5 (p. 19), section 2.2.4 and Tabelle 6 (
     - grade: "0"
       description: Empfehlung offen
       verb: kann
-      negated: kann nicht
+      negated: kann verzichtet werden
       open: true
       source:
         - {at: sources/pomgat-lv-1.0#page=19, quote: "0"}
         - {at: sources/pomgat-lv-1.0#page=19, quote: "Empfehlung offen"}
         - {at: sources/pomgat-lv-1.0#page=19, quote: "kann"}
-      provenance:
-        negated: modelling
-      rationale: "Tabelle 5 nennt nur die bejahende Ausdrucksweise, und die Leitlinie druckt „kann nicht“ nirgends: ihre offenen
-        Empfehlungen gegen etwas lauten „kann auf … verzichtet werden“. Die verneinte Form ist die, mit der die Seite solche
-        Empfehlungen bisher zeigt."
+      provenance:   # Tabelle 5 prints the affirmative only; box 4.8 (grade cell "0") prints the form against
+        negated: {at: sources/pomgat-lv-1.0#page=34, quote: "Prähabilitation mit strukturierten Programmen kann verzichtet werden."}
+      rationale: "Tabelle 5 nennt nur die bejahende Ausdrucksweise „kann“. Die offenen Empfehlungen gegen etwas drucken die
+        verneinte Form „kann verzichtet werden“ (hier Empfehlung 4.8; 7.30 „kann auf … verzichtet werden“)."
     - grade: EK
       description: Expertenkonsens
       source:
@@ -77,6 +81,10 @@ grading_scheme:   # spec §3.1: Tabelle 5 (p. 19), section 2.2.4 and Tabelle 6 (
       source:
         - {at: sources/pomgat-lv-1.0#page=20, quote: "Keine mehrheitliche Zustimmung"}
         - {at: sources/pomgat-lv-1.0#page=20, quote: "<50% der Stimmberechtigten"}
+rating_systems:   # spec §3.1: the system its evidence rows are rated in, named by the title of Tabelle 4 (p. 19)
+  - system: grade
+    name: GRADE
+    source: {at: sources/pomgat-lv-1.0#page=19, quote: "Tabelle 4: Evidenzgraduierung nach GRADE"}
 outline:   # the complete table of contents (pp. 2–5), physical page = printed page
   - {section: "1", title: "Informationen zu dieser Leitlinie", page: 6}
   - {section: "1.1", title: "Herausgeber", page: 6}

@@ -4,5 +4,5 @@ id: concepts/unklarheit-ob-nierenersatztherapie-zu-erwarten
 type: concept
 lang: de
 label: "Unklarheit, ob eine Nierenersatztherapie zu erwarten ist"
-facet: finding
+facet: patient_state
 source: modelling

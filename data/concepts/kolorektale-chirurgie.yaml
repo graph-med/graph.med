@@ -1,6 +1,6 @@
 id: concepts/kolorektale-chirurgie
 type: concept
 lang: de
-label: Kolorektale Chirurgie
+label: kolorektale Chirurgie
 facet: procedure
 source: modelling   # a family minted to group the guideline's populations (spec §5 broader)

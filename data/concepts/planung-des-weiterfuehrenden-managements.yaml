@@ -1,0 +1,9 @@
+# A concept of card #378 (C5), sections 6.6–6.8 of sources/vorhofflimmern-lf-1.1.
+# The action of 6.16's second sentence (p. 65): „Nach Kardioversion soll daher das weiterführende Management geplant
+# werden“. The Begründung calls it „ein langfristiges Therapiekonzept“ (l. 60), a claim of its own (R).
+id: concepts/planung-des-weiterfuehrenden-managements
+type: concept
+lang: de
+label: "Planung des weiterführenden Managements"
+facet: intervention
+source: modelling

@@ -6,6 +6,6 @@
 id: concepts/akute-nierenschaedigung
 type: concept
 lang: de
-label: "Akute Nierenschädigung (AKI)"
+label: "akute Nierenschädigung (AKI)"
 facet: patient_state
 source: modelling

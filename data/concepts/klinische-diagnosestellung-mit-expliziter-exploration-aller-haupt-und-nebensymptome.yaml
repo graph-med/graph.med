@@ -1,0 +1,11 @@
+# A concept of card #380 (C1), chapter 2 of sources/vorhofflimmern-lf-1.1.
+# The action of box 2.5 b): „soll eine klinische Diagnosestellung mit expliziter Exploration aller Haupt- und
+# Nebensymptome angestrebt werden“ (p. 21, l. 23–25). Chapter-only. Not concepts/zeitnahe-weitere-diagnostik (a
+# look-alike, named).
+id: concepts/klinische-diagnosestellung-mit-expliziter-exploration-aller-haupt-und-nebensymptome
+type: concept
+lang: de
+label: "klinische Diagnosestellung mit expliziter Exploration aller Haupt- und Nebensymptome"
+short_label: "klinische Diagnosestellung mit expliziter Exploration"
+facet: intervention
+source: modelling

@@ -1,0 +1,12 @@
+# A statement of card #377 (C6), chapter 7 of sources/vorhofflimmern-lf-1.1.
+# Box 7.1 (p. 71). Anchor: the therapy group the box names, a subgroup (convention row 8, reading 4 confirmed); the action
+# the target as printed (card #377 reading 6). The first step of the chain 7.1 → 7.2 → 7.3.
+id: statements/initiales-therapieziel-ruheherzfrequenz-unter-110-bei-frequenzkontrolle
+type: statement
+lang: de
+label: "Bei Patient*innen mit AF unter frequenzkontrollierender Therapie eine Ruheherzfrequenz von unter 110 Schlägen / Minute mit Symptomfreiheit als initiales Therapieziel anstreben."
+short_label: "Initial: Ruheherzfrequenz unter 110/min mit Symptomfreiheit"
+slots:
+  population: concepts/patientinnen-mit-af-unter-frequenzkontrollierender-therapie
+  action: concepts/ruheherzfrequenz-unter-110-schlaegen-minute-mit-symptomfreiheit
+source: modelling

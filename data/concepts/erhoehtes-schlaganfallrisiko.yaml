@@ -1,0 +1,13 @@
+# A concept of card #380 (C1), chapter 3 of sources/vorhofflimmern-lf-1.1.
+# The risk 3.1 names, „mit erhöhtem Schlaganfallrisiko (siehe Tabelle 6)“ (p. 24, l. 41), whose rule is Tabelle 6,
+# „Risikofaktoren, bei denen ein EKG zur Erkennung von AF möglicherweise sinnvoll ist.“ (p. 25), its seven factors
+# joined by „einer dieser Faktoren“ (l. 4): derived, by its defined_by edge to the table's claim (card #364, reading 10,
+# the ledger's owner C1; reading 7). A near-duplicate of concepts/zumindest-moderates-schlaganfallrisiko (5.10, C3's,
+# stated), named, not merged (card #364, reading 10). p. 25, l. 41 prints „ein hohes Schlaganfallsrisiko“ in the
+# Begründung of 3.1, another word, kept in its own claim.
+id: concepts/erhoehtes-schlaganfallrisiko
+type: concept
+lang: de
+label: "erhöhtes Schlaganfallrisiko"
+facet: patient_state
+source: modelling

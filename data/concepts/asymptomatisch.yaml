@@ -1,0 +1,12 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): the class of 1.6 („Weitere Einteilungen“, p. 13, l.
+# 50–51): „Je nach akuter bzw. chronischer klinischer Präsentation wird AF auch in hämodynamisch stabil/instabil
+# bzw. asymptomatisch/symptomatisch eingeteilt.“ A condition wherever a box prints it (card #364, Decision 7 and
+# reading 5): a dimension would need a person's proposal. Printed in 6.7 („Bei asymptomatischen Patient*Innen“, p.
+# 57) and in 1.3's definition of subclinical AF (p. 12). Used by C1 and C4.
+id: concepts/asymptomatisch
+type: concept
+lang: de
+label: "asymptomatisch"
+facet: patient_state
+source:
+  - {at: sources/vorhofflimmern-lf-1.1#page=13, quote: "asymptomatisch/symptomatisch eingeteilt"}

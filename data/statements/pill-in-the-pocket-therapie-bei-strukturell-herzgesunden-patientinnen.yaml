@@ -1,0 +1,14 @@
+# A statement of card #378 (C5), sections 6.6–6.8 of sources/vorhofflimmern-lf-1.1.
+# Box 6.17 (p. 66). Anchor: concepts/strukturell-herzgesund, an AF subgroup (convention row 5; card #364, reading 7);
+# „symptomatischen AF-Episoden“ a condition (row 9), „gelegentlich auftretend“ in the label (#378 reading 14). Its
+# defined_by is C4's (p. 58), if admitted.
+id: statements/pill-in-the-pocket-therapie-bei-strukturell-herzgesunden-patientinnen
+type: statement
+lang: de
+label: "Bei strukturell herzgesunden Patient*innen eine \"pill-in-the-pocket\"-Therapie mit Klasse-IC Antiarrhythmika zur Konversion von gelegentlich auftretenden symptomatischen AF-Episoden durchführen."
+short_label: "\"Pill-in-the-pocket\"-Therapie mit Klasse-IC Antiarrhythmika"
+slots:
+  population: concepts/strukturell-herzgesund
+  action: concepts/pill-in-the-pocket-therapie
+  condition: [concepts/symptomatisch]
+source: modelling

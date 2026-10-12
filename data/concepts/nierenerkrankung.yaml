@@ -1,0 +1,11 @@
+# A concept of card #382 (C7a), chapter 8 of sources/vorhofflimmern-lf-1.1.
+# Box 8.3's „Bei Patient*innen mit Nierenerkrankung unter oraler Antikoagulation“ (p. 83): a condition of its statement,
+# the anticoagulated group its anchor (card #382 reading 1 (a)). Stated: the box prints no rule, and the kidney function's
+# bands lie only in Abb. 8's image (GFR, spec §5.1 F). Beside C3's concepts/chronische-nierenerkrankung (5.6), named, not
+# merged.
+id: concepts/nierenerkrankung
+type: concept
+lang: de
+label: "Nierenerkrankung"
+facet: patient_state
+source: modelling

@@ -1,0 +1,101 @@
+# Edges of card #365 (#314's part C3, the pilot) from chapter 5 of sources/vorhofflimmern-lf-1.1 (pp. 37–45), all
+# modelling. Edges across parts are X1's, the scope and hierarchy edges X2's (#314 Decision 6).
+# evidence (spec §3.1): each box sentence of recommendation form supports a statement of its own; the narrower
+# claims of 5.4 (one per bound) and the body text support none
+- [claims/vorhofflimmern-lf-1.1/5471a6c4, supports, statements/cha2ds2-va-score-zur-abschaetzung-des-schlaganfallrisikos, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/92ff30df, supports, statements/abschaetzung-des-blutungsrisikos-bei-vorhofflimmern, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/f120f96e, supports, statements/shared-decision-making-zur-schlaganfallpraevention, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/3f359374, supports, statements/orale-antikoagulation-ab-cha2ds2-va-score-2, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/e4064446, supports, statements/indikationspruefung-orale-antikoagulation-bei-cha2ds2-va-score-1, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/af72319e, supports, statements/wahl-des-oralen-antikoagulans-nach-individuellen-faktoren, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/cdba391a, supports, statements/regelmaessige-dosisueberpruefung-bei-chronischer-nierenerkrankung, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/d4207119, supports, statements/individuelle-entscheidung-ueber-thromboembolieprophylaxe-bei-nierenversagen-und-dialyse, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/738956f5, supports, statements/vorhofohrverschluss-bei-kontraindizierter-oraler-antikoagulation, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/2c27b224, supports, statements/periprozedurales-komplikationsrisiko-beim-vorhofohrverschluss-beachten, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/fa94516e, supports, statements/interdisziplinaere-indikationspruefung-zum-vorhofohrverschluss-im-zentrum, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/09298c54, supports, statements/chirurgischer-vorhofohrverschluss-bei-herzchirurgischem-eingriff, {source: modelling}]
+
+# defined_by (spec §3.2, §5): the scores, each to the top of its table's sum, and the quantity a footnote defines
+- [concepts/cha2ds2-va-score, defined_by, claims/vorhofflimmern-lf-1.1/5194002a, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„CHA2DS2-VA Score“ — Tabelle 8 (S. 38) gibt seine sieben Merkmale mit ihren Punkten; die Spalte „Punkt(e)“ sagt, dass sie sich addieren (Summe)."}]
+- [concepts/has-bled-score, defined_by, claims/vorhofflimmern-lf-1.1/270f2989, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„HAS-BLED Score“ — Tabelle 9 (S. 39) gibt seine Merkmale mit ihren Punkten, die Fußnoten die Regeln der markierten Merkmale; die Spalte „Punkte“ sagt, dass sie sich addieren (Summe)."}]
+- [concepts/ttr, defined_by, claims/vorhofflimmern-lf-1.1/c9757e91, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„TTR“ — Fußnote $ der Tabelle 9 (S. 39): „TTR = time in therapeutic range (INR 2-3)“."}]
+
+# defined_by (spec §3.1, §3.2; #328): the groups the bounds printed inside 5.4's two items give, each to its narrower
+# claim; the second's since #371, which made its justified line one run of the page's reading (spec §6.2)
+- [concepts/patientinnen-mit-cha2ds2-va-score-ab-2, defined_by, claims/vorhofflimmern-lf-1.1/0300b924, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„Patient*innen mit CHA2DS2-VA-Score ≥ 2“ — Empfehlung 5.4 (S. 40), erster Spiegelstrich: „Bei einem ermittelten CHA2DS2-VA Score von ≥2“."}]
+- [concepts/patientinnen-mit-cha2ds2-va-score-1, defined_by, claims/vorhofflimmern-lf-1.1/f6b8ede6, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„Patient*innen mit CHA2DS2-VA-Score 1“ — Empfehlung 5.4 (S. 40), zweiter Spiegelstrich: „Bei einem ermittelten CHA2DS2-VA Score von 1“."}]
+
+# body text (spec §5.1): section 5.1, p. 38; the table's parts carry no edge (N5)
+- [claims/vorhofflimmern-lf-1.1/5194002a, refines, claims/vorhofflimmern-lf-1.1/5471a6c4, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: CHA2DS2-VA Score — Tabelle 8 (S. 38) nennt seine Merkmale und Punkte; die Begründung von 5.1 führt sie ein (siehe Tabelle 8)."}]
+
+# body text (spec §5.1): section 5.2, pp. 38–39
+- [claims/vorhofflimmern-lf-1.1/270f2989, refines, claims/vorhofflimmern-lf-1.1/92ff30df, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: HAS-BLED-Score — Tabelle 9 (S. 39) nennt die Merkmale des Instruments, das die Empfehlung als Beispiel nennt (z.B. mit dem HAS-BLED-Score); der Hintergrund von 5.2 führt sie ein (siehe Tabelle 9)."}]
+- [claims/vorhofflimmern-lf-1.1/aa5ab18c, refines, claims/vorhofflimmern-lf-1.1/92ff30df, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: (z.B. mit dem HAS-BLED-Score) — der ORBIT-Score „kann aber ebenfalls genutzt werden“: ein weiteres Instrument der Abschätzung."}]
+
+# body text (spec §5.1): section 5.3.2, p. 42; its decline (l. 20–23) is a gap notice without an edge, and l. 28–30,
+# denying the switch an indication, is against it (G4, card #372)
+- [claims/vorhofflimmern-lf-1.1/bface3c7, supplements, claims/vorhofflimmern-lf-1.1/af72319e, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Wahl des oralen Antikoagulans — bei der Behandlung mit Phenprocoumon „muss allerdings auf eine qualitativ hochwertige Einstellung mit einer hohen TTR geachtet werden“: eine Maßnahme neben der Wahl."}]
+- [claims/vorhofflimmern-lf-1.1/23233a47, refines, claims/vorhofflimmern-lf-1.1/af72319e, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: Wahl des oralen Antikoagulans — bei „stabil auf VKA eingestellten fragilen, älteren Patient*innen“ besteht „ohne relevanten Grund keine Indikation zur Umstellung auf DOAK“: ohne relevanten Grund bleibt die Wahl für diese Gruppe beim VKA, auf den sie eingestellt ist. Die Umstellung ist keine Handlung der Empfehlung, die der Satz herausnähme (nicht L)."}]
+- [claims/vorhofflimmern-lf-1.1/11b1cde6, refines, claims/vorhofflimmern-lf-1.1/af72319e, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: unter Berücksichtigung der individuellen Komorbiditäten, der individuellen Lebensumstände und Anwendungsbeschränkungen — „die einfachere Handhabung der DOAK ohne erforderliche engmaschige INR-Kontrollen“ ist zu berücksichtigen."}]
+
+# body text (spec §5.1): section 5.3.3, p. 42
+- [claims/vorhofflimmern-lf-1.1/867e7d10, supplements, claims/vorhofflimmern-lf-1.1/cdba391a, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Dosierung der Medikation — „In Abhängigkeit von der Kreatinin-Clearance muss gegebenenfalls eine Dosisanpassung erfolgen“: der Schritt nach der Überprüfung."}]
+
+# body text (spec §5.1): section 5.4.1, pp. 43–44; one edge per measure the sentence names (§5.1 K)
+- [claims/vorhofflimmern-lf-1.1/a4d6861a, supplements, claims/vorhofflimmern-lf-1.1/738956f5, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Vorhofohrverschluss — „Nach katheterbasiertem Vorhofohrverschluss muss die vorübergehende Notwendigkeit einer dualen Plättchenhemmung … bedacht werden“: der nächste Schritt."}]
+- [claims/vorhofflimmern-lf-1.1/86ce2822, supplements, claims/vorhofflimmern-lf-1.1/738956f5, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Vorhofohrverschluss — „Nach katheterbasiertem Vorhofohrverschluss muss die vorübergehende Notwendigkeit einer … oralen Antikoagulation … bedacht werden“: der nächste Schritt."}]
+
+# body text (spec §5.1): section 5.4.3, p. 45
+- [claims/vorhofflimmern-lf-1.1/c10f1903, limits, claims/vorhofflimmern-lf-1.1/09298c54, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "L: Patient*innen mit AF, die sich einem herzchirurgischen Eingriff unterziehen — die Ausschlusskriterien der LAAOS III (S. 45, Z. 31–35) „können als Entscheidungshilfe dienen, um mittels einer sorgfältigen Nutzen-Risiko-Abwägung zu entscheiden, ob Patient*innen einen Herzohrverschluss im Rahmen eines herzchirurgischen Eingriffs erhalten sollen“."}]
+
+# disagreement (spec §3.1, §5, §5.1 D; #341): each printing kept as printed and shown, none chosen — two ratings of a box
+# against its Begründung (#365 Decision 6), the ratings of 5.8's Begründung, and the groups 5.8's Begründung gives the
+# closure (#365 reading 8)
+- [claims/vorhofflimmern-lf-1.1/f120f96e, disagrees_with, claims/vorhofflimmern-lf-1.1/fbb59b97, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 5.3 (S. 40) bewertet ihre Evidenzzeile mit „Schlaganfallreduktion: moderat ⊕⊕⊕⊝“; ihre Begründung (S. 40, Z. 23–24): „Prinzipiell liegt Evidenz von hoher Aussagesicherheit für die Wirksamkeit einer oralen Antikoagulation zur Reduktion des Schlaganfallrisikos vor.“ Kasten und Text nennen für dieselbe Wirkung zwei Stufen, „moderat“ und „hoher“. Als Evidenz des Kastens ist seine Zeile erfasst; keine Stufe ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/3f359374, disagrees_with, claims/vorhofflimmern-lf-1.1/fbb59b97, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 5.4 (S. 40), erster Spiegelstrich, bewertet ihre Evidenzzeile mit „Schlaganfallreduktion: moderat ⊕⊕⊕⊝“ für die orale Antikoagulation; die Begründung der Empfehlung 5.3 (S. 40, Z. 23–24): „Prinzipiell liegt Evidenz von hoher Aussagesicherheit für die Wirksamkeit einer oralen Antikoagulation zur Reduktion des Schlaganfallrisikos vor.“ Kasten und Text nennen für dieselbe Wirkung zwei Stufen, „moderat“ und „hoher“. Als Evidenz des Kastens ist seine Zeile erfasst; keine Stufe ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/e4064446, disagrees_with, claims/vorhofflimmern-lf-1.1/fbb59b97, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 5.4 (S. 40), zweiter Spiegelstrich, trägt dieselbe Evidenzzeile „Schlaganfallreduktion: moderat ⊕⊕⊕⊝“; die Begründung der Empfehlung 5.3 (S. 40, Z. 23–24) nennt für die Wirksamkeit einer oralen Antikoagulation zur Reduktion des Schlaganfallrisikos Evidenz „von hoher Aussagesicherheit“. Kasten und Text nennen zwei Stufen, „moderat“ und „hoher“; keine ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/af72319e, disagrees_with, claims/vorhofflimmern-lf-1.1/59501365, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 5.5 (S. 41) bewertet „Schwere Blutungen, Hirnblutungen: moderat ⊕⊕⊕⊝ bis gering ⊕⊕⊝⊝“; ihre Begründung (S. 41, Z. 63–65) nennt die Überlegenheit „in Bezug auf schwere und insbesondere intrakranielle Blutungen bei moderater Aussagesicherheit“. Für dieselben Endpunkte druckt der Kasten eine Spanne von moderat bis gering, der Text die eine Stufe moderat. Als Evidenz des Kastens ist seine Zeile erfasst; keine Stufe ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/738956f5, disagrees_with, claims/vorhofflimmern-lf-1.1/2e3fc7b0, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 5.8 (S. 43) bewertet ihre Evidenz mit „sehr gering ⊕⊝⊝⊝“; ihre Begründung (S. 43, Z. 59): „Die vorliegende Evidenz lässt wegen der niedrigen Aussagesicherheit keine abschließende Einschätzung zu …“. Kasten und Text nennen zwei Stufen, „sehr gering“ und „niedrig“."}]
+- [claims/vorhofflimmern-lf-1.1/2c27b224, disagrees_with, claims/vorhofflimmern-lf-1.1/2e3fc7b0, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Satz 2 der Empfehlung 5.8 (S. 43) trägt die Evidenzzeile des Kastens, „sehr gering ⊕⊝⊝⊝“; die Begründung (S. 43, Z. 59) nennt „wegen der niedrigen Aussagesicherheit“. Kasten und Text nennen zwei Stufen, „sehr gering“ und „niedrig“."}]
+- [claims/vorhofflimmern-lf-1.1/738956f5, disagrees_with, claims/vorhofflimmern-lf-1.1/3fdeec7d, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 5.8 (S. 43) bewertet ihre Evidenz mit „sehr gering ⊕⊝⊝⊝“; ihre Begründung (S. 44, Z. 7): „Der Empfehlungsgrad ist begründet durch die sehr niedrige Aussagesicherheit (Bias Risiko, Indirektheit) der Evidenz.“ Der Kasten druckt „gering“, der Text „niedrige“; ob beide Wörter dieselbe Stufe meinen, sagt die Seite nicht, und Werte werden nicht aufeinander abgebildet: beide Wortlaute stehen nebeneinander."}]
+- [claims/vorhofflimmern-lf-1.1/2c27b224, disagrees_with, claims/vorhofflimmern-lf-1.1/3fdeec7d, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Satz 2 der Empfehlung 5.8 (S. 43) trägt die Evidenzzeile „sehr gering ⊕⊝⊝⊝“; die Begründung (S. 44, Z. 7) nennt „die sehr niedrige Aussagesicherheit“. Der Kasten druckt „gering“, der Text „niedrige“; ob beide dieselbe Stufe meinen, sagt die Seite nicht: beide Wortlaute stehen nebeneinander."}]
+- [claims/vorhofflimmern-lf-1.1/2e3fc7b0, disagrees_with, claims/vorhofflimmern-lf-1.1/3fdeec7d, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Die Begründung der Empfehlung 5.8 nennt die Aussagesicherheit zweimal: „wegen der niedrigen Aussagesicherheit“ (S. 43, Z. 59) und „durch die sehr niedrige Aussagesicherheit“ (S. 44, Z. 7) — „niedrig“ und „sehr niedrig“, zwei Stufen."}]
+- [claims/vorhofflimmern-lf-1.1/738956f5, disagrees_with, claims/vorhofflimmern-lf-1.1/661bdf89, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 5.8 (S. 43): der Vorhofohrverschluss für Patient*innen mit AF, „bei denen eine orale Antikoagulation kontraindiziert ist“; ihre Begründung (S. 43, Z. 55–57): bei „erhöhtem Thromboembolie- und Blutungsrisiko“ ist er „eine mögliche Therapiealternative zur dauerhaften oralen Antikoagulation“. Kasten und Text nennen für dieselbe Maßnahme zwei Gruppen: die eine, bei der die Antikoagulation kontraindiziert ist, die andere, für die sie möglich bleibt."}]
+- [claims/vorhofflimmern-lf-1.1/738956f5, disagrees_with, claims/vorhofflimmern-lf-1.1/3a766d15, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 5.8 (S. 43): „bei denen eine orale Antikoagulation kontraindiziert ist“; ihre Begründung (S. 43, Z. 63–64): die Therapieform wird „dann als sinnvoll angesehen, wenn eine orale Antikoagulation langfristig kontraindiziert ist“. Der Text zieht eine Grenze in der Zeit, „langfristig“, die der Kasten nicht zieht."}]
+- [claims/vorhofflimmern-lf-1.1/661bdf89, disagrees_with, claims/vorhofflimmern-lf-1.1/3a766d15, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Die Begründung der Empfehlung 5.8 nennt zwei Gruppen für den Vorhofohrverschluss: bei „erhöhtem Thromboembolie- und Blutungsrisiko“ als „mögliche Therapiealternative zur dauerhaften oralen Antikoagulation“ (S. 43, Z. 55–57), und „wenn eine orale Antikoagulation langfristig kontraindiziert ist“ (S. 43, Z. 63–64): die eine setzt eine mögliche Antikoagulation voraus, die andere ihre Kontraindikation."}]
+
+# sequences (spec §5 `follows`; #294, #295): within chapter 5, by the four tests; 5.1 → 5.4 and 5.4 → 5.5 are no edge
+# (#365 Decision 9, named in the pull request)
+- [statements/shared-decision-making-zur-schlaganfallpraevention, follows, statements/cha2ds2-va-score-zur-abschaetzung-des-schlaganfallrisikos, {source: modelling, as_of: "2026-10-11", lang: de, transition: follows, trigger: finding,
+   rationale: "Empfehlung 5.3 wägt „individuell die ermittelten Risiken aus den beiden o.g. Scores“ ab — das Schlaganfallrisiko, das der CHA2DS2-VA-Score der Empfehlung 5.1 ermittelt."}]
+- [statements/shared-decision-making-zur-schlaganfallpraevention, follows, statements/abschaetzung-des-blutungsrisikos-bei-vorhofflimmern, {source: modelling, as_of: "2026-10-11", lang: de, transition: follows, trigger: finding,
+   rationale: "Empfehlung 5.3 wägt „individuell die ermittelten Risiken aus den beiden o.g. Scores“ ab — das Blutungsrisiko, das die Empfehlung 5.2 abschätzt."}]
+- [statements/interdisziplinaere-indikationspruefung-zum-vorhofohrverschluss-im-zentrum, follows, statements/vorhofohrverschluss-bei-kontraindizierter-oraler-antikoagulation, {source: modelling, as_of: "2026-10-11", lang: de, transition: follows, trigger: other,
+   rationale: "Empfehlung 5.9 prüft die Indikation „für die Patient*innen, die für diese Prozedur in Frage kommen“ — die Prozedur ist der Vorhofohrverschluss, den Empfehlung 5.8 als Option erwägt."}]

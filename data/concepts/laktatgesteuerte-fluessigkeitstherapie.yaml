@@ -3,6 +3,6 @@ id: concepts/laktatgesteuerte-fluessigkeitstherapie
 type: concept
 lang: de
 label: "Steuerung der Flüssigkeitstherapie mit dem Ziel, eine erhöhte Laktatkonzentration im Blut zu senken"
-short_label: "Laktatgesteuerte Flüssigkeitstherapie"
+short_label: "laktatgesteuerte Flüssigkeitstherapie"
 facet: intervention
 source: modelling

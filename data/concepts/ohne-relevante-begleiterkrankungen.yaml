@@ -1,0 +1,9 @@
+# A concept of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# A condition of box 6.5: „ohne relevante Begleiterkrankungen“ (p. 53). Stated: the page names no disease and no score
+# for it; the trials' „CHA2DS2-VASc Score < 2“ (p. 53, l. 32) is another score in a report (reading 5).
+id: concepts/ohne-relevante-begleiterkrankungen
+type: concept
+lang: de
+label: "ohne relevante Begleiterkrankungen"
+facet: patient_state
+source: modelling

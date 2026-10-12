@@ -1,0 +1,10 @@
+# A concept of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# The action of box 5.6: „soll die Dosierung der Medikation, insbesondere der oralen Antikoagulantien, regelmäßig
+# überprüft werden“ (p. 42).
+id: concepts/regelmaessige-ueberpruefung-der-dosierung-der-medikation
+type: concept
+lang: de
+label: "regelmäßige Überprüfung der Dosierung der Medikation"
+short_label: "regelmäßige Dosisüberprüfung"
+facet: intervention
+source: modelling

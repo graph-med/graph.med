@@ -1,0 +1,10 @@
+# A concept of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# The group box 5.9 addresses, „die Patient*innen, die für diese Prozedur in Frage kommen“ (p. 44), „diese Prozedur“
+# being the closure: an eligibility, a group of its own, not 5.8's (#365 reading 6; card #364, reading 4).
+id: concepts/patientinnen-die-fuer-einen-vorhofohrverschluss-in-frage-kommen
+type: concept
+lang: de
+label: "Patient*innen, die für einen Vorhofohrverschluss in Frage kommen"
+short_label: "für einen Vorhofohrverschluss in Frage kommend"
+facet: patient_state
+source: modelling

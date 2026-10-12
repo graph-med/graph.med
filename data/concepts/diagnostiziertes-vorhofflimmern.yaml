@@ -1,0 +1,14 @@
+# A concept of card #380 (C1), chapters 1 and 2 of sources/vorhofflimmern-lf-1.1.
+# The diagnosis made, in box 2.2's words „Bei Patient*innen mit diagnostiziertem AF“ (p. 17, l. 18) (reading 1, option
+# (b), the card's leaning). Its rule is printed three ways, so it reaches each printing by a defined_by edge of its own,
+# every pair joined by disagrees_with, and none is chosen (spec §5; #341; #314 Decision 18): §1.2's top (p. 11, l. 55),
+# joining the documentation „entweder … im 12-Kanal-EKG oder im Ein- oder Mehrkanal-EKG für 30 Sekunden“ and the ECG
+# characteristics (p. 12, l. 4–5); Tabelle 2's row „Klinisches Vorhofflimmern: AF im 12-Kanal-EKG oder 1-Kanal-EKG über
+# mindestens 30s“ (p. 13); and „über eine Dauer von >30 Sekunden“ (p. 16, l. 17–18). Not concepts/vorhofflimmern, the
+# disease §1.1 defines; not the scope root.
+id: concepts/diagnostiziertes-vorhofflimmern
+type: concept
+lang: de
+label: "diagnostiziertes Vorhofflimmern"
+facet: patient_state
+source: modelling

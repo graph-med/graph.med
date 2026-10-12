@@ -1,0 +1,48 @@
+# Edges of card #376 (#314's part C2) from chapter 4 of sources/vorhofflimmern-lf-1.1 (pp. 28–36), all modelling. Edges
+# across parts are X1's — §8.10's restatement of 4.1 and §8.9's of 4.9 (p. 90), the cross-references to chapters 3 and
+# 8 (p. 28, l. 15–16; p. 31, l. 9) —, the scope and hierarchy edges X2's (#314 Decision 6).
+# evidence (spec §3.1): each box sentence of recommendation form supports a statement per action it instructs — 4.1's
+# one claim two (#376 Decision 3); the four sentences of the statement boxes 4.7 and 4.8 and the body text support none
+- [claims/vorhofflimmern-lf-1.1/93354854, supports, statements/regelmaessige-befragung-zur-koerperlichen-aktivitaet, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/93354854, supports, statements/beratung-zu-den-vorteilen-moderater-koerperlicher-aktivitaet, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/fe58fc11, supports, statements/strukturiertes-training-bei-angst-vor-koerperlicher-aktivitaet, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/a2821ce9, supports, statements/belastungsuntersuchung-bei-koerperlicher-aktivitaet, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/bfa28b67, supports, statements/entspannungsverfahren-bei-starker-psychovegetativer-belastung, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/a4f5e606, supports, statements/beratung-zu-den-negativen-auswirkungen-von-alkohol, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/d2698e2e, supports, statements/grenzen-des-risikoarmen-alkoholkonsums-nicht-ueberschreiten, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/23e4125d, supports, statements/verzicht-auf-tabakkonsum, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/db0faceb, supports, statements/diagnostik-und-therapie-von-begleiterkrankungen, {source: modelling}]
+
+# defined_by (spec §3.2, §5): the term of 4.5's second sentence, to the criterion of p. 33 (#314 Decision 19; card
+# #364's ledger, owner C2; #376 Decision 7)
+- [concepts/risikoarmer-alkoholkonsum, defined_by, claims/vorhofflimmern-lf-1.1/84236bf0, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„risikoarmer Alkoholkonsum“ — S. 33, Z. 4–5: „Die Grenzwerte des risikoarmen Alkoholkonsums (pro Tag nicht mehr als 20 g reinen Alkohols für Männer und 10 g reinen Alkohols für Frauen) und mind. 2 alkoholfreie Tage pro Woche dienen als Orientierung für die Beratung.“ Eine Grenze je Geschlecht passt in keine Schwelle; das Kriterium trägt die Grenzen wie gedruckt in seinem Label."}]
+
+# body text (spec §5.1): section 4.4, p. 33; the ratings of pp. 32's Begründung take no R, L or S edge (D, below)
+- [claims/vorhofflimmern-lf-1.1/84236bf0, refines, claims/vorhofflimmern-lf-1.1/d2698e2e, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: „risikoarmen Alkoholkonsums“ — die Grenzwerte: „pro Tag nicht mehr als 20 g reinen Alkohols für Männer und 10 g reinen Alkohols für Frauen“ und „mind. 2 alkoholfreie Tage pro Woche“ (S. 33, Z. 4–5)."}]
+- [claims/vorhofflimmern-lf-1.1/7d67359f, refines, claims/vorhofflimmern-lf-1.1/d2698e2e, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: Es soll empfohlen werden — „Die ärztliche Empfehlung zum Alkoholverzicht oder zumindest zu reduziertem Alkoholkonsum sollte wertschätzend und ohne Stigmatisierung kommuniziert werden.“ (S. 33, Z. 12–14): wie die Empfehlung gegeben wird."}]
+
+# disagreement (spec §3.1, §5, §5.1 D and N2; #341; F5, F6): each printing kept as printed and shown, none chosen — a
+# rating of a box's evidence in its Begründung otherwise than the box's row, joined to every claim that carries the row
+- [claims/vorhofflimmern-lf-1.1/bfa28b67, disagrees_with, claims/vorhofflimmern-lf-1.1/07eb80d6, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 4.4 (S. 31) bewertet ihre Evidenz mit „Rezidiv AF: gering ⊕⊕⊝⊝“ und „Lebensqualität: sehr gering ⊕⊝⊝⊝“; ihre Begründung (S. 32, Z. 8–9): „Die Wirksamkeitsnachweise für die genannten Entspannungsverfahren sind allerdings statistisch nur wenig belastbar (… bei sehr geringer Aussagesicherheit).“ Der Kasten druckt je Endpunkt eine Stufe, „gering“ und „sehr gering“, der Text für die Wirksamkeitsnachweise die eine Stufe „sehr gering“. Als Evidenz des Kastens sind seine Zeilen erfasst; keine Stufe ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/a4f5e606, disagrees_with, claims/vorhofflimmern-lf-1.1/28b6e87a, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 4.5 (S. 32), Satz 1, trägt die Evidenzzeile „Rezidiv AF: moderat ⊕⊕⊕⊝“; ihre Begründung (S. 32, Z. 59–60): „Zwar besteht eine geringe Aussagesicherheit wegen …“ Kasten und Text nennen zwei Stufen, „moderat“ und „gering“. Als Evidenz des Kastens ist seine Zeile erfasst; keine Stufe ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/d2698e2e, disagrees_with, claims/vorhofflimmern-lf-1.1/28b6e87a, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 4.5 (S. 32), Satz 2, trägt dieselbe Evidenzzeile „Rezidiv AF: moderat ⊕⊕⊕⊝“; die Begründung (S. 32, Z. 59–60) nennt „eine geringe Aussagesicherheit“. Kasten und Text nennen zwei Stufen, „moderat“ und „gering“; keine ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/a4f5e606, disagrees_with, claims/vorhofflimmern-lf-1.1/0d657c7a, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 4.5 (S. 32), Satz 1, trägt die Evidenzzeile „Rezidiv AF: moderat ⊕⊕⊕⊝“; ihre Begründung (S. 32, Z. 58–59) nennt die erste randomisierte Interventionsstudie, „die bei geringer Aussagesicherheit Effekte eines Alkoholverzichts/reduktion bei Patient*innen mit AF auf AF-Rezidive zeigt“. Für denselben Endpunkt nennen Kasten und Text zwei Stufen, „moderat“ und „gering“; keine ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/d2698e2e, disagrees_with, claims/vorhofflimmern-lf-1.1/0d657c7a, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 4.5 (S. 32), Satz 2, trägt dieselbe Evidenzzeile „Rezidiv AF: moderat ⊕⊕⊕⊝“; die Begründung (S. 32, Z. 58–59) nennt Effekte „bei geringer Aussagesicherheit“ auf „AF-Rezidive“. Für denselben Endpunkt nennen Kasten und Text zwei Stufen, „moderat“ und „gering“; keine ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/a4f5e606, disagrees_with, claims/vorhofflimmern-lf-1.1/365f6a34, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 4.5 (S. 32), Satz 1, trägt die Evidenzzeile „Rezidiv AF: moderat ⊕⊕⊕⊝“; ihre Begründung (S. 32, Z. 62–64): „Auch wenn die Aussagesicherheit der Evidenz gering ist, ergibt sich … ein starker Hinweis, dass die Reduktion jeglichen Alkoholkonsums wirksam sein kann.“ Kasten und Text nennen zwei Stufen, „moderat“ und „gering“; keine ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/d2698e2e, disagrees_with, claims/vorhofflimmern-lf-1.1/365f6a34, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 4.5 (S. 32), Satz 2, trägt dieselbe Evidenzzeile „Rezidiv AF: moderat ⊕⊕⊕⊝“; die Begründung (S. 32, Z. 62–63): „Auch wenn die Aussagesicherheit der Evidenz gering ist, …“. Kasten und Text nennen zwei Stufen, „moderat“ und „gering“; keine ist gewählt."}]
+
+# sequences (spec §5 `follows`; #294, #295; #376 Decision 13): none within chapter 4, each candidate read by the four
+# tests and named in the pull request — 4.1's ask → its counselling (one sentence, no outcome of the ask triggers the
+# counselling); 4.1 → 4.2 and 4.3 (their groups are states worded without reference to a measure: test 2); 4.5 S1 → S2
+# (no outcome of the counselling triggers the advice); 4.9 → Tabelle 7 (a deferral, §5.1 N4). Abb. 2's path is never
+# read for an edge (memory figures-without-text).

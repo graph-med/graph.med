@@ -1,0 +1,11 @@
+# A concept of card #377 (C6), chapter 7 of sources/vorhofflimmern-lf-1.1.
+# The condition of box 7.2, „Bei fortbestehender AF-induzierter Symptomatik unter frequenzkontrollierender Therapie“
+# (p. 72): a symptom state (card #377 Decision 1), the circumstance that makes 7.2 follow 7.1 (Decision 11; spec §5: the
+# condition says what, the follows edge to which measure). The Begründung prints „bei fortbestehender Symptomatik trotz
+# „lenient control““ (p. 72, l. 39–40) and p. 71 „weiterhin bestehender AF-bedingter Symptomatik“, both left on the page.
+id: concepts/fortbestehende-af-induzierte-symptomatik
+type: concept
+lang: de
+label: "fortbestehende AF-induzierte Symptomatik"
+facet: patient_state
+source: modelling

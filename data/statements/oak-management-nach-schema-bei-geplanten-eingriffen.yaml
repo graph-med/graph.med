@@ -1,0 +1,13 @@
+# A statement of card #382 (C7a), chapter 8 of sources/vorhofflimmern-lf-1.1.
+# Box 8.2 (p. 82), delegating to Abb. 7, a figure without a text layer (spec §5.1 F). Group, occasion and action as 8.1's;
+# the figure tells them apart, kept in the label (card #382 reading 2).
+id: statements/oak-management-nach-schema-bei-geplanten-eingriffen
+type: statement
+lang: de
+label: "Bei Patient*innen unter oraler Antikoagulation bei geplanten operativen und interventionellen Eingriffen das Management von OAK gemäß dem in Abb. 7 dargestellten Schema durchführen."
+short_label: "Management von OAK nach Abb. 7 bei geplanten Eingriffen"
+slots:
+  population: concepts/patientinnen-unter-oraler-antikoagulation
+  action: concepts/management-von-oak
+  condition: [concepts/geplante-operative-und-interventionelle-eingriffe]
+source: modelling

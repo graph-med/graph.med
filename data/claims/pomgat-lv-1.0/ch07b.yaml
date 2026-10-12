@@ -81,7 +81,7 @@
   lang: de
   kind: criterion
   section: "7.4.1.1"
-  label: "Durch eine bereits präoperativ begonnene Applikation von NSAR, bspw. 50mg Diclophenac, kann die Dauer bis zum ersten postoperativen Stuhlgang nach kolorektalen Resektionen verringert werden [274], [275]."
+  label: "Durch eine bereits präoperativ begonnene Applikation von NSAR, bspw. 50mg Diclophenac, kann die Dauer bis zum ersten postoperativen Stuhlgang nach kolorektalen Resektionen verringert werden."
   source:
     at: sources/pomgat-lv-1.0#page=92
     quote: "bereits präoperativ begonnene Applikation von NSAR, bspw. 50mg Diclophenac, kann"
@@ -90,7 +90,7 @@
   lang: de
   kind: recommendation
   section: "7.4.1.1"
-  label: "Zu beachten ist bei der perioperativen Applikation von NSAR, dass diese mit einer erhöhten Inzidenz an Anastomoseninsuffizienzen einherzugehen scheinen, sodass bei dieser Empfehlung ein möglicher Zusammenhang zwischen der Applikation von NSAR und einer erhöhten Inzidenz an Anastomoseninsuffizienzen berücksichtigt werden muss [278], [279], [280], [281], [282]."
+  label: "Zu beachten ist bei der perioperativen Applikation von NSAR, dass diese mit einer erhöhten Inzidenz an Anastomoseninsuffizienzen einherzugehen scheinen, sodass bei dieser Empfehlung ein möglicher Zusammenhang zwischen der Applikation von NSAR und einer erhöhten Inzidenz an Anastomoseninsuffizienzen berücksichtigt werden muss."
   source:
     at: sources/pomgat-lv-1.0#page=93
     quote: "einer erhöhten Inzidenz an Anastomoseninsuffizienzen berücksichtigt werden muss"
@@ -426,7 +426,7 @@
   lang: de
   kind: criterion
   section: "7.4.1.2"
-  label: "Daikenchuto (DKC) ist eine phytotherapeutische Formel aus der traditionellen japanischen Medizin und besteht aus den pflanzlichen Inhaltsstoffen japanischer Pfeffer, getrockneter Ingwer, Ginsengwurzel und Maltosepulver [313]."
+  label: "Daikenchuto (DKC) ist eine phytotherapeutische Formel aus der traditionellen japanischen Medizin und besteht aus den pflanzlichen Inhaltsstoffen japanischer Pfeffer, getrockneter Ingwer, Ginsengwurzel und Maltosepulver."
   source:
     at: sources/pomgat-lv-1.0#page=101
     quote: "japanischen Medizin und besteht aus den pflanzlichen Inhaltsstoffen japanischer"

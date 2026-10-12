@@ -1,0 +1,10 @@
+# A concept of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# The action of box 5.4's second item: „soll die Indikation für eine orale Antikoagulation Therapie individuell geprüft
+# werden“ (p. 40) — after „geprüft“ the action is the check (card #364, Decision 7).
+id: concepts/pruefung-der-indikation-zur-oralen-antikoagulation
+type: concept
+lang: de
+label: "Prüfung der Indikation für eine orale Antikoagulation"
+short_label: "Prüfung der OAK-Indikation"
+facet: intervention
+source: modelling

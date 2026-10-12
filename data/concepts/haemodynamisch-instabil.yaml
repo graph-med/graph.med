@@ -3,6 +3,6 @@
 id: concepts/haemodynamisch-instabil
 type: concept
 lang: de
-label: "Hämodynamisch instabil"
-facet: finding
+label: "hämodynamisch instabil"
+facet: patient_state
 source: modelling

@@ -1,0 +1,13 @@
+# A statement of card #376 (C2), chapter 4 of sources/vorhofflimmern-lf-1.1.
+# Box 4.4 (p. 31), the open grade ⇔. Anchor: the state the box names beside AF (card #364, convention row 5 and its
+# sample); „starke psychovegetative“ kept in the short label (the judge, 2026-10-12: „Belastung“ alone reads as
+# physical exertion on these pages).
+id: statements/entspannungsverfahren-bei-starker-psychovegetativer-belastung
+type: statement
+lang: de
+label: "Patient*innen mit AF mit starker psychovegetativer Belastung Entspannungsverfahren empfehlen."
+short_label: "Entspannungsverfahren: starke psychovegetative Belastung"
+slots:
+  population: concepts/starke-psychovegetative-belastung
+  action: concepts/entspannungsverfahren
+source: modelling

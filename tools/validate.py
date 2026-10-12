@@ -37,41 +37,101 @@ rules a document schema cannot state because they span files:
   - a derived concept's rule holds together (spec §3.1, §5): a concept has one
     `defined_by` edge, discriminator or not — several rules combine on the claim it
     reaches, as the page prints it, and a second edge would be a combination
-    nobody extracted —, to a claim of kind `criterion` or `definition`; a
+    nobody extracted —, to a claim of kind `criterion` or `definition`; or one per
+    printing, where its source prints the rule differently in several places and
+    every pair of those claims is joined by `disagrees_with`; a
     `combination`'s parts are claims of those kinds from the claim's own source,
     its connective's quotes are from that source too, each piece of the connective
     lies in one of them, `at_least` counts no more parts than it names, and
-    combinations nest through claims without a cycle; a threshold's `quantity`
-    and `relative_to` resolve like every reference, and a relative threshold is
-    relative to another quantity than the one it bounds;
+    combinations nest through claims without a cycle; a `sum` — a points table —
+    gives each of its parts the points printed for it, one per entry of `of`,
+    and is a part of no combination, since it yields a number, not whether a
+    rule holds; a concept whose rule is a sum is a score, a quantity, which a
+    threshold may bound (`quantity`, `relative_to`) but which fills no
+    statement slot and no axis placement, a quantity being no group; a
+    threshold's `quantity` and `relative_to` resolve like every reference and
+    are concepts of facet `finding`, a measured or scored quantity (spec §3.2),
+    never the state the bound establishes; and a relative threshold is relative
+    to another quantity than the one it bounds;
+  - a disagreement is the source's own (spec §5, §5.1 D): `disagrees_with` joins two
+    claims of one source — between two sources it is `contests` —, never a claim
+    to itself, and once per pair, whichever its direction, being symmetric;
+  - a sequence holds together (spec §5 `follows`, [later, follows, earlier]):
+    (a) some one source has claims supporting both statements, so that no chain
+    runs across guidelines; (b) the later statement's `population` does not lie
+    strictly above the earlier's along `broader` and `in_scope_of` — the same
+    population, a narrower one or an unrelated one passes; (c) the `follows`
+    edges whose `trigger` is neither `reevaluation` nor `target_reached` form no
+    cycle, a loop through a re-evaluation or a reached target staying allowed,
+    and so does one through an edge whose two statements are supported by
+    claims `disagrees_with` joins: the source stating their order both ways.
+    That `transition` and `trigger` stand on `follows` alone, both present and
+    from their closed lists, is the schema's; nothing relates the edge to the
+    later statement's `condition`;
   - a claim is read in its source's grading scheme (spec §3.1): its `grade` is
-    one its own source's `grading_scheme` lists and its `consensus` one of its
-    classes; its `verb` is a wording some declared scheme defines — its own
-    source's, or others that read it alike (open or not, one negated form); a
-    printed `consensus_share` shows a number, carries the class where its
-    source classes shares, and lies within that class's bounds where the scheme
-    reads them as numbers; within a scheme a grade, a wording and a class are
-    listed once, every word of a grade, wording, negated form, class name and
-    bounds lies as a whole word in one of the quotes that give it, and those
-    quotes are the source's own;
+    one its own source's `grading_scheme` lists, its `basis` one of its bases
+    and its `consensus` one of its classes; its `direction` is the one its grade
+    fixes, where the grade fixes one; its `verb` is a wording some declared
+    scheme defines — its own source's, or others that read it alike (open or
+    not, one negated form); a printed `consensus_share` shows a number, carries
+    the class where its source classes shares, and lies within that class's
+    bounds where the scheme reads them as numbers; within a scheme a grade, a
+    basis and a class are listed once, a wording once or under grades that each
+    fix another direction and read it alike, every word of a grade, wording,
+    negated form, basis, class name and bounds lies as a whole word in one of
+    the quotes that give it — a token of no word character, a symbol, as a whole
+    token, never inside a longer run of symbols —, and those quotes are the
+    source's own;
   - an evidence row names its endpoint as `outcome` and anything else as its
     printed `key` (spec §3.1): an entry's `outcome` is a concept of facet
     `outcome`, so a component, a subgroup, an arm, a comparator, a device or a
-    regimen is never recorded as one;
+    regimen is never recorded as one; and each entry has its quote — the
+    provenance of `evidence` holds at least one quote per entry, the lines a
+    box prints once for its rows following them (that an entry states an
+    outcome, a value or a note, and its system wherever it states an outcome or
+    a value, is the schema's);
+  - a quote ends on a whole word (spec §6.2): none ends in a hyphen after a
+    letter or a digit, the cut a line-end hyphen leaves — the rest of the
+    whole-word rule needs the page, below; and a quote holds no ASCII double
+    quote, which pdf.js strips from the link's search, so the link would not
+    find it;
+  - a source's version and the date it prints for it hold together (spec §6.1):
+    the date is a real calendar date at the precision recorded (a year, a month
+    or a day), and every word of the version lies as a whole word in one of the
+    quotes that give it, which are the source's own; reading a printed date as
+    ISO 8601 is left to review, so no month name of any language is held here;
+  - an evidence row is rated in a system its source declares (spec §3.1): an
+    entry's `system` is one its claim's own source lists in `rating_systems`;
+    within a source a slug is declared once, every word of a system's `name`
+    lies as a whole word in one of the quotes that give it, and those quotes
+    are the source's own;
 
 With --verify-quotes it also downloads each source (hash-checked, cached) and
-verifies every quote is a verbatim substring of `pdftotext -layout` on the cited
-physical page. Exit status 1 on any error.
+verifies every quote is a verbatim passage of `pdftotext -layout` on the cited
+physical page, read as spec §6.2 reads it: a line parts where its columns
+part, and a line set in justified type stays one inside its column
+(`line_pieces`); a line runs on to the next line of its column, a line break
+reads as a space, and a hyphen at a line end either joins the word it breaks
+or stays with the compound it belongs to (`page_reading`, `quote_pattern`);
+that it lies there on whole words,
+neither starting nor ending inside a word of the page (`locate`); and that a
+claim's quote lies there once, counted the way the link's search counts
+(`places`): pdf.js ignores case, matches inside a word too, and lands on the
+page's first match. Any other quote that lies on its page more than once is
+reported, not refused: a claim's grade, consensus or evidence row is fixed by
+its anchor (spec §6.2). Exit status 1 on any error.
 """
 
 from __future__ import annotations
 
 import argparse
+import datetime
 import hashlib
 import re
 import subprocess
 import sys
 import urllib.request
+from collections import defaultdict
 from pathlib import Path
 
 import yaml
@@ -95,6 +155,20 @@ def walk(node, path=()):
     elif isinstance(node, list):
         for i, v in enumerate(node):
             yield from walk(v, path + (i,))
+
+
+def as_refs(refs) -> list[dict]:
+    """A provenance value as a list of references: one reference, a list of them, or none (`modelling`)."""
+    if isinstance(refs, dict):
+        return [refs]
+    return [r for r in refs if isinstance(r, dict)] if isinstance(refs, list) else []
+
+
+def printed(token: str, quote) -> bool:
+    """Whether a quote prints a token whole: a word with no word character beside it, not inside a longer one; a
+    symbol with no other symbol beside it, never inside a longer run of symbols."""
+    beside = r"\w" if re.search(r"\w", token) else r"[^\w\s]"
+    return re.search(rf"(?<!{beside}){re.escape(token)}(?!{beside})", str(quote)) is not None
 
 
 def main(argv=None) -> int:
@@ -168,6 +242,9 @@ def main(argv=None) -> int:
     broader: list[tuple[str, int, str, str, dict]] = []   # (file, index, from, to, props)
     scope: list[tuple[str, int, str, str, dict]] = []     # the same, for in_scope_of
     defined_by: list[tuple[str, int, str, str, dict]] = []   # the same, for defined_by
+    disagree: list[tuple[str, int, str, str, dict]] = []     # the same, for disagrees_with
+    follows: list[tuple[str, int, str, str, dict]] = []      # the same, for follows
+    supports: list[tuple[str, int, str, str, dict]] = []     # the same, for supports
     for rel, doc, _ in docs:
         for path, value in walk(doc):
             if isinstance(value, str) and ref_pattern.match(value) and value.split("#")[0] not in ids:
@@ -185,12 +262,23 @@ def main(argv=None) -> int:
                         scope.append((rel, i, edge[0], edge[2], edge[3]))
                     elif edge[1] == "defined_by":
                         defined_by.append((rel, i, edge[0], edge[2], edge[3]))
+                    elif edge[1] == "disagrees_with":
+                        disagree.append((rel, i, edge[0], edge[2], edge[3]))
+                    elif edge[1] == "follows":
+                        follows.append((rel, i, edge[0], edge[2], edge[3]))
+                    elif edge[1] == "supports":
+                        supports.append((rel, i, edge[0], edge[2], edge[3]))
 
     errors += check_axes(schema, ids, entities, broader, scope)
     errors += check_scope_edges(broader, scope)
-    errors += check_definitions(ids, entities, defined_by)
+    errors += check_definitions(ids, entities, defined_by, disagree)
+    errors += check_disagreements(entities, disagree)
+    errors += check_sequences(entities, broader, scope, supports, follows, disagree)
     errors += check_grading(ids, entities)
     errors += check_evidence(ids, entities)
+    errors += check_quote_form(docs)
+    errors += check_version_and_date(ids, entities)
+    errors += check_rating_systems(ids, entities)
     if any(e.get("type") == "view" and "scope_root" in e for e in entities.values()):
         if errors:   # members are computed by the build's reader, which expects a pool that fits the schema
             print("the scope trees of views are checked once the errors below are fixed")
@@ -205,8 +293,14 @@ def main(argv=None) -> int:
         sources = {eid: next(e for _, d, _ in docs for e in (d if isinstance(d, list) else [d])
                              if isinstance(e, dict) and e.get("id") == eid)
                    for eid in ids if eid.startswith("sources/")}
-        errors += verify_quotes(docs, sources, args.cache)
+        found, notices = verify_quotes(docs, sources, args.cache)
+        errors += found
         print("verified quotes against the source text")
+        for line in notices:
+            print(f"notice: {line}")
+        if notices:
+            print(f"{len(notices)} quote(s) other than a claim's lie more than once on their page: reported, not refused "
+                  f"(spec §6.2)")
 
     for line in errors:
         print(f"error: {line}")
@@ -323,29 +417,50 @@ def check_scope_edges(broader: list[tuple[str, int, str, str, dict]],
 
 
 def check_definitions(ids: dict[str, str], entities: dict[str, dict],
-                      defined_by: list[tuple[str, int, str, str, dict]]) -> list[str]:
+                      defined_by: list[tuple[str, int, str, str, dict]],
+                      disagree: list[tuple[str, int, str, str, dict]]) -> list[str]:
     """A derived concept's rule (spec §3.1, §3.2, §5). A concept has one `defined_by` edge, to a claim of kind
     `criterion` or `definition` — the passage that gives the rule, not a recommendation that uses the term.
     Several rules of one concept are the parts of a `combination` on that claim, with the connective the page
     prints; a second edge would join them by a default nobody read off the page, so it is refused, to the same
-    claim or another, discriminator or not. A combination's parts are criterion or definition claims of the
+    claim or another, discriminator or not — unless the source prints the rule differently in several places:
+    then the concept reaches each printing by an edge of its own, and every pair of those claims is joined by
+    `disagrees_with`, so that the second edge records a disagreement the pool states rather than a combination
+    nobody read (spec §5; a claim never disagrees with itself, so two edges to one claim stay refused). A
+    combination's parts are criterion or definition claims of the
     claim's own source, as are the quotes of its connective, and every piece of the connective ("entweder …
     oder") lies in one of those quotes, so that --verify-quotes checks the words on the page; `at_least` names
-    at most as many as its parts; combinations nest through claims and never reach their own claim. That the
-    operator states its parts, connective and `n`, and that a combining claim prints no threshold, is the
-    schema's. A threshold's `relative_to` names another quantity than its `quantity`; that both resolve is the
-    reference check's. No operator word, kind of concept, quantity or unit of a guideline is named here."""
+    at most as many as its parts; combinations nest through claims and never reach their own claim. A `sum`, the
+    operator of a points table, gives each part the points its row prints, so it holds one entry of `points` per
+    entry of `of`; its result is a number, not whether a rule holds, so a sum is a part of no combination; and
+    the concept a `defined_by` edge leads to it from — a score, a quantity — is what a threshold bounds, never a
+    group: it fills no statement slot and no placement of an axis, as a key or as a place, and stands as a
+    threshold's `quantity` or `relative_to` instead. That the operator states its parts, connective, `n` and
+    `points`, that `points` stands with a sum alone, and that a combining claim prints no threshold, is the
+    schema's. A threshold's `quantity` and its `relative_to` are measured or scored quantities, concepts of facet
+    `finding` (spec §3.2): the schema cannot see a concept's facet, so this is where the state a bound establishes
+    — a concept of its own, reaching the claim by its `defined_by` edge — is kept from standing as the quantity
+    the bound is on, as check_evidence holds an evidence row's endpoint to facet `outcome`. `relative_to` names
+    another quantity than `quantity`; that both resolve is the reference check's. No operator word, kind of
+    concept, quantity, point value or unit of a guideline is named here."""
+    sys.path.insert(0, str(ROOT / "tools"))
+    from build import fillers, places   # noqa: E402 — one reading of a slot and a placement for the validator, the tool and the site
     errs: list[str] = []
     rules = ("criterion", "definition")
-    first: dict[str, tuple[str, str]] = {}
+    joined = {frozenset((frm, to)) for _, _, frm, to, _ in disagree}
+    operator = lambda cid: ((entities.get(cid) or {}).get("combination") or {}).get("operator")
+    earlier: dict[str, list[tuple[str, str]]] = defaultdict(list)   # concept → [(where, claim)] of its edges so far
     for rel, i, frm, to, _ in defined_by:
         kind = entities.get(to, {}).get("kind")
         if to in entities and kind not in rules:
             errs.append(f"{rel} at {i}: {frm} defined_by {to}, a claim of kind {kind!r}; a rule is a criterion or a definition")
-        if frm in first:
-            errs.append(f"{rel} at {i}: {frm} has a second defined_by edge (to {to}; the first, to {first[frm][1]}, is in "
-                        f"{first[frm][0]}); several rules combine on one claim as the page prints it (`combination`), never by a second edge")
-        first.setdefault(frm, (f"{rel} at {i}", to))
+        for where, other in earlier[frm]:
+            if frozenset((to, other)) not in joined or to == other:
+                errs.append(f"{rel} at {i}: {frm} has a second defined_by edge (to {to}; another, to {other}, is in {where}), and "
+                            f"the two claims are not joined by disagrees_with; several rules combine on one claim as the page "
+                            f"prints it (`combination`), and a concept reaches several only where they are printings of its rule "
+                            f"that disagree (spec §5)")
+        earlier[frm].append((f"{rel} at {i}", to))
     source_of = lambda at: str(at).split("#")[0]
     graph: dict[str, list[str]] = {}
     for cid, claim in sorted(entities.items()):
@@ -354,6 +469,15 @@ def check_definitions(ids: dict[str, str], entities: dict[str, dict],
         th = claim.get("threshold")
         if isinstance(th, dict) and "relative_to" in th and th.get("relative_to") == th.get("quantity"):
             errs.append(f"{ids[cid]}: the threshold of {cid} is relative to {th['quantity']}, its own quantity; a relative threshold names the quantity it is relative to")
+        for field in ("quantity", "relative_to"):
+            ref = th.get(field) if isinstance(th, dict) else None
+            concept = entities.get(ref) if isinstance(ref, str) else None
+            if concept is not None and concept.get("facet") != "finding":
+                errs.append(f"{ids[cid]}: the threshold of {cid} names {ref} as its `{field}`, a concept of facet "
+                            f"{concept.get('facet') or 'none'}; what a threshold bounds, and what a relative one is "
+                            f"relative to, is a measured or scored quantity, a concept of facet `finding` — the state "
+                            f"the bound establishes is a concept of its own, whose defined_by edge reaches this claim "
+                            f"(spec §3.2)")
         comb = claim.get("combination")
         if not isinstance(comb, dict):
             continue
@@ -367,8 +491,14 @@ def check_definitions(ids: dict[str, str], entities: dict[str, dict],
                 errs.append(f"{rel}: the combination of {cid} names {part}, a claim of kind {entities[part].get('kind')!r}; a part is a criterion or a definition")
             if source_of((entities[part].get("source") or {}).get("at", "")) != own:
                 errs.append(f"{rel}: the combination of {cid} names {part}, a claim of another source; a combination is read off one passage")
+            if operator(part) == "sum":
+                errs.append(f"{rel}: the combination of {cid} names {part}, a sum; a sum yields a number, not whether a rule "
+                            f"holds, so it is a part of no combination — a bound on it is a threshold on its concept")
         if comb.get("operator") == "at_least" and isinstance(comb.get("n"), int) and comb["n"] > len(parts):
             errs.append(f"{rel}: the combination of {cid} asks for at least {comb['n']} of {len(parts)} parts")
+        if comb.get("operator") == "sum" and isinstance(comb.get("points"), list) and len(comb["points"]) != len(comb.get("of") or []):
+            errs.append(f"{rel}: the sum of {cid} gives {len(comb['points'])} points for {len(comb.get('of') or [])} parts; "
+                        f"each part has the points its row prints, one entry of `points` per entry of `of`, in its order")
         refs = comb.get("source")
         refs = [refs] if isinstance(refs, dict) else [r for r in refs or [] if isinstance(r, dict)]
         for r in refs:
@@ -380,25 +510,133 @@ def check_definitions(ids: dict[str, str], entities: dict[str, dict],
                     errs.append(f"{rel}: the connective of {cid} prints {piece!r}, which none of its quotes contains")
     for cycle in cycles(graph):
         errs.append(f"combinations form a cycle through claims: {' -> '.join(cycle)}")
+    scores = {frm: to for _, _, frm, to, _ in defined_by if operator(to) == "sum"}   # a concept whose rule is a sum → that sum
+    for eid, ent in sorted(entities.items()):
+        held = []   # (where, concept) of every slot or placement that holds a concept
+        if ent.get("type") == "statement":
+            held = [(f"slot {slot!r}", c) for slot in (ent.get("slots") or {}) for c in fillers(ent, slot)]
+        elif ent.get("type") == "axis":
+            for key, val in (ent.get("placements") or {}).items():
+                held += [(f"placements, as the placed {key}", key)] + [(f"placements, as the place of {key}", c) for c in places(val)]
+        for where, concept in held:
+            if concept in scores:
+                errs.append(f"{ids[eid]}: {eid} holds {concept} in {where}, a score — its rule {scores[concept]} is a sum, "
+                            f"so it is a quantity, no group; the group a bound on it gives is a concept of its own, whose "
+                            f"rule is the claim printing that bound as a threshold on {concept}")
+    return errs
+
+
+def check_disagreements(entities: dict[str, dict], disagree: list[tuple[str, int, str, str, dict]]) -> list[str]:
+    """A disagreement the source has with itself (spec §5, §5.1 D): `disagrees_with` joins two claims of one source,
+    each kept as printed — the edge records that they answer one question differently and decides nothing. Between
+    two sources the relation is `contests` (a claim against another source's statement), so an edge across sources
+    is refused; a claim does not disagree with itself; and the edge is symmetric, so a pair is joined once, in
+    either direction, and a second edge between the same two claims — reversed or with a discriminator — is
+    refused. That the rationale quotes both sides is the judge's to read (spec §8.1)."""
+    errs: list[str] = []
+    source_of = lambda cid: str((entities.get(cid, {}).get("source") or {}).get("at", "")).split("#")[0]
+    seen: dict[frozenset, str] = {}
+    for rel, i, frm, to, _ in disagree:
+        where = f"{rel} at {i}"
+        if frm == to:
+            errs.append(f"{where}: {frm} disagrees_with itself; a disagreement joins two places of the source")
+            continue
+        if frm in entities and to in entities and source_of(frm) != source_of(to):
+            errs.append(f"{where}: {frm} disagrees_with {to}, a claim of another source ({source_of(to)}, not {source_of(frm)}); "
+                        f"a source disagreeing with itself is disagrees_with, two sources are `contests` (spec §5)")
+        pair = frozenset((frm, to))
+        if pair in seen:
+            errs.append(f"{where}: {frm} and {to} are already joined by disagrees_with ({seen[pair]}); the edge is symmetric, "
+                        f"one per pair")
+        seen.setdefault(pair, where)
+    return errs
+
+
+def check_sequences(entities: dict[str, dict], broader: list[tuple[str, int, str, str, dict]],
+                    scope: list[tuple[str, int, str, str, dict]], supports: list[tuple[str, int, str, str, dict]],
+                    follows: list[tuple[str, int, str, str, dict]],
+                    disagree: list[tuple[str, int, str, str, dict]]) -> list[str]:
+    """A sequence (spec §5 `follows`): [later, follows, earlier], the later recommendation's step taken because of how
+    the earlier one's measure went. Three facts across files, none a clinical reading. (a) One source: some source has
+    claims supporting both statements, read off their `supports` edges, since a chain never runs across guidelines;
+    a statement no claim supports has no source and joins none. (b) Population: a step the outcome of another
+    triggers is never for a wider group than that one, so the later statement's `population` never lies strictly
+    above the earlier's along `broader` and `in_scope_of`, the edges a view climbs to its root; the same population or
+    a narrower one passes, an unrelated one too, the pool stating no relation to check, and a statement without one
+    is not compared. (c) Cycles: the `follows` edges whose
+    `trigger` is neither `reevaluation` nor `target_reached` form no cycle, by the one cycle check `broader` uses; a
+    loop through a re-evaluation or a reached target is one the guideline may run, and stays allowed. So is a loop
+    through an edge whose two statements are supported by claims that `disagrees_with` joins: where the source states
+    the order of two recommendations both ways, each printing is shown and none chosen (spec §5, §5.1 D), so the
+    check never makes a linking pass drop one. That
+    `transition` and `trigger` are present, closed and on `follows` alone is the schema's; that the page bears them,
+    and the edge at all, is the judge's (spec §8.1). Nothing here relates the edge to the later statement's
+    `condition`, which the edge never writes (spec §5.1 N3). No trigger beyond the two that close a loop, no
+    population and no guideline is named here."""
+    errs: list[str] = []
+    source_of = lambda cid: str((entities.get(cid, {}).get("source") or {}).get("at", "")).split("#")[0]
+    sources: dict[str, set[str]] = defaultdict(set)   # statement → the sources of the claims supporting it
+    claims: dict[str, set[str]] = defaultdict(set)    # statement → the claims supporting it
+    for _, _, claim, statement, _ in supports:
+        claims[statement].add(claim)
+        if claim in entities:
+            sources[statement].add(source_of(claim))
+    joined = {frozenset((frm, to)) for _, _, frm, to, _ in disagree}
+    disagree_on = lambda a, b: any(frozenset((x, y)) in joined for x in claims[a] for y in claims[b])
+    wider: dict[str, list[str]] = defaultdict(list)   # concept → the concepts it is a case of
+    for _, _, frm, to, _ in broader + scope:
+        wider[frm].append(to)
+
+    def above(concept: str) -> set[str]:
+        seen: set[str] = set()
+        todo = list(wider.get(concept, []))
+        while todo:
+            c = todo.pop()
+            if c not in seen:
+                seen.add(c)
+                todo.extend(wider.get(c, []))
+        return seen
+
+    population = lambda sid: ((entities.get(sid) or {}).get("slots") or {}).get("population")
+    loops = ("reevaluation", "target_reached")
+    graph: dict[str, list[str]] = {}
+    for rel, i, later, earlier, props in follows:
+        where = f"{rel} at {i}"
+        if later in entities and earlier in entities and not sources[later] & sources[earlier]:
+            errs.append(f"{where}: {later} follows {earlier}, but no one source has claims supporting both "
+                        f"({', '.join(sorted(sources[later])) or 'none'} / {', '.join(sorted(sources[earlier])) or 'none'}); "
+                        f"a sequence runs within one guideline (spec §5)")
+        lp, ep = population(later), population(earlier)
+        if lp and ep and lp != ep and lp in above(ep):
+            errs.append(f"{where}: {later} follows {earlier}, but its population {lp} lies above the earlier's, {ep}, along "
+                        f"broader and in_scope_of; a later step is never for a wider group than the one whose outcome triggers it (spec §5)")
+        if props.get("trigger") not in loops and not disagree_on(later, earlier):
+            graph.setdefault(later, []).append(earlier)
+    for cycle in cycles(graph):
+        errs.append(f"follows edges form a cycle with no trigger of {' or '.join(loops)}: {' -> '.join(cycle)}; only a "
+                    f"re-evaluation or a reached target closes a loop, or the source stating an order both ways, its "
+                    f"claims joined by disagrees_with (spec §5)")
     return errs
 
 
 def check_grading(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
-    """A claim's grade, verb and consensus in its source's grading scheme (spec §3.1, §6.5). A source declares the
-    scheme as data, quoted from its method table; the schema enumerates none of its words, so this is where a claim's
-    values are held to them. `grade` and `consensus` are its own source's; `verb` may be another guideline's wording
-    — recorded wherever a declared scheme defines it, read in its own source's scheme first, otherwise in the schemes
+    """A claim's grade, verb, direction, basis and consensus in its source's grading scheme (spec §3.1, §6.5). A source
+    declares the scheme as data, quoted from its own pages; the schema enumerates none of its words, so this is where a
+    claim's values are held to them. `grade`, `basis` and `consensus` are its own source's; `direction` is the one its
+    grade fixes, where the scheme makes the grade one for or one against; `verb` may be another guideline's wording —
+    recorded wherever a declared scheme defines it, read in its own source's scheme first, otherwise in the schemes
     that define it, which must read it alike, or its direction would depend on which guideline one asked. A printed
     share carries its class where the source classes shares, and lies within the class's bounds where the scheme
-    reads them as numbers. Within a scheme, each grade, wording and class is listed once, and every word of a grade,
-    wording, negated form, class name and bounds lies, as a whole word, in one of the quotes that give it — quotes
-    from the source itself — so that the words are the source's; a form marked `modelling` is not read against
-    quotes. That grade and verb agree is not checked: which grade a sentence carries is the rule of §3.1 and §5.1.
-    No grade, verb, class or scheme of any guideline is named here."""
+    reads them as numbers. Within a scheme, each grade, basis and class is listed once; a wording is listed once, or
+    under grades that each fix another direction and read it alike (open or not, one negated form), so that a
+    sentence's wording and direction name its grade. Every word of a grade, wording, negated form, basis, class name
+    and bounds lies, as a whole word, in one of the quotes that give it — quotes from the source itself — so that the
+    words are the source's; a token of no word character, a symbol, lies there as a whole token, so that a symbol is
+    never found inside a longer run of symbols; a form marked `modelling` is not read against quotes. That grade and
+    verb agree is not checked: which grade a sentence carries is the rule of §3.1 and §5.1. No grade, verb, basis,
+    class or scheme of any guideline is named here."""
     errs: list[str] = []
     source_of = lambda at: str(at).split("#")[0]
-    as_refs = lambda refs: [refs] if isinstance(refs, dict) else [r for r in refs or [] if isinstance(r, dict)] if isinstance(refs, list) else []
-    printed = lambda word, quote: re.search(rf"(?<!\w){re.escape(word)}(?!\w)", str(quote)) is not None
     schemes: dict[str, dict] = {}
     readings: dict[str, dict[str, tuple]] = {}   # a wording → {source: (open, negated)}
     for sid, src in sorted(entities.items()):
@@ -406,15 +644,32 @@ def check_grading(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
             continue
         rel, scheme = ids[sid], src["grading_scheme"]
         grades = [g for g in scheme.get("grades") or [] if isinstance(g, dict)]
+        bases = [b for b in scheme.get("bases") or [] if isinstance(b, dict)]
         classes = [c for c in scheme.get("consensus") or [] if isinstance(c, dict)]
         schemes[sid] = {"grades": [g.get("grade") for g in grades], "verbs": {g["verb"] for g in grades if "verb" in g},
-                        "classes": {c.get("class"): c for c in classes}}
-        for field, entries, what in (("grade", grades, "grade"), ("verb", grades, "wording"), ("class", classes, "consensus class")):
+                        "bases": [b.get("basis") for b in bases], "classes": {c.get("class"): c for c in classes},
+                        "fixed": {g["grade"]: g["direction"] for g in grades
+                                  if isinstance(g.get("grade"), str) and g.get("direction") in ("for", "against")}}
+        for field, entries, what in (("grade", grades, "grade"), ("basis", bases, "basis"), ("class", classes, "consensus class")):
             values = [e[field] for e in entries if field in e]
             for value in sorted({v for v in values if values.count(v) > 1}, key=str):
                 errs.append(f"{rel}: the grading scheme lists the {what} {value!r} more than once")
-        for entry, fields in [(g, ("grade", "verb", "negated")) for g in grades] + [(c, ("name", "bounds")) for c in classes]:
-            name = entry.get("grade", entry.get("class"))
+        for verb in sorted({g["verb"] for g in grades if isinstance(g.get("verb"), str)}):
+            under = [g for g in grades if g.get("verb") == verb]
+            if len(under) < 2:
+                continue
+            names = ", ".join(repr(g.get("grade")) for g in under)
+            fixed = [g.get("direction") for g in under]
+            if None in fixed or len(set(fixed)) < len(fixed):
+                errs.append(f"{rel}: the grading scheme lists the wording {verb!r} under the grades {names}, which do not "
+                            f"each fix another direction; a wording stands under several grades only where its direction "
+                            f"tells them apart")
+            if len({(bool(g.get("open")), g.get("negated")) for g in under}) > 1:
+                errs.append(f"{rel}: the grading scheme reads the wording {verb!r} differently under the grades {names} "
+                            f"(open or not, or another negated form)")
+        for entry, fields in ([(g, ("grade", "verb", "negated")) for g in grades] + [(b, ("basis",)) for b in bases]
+                              + [(c, ("name", "bounds")) for c in classes]):
+            name = entry.get("grade", entry.get("basis", entry.get("class")))
             quoted = as_refs(entry.get("source")) + [r for v in (entry.get("provenance") or {}).values() for r in as_refs(v)]
             for other in sorted({source_of(r.get("at", "")) for r in quoted} - {sid}):
                 errs.append(f"{rel}: the grading scheme quotes {other} for {name!r}; a scheme is read off its own source")
@@ -437,7 +692,11 @@ def check_grading(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
             continue
         rel, own = ids[cid], source_of((claim.get("source") or {}).get("at", ""))
         scheme = schemes.get(own)
-        for field, listed in (("grade", "grades"), ("consensus", "classes")):
+        fixed = scheme["fixed"].get(claim.get("grade")) if scheme and isinstance(claim.get("grade"), str) else None
+        if fixed and "direction" in claim and claim["direction"] != fixed:
+            errs.append(f"{rel}: {cid} has grade {claim['grade']!r}, which fixes the direction {fixed!r} in the grading "
+                        f"scheme of {own}, and direction {claim['direction']!r}")
+        for field, listed in (("grade", "grades"), ("basis", "bases"), ("consensus", "classes")):
             if field not in claim:
                 continue
             if scheme is None:
@@ -471,13 +730,49 @@ def check_grading(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
     return errs
 
 
+def check_version_and_date(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
+    """A source's version and the date it prints for it (spec §6.1). The schema holds the shape — the version is
+    text, the date ISO 8601 at a year's, a month's or a day's precision, each with its quotes — and this checks what it
+    cannot: that the date is one the calendar has at that precision, and that every word of the version lies, as a
+    whole word, in one of the quotes that give it, as a grading scheme's words do (check_grading), quotes from the
+    source itself. The date is not held to its quotes: reading "November 2023" or "30.04.2025" as ISO is a reading
+    for review, and no month name of any language enters this file."""
+    errs: list[str] = []
+    for sid, src in sorted(entities.items()):
+        if src.get("type") != "source":
+            continue
+        rel, given = ids[sid], src.get("provenance") or {}
+        date = src.get("date")
+        if isinstance(date, str) and re.fullmatch(r"\d{4}(-\d{2}(-\d{2})?)?", date):
+            year, month, day = (list(map(int, date.split("-"))) + [1, 1])[:3]
+            try:
+                datetime.date(year, month, day)
+            except ValueError:
+                errs.append(f"{rel}: the date {date!r} is no calendar date at the precision it is recorded")
+        quoted = [r for refs in given.values() for r in as_refs(refs)]
+        for other in sorted({str(r.get("at", "")).split("#")[0] for r in quoted} - {sid}):
+            errs.append(f"{rel}: the version or date of {sid} is quoted from {other}; a source's version and date are read off the source itself")
+        if "version" in src:
+            refs = as_refs(given.get("version"))
+            missing = [w for w in str(src["version"]).split() if not any(printed(w, r.get("quote")) for r in refs)]
+            if refs and missing:
+                errs.append(f"{rel}: the version {src['version']!r} prints {', '.join(map(repr, missing))}, "
+                            f"which none of its quotes contains as a word")
+    return errs
+
+
 def check_evidence(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
-    """A claim's evidence rows (spec §3.1): each is one row the source prints, keyed by its endpoint (`outcome`)
-    and, where the row names anything else, by its printed `key`. The schema cannot see a concept's facet, so this
-    is where an `outcome` is held to be an endpoint — a concept of facet `outcome` — and a row keyed by a component,
-    a subgroup, an arm, a comparator, a device or a regimen cannot pass that key off as one. That no two entries are
-    alike is the schema's (`uniqueItems`); the key is what keeps rows apart that would otherwise be one entry. No
-    system, value or kind of row is named here."""
+    """A claim's evidence entries (spec §3.1): one per row of the box's evidence block, and per endpoint where a row
+    names several, keyed by its endpoint (`outcome`) and, where the row names anything else, by its printed `key`. The
+    schema cannot see a concept's facet, so this is where an `outcome` is held to be an endpoint — a concept of facet
+    `outcome` — and a row keyed by a component, a subgroup, an arm, a comparator, a device or a regimen cannot pass that
+    key off as one. That no two entries are alike is the schema's (`uniqueItems`); the key is what keeps rows apart
+    that would otherwise be one entry. That an entry states an outcome, a value or a note, and a system wherever it
+    states an outcome or a value, is the schema's too. And each entry has its quote: the provenance of `evidence` (the
+    claim's `source` where it gives none) holds at least as many quotes as there are entries, quote i being entry i's;
+    the lines a box prints once for its rows (the method line, the notation line, the heading) follow them, so there
+    may be more, and which line a quote is stays the judge's reading. No system, value, note or kind of row is named
+    here."""
     errs: list[str] = []
     for cid, claim in sorted(entities.items()):
         if claim.get("type") != "claim" or not isinstance(claim.get("evidence"), list):
@@ -489,6 +784,55 @@ def check_evidence(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
                 errs.append(f"{ids[cid]}: {cid} evidence {i}: {outcome} is no endpoint (facet {concept.get('facet') or 'none'}); "
                             f"a row naming a component, a subgroup, an arm, a comparator, a device or a regimen records it as "
                             f"its printed `key`, its endpoint as `outcome`")
+        given = (claim.get("provenance") or {}).get("evidence", claim.get("source"))
+        quotes = 1 if isinstance(given, dict) else len(given) if isinstance(given, list) else 0
+        if quotes < len(claim["evidence"]):
+            errs.append(f"{ids[cid]}: {cid} has {len(claim['evidence'])} evidence entries and {quotes} evidence quote(s); "
+                        f"each entry has its quote, in the entries' order — the line that prints its key or endpoint, "
+                        f"or the rating's own line where the row prints neither")
+    return errs
+
+
+def check_rating_systems(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
+    """The rating systems a source declares (spec §3.1): the systems its evidence rows are rated in, each by its slug
+    and its name as the source prints it, quoted from the source's own line that prints the name. A declaration is
+    read off its own source, as a grading scheme is: its quotes are the source's pages, every word of the name lies
+    as a whole word in one of them, and a slug is declared once per source. An evidence entry's `system` is one its
+    claim's own source declares; an entry without a `system` is not checked. No system, slug or name of any
+    guideline is named here, and nothing is mapped between systems."""
+    errs: list[str] = []
+    source_of = lambda at: str(at).split("#")[0]
+    as_refs = lambda refs: [refs] if isinstance(refs, dict) else [r for r in refs or [] if isinstance(r, dict)] if isinstance(refs, list) else []
+    printed = lambda word, quote: re.search(rf"(?<!\w){re.escape(word)}(?!\w)", str(quote)) is not None
+    declared: dict[str, set] = {}
+    for sid, src in sorted(entities.items()):
+        if src.get("type") != "source" or not isinstance(src.get("rating_systems"), list):
+            continue
+        rel = ids[sid]
+        systems = [r for r in src["rating_systems"] if isinstance(r, dict)]
+        slugs = [r.get("system") for r in systems]
+        declared[sid] = set(slugs)
+        for slug in sorted({s for s in slugs if slugs.count(s) > 1}, key=str):
+            errs.append(f"{rel}: the rating systems declare {slug!r} more than once")
+        for r in systems:
+            refs = as_refs(r.get("source"))
+            for other in sorted({source_of(q.get("at", "")) for q in refs} - {sid}):
+                errs.append(f"{rel}: the rating system {r.get('system')!r} quotes {other}; a declaration is read off its own source")
+            missing = [w for w in str(r.get("name", "")).split() if not any(printed(w, q.get("quote")) for q in refs)]
+            if missing:
+                errs.append(f"{rel}: the name {r.get('name')!r} of the rating system {r.get('system')!r} prints "
+                            f"{', '.join(map(repr, missing))}, which none of its quotes contains as a word")
+    for cid, claim in sorted(entities.items()):
+        if claim.get("type") != "claim" or not isinstance(claim.get("evidence"), list):
+            continue
+        own = source_of((claim.get("source") or {}).get("at", ""))
+        for i, entry in enumerate(claim["evidence"]):
+            if not isinstance(entry, dict) or "system" not in entry:
+                continue
+            if entry["system"] not in declared.get(own, set()):
+                has = ", ".join(sorted(map(str, declared[own]))) if own in declared else "none"
+                errs.append(f"{ids[cid]}: {cid} evidence {i} names the system {entry['system']!r}, which {own} does not "
+                            f"declare in its `rating_systems` ({has})")
     return errs
 
 
@@ -565,8 +909,32 @@ def cycles(graph: dict[str, list[str]]) -> list[list[str]]:
     return found
 
 
-def verify_quotes(docs, sources: dict[str, dict], cache: Path) -> list[str]:
+def check_quote_form(docs) -> list[str]:
+    """What a quote's own text shows of spec §6.2, without its page. A quote that ends in a hyphen after a letter or
+    a digit stops inside a word — a line-end hyphen it did not join, or a compound it broke off ("Vasop-",
+    "Povidon-"); every other cut needs the page and is --verify-quotes' (`locate`). And a quote holds no ASCII double
+    quote: the link into the source carries the quote as its search (`#search=<quote>&phrase=true`), and pdf.js
+    removes every `"` from that search before it looks, so a quote holding one is never found. Typographic quotation
+    marks („ “ ” « ») are no such character and stay."""
+    errs: list[str] = []
+    for rel, doc, _ in docs:
+        for path, value in walk(doc):
+            if not (isinstance(value, dict) and "at" in value and isinstance(value.get("quote"), str)):
+                continue
+            where, quote = f"{rel} at {'/'.join(map(str, path))}", value["quote"]
+            if re.search(r"[^\W_]-$", quote):
+                errs.append(f"{where}: quote ends inside a word, in a hyphen ({quote!r}); "
+                            f"a quote ends on a whole word, across the line where the word goes on")
+            if '"' in quote:
+                errs.append(f"{where}: quote holds an ASCII double quote ({quote!r}), which pdf.js strips from the "
+                            f"link's search, so the link would not find it; cut the quote beside it (spec §6.2)")
+    return errs
+
+
+def verify_quotes(docs, sources: dict[str, dict], cache: Path) -> tuple[list[str], list[str]]:
+    """Every quote against its page (spec §6.2): errors, and notices of quotes other than a claim's that recur there."""
     errors: list[str] = []
+    notices: list[str] = []
     pdfs: dict[str, Path | None] = {}
     pages: dict[tuple[str, int], str] = {}
 
@@ -591,13 +959,14 @@ def verify_quotes(docs, sources: dict[str, dict], cache: Path) -> list[str]:
         return target
 
     def page_text(source_id: str, page: int) -> str | None:
+        """The page's reading (`page_reading`) of its `pdftotext -layout` text."""
         pdf = pdf_for(source_id)
         if pdf is None:
             return None
         if (source_id, page) not in pages:
             out = subprocess.run(["pdftotext", "-layout", "-f", str(page), "-l", str(page), str(pdf), "-"],
                                  capture_output=True, text=True, check=False)
-            pages[(source_id, page)] = out.stdout
+            pages[(source_id, page)] = page_reading(out.stdout)
         return pages[(source_id, page)]
 
     for rel, doc, _ in docs:
@@ -612,9 +981,151 @@ def verify_quotes(docs, sources: dict[str, dict], cache: Path) -> list[str]:
                 errors.append(f"{where}: locator has no #page=N, quote cannot be verified")
                 continue
             text = page_text(m.group(1), int(m.group(2)))
-            if text is not None and value["quote"] not in text:
+            found = locate(str(value["quote"]), text) if text is not None else "whole"
+            if found == "missing":
                 errors.append(f"{where}: quote not found on page {m.group(2)}: {value['quote']!r}")
-    return errors
+                continue
+            elif found != "whole":
+                errors.append(f"{where}: quote {found}s inside a word on page {m.group(2)}: {value['quote']!r}; "
+                              f"a quote is whole words, across the line where a word goes on (spec §6.2)")
+            n = places(str(value["quote"]), text) if text is not None else 1
+            if n > 1:
+                owner = doc
+                for key in path[:-1]:
+                    owner = owner[key]
+                if path and path[-1] == "source" and isinstance(owner, dict) and owner.get("type") == "claim":
+                    errors.append(f"{where}: the quote of {owner.get('id')} lies {n} times on page {m.group(2)}: "
+                                  f"{value['quote']!r}; a claim's quote lies once on its page, lengthened until it is "
+                                  f"unique, since the link lands on the first and the id hashes the quote (spec §6.2)")
+                else:
+                    notices.append(f"{where}: quote lies {n} times on page {m.group(2)}: {value['quote']!r}")
+    return errors, notices
+
+
+BREAK = "\x00"   # in a page's reading: a line break after a hyphen, which a quote may read three ways (quote_pattern)
+
+
+def page_reading(text: str) -> str:
+    """A page's `pdftotext -layout` text as a quote reads it (spec §6.2): its lines run on in columns. Each line is
+    cut into pieces where its columns part, so that the columns of a box or a table stay apart, and a line set in
+    justified type stays one piece inside its column (`line_pieces`). A piece runs on to the first later line with
+    text under it, when that text starts in the piece's column or lies within its width (a centred line); otherwise
+    it ends there. A line break reads as a space, except after a hyphen, where it is marked: whether that hyphen
+    breaks a word or belongs to it is a reading of the page, which the quote states (`quote_pattern`). Every run of
+    pieces is one line of the result, so a quote never crosses from one into the next, and every piece lies in
+    exactly one run: a quote on one line of the text, inside one column, lies in the reading too. No column, word or
+    hyphen of any source is named here."""
+    lines = text.replace("\f", "").split("\n")
+    pieces = line_pieces(lines)
+    after: dict[tuple[int, int], tuple[int, int]] = {}
+    for i, row in enumerate(pieces):
+        for k, (start, end, _) in enumerate(row):
+            for j in range(i + 1, len(pieces)):
+                under = [(p, n) for n, p in enumerate(pieces[j]) if p[0] < end and p[1] > start]
+                if under:
+                    (s, e, _), n = min(under)
+                    if s == start or (s > start and e <= end):
+                        after[(i, k)] = (j, n)
+                    break
+    continued = set(after.values())
+    runs = []
+    for i, row in enumerate(pieces):
+        for k in range(len(row)):
+            if (i, k) in continued:
+                continue
+            run, node = row[k][2], after.get((i, k))
+            while node is not None:
+                run += (BREAK if run.endswith("-") else " ") + pieces[node[0]][node[1]][2]
+                node = after.get(node)
+            runs.append(run)
+    return "\n".join(runs)
+
+
+def line_pieces(lines: list[str]) -> list[list[tuple[int, int, str]]]:
+    """Each line's pieces as a quote reads them (spec §6.2): (start column, end column, text). A line is cut at runs
+    of two or more spaces, where the columns of a box or a table part; a line set in justified type has such runs
+    between its words as well. So two neighbouring pieces of a line are one, read with one space between them, where
+    the gap between them lies inside one column of its block (the lines between two blank lines): another line of
+    the block runs across the whole gap, and no other line of the block starts a piece inside it, up to where the
+    second piece starts. Both are read off the lines as cut, before any is joined. Neither alone tells a column: a
+    table whose rows stand apart by blank lines has no other row in a row's block to start the next column, and a
+    heading set in one block with a box runs across the gutter beside the box's labels."""
+    cut = [[(m.start(), m.end()) for m in re.finditer(r"\S+(?: \S+)*", line)] for line in lines]
+    block, b = [], 0
+    for row in cut:
+        b += not row
+        block.append(b)
+    pieces = []
+    for i, row in enumerate(cut):
+        others = [p for j, other in enumerate(cut) if j != i and block[j] == block[i] for p in other]
+        groups: list[list[tuple[int, int]]] = []
+        for s, e in row:
+            if groups:
+                end = groups[-1][-1][1]
+                if (any(os <= end and oe >= s for os, oe in others)
+                        and not any(end < os <= s for os, _ in others)):
+                    groups[-1].append((s, e))
+                    continue
+            groups.append([(s, e)])
+        pieces.append([(g[0][0], g[-1][1], " ".join(lines[i][s:e] for s, e in g)) for g in groups])
+    return pieces
+
+
+def quote_pattern(quote: str) -> re.Pattern:
+    """Where a quote may lie in a page's reading (`page_reading`): its text as printed, a space where the line
+    breaks, and at a hyphen that ends a line the reading the quote states — the word joined, the hyphen dropped
+    ("Volu-" + "men" → "Volumen"); a compound kept ("Povidon-" + "Iod" → "Povidon-Iod"); or the hyphen before a
+    space ("Ein-" + "und" → "Ein- und"). The validator cannot tell these apart, so it accepts each; the match is
+    exact otherwise. The pattern is a lookahead, so `finditer` yields every place it lies, overlapping or not."""
+    out = []
+    for i, ch in enumerate(quote):
+        if ch == " ":
+            out.append(f"[ {BREAK}]")
+            continue
+        if i and quote[i - 1] != " ":
+            out.append(f"(?:-{BREAK})?")
+        out.append(re.escape(ch))
+        if ch == "-" and i < len(quote) - 1:
+            out.append(f"{BREAK}?")
+    return re.compile(f"(?=({''.join(out)}))")
+
+
+def places(quote: str, reading: str) -> int:
+    """How many places of a page the link into the source finds a quote at (spec §6.2). The link's search is pdf.js's
+    find (`#search=<quote>&phrase=true`), which ignores case, matches inside a word as well, and lands on the page's
+    first match; so the quote's pattern (`quote_pattern`) is matched in the page's reading ignoring case, cut or whole,
+    each place counted once where matches overlap, as pdf.js counts them."""
+    pattern, count, end = re.compile(quote_pattern(quote).pattern, re.IGNORECASE), 0, -1
+    for m in pattern.finditer(reading):
+        if m.start(1) >= end:
+            count, end = count + 1, m.end(1)
+    return count
+
+
+def locate(quote: str, reading: str) -> str:
+    """Whether a quote lies in a page's reading on whole words (spec §6.2): 'whole' where it does somewhere,
+    'start' or 'end' where it lies there only cut at that end, 'missing' where it does not lie there at all. A quote
+    starts inside a word where the page goes on before it with a letter after a letter, a digit after a digit
+    (also across a decimal mark), the head of a compound ("Sepsis-" before "assoziierten"), or a line-end hyphen; it
+    ends inside one likewise, and where it ends in a hyphen the line breaks after. A letter beside a digit is a word's
+    end, so a reference mark the text glues to a word ("beschrieben263") does not cut it."""
+    same = lambda a, b: (a.isalpha() and b.isalpha()) or (a.isdigit() and b.isdigit())
+    char = lambda i: reading[i] if 0 <= i < len(reading) else "\n"
+    if not quote:
+        return "missing"
+    first, last, cut = quote[0], quote[-1], ""
+    for m in quote_pattern(quote).finditer(reading):
+        s, e = m.span(1)
+        before, before2, after, after2 = char(s - 1), char(s - 2), char(e), char(e + 1)
+        starts = first.isalnum() and (before == BREAK or same(before, first) or (before == "-" and before2.isalnum())
+                                      or (first.isdigit() and before in ",." and before2.isdigit()))
+        ends = (last == "-" and after == BREAK) or (last.isalnum() and (
+            same(last, after) or (after == "-" and (after2.isalnum() or after2 == BREAK))
+            or (last.isdigit() and after in ",." and after2.isdigit())))
+        if not starts and not ends:
+            return "whole"
+        cut = cut or ("start" if starts else "end")
+    return cut or "missing"
 
 
 if __name__ == "__main__":

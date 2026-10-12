@@ -1,0 +1,15 @@
+# A concept of card #383 (C7b), chapter 8 of sources/vorhofflimmern-lf-1.1.
+# The patients box 8.5 addresses, „Bei Patient*innen mit postoperativ neu aufgetretenem Vorhofflimmern“ (p. 87); the
+# body text says „Postoperatives AF“ (p. 87, l. 11); Abb. 9's last band, read off the image and not quoted: Postoperative
+# Maßnahmen nach perioperativ aufgetretenem Vorhofflimmern. Not a printing of it: §8.7.2's „neu aufgetretenem AF im
+# perioperativen Kontext“ (p. 87, l. 32) and the image's middle band, perioperative AF newly arisen (the judge,
+# 2026-10-12). Its own concept, which X2 hangs under concepts/perioperatives-vorhofflimmern by `broader` (card #364,
+# reading 3). Near-duplicate named, not merged: concepts/erstdiagnostiziertes-vorhofflimmern („neu diagnostiziert“), a
+# form of Tabelle 3 read by duration, where this one is read by its trigger. POMGAT's qualifier concepts/postoperativ is
+# a value of its phase dimension, not reused.
+id: concepts/postoperativ-neu-aufgetretenes-vorhofflimmern
+type: concept
+lang: de
+label: "postoperativ neu aufgetretenes Vorhofflimmern"
+facet: patient_state
+source: modelling

@@ -1,0 +1,11 @@
+# A measured quantity, named by the threshold that bounds it (spec §3.1): 5.13's „die länger als 24 Stunden invasiv
+# beatmet wurden“ (p. 85, card #355). Not concepts/dauer-der-maschinellen-beatmung, the quantity p. 122 prints as
+# „maschinelle Beatmung > 48 h“: the box names invasive ventilation, the body text mechanical ventilation, and the
+# source says nowhere that the two are one measure. Not the endpoint of 5.13's evidence row, concepts/beatmungsdauer
+# (memory facet-boundaries).
+id: concepts/dauer-der-invasiven-beatmung
+type: concept
+lang: de
+label: "Dauer der invasiven Beatmung"
+facet: finding
+source: modelling

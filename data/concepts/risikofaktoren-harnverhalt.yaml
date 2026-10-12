@@ -1,3 +1,7 @@
+# The condition of 7.7 (p. 80). Derived: its one defined_by edge reaches the narrower criterion claim of the
+# parenthesis inside the box sentence, „(männliches Geschlecht, tiefe anteriore Rektumresektion, Rektumexstirpation)“
+# (spec §3.1, #328; #355). The label, unchanged, names the three factors as the box does, and adds „postoperativen“
+# to the box's „Risikofaktoren für einen Harnverhalt“.
 id: concepts/risikofaktoren-harnverhalt
 type: concept
 lang: de

@@ -1,0 +1,15 @@
+# A statement of card #377 (C6), chapter 7 of sources/vorhofflimmern-lf-1.1.
+# Box 7.4 (p. 73). Anchor: the heart-failure group as printed, derived by its defined_by edge to 7.4's narrower claim
+# (convention row 5; card #377 reading 7 (a)); the form „permanenten AF“ reaches it through X2's scope edge, and
+# „hochsymptomatisch“ is a condition (row 9). The aims „zur Symptomkontrolle und Prognoseverbesserung“ stay in the label
+# (no outcome slot; reading 7). A parallel branch to 7.3: its order, CRT then ablation, lies inside one action.
+id: statements/crt-mit-anschliessender-av-knoten-ablation-bei-herzinsuffizienz-mit-hospitalisierung
+type: statement
+lang: de
+label: "Patient*innen mit hochsymptomatischem permanenten AF und Herzinsuffizienz mit mindestens einer herzinsuffizienzbedingten Hospitalisierung in den letzten 12 Monaten zur Symptomkontrolle und Prognoseverbesserung eine kardiale Resynchronisations-Therapie (CRT) mit anschließender AV-Knoten Ablation empfehlen."
+short_label: "CRT mit anschließender AV-Knoten Ablation"
+slots:
+  population: concepts/herzinsuffizienz-mit-hospitalisierung-in-den-letzten-12-monaten
+  action: concepts/kardiale-resynchronisationstherapie-mit-anschliessender-av-knoten-ablation
+  condition: [concepts/hochsymptomatisch]
+source: modelling

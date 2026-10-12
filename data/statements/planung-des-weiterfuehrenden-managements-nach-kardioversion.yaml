@@ -1,0 +1,14 @@
+# A statement of card #378 (C5), sections 6.6–6.8 of sources/vorhofflimmern-lf-1.1.
+# Box 6.16 (p. 65), both sentences: the first, a fact giving the reason („daher“), supports this statement (#378
+# Decision 3). The box names no group: anchor the root, the cardioversion a condition — convention row 2's reading,
+# flagged (card #364, reading 6; #314 Decision 20, "Anchors").
+id: statements/planung-des-weiterfuehrenden-managements-nach-kardioversion
+type: statement
+lang: de
+label: "Nach Kardioversion das weiterführende Management planen, da eine Kardioversion darauf abzielt, eine Episode von AF zu beenden."
+short_label: "Nach Kardioversion weiterführendes Management planen"
+slots:
+  population: concepts/patientinnen-mit-vorhofflimmern
+  action: concepts/planung-des-weiterfuehrenden-managements
+  condition: [concepts/kardioversion]
+source: modelling

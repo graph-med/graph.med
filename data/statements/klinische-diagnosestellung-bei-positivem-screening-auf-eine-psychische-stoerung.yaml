@@ -1,0 +1,11 @@
+# A statement of card #380 (C1), chapter 2 of sources/vorhofflimmern-lf-1.1.
+# Box 2.5 b) (p. 21). Anchor: the state the box prints, a subgroup (card #364, convention row 5; P3 Decision 7).
+id: statements/klinische-diagnosestellung-bei-positivem-screening-auf-eine-psychische-stoerung
+type: statement
+lang: de
+label: "Bei positivem Screening auf eine psychische Störung eine klinische Diagnosestellung mit expliziter Exploration aller Haupt- und Nebensymptome anstreben."
+short_label: "Klinische Diagnosestellung bei positivem Screening"
+slots:
+  population: concepts/positives-screening-auf-eine-psychische-stoerung
+  action: concepts/klinische-diagnosestellung-mit-expliziter-exploration-aller-haupt-und-nebensymptome
+source: modelling

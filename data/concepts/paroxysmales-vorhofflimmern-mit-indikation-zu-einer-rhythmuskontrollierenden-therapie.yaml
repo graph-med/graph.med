@@ -1,0 +1,11 @@
+# A concept of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# The group box 6.6 addresses: „Patient*innen mit paroxysmalem AF und Indikation zu einer rhythmuskontrollierenden
+# Therapie“ (p. 56), an AF form narrowed by an indication (card #364, convention rows 4 and 8, as 4.2's sample), one
+# concept naming both; its broader edge to concepts/paroxysmales-vorhofflimmern is X2's.
+id: concepts/paroxysmales-vorhofflimmern-mit-indikation-zu-einer-rhythmuskontrollierenden-therapie
+type: concept
+lang: de
+label: "paroxysmales Vorhofflimmern mit Indikation zu einer rhythmuskontrollierenden Therapie"
+short_label: "paroxysmales AF mit Indikation zur Rhythmuskontrolle"
+facet: patient_state
+source: modelling

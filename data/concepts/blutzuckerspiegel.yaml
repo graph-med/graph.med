@@ -1,0 +1,9 @@
+# A measured quantity, named by the threshold that bounds it (spec §3.1): 8.13's „oberen Blutzuckerspiegel von
+# ≥ 180 mg/dl (≥ 10 mmol/l)“ (p. 120, card #355), the quantity of both printed values. „oberen“ stands in the label
+# of the top claim, ef8ef6f2, which quotes it; the parts' quotes begin after it, at „Blutzuckerspiegel“ and „(≥ 10“.
+id: concepts/blutzuckerspiegel
+type: concept
+lang: de
+label: "Blutzuckerspiegel"
+facet: finding
+source: modelling

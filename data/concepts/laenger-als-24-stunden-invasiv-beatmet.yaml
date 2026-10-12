@@ -1,8 +1,9 @@
 # The condition of 5.13 (p. 85), „die länger als 24 Stunden invasiv beatmet wurden“, as printed with the rule inside
-# the box sentence (card #223). The rule stays in the box claim and the concept stays stated (#213 item 3).
+# the box sentence (card #223). Derived: its one defined_by edge reaches the narrower criterion claim of that clause,
+# > 24 Stunden on concepts/dauer-der-invasiven-beatmung (spec §3.1, #328; #355).
 id: concepts/laenger-als-24-stunden-invasiv-beatmet
 type: concept
 lang: de
-label: "Länger als 24 Stunden invasiv beatmet"
+label: "länger als 24 Stunden invasiv beatmet"
 facet: patient_state
 source: modelling

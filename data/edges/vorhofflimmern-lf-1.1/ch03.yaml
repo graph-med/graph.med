@@ -1,0 +1,44 @@
+# Edges of card #380 (#314's part C1) from chapter 3 of sources/vorhofflimmern-lf-1.1 (pp. 24–26), all modelling. Edges
+# across parts are X1's, the scope and hierarchy edges X2's, the condition „bei Vorhofflimmern“ of 3.1's and 3.2's
+# groups among them (#314 Decision 6).
+
+# evidence (spec §3.1): each box sentence supports a statement of its own, 3.2's against; the narrower claims of 3.1
+# and the body text support none
+- [claims/vorhofflimmern-lf-1.1/efd6af04, supports, statements/mindestens-einmaliges-ekg-zum-erkennen-von-vorhofflimmern, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/9eb3f7c0, supports, statements/kein-generelles-screening-auf-vorhofflimmern-mit-geraeten-zum-kontinuierlichen-monitoring, {source: modelling}]
+
+# defined_by (spec §3.1, §3.2, §5): the group 3.1's qualifier gives, to its narrower claim (#328 Decision 10); the risk
+# 3.1 names, to Tabelle 6 (card #364, the ledger's owner C1); obesity, to Tabelle 6's row (card #364; reading 7)
+- [concepts/menschen-im-alter-ab-75-jahren-und-oder-mit-erhoehtem-schlaganfallrisiko, defined_by, claims/vorhofflimmern-lf-1.1/a7f443b4, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„Menschen im Alter ≥75 Jahren und/oder mit erhöhtem Schlaganfallrisiko“ — Empfehlung 3.1 (S. 24, Z. 39–41): „Menschen • im Alter ≥75 Jahren und/oder • mit erhöhtem Schlaganfallrisiko (siehe Tabelle 6)“."}]
+- [concepts/erhoehtes-schlaganfallrisiko, defined_by, claims/vorhofflimmern-lf-1.1/8222b748, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„mit erhöhtem Schlaganfallrisiko (siehe Tabelle 6)“ — Tabelle 6 (S. 25) nennt sieben Risikofaktoren, „Wenn einer dieser Faktoren vorliegt“ (S. 25, Z. 4)."}]
+- [concepts/adipositas, defined_by, claims/vorhofflimmern-lf-1.1/0592ed37, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„Übergewicht/Adipositas (BMI >30)“ — Tabelle 6 (S. 25, Z. 32), die Zeile mit ihrer Grenze auf dem BMI."}]
+
+# body text (spec §5.1): section 3.1, Tabelle 6 (p. 25), the rule box 3.1 names (K); its parts carry no edge (N5)
+- [claims/vorhofflimmern-lf-1.1/8222b748, refines, claims/vorhofflimmern-lf-1.1/efd6af04, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: mit erhöhtem Schlaganfallrisiko (siehe Tabelle 6) — Tabelle 6 (S. 25) nennt die Risikofaktoren; die Empfehlung verweist darauf."}]
+
+# body text (spec §5.1): section 3.1, p. 25; l. 38–40 is a gap notice, without an edge
+- [claims/vorhofflimmern-lf-1.1/e11e1faf, refines, claims/vorhofflimmern-lf-1.1/efd6af04, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "R: mit erhöhtem Schlaganfallrisiko (siehe Tabelle 6) — „Wenn einer dieser Faktoren vorliegt, sollte ein EKG aufgezeichnet werden“: einer der Faktoren der Tabelle 6 genügt."}]
+- [claims/vorhofflimmern-lf-1.1/40af986d, refines, claims/vorhofflimmern-lf-1.1/efd6af04, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "R: ein mindestens einmaliges EKG — „lediglich ein opportunistisches Screening …, bei dem bei allen Personen, die ein hohes Schlaganfallsrisiko aufweisen, ein 12-Kanal EKG aufgezeichnet wird, um AF zu erkennen“: welches EKG, in welchem Screening."}]
+- [claims/vorhofflimmern-lf-1.1/36ead3bf, refines, claims/vorhofflimmern-lf-1.1/efd6af04, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "R: ein mindestens einmaliges EKG … empfohlen — „Dies wird unabhängig vom Anlass der Vorstellung beim Arzt oder im Krankenhaus empfohlen“: bei jedem Anlass der Vorstellung."}]
+
+# disagreement (spec §3.1, §5, §5.1 D and N2; #341; #372): the Begründung of 3.1 rates its evidence in other words
+# (reading 10, the leaning D); the decline of p. 25 against statement 3.2 (reading 18); an ECG before therapy (p. 12;
+# p. 26, l. 26–28 and l. 42–43) against weighing treatments without one (p. 26, l. 28–30; reading 18). Each printing kept
+# and shown, none chosen
+- [claims/vorhofflimmern-lf-1.1/efd6af04, disagrees_with, claims/vorhofflimmern-lf-1.1/388d39aa, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Empfehlung 3.1 (S. 24) bewertet „Vermeidung ischämischer Schlaganfälle: gering ⊕⊕⊝⊝“, die drei anderen Endpunkte „hoch ⊕⊕⊕⊕“; ihre Begründung (S. 25, Z. 43–44): „Die niedrige Aussagesicherheit der Evidenz für den prognostischen Vorteil begründet den abgeschwächten Empfehlungsgrad.“ Der Kasten druckt für die Vermeidung ischämischer Schlaganfälle „gering“, der Text für den prognostischen Vorteil „niedrige“; ob beide dieselbe Evidenz und dieselbe Stufe meinen, sagt die Seite nicht: beide Wortlaute stehen nebeneinander."}]
+- [claims/vorhofflimmern-lf-1.1/9eb3f7c0, disagrees_with, claims/vorhofflimmern-lf-1.1/baa52349, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Statement 3.2 (S. 26): ein generelles Screening auf Vorhofflimmern mit Geräten, die ein kontinuierliches Monitoring ermöglichen, „wird zum jetzigen Zeitpunkt nicht empfohlen“; die Begründung der Empfehlung 3.1 (S. 25, Z. 38–40): die Ergebnisse „sprechen zum jetzigen Zeitpunkt gegen eine Empfehlung für ein generelles, systematisches Screening von AF“. Das Statement empfiehlt gegen das generelle Screening, der Text spricht gegen eine Empfehlung dafür und gibt keine."}]
+- [claims/vorhofflimmern-lf-1.1/ab2e7dbe, disagrees_with, claims/vorhofflimmern-lf-1.1/66548de2, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "S. 12, Z. 26–27: „Eine definitive Diagnose muss allerdings weiterhin durch ein EKG bestätigt werden, bevor therapeutische Entscheidungen getroffen werden.“; S. 26, Z. 28–29: „Wenn keine EKG-Dokumentation vorliegt, wird ein individuelles Abwägen der Vor- und Nachteile möglicher Behandlungen empfohlen“. Die eine Stelle verlangt die Bestätigung durch ein EKG vor therapeutischen Entscheidungen, die andere empfiehlt ohne EKG-Dokumentation, mögliche Behandlungen abzuwägen."}]
+- [claims/vorhofflimmern-lf-1.1/c74f58a1, disagrees_with, claims/vorhofflimmern-lf-1.1/66548de2, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "S. 26, Z. 26–27: „Bevor eine Therapie mit Antikoagulanzien oder rhythmuserhaltender Therapie eingeleitet wird, sollte eine EKG-Bestätigung … erfolgen“; Z. 28–29: „Wenn keine EKG-Dokumentation vorliegt, wird ein individuelles Abwägen der Vor- und Nachteile möglicher Behandlungen empfohlen“. Die eine Stelle verlangt vor einer Therapie die EKG-Bestätigung, die andere empfiehlt ohne EKG-Dokumentation, mögliche Behandlungen abzuwägen."}]
+- [claims/vorhofflimmern-lf-1.1/f65c5672, disagrees_with, claims/vorhofflimmern-lf-1.1/66548de2, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "S. 26, Z. 42–43: „scheint es zum jetzigen Zeitpunkt sinnvoll, eine EKG-Diagnose von AF als Grundlage für Therapieentscheidungen heranzuziehen“; Z. 28–29: „Wenn keine EKG-Dokumentation vorliegt, wird ein individuelles Abwägen der Vor- und Nachteile möglicher Behandlungen empfohlen“. Die eine Stelle nimmt die EKG-Diagnose als Grundlage der Therapieentscheidung, die andere empfiehlt ohne EKG-Dokumentation, mögliche Behandlungen abzuwägen."}]

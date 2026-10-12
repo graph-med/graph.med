@@ -1,0 +1,14 @@
+# A concept of card #383 (C7b), chapter 8 of sources/vorhofflimmern-lf-1.1.
+# The patients box 8.4 addresses, „Die Therapie von perioperativem Vorhofflimmern“ (p. 86), as the heading of 8.7 prints
+# it („Perioperatives Vorhofflimmern (POAF)“, p. 86, l. 45); the body text says „Perioperatives AF“ (p. 87, l. 7) and Abb.
+# 9's caption „perioperativem Vorhofflimmern (POAF)“ (p. 88). No form of Tabelle 3: the guideline names it by its trigger,
+# not by its duration (card #364, reading 3), a family of its own under the root; where it hangs is X2's (`broader`).
+# Near-duplicates named, none merged: POMGAT's qualifier concepts/perioperativ (a value of its phase dimension) and C3's
+# concepts/herzchirurgischer-eingriff (the operation of 5.10, not the arrhythmia). Whom 8.4 addresses beyond it, through
+# Abb. 9's prevention row, is card #383's reading 13.
+id: concepts/perioperatives-vorhofflimmern
+type: concept
+lang: de
+label: "perioperatives Vorhofflimmern"
+facet: patient_state
+source: modelling

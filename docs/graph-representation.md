@@ -159,8 +159,8 @@ and every view at `https://graph.med/<view-id>` — `docs/publication.md`.
 texts are never translated at extraction. Every entity and edge that carries
 text declares `lang` (BCP 47, e.g. `de`). Structural keys are English (they are
 ours, not content); enum values are schema vocabulary slugified from the source
-language (`versorgungspfad`, `modalitaetsbezogen`). A claim's grade, verb and
-consensus are no schema vocabulary: they are the words its source's grading
+language (`versorgungspfad`, `modalitaetsbezogen`). A claim's grade, verb, basis
+and consensus are no schema vocabulary: they are the words its source's grading
 scheme declares (§3.1), a consensus class slugified from its printed name
 (`starker_konsens`). Translation is a build-layer concern, never a data
 concern.
@@ -191,81 +191,193 @@ its own about what is true; it asserts what a source states at a location. Its
 a definition → `definition`; it states which cases, values or thresholds a term
 covers → `criterion`; otherwise → `fact`.
 
+A claim's **`label`** is the sentence at its quote as printed — for a table,
+the row or group §5.1 K reads ("Kopf: Zelle; …") — with its **reference marks
+left out**, and an evidence `key` (below) is read the same way. A reference
+mark is a number, or a range of numbers, that the source prints to point into
+its own reference list: glued to a word ("erfolgen55", "Caironi et al.249"),
+set in brackets ("[274]", "[14,15]", "[73–75]") or in parentheses ("(19)").
+Only the mark goes, with any spaces and commas whose only job is to separate
+marks; the sentence keeps its own punctuation ("erfolgen55, daher" →
+"erfolgen, daher", "verringert werden [274], [275]." → "verringert werden.")
+and the words around the mark — an author ("Caironi et al."), an attribution
+("nach Apfel 1999"), a cross-reference ("vgl hierzu auch 2 weitere S3
+Leitlinien"). A number that is a value stays, wherever it stands and however
+it is set: "HA330", "SpO2", "mm3", "Vitamin B1", a bracketed interval ("95% KI
+[1.67, 2.58]"). Its form does not tell a mark from a value, so which number is
+a mark is a reading of the sentence and of the source's reference list, which
+the judge checks (§8.1) and the validator does not. The quote keeps a mark
+where its passage holds one (§6.2); the quote and the link into the page are
+the way back to the reference, which the pool does not hold.
+
 Within a **marked recommendation** (§5.1) the unit is the **sentence**, not the
 box: every sentence of the box is a claim, whatever its form, sharing the box's
 `recommendation_no` and its `section` — the section the box lies in, never its
-number (memory `box-granularity-per-sentence`). What the box prints once
-belongs to its sentences by one rule:
+number (memory `box-granularity-per-sentence`). Beside its own claim, a
+sentence yields a narrower one for a rule printed inside it, for each member
+a rule's connective joins and for a half a „sondern“ joins, and for nothing
+else (below). A lead-in that introduces items
+each of which is a full sentence with a predicate of its own ("… folgende Werte
+herangezogen werden:") is no sentence of its own: each item is a claim,
+labelled as printed, and what the lead-in says of every item ("Orientierend")
+each item's statement keeps, the pass naming it in its pull request. A box
+the source adapts or quotes from another work is its marked recommendation
+like any other, and its kind line, origin and status words ("Adaptierte
+Empfehlung", "zitiert nach …", "Neu …") stay on the page (open question
+origin-and-status-labels). What the box prints once belongs to its sentences
+by one rule:
 
 - the **grade** to each sentence of recommendation or gap-notice form, whatever
   its wording — a remark that instructs in another wording than the grade's
   carries the grade the box prints. Where the box prints one grade per wording
   ("A/B"), each such sentence carries the one whose wording its verb is, and
   one with none of those wordings carries none. A fact, criterion or
-  definition carries no grade: it recommends nothing;
+  definition carries no grade: it recommends nothing. A box whose grade cell
+  prints no grade — a word naming the box's type in its place — gives its
+  sentences none;
 - the **consensus**, with its share where printed, to every sentence: the vote
   was on the box;
-- the **verb** is the sentence's own, never the box's; where the scheme's
-  wording is itself the verb, a modal before it is not ("kann nicht empfohlen
-  werden" records the wording, against);
+- the **basis**, where the box prints one beside its grade or in its place,
+  to every sentence, a fact's too: like the vote, what the box rests on is said
+  of the box;
+- the **verb** is the sentence's own, never the box's, read off its
+  predicate (`verb`, below);
 - in a box the source marks as a definition no sentence is a `recommendation`:
   it is a `definition` where it says what the term is, a `criterion` where it
   says what establishes it ("… ist ein Anstieg … um ≥ 2 Punkte zu verwenden").
 
-A sentence of recommendation form supports a statement of its own; a
-gap notice stays unlinked (open question gap-notices). A fact or criterion
-sentence supports the statement of the box sentence it extends, restricts,
-fills or gives the reason for — a remark qualifies the sentence it follows, a
-"dies" or "davon" the one it names —, and a statement of its own only where it
-states another action or comparison, or the box holds no recommendation. A
-definition sentence, and a criterion of a marked definition, supports none: the
-concept it establishes reaches it by `defined_by` (§5). A rule printed inside a
-box sentence — a threshold or a range in parentheses, a duration qualifying the
-group — stays in that sentence's claim, which carries no threshold, and the
-concept it gives stays stated until the open question rule-claim-granularity
-is settled; the pass that meets one names it in its pull request. Which places
-outside the marked recommendations become claims, and how they attach, is the
-rule of §5.1.
+Where a box prints its grade, basis and consensus once per **lettered part**
+("a)", "b)"), each part's sentences take that part's by the same rule, and
+none takes one from another part: the box stays the unit, its number theirs
+and the letter in their labels.
+
+A sentence of recommendation form supports a statement of its own — one per
+action where it instructs two, in two predicates ("… befragt und … beraten
+werden") or in a clause instructing a second ("wobei … geprüft werden sollte");
+a predicate that says how the other's action is to be done ("… und soll sich an
+den jeweiligen Leitlinien orientieren") instructs none of its own, and the
+claim keeps one verb. A gap notice stays unlinked (open question gap-notices).
+A fact or criterion sentence supports the statement of the box sentence it
+extends, restricts, fills or gives the reason for — a remark qualifies the
+sentence it follows, a "dies" or "davon" the one it names —, and a statement of
+its own only where it states another action or comparison, or the box holds no
+recommendation; a sentence whose subject is the evidence and that says only
+what the evidence shows ("Die Daten … sind widersprüchlich") asserts no action
+or comparison a statement could hold, and stays unlinked. A definition
+sentence, and a criterion of a marked definition, supports none: the concept it
+establishes reaches it by `defined_by` (§5).
+
+A **rule printed inside a box sentence** — a parenthesis or a qualifier that
+states which cases a term covers: a threshold or a range in parentheses, a
+duration qualifying the group, a score's bound ("bei einem … Score von ≥2") —
+is a **criterion claim of its own**, a narrower place in the sentence quoting
+the qualifier's words and labelled with them, as each member a connective
+joins is (below). It takes what the box gives every sentence of it — its
+`recommendation_no`, its `section`, the consensus and the basis —, no grade,
+being a criterion, the threshold it prints or the combination where it joins
+parts, and supports no statement; the concept the qualifier gives reaches it
+by its one `defined_by` edge, and so is derived (§3.2). The sentence's own
+claim keeps the whole sentence, the qualifier in its label, and its statement
+stays as it is. A **sentence of two directions** is read the same way: where
+it joins two halves by „sondern“ and prints each with its own case and
+direction ("… NICHT zur Behandlung eines Volumenmangels, sondern ausschließlich
+entsprechend den Indikationen … einzusetzen"), each half is a claim with its
+own direction — the sentence's claim the half it opens with, and a narrower
+place quoting the other —, both with the box's grade, consensus and number
+and the verb of the predicate they share, each supporting a statement of its
+own. Where the box's grade fixes a direction (below), a half of the other
+direction cannot carry that grade: it stays in its sentence's claim and its
+statement's label. What a „nur“ only implies ("… nur bei vorliegenden
+Risikofaktoren …": and none without them) is no half and is not recorded.
+Decided on 2026-10-10 on the maintainer's delegation (card #328), settling the
+open questions rule-claim-granularity and two-directions-in-one-sentence. Which
+places outside the marked recommendations become claims, and how they attach,
+is the rule of §5.1.
 
 A claim's **grade, verb and consensus are read in its source's own grading
 scheme**, and the source declares that scheme as data: `grading_scheme` on the
 source entity, quoted from its method table. One guideline grades A, B and 0,
 worded *soll*, *sollte* and *kann*; another grades *Stark* and *Schwach*,
-worded *Wir empfehlen* and *Wir schlagen vor*; a third will say "offer" and
-"consider". The declaration lists the **grades** in the order the legend
-follows, each as the recommendations print it, with the table's description,
+worded *Wir empfehlen* and *Wir schlagen vor*; a third prints arrows, ⇑⇑ to
+⇓⇓; a fourth will say "offer" and "consider". The declaration lists the
+**grades** in the order the legend follows — the table's rows, in the table's
+order —, each as the recommendations print it, with the table's description,
 the **wording** the table gives it (`verb`), that wording's **negated** form as
-printed ("empfehlen nicht", "schlagen nicht vor" — never the verb followed by
-"nicht"), and whether the table makes it an **open** recommendation, one that
-weighs rather than advises for or against. A grade that fixes no wording — an
-expert consensus whose strength its wording carries — has none and follows the
-graded ones. It lists the **consensus classes**, each with its bounds as
-printed and, where the source prints shares, those bounds read as numbers.
-Every entry quotes the source's own pages, and every word of a grade, a
-wording, a negated form or a class lies in one of its quotes; a form the
-source prints nowhere is `modelling`, with a rationale. A claim then carries:
+the source prints it ("empfehlen nicht", "schlagen nicht vor" — never the verb
+followed by "nicht"), and whether the table makes it an **open**
+recommendation, one that weighs rather than advises for or against. Each
+scheme declares the negated form its own pages print, in the table or in a
+recommendation of that grade; a form none prints is `modelling`. Where the
+table prints an open grade with two wordings, one for and one against ("kann
+erwogen werden/kann verzichtet werden"), its wording is the modal, the form
+every other row gives, and the against-form is its negated form.
 
-- `grade` as printed, one of the grades its own source declares;
-- `verb`, the wording the sentence uses in the form a scheme gives it
-  ("sollten" is `sollte`, "empfohlen" is `empfehlen`), and a sentence may use
-  another guideline's wording (a *sollte* in a guideline graded by GRADE): the
-  verb is recorded wherever some declared scheme defines it, and read in its
-  own source's scheme if that defines it, otherwise in the schemes that do,
-  which must read it alike (open or not, one negated form);
-- `direction`, `for` or `against`, as the sentence reads;
+Where the **symbol carries the direction** — an arrow up, an arrow down — the
+grade **fixes** it (`direction`): every claim of the grade records that
+direction. Two grades of one scheme may then share a wording, one for and one
+against (⇑ and ⇓ both "sollte"), if they read it alike, open or not and with
+one negated form; two grades that fix the same direction, or one that fixes
+none, never share a wording, and an open grade fixes none. A letter two rows
+share is quoted with its rows and kept in no field: a claim carries the symbol
+its box prints, and nothing is mapped inside a scheme either. A grade that
+fixes no wording — an expert consensus whose strength its wording carries —
+has none and follows the graded ones.
+
+A token the recommendations print **beside the grade**, or in its place, for
+what a recommendation rests on ("EK" beside an arrow, an expert consensus with
+the strength the arrow gives) is no grade but a **basis**: the scheme lists it
+under `bases`, quoted where the source prints it and where it says what it
+means, and a claim carries it as `basis`. The declaration lists the
+**consensus classes**, each with its bounds as printed and, where the source
+prints shares, those bounds read as numbers; a source that prints only shares
+and names no class declares none. Every entry quotes the source's own pages,
+and every word of a grade, a wording, a negated form, a basis or a class lies
+in one of its quotes — a symbol as a whole token, never inside a longer run of
+symbols (⇑ is not printed in "⇑⇑"); a form the source prints nowhere is
+`modelling`, with a rationale. A claim then carries:
+
+- `grade` as printed, one of the grades its own source declares; where the
+  page's text layer gives another character than the rendered page shows (a
+  font's private character for an arrow), the grade the page shows, its
+  provenance quoting the text layer, and the scheme entry's rationale naming
+  the boxes;
+- `verb`, for a sentence of recommendation form, read off its **predicate**:
+  the finite modal of the clause that instructs its action — as a rule the
+  main clause; a dependent clause where only that one instructs, as for a
+  member §5.1 K quotes from it — and the participle or infinitive it governs,
+  never an attributive participle ("die empfohlene …"), a noun ("Empfehlung")
+  or a clause that does not instruct the action. In the form a scheme gives
+  it ("sollten" is `sollte`), the verb is
+  the first that holds: (1) a word of the predicate its own source's scheme
+  gives as a wording, the finite modal winning where there are two ("soll …
+  empfohlen werden" is `soll` under a scheme worded *soll*, `empfehlen` under
+  one worded *empfehlen*); (2) a modal another declared scheme gives (a
+  *sollte* in a guideline graded by GRADE); (3) another declared scheme's
+  wording the predicate prints ("wird … nicht empfohlen" under a scheme worded
+  by modals is `empfehlen`, against); (4) none. It is read in its own source's
+  scheme if that defines it, otherwise in the schemes that do, which must read
+  it alike (open or not, one negated form);
+- `direction`, `for` or `against`, as the sentence reads; under a grade that
+  fixes a direction, that one, the statement's action being what the sentence
+  says to do ("auf Tabakkonsum zu verzichten" under an arrow up is the
+  abstinence, `for`);
+- `basis` as printed, where the box prints one, one of the bases its own
+  source declares;
 - `consensus`, a class of its own source's table; and where the source prints
   the share of votes rather than a class, `consensus_share` as printed
   ("95 %") beside it, the class being the one the table gives that share,
   with provenance naming both the line that prints the share and the table's
-  row.
+  row; where the source names no class, the share alone.
 
-The validator checks each against the declaration, and a printed share
-against its class's bounds. Nothing is mapped between schemes: a *Stark* is
+The validator checks each against the declaration — a direction against the
+one its grade fixes —, and a printed share against its class's bounds.
+Nothing is mapped between schemes: a *Stark* is
 not an *A*, and a 95 % is *Konsens* where the table starts *Starker Konsens*
 above 95 %. What the site shows is read from the declaration too: the order of
 the grades, the words and their negated forms, and the direction — a claim
-whose verb is the wording of an open grade weighs (*abwägen*), any other
-recommendation is *für* or *gegen* by its direction —, and which grades carry
+whose grade fixes a direction is *für* or *gegen* by it, one whose grade is open
+weighs (*abwägen*); otherwise a claim whose verb is the wording of an open grade
+weighs, any other recommendation is *für* or *gegen* by its direction —, and which grades carry
 their verb is decided per scheme, never across two (`docs/publication.md` §3).
 
 How binding a recommendation is (`grade`, `verb`) and how certain the evidence
@@ -273,42 +385,105 @@ behind it is are two different facts, and a source may state the second per
 outcome — *hoch* for one endpoint, *sehr niedrig* for another — or per row of
 another kind: a component of the action, a subgroup, an arm, a comparator, a
 device, a regimen. A claim carries it as **`evidence`**: a list of entries, one
-per row the source prints, in its order, each the rating in the words of the
-system that made it (`value`, `system`: GRADE, Oxford, the ESC levels, whatever
-the source used), the outcome concept it applies to where the row names an
-endpoint (`outcome`), and the row's **`key`** as printed where the row names
-anything else ("Sepsis-Screening", "Septischer Schock", "Dopamin", "HAT",
-"oXiris®"). The key is a string, never a concept and never a kind: rows keyed by
-comparator and rows keyed by subgroup are told apart by the words they print, and
-no vocabulary of row kinds exists for the next source to break. A row naming
-both, an endpoint for a device ("Mortalität oXiris®") or under a comparison
-("CRRT vs. IHD" above "Mortalität"), carries both; what qualifies the endpoint
-itself — its time frame ("Mortalität (30 Tage)"), its setting ("ICU
-Mortalität") — belongs to the endpoint and is no key. **A component, a subgroup
-or a comparator is never recorded as an outcome**: an `outcome` is a concept of
-facet `outcome` (validator). The key also keeps apart rows that would otherwise
-be the same entry — three devices rated *Sehr niedrig* for one endpoint — so no
-two rows the source prints become one entry. The `value` is the system's word
+per row of the recommendation's **evidence block** — what the box prints for the
+certainty of its evidence, under whatever heading — and per endpoint where a row
+names several, in its order, each the rating in the words of the system that
+made it (`value`, `system`: GRADE, Oxford, the ESC levels, whatever the source
+used), the outcome concept it applies to where the row names an endpoint
+(`outcome`), and the row's **`key`** as printed where the row names anything
+else ("Sepsis-Screening", "Septischer Schock", "Dopamin", "HAT", "oXiris®"), its
+reference marks left out as a label's are (above). The key is a string, never a
+concept and never a kind: rows keyed by comparator and rows keyed by subgroup
+are told apart by the words they print, and no vocabulary of row kinds exists
+for the next source to break. A row naming both, an endpoint for a device
+("Mortalität oXiris®") or under a comparison ("CRRT vs. IHD" above
+"Mortalität"), carries both; what qualifies the endpoint itself — its time frame
+("Mortalität (30 Tage)"), its setting ("ICU Mortalität") — belongs to the
+endpoint and is no key. **A component, a subgroup or a comparator is never
+recorded as an outcome**: an `outcome` is a concept of facet `outcome`
+(validator). The key also keeps apart rows that would otherwise be the same
+entry — three devices rated *Sehr niedrig* for one endpoint — so no two rows the
+source prints become one entry. A row that rates **several names under one
+rating** — several agents, comparators or other things that are no endpoint — is
+one entry, and its key lists the names of what the rating covers, as printed and
+in printed order, joined by ", ": without the effect data printed between them
+(effect sizes, intervals, ranks, a certainty repeated in words), and without a
+name the row mentions only to say that nothing reports on it, which the rating
+does not cover. It is the one case where a key joins words the page prints
+apart; one entry per row keeps the count the card shows equal to the page's, and
+the key tells the reader what each rating covers. A row that rates **several
+endpoints under one rating** gives one entry per endpoint, in printed order,
+each with the row's value and system and, where the row prints any, a key of the
+names it prints for that endpoint — also where the row names nothing but its
+endpoints, however its label joins them: every endpoint stays an `outcome`, and
+every quote stays paired with its entry. A row worded as a **result or an aim**
+of its endpoint ("Reduktion des PONV-Risikos") rates that endpoint: its
+`outcome` is the endpoint the label names, the words that state the result or
+the aim are effect data and go into no field, and a setting that belongs to the
+endpoint stays with it, as its time frame does. The `value` is the system's word
 **as printed**, "Moderat" where the box prints it capitalised: the case is the
 print's, not a second level, and a consumer compares the values of one system
-without regard to it. Where the source prints a rating twice, as a word and as
-symbols (⊕⊕⊕⊝), the value is the word; where the two disagree, the word is
-recorded and the pass that meets it names the disagreement in its pull
-request — it is never resolved. Two rules keep the field honest. **A value is
-never mapped between systems**: GRADE's *hoch* is not an Oxford level, no table
-in the schema, the validator or the build says otherwise, and a system the site
-does not know is a valid state, not an error. **Several entries are never
-reduced to one**: a recommendation whose certainty differs by row carries every
-row, and no consumer forms a summary value from them — grades are shown, never
-composed (`docs/publication.md` §3). A source that rates the whole
-recommendation once produces one entry without an outcome or a key — a box's
-"Evidenzgrad: 1", where the method section names the system, is `value: "1"`
-with the system that section names. An outcome the source lists without a
-rating is an entry with its outcome and system and no value: it is recorded,
-not left out, so that a table with an empty cell keeps its count, and it reads
-*nicht erfasst*. Every entry states an outcome or a value, and an entry with
-neither is refused. An absent or empty list means the certainty was not
-recorded, not that there is none.
+without regard to it. A **range** printed as the rating, from one level to
+another, is one value, as printed, on every entry of its row: never split into
+two entries, never paired level by level with the row's endpoints, never
+composed into one of its levels. Words printed beside a level that only say what
+it covers are no part of the value: an entry without an `outcome` already says
+that its rating holds for the row as a whole. Where the source prints a rating
+twice, as a word and as symbols (⊕⊕⊕⊝), the value is the word. **Where the two
+disagree, both are recorded and neither is chosen**: the word as the entry's
+value, and the symbols as a claim of their own — kind `fact`, the row read as
+§5.1 K reads a table, its head and the symbols ("Hämodynamische Instabilität:
+⊕⊕⊝⊝"), quoting the row from its head to the symbols ("Hämodynamische
+Instabilität: Sehr niedrig ⊕⊕⊝⊝"), because the same symbols recur on a page
+(§6.2), with the box's `recommendation_no` and `section` and nothing else the
+box prints — which `disagrees_with` joins to every claim that carries the row,
+its rationale quoting the word and the symbols (§5). A
+rating the body text gives otherwise than the box is the same disagreement (§5.1
+D). Two rules keep the field honest. **A value is never mapped between
+systems**: GRADE's *hoch* is not an Oxford level, and no table in the schema,
+the validator or the build says otherwise. A system its claim's source does not
+declare (below) is refused by the validator; a system the build has no display
+order for is shown unranked and is never an error. **Several entries are never reduced to one**: a
+recommendation whose certainty differs by row carries every row, and no consumer
+forms a summary value from them — grades are shown, never composed
+(`docs/publication.md` §3). A source that rates the whole recommendation once
+produces one entry without an outcome or a key — a box's "Evidenzgrad: 1", where
+the method section names the system, is `value: "1"` with the system that
+section names. An outcome the source lists without a rating is an entry with its
+outcome and system and no value: it is recorded, not left out, so that a table
+with an empty cell keeps its count, and it reads *nicht erfasst*. A rating the
+source prints **for the box beside its rows** is an entry of its own, without an
+outcome or a key, in the place the source prints it among them — never merged
+with a row's rating and never in place of one: the summary is the source's own
+print, recorded as printed, not one a consumer composes. A cell that prints
+**words instead of a level** — that no study was found, or where the rating was
+taken from — gives no value (underestimate, never upgrade): its words, as
+printed, are the entry's **`note`**, beside the row's `key` where the row prints
+one, and the entry reads as those words, not as *nicht erfasst*. A heading that
+says **what kind of evidence its rows rate**, more than naming the column, goes
+into the `note` of each entry under it, as printed, and where it heads no rating
+it is one entry with that note alone; a heading that only names the column goes
+into no field. A note is never a level, never the basis the box prints beside
+its grade, never effect data and never words that only say what a rating covers.
+A cell that prints, in place of a level, the basis the box prints beside its
+grade gives that token to the claim's `basis` (above), never to a note; the
+words it prints beside the token — where the box's recommendation comes from,
+say — are a note alone, like those of any cell that prints words instead of a
+level, and the reader sees them. An entry names its **`system`** wherever it
+states an outcome or a value. An entry stating a note alone, or a box's own
+rating printed beside its rows without a notation, takes the system of the box's
+rated rows; where no row of the box prints a rating, a note alone names none —
+the one entry without a `system`, since a system there would be an inference no
+quote supports. Every entry states an outcome, a value or a note, and an entry
+with none of them is refused, whatever its key. An absent or empty list means
+the certainty was not recorded, not that there is none. The entries are the rows
+of the box's evidence block **and nothing else**: a rating the source prints
+elsewhere for the recommendation's evidence — in the text that gives its
+reasons, say — is never an entry. Where it rates that evidence otherwise than
+the box, it is the disagreement above, a `fact` claim joined to every claim
+that carries the row by `disagrees_with` (§5.1 N(2), D), both shown and
+neither chosen; where it rates an endpoint the box does not list, it stays on
+the page.
 
 The rows a marked recommendation prints once belong to **every sentence of it
 that supports a statement of its own**: each such claim carries all of them, in
@@ -318,11 +493,37 @@ is given to one sentence by reading its key against the sentence. A sentence
 that supports another sentence's statement, or none, carries none: that
 statement's card shows the rows already, and a second claim repeating them would
 count each row twice. Like the grade, the rating is read off the source and
-never inferred: its provenance is required (§6.5) — one quote per row, in the
-rows' order, the line that prints the row's key or outcome (the rating's own
-line where the row prints neither), followed by the method section's line that
-names the system where the row prints a level no notation identifies (a bare
-"1", where GRADE's ⊕ symbols identify theirs).
+never inferred: its provenance is required (§6.5) — one quote per entry, in the
+entries' order, the line that prints the entry's key or outcome (for an endpoint
+of a row that names several, the line that prints that endpoint, a line that
+prints several quoted once for each of their entries; for a cell that prints
+words instead of a level, the cell; the rating's own line where the row prints
+neither). After them, each once and in the order the page prints them, come the
+lines the box prints for its rows as a whole: the line that identifies the
+system where an entry's own line does not — the method section's line that
+names it where a row prints a level no notation identifies (a bare "1", where
+GRADE's ⊕ symbols identify theirs), or a rated row's notation line where an
+entry takes its system from the box's rated rows — and the heading whose words
+are the entries' `note`. The validator holds each entry to its quote, refusing
+fewer quotes than entries; which line a quote is, is the judge's reading (§8.1).
+
+**A source declares the rating systems its rows use**, as it declares its
+grading scheme and beside it, not inside it — how certain the evidence is and
+how binding the recommendation is stay two facts: `rating_systems` on the source
+entity, one entry per system, with its slug (`system`, what an evidence entry
+names), its **name as the source prints it** (`name`: "GRADE", "Oxford 2011"),
+and the source's own line that prints the name, quoted (`source`). Every word of
+the name lies in one of the entry's quotes, the quotes are the source's own
+pages, a slug is declared once per source, and an evidence entry's `system` is
+one its claim's source declares (validator). The line is the method line where
+the source has one — "Tabelle 4: Evidenzgraduierung nach GRADE", "nach GRADE und
+Oxford 2011 gekennzeichnet." Where the source leaves its method to a separate
+report, it is a body-text line that names the system beside a rating the source
+gives ("GRADE moderat"), and a `rationale` says where the method is; the
+separate report is not quoted. A declaration is never `modelling`: a name the
+source does not print is not declared, and a notation alone (⊕⊕⊕⊝) prints
+none. The site names a system by its declared name and never by its slug,
+which stays in the data and the JSON (`docs/publication.md` §3, zone 4).
 
 A criterion or a definition may print a **threshold** — "Amylase im
 Drainagesekret unter 5000 U/L am ersten postop. Tag", "ASA Status von
@@ -346,19 +547,23 @@ number on the page: its provenance is required (§6.5), and adding it to an
 existing claim is an edit with history (§7).
 
 A rule may have several parts, and the page says how they combine — "entweder
-… oder … oder aber", "sowie", "mindestens zwei", or nothing. A claim carries
+… oder … oder aber", "sowie", "mindestens zwei", a column of points, or
+nothing. A claim carries
 that as its **`combination`**, read off the page like a threshold and never
 set by a default. It has four fields:
 
-- **`operator`**, the reading, from a set closed because it is logic, like
-  the comparators: `all_of` (UND), `any_of` (ODER), `at_least` with `n`
-  (mindestens n von), and `not_stated` for a passage that lists parts without
-  saying how they combine.
+- **`operator`**, the reading, from a set closed because it is logic and
+  arithmetic, like the comparators: `all_of` (UND), `any_of` (ODER),
+  `at_least` with `n` (mindestens n von), `not_stated` for a passage that
+  lists parts without saying how they combine, and `sum` with `points` for a
+  points table (below).
 - **`of`**, the parts: criterion or definition claims of the same source.
 - **`connective`**, the word or words the page prints for the combination,
   as printed, the pieces of a word spread over the passage joined by " … ".
-  Its **`source`** holds the quotes, and every piece lies in one of them, so
-  the quote check (§6.2) reads each connective on its page.
+  A word the page breaks at a line end is one piece, read as its quotes read
+  it (§6.2): "Gleichzeitig", never "Gleichzei- … tig". Its **`source`** holds
+  the quotes, and every piece lies in one of them, so the quote check (§6.2)
+  reads each connective on its page.
 - **`rationale`**, how the connective is read. That is modelling, and a word
   alone never decides it: "und" between groups each counting on its own
   ("… ferner Patienten mit … und Patienten mit …") is `any_of`, not
@@ -378,6 +583,50 @@ postop. Tag 1 und 3") stays as printed, and a statement's several conditions
 stay a conjunction (§3.2): neither is a combination. Adding one to an
 existing claim is an edit with history (§7).
 
+A **points score** is printed as a table whose rows each give a criterion its
+points ("Punkt(e)" beside each "Merkmal") — and a column of points says how
+the parts combine: they add up. Its combination is a **`sum`**, admitted
+because it is arithmetic, as the comparators are, and read off the page like
+every operator. The table's claim is the **top**: the one answer §5.1 K reads
+(quoting its caption or head, its label the table as K reads it), carrying
+that answer's edge. Each criterion the page gives points to is a **part**, a
+`criterion` claim of its row quoting its cell: a leaf with the threshold the
+cell prints, or a claim with a combination of its own where the cell joins
+parts ("… oder … oder …"); a graded criterion is one part per band (`between`
+"65 – 74", `≥` "75"). The sum carries **`points`**, one per entry of `of` and
+in its order, each the points its row prints, **as printed** ("2", "jeweils 1
+Punkt"): strings, never numbers, never added up. A cell printed once for two
+parts goes to each of them as printed, the rationale reading it ("jeweils 1
+Punkt": one point each), so the row keeps that it counts up to two. A row
+whose rule a footnote gives is the part itself — the row's claim, quoting its
+own cell —, carrying the footnote's threshold or combination, its provenance
+for that property quoting the footnote's line (§6.4), and its label the
+footnote's narrowing words as printed ("nur unzureichend eingestellte
+arterielle Hypertonie"), not only the number. A value printed in two units is
+two values the page joins ("Kreatinin >2.26 mg/dl oder > 200 μmol/l"): two
+claims under the combination the page's word gives, nothing converted.
+
+The **connective** of a sum is the head of the points column as printed
+("Punkt(e)", "Punkte"), quoted in its `source` like every connective. The
+points themselves lie in **no quote**: a lone "1" in a cell is found anywhere
+on its page, so the quote check (§6.2) proves nothing for them, and the judge
+reads each against its row (§8.1) — the one value read off a page that no
+quote carries, a departure from §6.5's practice accepted for it (card #328).
+A sum yields a **number, not whether a rule holds**: it is a part of no
+combination, and nothing is computed from it or stored beside it — no total,
+no maximum, no exclusivity between bands. Every bound on the score sits on
+the claim that prints it, as a `threshold` with the score as its `quantity`
+(§3.2), never on the table's claim, each as printed: "≥7" on one page and
+"> 6" on another are two printings, never equated, and where they bound one
+term they are a disagreement (§5). No rule is rewritten into a tree of
+`at_least` and `any_of` the arithmetic would allow and no page prints. A
+score whose scale its source does not print stays a quantity bounded by its
+threshold, with no `defined_by` edge, and a table of ordinal classes with
+neither points nor a sum ("1 Keine … 4 behindernd") is no combination: its
+classes are values of one quantity, a bound on one a threshold whose value is
+the class as printed. The validator refuses `points` beside another
+operator, a count of points other than of parts, and a sum as a part.
+
 ### 3.2 The semantic layer
 
 Three kinds of entity, kept apart because different edges attach to them:
@@ -387,17 +636,44 @@ Three kinds of entity, kept apart because different edges attach to them:
   the concept is, and edges — `codes_as` into terminology namespaces, `broader`
   to the concept it is a special case of (§5). A concept cannot be contested; it
   means, it does not claim. The facet is one of `procedure` (the operation that
-  defines the case: *leberresektion-komplex*), `patient_state` (a risk profile or
-  pre-existing condition), `medication` (a drug or long-term therapy),
-  `intervention` (the measure a recommendation judges: *epiduralanalgesie*,
-  *abdominelle-drainage*), `outcome` (an endpoint or complication), `finding`
-  (a result that triggers a decision) or `qualifier` (a value of a statement
+  defines the case: *leberresektion-komplex*), `patient_state` (what the
+  patient has or is, acute or pre-existing: a disease, an organ dysfunction, a
+  risk, a need for a measure or a contraindication to one: *septischer-schock*,
+  *vasopressorbedarf*, *kardiovaskulaerer-hochrisikopatient*), `medication` (a
+  drug or long-term therapy), `intervention` (the measure a recommendation
+  judges: *epiduralanalgesie*, *abdominelle-drainage*), `outcome` (an endpoint
+  or complication), `finding` (a measured or observed result that triggers a
+  decision: a value, a sign, the result of a test: *laktat-im-blut*,
+  *plausibler-erregernachweis*) or `qualifier` (a value of a statement
   dimension, §4.1 — a phase, a setting, a line of therapy — which qualifies a
   recommendation and is nothing in the case itself). It describes the concept's nature, which
   is fixed; the slots a statement puts it in describe its role there, which
   varies (`mpom` is the action of one statement and the condition of another).
   Where the two seem to collide, ask whether the concept describes the case or
   the act.
+
+  **Between `patient_state` and `finding`, the label decides by what it
+  names.** A state the patient is in is a `patient_state` whether it is acute
+  or pre-existing, so that an intensive-care guideline's acute states and a
+  surgical guideline's pre-existing ones fall on one side, and whether a
+  clinician states it or establishes it by a rule (below): "Vasopressorbedarf"
+  and "anhaltender Vasopressorbedarf", "hämodynamisch instabil",
+  "Hypoperfusion", a low risk of a pancreatic fistula that the drain amylase
+  indicates. What a measurement or an observation yields is a `finding`: a
+  measured or scored quantity, such as the one a threshold bounds
+  ("Noradrenalindosis", "Laktat im Blut"), a value the label names as one
+  ("Hb-Wert von < 4,34 mmol/L"), signs ("Hinweise für eine kardiale
+  Dysfunktion"), the result of a test ("plausibler Erregernachweis"). A
+  derived concept is therefore no finding for being derived; the quantities
+  its rule bounds are. The validator holds a threshold's `quantity` and its
+  `relative_to` to facet `finding`, as it holds an evidence row's endpoint to
+  facet `outcome` (§3.1; card #356). A term the source uses both as a
+  circumstance and as an endpoint stays two concepts, the circumstance and an
+  `outcome` ("hämodynamisch instabil" beside the evidence row's "hämodynamische
+  Instabilität"): an endpoint counts events, not a state the patient is in, and
+  the check that an evidence row's endpoint is an `outcome` (§3.1) is what keeps
+  a subgroup or a comparator out of the row. Decided on 2026-10-11 by the
+  maintainer (card #342), whose pass aligned the concepts of both graphs.
 
   A concept is **derived** (*abgeleitet*) when a clinician cannot observe it
   but establishes it by a rule — a threshold on a measured quantity, a score
@@ -408,14 +684,18 @@ Three kinds of entity, kept apart because different edges attach to them:
   written on the concept (§3.3). A derived concept whose source names the rule
   without a number ("lange OP-Zeit") has its edge and no threshold.
   **How several rules of one concept combine is extracted, never assumed.**
-  The concept has one `defined_by` edge, to the claim at the top of its rule;
+  The concept has one `defined_by` edge, to the claim at the top of its rule
+  — or one to each printing, where the source prints its rule differently in
+  several places and `disagrees_with` joins every pair of them (§5);
   where the page gives several ways of establishing it, that claim quotes the
   passage and its `combination` (§3.1) joins them as the page does — drain
   amylase on day 1, *or* on days 1 and 3 *and* the drain volume, *or*
   relative to the serum value on day 3; at least two of four risk factors,
   *or* an ASA status of at least 3, *or* coronary heart disease *or* proven
   myocardial ischaemia. A second edge would join the rules by a default
-  nobody read off the page, and is refused. A combination may be of any
+  nobody read off the page, and is refused — unless the two claims are
+  printings of one rule that disagree, which then stand side by side, each as
+  printed, and are never combined. A combination may be of any
   operator, so neither "any rule suffices" nor "all rules hold" is ever
   assumed, and a statement's conditions stay a conjunction of their own
   (below). Because the kind is read off the concept, it holds wherever the
@@ -425,6 +705,23 @@ Three kinds of entity, kept apart because different edges attach to them:
   proposed on 2026-09-24 (card #187); the combination extracted from the
   source replaced that card's third choice, several rules as alternatives by
   convention, the same day (card #204).
+
+  **A score is a quantity.** The concept a points table defines — the
+  score — is a scored quantity, a `finding`, derived because its one
+  `defined_by` edge reaches the table's claim, the top of the sum (§3.1).
+  A quantity is no group: the score fills no statement slot and no axis
+  placement (validator), and stands where a quantity stands, as the
+  `quantity` of every threshold that bounds it. The patients a bound gives
+  ("bei einem … Score von ≥2") are a concept of their own, which reaches the
+  claim printing the bound by its `defined_by` edge; a recommendation to use
+  the score names the use, a concept of its own beside the score's. Two
+  scores are two concepts — one that adds a category the other leaves out is
+  another score —, and nothing reads a bound on one as a bound on the other,
+  as no grade is mapped between schemes; every spelling of one score is one
+  concept, its labels and quotes as printed. Decided on 2026-10-10 on the
+  maintainer's delegation (card #328); on 2026-10-11 the maintainer answered
+  that a reader under a bounded score needs each criterion with its points,
+  as data.
 - **Statements** — propositions with a truth claim: "after pancreatic
   resection, the drain can be removed early when the drain amylase indicates a
   low fistula risk." Statements are what claims *support* or *contest*. A
@@ -456,6 +753,31 @@ Three kinds of entity, kept apart because different edges attach to them:
   of about thirty); aim for 55. Shortening
   a clinical proposition can change its meaning, so a short label is reviewed
   like any other content, never generated on the fly.
+
+  **A concept's label is written in running-text case.** Its `label` and
+  `short_label` are written as their words read inside a sentence of the
+  label's language (its `lang`), the first word included: a first word that
+  language writes in lower case inside a sentence opens in lower case, and a
+  noun, a name or a token whose case is fixed (an acronym, a symbol, a unit)
+  keeps its case. In German an adjective, a participle, an adverb, a
+  preposition or a determiner opens in lower case — "angemessener
+  Flüssigkeitsstatus", "hämodynamisch instabil", "ohne Schocksymptomatik",
+  "ausgenommen Infektionen, die längere Therapie erfordern" — and
+  "Hypoperfusion", "ARDS", "pH", "β-Blocker" keep theirs. A label then reads
+  as its language wherever it stands: joined to the next condition by "und",
+  or inside a sentence. Its case is ours (§6.5) and carries no provenance; the
+  words a page prints keep their printed case — a claim's sentence, a quote,
+  an evidence `key`, `value` or `note`, a grade, verb or consensus word, an outline
+  title — and a statement's `label`, one sentence, begins as a sentence does.
+  The rule is the concepts'; the labels of statements, structural nodes, axes,
+  views and sources are not under it. The build never changes a label's case:
+  it shows every label as stored, so a concept's label standing alone — a
+  patient group's box, a concept page's title, the first line of an answer —
+  opens in lower case where its first word does, as a dictionary lists an
+  adjective. Nothing in the build, the schema or the validator names a word
+  class, a word list or a language; the validator cannot check the rule, since
+  it cannot tell a noun, so review checks it wherever a concept is minted or
+  relabelled. Decided on 2026-10-10 (card #257).
 - **Structure** — decision questions, branches, outcomes, explicit gaps: the
   pathway machinery. Structural nodes assert nothing about the world; they
   arrange statements into something navigable, and they are pure modelling.
@@ -869,6 +1191,23 @@ the different jobs of edges apart:
 - **body-text relations** — `refines`, `supplements`, `limits`: claim → claim.
   Body text never inherits a recommendation's grade; the edge says how they
   relate. Which sentence earns which edge is the rule of §5.1.
+- **disagreement** — `disagrees_with`: claim → claim, "this source says
+  otherwise at that place". **The graph reflects the text**: where a source
+  answers one question differently in two places — another value, time,
+  group or rating for one term, case or action — each printing is a claim, as
+  printed, and this edge joins every pair of them (§5.1 D). No extraction,
+  linking pass or build picks a side, smooths the difference over, or names
+  it only in a pull request, and nothing computes a "true" answer. The edge is
+  symmetric, once per pair in either direction, and never joins a claim to
+  itself; it joins claims of **one** source — between two sources the
+  relation is `contests` (§11). Always `modelling`, with a rationale that
+  quotes both sides with their pages and says what they differ in, `lang` and
+  `as_of`. It carries no evidence and decides nothing: each side keeps the
+  edges the rules give it, and the site shows each on the other's card as the
+  source's own inconsistency (`docs/publication.md` §3). A side the page
+  prints as a figure without a text layer cannot be quoted: the claim of the
+  figure's caption is that side, and the rationale says what the image shows,
+  as read off it and not quoted.
 - **coding** — `codes_as`: concept → terminology concept. Codes are never bare
   strings inside a property; a code is a node and coding is an edge, so the link
   carries provenance and dangles visibly when a classification changes.
@@ -914,9 +1253,14 @@ the different jobs of edges apart:
   threshold the claim prints or the combination it quotes (§3.1). Always
   `modelling`, with a rationale naming the clause and the term, `lang` and
   `as_of`. **A concept has one such edge**: several rules reach it through
-  the combination on the claim the edge leads to, as the page joins them,
-  and the validator refuses a second edge, even with a discriminator, and an
-  edge to a claim of another kind. It is the edge, not a field on the
+  the combination on the claim the edge leads to, as the page joins them —
+  except where the source prints its rule differently in several places
+  ("> 50 ml/kg/h" on one page, "≥ 50ml/kg/h" on another): then the concept
+  has one edge to each printing, each claim keeps its threshold as printed,
+  nothing computes a "true" bound, and the site shows every printing. The
+  validator refuses a second edge, even with a discriminator, unless every
+  pair of the claims the concept reaches is joined by `disagrees_with`, and
+  an edge to a claim of another kind. It is the edge, not a field on the
   concept, because the rule is a relation with provenance: it can be attested
   and go stale. It carries no evidence and says nothing about the statements
   that use the concept; the `refines` edge the same criterion may have to a
@@ -927,6 +1271,81 @@ the different jobs of edges apart:
 - **cross-source semantics** — `specializes`, `complements`, `conflicts`:
   statement → statement. Our assertions, always `modelling`, with rationale and
   date.
+- **sequence** — `follows`: statement → statement, a kind beside
+  `specializes`, `complements` and `conflicts`, written
+  `[later statement, follows, earlier statement, {…}]` and read "is triggered
+  by the outcome of": the guideline takes the later recommendation's step
+  because of how the earlier one's measure went. It is not the structure edge
+  `sequence`, which arranges the nodes of an authored pathway; it joins two
+  recommendations where the text states the order, and is never read from a
+  figure. Two properties are required on it and allowed on no other kind,
+  closed lists with English keys, their words for a reader in the view layer
+  (`docs/publication.md`): **`transition`**, what the later measure does to
+  the earlier one — `replaces` it, `adds` to it, `follows` it once it has
+  ended, or runs `concurrent` with it, which is written only where the
+  guideline says "at the same time"; and **`trigger`**, which outcome of the
+  earlier measure calls for the later — its target missed (`target_missed`),
+  the patient's intolerance of it (`intolerance`), a contraindication arising
+  under it (`contraindication`), its target reached (`target_reached`), a
+  re-evaluation of it (`reevaluation`), a finding under it (`finding`), or
+  `other`. "Later" and "earlier" are the order of the decision, not of the
+  clock: under `concurrent` both measures run at once, and the edge runs from
+  the one the page makes depend on the other's outcome. Always `modelling`,
+  with a rationale that quotes the trigger's wording as printed, in „…“,
+  `lang` and `as_of`; the sentence is already a claim, where its quote is
+  checked, and the edge cites it as every modelling edge does.
+
+  **Sequence or condition.** Whether a circumstance a recommendation names
+  makes it the later step of another, or is a condition of its own statement,
+  is decided by four tests:
+  - a circumstance that describes the patient's state stays a condition; one
+    that is the outcome of a previous measure is a sequence;
+  - a state worded against a measure — "despite", "under" or "after" X
+    („trotz X“, „unter X“, „nach X“) — is a sequence only where X is the
+    measure of a statement of the same guideline; a state worded without
+    reference to a measure earns no edge;
+  - a contraindication the patient has before the first measure is a
+    condition; one arising under the previous measure is a sequence;
+  - a value that selects the patients is a condition; one that measures their
+    response to the previous measure is a sequence.
+
+  The edge says *to which measure*, the condition *what*: the circumstance
+  that triggers the step stays the later statement's `condition` concept,
+  usually of facet `finding` (§3.2), and the edge never writes, removes or
+  decides a condition entry (§5.1 N3) — a trigger the page prints that the
+  condition lacks is named in the linking pull request. It carries no
+  threshold: one the trigger prints sits on the criterion or definition claim
+  the condition concept's `defined_by` edge reaches, and is read through
+  condition → `defined_by` → `threshold`, never copied. And it carries no
+  status: a border case, where the tests above leave the reading open, is a
+  finding of the judge (§8.1) and a line in the linking pull request naming
+  the edge and the test that leaves it open; review state is derived (§3.3).
+  `complements` stays, unchanged, for a measure that adds to or stands beside
+  another without a trigger; `follows` with `adds` adds it because of the
+  earlier one's outcome. One pair of statements carries one of the two, never
+  both: a linking pass that reads a sequence where `complements` joins the
+  pair replaces that edge. A step only the body text gives is no node of a
+  chain: it stays `supplements`, claim → claim, with its recommendation's
+  claim (§5.1 S). Where the source states the order of two recommendations
+  differently in two places — another trigger, another transition, or the
+  one after the other in one place and the other way round in another —
+  each printing is an edge of its own (with a `discriminator` where two run
+  from the same statement to the same one), the claims that print them are
+  joined by `disagrees_with` (§5.1 D), and nothing picks one: the graph
+  reflects the text. The validator refuses an edge whose two statements no one source
+  supports with claims — a chain never runs across guidelines —, an edge
+  whose later statement's `population` lies strictly above the earlier's
+  along `broader` and `in_scope_of`, since a step the outcome of another
+  triggers is never for a wider group than that one (the same group, a
+  narrower one or one the pool relates to it by no edge passes), and a cycle
+  of `follows` edges none of whose triggers is `reevaluation` or
+  `target_reached`: a loop that a re-evaluation or a reached target closes is
+  one the guideline may run, and stays allowed, and so is one through an
+  edge whose two statements are supported by claims `disagrees_with` joins,
+  the source stating their order both ways. Decided on 2026-10-10 on the
+  maintainer's delegation (card #294; memory `sequences-are-edges`); the
+  cycle a disagreement states passes by the maintainer's principle of card
+  #341, applied on 2026-10-11 (card #295).
 
 **Staleness without version pins.** An edge whose meaning depends on its
 endpoints' content records the endpoints' content hashes at assertion time. When
@@ -938,32 +1357,83 @@ attestations use.
 ### 5.1 The body-text rule
 
 A **marked recommendation** is what the source marks as one (a numbered box,
-statement or definition); each of its sentences is a claim (§3.1). **Body text**
-is every other place of its section, the lowest numbered heading above it: a
-sentence, a footnote, a table or a figure. A place becomes a claim with an edge
-exactly when it passes G1–G4 and one of R, L, S, tried in that order — the
-first that holds decides; a decline that passes G1–G3 is a claim without one.
-Every other place stays on the page.
+statement or definition), whatever origin or status it prints beside the mark;
+each of its sentences is a claim (§3.1). **Body text** is every other place: a
+sentence, a footnote, a table or a figure. Its **section** is the lowest
+numbered heading above it — a table's or figure's that of the marked
+recommendation naming it, else of the first sentence introducing it, else where
+printed (its claim's `section` stays where printed). A section's marked
+recommendations are those in its own text; one where neither it nor a section
+below it holds any also has those in the own text of the nearest section above
+that does; and a section's own text, before its first subsection, also has
+those of every section below it. Those of a sibling never count. A place
+becomes a claim with an edge exactly when it passes G1–G4 and one of D, R, L,
+S, tried in that order — the first that holds decides; a decline that passes G1–G3
+is a claim without one, and so is a place U admits. Every other place stays on
+the page, and so does a figure without a text layer (F). Whatever edge a
+place gets, it is joined by `disagrees_with` to every other place of the
+source that answers its question otherwise (D).
 
 - **G1 topic** — it is about the action of a marked recommendation of its
   section, for that recommendation's population; a decline, or a place on a
   marked gap notice, need only share its question, whatever agent or population.
+  A definition or criterion the source marks for a term as such — a heading or
+  table head that calls it a definition, classification or criterion — also
+  passes wherever it stands, when a marked recommendation of the source uses
+  the term; where only this admits it, its concept reaches it by `defined_by`
+  (§5) and it carries no edge of this rule, E's included. One no marked
+  recommendation uses stays on the page.
 - **G2 voice** — it speaks for the guideline, its authors and "wir" included:
   its subject is not a study, a review, another work's author, another
   guideline or the evidence, nor a pronoun or connective continuing a sentence
-  whose subject was. A reference mark or a "nach …" alone is no report. A table
-  or figure speaks as the sentence introducing it does, and for the guideline
-  where a marked recommendation names it. Except: a value the recommendation's
-  wording needs and does not give passes even when reported from the studies,
-  if the guideline gives none.
+  whose subject was. A reference mark, a "nach …" or a table's or figure's
+  source line ("adaptiert nach …", "… bearbeitet durch die Leitliniengruppe")
+  alone is no report. A table or figure speaks as the sentence introducing it
+  does, and for the guideline where a marked recommendation names it. Except:
+  a value the recommendation's wording needs and does not give passes even when
+  reported from the studies, if the guideline gives none.
 - **G3 new** — it adds a case, value or action the recommendation lacks. A
   repetition (after a summary word, a reason, "this holds for all"), a decline
   restating a marked gap notice and an example as a whole add nothing; a
   repetition that adds counts only for what it adds.
 - **G4 decline** — saying that no recommendation, or no value one needs, is
-  given ("keine Empfehlung", "weder für noch gegen") is a gap notice, no edge;
-  saying the action is not recommended ("kann nicht empfohlen werden") is
-  against it; saying only what is unknown ("unklar", "keine Studien") is N2.
+  given is a gap notice, no edge, also where its subject is the evidence:
+  "keine Empfehlung", "weder für noch gegen", a recommendation or a need that
+  "besteht nicht" or "existiert nicht", data that "sprechen gegen eine
+  Empfehlung" or "lassen eine Empfehlung … nicht zu", a "Ermessensspielraum"
+  left to the reader; referring to another work instead is N4. Saying the
+  action is not recommended ("kann nicht empfohlen werden") is against it,
+  and so is denying the action an indication, whatever the verb ("besteht …
+  keine Indikation, X fortzusetzen", "sieht … keine Indikation zu X", "X ist
+  nicht indiziert"): the sentence says something about the action, which a
+  decline would drop, and its label keeps its words as printed, so that the
+  reader reads "keine Indikation" and no word of ours for it (the
+  maintainer, 2026-10-11, on the principle that the graph reflects the text:
+  "stay true to it"; card #372). An indication for an action is no need for
+  a recommendation, so the declines above do not catch it. Saying only what
+  is unknown ("unklar", "keine Studien") is N2.
+- **D `disagrees_with`** — it answers a term, case or action of the
+  recommendation otherwise than the recommendation itself prints it: another
+  value, time or rating, a rating in other words included, or a group the
+  recommendation answers differently (an hour for sepsis where the box gives
+  the hour to septic shock alone). Ratings are compared by their words as
+  printed, never mapped onto each other (§3.1): the same word, capitalised or
+  inflected otherwise, is the same rating; another word is another rating,
+  though the two may name one level, since the page does not equate them
+  ("sehr niedrige" against the box's "sehr gering"), and the rationale quotes
+  both and says so (card #372). It is a claim, joined to the
+  recommendation's claim by `disagrees_with` (§5) — where it rates the
+  evidence, to every claim that carries a row it rates: each sentence with a
+  statement of its own, as the row goes to each (§3.1), so that every
+  recommendation's card shows it —, and gets no R, L or S edge to it, which
+  would read the one through the other. Places that answer one term differently where the recommendation
+  prints no answer of its own each get the edge R, L or S gives them, and
+  every pair of them is joined by `disagrees_with`: each printing shown,
+  none chosen. A distinction one place draws and another erases or denies
+  is a disagreement (the hour for septic shock alone, against the hour for
+  both, or a deadline "unabhängig davon, ob ein Schock vorliegt"); two
+  answers that differ only in kind for the same groups — an ideal time
+  beside a latest one — are none.
 - **R `refines`** — it says what a term of the recommendation covers: who is in
   its group; which value, time, dose, agent or technique a word stands for. It
   makes cases precise and takes none out.
@@ -973,15 +1443,57 @@ Every other place stays on the page.
 - **S `supplements`** — it instructs a further action for the recommendation's
   case: a next step, what to do when the action fails or is refused, a measure
   beside it. Describing an effect or a mechanism instructs nothing.
-- **K claim** — `kind` by form (§3.1); `verb` and `direction` as printed (a
-  verb only if a declared grading scheme defines it, §3.1); never `grade`,
-  `consensus` or `recommendation_no`. **One claim per answer**: members giving
-  different answers — another threshold for the same term, another action,
-  another direction — are a claim each, each quoting its member; members sharing
-  one answer (the cases one group comprises) are one claim. A table's members
-  are its rows or a cell's items, and a table a recommendation names is one
-  answer; it quotes one line of one cell (a caption or head for a whole) and
-  reads "Kopf: Zelle; …" as printed, reference marks left out.
+- **U unmarked recommendation** — a recommendation or a decline in the
+  guideline's voice (G2) that G1 does not admit, on an action or for a
+  population no marked recommendation of its section names, is a claim
+  without an edge and in no statement, unless it restates a marked
+  recommendation of the source (G3). "Diese Leitlinie empfiehlt" is no mark.
+- **K claim** — `kind` by form (§3.1); `verb` and `direction` as printed (the
+  verb by §3.1's predicate rule, and only if a declared grading scheme defines
+  it); never `grade`, `basis`, `consensus` or `recommendation_no`. **One claim
+  per answer**: members giving different answers — another threshold for the
+  same term, another action, another direction — are a claim each, each quoting
+  its member; members sharing one answer (the cases one group comprises) are
+  one claim. A table's members
+  are its rows or a cell's items: a table a marked recommendation names as one
+  instrument is one answer, one whose rows each give another action or agent a
+  claim per row, and a row one claim with one edge, the first of R, L, S that
+  holds. A table claim quotes within one cell (a caption or head for a whole;
+  where the head recurs on the page, the caption or the sentence that
+  introduces the table, §6.2) and reads "Kopf: Zelle; …" as printed, its
+  label leaving out the reference marks as every claim's does (§3.1). A rule
+  the source prints differently in two places is a claim per printing that
+  passes, the disagreement shown in the graph and never resolved (card #341).
+- **F figure without a text layer** — a figure printed as an image, of which
+  the extracted text holds only the caption and the footnotes, stays on the
+  page, whether a marked recommendation delegates to it or not: no quote
+  reaches its content (§6.2), so no claim, statement, concept or edge holds
+  it. The sentence of a marked recommendation that delegates to it, telling
+  the reader to proceed as the figure shows, is a claim as printed (§3.1),
+  the delegation in its label; its statement's action is what the sentence
+  names, its label keeping the delegation ("nach Abb. N"), and no slot holds
+  the figure's content. Its footnotes follow the figure: they stay on the
+  page while its content does — except a footnote that prints, in the text
+  layer, a rule another place of the source's text prints otherwise, a
+  body-text place or a marked recommendation (another value, time, group or
+  rating for one term, case or action, as D reads it). That footnote is a
+  claim of its own: its `kind` by form (§3.1), never graded (K), its
+  `section` the figure's, its quote the footnote's line, once on its page
+  (§6.2). `disagrees_with` joins it to each claim that prints the rule
+  otherwise (D), and it gets no R, L or S edge, which would read the one
+  through the other. The exception is narrow: a footnote that agrees with
+  the text, or prints a rule the text prints nowhere else, follows its
+  figure as before; and what the figure prints only in its image stays on
+  the page whatever the text says, no quote reaching it, a contradiction
+  there named in the pass's pull request (open question
+  figures-without-text). The graph reflects the text (§5): a contradiction
+  the text layer prints is shown wherever a quote reaches it, never hidden
+  behind the figure it annotates — the maintainer's principle (card #341),
+  applied on card #328 to a figure's footnote that bounds a score „≥7“
+  against the body text's „> 6“ three pages on, both recorded and the
+  difference shown (card #379, 2026-10-11). Its caption is text, a place
+  like any other. Whether a later view transcribes such a figure is open
+  (open question figures-without-text).
 - **E edge** — to each claim of the section whose wording carries the term, the
   case or the action, none to the other sentences of its recommendation; a
   definition the source marks for its term as such — not an item of a list
@@ -991,13 +1503,21 @@ Every other place stays on the page.
   the rule does not give and lists it, with its clause, in its pull request.
 - **N — not a body-text relation.** (1) Sentences of one marked recommendation,
   or of two: each is linked as §3.1 says; what one says of the other is
-  said between statements (`specializes`, `complements`). (2) How certain the
+  said between statements (`specializes`, `complements`, `follows` where the
+  outcome of one triggers the other, §5) — and where they
+  answer one question differently, `disagrees_with` joins their claims as
+  well (D). (2) How certain the
   evidence is: `evidence` on the recommendation's claim (§3.1); effect data,
-  study summaries and rationale: nothing. (3) A condition of the statement: an
+  study summaries and rationale: nothing, also in a table or figure a marked
+  recommendation names — except a place that rates the certainty of the
+  recommendation's evidence otherwise than the box does, which is a `fact`
+  claim joined to every claim that carries the row (D). (3) A condition of
+  the statement: an
   edge relates two claims and never writes a slot, mints a statement or decides
   what a circumstance is to a statement (§4.1); a circumstance the statement
-  lacks is named in the pull request. (4) A cross-reference, a research
-  question, a quality indicator (→ quality-indicators). (5) The top or a
+  lacks is named in the pull request. (4) A cross-reference, a referral to
+  another work in place of a recommendation, a research question, a quality
+  indicator (→ quality-indicators). (5) The top or a
   part of a rule's combination (§3.1) that is not itself an answer: it is
   reached through the combination, and the answer's claim carries the edge.
 
@@ -1013,7 +1533,7 @@ the passage exists.
 ### 6.1 Sources are entities
 
 Every source document — a PDF, a web page, a classification release — is an
-entity in `sources/` with a version, its public URL, a content hash and licence
+entity in `sources/` with its public URL, a content hash and licence
 information. Sources are **referenced, never rehosted**: the repository and its
 links are the only assets (see `README.md`, "Source documents"). Provenance
 points *into* sources with a locator whose syntax depends on the media type:
@@ -1029,6 +1549,23 @@ target format (`#page=N&search=<quote>` for PDFs — viewers that understand
 `search` highlight the quote, the rest land on the page). Authors never write
 the final link; they write the locator.
 
+**Title, version and date.** A source's `title` is its title proper, as the
+document prints it — without its version, its date or its form ("Langfassung"),
+which the document prints apart from it. Where the document prints a version and
+the date it gives that version (its "Stand"), the source records both, each
+quoted where it is printed (`provenance.version`, `provenance.date`, §6.4): the
+`version` is the label as printed, without the word for it ("1.0", "4.0"), and
+the `date` is ISO 8601 at the precision printed — a year, a month (`2023-11` for
+"November 2023") or a day (`2025-04-30` for "30.04.2025"). The quote keeps the
+printed form checkable; reading it as ISO is a reading for review, and no month
+name of any language enters the schema or the validator. The date is the one the
+document gives its version — not a register's publication date, an adoption date
+or the date of a download. It is shown with the source and never used to rank or
+overrule (§3.4, §11 rule 4); a version is no view's cut (§4) and pins no edge
+(§5, "Staleness without version pins"). A source that prints neither records
+neither, and nothing is parsed out of a title. The period a document declares
+itself valid for is not recorded yet.
+
 ### 6.2 A reference is a locator plus a verbatim quote
 
 ```yaml
@@ -1036,11 +1573,81 @@ the final link; they write the locator.
 ```
 
 The quote is short (a clause, not a paragraph) and **must be a verbatim
-substring of the source's extracted text** — it is three things at once: the
-highlight target for a reader, the reviewer's at-a-glance check, and the
-validator's exact match. A paraphrase breaks all three. A statement whose quote
-cannot be found where it claims to be is invalid. Provenance values are lists; a
-single reference is shorthand for a list of one.
+passage of the source's extracted text**, in **whole words** — it is three
+things at once: the highlight target for a reader, the reviewer's at-a-glance
+check, and the validator's exact match. A paraphrase breaks all three. A
+statement whose quote cannot be found where it claims to be is invalid.
+Provenance values are lists; a single reference is shorthand for a list of one.
+
+A quote neither starts nor ends inside a word, and it may run across a line
+break of the extracted text where the text runs on: to the next line, or,
+where a box or a table interleaves its columns, to the next line of the same
+column. A line break reads as a space, and a hyphen that ends a line reads as
+the printed word does: the hyphen of a word the line breaks is dropped
+("Volu-" + "men" → "Volumen"), and a hyphen that belongs to the word stays
+("Povidon-" + "Iod" → "Povidon-Iod", "Rektum-" + "und" → "Rektum- und"). Which
+of these a line-end hyphen is, is a reading of the page, the extractor's; the
+validator accepts each and refuses a quote that lies on its page only inside a
+word.
+
+The validator reads a page in columns. It cuts each line where its columns
+part, at a run of two or more spaces, so that the columns of a box or a table
+stay apart. A line set in justified type has such runs between its words as
+well, and stays one inside its column. Two neighbouring pieces of a line are
+one, read with one space between them, where the gap between them lies inside
+one column of the line's block, the lines between two blank lines: another line
+of the block runs across the whole gap, and no other line of the block starts a
+piece inside it, up to where the second piece starts. Neither test alone tells
+a column. A table whose rows stand apart by blank lines has no other row in a
+row's block to start its next column, and a heading set in one block with a box
+runs across the gutter beside the box's labels. A quote across a justified line
+is written as its words read, one space between them: a box item printed
+"Bei    einem      ermittelten CHA2DS2-VA      Score    von   1" is quoted
+"Bei einem ermittelten CHA2DS2-VA Score von 1", which pdf.js finds as well.
+On the pool of 2026-10-11 this changed no quote's place or count, and the
+validator's count agreed with pdf.js's own find on every quoted field. Decided
+on 2026-10-11 on the maintainer's delegation (card #371), settling the open
+question justified-spacing-in-a-quote.
+
+The quote is the same text in the link into the source (§6.1), so a viewer's
+search finds it as a reader's would. pdf.js joins a line break and its hyphen
+the same way, except that it drops every line-end hyphen between two
+lower-case letters, after a capital or after a letter with a diacritic, so
+where the page keeps one there ("oral-" + "antibiotische", "Rektum-" + "und",
+"SOFA-" + "Score") its search misses the quote: the link still opens the page,
+and an extraction cuts the quote elsewhere where the sentence allows. pdf.js
+also removes every ASCII double quote (`"`) from the search before it looks,
+so a quote holds none — the validator refuses one — and is cut beside a
+passage the page prints in such marks; typographic quotation marks („ “) are
+other characters and stay. A quote stays within 100 characters, the longest
+the read-only server returns whole
+(`.claude/memory/design/quote-gate-follows-the-site.md`); a longer passage is
+cut back to its last whole word that fits.
+
+A claim's quote lies **once** on its page. pdf.js finds a phrase, not an
+occurrence: its search ignores case and matches inside a word as well, and
+the link lands on the page's first match. And a claim's id hashes its locator
+and its quote (§2), so two claims quoting one recurring passage of a page
+would be one. A passage the page prints more than once is lengthened, along
+the text it lies in, until it lies there once: a symbols cell with its row's
+head ("Hämodynamische Instabilität: Sehr niedrig ⊕⊕⊝⊝", §3.1). Where it cannot be
+lengthened into a passage that both readings find once — a table's head,
+which the validator reads down its column and pdf.js along its row — the
+quote is cut from the table's caption, or from the sentence that introduces
+the table (§5.1 K). The validator counts a quote's places on its page the
+way the link's search does: in its reading of the page, ignoring case,
+inside a word or not. It refuses a claim's anchor that lies there more than
+once. Any other quote that recurs, it reports and does not refuse. A grade,
+a consensus or an evidence row recurs wherever a page prints two boxes, and
+its claim's anchor already fixes which one is meant.
+
+A quote stays a verbatim passage and keeps a reference mark where the passage
+holds one ("Apfel 1999 [93] gelten"); a mark glued to a word ends that word, so
+a quote may as well stop before the mark or start after it. A claim's label
+is the sentence as printed, whole, its reference marks left out (§3.1), and is
+no quote. Since a claim's id is derived from its quote (§2), re-cutting an
+existing quote renames the claim and every reference to it: an edit with
+history (§7), never a silent one.
 
 ### 6.3 Two kinds of provenance value
 
@@ -1070,10 +1677,11 @@ Domain rules such as "a recommendation grade must always come from the
 document, never from the extractor" are enforced here mechanically — which is
 also why a statement's effective grade is *derived* from its supporting claims
 (§3.3) and never written on the statement. A claim's `grade`, `verb`,
-`direction`, `consensus` and `consensus_share` all require it: each is read off
-the page. The words they may hold are no list in the schema but the grading
-scheme their source declares (§3.1), whose entries carry their own provenance
-— the method table's cells, and `modelling` with a rationale for a form the
+`direction`, `basis`, `consensus` and `consensus_share` all require it: each is
+read off the page. The words they may hold are no list in the schema but the
+grading scheme their source declares (§3.1), whose entries carry their own
+provenance — the method table's cells, the recommendations that print a
+negated form or a basis, and `modelling` with a rationale for a form the
 source prints nowhere — so that a value is checked against the words the
 source prints.
 
@@ -1219,7 +1827,7 @@ with a recorded identity, not a writer: everything it finds lands as
 attestations by it, never as an edit, and everything else about it follows
 from the rules of §8 above.
 
-**What it checks.** Six questions. Five are asked of one subject the pull
+**What it checks.** Seven questions. Six are asked of one subject the pull
 request adds — a claim, a statement, an edge, a placement of an axis — against
 the ground the pool already holds for it, and catch what was invented or
 misread. The fourth is asked of the ground itself — the page — against the
@@ -1231,26 +1839,39 @@ pool, and catches what was left out:
   there: the `label` is the sentence at the quote, one sentence and not the
   whole recommendation the source marks (§3.1) — for a table, the row or group
   §5.1 K names; `kind` follows the sentence's form; `grade`, `verb`, `direction`,
-  `consensus`, `consensus_share`, `recommendation_no` and `section` are as printed at that place —
-  a box's grade and consensus reaching its sentences as §3.1 says, a
-  consensus class the one the source's table gives the printed share —,
+  `basis`, `consensus`, `consensus_share`, `recommendation_no` and `section` are as printed at that place —
+  a box's grade, basis and consensus reaching its sentences as §3.1 says (a
+  lettered part's only its own), the verb the one §3.1 reads off the
+  predicate, a consensus class the one the source's table gives the printed
+  share, a direction the one the grade fixes where it fixes one, a table's or
+  figure's `section` where it is printed —,
   and none is supplied where the page prints none (§11, rule 6; a body-text
   claim carries no grade, §5); a number in the label — a day, a dose, a value,
-  a threshold — is the number on the page. A `threshold` is what the page
+  a threshold — is the number on the page, and a reference mark the page
+  prints is left out of it (§3.1) — which number is a mark is the judge's
+  reading. A `threshold` is what the page
   prints, one per claim; a `combination` (§3.1) joins every member the passage
   joins and no other, its connective is what the page prints between them,
   and its operator is the reading the connective bears in its sentence, never
   decided by the word alone; a list the page does not combine is marked
-  `not_stated`, not read. An entry of a source's `grading_scheme` (§3.1) is
-  read the same way against the method table it quotes: each grade, wording,
+  `not_stated`, not read; a `sum`'s points are each the cell its row prints,
+  in the order of its parts — no quote carries them (§3.1), so this reading
+  is their only check. A rule printed inside a box sentence, and a half a
+  „sondern“ joins, is a narrower claim of its own as §3.1 says, and a bound
+  on a score a threshold on the claim that prints it, never on the table's.
+  An entry of a source's `grading_scheme` (§3.1) is
+  read the same way against the pages it quotes: each grade, wording,
   negated form and class as the table prints it, in its order, `open` only
-  where the table makes the grade an open recommendation, and `modelling`
+  where the table makes the grade an open recommendation, `direction` only
+  where it makes the grade one for or one against, a basis as the
+  recommendations print it and what the source says it means, and `modelling`
   only for a form the source prints nowhere. Whether the quote is on the page,
   whether the id hashes from the anchor, whether the file fits the schema, it
   does not ask: the validator has, and the judge runs after it and repeats
   none of it — the definition lists what the validator covers so that the
-  judge skips it. That is the difference in kind between the two: a substring
-  is mechanical, "as printed" is a reading.
+  judge skips it. That is the difference in kind between the two: a passage on
+  the page is mechanical, "as printed" is a reading — whether a quote drops or
+  keeps a hyphen at a line end (§6.2) among it.
 - **A statement against its supporting claims.** The judge reads the statement
   with every claim that `supports` or `contests` it and asks whether the
   proposition is what the claims say: nothing the label asserts is absent from
@@ -1266,7 +1887,10 @@ pool, and catches what was left out:
   sentence passes the gate, the kind the edge carries is the first test that
   holds, the target is the right claim, the from-claim is ungraded and holds
   one answer, the rationale names the clause and the term, and the edge is
-  not between sentences of marked recommendations.
+  not between sentences of marked recommendations. For each `disagrees_with`
+  edge it reads both claims on their pages and asks whether they answer one
+  question differently as printed, and whether the rationale quotes both
+  sides and says what they differ in.
 - **A page against the pool.** For every page a claim of the branch cites,
   the judge — already holding that page for the first question — reads it
   the other way round and asks whether everything on it that the pool's
@@ -1274,16 +1898,21 @@ pool, and catches what was left out:
   source marks on the page has a claim, sharing its number where the source
   numbers it (§3.1: a marked recommendation of two sentences is two claims),
   every body-text place that passes the rule is a claim with its edge
-  (§5.1), every alternative of an "entweder … oder" is a claim of its own,
-  every claim of a marked recommendation is linked as §3.1 says — it supports
-  or contests a statement, a definition's concept reaches it by `defined_by`,
-  a gap notice stays unlinked —, and every body-text claim has its edge — a
-  body-text claim supports no statement, the rule of §5.1 gives it the edge
-  instead; a decline (§5.1 G4) and the top or a part of a combination that is
-  not itself an answer carry none (§5.1 N 5). What "marks" means is
+  (§5.1), read in the section §5.1 gives it, every alternative of an
+  "entweder … oder" is a claim of its own, a table's rows as §5.1 K counts
+  them, every claim of a marked recommendation is linked as §3.1 says — it
+  supports or contests a statement, one per action it instructs, a
+  definition's concept reaches it by `defined_by`, a gap notice and a sentence
+  saying only what the evidence shows stay unlinked —, and every body-text
+  claim has its edge — a body-text claim supports no statement, the rule of
+  §5.1 gives it the edge instead; a decline (§5.1 G4), a recommendation or
+  decline outside the marked ones (§5.1 U), a definition admitted only where
+  it stands (§5.1 G1, reached by `defined_by`) and the top or a part of a
+  combination that is not itself an answer carry none (§5.1 N 5). What "marks" means is
   read off the source, never assumed: a numbered, shaded box in one
   guideline, a numbered statement, a bulleted "offer", a sentence with a
-  grade letter in another; the schema's `kind: recommendation` with whatever
+  grade letter in another, whatever origin or status it prints beside the
+  mark; the schema's `kind: recommendation` with whatever
   number, grade and consensus the source prints is the unit, and the judge's
   questions are stated over that, not over any one layout. The page is the
   scope, not the chapter: the branch cited it,
@@ -1312,6 +1941,30 @@ pool, and catches what was left out:
   and a rule that does not let it decide makes the placement *undecidable*.
   That a hierarchy placement is an edge of the pool the validator has
   checked.
+- **A sequence edge against the criterion of §5.** For each `follows` edge
+  the branch adds or changes, the judge reads both statements with the
+  claims that support them, and the passage the rationale quotes on its
+  page, and asks the four tests of §5: does the page make the later
+  recommendation's step depend on the outcome of the earlier one's measure,
+  or on a state of the patient, which stays a condition — a state worded
+  "despite", "under" or "after" a measure only where that measure is the
+  earlier statement's, a contraindication only where it arises under it, a
+  value only where it measures the response to it? Does the edge run the
+  page's way, from the step that depends to the measure it depends on? Are
+  `transition` and `trigger` the ones the passage bears — `concurrent` only
+  where the page says "at the same time" —, does the rationale quote the
+  trigger's wording as printed, and does the pair carry no `complements`
+  edge besides? Where the edge's pair carries another `follows` edge, or its
+  claims are joined by `disagrees_with`, it reads both printings and asks
+  whether they state the order differently, each kept. A finding that the
+  page bears another kind, direction, transition or trigger is `disputed`;
+  where the tests point both ways the edge is unjudged, its two readings
+  under *undecidable* with the test that leaves it open. Either is the
+  border case the linking pull request names in a line of its own; nothing
+  writes a status on the edge (§5). That both statements are supported by
+  claims of one source, that the later population is not wider, that the
+  chain closes no cycle but as §5 allows, and that the two properties are
+  present and from their lists, the validator has checked.
 
 The subjects of a run are the entities and edges the branch adds or changes
 against `main`, plus every statement whose evidence the branch changes — a new
@@ -1322,8 +1975,8 @@ no other guideline, no textbook, no medical judgement. It judges the
 extraction against the page, never the guideline against medicine; a claim
 that faithfully carries a recommendation the judge would disagree with is
 consistent. Nothing in it names a guideline, a grading scheme or a concept —
-the six questions are stated over the schema's properties and this
-document's rules, and the same six are asked of every source (memory
+the seven questions are stated over the schema's properties and this
+document's rules, and the same seven are asked of every source (memory
 `generic-over-guidelines`).
 
 **What it writes.** One attestation per subject read, by the judge, shaped as
@@ -1438,7 +2091,7 @@ part, *undecidable*, with the sentence, the page and the two readings, for the
 package that owns the rule to settle. Nothing under it becomes an attestation:
 an undecided subject is unjudged, not consistent, and its row in the report
 says so in that one word. The third part is *noticed*:
-what the judge saw on the page or in the pool outside its six questions — a
+what the judge saw on the page or in the pool outside its seven questions — a
 property the schema carries and the claim lacks, a requirement this document
 states and the schema cannot express. It is written down because a reader was
 there, and it is never a finding, because the judge judges only what it was
@@ -1550,11 +2203,17 @@ POMGAT S3 guideline (AWMF 088-010OL), quotes verified against the document.
   type: source
   lang: de
   kind: leitlinie                                                           # what kind of document it is: the index groups by it
-  title: "S3-Leitlinie Perioperatives Management bei gastrointestinalen Tumoren (POMGAT), Langversion 1.0"
+  title: "S3-Leitlinie Perioperatives Management bei gastrointestinalen Tumoren (POMGAT)"   # the title proper (§6.1)
+  short_label: S3 POMGAT 2023                                               # one line on a card; the title stays the citation
+  version: "1.0"                                                            # as printed, without the word for it
+  date: "2023-11"                                                           # the date of that version, ISO 8601 at the precision printed
+  provenance:                                                               # where both are printed (§6.1)
+    version: {at: sources/pomgat-lv-1.0#page=1, quote: "Version 1.0 – November 2023"}
+    date:    {at: sources/pomgat-lv-1.0#page=1, quote: "Version 1.0 – November 2023"}
   awmf_register: "088-010OL"
   url: "https://register.awmf.org/assets/guidelines/008-010OLl_S3_Perioperatives-Management-bei-gastrointestinalen-Tumoren-POMGAT_2023-12.pdf"
   content_hash: "sha256:…"
-  license: "© Leitlinienprogramm Onkologie; referenced, not rehosted"
+  license: "© Leitlinienprogramm Onkologie"                                 # the source's own terms; the site says beside it that it links, never rehosts
   structure: [chronologisch_perioperativ, anatomisch, modalitaetsbezogen]   # how the document is organised (§6.7)
   outline:                                                                  # its complete table of contents
     - {section: "6.1",   title: "Intraoperative Einlage einer Drainage in das OP-Feld", page: 58}
@@ -1636,8 +2295,8 @@ POMGAT S3 guideline (AWMF 088-010OL), quotes verified against the document.
 - id: concepts/geringes-pankreasfistelrisiko   # derived: it has a defined_by edge (§3.2); nothing on it says so
   type: concept
   lang: de
-  label: "Geringes Pankreasfistelrisiko"
-  facet: finding
+  label: "geringes Pankreasfistelrisiko"
+  facet: patient_state                      # a risk the patient has; the drain amylase that indicates it is a finding
   source: modelling
 
 - id: statements/fruehe-drainageentfernung-pankreasresektion
@@ -1709,6 +2368,8 @@ cite.
    sameness silently.
 4. **Contest, never overwrite.** A source that disagrees with existing content
    is new claims plus `contests` edges — both sides sourced, conflict surfaced.
+   A source that disagrees with itself is a claim per printing joined by
+   `disagrees_with` (§5): both shown, neither chosen.
    Editing an entity asserts a correction within the same editorial line, and
    nothing else. Recency resolves nothing.
 5. **Every statement needs provenance.** If the source says it, cite the passage

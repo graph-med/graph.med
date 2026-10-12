@@ -1,0 +1,10 @@
+# A concept of card #378 (C5), sections 6.6–6.8 of sources/vorhofflimmern-lf-1.1.
+# The endpoint of the evidence rows of 6.10 („Freiheit von Arrhythmien, Hospitalisierung:“, p. 61) and 6.11 („Freiheit
+# von Arrhythmien:“, p. 62). Chapter-only, C5's own (card #364, reading 8): not concepts/af-rezidiv, and not
+# concepts/af-freiheit of 6.15, since an arrhythmia is wider than AF (#378 reading 15: two concepts).
+id: concepts/freiheit-von-arrhythmien
+type: concept
+lang: de
+label: "Freiheit von Arrhythmien"
+facet: outcome
+source: modelling

@@ -1,0 +1,14 @@
+# A statement of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# Box 6.4, sentence 2 (p. 52): another action, a statement of its own, its label worded from the sentence alone. The
+# sentence names „geeigneten Patient*innen“ and no group: by convention row 2 the anchor is the root or the chapter's
+# subgroup, flagged. Taken: 6.4's group, the one sentence 1 of the box names (reading 4; #314 Decision 20, anchors). No
+# specializes edge to sentence 1's statement (reading 4).
+id: statements/katheterablation-bei-geeigneten-patientinnen
+type: statement
+lang: de
+label: "Bei geeigneten Patient*innen eine Katheterablation des AF durchführen."
+short_label: "Katheterablation des AF bei geeigneten Patient*innen"
+slots:
+  population: concepts/schwere-herzinsuffizienz
+  action: concepts/katheterablation
+source: modelling

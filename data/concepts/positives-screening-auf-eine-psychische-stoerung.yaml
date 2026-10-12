@@ -1,0 +1,11 @@
+# A concept of card #380 (C1), chapter 2 of sources/vorhofflimmern-lf-1.1.
+# The group box 2.5 b) addresses, „Bei positivem Screening auf eine psychische Störung“ (p. 21, l. 23): a subgroup
+# anchor, its state as printed (card #364, convention row 5). It names the result of a test, so its facet is finding
+# (spec §3.2; memory facet-boundaries); the convention's groups are patient_state, which the reviewer may prefer.
+id: concepts/positives-screening-auf-eine-psychische-stoerung
+type: concept
+lang: de
+label: "positives Screening auf eine psychische Störung"
+short_label: "positives Screening auf psychische Störung"
+facet: finding
+source: modelling

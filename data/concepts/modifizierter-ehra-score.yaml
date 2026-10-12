@@ -1,0 +1,11 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): the score 2.4 names („mit dem modifizierten
+# EHRA-Score“, p. 20), whose classes 1, 2a, 2b, 3 and 4 Tabelle 5 prints („Modifizierter EHRA Score“, p. 20): a
+# scored quantity (spec §3.2). Used by C1 (2.4; Tabellen 4, 5) and C5 (body text). Derived: C1 (#380) wrote its
+# defined_by edge to the claim of Tabelle 5, a table 2.4 names (owner C1); its classes are described, not given
+# points, so no sum (spec §3.1).
+id: concepts/modifizierter-ehra-score
+type: concept
+lang: de
+label: "modifizierter EHRA-Score"
+facet: finding
+source: modelling

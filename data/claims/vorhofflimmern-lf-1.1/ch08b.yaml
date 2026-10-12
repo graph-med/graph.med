@@ -1,0 +1,491 @@
+# Claims of card #383 (#314's part C7b) from chapter 8 of sources/vorhofflimmern-lf-1.1, „Spezielle Szenarien“, sections
+# 8.7–8.10 (p. 86, l. 45 – p. 90, l. 64; the Literatur on pp. 91–92 is not read). Boxes 8.4–8.7, one claim per sentence
+# (spec §3.1), the rule printed inside 8.6 (#328), Abb. 9's caption as the figure's side of a disagreement (spec §5; #341),
+# and the body-text places spec §5.1 admits (#325, #341, #372), in page order. Ids: sha256("<at>|<quote>")[:8]. Line
+# numbers are lines of `pdftotext -layout`.
+# Every box prints „Neu 2024“ and its kind line („Adaptierte“, „Konsensbasierte“, „Evidenzbasierte Empfehlung“); both
+# stay on the page (#314 Decision 5). Typos stay as printed (#314 Decision 4): „des Nebenwirkungsprofil“ (p. 87, l. 21),
+# „bei gleichzeitig Abnahme“ (8.6, p. 89, l. 24); „Perikardektomie“ (p. 87, l. 26) as printed (#383 reading 9).
+
+# Box 8.4 (p. 86, l. 48–60), in section 8.7: one sentence, ⇑⇑ with „EK“ beside it (a basis, #323), „Konsensstärke: 100%“.
+# It delegates to Abb. 9, an image without a text layer (spec §5.1 F; #327): the claim is its sentence as printed, the
+# delegation in its label. Its evidence cell prints, in place of a level, the basis „EK“ and the words beside it: „EK“ is
+# the claim's basis, the words a note-only entry without a system, no row of the box being rated (spec §3.1; #326,
+# 923dac1). The heading „Aussagesicherheit der Evidenz“ (l. 55) only names the column; the literature beside the cell names
+# authors and stays on the page. No Begründung follows the box.
+- id: claims/vorhofflimmern-lf-1.1/41b6ecd0
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "8.4"
+  section: "8.7"
+  label: "Die Therapie von perioperativem Vorhofflimmern soll nach dem in der Abbildung 9 dargestellten Algorithmus durchgeführt werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  basis: EK
+  consensus_share: "100%"
+  evidence:
+    - {note: "basierend auf internationalen Leitlinien"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=86
+    quote: "Die Therapie von perioperativem Vorhofflimmern soll nach dem in der Abbildung 9 dargestellten"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=86, quote: "⇑⇑"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=86, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=86, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=86, quote: "EK basierend auf internationalen Leitlinien"}
+
+# Section 8.7.1 (p. 87, l. 5–26), no box: 8.4, in the own text of section 8.7, is its marked recommendation (spec §5.1).
+# 8.4 names the therapy of perioperative AF; these places prevent it in surgical patients who do not have it — another
+# action for another population, so G1 does not admit them, and each recommendation in the guideline's voice is §5.1 U:
+# a claim without an edge, in no statement, with no grade, basis, consensus or number (#383 reading 1, U taken; whether
+# 8.4 covers prevention through Abb. 9's first row is reading 13). l. 7–13 (frequency and risk of perioperative AF,
+# G2/N2), l. 17–21 (Landiolol's pharmacology, N2) and l. 23–24 (a review of further measures, N4) stay on the page.
+# l. 15–16: two answers, one claim each (§5.1 K), each labelled with its own span of the sentence, cut at „allerdings“;
+# „wird empfohlen“ prints another declared scheme's wording (spec §3.1, step 3). The reference mark „[29]“ is left out.
+# The second answer is joined to Abb. 9's caption by disagrees_with: the image's prevention band considers a β-blocker for
+# cardiac and thoracic operations, and a thoracic operation is non-cardiac in this sentence's words (the judge,
+# 2026-10-12); footnote 1 of the figure sets „Herz und Thoraxchirurgie“ against „nicht herzchirurgischen Eingriffen“.
+- id: claims/vorhofflimmern-lf-1.1/c91595b6
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.7.1"
+  label: "Auf Basis der aktuellen Datenlage wird empfohlen, eine bestehende Betablockertherapie perioperativ fortzuführen"
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=87
+    quote: "eine bestehende Betablockertherapie perioperativ fortzuführen"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=87, quote: "Auf Basis der aktuellen Datenlage wird empfohlen"}
+- id: claims/vorhofflimmern-lf-1.1/dd6d3a88
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.7.1"
+  label: "keine Betablockertherapie vor nicht-herzchirurgischen Eingriffen zu beginnen."
+  verb: empfehlen
+  direction: against
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=87
+    quote: "keine Betablockertherapie vor nicht-herzchirurgischen Eingriffen zu beginnen"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=87, quote: "Auf Basis der aktuellen Datenlage wird empfohlen"}
+# l. 16–17: the open wording kann, for. The sentence runs to the full stop after its colon; what follows the colon names
+# the agent, and the pharmacology after it (l. 18–21) stays (N2).
+- id: claims/vorhofflimmern-lf-1.1/fa26dc26
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.7.1"
+  label: "Im Einzelfall kann der Einsatz selektiver, kurzwirksamer Betablocker postoperativ sinnvoll sein: Landiolol ist ein hochselektiver β1-Rezeptorantagonist."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=87
+    quote: "Im Einzelfall kann der Einsatz selektiver, kurzwirksamer Betablocker postoperativ sinnvoll sein"
+# l. 21–22: against, „wird … nicht … empfohlen“ (step 3). What the „nur ggf.“ allows is no half (spec §3.1). Abb. 9's
+# first row, read off the image, considers amiodarone prophylaxis for cardiac and thoracic operations: joined to the
+# caption's claim by disagrees_with (#383 reading 3).
+- id: claims/vorhofflimmern-lf-1.1/de009d64
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.7.1"
+  label: "Amiodaron wird aufgrund des Nebenwirkungsprofil nicht routinemäßig vor Eingriffen empfohlen, nur ggf. bei Patient*innen mit einem hohen Risiko für AF."
+  verb: empfehlen
+  direction: against
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=87
+    quote: "Amiodaron wird aufgrund des Nebenwirkungsprofil nicht routinemäßig vor Eingriffen empfohlen"
+# l. 24–25: „diese“ are the measures l. 23–24 lists (Statine, Steroide, Colchicin, mehrfach ungesättigte Fettsäuren,
+# biatriales Pacing, Magnesium), members sharing one answer: one claim (§5.1 K). The reference mark „[1]“ is left out.
+- id: claims/vorhofflimmern-lf-1.1/9219b806
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.7.1"
+  label: "Bei schwacher Datenlage werden diese aktuell nicht empfohlen."
+  verb: empfehlen
+  direction: against
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=87
+    quote: "Bei schwacher Datenlage werden diese aktuell nicht empfohlen"
+# l. 25–26: „kann … erwogen werden“, the open wording kann, for. „Perikardektomie“ as printed (reading 9).
+- id: claims/vorhofflimmern-lf-1.1/b48a5db8
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.7.1"
+  label: "Lediglich bei geplanten herzchirurgischen Operationen kann aufgrund der dazu vorliegenden Studiendaten eine posteriore Perikardektomie erwogen werden."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=87
+    quote: "Lediglich bei geplanten herzchirurgischen Operationen kann aufgrund der dazu vorliegenden"
+
+# Section 8.7.2 (p. 87, l. 30–43), no box: read against 8.4 (spec §5.1), the places the only quotable form of what Abb. 9
+# draws (#383 reading 2). l. 32 (what the section describes) and l. 32–34 (a referral to chapter 5, N4) stay.
+# l. 34–35: which strategies the therapy covers, and what decides between them — R to 8.4 (a fact by form).
+- id: claims/vorhofflimmern-lf-1.1/98099809
+  type: claim
+  lang: de
+  kind: fact
+  section: "8.7.2"
+  label: "Grundsätzlich sind die beiden Therapiestrategien Frequenz- und Rhythmuskontrolle möglich, wobei die hämodynamische Situation das Vorgehen entscheidend mitbestimmt."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=87
+    quote: "Grundsätzlich sind die beiden Therapiestrategien Frequenz- und Rhythmuskontrolle"
+# l. 35–36: the therapy for haemodynamic instability — R to 8.4. „erforderlich“ is no declared wording: no verb.
+- id: claims/vorhofflimmern-lf-1.1/ff5eb55a
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.7.2"
+  label: "Bei hämodynamischer Instabilität ist eine rasche, in der Regel elektrische Kardioversion erforderlich."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=87
+    quote: "Bei hämodynamischer Instabilität ist eine rasche, in der Regel elektrische Kardioversion"
+# l. 36–38: two answers for haemodynamic stability, joined by a semicolon — to wait, and if need be to regulate the rate:
+# one claim each (§5.1 K), each labelled with its own span, both R to 8.4. „(s. Kapitel 7. Frequenzkontrolle)“ is a
+# cross-reference (N4) and stays in the label as printed; „< 110/min“ is a target of the action, no threshold.
+- id: claims/vorhofflimmern-lf-1.1/1e7d3de9
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.7.2"
+  label: "Bei hämodynamischer Stabilität kann der Verlauf abgewartet werden, viele Episoden konvertieren spontan"
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=87
+    quote: "Bei hämodynamischer Stabilität kann der Verlauf abgewartet werden"
+- id: claims/vorhofflimmern-lf-1.1/212db055
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.7.2"
+  label: "gegebenenfalls ist eine Frequenzregulation mit einer orientierenden mittleren Zielfrequenz < 110/min sinnvoll (s. Kapitel 7. Frequenzkontrolle)."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=87
+    quote: "eine Frequenzregulation mit einer orientierenden mittleren Zielfrequenz < 110/min sinnvoll"
+# l. 38–40: measures beside the rate or rhythm control — S to 8.4. Four measures the connectives join, one claim each
+# (§5.1 K; #314 Decision 20, members), each quoting its member and labelled with its own span of the sentence;
+# „Stress/Schmerzreduktion“ is one member naming both (#365 reading 3). No declared wording: no verb.
+- id: claims/vorhofflimmern-lf-1.1/24ff7537
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.7.2"
+  label: "Parallel zur Frequenz-/Rhythmuskontrolle erfolgen sowohl präventiv als auch therapeutisch Maßnahmen zur Optimierung des Volumenstatus"
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=87
+    quote: "Maßnahmen zur Optimierung des Volumenstatus"
+- id: claims/vorhofflimmern-lf-1.1/b5382f6e
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.7.2"
+  label: "der Oxygenierung"
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=87
+    quote: "der Oxygenierung"
+- id: claims/vorhofflimmern-lf-1.1/8f6cf6ff
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.7.2"
+  label: "ggfs. des Elektrolythaushalts"
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=87
+    quote: "ggfs. des Elektrolythaushalts"
+- id: claims/vorhofflimmern-lf-1.1/cabfde79
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.7.2"
+  label: "der Stress/Schmerzreduktion."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=87
+    quote: "der Stress/Schmerzreduktion"
+# l. 40–42: a measure beside the therapy — S to 8.4; „zu vermeiden“ is against, as the pool reads „… soll vermieden
+# werden“ (pomgat-lv-1.0, „Die präoperative Rasur soll vermieden werden.“). The examples stay in the label; the reference
+# mark „[35]“ is left out.
+- id: claims/vorhofflimmern-lf-1.1/a3b1752d
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.7.2"
+  label: "Darüber hinaus ist Proarrhythmogenität (z.B. durch Medikamente als auch durch Manipulationen z.B. ZVK-Draht) zu vermeiden."
+  direction: against
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=87
+    quote: "Darüber hinaus ist Proarrhythmogenität"
+# l. 42–43: two answers, one claim each (#383 reading 2), cut at „und ggf.“; both S to 8.4. Inotropes and vasopressors
+# share one answer: one claim, against.
+- id: claims/vorhofflimmern-lf-1.1/4cf67d25
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.7.2"
+  label: "Zudem sind (beta-adrenerge) Inotropie und Vasopressoren wenn möglich zu vermeiden bzw. zu reduzieren"
+  direction: against
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=87
+    quote: "Zudem sind (beta-adrenerge) Inotropie und Vasopressoren wenn möglich zu vermeiden"
+- id: claims/vorhofflimmern-lf-1.1/d3c13f98
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.7.2"
+  label: "ggf. eine präoperative pharmakologische Prophylaxe fortzuführen."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=87
+    quote: "eine präoperative pharmakologische Prophylaxe fortzuführen"
+
+# Section 8.7.3 (p. 87, l. 47–62), box 8.5. Its own sentence (l. 49–50) instructs the cardiological follow-up beside 8.5's
+# check — S to 8.5; its planning of the long-term anticoagulation repeats 8.5 and counts for nothing (G3; #383 reading 4,
+# one claim). „wird … empfohlen“: empfehlen (step 3).
+- id: claims/vorhofflimmern-lf-1.1/8579cb79
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.7.3"
+  label: "Postoperativ wird eine kardiologische Nachsorge zur Reevaluierung und Optimierung der antiarrhythmischen Therapie sowie Planung der Langzeitantikoagulation zur Prophylaxe thromboembolischer Ereignisse empfohlen."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=87
+    quote: "Postoperativ wird eine kardiologische Nachsorge zur Reevaluierung und Optimierung der"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=87, quote: "thromboembolischer Ereignisse empfohlen"}
+# Box 8.5 (p. 87, l. 54–62), in section 8.7.3: one sentence, ⇑⇑ with „EK“, „Konsensstärke: 100%“, no evidence block.
+# „geprüft und regelmäßig reevaluiert“ is one action and its repetition (#383 reading 5). The boxes it names are X1's
+# relation; the score is named without a bound: no narrower claim. Abb. 9 points the same anticoagulation to
+# „Empfehlungen 6.3 und 6.4“, read off the image: joined to the caption's claim by disagrees_with (#383 Decision 7).
+- id: claims/vorhofflimmern-lf-1.1/12181255
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "8.5"
+  section: "8.7.3"
+  label: "Bei Patient*innen mit postoperativ neu aufgetretenem Vorhofflimmern soll die Indikation zur Antikoagulation gemäß den Empfehlungen 5.3 und 5.4 auf Basis des CHA2DS2-VA-Scores geprüft und regelmäßig reevaluiert werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  basis: EK
+  consensus_share: "100%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=87
+    quote: "Bei Patient*innen mit postoperativ neu aufgetretenem Vorhofflimmern soll"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=87, quote: "⇑⇑"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=87, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=87, quote: "Konsensstärke: 100%"}
+
+# Abb. 9 (p. 88), printed in section 8.7.3 and named by 8.4 in section 8.7, an image without a text layer: its content
+# stays on the page (spec §5.1 F; #327). Its caption (l. 6) is the figure's side where the image answers a question
+# otherwise than the text (spec §5, „the claim of its caption is its side“; #341; #383 Decision 7): against 8.5's
+# „gemäß den Empfehlungen 5.3 und 5.4“ (the image, read off it and not quoted: Siehe Empfehlungen 6.3 und 6.4), against
+# p. 87's amiodarone (reading 3), and against p. 87's β-blocker not started before non-cardiac operations (the judge,
+# 2026-10-12). Its label is the caption's first sentence; the origin line „Abbildung nach [1]; bearbeitet durch die
+# Leitliniengruppe …“ stays on the page (#314 Decision 5). Footnotes 1 („gute Evidenz für Herz und Thoraxchirurgie; bei
+# nicht herzchirurgischen Eingriffen schwache Evidenz“) and 2 (examples of proarrhythmogenic triggers, as p. 87, l. 41
+# gives them) print no rule the body text prints otherwise: they follow the figure (#379). „Herz und Thoraxchirurgie“
+# as printed.
+- id: claims/vorhofflimmern-lf-1.1/b7a2bf7f
+  type: claim
+  lang: de
+  kind: fact
+  section: "8.7.3"
+  label: "Abbildung 9: Prävention und Behandlung von perioperativem Vorhofflimmern (POAF)."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=88
+    quote: "Prävention und Behandlung von perioperativem Vorhofflimmern (POAF)"
+
+# Section 8.8 (p. 89, l. 6 – p. 90, l. 13). The Hintergrund (l. 10–16) reports the literature (G2, N2) and stays: its
+# „Adipositas (BMI >30)“ prints the bound of concepts/adipositas, whose rule is C1's (Tabelle 6).
+# Box 8.6 (p. 89, l. 20–36), in section 8.8: one sentence, ⇑⇑, „Konsensstärke: 100%“, „sollen“ the wording soll. Its
+# evidence block, headed „Qualität der Evidenz“ (which only names the column), prints two rated rows: „höhere Rezidivrate
+# nach Ablation: sehr gering ⊕⊝⊝⊝“, its endpoint concepts/rezidivrate-nach-ablation, the setting „nach Ablation“ kept with
+# it (spec §3.1; #383 reading 7, the judge, 2026-10-12), and „längere Dauer und höhere
+# Strahlendosis: sehr gering ⊕⊝⊝⊝“, one entry per endpoint (spec §3.1; #261). „höhere“, „längere“ and „höhere“ state a
+# result and go into no field (#326 Decision 8). Each entry quotes the line that prints its endpoint; the rated rows' ⊕
+# line, which identifies the system, follows once. The literature line names authors and stays on the page. 8.6 and 8.7
+# share one frame without an „Empfehlung“ heading, and one Begründung, body text of section 8.8 read against both.
+- id: claims/vorhofflimmern-lf-1.1/0a64471a
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "8.6"
+  section: "8.8"
+  label: "Bei stark adipösen Menschen (BMI >35kg/m2) mit Vorhofflimmern sollen bei der Indikationsstellung für eine invasive Therapie (Ablation) die Zunahme prozeduraler Risiken bei gleichzeitig Abnahme der Erfolgsaussichten berücksichtigt werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {outcome: concepts/rezidivrate-nach-ablation, value: "sehr gering", system: grade}
+    - {outcome: concepts/dauer-der-ablation, value: "sehr gering", system: grade}
+    - {outcome: concepts/strahlendosis, value: "sehr gering", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=89
+    quote: "Bei stark adipösen Menschen (BMI >35kg/m2) mit Vorhofflimmern sollen"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=89, quote: "⇑⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=89, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=89, quote: "höhere Rezidivrate nach Ablation:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=89, quote: "längere Dauer und höhere"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=89, quote: "Strahlendosis:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=89, quote: "sehr gering ⊕⊝⊝⊝"}
+# 8.6, the rule printed inside its sentence: a narrower criterion claim quoting its whole qualifier (spec §3.1; #328
+# Decision 10; #314 Decision 20), the box's number, section and share, no grade, no evidence, no statement;
+# concepts/stark-adipoese-menschen reaches it by defined_by. The bound on concepts/bmi as printed.
+- id: claims/vorhofflimmern-lf-1.1/1ba7d618
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: "8.6"
+  section: "8.8"
+  label: "stark adipösen Menschen (BMI >35kg/m2)"
+  consensus_share: "100%"
+  threshold: {quantity: concepts/bmi, comparator: ">", value: "35", unit: "kg/m2"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=89
+    quote: "stark adipösen Menschen (BMI >35kg/m2)"
+  provenance:
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=89, quote: "Konsensstärke: 100%"}
+# Box 8.7 (p. 89, l. 38–45), in section 8.8: one sentence, ⇑⇑ with „EK“, „Konsensstärke: 100%“; „soll … empfohlen
+# werden“ is soll, the finite modal winning (spec §3.1, step 1). „Adipösen“ prints no bound (#383 reading 8).
+- id: claims/vorhofflimmern-lf-1.1/dbc68b6a
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "8.7"
+  section: "8.8"
+  label: "Adipösen Menschen mit Vorhofflimmern soll die leitliniengerechte Behandlung der Adipositas empfohlen werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  basis: EK
+  consensus_share: "100%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=89
+    quote: "Adipösen Menschen mit Vorhofflimmern soll die leitliniengerechte"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=89, quote: "⇑⇑"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=89, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=89, quote: "Konsensstärke: 100%"}
+# Section 8.8, Begründung (p. 89, l. 49 – p. 90, l. 13), read against 8.6 and 8.7. l. 51 (an introduction the next
+# sentences fill, G3; #383 reading 10), l. 51–53 (reviews, G2), l. 53–55 (mechanism, N2), l. 61–62 (a referral, N4),
+# p. 90, l. 5–6 (the reason for the grade, N2), l. 8–9 (an effect, N2) and l. 11–13 (referrals, N4) stay on the page.
+# l. 57–58: complication rates not higher, against 8.6's „Zunahme prozeduraler Risiken“ — §5.1 D, a fact joined to 8.6's
+# claim by disagrees_with, no R, L or S (#383 reading 10, D taken).
+- id: claims/vorhofflimmern-lf-1.1/f5ea6395
+  type: claim
+  lang: de
+  kind: fact
+  section: "8.8"
+  label: "Die Vorhofflimmerablation selbst ist bei adipösen Patient*innen mit höherer Strahlenbelastung, nicht aber höheren Komplikationsraten assoziiert."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=89
+    quote: "Die Vorhofflimmerablation selbst ist bei adipösen Patient*innen mit höherer Strahlenbelastung"
+# l. 58–61: what 8.6's „prozeduraler Risiken“ covers, in the guideline group's voice — R to 8.6, one claim per sentence.
+- id: claims/vorhofflimmern-lf-1.1/3abe92c6
+  type: claim
+  lang: de
+  kind: fact
+  section: "8.8"
+  label: "Die Leitliniengruppe verweist jedoch darauf, dass das Management auftretender Komplikationen durch die Adipositas häufig erschwert wird (Kompression bei Einblutungen der Punktionsstellen, Drainieren eines Perikardergusses, etc.)."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=89
+    quote: "dass das Management auftretender Komplikationen durch die Adipositas häufig erschwert wird"
+- id: claims/vorhofflimmern-lf-1.1/2bc49352
+  type: claim
+  lang: de
+  kind: fact
+  section: "8.8"
+  label: "Auch kann eine tiefe Analgosedierung durch die zunehmend atemdepressive Wirkung der notwendig höheren Sedativa-Dosen problematisch sein."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=89
+    quote: "Auch kann eine tiefe Analgosedierung durch die zunehmend"
+# p. 90, l. 4–5: the indication to be weighed jointly with the patients — a measure beside 8.6's weighing, S to 8.6
+# (#383 reading 10). No declared wording: no verb.
+- id: claims/vorhofflimmern-lf-1.1/2a12edfc
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.8"
+  label: "Die Indikation zu einer Ablation ist daher nach Einschätzung der Leitliniengruppe mit den Patient*innen gemeinsam kritisch zu beleuchten."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=90
+    quote: "Die Indikation zu einer Ablation ist daher nach Einschätzung der Leitliniengruppe"
+# p. 90, l. 9–11: restates 8.7 (G3) and adds the surgical options — R to 8.7 for what it adds (#383 reading 10).
+# „empfiehlt“ prints another declared scheme's wording (step 3); „konsensbasiert“ is the sentence's word, no basis.
+- id: claims/vorhofflimmern-lf-1.1/d25a27b4
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.8"
+  label: "Da die Adipositas selbst also einen begünstigenden Effekt auf das Auftreten von AF hat, empfiehlt die Leitliniengruppe konsensbasiert deren leitliniengerechte Behandlung - ggfs. auch unter Zuhilfenahme chirurgischer Therapieoptionen."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=90
+    quote: "empfiehlt die Leitliniengruppe konsensbasiert deren leitliniengerechte Behandlung"
+
+# Section 8.9 (p. 90, l. 18–37), no box, and section 8's own text holds none: its places have no marked recommendation.
+# l. 19–30 (coincidence, meta-analyses, prevalence: G2, N2) and l. 35–37 (referrals, N4) stay. l. 31–33, „ist es
+# ratsam, das Vorliegen einer OSA abzuklären und gegebenenfalls eine entsprechende Behandlung … anzuraten“, restates
+# box 4.9 (diagnostics and therapy of „schlafbezogene Atmungsstörungen“ for all patients with AF) for a subgroup, and
+# stays (G3, U; #383 reading 11). No claim.
+
+# Section 8.10 (p. 90, l. 42–64), no box. l. 43–47, l. 55–56 and l. 57–62 (associations, data, thresholds: G2, N2) stay.
+# l. 49–51: „diese Leitlinie empfiehlt“ is no mark (§5.1 U; #383 Decision 8): a claim without an edge, in no statement;
+# empfehlen (step 3), for.
+- id: claims/vorhofflimmern-lf-1.1/fda70a88
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.10"
+  label: "Für Patient*innen mit AF ist eine Verschlechterung der Prognose hinsichtlich ihres AF durch submaximale körperliche Ausdauerbelastungen nicht belegt, so dass diese Leitlinie empfiehlt, Betroffene hierzu, insbesondere angesichts insgesamt beobachteter kardioprotektiver Effekte, zu ermutigen."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=90
+    quote: "so dass diese Leitlinie empfiehlt, Betroffene hierzu, insbesondere"
+# l. 56–57: a decline — no recommendation is given (§5.1 G4; #383 Decision 8): a gap notice without an edge.
+- id: claims/vorhofflimmern-lf-1.1/70946779
+  type: claim
+  lang: de
+  kind: gap_notice
+  section: "8.10"
+  label: "Die Werte variieren je nach untersuchter Sportart so deutlich, dass hier keine Empfehlungen ausgesprochen werden."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=90
+    quote: "dass hier keine Empfehlungen ausgesprochen werden"
+# l. 62–64: recommends sport to most patients — no box recommends it (4.1 counsels on the benefits of moderate activity):
+# §5.1 U, a claim without an edge, in no statement (#383 reading 11, U taken); „zu empfehlen ist“: empfehlen (step 3).
+- id: claims/vorhofflimmern-lf-1.1/692ccca8
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "8.10"
+  label: "Dies bedeutet umgekehrt, dass der Umfang an Sport, der das kardiovaskuläre Risiko positiv beeinflusst, in Bezug auf das vermehrte Auftreten atrialer Arrhythmien wie AF als unkritisch zu betrachten und den meisten Patient*innen uneingeschränkt zu empfehlen ist."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=90
+    quote: "den meisten Patient*innen uneingeschränkt zu empfehlen ist"

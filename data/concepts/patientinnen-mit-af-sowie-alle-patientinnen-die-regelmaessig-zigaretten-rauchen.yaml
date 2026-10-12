@@ -1,0 +1,11 @@
+# A concept of card #376 (C2), chapter 4 of sources/vorhofflimmern-lf-1.1.
+# The group box 4.6 addresses, „Patient*innen mit AF sowie allen Patient*innen, die regelmäßig Zigaretten rauchen“ (p. 33):
+# two groups joined by „sowie“ as alternatives, one concept naming both, in the tree (card #364, convention row 12 and
+# its sample; #314 question 3). Its in_scope_of edge to the root and the condition naming AF are X2's.
+id: concepts/patientinnen-mit-af-sowie-alle-patientinnen-die-regelmaessig-zigaretten-rauchen
+type: concept
+lang: de
+label: "Patient*innen mit AF sowie alle Patient*innen, die regelmäßig Zigaretten rauchen"
+short_label: "AF sowie alle, die regelmäßig Zigaretten rauchen"
+facet: patient_state
+source: modelling

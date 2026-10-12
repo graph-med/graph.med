@@ -1,0 +1,11 @@
+# A concept of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# The action of box 6.1: „Die Indikation zur frühen Rhythmuskontrolle soll … geprüft werden“ (p. 49) — after „geprüft“
+# the action is the check (card #364, Decision 7), as its Begründung says: „Die starke Empfehlung bezieht sich explizit
+# auf die Prüfung der Indikation“ (p. 49, l. 29–30).
+id: concepts/pruefung-der-indikation-zur-fruehen-rhythmuskontrolle
+type: concept
+lang: de
+label: "Prüfung der Indikation zur frühen Rhythmuskontrolle"
+short_label: "Indikationsprüfung frühe Rhythmuskontrolle"
+facet: intervention
+source: modelling

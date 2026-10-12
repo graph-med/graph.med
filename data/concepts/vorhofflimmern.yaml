@@ -1,0 +1,13 @@
+# A concept of card #380 (C1), chapter 1 of sources/vorhofflimmern-lf-1.1.
+# The disease „Vorhofflimmern“ as §1.1 „Definition“ defines it: „Vorhofflimmern (AF) ist durch schnelle, unkoordinierte
+# elektrische Aktivierung des Vorhofmyokards gekennzeichnet.“ (p. 11, l. 46–47). Derived: it reaches that definition
+# claim by its defined_by edge (spec §5.1 G1's definition clause; reading 1, option (b), the card's leaning). Not the
+# scope root concepts/patientinnen-mit-vorhofflimmern, the patients (card #364, reading 2), and not
+# concepts/diagnostiziertes-vorhofflimmern, the diagnosis made, which reaches the ECG criteria of §1.2. Boxes print
+# „Vorhofflimmern“ and „AF“ throughout (2.1, p. 16: „bei Vorhofflimmern“; 3.1, p. 24). Another part may need it too.
+id: concepts/vorhofflimmern
+type: concept
+lang: de
+label: "Vorhofflimmern"
+facet: patient_state
+source: modelling

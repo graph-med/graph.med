@@ -1,0 +1,12 @@
+# A concept of card #376 (C2), chapter 4 of sources/vorhofflimmern-lf-1.1.
+# The endpoint of box 4.6's evidence row „Assoziation Tabakkonsum und Inzidenz AF: moderat ⊕⊕⊕⊝“ (p. 33): the onset of
+# AF, as the row prints it, its key the association it names (#326 case K; #376 Decision 8, reading 8). Neither the pool
+# nor the ledger has it (card #364). Not concepts/af-rezidiv, the recurrence of known AF. The body text names it as
+# „AF-Inzidenz“ (p. 32), „Inzidenz von AF“ (pp. 31, 34) and „Inzidenz von Vorhofflimmern“ (the root's source, p. 10):
+# a candidate other parts may share, named for the coordinator's sweep.
+id: concepts/inzidenz-af
+type: concept
+lang: de
+label: "Inzidenz AF"
+facet: outcome
+source: modelling

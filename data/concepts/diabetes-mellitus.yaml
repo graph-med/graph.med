@@ -1,0 +1,8 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): diabetes, the comorbidity: „Diabetes mellitus“
+# (Tabelle 6, p. 25; 4.9, p. 35), „Diabetes“ (Tabelle 4, p. 19; Tabelle 8, p. 38). Used by C1, C2 and C3.
+id: concepts/diabetes-mellitus
+type: concept
+lang: de
+label: "Diabetes mellitus"
+facet: patient_state
+source: modelling

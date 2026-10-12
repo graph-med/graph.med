@@ -1,0 +1,10 @@
+# A concept of card #383 (C7b), chapter 8 of sources/vorhofflimmern-lf-1.1.
+# The second endpoint of box 8.6's second evidence row, „längere Dauer und höhere Strahlendosis: sehr gering ⊕⊝⊝⊝“
+# (p. 89, l. 32–34), labelled as printed; „höhere“ states a result and goes into no field (#326 Decision 8). The
+# Begründung says „höherer Strahlenbelastung“ (p. 89, l. 57), named here. Chapter-only.
+id: concepts/strahlendosis
+type: concept
+lang: de
+label: "Strahlendosis"
+facet: outcome
+source: modelling

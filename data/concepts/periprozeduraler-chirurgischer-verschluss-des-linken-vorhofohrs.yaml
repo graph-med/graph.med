@@ -1,0 +1,10 @@
+# A concept of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# The action of box 5.10, „als Ergänzung zur Antikoagulation ein periprozeduraler chirurgischer Verschluss des linken
+# Vorhofohrs“ (p. 45). Not concepts/vorhofohrverschluss (5.8's, interventional or surgical).
+id: concepts/periprozeduraler-chirurgischer-verschluss-des-linken-vorhofohrs
+type: concept
+lang: de
+label: "periprozeduraler chirurgischer Verschluss des linken Vorhofohrs"
+short_label: "periprozeduraler chirurgischer Vorhofohrverschluss"
+facet: intervention
+source: modelling

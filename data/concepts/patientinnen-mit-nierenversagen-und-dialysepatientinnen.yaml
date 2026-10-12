@@ -1,0 +1,10 @@
+# A concept of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# The group box 5.7 addresses, as printed (p. 42): two groups joined by „und“, read as one concept naming both (card
+# #364, convention row 12; memory conditions-are-a-conjunction-list). AF is not named (card #364, Decision 3).
+id: concepts/patientinnen-mit-nierenversagen-und-dialysepatientinnen
+type: concept
+lang: de
+label: "Patient*innen mit Nierenversagen und Dialysepatient*innen"
+short_label: "Nierenversagen und Dialysepatient*innen"
+facet: patient_state
+source: modelling

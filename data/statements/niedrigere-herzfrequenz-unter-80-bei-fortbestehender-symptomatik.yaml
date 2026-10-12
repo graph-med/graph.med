@@ -1,0 +1,14 @@
+# A statement of card #377 (C6), chapter 7 of sources/vorhofflimmern-lf-1.1.
+# Box 7.2 (p. 72), its first action, the lower rate (card #377 Decision 3). Anchor: 7.1's therapy group, which the box
+# names („unter frequenzkontrollierender Therapie“), the persisting symptoms a condition (convention rows 8, 9). Follows
+# 7.1 (Decision 11).
+id: statements/niedrigere-herzfrequenz-unter-80-bei-fortbestehender-symptomatik
+type: statement
+lang: de
+label: "Bei fortbestehender AF-induzierter Symptomatik unter frequenzkontrollierender Therapie eine niedrigere Herzfrequenz (<80 Schläge/min) anstreben."
+short_label: "Niedrigere Herzfrequenz (<80 Schläge/min) anstreben"
+slots:
+  population: concepts/patientinnen-mit-af-unter-frequenzkontrollierender-therapie
+  action: concepts/niedrigere-herzfrequenz-unter-80-schlaege-min
+  condition: [concepts/fortbestehende-af-induzierte-symptomatik]
+source: modelling

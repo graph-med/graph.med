@@ -1,0 +1,10 @@
+# A concept of card #380 (C1), chapter 2 of sources/vorhofflimmern-lf-1.1.
+# The action of box 2.1: „Die Diagnosestellung soll bei Vorhofflimmern durch ärztliche Interpretation eines EKGs von
+# ausreichender Qualität erfolgen.“ (p. 16, l. 45–46). Chapter-only.
+id: concepts/diagnosestellung-durch-aerztliche-interpretation-eines-ekgs
+type: concept
+lang: de
+label: "Diagnosestellung durch ärztliche Interpretation eines EKGs von ausreichender Qualität"
+short_label: "Diagnosestellung durch ärztliche Interpretation eines EKGs"
+facet: intervention
+source: modelling

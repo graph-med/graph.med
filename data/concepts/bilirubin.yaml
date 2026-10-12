@@ -1,0 +1,8 @@
+# A concept of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# The quantity footnote # of Tabelle 9 bounds: „Bilirubin >2x normal“ (p. 39).
+id: concepts/bilirubin
+type: concept
+lang: de
+label: "Bilirubin"
+facet: finding
+source: modelling

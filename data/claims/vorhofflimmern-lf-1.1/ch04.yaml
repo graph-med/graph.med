@@ -1,0 +1,464 @@
+# Claims of card #376 (#314's part C2) from chapter 4 of sources/vorhofflimmern-lf-1.1, „Prävention und Lebensstil-bezogene
+# Maßnahmen“ (p. 28, l. 5 – p. 36, l. 11; the Literatur from p. 36, l. 12 is not read). Boxes 4.1–4.9, one claim per
+# sentence (spec §3.1), and the body-text places spec §5.1 admits (#325, #341, #372), in page order. Ids:
+# sha256("<at>|<quote>")[:8]. Line numbers are lines of `pdftotext -layout`.
+# Every box prints „Neu 2024“ and its kind line; both stay on the page (#314 Decision 5). The box numbers run one behind
+# the sections (#314 Decision 3). No box sentence prints a rule with a value, so none yields a narrower claim (#376
+# Decision 2). Tabelle 7 (p. 28, l. 29–50) stays on the page: its rows send the reader to other works (§5.1 N4). Abb. 2
+# (p. 36) is a raster image and stays on the page (§5.1 F); its caption (p. 36, l. 6–7) is a title that adds nothing (G3).
+
+# Section 4.1 (p. 28), no box (#376 Decision 11): two sentences in the guideline's voice on an action and for a population
+# no marked recommendation of the section names — §5.1 U, claims without an edge and in no statement, with no grade, basis,
+# consensus or number. Neither prints a declared wording: no verb. One answer per claim (#376 reading 10). The rest of the
+# section reports associations and studies (G2, N2), defers to the S3 guidelines and the NVL (l. 18–19, N4), and names
+# what nurses „können … einnehmen“ (l. 26–27), which instructs nothing (reading 10).
+- id: claims/vorhofflimmern-lf-1.1/6fcb1085
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.1"
+  label: "Deshalb ist es wichtig, diese Aspekte in mehreren Gesprächen verteilt zu adressieren und die Patient*innen nicht zu überfordern."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=28
+    quote: "Deshalb ist es wichtig, diese Aspekte in mehreren Gesprächen verteilt zu adressieren"
+- id: claims/vorhofflimmern-lf-1.1/d8a4b83e
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.1"
+  label: "Insofern ist hier eine Beratung im Sinne eines shared decision making-Prozesses sehr sinnvoll."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=28
+    quote: "Insofern ist hier eine Beratung im Sinne eines shared decision making-Prozesses sehr sinnvoll."
+
+# Box 4.1 (p. 29, l. 6–26), in section 4.2: one sentence of two predicates, ⇑⇑ alone on l. 11 between the sentence's
+# lines, „Konsensstärke: 100%“; „sollen“ is the wording soll. It supports two statements, one per action (spec §3.1;
+# #376 Decision 3), and carries its rows once: „Rezidiv AF: moderat ⊕⊕⊕⊝“ (concepts/af-rezidiv, the ledger's) and
+# „Lebensqualität: gering ⊕⊕⊝⊝“ (concepts/lebensqualitaet, reused). The Begründung's ratings agree with the rows or rate
+# an endpoint the box does not list (CRF), and stay (N2; #376 Decision 11).
+- id: claims/vorhofflimmern-lf-1.1/93354854
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "4.1"
+  section: "4.2"
+  label: "Patient*innen mit AF sollen hinsichtlich des Ausmaßes ihrer körperlichen Aktivität regelmäßig befragt und zu den Vorteilen moderater körperlicher Aktivität beraten werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {outcome: concepts/af-rezidiv, value: "moderat", system: grade}
+    - {outcome: concepts/lebensqualitaet, value: "gering", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=29
+    quote: "Patient*innen mit AF sollen hinsichtlich des Ausmaßes ihrer körperlichen"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=29, quote: "⇑⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=29, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=29, quote: "Rezidiv AF:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=29, quote: "Lebensqualität:"}
+
+# Box 4.2 (p. 30, l. 6–22), in section 4.2.1: one sentence, ⇑⇑, „Konsensstärke: 100%“, the rows of 4.1 printed again.
+# „Besonders“ and the example „(z.B. Herzsportgruppe)“ stay in the label (#376 reading 1). „soll … empfohlen werden“ is
+# soll, the finite modal winning (spec §3.1, step 1).
+- id: claims/vorhofflimmern-lf-1.1/fe58fc11
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "4.2"
+  section: "4.2.1"
+  label: "Besonders Patient*innen mit paroxysmalem AF sowie Angst vor körperlicher Aktivität soll ein strukturiertes Training (z.B. Herzsportgruppe) empfohlen werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {outcome: concepts/af-rezidiv, value: "moderat", system: grade}
+    - {outcome: concepts/lebensqualitaet, value: "gering", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=30
+    quote: "Besonders Patient*innen mit paroxysmalem AF sowie Angst vor"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=30, quote: "⇑⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=30, quote: "Konsensstärke: 100%"}
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=30, quote: "soll ein strukturiertes Training (z.B. Herzsportgruppe) empfohlen werden."}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=30, quote: "Rezidiv AF:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=30, quote: "Lebensqualität:"}
+# Section 4.2.1, Begründung (p. 30, l. 38–39): a decline sharing 4.2's question — the evidence „lässt eine explizite
+# Empfehlung … nicht zu“ (§5.1 G4): a gap notice without an edge, in no statement (#376 Decision 11). Its neighbours give
+# reasons, report studies or say what is unknown (N2, G2), and refer to the S3 guideline on cardiac rehabilitation (l.
+# 31–32, N4); l. 29–30 (an effect) and l. 36–37 (a reason for the grade) stay (#376 readings 4 and 11).
+- id: claims/vorhofflimmern-lf-1.1/9cc3f7cc
+  type: claim
+  lang: de
+  kind: gap_notice
+  section: "4.2.1"
+  label: "Die Evidenz lässt eine explizite Empfehlung einer kardiologischen Rehabilitation speziell in der Behandlung von AF allerdings nicht zu."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=30
+    quote: "Die Evidenz lässt eine explizite Empfehlung einer kardiologischen Rehabilitation"
+# Box 4.3 (p. 30, l. 50–67), in section 4.2.1: one sentence, ⇑ with „EK“ beside it (a basis, #323), „Konsensstärke:
+# 93,5%“. Its evidence block is headed „Indirekte Evidenz“ (l. 57), words that say what kind of evidence its rows rate:
+# each entry carries them as its note, and the heading's line is quoted once, after the rows' quotes (spec §3.1; #326
+# Decision 13). One statement: „aus der … abgeleitet werden können“ says what the test serves (#376 reading 2).
+- id: claims/vorhofflimmern-lf-1.1/a2821ce9
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "4.3"
+  section: "4.2.1"
+  label: "Patient*innen mit AF, die körperlich aktiv sind oder es werden wollen, sollte eine Belastungsuntersuchung empfohlen werden, aus der Intensität, Dauer und Art der Aktivität (z. B. Rezept für Bewegung) abgeleitet werden können."
+  grade: "⇑"
+  verb: sollte
+  direction: for
+  basis: EK
+  consensus_share: "93,5%"
+  evidence:
+    - {outcome: concepts/af-rezidiv, value: "moderat", note: "Indirekte Evidenz", system: grade}
+    - {outcome: concepts/lebensqualitaet, value: "gering", note: "Indirekte Evidenz", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=30
+    quote: "Patient*innen mit AF, die körperlich aktiv sind oder es werden wollen, sollte"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=30, quote: "⇑"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=30, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=30, quote: "Konsensstärke: 93,5%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=30, quote: "Rezidiv AF:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=30, quote: "Lebensqualität:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=30, quote: "Indirekte Evidenz"}
+
+# Box 4.4 (p. 31, l. 44–60), in section 4.3: one sentence, the open grade ⇔, which the rendered page shows and the text
+# layer gives as the private-use character U+F0F3, alone on l. 48 (spec §3.1 `grade`; P1's ⇔ rationale; #376 Decision 5):
+# its provenance quotes the cell as the text layer gives it. „können … empfohlen werden“ is kann, the open grade's
+# wording (step 1), read for; the site shows abwägen. „Konsensstärke: 96,8%“; the rows „Rezidiv AF: gering ⊕⊕⊝⊝“ and
+# „Lebensqualität: sehr gering ⊕⊝⊝⊝“. Its Begründung rates the evidence otherwise (p. 32, l. 8–9): disagrees_with.
+- id: claims/vorhofflimmern-lf-1.1/bfa28b67
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "4.4"
+  section: "4.3"
+  label: "Entspannungsverfahren können Patient*innen mit AF mit starker psychovegetativer Belastung empfohlen werden."
+  grade: "⇔"
+  verb: kann
+  direction: for
+  consensus_share: "96,8%"
+  evidence:
+    - {outcome: concepts/af-rezidiv, value: "gering", system: grade}
+    - {outcome: concepts/lebensqualitaet, value: "sehr gering", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=31
+    quote: "Entspannungsverfahren können Patient*innen mit AF mit starker"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=31, quote: "\uF0F3"}   # the private-use character the text layer gives for ⇔
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=31, quote: "Konsensstärke: 96,8%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=31, quote: "Rezidiv AF:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=31, quote: "Lebensqualität:"}
+
+# Section 4.3, Begründung (p. 32, l. 8–9): rates the evidence for the relaxation methods „bei sehr geringer
+# Aussagesicherheit“, where box 4.4 prints „Rezidiv AF: gering“ beside „Lebensqualität: sehr gering“ — one level for the
+# efficacy evidence of the review the box's Literatur names: a fact claim joined to 4.4's claim by disagrees_with (spec
+# §3.1, §5.1 D and N2; F5, F6; #376 reading 5, taken). The sentence names the review's first author, kept in the label
+# (spec §3.1); the quote is cut before it. The sentence after it, a reason for the grade, stays (N2).
+- id: claims/vorhofflimmern-lf-1.1/07eb80d6
+  type: claim
+  lang: de
+  kind: fact
+  section: "4.3"
+  label: "Die Wirksamkeitsnachweise für die genannten Entspannungsverfahren sind allerdings statistisch nur wenig belastbar (nur ein geringer Anteil der Interventionen im Oesterle-Review, bei sehr geringer Aussagesicherheit)."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=32
+    quote: "Die Wirksamkeitsnachweise für die genannten Entspannungsverfahren sind allerdings"
+
+# Box 4.5 (p. 32, l. 35–52), in section 4.4: two sentences, ⇑⇑, „Konsensstärke: 100%“, the rows „Rezidiv AF: moderat
+# ⊕⊕⊕⊝“ and „Lebensqualität: gering ⊕⊕⊝⊝“ on both sentences, each supporting a statement of its own (spec §3.1; #376
+# Decisions 6 and 9). Sentence 1: „sollen“ is the wording soll.
+- id: claims/vorhofflimmern-lf-1.1/a4f5e606
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "4.5"
+  section: "4.4"
+  label: "Patient*innen mit AF sollen hinsichtlich des Konsums von Alkohol zu den negativen Auswirkungen auf den Verlauf des AF beraten werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {outcome: concepts/af-rezidiv, value: "moderat", system: grade}
+    - {outcome: concepts/lebensqualitaet, value: "gering", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=32
+    quote: "Patient*innen mit AF sollen hinsichtlich des Konsums von Alkohol"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=32, quote: "⇑⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=32, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=32, quote: "Rezidiv AF:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=32, quote: "Lebensqualität:"}
+# 4.5, sentence 2: soll, for. Its typographic „risikoarmen Alkoholkonsums“ stays in the quote. The term's limits are
+# printed in the Begründung (p. 33, l. 4–5), a criterion claim below that refines it.
+- id: claims/vorhofflimmern-lf-1.1/d2698e2e
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "4.5"
+  section: "4.4"
+  label: "Es soll empfohlen werden, die Grenzen des „risikoarmen Alkoholkonsums“ nicht zu überschreiten."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {outcome: concepts/af-rezidiv, value: "moderat", system: grade}
+    - {outcome: concepts/lebensqualitaet, value: "gering", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=32
+    quote: "Es soll empfohlen werden, die Grenzen des „risikoarmen Alkoholkonsums“ nicht zu überschreiten."
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=32, quote: "⇑⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=32, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=32, quote: "Rezidiv AF:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=32, quote: "Lebensqualität:"}
+# Section 4.4, Begründung (p. 32, l. 58–63): three places rate the evidence of 4.5's row „Rezidiv AF: moderat“ as
+# „gering“ — each a fact claim joined by disagrees_with to both claims of 4.5, which carry the row (spec §3.1, §5.1 D and
+# N2; F5, F6). The middle one is #376 Decision 10, its quote cut before the ASCII marks around the English terms (spec
+# §6.2); the first and the third are #376 reading 6, taken as further printings. The three print one level among
+# themselves and are not joined to each other. The first names the trial's first author, kept in the label (spec §3.1;
+# its reference mark left out); its quote is cut after the name. The reasons between them (l. 60–62, 64–65) and the
+# report of a further study (l. 65–66, G2) stay.
+- id: claims/vorhofflimmern-lf-1.1/0d657c7a
+  type: claim
+  lang: de
+  kind: fact
+  section: "4.4"
+  label: "Die Studie von Voskoboinik et al. ist eine erste randomisierte Interventionsstudie, die bei geringer Aussagesicherheit Effekte eines Alkoholverzichts/reduktion bei Patient*innen mit AF auf AF-Rezidive zeigt."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=32
+    quote: "eine erste randomisierte Interventionsstudie, die bei geringer Aussagesicherheit"
+- id: claims/vorhofflimmern-lf-1.1/28b6e87a
+  type: claim
+  lang: de
+  kind: fact
+  section: "4.4"
+  label: "Zwar besteht eine geringe Aussagesicherheit wegen \"very serious concerns\" in Bezug auf \"risk of bias\"."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=32
+    quote: "Zwar besteht eine geringe Aussagesicherheit wegen"
+- id: claims/vorhofflimmern-lf-1.1/365f6a34
+  type: claim
+  lang: de
+  kind: fact
+  section: "4.4"
+  label: "Auch wenn die Aussagesicherheit der Evidenz gering ist, ergibt sich aus der Zusammenschau der epidemiologischen Daten und der Interventionsstudie ein starker Hinweis, dass die Reduktion jeglichen Alkoholkonsums wirksam sein kann."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=32
+    quote: "Auch wenn die Aussagesicherheit der Evidenz gering ist"
+# Section 4.4, Begründung (p. 33, l. 4–5): the limits of „risikoarmer Alkoholkonsum“ (#314 Decision 19; #376 Decision 7):
+# a criterion claim with no threshold — a limit per sex fits no threshold's shape, and the alcohol-free days are a second
+# part „und“ joins — its label carrying the limits as printed. R to 4.5's second sentence, which names the term (§5.1 R:
+# the values the quoted term stands for); concepts/risikoarmer-alkoholkonsum reaches it by its one defined_by edge. Not
+# concepts/alkoholkonsum, the quantity of Tabelle 9's footnote § (C3's). The line after it, „Ein halber Liter Bier oder
+# 0,2 l Wein enthalten circa 20 g Alkohol.“ (l. 6), stays (N2; #376 reading 6); so do l. 6–8 (the evidence as subject,
+# N2, with „Alhohol“ and „Abstinez“ as printed) and l. 10–12 (a reason for the grade).
+- id: claims/vorhofflimmern-lf-1.1/84236bf0
+  type: claim
+  lang: de
+  kind: criterion
+  section: "4.4"
+  label: "Die Grenzwerte des risikoarmen Alkoholkonsums (pro Tag nicht mehr als 20 g reinen Alkohols für Männer und 10 g reinen Alkohols für Frauen) und mind. 2 alkoholfreie Tage pro Woche dienen als Orientierung für die Beratung."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=33
+    quote: "Die Grenzwerte des risikoarmen Alkoholkonsums (pro Tag nicht mehr als 20 g reinen Alkohols"
+# Section 4.4, Begründung (p. 33, l. 12–14): how the physician's advice on alcohol is given, in the guideline's voice —
+# R to 4.5's second sentence, the advice its words name (§5.1 R: the technique the word stands for; #376 reading 7,
+# taken). „sollte … kommuniziert werden“ is the wording sollte.
+- id: claims/vorhofflimmern-lf-1.1/7d67359f
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.4"
+  label: "Die ärztliche Empfehlung zum Alkoholverzicht oder zumindest zu reduziertem Alkoholkonsum sollte wertschätzend und ohne Stigmatisierung kommuniziert werden."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=33
+    quote: "Die ärztliche Empfehlung zum Alkoholverzicht oder zumindest zu reduziertem Alkoholkonsum sollte"
+
+# Box 4.6 (p. 33, l. 36–52), in section 4.5: one sentence, ⇑⇑ alone on l. 40, „Konsensstärke: 100%“. Its action is the
+# abstinence, for under ⇑⇑ (spec §3.1 `direction`; #376 Decision 8). Its evidence block, in printed order (#326 Decisions
+# 12 and 14, case K): the cell „Keine Interventionsstudien identifiziert“ (l. 44–45), words in place of a level, a note
+# with the system of the box's rated row; then the row „Assoziation Tabakkonsum und Inzidenz AF: moderat ⊕⊕⊕⊝“, its
+# endpoint concepts/inzidenz-af and its key the words before the endpoint, cut at the connective (#376 reading 8). The
+# rated row's ⊕ line (l. 50) is quoted once, after the rows' quotes. The Begründung's ratings rate endpoints the box does
+# not list (p. 33, l. 59–61) and stay; so do its reasons and its referral (p. 33, l. 63 – p. 34, l. 6; N2, N4; reading 7).
+- id: claims/vorhofflimmern-lf-1.1/23e4125d
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "4.6"
+  section: "4.5"
+  label: "Patient*innen mit AF sowie allen Patient*innen, die regelmäßig Zigaretten rauchen, soll empfohlen werden, auf Tabakkonsum zu verzichten."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {note: "Keine Interventionsstudien identifiziert", system: grade}
+    - {key: "Assoziation Tabakkonsum", outcome: concepts/inzidenz-af, value: "moderat", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=33
+    quote: "Patient*innen mit AF sowie allen Patient*innen, die regelmäßig Zigaretten"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=33, quote: "⇑⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=33, quote: "Konsensstärke: 100%"}
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=33, quote: "rauchen, soll empfohlen werden, auf Tabakkonsum zu verzichten."}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=33, quote: "Keine Interventionsstudien identifiziert"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=33, quote: "Assoziation Tabakkonsum und Inzidenz AF:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=33, quote: "moderat ⊕⊕⊕⊝"}
+
+# Box 4.7 (p. 34, l. 23–31), in section 4.6: a „Konsensbasiertes Statement“ of two sentences. Its grade cell prints
+# „Statement“ (l. 27), the box's type, so its sentences take no grade (spec §3.1; #323 Decision 11); „EK“ (l. 29) is the
+# basis of both, „Konsensstärke: 100%“ the share of both. No evidence block. Sentence 1 is a fact whose subject is the
+# data, unlinked and off the tree (spec §3.1; #376 Decision 4).
+- id: claims/vorhofflimmern-lf-1.1/b04a3d32
+  type: claim
+  lang: de
+  kind: fact
+  recommendation_no: "4.7"
+  section: "4.6"
+  label: "Die wenigen Daten zu gewohnheitsmäßigem Koffein-Konsum sprechen gegen eine Assoziation von Koffein und AF."
+  basis: EK
+  consensus_share: "100%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=34
+    quote: "Die wenigen Daten zu gewohnheitsmäßigem Koffein-Konsum sprechen"
+  provenance:
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=34, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=34, quote: "Konsensstärke: 100%"}
+# 4.7, sentence 2: a gap notice („kann keine Empfehlung … abgeleitet werden“), unlinked (#111; #376 Decision 4). The cell
+# prints no grade, so it carries none.
+- id: claims/vorhofflimmern-lf-1.1/3b7225dc
+  type: claim
+  lang: de
+  kind: gap_notice
+  recommendation_no: "4.7"
+  section: "4.6"
+  label: "Aus den Studiendaten kann keine Empfehlung zum gewohnheitsmäßigen Koffeinkonsum abgeleitet werden."
+  basis: EK
+  consensus_share: "100%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=34
+    quote: "Aus den Studiendaten kann keine Empfehlung zum gewohnheitsmäßigen"
+  provenance:
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=34, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=34, quote: "Konsensstärke: 100%"}
+
+# Box 4.8 (p. 35, l. 6–14), in section 4.7 (its heading on p. 34, l. 52): a „Konsensbasiertes Statement“ of two
+# sentences, „Statement“ in the grade cell (no grade), „EK“ and „Konsensstärke: 100%“ on both. Both are facts whose
+# subject is the data, unlinked: sentence 2's „lässt somit keine valide Aussage … zu“ stays a fact, since #325's (b2) is
+# not taken (#376 Decision 4). The Begründung reports studies and what is unknown (p. 35, l. 20–24; G2, N2).
+- id: claims/vorhofflimmern-lf-1.1/8bb8eea8
+  type: claim
+  lang: de
+  kind: fact
+  recommendation_no: "4.8"
+  section: "4.7"
+  label: "Die Daten über eine Assoziation zwischen einem Cannabis-Konsum und dem Auftreten von Vorhofflimmern sind widersprüchlich."
+  basis: EK
+  consensus_share: "100%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=35
+    quote: "Die Daten über eine Assoziation zwischen einem Cannabis-Konsum und"
+  provenance:
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=35, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=35, quote: "Konsensstärke: 100%"}
+- id: claims/vorhofflimmern-lf-1.1/92ba79d0
+  type: claim
+  lang: de
+  kind: fact
+  recommendation_no: "4.8"
+  section: "4.7"
+  label: "Die aktuelle Datenlage lässt somit keine valide Aussage zum Effekt von Cannabis auf Vorhofflimmern zu."
+  basis: EK
+  consensus_share: "100%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=35
+    quote: "Die aktuelle Datenlage lässt somit keine valide Aussage zum Effekt von"
+  provenance:
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=35, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=35, quote: "Konsensstärke: 100%"}
+
+# Box 4.9 (p. 35, l. 31–41), in section 4.8 (no Hintergrund, no Begründung): one sentence, ⇑⇑ with „EK“, „Konsensstärke:
+# 100%“, no evidence block. One statement: „und soll sich an den jeweiligen Leitlinien orientieren“ says how the
+# diagnosis and therapy are done and instructs nothing of its own (spec §3.1; #376 Decision 3). The verb is soll, the
+# finite modal of the predicate (#325 checklist case 12, step 1); empfehlen, from „wird … empfohlen“ by step 3, is the
+# other reading (#325 flag 3). „Herzinsuffizienz, und“ and „Patientinnen und Patienten“ as printed (#314 Decision 4); the
+# examples „wie …“ stay in the label (§5.1 G3), and the deferral to Tabelle 7 too (N4).
+- id: claims/vorhofflimmern-lf-1.1/db0faceb
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "4.9"
+  section: "4.8"
+  label: "Die Diagnostik und Therapie von Begleiterkrankungen wie Adipositas, arterielle Hypertonie, Diabetes mellitus, Herzinsuffizienz, und schlafbezogene Atmungsstörungen wird allen Patientinnen und Patienten mit Vorhofflimmern zur ergänzenden Behandlung des Vorhofflimmerns empfohlen und soll sich an den jeweiligen Leitlinien orientieren (siehe Tabelle 7)."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  basis: EK
+  consensus_share: "100%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=35
+    quote: "Die Diagnostik und Therapie von Begleiterkrankungen wie Adipositas,"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=35, quote: "⇑⇑"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=35, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=35, quote: "Konsensstärke: 100%"}
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=35, quote: "empfohlen und soll sich an den jeweiligen Leitlinien orientieren"}
+
+# Section 4.9 (p. 35, l. 46–64), no box (#376 Decision 11): three sentences in the guideline's voice on actions no marked
+# recommendation of the section names — §5.1 U, claims without an edge and in no statement. „können sinnvoll sein“ is the
+# wording kann; the other two print no declared wording (the „kann“ of l. 60 is in the clause stating an effect). The
+# rest stays: facts and a research question (l. 47–51, N2, N4), what is unknown (l. 54–55, N2), the referral to the S3
+# guideline on cardiovascular prevention (l. 56–58, N4; its justified line one run, #371), and the sentence introducing
+# Abb. 2 (l. 63–64).
+- id: claims/vorhofflimmern-lf-1.1/41c00214
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.9"
+  label: "Multimodale Behandlungskonzepte können sinnvoll sein, um das Wiederauftreten von AF durch Modifikation von Lebensstil und Risikofaktoren günstig zu beeinflussen."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=35
+    quote: "Multimodale Behandlungskonzepte können sinnvoll sein"
+- id: claims/vorhofflimmern-lf-1.1/f4188cac
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.9"
+  label: "Eine Lebensstil-Modifikation kann je nach Risikofaktor durchaus auch primärpräventive Wirksamkeit haben; es ist wichtig, Patient*innen entsprechend zu beraten."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=35
+    quote: "es ist wichtig, Patient*innen entsprechend zu beraten."
+- id: claims/vorhofflimmern-lf-1.1/bbbaef8d
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "4.9"
+  label: "Dabei ist im häufigen Fall des Vorliegens mehrerer Risikofaktoren im Sinne einer „personalisierten Medizin“ eine individuelle Herangehensweise mit Adressierung der wichtigsten Risikofaktoren, unter Einbeziehung auch psychosozialer Faktoren, notwendig."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=35
+    quote: "eine individuelle Herangehensweise mit Adressierung der wichtigsten"

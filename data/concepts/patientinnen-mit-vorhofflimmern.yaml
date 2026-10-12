@@ -1,0 +1,14 @@
+# The scope root proposed for views/vorhofflimmern-lf-1.1 (spec §4 `scope_root`), by the maintainer's answer of
+# 2026-10-11 to #314's question 1 (card #364, Decision 1): the patients the guideline's Zielsetzung names (p. 10, l.
+# 55-57). The Langfassung has no section on its target group. Stated: no passage gives a rule for the group, so it
+# has no defined_by edge. Not the diagnosis „Vorhofflimmern“ that 1.1, 1.2 and Tabelle 2 define (pp. 11, 13), which
+# is a concept of its own where a claim of chapter 1 needs one (card #364, reading 2). The view declares it as its
+# scope_root, with its anchor slot and its first axis, in the pass that writes the scope tree (#314, X2).
+id: concepts/patientinnen-mit-vorhofflimmern
+type: concept
+lang: de
+label: "Patient*innen mit Vorhofflimmern"
+facet: patient_state
+source:
+  - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "Optimierung der Versorgung von Patient*innen mit AF"}
+  - {at: sources/vorhofflimmern-lf-1.1#page=10, quote: "Inzidenz von Vorhofflimmern (AF)"}

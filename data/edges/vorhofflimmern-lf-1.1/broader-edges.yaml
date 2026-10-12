@@ -1,0 +1,56 @@
+# broader edges (spec §5): "is a special case of", between concepts that fill a population slot of a statement in
+# views/vorhofflimmern-lf-1.1 or name a form above one, all modelling with a rationale, only what holds whatever
+# guideline one reads — what holds only inside the guideline's scope is a scope edge (scope-edges.yaml). They group
+# and fold; nothing is inherited along them. Written by card #393 (#314's part X2) where the view's first axis
+# (axes/vorhofflimmern-population) needs an edge and the pool lacks it, one per placement and no other: the five
+# forms of Tabelle 3 (p. 14) under the scope root, the four groups that narrow a form by a state, an indication or a
+# duration under that form, perioperative AF as a family of its own named by its trigger and postoperative new-onset
+# AF under it, three groups under the narrowest concept they are a case of (strong obesity, the two heart-failure
+# groups, chronic kidney disease), and the two groups whose own label prints AF under the root. The families of
+# concepts that fill no population or condition slot are card #394's, in cross-chapter.yaml. No broader edge runs
+# from a concept another source uses.
+
+# ── the five forms of Tabelle 3 under the scope root (the axis's fixed clause)
+- [concepts/erstdiagnostiziertes-vorhofflimmern, broader, concepts/patientinnen-mit-vorhofflimmern, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Tabelle 3, „Klassifikation von klinischen Vorhofflimmern nach Episodendauer“ (S. 14, Z. 4), führt „Erstdiagnostiziert“ als Zeile: „Erstmals diagnostiziertes AF, unabhängig von seiner Dauer oder Symptomatik“ (Z. 8). Patient*innen mit erstdiagnostiziertem Vorhofflimmern sind in jeder Leitlinie Patient*innen mit Vorhofflimmern: eine Form des Vorhofflimmerns, erste Familie unter der Wurzel."}]
+- [concepts/paroxysmales-vorhofflimmern, broader, concepts/patientinnen-mit-vorhofflimmern, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Tabelle 3 (S. 14, Z. 4) führt „Paroxysmal“ als Zeile: „AF, das spontan oder durch medikamentöse/elektrische Kardioversion innerhalb von 7 Tagen endet“ (Z. 10–11). Patient*innen mit paroxysmalem Vorhofflimmern sind in jeder Leitlinie Patient*innen mit Vorhofflimmern: eine Form des Vorhofflimmerns, erste Familie unter der Wurzel."}]
+- [concepts/persistierendes-vorhofflimmern, broader, concepts/patientinnen-mit-vorhofflimmern, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Tabelle 3 (S. 14, Z. 4) führt „Persistierend“ als Zeile: „AF, das spontan oder durch medikamentöse/elektrische Kardioversion nach mehr als 7 Tagen endet“ (Z. 13–14). Patient*innen mit persistierendem Vorhofflimmern sind in jeder Leitlinie Patient*innen mit Vorhofflimmern: eine Form des Vorhofflimmerns, erste Familie unter der Wurzel."}]
+- [concepts/lang-persistierendes-vorhofflimmern, broader, concepts/patientinnen-mit-vorhofflimmern, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Tabelle 3 (S. 14, Z. 4) führt „Lang-persistierend“ als Zeile: „AF, das zum Zeitpunkt der Entscheidung einer rhythmuskontrollierenden Strategie mehr als 12 Monate kontinuierlich vorhanden war“ (Z. 16–17). Tabelle 3 druckt es neben dem persistierenden, nicht unter ihm (S. 56, Z. 48, liest es als dessen Sonderfall). Patient*innen mit lang-persistierendem Vorhofflimmern sind in jeder Leitlinie Patient*innen mit Vorhofflimmern: eine Form des Vorhofflimmerns, erste Familie unter der Wurzel."}]
+- [concepts/permanentes-vorhofflimmern, broader, concepts/patientinnen-mit-vorhofflimmern, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Tabelle 3 (S. 14, Z. 4) führt „Permanent“ als Zeile: die Entscheidung, „AF zu belassen und keine weiteren Versuche zur Rhythmuskontrolle zu unternehmen“ (Z. 19–21). Patient*innen mit permanentem Vorhofflimmern sind in jeder Leitlinie Patient*innen mit Vorhofflimmern: eine Form des Vorhofflimmerns, erste Familie unter der Wurzel."}]
+
+# ── a form narrowed by a state, an indication or a duration, under that form
+- [concepts/paroxysmales-vorhofflimmern-mit-angst-vor-koerperlicher-aktivitaet, broader, concepts/paroxysmales-vorhofflimmern, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Box 4.2 nennt „Patient*innen mit paroxysmalem AF sowie Angst vor körperlicher Aktivität“ (S. 30, Z. 8–9), gelesen als die Patient*innen, die beides haben: paroxysmales Vorhofflimmern, um einen Zustand enger gefasst. Jede*r von ihnen hat in jeder Leitlinie paroxysmales Vorhofflimmern (Tabelle 3, S. 14, Z. 10)."}]
+- [concepts/paroxysmales-vorhofflimmern-mit-indikation-zu-einer-rhythmuskontrollierenden-therapie, broader, concepts/paroxysmales-vorhofflimmern, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Box 6.6 nennt „Patient*innen mit paroxysmalem AF und Indikation zu einer rhythmuskontrollierenden Therapie“ (S. 56, Z. 8–9): paroxysmales Vorhofflimmern, um eine Indikation enger gefasst. Jede*r von ihnen hat in jeder Leitlinie paroxysmales Vorhofflimmern (Tabelle 3, S. 14, Z. 10)."}]
+- [concepts/seit-mindestens-zwei-jahren-persistierendes-vorhofflimmern, broader, concepts/persistierendes-vorhofflimmern, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Box 6.7 nennt Patient*innen, „bei denen das AF bereits seit mindestens zwei Jahren persistiert“ (S. 57, Z. 18–19): persistierendes Vorhofflimmern, um eine Dauer enger gefasst, gelesen nach dem Wort der Box. Jede*r von ihnen hat in jeder Leitlinie persistierendes Vorhofflimmern. Tabelle 3 fasst „Persistierend“ als AF, das nach mehr als 7 Tagen endet (S. 14, Z. 13–14), „Lang-persistierend“ nach der Dauer bei der Entscheidung über die Rhythmuskontrolle (Z. 16–17), und S. 56 nennt die Patient*innen, bei denen von einer Rhythmuskontrolle abgesehen werden kann, „mit lang-persistierendem Vorhofflimmern“ (Z. 44–46), und S. 61 definiert lang-persistierendes AF mit dem Verb der Box, „AF, das seit mindestens 12 Monaten persistiert“ (Z. 58–59): die andere Lesart, unter der lang-persistierenden Form."}]
+- [concepts/langanhaltend-persistierendes-af-sowie-dilatierter-linker-vorhof, broader, concepts/lang-persistierendes-vorhofflimmern, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Box 6.11 nennt „Patient*innen mit langanhaltend persistierendem AF sowie dilatiertem linken Vorhof“ (S. 62, Z. 16–17), „langanhaltend persistierend“ gelesen als Tabelle 3s „Lang-persistierend“ (S. 14, Z. 16): die Form, um einen Zustand enger gefasst. Jede*r von ihnen hat in jeder Leitlinie lang-persistierendes Vorhofflimmern."}]
+
+# ── perioperative AF, named by its trigger, a family of its own; postoperative new-onset AF under it
+- [concepts/perioperatives-vorhofflimmern, broader, concepts/patientinnen-mit-vorhofflimmern, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Box 8.4 nennt „perioperativem Vorhofflimmern“ (S. 86, Z. 50), unter §8.7 „Perioperatives Vorhofflimmern (POAF)“ (Z. 45). Es ist keine Zeile von Tabelle 3 (S. 14): die Leitlinie benennt es nach seinem Anlass, als von „Trigger“ induziertes AF, „vor allem eine Operation“ (S. 13, Z. 54–56). Patient*innen mit perioperativem Vorhofflimmern sind in jeder Leitlinie Patient*innen mit Vorhofflimmern: eine eigene Familie unter der Wurzel."}]
+- [concepts/postoperativ-neu-aufgetretenes-vorhofflimmern, broader, concepts/perioperatives-vorhofflimmern, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Box 8.5 nennt „Patient*innen mit postoperativ neu aufgetretenem Vorhofflimmern“ (S. 87, Z. 56), unter §8.7 „Perioperatives Vorhofflimmern (POAF)“ (S. 86, Z. 45); §8.7.1: „Perioperatives AF tritt … oftmals wenige Tage postoperativ auf“ (S. 87, Z. 7–8). Postoperativ neu aufgetretenes Vorhofflimmern ist in jeder Leitlinie perioperatives Vorhofflimmern, nach demselben Anlass benannt."}]
+
+# ── under the narrowest concept each is a special case of: strong obesity, the heart-failure groups, chronic
+# kidney disease; heart failure and kidney disease hang at the root by scope edges (scope-edges.yaml)
+- [concepts/stark-adipoese-menschen, broader, concepts/adipositas, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Box 8.6 nennt „stark adipösen Menschen (BMI >35kg/m2)“ (S. 89, Z. 22); die Leitlinie fasst Adipositas als BMI über 30 (Tabelle 6, S. 25, Z. 32: „Übergewicht/Adipositas (BMI >30)“; S. 89, Z. 10: „Adipositas (BMI >30)“). Ein BMI über 35 liegt in jeder Leitlinie über 30: stark adipöse Menschen sind adipös, und Adipositas ist das engste Konzept, dessen Sonderfall sie sind; beide sind Anker einer Empfehlung."}]
+- [concepts/schwere-herzinsuffizienz, broader, concepts/herzinsuffizienz, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Box 6.4 nennt „Patient*innen mit schwerer Herzinsuffizienz“ (S. 52, Z. 36–37). Eine schwere Herzinsuffizienz ist in jeder Leitlinie eine Herzinsuffizienz, ein Schweregrad des Krankheitsbilds, und Herzinsuffizienz ist das engste Konzept, dessen Sonderfall sie ist."}]
+- [concepts/herzinsuffizienz-mit-hospitalisierung-in-den-letzten-12-monaten, broader, concepts/herzinsuffizienz, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Box 7.4 nennt „Herzinsuffizienz mit mindestens einer herzinsuffizienzbedingten Hospitalisierung in den letzten 12 Monaten“ (S. 73, Z. 55–56). Eine solche Herzinsuffizienz ist in jeder Leitlinie eine Herzinsuffizienz, und Herzinsuffizienz ist das engste Konzept, dessen Sonderfall sie ist; das Konzept nennt keine Form des Vorhofflimmerns. Das „permanenten AF“ der Box (Z. 54) steht im Wortlaut ihrer Empfehlung, nicht auf diesem Pfad."}]
+- [concepts/chronische-nierenerkrankung, broader, concepts/nierenerkrankung, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Box 5.6 nennt „Patient*innen mit chronischer Nierenerkrankung“ (S. 42, Z. 44), unter §5.3.3 „Chronische Nierenerkrankung“ (Z. 39). Eine chronische Nierenerkrankung ist in jeder Leitlinie eine Nierenerkrankung, und Nierenerkrankung (8.3, S. 83, Z. 10) ist das engste Konzept, dessen Sonderfall sie ist. Die Bedingung „bei Vorhofflimmern“ trägt die Geltungskante der Nierenerkrankung zur Wurzel."}]
+
+# ── the groups whose own label prints AF, narrowed by an activity or a therapy, under the root
+- [concepts/patientinnen-mit-af-die-koerperlich-aktiv-sind-oder-es-werden-wollen, broader, concepts/patientinnen-mit-vorhofflimmern, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Box 4.3 nennt „Patient*innen mit AF, die körperlich aktiv sind oder es werden wollen“ (S. 30, Z. 52): Patient*innen mit Vorhofflimmern, nach ihrer Aktivität enger gefasst. Sie sind in jeder Leitlinie Patient*innen mit Vorhofflimmern; die Gruppe nennt keine Form, und die Wurzel ist das engste Konzept, dessen Sonderfall sie ist."}]
+- [concepts/patientinnen-mit-af-unter-frequenzkontrollierender-therapie, broader, concepts/patientinnen-mit-vorhofflimmern, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "Box 7.1 nennt „Patient*innen mit AF unter frequenzkontrollierender Therapie“ (S. 71, Z. 28): Patient*innen mit Vorhofflimmern, nach ihrer Therapie enger gefasst. Sie sind in jeder Leitlinie Patient*innen mit Vorhofflimmern; die Gruppe nennt keine Form, und die Wurzel ist das engste Konzept, dessen Sonderfall sie ist."}]

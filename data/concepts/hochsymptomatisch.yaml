@@ -1,0 +1,11 @@
+# A concept of card #377 (C6), chapter 7 of sources/vorhofflimmern-lf-1.1.
+# A condition of box 7.4, „mit hochsymptomatischem permanenten AF“ (p. 73; the Begründung's „hochsymptomatischem
+# permanentem AF“, p. 74): a symptom state, a condition wherever a box prints it (card #364, convention row 9 and reading
+# 5). Narrower than the ledger's concepts/symptomatisch; the broader edge, if any, is X1's. A shared candidate (card #377
+# Decision 12).
+id: concepts/hochsymptomatisch
+type: concept
+lang: de
+label: "hochsymptomatisch"
+facet: patient_state
+source: modelling

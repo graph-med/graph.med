@@ -1,0 +1,9 @@
+# A concept of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# The use of the score that box 5.1 recommends („soll der CHA2DS2-VA Score eingesetzt werden“, p. 38), a concept beside
+# the score's (spec §3.2; card #364, Decision 7).
+id: concepts/einsatz-des-cha2ds2-va-scores
+type: concept
+lang: de
+label: "Einsatz des CHA2DS2-VA-Scores"
+facet: intervention
+source: modelling

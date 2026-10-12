@@ -4,6 +4,6 @@
 id: concepts/hohes-risiko-fuer-eine-pilzinfektion
 type: concept
 lang: de
-label: "Hohes Risiko für eine Pilzinfektion"
+label: "hohes Risiko für eine Pilzinfektion"
 facet: patient_state
 source: modelling

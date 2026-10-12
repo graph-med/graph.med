@@ -1,0 +1,962 @@
+# Claims of card #381 (#314's part C4) from sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1, „Rhythmuskontrolle“
+# (p. 47, l. 35 – p. 60; p. 47, l. 1–30 is chapter 5's Literatur and is not read). Boxes 6.1–6.9, one claim per
+# sentence (spec §3.1), the rules printed inside 6.2's and 6.7's sentences (#328), Abb. 3's caption as the figure's side
+# of its disagreements (spec §5), Tabelle 13's rows, and the body-text places spec §5.1 admits (#325, #341), in page
+# order. Ids: sha256("<at>|<quote>")[:8]. Line numbers are lines of `pdftotext -layout`.
+# Every box prints „Neu 2024“ and its kind line; both stay on the page (#314 Decision 5), and so do 6.3's „zitiert nach
+# ESC 2024“ and the boxes' „Literatur: …“ lines. Typos stay as printed (#314 Decision 4): „Aussagsicherheit“ (p. 49,
+# l. 25, on the page), „AF -“ (p. 51, l. 59), „Patient*Innen“ (p. 57, l. 18), „mittel-bis“ and „Klasse -III“ (p. 60).
+
+# §6.1's own text, p. 47, l. 36–40, introduces Abb. 3 and stays on the page. Abb. 3 (p. 48) is an image: its rows stay
+# on the page (spec §5.1 F). Its caption (l. 10–12) is the figure's side wherever a row answers a box otherwise (spec §5;
+# #341; card #381 Decision 7): a fact claim, section 6.1.1 where printed, joined by disagrees_with to 6.2, 6.5 and 6.6,
+# and to the two body-text places that print 6.2's and 6.7's question otherwise (the edges file). 6.7's red row says of
+# rhythm control what the box says and leaves out the rate control: an omission, no edge (the judge, 2026-10-12). The
+# rows are read off the rendered page, never quoted.
+- id: claims/vorhofflimmern-lf-1.1/7486dcad
+  type: claim
+  lang: de
+  kind: fact
+  section: "6.1.1"
+  label: "Abbildung 3: Empfehlungen zur Indikation einer Rhythmuskontrolle im Überblick. Grün: Hier besteht die Indikation zur Rhythmuskontrolle mit einer „soll“ Empfehlung; gelb: Hier besteht die Indikation zur Rhythmuskontrolle mit einer „sollte“ Empfehlung. Rot: Die Leitliniengruppe empfiehlt dies nicht. AF = Vorhofflimmern."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=48
+    quote: "Empfehlungen zur Indikation einer Rhythmuskontrolle im Überblick"
+# Section 6.1.1, Hintergrund (p. 48, l. 24–27): patients with permanent AF, a group no box of the section names — §5.1 U,
+# an unmarked recommendation in the guideline's voice, without an edge and in no statement (card #381 Decision 8). Its
+# two measures, joined by „und“, are a claim each, each labelled with its own span of the sentence, cut at the
+# connective (#314 Decision 20, members; reading 13). „empfiehlt“ is the wording empfehlen (spec §3.1, step 3).
+- id: claims/vorhofflimmern-lf-1.1/f2ff5af8
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.1.1"
+  label: "Patient*innen mit permanentem AF, bei denen keine weiteren Versuche einer rhythmuskontrollierenden Therapie als sinnvoll erachtet werden, empfiehlt die Leitliniengruppe, diese nach dem Prinzip des „shared decision making“ zu identifizieren"
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=48
+    quote: "Prinzip des „shared decision making“ zu identifizieren"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=48, quote: "empfiehlt die Leitliniengruppe"}
+- id: claims/vorhofflimmern-lf-1.1/71d80c84
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.1.1"
+  label: "einer frequenzkontrollierenden Therapie zuzuführen (siehe Kapitel 7. Frequenzkontrolle)."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=48
+    quote: "einer frequenzkontrollierenden Therapie zuzuführen"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=48, quote: "empfiehlt die Leitliniengruppe"}
+
+# Box 6.1 (p. 49, l. 6–16), in section 6.1.1: one sentence, ⇑⇑ on the „Empfehlungsgrad:“ line, „Konsensstärke: 100%“.
+# After „geprüft“ the action is the check (card #364, Decision 7). Its rows, in printed order (spec §3.1): „CV-Tod,
+# Schlaganfall: moderat ⊕⊕⊕⊝“, one entry per endpoint, each quoting the row's line; „Mortalität: gering ⊕⊕⊝⊝“. „CV-Tod“
+# is concepts/kardiovaskulaere-mortalitaet, „Mortalität“ concepts/mortalitaet (card #364, reading 8). Its Begründung
+# rates the mortality evidence „niedrig“: disagrees_with.
+- id: claims/vorhofflimmern-lf-1.1/ff70d07b
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.1"
+  section: "6.1.1"
+  label: "Die Indikation zur frühen Rhythmuskontrolle soll bei allen Patient*innen mit neu diagnostiziertem AF geprüft werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {outcome: concepts/kardiovaskulaere-mortalitaet, value: "moderat", system: grade}
+    - {outcome: concepts/schlaganfall, value: "moderat", system: grade}
+    - {outcome: concepts/mortalitaet, value: "gering", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=49
+    quote: "Die Indikation zur frühen Rhythmuskontrolle soll bei allen Patient*innen"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=49, quote: "⇑⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=49, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=49, quote: "CV-Tod, Schlaganfall:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=49, quote: "CV-Tod, Schlaganfall:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=49, quote: "Mortalität:"}
+# Section 6.1.1, Begründung (p. 49, l. 23–25): rates the evidence for all-cause mortality „niedrig“, where box 6.1's row
+# prints „Mortalität: gering“ — another word, another rating (spec §5.1 D and N2's exception; #372, F6): a fact claim
+# joined by disagrees_with to 6.1's claim, the one claim that carries the row (card #381 Decision 5). l. 25's „bei hoher
+# Aussagsicherheit“ rates a study's combined endpoint, which the box does not list, and l. 28–29's „moderat“ is the box's
+# word: both stay (N2).
+- id: claims/vorhofflimmern-lf-1.1/9907d927
+  type: claim
+  lang: de
+  kind: fact
+  section: "6.1.1"
+  label: "Die Aussagesicherheit für einen Effekt auf die Gesamtmortalität ist wegen der Limitationen der Studiendesigns und Indirektheit niedrig."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=49
+    quote: "Die Aussagesicherheit für einen Effekt auf die Gesamtmortalität ist"
+# Section 6.1.1, Begründung (p. 49, l. 29–30): what 6.1's strong recommendation covers — the check, not the therapy:
+# R to 6.1 (reading 11).
+- id: claims/vorhofflimmern-lf-1.1/8b9ab59a
+  type: claim
+  lang: de
+  kind: fact
+  section: "6.1.1"
+  label: "Die starke Empfehlung bezieht sich explizit auf die Prüfung der Indikation, daraus resultiert nicht in jedem Falle auch eine entsprechende Therapie."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=49
+    quote: "Die starke Empfehlung bezieht sich explizit auf die Prüfung"
+# Abb. 4 (p. 49–50) is an image; its caption adds nothing and stays (§5.1 G3). Its footnotes follow it (§5.1 F; #379):
+# „*“ prints no rule the text prints otherwise, and „†“ („Eine dauerhafte Amiodaron-Therapie sollte nach Möglichkeit
+# vermieden werden (s. Empf. 6.9)“) restates box 6.9 and names it: both stay with the figure.
+
+# Box 6.2 (p. 50, l. 27–41), in section 6.1.2: one sentence, ⇑ on a sentence line, „Konsensstärke: 78,6%“, the row
+# „CV-Tod, Schlaganfall: hoch ⊕⊕⊕⊕“, one entry per endpoint. „vor allem“, „unabhängig von Beschwerden“ and „unter
+# Berücksichtigung der absoluten Effekte (vgl. Tabelle 11)“ stay in the label. Its Begründung restates it with another
+# bound (p. 50, l. 52–54): disagrees_with.
+- id: claims/vorhofflimmern-lf-1.1/14bd6456
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.2"
+  section: "6.1.2"
+  label: "Eine frühe Rhythmuskontrolle sollte unabhängig von Beschwerden vor allem bei Patient*innen mit AF und relevanten kardiovaskulären Risikofaktoren, höherem Lebensalter oder Komorbiditäten (CHA2DS2-VA Score ≥2) unter Berücksichtigung der absoluten Effekte (vgl. Tabelle 11) empfohlen werden."
+  grade: "⇑"
+  verb: sollte
+  direction: for
+  consensus_share: "78,6%"
+  evidence:
+    - {outcome: concepts/kardiovaskulaere-mortalitaet, value: "hoch", system: grade}
+    - {outcome: concepts/schlaganfall, value: "hoch", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=50
+    quote: "Eine frühe Rhythmuskontrolle sollte unabhängig von Beschwerden vor"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=50, quote: "⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=50, quote: "Konsensstärke: 78,6%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=50, quote: "CV-Tod, Schlaganfall:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=50, quote: "CV-Tod, Schlaganfall:"}
+# 6.2, the rule printed inside the sentence: the parenthesis „(CHA2DS2-VA Score ≥2)“ (l. 31–32, across the line in the
+# box's column), a narrower criterion claim (spec §3.1; #328), quoting and labelled by the whole qualifier, the box's
+# number, section and share, no grade, no evidence, no statement. It prints 5.4's bound (p. 40), whose group,
+# concepts/patientinnen-mit-cha2ds2-va-score-ab-2, reaches 5.4's claim by its one defined_by edge: no second edge for an
+# equal printing (the concept's comment; card #381 Decision 3). Its Begründung prints „>2“: disagrees_with.
+- id: claims/vorhofflimmern-lf-1.1/fe1efb37
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: "6.2"
+  section: "6.1.2"
+  label: "(CHA2DS2-VA Score ≥2)"
+  consensus_share: "78,6%"
+  threshold: {quantity: concepts/cha2ds2-va-score, comparator: "≥", value: "2"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=50
+    quote: "(CHA2DS2-VA Score ≥2)"
+  provenance:
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=50, quote: "Konsensstärke: 78,6%"}
+# Section 6.1.2, Begründung (p. 50, l. 52–54): restates 6.2 with another bound, „CHA2DS2Va Score >2“, and „entsprechend
+# der EAST-AFNET 4 Einschlusskriterien“ — §5.1 D: a claim joined to 6.2's claim by disagrees_with, no R, L or S (#314
+# Decision 20, F8; #341; card #381 Decision 6). „sollte“ is its wording.
+- id: claims/vorhofflimmern-lf-1.1/0d00367a
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.1.2"
+  label: "Die Empfehlung der Leitlinie lautet daher, dass die frühe Rhythmuskontrolle unabhängig von Beschwerden und unter Berücksichtigung der o.g. Kriterien (Lebensalter, kardiovaskuläre Risikofaktoren, CHA2DS2Va Score >2; entsprechend der EAST-AFNET 4 Einschlusskriterien) empfohlen werden sollte."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=50
+    quote: "Die Empfehlung der Leitlinie lautet daher, dass die frühe Rhythmuskontrolle"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=50, quote: "empfohlen werden sollte."}
+# The bound of that restatement, „CHA2DS2Va Score >2“ (l. 54, once on the page), a criterion claim of its own on
+# concepts/cha2ds2-va-score, as the text layer gives it: `>` (the print underlines it; reading 3). Joined by
+# disagrees_with to 6.2's narrower claim. The concept's defined_by edge to it, and its disagrees_with to 5.4's „von ≥2“,
+# are X1's (card #381, Out). p. 49, l. 28's „(CHA2DS2Vasc Score >2)“ is another score in a study report (G2): it stays.
+- id: claims/vorhofflimmern-lf-1.1/08e21436
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.1.2"
+  label: "CHA2DS2Va Score >2"
+  threshold: {quantity: concepts/cha2ds2-va-score, comparator: ">", value: "2"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=50
+    quote: "CHA2DS2Va Score >2"
+# Section 6.1.2, Begründung (p. 50, l. 56): what „frühe“ Rhythmuskontrolle means, marked in words („wird dabei … definiert“):
+# a definition claim, its bound „< 1 Jahr“ a threshold on the time since diagnosis, R to 6.2 and, by E, to 6.1, which
+# uses the term (reading 12). concepts/fruehe-rhythmuskontrolle reaches it by defined_by.
+- id: claims/vorhofflimmern-lf-1.1/a56cd1a3
+  type: claim
+  lang: de
+  kind: definition
+  section: "6.1.2"
+  label: "Eine „frühe“ Rhythmuskontrolle wird dabei für Patient*innen mit einer AF Diagnose < 1 Jahr definiert."
+  threshold: {quantity: concepts/zeit-seit-der-af-diagnose, comparator: "<", value: "1", unit: "Jahr"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=50
+    quote: "Eine „frühe“ Rhythmuskontrolle wird dabei für Patient*innen mit einer AF Diagnose < 1 Jahr definiert"
+# Tabelle 11 (p. 51, l. 4–29), the effects 6.2 names, and the rest of section 6.1.2 report a study or give reasons (N2):
+# they stay. l. 15–16's „sieht die Leitliniengruppe eine Indikation für eine frühe Rhythmuskontrolle auch bei
+# asymptomatischen Patient*innen“ restates 6.2's „unabhängig von Beschwerden“ (G3; reading 2).
+
+# Section 6.1.3, Hintergrund (p. 51, l. 39–41): the term „Tachykardie- oder Arrhythmie-induzierte Kardiomyopathie (AiCM)“,
+# marked by „eine so genannte“: a definition claim, R to 6.3, whose group it makes precise (reading 6). It defines a
+# wider term than 6.3's „AF -induzierter Kardiomyopathie“, so no concept reaches it by defined_by. l. 41–43 describes it
+# (N2).
+- id: claims/vorhofflimmern-lf-1.1/1092f4c3
+  type: claim
+  lang: de
+  kind: definition
+  section: "6.1.3"
+  label: "Eine wichtige Ausnahme ist die reduzierte linksventrikuläre Pumpfunktion aufgrund einer Tachykardie oder Arrhythmie, eine so genannte Tachykardie- oder Arrhythmie-induzierte Kardiomyopathie (AiCM)."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=51
+    quote: "eine so genannte Tachykardie- oder Arrhythmie-induzierte Kardiomyopathie (AiCM)"
+# Section 6.1.3 (p. 51, l. 44–45): when to think of an AiCM, a measure beside 6.3's — S to 6.3 (reading 6).
+- id: claims/vorhofflimmern-lf-1.1/0c8b759e
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.1.3"
+  label: "Bei neu aufgetretenem und vor allem tachykardem AF mit eingeschränkter linksventrikulärer Pumpfunktion, sollte an eine AiCM gedacht werden."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=51
+    quote: "sollte an eine AiCM gedacht werden"
+# Section 6.1.3 (p. 51, l. 47–49): the work-up, two measures joined by „und“ — the rhythmisation and the re-evaluation —,
+# a claim each, labelled with its own span (#314 Decision 20, members), each S to 6.3 (reading 6). l. 52–53 restates
+# 6.3 (G3) and stays.
+- id: claims/vorhofflimmern-lf-1.1/2314743e
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.1.3"
+  label: "Um eine durch AF bedingte AiCM zu diagnostizieren, kann der Versuch einer Rhythmisierung, zum Beispiel durch eine elektrische Kardioversion, unternommen"
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=51
+    quote: "kann der Versuch einer Rhythmisierung"
+- id: claims/vorhofflimmern-lf-1.1/90f6b3ca
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.1.3"
+  label: "die linksventrikuläre Funktion nach einigen Wochen im Sinusrhythmus re-evaluiert werden."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=51
+    quote: "nach einigen Wochen im Sinusrhythmus re-evaluiert werden"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=51, quote: "kann der Versuch einer Rhythmisierung"}
+# Section 6.1.3 (p. 51, l. 49–50): restates 6.3 and adds a time, „dauerhafte“ (G3 counts what it adds); D does not hold,
+# R does: R to 6.3 (the judge, 2026-10-12). „wird … empfohlen“ is the wording empfehlen (spec §3.1, step 3); the
+# reference marks are left out of the label.
+- id: claims/vorhofflimmern-lf-1.1/4ff7ad9f
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.1.3"
+  label: "Wenn sich der Verdacht bestätigt, wird eine dauerhafte Rhythmuskontrolle empfohlen."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=51
+    quote: "Wenn sich der Verdacht bestätigt, wird eine dauerhafte Rhythmuskontrolle empfohlen"
+# Box 6.3 (p. 51, l. 57–67), in section 6.1.3: one sentence, ⇑⇑, „Konsensstärke: 100%“. „AF -“ / „induzierter“ (l. 59–60)
+# keeps its printed space and its hyphen in the label; the quote is cut before it (card #381, Constraints). Its evidence
+# cell prints words instead of a level, „Nicht "gegradet", da Adaptation“: one entry, that note alone, no outcome, key or
+# system (spec §3.1; #326), quoted beside the ASCII quotation marks. The box is a marked recommendation like any other;
+# „zitiert nach ESC 2024“ stays on the page (#325 Decision 11).
+- id: claims/vorhofflimmern-lf-1.1/7e3529f4
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.3"
+  section: "6.1.3"
+  label: "Die Durchführung einer Rhythmuskontrolle soll bei Patient*innen mit AF -induzierter Kardiomyopathie empfohlen werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {note: 'Nicht "gegradet", da Adaptation'}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=51
+    quote: "Die Durchführung einer Rhythmuskontrolle soll bei Patient*innen mit AF"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=51, quote: "⇑⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=51, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=51, quote: "da Adaptation"}
+# Section 6.1.3, Begründung (p. 52, l. 12): which technique 6.3's long-term rhythm control stands for — R to 6.3
+# (reading 6). „wird … empfohlen“ is the wording empfehlen (spec §3.1, step 3); the reference mark before the period is
+# left out of the label and the quote.
+- id: claims/vorhofflimmern-lf-1.1/1f8f897e
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.1.3"
+  label: "Für die langfristige Rhythmuskontrolle wird die Durchführung einer Katheterablation empfohlen."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=52
+    quote: "Für die langfristige Rhythmuskontrolle wird die Durchführung einer Katheterablation empfohlen"
+
+# Box 6.4 (p. 52, l. 33–44), in section 6.1.4: two sentences under one cell ⇑, „Konsensstärke: 100%“, the row without a
+# label „gering ⊕⊕⊝⊝“, one entry without an outcome or a key, on both sentences, each supporting a statement of its own
+# (#326 Decision 2). Sentence 1 opens on a justified line (l. 35), read as one run since #371; „Eine
+# rhythmuskontrollierende Therapie“ lies twice on the page (l. 6, l. 35), so the quote is longer (#314 Decision 20, F1).
+# „erwogen“ under ⇑ is sollte, for (#325 question 6, the physician's at review).
+- id: claims/vorhofflimmern-lf-1.1/4c8d05a4
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.4"
+  section: "6.1.4"
+  label: "Eine rhythmuskontrollierende Therapie sollte neben einer leitliniengerechten Herzinsuffizienz-Therapie bei Patient*innen mit schwerer Herzinsuffizienz erwogen werden."
+  grade: "⇑"
+  verb: sollte
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {value: "gering", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=52
+    quote: "Eine rhythmuskontrollierende Therapie sollte neben einer"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=52, quote: "⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=52, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=52, quote: "gering ⊕⊕⊝⊝"}
+# 6.4, sentence 2: another action, the ablation, for „geeigneten Patient*innen“ — the box's grade and row, a statement of
+# its own.
+- id: claims/vorhofflimmern-lf-1.1/863e3fe0
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.4"
+  section: "6.1.4"
+  label: "Bei geeigneten Patient*innen sollte eine Katheterablation des AF durchgeführt werden."
+  grade: "⇑"
+  verb: sollte
+  direction: for
+  consensus_share: "100%"
+  evidence:
+    - {value: "gering", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=52
+    quote: "Bei geeigneten Patient*innen sollte eine Katheterablation des AF durchgeführt werden."
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=52, quote: "⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=52, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=52, quote: "gering ⊕⊕⊝⊝"}
+# Section 6.1.4, Begründung (p. 53, l. 9–11): which patients „geeigneten Patient*innen“ and „schwerer Herzinsuffizienz“
+# stand for — „schweren systolischen Herzinsuffizienz“: R to 6.4's sentence 2 and, by E, to sentence 1, whose wording
+# carries „schwerer Herzinsuffizienz“ (reading 4). Its rating words (l. 11) are the box's. The trials' inclusions (p. 52,
+# l. 50 – p. 53, l. 7) and p. 52, l. 57–60 report studies (G2) and stay (reading 4).
+- id: claims/vorhofflimmern-lf-1.1/a53b9d87
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.1.4"
+  label: "Aufgrund dieser Daten sollte bei geeigneten Patient*innen mit einer schweren systolischen Herzinsuffizienz ebenfalls eine Rhythmisierung mittels Katheterablation angeboten werden (CASTLE-HTx Number needed to treat: 4.5)."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=53
+    quote: "sollte bei geeigneten Patient*innen mit einer schweren systolischen Herzinsuffizienz"
+
+# Section 6.2, Hintergrund (p. 53, l. 36): what 6.5's „als Erstlinientherapie“ covers — no prior antiarrhythmic therapy
+# is required: R to 6.5 (reading 5), read as the pool reads „nicht notwendig“ (sepsis p. 37): a recommendation against,
+# no verb, its words kept. l. 35–36 restates 6.5 (G3), l. 24–33 reports the trials (G2): they stay.
+- id: claims/vorhofflimmern-lf-1.1/9bae843e
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.2"
+  label: "Eine vorherige Therapie mit Antiarrhythmika ist nicht erforderlich."
+  direction: against
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=53
+    quote: "Eine vorherige Therapie mit Antiarrhythmika ist nicht erforderlich."
+# Section 6.2 (p. 53, l. 38–46): what to do on a recurrence after the ablation — steps only the body text gives, S to 6.5,
+# a claim per answer (reading 5): waiting; the sinus rhythm restored by either of two measures, joined by „oder“, a
+# claim each (members), labelled with its own span and cut at the dash and at „oder“; a repeat ablation; the evaluation
+# for it. The 8-week bounds stay in the labels, since no box uses „Frührezidiv“ (G1). l. 38–39 names the two classes
+# and stays.
+- id: claims/vorhofflimmern-lf-1.1/167a6234
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.2"
+  label: "Bei einem Frührezidiv des AF, innerhalb der ersten 8 Wochen nach Katheterablation, ist davon auszugehen, dass die Narbenbildung und/oder ein reverses Remodeling im linken Vorhof noch nicht abgeschlossen sind, sodass noch zugewartet werden kann"
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=53
+    quote: "sodass noch zugewartet werden kann"
+- id: claims/vorhofflimmern-lf-1.1/fa9f0c7f
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.2"
+  label: "der Sinusrhythmus sollte für diese Zeit mittels elektrischer Kardioversion"
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=53
+    quote: "mittels elektrischer Kardioversion"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=53, quote: "Sinusrhythmus sollte für diese Zeit"}
+- id: claims/vorhofflimmern-lf-1.1/7352feb4
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.2"
+  label: "Gabe von Antiarrhythmika wiederhergestellt werden."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=53
+    quote: "Gabe von Antiarrhythmika wiederhergestellt werden"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=53, quote: "Sinusrhythmus sollte für diese Zeit"}
+- id: claims/vorhofflimmern-lf-1.1/367a3cff
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.2"
+  label: "Bei einem späten AF-Rezidiv, das nach mehr als 8 Wochen auftritt, kann bei Patient*innen eine erneute Katheterablation in Betracht gezogen werden, um Beschwerden zu lindern und eine Progression des AF zu verhindern."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=53
+    quote: "kann bei Patient*innen eine erneute Katheterablation in Betracht gezogen werden"
+- id: claims/vorhofflimmern-lf-1.1/302423fa
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.2"
+  label: "Insbesondere Patient*innen, bei denen die Katheterablation initial zu einer Besserung der Symptome geführt hat, sollten für eine erneute Ablation bei Rezidiv des AF evaluiert werden."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=53
+    quote: "sollten für eine erneute Ablation bei Rezidiv des AF evaluiert werden"
+# Box 6.5 (p. 53, l. 50–64), in section 6.2: one sentence, ⇑⇑, „Konsensstärke: 94,1%“, the row „AF-Rezidiv,
+# Hospitalisierung: gering ⊕⊕⊝⊝“, one entry per endpoint. The aim opens the sentence and stays in the label. Its
+# Begründung rates the recurrence evidence „niedrig“: disagrees_with.
+- id: claims/vorhofflimmern-lf-1.1/847a70c8
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.5"
+  section: "6.2"
+  label: "Zur Reduktion von AF-Episoden und Krankenhausaufenthalten soll die Katheterablation jüngeren, symptomatischen Patient*innen ohne relevante Begleiterkrankungen und mit Indikation zu einer rhythmuskontrollierenden Behandlung als Erstlinientherapie empfohlen werden."
+  grade: "⇑⇑"
+  verb: soll
+  direction: for
+  consensus_share: "94,1%"
+  evidence:
+    - {outcome: concepts/af-rezidiv, value: "gering", system: grade}
+    - {outcome: concepts/hospitalisierung, value: "gering", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=53
+    quote: "Zur Reduktion von AF-Episoden und Krankenhausaufenthalten soll die"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=53, quote: "⇑⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=53, quote: "Konsensstärke: 94,1%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=53, quote: "AF-Rezidiv, Hospitalisierung:"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=53, quote: "AF-Rezidiv, Hospitalisierung:"}
+# Section 6.2, Begründung (p. 54, l. 9–10): rates the recurrence evidence „GRADE niedrig“, where box 6.5's row prints
+# „AF-Rezidiv …: gering“ — another word, another rating (§5.1 D, N2's exception; #372 supersedes #326 Decision 15 for it;
+# card #381 Decision 5): a fact claim joined by disagrees_with to 6.5's claim. Its subject is a review, admitted by N2's
+# exception as 5.3's was (#365 Decision 6). The reference mark „(40)“ is left out of the label; the cited author stays,
+# as spec §3.1 keeps one (card #381, Constraints). The quote is cut after the name. l. 17's and l. 19's „gering“ are the
+# box's word and stay.
+- id: claims/vorhofflimmern-lf-1.1/6aee6103
+  type: claim
+  lang: de
+  kind: fact
+  section: "6.2"
+  label: "Das Review von Turagam et al. sieht klinisch relevante Effekte auf AF- Rezidive sowie Hospitalisierungen (Rezidive: RR, 0.62;95% KI, 0.51-0.74; I2= 40%; n=6 Studien; NNT 5; GRADE niedrig)."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=54
+    quote: "(Rezidive: RR, 0.62;95% KI, 0.51-0.74; I2= 40%; n=6 Studien; NNT 5; GRADE niedrig)"
+# Tabelle 12 (p. 55) gives trial characteristics (N2) and stays (reading 5), as does section 6.3's Hintergrund (p. 55).
+
+# Box 6.6 (p. 56, l. 6–20), in section 6.3: one sentence, ⇑, „Konsensstärke: 77,8%“, the row „AF-Progression,
+# AF-Rezidiv, Hospitalisierung: sehr gering ⊕⊝⊝⊝“, its label over two lines, one entry per endpoint; „AF-Progression“ is
+# an outcome of this part's. The aim stays in the label. l. 26's „sehr geringe“ is the box's word and stays.
+- id: claims/vorhofflimmern-lf-1.1/4306f0d0
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.6"
+  section: "6.3"
+  label: "Eine Katheterablation sollte Patient*innen mit paroxysmalem AF und Indikation zu einer rhythmuskontrollierenden Therapie empfohlen werden, um die Progression zu persistierendem AF zu reduzieren."
+  grade: "⇑"
+  verb: sollte
+  direction: for
+  consensus_share: "77,8%"
+  evidence:
+    - {outcome: concepts/af-progression, value: "sehr gering", system: grade}
+    - {outcome: concepts/af-rezidiv, value: "sehr gering", system: grade}
+    - {outcome: concepts/hospitalisierung, value: "sehr gering", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=56
+    quote: "Eine Katheterablation sollte Patient*innen mit paroxysmalem AF und"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=56, quote: "⇑"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=56, quote: "Konsensstärke: 77,8%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=56, quote: "AF-Progression, AF-Rezidiv,"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=56, quote: "AF-Progression, AF-Rezidiv,"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=56, quote: "Hospitalisierung:"}
+# Section 6.4, Hintergrund (p. 56, l. 44–46): the patients for whom rhythm control can be forgone, worded otherwise than
+# 6.7 — „mit lang-persistierendem Vorhofflimmern“ and „adäquat frequenzkontrollierte“ where the box prints „seit
+# mindestens zwei Jahren persistiert“: §5.1 D, a fact claim joined by disagrees_with to 6.7's claim, no R (reading 7).
+# l. 41–44 restates 6.7 (G3) and stays.
+- id: claims/vorhofflimmern-lf-1.1/2d8ff97e
+  type: claim
+  lang: de
+  kind: fact
+  section: "6.4"
+  label: "Wichtig ist, dass es sich nach Meinung der Leitliniengruppe in der Regel um asymptomatische und adäquat frequenzkontrollierte Patient*innen (s. Kapitel 7. Frequenzkontrolle) mit lang-persistierendem Vorhofflimmern handelt, bei denen der linke Vorhof bereits dilatiert ist."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=56
+    quote: "lang-persistierendem Vorhofflimmern handelt, bei denen der linke Vorhof bereits dilatiert ist."
+# Section 6.4 (p. 56, l. 62–63): eliciting the symptoms, a measure beside 6.7 — S to 6.7 (reading 7); its „vor mehr als
+# 12 Monaten diagnostiziert“, a fourth duration wording, stays in its label. l. 48–60 gives reasons and reports
+# studies (N2), l. 59's „Begleittext 4.1“ is a cross-reference (N4).
+- id: claims/vorhofflimmern-lf-1.1/ab98ab2b
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.4"
+  label: "Das Vorhandensein von Symptomen sollte daher gezielt bei Patient*innen mit persistierendem AF (insbesondere, wenn das AF vor mehr als 12 Monaten diagnostiziert wurde) für die Therapieentscheidung eruiert werden."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=56
+    quote: "Das Vorhandensein von Symptomen sollte daher gezielt bei Patient*innen mit"
+# Section 6.4 (p. 56, l. 63–66): what 6.7's „asymptomatischen“ covers — symptom freedom includes the patients'
+# performance: R to 6.7 (reading 7). „ist … zu evaluieren“ is no declared wording: no verb.
+- id: claims/vorhofflimmern-lf-1.1/60baa179
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.4"
+  label: "Bei der Durchführung einer gezielten Anamnese ist besonders zu evaluieren, ob tatsächlich eine Symptomfreiheit besteht – hierzu zählt nicht nur die Wahrnehmung der Herzrhythmusstörung, sondern insbesondere auch die Leistungsfähigkeit der Patient*innen."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=56
+    quote: "ob tatsächlich eine Symptomfreiheit besteht"
+# Section 6.4 (p. 56, l. 66–67): the rate control checked and, if needed, intensified — two measures joined by „und“, a
+# claim each (members), each S to 6.7 (reading 7).
+- id: claims/vorhofflimmern-lf-1.1/fc15a9a7
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.4"
+  label: "Die frequenzkontrollierende Therapie sollte überprüft"
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=56
+    quote: "Die frequenzkontrollierende Therapie sollte überprüft"
+- id: claims/vorhofflimmern-lf-1.1/6a811bf6
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.4"
+  label: "wenn nötig intensiviert werden (s. Kapitel 7. Frequenzkontrolle)."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=56
+    quote: "wenn nötig intensiviert werden"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=56, quote: "Die frequenzkontrollierende Therapie sollte überprüft"}
+# Section 6.4, Hintergrund (p. 57, l. 7–10): how 6.7's „dilatierte Vorhöfe“ is determined — the LA volume, and its
+# „Cut-off“ of 34 ml/m2 — two sentences, a claim each, each R to 6.7 (reading 8). No comparator is printed, so the value
+# stays in the label, no threshold. l. 4–7, with „LA Diameter > 50mm“ inside an association, is N2.
+- id: claims/vorhofflimmern-lf-1.1/883a9883
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.4"
+  label: "Zur Bestimmung der LA-Dilatation, sollte das LA-Volumen herangezogen werden."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=57
+    quote: "Zur Bestimmung der LA-Dilatation, sollte das LA-Volumen herangezogen werden"
+- id: claims/vorhofflimmern-lf-1.1/b7d3cfd4
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.4"
+  label: "Ein hoch-normales LA Volumen besteht bei 34 ml/m2 für beide Geschlechter und sollte nach Empfehlung der European Heart Rhythm Association (EHRA) als \"Cut-off\" für die Unterscheidung zwischen normalem und dilatiertem linken Vorhof verwendet werden."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=57
+    quote: "Ein hoch-normales LA Volumen besteht bei 34 ml/m2 für beide Geschlechter"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=57, quote: "sollte nach Empfehlung der European Heart Rhythm Association"}
+# Box 6.7 (p. 57, l. 16–29), in section 6.4: one sentence, ⇑ with „EK“ (a basis, #323), „Konsensstärke: 79,2%“. For rate
+# control, „anstelle einer Rhythmuskontrolle“ and the target „(< 110 Schläge/min)“ in the label (#328 Decision 10; a
+# target on the action is no threshold). Its evidence: the heading „Aussagesicherheit der indirekten Evidenz“ (l. 24–25)
+# over the row without a label „gering ⊕⊕⊝⊝“, one entry, the heading its note, quoted after the row's line (spec §3.1;
+# #326 Decision 13). p. 56, l. 44–46 answers it otherwise: disagrees_with. Abb. 3's red row says of rhythm control
+# what the box's „anstelle einer Rhythmuskontrolle“ says and leaves out the rate control: no edge (the judge, 2026-10-12).
+- id: claims/vorhofflimmern-lf-1.1/ebbc8539
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.7"
+  section: "6.4"
+  label: "Bei asymptomatischen Patient*Innen, bei denen das AF bereits seit mindestens zwei Jahren persistiert und dilatierte Vorhöfe bestehen, sollte anstelle einer Rhythmuskontrolle eine Frequenzkontrolle (< 110 Schläge/min) erfolgen."
+  grade: "⇑"
+  verb: sollte
+  direction: for
+  basis: EK
+  consensus_share: "79,2%"
+  evidence:
+    - {value: "gering", note: "Aussagesicherheit der indirekten Evidenz", system: grade}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=57
+    quote: "Bei asymptomatischen Patient*Innen, bei denen das AF bereits seit"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=57, quote: "⇑"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=57, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=57, quote: "Konsensstärke: 79,2%"}
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=57, quote: "sollte anstelle einer Rhythmuskontrolle eine Frequenzkontrolle"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=57, quote: "gering ⊕⊕⊝⊝"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=57, quote: "Aussagesicherheit der indirekten Evidenz"}
+# 6.7, the rule printed inside the sentence: the duration „seit mindestens zwei Jahren persistiert“ (l. 18–19), a
+# narrower criterion claim (spec §3.1; #328), its threshold on the AF's duration (p. 57, l. 39 prints „AF-Dauer“), the
+# box's number, section, share and basis, no grade. The subgroup naming the form and the duration reaches it by
+# defined_by (card #381 Decision 3).
+- id: claims/vorhofflimmern-lf-1.1/455a20be
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: "6.7"
+  section: "6.4"
+  label: "seit mindestens zwei Jahren persistiert"
+  basis: EK
+  consensus_share: "79,2%"
+  threshold: {quantity: concepts/af-dauer, comparator: "≥", value: "zwei", unit: "Jahren"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=57
+    quote: "seit mindestens zwei Jahren persistiert"
+  provenance:
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=57, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=57, quote: "Konsensstärke: 79,2%"}
+# Section 6.4, Begründung (p. 57, l. 36): what 6.7's „dilatierte Vorhöfe“ means, marked „definiert durch“ — the
+# parenthesis with the clause it qualifies, a definition claim, R to 6.7, and the concept's defined_by (reading 8). The
+# rest of the sentence (l. 35–38) gives a reason (N2).
+- id: claims/vorhofflimmern-lf-1.1/074a710e
+  type: claim
+  lang: de
+  kind: definition
+  section: "6.4"
+  label: "ist der linke Vorhof dilatiert (definiert durch ein erhöhtes LA-Volumen)"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=57
+    quote: "dilatiert (definiert durch ein erhöhtes LA-Volumen"
+# Section 6.4, Begründung (p. 57, l. 38–39): what 6.7's two years stand for — an orientation: R to the duration's
+# narrower claim (reading 7).
+- id: claims/vorhofflimmern-lf-1.1/1003c376
+  type: claim
+  lang: de
+  kind: fact
+  section: "6.4"
+  label: "Die in der Empfehlung genannten zwei Jahre der AF-Dauer beruhen auf Expertenkonsens und sind als Orientierungshilfe zu verstehen."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=57
+    quote: "genannten zwei Jahre der AF-Dauer beruhen auf Expertenkonsens"
+# Section 6.4, Begründung (p. 57, l. 42–43): the rate control maintained or intensified for this group — two measures
+# joined by „bzw.“, a claim each (members), each S to 6.7 (reading 7). l. 40–42 and 43–45 give reasons (N2).
+- id: claims/vorhofflimmern-lf-1.1/817f8639
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.4"
+  label: "Bei diesem Patientenkollektiv sollte eine gezielte, adäquate Frequenzkontrolle beibehalten"
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=57
+    quote: "adäquate Frequenzkontrolle beibehalten"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=57, quote: "Bei diesem Patientenkollektiv sollte eine gezielte"}
+- id: claims/vorhofflimmern-lf-1.1/9521baea
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.4"
+  label: "intensiviert werden."
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=57
+    quote: "intensiviert werden"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=57, quote: "Bei diesem Patientenkollektiv sollte eine gezielte"}
+# §6.5 is a heading only (p. 57, l. 50). Section 6.5.1's Hintergrund (p. 57, l. 55–60) gives reasons (N2) and restates
+# 6.8 (l. 57–58, G3).
+
+# Box 6.8 (p. 58, l. 6–15), in section 6.5.1: one sentence, ⇑ with „EK“, „Konsensstärke: 100%“. „Klasse IC-“ /
+# „Antiarrhythmikum“ (l. 9–10) keeps its hyphen in the label; the quote is cut before it. The class's members „(Flecainid,
+# Propafenon)“ name what the class comprises, one answer: no narrower claim. Its evidence block prints the heading
+# „Indirekte Evidenz“ and a literature label, no rating: one entry, the heading its note, no system (spec §3.1; #326
+# Decisions 12–14); the literature label stays on the page.
+- id: claims/vorhofflimmern-lf-1.1/6ff40fc9
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.8"
+  section: "6.5.1"
+  label: "Patient*innen ohne strukturelle Herzerkrankung sollte im Falle einer medikamentösen antiarrhythmischen Therapie primär ein Klasse IC-Antiarrhythmikum (Flecainid, Propafenon) empfohlen werden."
+  grade: "⇑"
+  verb: sollte
+  direction: for
+  basis: EK
+  consensus_share: "100%"
+  evidence:
+    - {note: "Indirekte Evidenz"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=58
+    quote: "Patient*innen ohne strukturelle Herzerkrankung sollte im Falle einer"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=58, quote: "⇑"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=58, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=58, quote: "Konsensstärke: 100%"}
+    evidence:
+      - {at: sources/vorhofflimmern-lf-1.1#page=58, quote: "Indirekte Evidenz"}
+# Section 6.5.1, Begründung (p. 58, l. 37–39): which patients 6.8's „ohne strukturelle Herzerkrankung“ does not cover —
+# R to 6.8 (reading 9); not recommended is against, no declared wording. Its members are the cases one group comprises,
+# one answer. The page calls the definition „komplex“ (l. 35–37, N2), so concepts/strukturell-herzgesund gets no
+# defined_by. l. 21–23 and 34–35 restate 6.8 (G3), l. 23–31 reports a study (G2); l. 39–41 says only that no data exist
+# (N2).
+- id: claims/vorhofflimmern-lf-1.1/c66dfa2e
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.5.1"
+  label: "Aus Sorge vor proarrhythmischen Nebenwirkungen sind Klasse IC-Antiarrhythmika nicht empfehlenswert bei Patient*innen mit Z.n. Myokardinfarkt, mittel- bis höhergradig eingeschränkter linksventrikulärer Funktion und/oder ausgeprägter linksventrikulärer Hypertrophie (z.B. Septumdicke > 14-16mm)."
+  direction: against
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=58
+    quote: "sind Klasse IC-Antiarrhythmika nicht empfehlenswert bei Patient*innen mit Z.n. Myokardinfarkt"
+  provenance:
+    direction: {at: sources/vorhofflimmern-lf-1.1#page=58, quote: "nicht empfehlenswert"}
+# Section 6.5.1 (p. 58, l. 41–42): a „Ermessensspielraum“ left to the reader — a decline (§5.1 G4), a gap notice
+# without an edge (card #381 Decision 8).
+- id: claims/vorhofflimmern-lf-1.1/ce6ff7c9
+  type: claim
+  lang: de
+  kind: gap_notice
+  section: "6.5.1"
+  label: "Hier sieht die Leitliniengruppe im Sinne eines Nutzen-Risiko-Abwägens Ermessensspielraum."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=58
+    quote: "Hier sieht die Leitliniengruppe im Sinne eines Nutzen-Risiko-Abwägens Ermessensspielraum."
+# Section 6.5.1 (p. 58, l. 42–43): the same latitude for a „pill-in-the pocket“ therapy, the subject of a sibling's box
+# (6.17, section 6.8.6): §5.1 U, a gap notice without an edge, quoted before the ASCII quotation marks (card #381
+# Decision 8). l. 45 introduces Tabelle 13 (N4).
+- id: claims/vorhofflimmern-lf-1.1/1be4c5c8
+  type: claim
+  lang: de
+  kind: gap_notice
+  section: "6.5.1"
+  label: "Dies gilt z.B. auch für eine \"pill-in-the pocket\" Therapie bei stabiler koronarer Herzerkrankung."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=58
+    quote: "Dies gilt z.B. auch für eine"
+# Section 6.5.2, Hintergrund (p. 58, l. 58–60): what amiodarone requires — two measures joined by „und“, a claim each
+# (members), each S to 6.9, a measure beside it (reading 10). „erfordern“ is no declared wording: no verb. l. 53–56
+# gives reasons (N2), l. 60–62 restates 6.9 (G3).
+- id: claims/vorhofflimmern-lf-1.1/d4638b02
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.5.2"
+  label: "Das relativ große Nebenwirkungsspektrum von Amiodaron in Bezug auf u.a. Schilddrüse, Lunge und Leber sowie proarrhythmische Effekte erfordern strenge Sicherheitsabwägungen"
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=58
+    quote: "erfordern strenge Sicherheitsabwägungen"
+- id: claims/vorhofflimmern-lf-1.1/12e1f5f5
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.5.2"
+  label: "ein engmaschiges Therapiemonitoring."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=58
+    quote: "ein engmaschiges Therapiemonitoring"
+
+# Box 6.9 (p. 59, l. 8–15), in section 6.5.2: one sentence, ⇓ with „EK“, „Konsensstärke: 96,6%“, no evidence block.
+# ⇓ fixes against; „vermieden“ is the action avoided, amiodarone (#323 Decision 8). p. 59, l. 21–22's „sehr niedriger
+# Aussagesicherheit“ joins no row and stays.
+- id: claims/vorhofflimmern-lf-1.1/66aecd2c
+  type: claim
+  lang: de
+  kind: recommendation
+  recommendation_no: "6.9"
+  section: "6.5.2"
+  label: "Eine antiarrhythmische Therapie mit Amiodaron zur langfristigen Rhythmuskontrolle sollte wenn möglich vermieden werden."
+  grade: "⇓"
+  verb: sollte
+  direction: against
+  basis: EK
+  consensus_share: "96,6%"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=59
+    quote: "Eine antiarrhythmische Therapie mit Amiodaron zur langfristigen"
+  provenance:
+    grade: {at: sources/vorhofflimmern-lf-1.1#page=59, quote: "⇓"}
+    basis: {at: sources/vorhofflimmern-lf-1.1#page=59, quote: "EK"}
+    consensus_share: {at: sources/vorhofflimmern-lf-1.1#page=59, quote: "Konsensstärke: 96,6%"}
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=59, quote: "Rhythmuskontrolle sollte wenn möglich vermieden werden."}
+# Section 6.5.2, Begründung (p. 59, l. 24–26): the therapy checked in its course and stopped early on complications or
+# ineffectiveness — two measures joined by „und“, a claim each (members), each S to 6.9 (reading 10). No declared
+# wording: no verb. l. 21–23 gives reasons (N2).
+- id: claims/vorhofflimmern-lf-1.1/bbf5acb5
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.5.2"
+  label: "Gerade im Hinblick auf ein mögliches unter der Therapie mit Amiodaron auftretendes Rezidiv von AF und langfristige Nebenwirkungen ist diese Therapie außerdem im Verlauf kritisch zu prüfen"
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=59
+    quote: "ist diese Therapie außerdem im Verlauf kritisch zu prüfen"
+- id: claims/vorhofflimmern-lf-1.1/483f9c6b
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.5.2"
+  label: "im Falle von Komplikationen oder Ineffektivität frühzeitig abzusetzen."
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=59
+    quote: "im Falle von Komplikationen oder Ineffektivität frühzeitig abzusetzen"
+# Section 6.5.2, Begründung (p. 59, l. 28–29): what 6.9's „langfristigen“ means, marked by the authors — R to 6.9
+# (reading 10). Its dass-clause instructs („… nicht auf der langfristigen Gabe von Amiodaron beruhen sollte“), and §3.1's
+# first form that holds decides: a recommendation, against, sollte (the judge, 2026-10-12). p. 52, l. 12 uses the word
+# otherwise: no E edge there.
+- id: claims/vorhofflimmern-lf-1.1/1d5ab9c0
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.5.2"
+  label: "Mit „langfristig“ meinen die Autor*innen dieser Leitlinie, dass das Fundament des Therapiekonzepts der Rhythmuskontrolle nicht auf der langfristigen Gabe von Amiodaron beruhen sollte."
+  verb: sollte
+  direction: against
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=59
+    quote: "meinen die Autor*innen dieser Leitlinie, dass das Fundament des Therapiekonzepts"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=59, quote: "nicht auf der langfristigen Gabe von Amiodaron beruhen sollte"}
+    direction: {at: sources/vorhofflimmern-lf-1.1#page=59, quote: "nicht auf der langfristigen Gabe von Amiodaron beruhen sollte"}
+# Section 6.5.2 (p. 59, l. 29–33): the short bridging „langfristig“ leaves out — R to 6.9 (reading 10). „kann … sinnvoll
+# sein“ is the wording kann.
+- id: claims/vorhofflimmern-lf-1.1/8c47c028
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.5.2"
+  label: "Eine kurzzeitige Überbrückung und Rhythmisierung mit Amiodaron, z.B. nach elektrischer Kardioversion zur Evaluation der Symptom-Rhythmus-Korrelation, zur Evaluation der linksventrikulären Pumpfunktion bei V.a. AiCM z.B. auch während der Wartezeit bis zur Katheterablation oder periprozedural nach einer Ablation beim Auftreten eines Frührezidivs kann individuell sinnvoll sein."
+  verb: kann
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=59
+    quote: "Eine kurzzeitige Überbrückung und Rhythmisierung mit Amiodaron"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=59, quote: "kann individuell sinnvoll sein"}
+# Section 6.5.2 (p. 59, l. 33–34): the next step fixed early, after the bridging — S to 6.9 (reading 10). „empfiehlt“ is
+# the wording empfehlen (spec §3.1, step 3).
+- id: claims/vorhofflimmern-lf-1.1/ed539183
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.5.2"
+  label: "Die Leitliniengruppe empfiehlt dann jedoch direkt den weiteren/nächsten Therapieschritt nach dieser Zeit der Überbrückung bereits früh festzulegen."
+  verb: empfehlen
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=59
+    quote: "Die Leitliniengruppe empfiehlt dann jedoch direkt den weiteren/nächsten Therapieschritt"
+
+# Tabelle 13 (p. 60, l. 4–62), „Tabelle modifiziert nach [29]“ (a source line, no report: G2), printed in section 6.5.2
+# and introduced in 6.5.1 (p. 58, l. 35 and 45), where it is read (§5.1; #325 Decision 6); its claims keep section 6.5.2,
+# where printed. Its rows each give another agent: a claim per row, quoting the row's cell in the column „Medikamente“,
+# labelled „Kopf: Zelle; …“ as printed (§5.1 K). Flecainid and Propafenon are the members 6.8 names: R to 6.8, for, no
+# verb, the contraindication in the label (card #381 Decision 8; whether it is a limit of its own is the physician's,
+# #325 question 4 (c)). The Amiodaron row reports facts for a sibling's box (6.9; G1) and stays. Dronedaron's „Edoxaban
+# Dosis reduzieren“ and Sotalol's „sollten zunächst alternative Antiarrhythmika evaluiert werden“ instruct for agents no
+# box of 6.5.1 names: §5.1 U, a claim each, without an edge (reading 14).
+- id: claims/vorhofflimmern-lf-1.1/25186e5d
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.5.2"
+  label: "Medikamente: Flecainid; Administration: oral (stationär auch intravenös); Dosis: 100-200 mg/Tag; Kontraindikationen/Kommentare: Sollte nicht bei Patient*innen mit struktureller Herzerkrankung, ischämischer Kardiomyopathie, mittel-bis höhergradig reduzierter linksventrikulärer Pumpfunktion, ausgeprägter linksventrikulärer Hypertrophie, Brugada Syndrom, GFR<35 ml/min/1.73 m2 und/oder signifikanter Lebererkrankung gegeben werden; bei Zunahme der QRS-Breite (>25%) absetzen, Bradykardien als häufigste kardiale Nebenwirkung; Cave bei bereits sinuatrialen oder atrioventrikulären Störungen sowie bei Vorhofflattern: hier ist keine med. Konversion mittels Klasse IC Antiarrhythmikum empfohlen"
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=60
+    quote: "Flecainid"
+- id: claims/vorhofflimmern-lf-1.1/4063eb40
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.5.2"
+  label: "Medikamente: Propafenon; Administration: oral (stationär auch intravenös); Dosis: Unretardiert: 450 mg/Tag (3x150 mg) bis max. 900 mg/Tag SR (slow release): 450 mg/Tag (2x225 mg) bis max. 850 mg/Tag; Kontraindikationen/Kommentare: Sollte nicht bei Patient*innen mit struktureller Herzerkrankung, ischämischer Kardiomyopathie, mittel-bis höhergradig reduzierter linksventrikulärer Pumpfunktion, ausgeprägter linksventrikulärer Hypertrophie, Brugada Syndrom, eingeschränkter Nierenfunktion, Asthma oder signifikanter Lebererkrankung gegeben werden; bei Zunahme QRS-Breite (>25%) absetzen, Bradykardien als häufigste Nebenwirkung; Cave bei bereits sinuatrialen oder atrioventrikulären Störungen sowie bei Vorhofflattern: hier ist keine med. Konversion mittels Klasse IC Antiarrhythmikum empfohlen"
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=60
+    quote: "Propafenon"
+- id: claims/vorhofflimmern-lf-1.1/0c4a60f6
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.5.2"
+  label: "Medikamente: Dronedaron; Administration: oral; Dosis: 400 mg 2x täglich; Kontraindikationen/Kommentare: Weniger effektiv als Amiodaron, aber auch weniger Nebenwirkungen; cave bei Patient*innen mit dekompensierter Herzinsuffizienz, hier erhöhte Mortalität; zahlreiche Arzneimittelinteraktionen (z.B. Dabigatran – Kombination kontraindiziert, Digitalis, Betablocker; Edoxaban Dosis reduzieren)"
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=60
+    quote: "Dronedaron"
+  provenance:
+    direction: {at: sources/vorhofflimmern-lf-1.1#page=60, quote: "Edoxaban Dosis reduzieren"}
+- id: claims/vorhofflimmern-lf-1.1/bea72921
+  type: claim
+  lang: de
+  kind: recommendation
+  section: "6.5.2"
+  label: "Medikamente: Sotalol; Administration: oral; Dosis: 80-160 mg 2x täglich; Kontraindikationen/Kommentare: Beta-Blocker plus Klasse -III Antiarrhythmikum; Klasse III Effekte sind erst ab Dosis > 160mg/Tag zu erwarten; aufgrund des Sicherheitsprofils sollten zunächst alternative Antiarrhythmika evaluiert werden; Cave: Torsades de Pointes, Kontraindikation: mittel- bis höhergradig reduzierte LV-Pumpfunktion, ausgeprägte LV-Hypertrophie, Hypokaliämie, Asthma, eingeschränkte Nierenfunktion"
+  verb: sollte
+  direction: for
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=60
+    quote: "Sotalol"
+  provenance:
+    verb: {at: sources/vorhofflimmern-lf-1.1#page=60, quote: "sollten zunächst alternative Antiarrhythmika evaluiert werden"}

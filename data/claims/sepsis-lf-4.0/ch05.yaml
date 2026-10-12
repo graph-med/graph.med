@@ -1,6 +1,6 @@
 # Chapter 5 „Beatmungstherapie“ of sources/sepsis-lf-4.0, physical pages 73–87 (card #223): the 17 sentences of
 # boxes 5.1–5.16, each a claim (spec §3.1), with grade, verb, direction, consensus and evidence rows as printed; then
-# the body-text places that pass spec §5.1, by page. Quotes are verbatim on one line of `pdftotext -layout`; ids are
+# the body-text places that pass spec §5.1, by page. Quotes are verbatim in whole words (spec §6.2; re-cut by #316); ids are
 # sha256("<at>|<quote>")[:8].
 - id: claims/sepsis-lf-4.0/1ae066ff
   type: claim
@@ -225,7 +225,7 @@
     quote: "Wir empfehlen bei Patienten mit Sepsis oder septischem Schock"
   provenance:
     grade: {at: sources/sepsis-lf-4.0#page=81, quote: "Stark"}
-    direction: {at: sources/sepsis-lf-4.0#page=81, quote: "KEINE Durchführung von prolongierten (> 60 s) Rekrutierungs-"}
+    direction: {at: sources/sepsis-lf-4.0#page=81, quote: "KEINE Durchführung von prolongierten (> 60 s) Rekrutierungsmanövern"}
     consensus:
       - {at: sources/sepsis-lf-4.0#page=81, quote: "Konsensstärke: 100 %"}
       - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
@@ -283,7 +283,7 @@
     consensus_share: {at: sources/sepsis-lf-4.0#page=83, quote: "Konsensstärke: 100 %"}
     evidence:
       - {at: sources/sepsis-lf-4.0#page=83, quote: "Mortalität:"}
-# a rule inside the box sentence, „(PaO2/FiO2 100-300)“, stays in this claim without a threshold (#213 item 3; open question rule-claim-granularity)
+# 5.12: the sentence keeps its rule in its label; the rule „(PaO2/FiO2 100-300)“ is the narrower claim below (spec §3.1, #328; #355)
 - id: claims/sepsis-lf-4.0/7aa857fe
   type: claim
   lang: de
@@ -311,7 +311,27 @@
     evidence:
       - {at: sources/sepsis-lf-4.0#page=84, quote: "Mortalität:"}
       - {at: sources/sepsis-lf-4.0#page=84, quote: "Intensiv-Liegedauer:"}
-# a rule inside the box sentence, „länger als 24 Stunden invasiv beatmet“, stays in this claim without a threshold (#213 item 3)
+# 5.12, the rule printed inside the sentence above: a narrower criterion claim, reached by
+# concepts/milde-bis-moderate-akute-hypoxaemische-respiratorische-insuffizienz's defined_by; no grade, no evidence rows (#355)
+- id: claims/sepsis-lf-4.0/67979f39
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: '5.12'
+  section: '5.6'
+  label: "milder bis moderater akuter hypoxämischer respiratorischer Insuffizienz (PaO2/FiO2 100-300)"
+  consensus: starker_konsens
+  consensus_share: 100 %
+  threshold: {quantity: concepts/pao2-fio2-verhaeltnis, comparator: "between", value: "100-300"}
+  source:
+    at: sources/sepsis-lf-4.0#page=84
+    quote: "milder bis moderater akuter hypoxämischer respiratorischer Insuffizienz (PaO2/FiO2 100-300)"
+  provenance:
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=84, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=84, quote: "Konsensstärke: 100 %"}
+# 5.13: the sentence keeps its rule in its label; the rule „länger als 24 Stunden invasiv beatmet“ is the narrower claim below (#355)
 - id: claims/sepsis-lf-4.0/59f06067
   type: claim
   lang: de
@@ -337,7 +357,28 @@
     consensus_share: {at: sources/sepsis-lf-4.0#page=85, quote: "Konsensstärke: 100 %"}
     evidence:
       - {at: sources/sepsis-lf-4.0#page=85, quote: "Beatmungsdauer:"}
-# a rule inside the box sentence, „(PaO2/FiO2 < 150 mmHg)“, stays in this claim without a threshold (#213 item 3); Oxford level for the whole box (#215)
+# 5.13, the rule printed inside the sentence above: a narrower criterion claim, reached by
+# concepts/laenger-als-24-stunden-invasiv-beatmet's defined_by; its quantity the duration of invasive ventilation as
+# printed, not p. 122's „maschinelle Beatmung“ (concepts/dauer-der-invasiven-beatmung); no grade, no evidence rows (#355)
+- id: claims/sepsis-lf-4.0/fd33b94f
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: '5.13'
+  section: '5.7'
+  label: "länger als 24 Stunden invasiv beatmet wurden"
+  consensus: starker_konsens
+  consensus_share: 100 %
+  threshold: {quantity: concepts/dauer-der-invasiven-beatmung, comparator: ">", value: "24", unit: "Stunden"}
+  source:
+    at: sources/sepsis-lf-4.0#page=85
+    quote: "länger als 24 Stunden invasiv beatmet wurden"
+  provenance:
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=85, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=85, quote: "Konsensstärke: 100 %"}
+# 5.14: the sentence keeps its rule in its label; the rule „(PaO2/FiO2 < 150 mmHg)“ is the narrower claim below (#355); Oxford level for the whole box (#215)
 - id: claims/sepsis-lf-4.0/d75eafe7
   type: claim
   lang: de
@@ -364,6 +405,26 @@
     evidence:
       - {at: sources/sepsis-lf-4.0#page=86, quote: "Evidenzgrad: 1"}
       - {at: sources/sepsis-lf-4.0#page=147, quote: "nach GRADE und Oxford 2011 gekennzeichnet."}
+# 5.14, the rule printed inside the sentence above: a narrower criterion claim, reached by
+# concepts/einschraenkung-der-arteriellen-oxygenierung's defined_by; no grade, no evidence rows (#355)
+- id: claims/sepsis-lf-4.0/a620690a
+  type: claim
+  lang: de
+  kind: criterion
+  recommendation_no: '5.14'
+  section: '5.8'
+  label: "Einschränkung der arteriellen Oxygenierung (PaO2/FiO2 < 150 mmHg)"
+  consensus: starker_konsens
+  consensus_share: 100 %
+  threshold: {quantity: concepts/pao2-fio2-verhaeltnis, comparator: "<", value: "150", unit: "mmHg"}
+  source:
+    at: sources/sepsis-lf-4.0#page=86
+    quote: "Einschränkung der arteriellen Oxygenierung (PaO2/FiO2 < 150 mmHg)"
+  provenance:
+    consensus:
+      - {at: sources/sepsis-lf-4.0#page=86, quote: "Konsensstärke: 100 %"}
+      - {at: sources/sepsis-lf-4.0#page=148, quote: "> 95 % der Stimmberechtigten"}
+    consensus_share: {at: sources/sepsis-lf-4.0#page=86, quote: "Konsensstärke: 100 %"}
 # 5.15, first sentence; both sentences carry the box's Oxford level (#215)
 - id: claims/sepsis-lf-4.0/6c4a6eff
   type: claim
@@ -419,7 +480,7 @@
       - {at: sources/sepsis-lf-4.0#page=86, quote: "Evidenzgrad: 1"}
       - {at: sources/sepsis-lf-4.0#page=147, quote: "nach GRADE und Oxford 2011 gekennzeichnet."}
 # the row prints „Mortalität“ without a colon; the word also stands in the page's body text (#215)
-- id: claims/sepsis-lf-4.0/5ec1345c
+- id: claims/sepsis-lf-4.0/1aa9a238
   type: claim
   lang: de
   kind: recommendation
@@ -435,7 +496,7 @@
     - {outcome: concepts/mortalitaet, value: "Sehr niedrig", system: grade}
   source:
     at: sources/sepsis-lf-4.0#page=87
-    quote: "Wir schlagen vor, den Einsatz einer veno-venösen ECMO bei Pa-"
+    quote: "Wir schlagen vor, den Einsatz einer veno-venösen ECMO bei Patienten"
   provenance:
     grade: {at: sources/sepsis-lf-4.0#page=87, quote: "Schwach"}
     consensus:
@@ -459,7 +520,7 @@
     at: sources/sepsis-lf-4.0#page=75
     quote: "Patienten mit mildem ARDS (P/F Ratio 201-300)"
 # p. 75, the second answer of the same sentence (§5.1 K): the values the table's setting stands for (R → 5.5); no threshold, a PEEP says how
-- id: claims/sepsis-lf-4.0/4fd97fa9
+- id: claims/sepsis-lf-4.0/d51d1510
   type: claim
   lang: de
   kind: criterion
@@ -467,9 +528,9 @@
   label: "Die niedrig-PEEP-FiO2-Tabelle führt bei Patienten mit mildem ARDS (P/F Ratio 201-300) typischerweise zu PEEP-Werten zwischen 5 und 8 cmH2O, sofern ein PaO2 zwischen 60 und 90 mmHg angestrebt wird."
   source:
     at: sources/sepsis-lf-4.0#page=75
-    quote: "scherweise zu PEEP-Werten zwischen 5 und 8 cmH2O, sofern ein PaO2 zwischen 60 und 90"
+    quote: "typischerweise zu PEEP-Werten zwischen 5 und 8 cmH2O, sofern ein PaO2 zwischen 60 und 90"
 # Tabelle 4, which box 5.5 names: one answer, one claim (#213 item 2); no threshold, a PEEP setting says how
-- id: claims/sepsis-lf-4.0/0bf02939
+- id: claims/sepsis-lf-4.0/21c3852b
   type: claim
   lang: de
   kind: criterion
@@ -477,7 +538,7 @@
   label: "Tabelle 4: ARDS Netzwerk Tabelle \"lower PEEP/higher FiO2\": FiO2 0,3 – PEEP 5; 0,4 – 5; 0,4 – 8; 0,5 – 8; 0,5 – 10; 0,6 – 10; 0,7 – 10; 0,7 – 12; 0,7 – 14; 0,8 – 14; 0,9 – 14; 0,9 – 16; 0,9 – 18; 1 – 18-24"
   source:
     at: sources/sepsis-lf-4.0#page=76
-    quote: "Tabelle 4: ARDS Netzwerk Tabelle \"lower PEEP/higher FiO2\""
+    quote: "Tabelle 4: ARDS Netzwerk Tabelle"
 # p. 76, reported from a meta-analysis: passes G2 by its exception, a value the wording of 5.6 and 5.7 („moderatem oder schwerem ARDS“) needs and the guideline gives nowhere else; the rule of concepts/moderates-oder-schweres-ards
 - id: claims/sepsis-lf-4.0/078149f2
   type: claim
@@ -530,7 +591,7 @@
   provenance:
     direction: {at: sources/sepsis-lf-4.0#page=78, quote: "Empfohlenes Vorgehen zur PEEP-Einstellung"}
 # Tabelle 5, row 4 of 7 (the table box 5.7 names): its column „Empfohlenes Vorgehen“ instructs; no verb, the head is not the row's wording; Literatur column left out
-- id: claims/sepsis-lf-4.0/0e1e8b85
+- id: claims/sepsis-lf-4.0/6b23340a
   type: claim
   lang: de
   kind: recommendation
@@ -539,7 +600,7 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=78
-    quote: "Dekrementeller PEEP-Trial unter druckkontrollierter Beatmung mit kon-"
+    quote: "Dekrementeller PEEP-Trial unter druckkontrollierter Beatmung mit konstant"
   provenance:
     direction: {at: sources/sepsis-lf-4.0#page=78, quote: "Empfohlenes Vorgehen zur PEEP-Einstellung"}
 # Tabelle 5, row 5 of 7 (the table box 5.7 names): its column „Empfohlenes Vorgehen“ instructs; no verb, the head is not the row's wording; Literatur column left out

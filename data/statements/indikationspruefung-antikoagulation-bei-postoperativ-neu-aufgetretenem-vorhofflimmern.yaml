@@ -1,0 +1,13 @@
+# A statement of card #383 (C7b), chapter 8 of sources/vorhofflimmern-lf-1.1.
+# Box 8.5 (p. 87). One statement: „geprüft und regelmäßig reevaluiert“ is one action and its repetition (card #383,
+# reading 5). The boxes it names and the score stay in the label: the score fills no slot (spec §3.2), and the relation
+# to 5.3 and 5.4 is X1's. Anchor: the group the box names, its own concept (card #383 Decision 6).
+id: statements/indikationspruefung-antikoagulation-bei-postoperativ-neu-aufgetretenem-vorhofflimmern
+type: statement
+lang: de
+label: "Bei Patient*innen mit postoperativ neu aufgetretenem Vorhofflimmern die Indikation zur Antikoagulation gemäß den Empfehlungen 5.3 und 5.4 auf Basis des CHA2DS2-VA-Scores prüfen und regelmäßig reevaluieren."
+short_label: "Indikation zur Antikoagulation prüfen und reevaluieren"
+slots:
+  population: concepts/postoperativ-neu-aufgetretenes-vorhofflimmern
+  action: concepts/pruefung-der-indikation-zur-antikoagulation
+source: modelling

@@ -1,0 +1,9 @@
+# A concept of card #378 (C5), sections 6.6–6.8 of sources/vorhofflimmern-lf-1.1.
+# The action of 6.10 (p. 61): „sollen … über eine Katheterablation … beraten werden“ — the counselling, not the
+# ablation itself (card #364's action rule). Beside concepts/katheterablation, which it does not replace.
+id: concepts/beratung-ueber-eine-katheterablation
+type: concept
+lang: de
+label: "Beratung über eine Katheterablation"
+facet: intervention
+source: modelling

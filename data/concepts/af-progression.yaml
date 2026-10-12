@@ -1,0 +1,10 @@
+# A concept of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# The endpoint „AF-Progression“ of box 6.6's evidence row (p. 56, l. 14), the progression the box aims to reduce
+# („um die Progression zu persistierendem AF zu reduzieren“). An outcome; not concepts/persistierendes-vorhofflimmern,
+# the form (card #364, Decision 4).
+id: concepts/af-progression
+type: concept
+lang: de
+label: "AF-Progression"
+facet: outcome
+source: modelling

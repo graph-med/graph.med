@@ -1,0 +1,13 @@
+# A statement of card #377 (C6), chapter 7 of sources/vorhofflimmern-lf-1.1.
+# Box 7.5 (p. 74). It prints no group: anchor 7.1's therapy group, the chapter's patients (convention row 2's reading,
+# flagged; card #364 reading 6, card #377 reading 6). The action from the table caption's words, „gemäß Tabelle 15“ in
+# the label (card #377 reading 14); the table's rows refine 7.5's claim and support no statement.
+id: statements/wirkstoffe-zur-frequenzkontrolle-einsetzen
+type: statement
+lang: de
+label: "Zur Frequenzkontrolle Wirkstoffe gemäß Tabelle 15 einsetzen."
+short_label: "Wirkstoffe gemäß Tabelle 15 einsetzen"
+slots:
+  population: concepts/patientinnen-mit-af-unter-frequenzkontrollierender-therapie
+  action: concepts/wirkstoffe-zur-frequenzkontrolle
+source: modelling

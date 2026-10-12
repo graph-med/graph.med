@@ -1,0 +1,9 @@
+# A concept of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# The action of box 5.5: „Über die Wahl des oralen Antikoagulans soll … entschieden werden“ (p. 41); the section's title
+# says „Wirkstoffwahl der oralen Antikoagulation“.
+id: concepts/wahl-des-oralen-antikoagulans
+type: concept
+lang: de
+label: "Wahl des oralen Antikoagulans"
+facet: intervention
+source: modelling

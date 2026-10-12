@@ -1,8 +1,11 @@
+# Box 8.3 of sources/sepsis-lf-4.0, the half its sentence opens with (p. 109), against; the „sondern“ half is a claim
+# and a statement of its own, statements/therapeutisches-plasma-nach-indikationen-der-querschnitts-leitlinien
+# (spec §3.1, #328; card #355).
 id: statements/kein-therapeutisches-plasma-bei-volumenmangel
 type: statement
 lang: de
-label: "Bei Patienten mit Sepsis oder septischem Schock therapeutisches Plasma nicht zur Behandlung eines Volumenmangels, sondern ausschließlich entsprechend den Indikationen der Querschnitts-Leitlinien der BÄK."
-short_label: "Kein Plasma bei Volumenmangel, nur nach BÄK-Indikationen"
+label: "Bei Patienten mit Sepsis oder septischem Schock therapeutisches Plasma nicht zur Behandlung eines Volumenmangels."
+short_label: "Kein Plasma zur Behandlung eines Volumenmangels"
 slots:
   population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
   action: concepts/therapeutisches-plasma

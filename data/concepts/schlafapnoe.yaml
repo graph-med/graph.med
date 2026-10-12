@@ -1,0 +1,10 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): sleep apnoea, the comorbidity, as Tabelle 7 (p. 28)
+# and the heading of 8.9 (p. 90) print it; „obstruktive Schlafapnoe“ (Tabelle 4, p. 19) and „obstruktives
+# Schlafapnoesyndrom“ (p. 14) are narrower, 4.9's „schlafbezogene Atmungsstörungen“ (p. 35) wider: near-duplicates
+# named, never merged. Used by C1, C2 and C7.
+id: concepts/schlafapnoe
+type: concept
+lang: de
+label: "Schlafapnoe"
+facet: patient_state
+source: modelling

@@ -1,0 +1,12 @@
+# A statement of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# Box 6.4, sentence 1 (p. 52). Anchor: the state the box names, an AF subgroup (card #364, convention row 5, reading 7).
+# „erwogen“ under ⇑ (#325 question 6, the physician's).
+id: statements/rhythmuskontrolle-bei-schwerer-herzinsuffizienz-erwaegen
+type: statement
+lang: de
+label: "Bei Patient*innen mit schwerer Herzinsuffizienz eine rhythmuskontrollierende Therapie neben einer leitliniengerechten Herzinsuffizienz-Therapie erwägen."
+short_label: "Rhythmuskontrolle bei schwerer Herzinsuffizienz erwägen"
+slots:
+  population: concepts/schwere-herzinsuffizienz
+  action: concepts/rhythmuskontrolle
+source: modelling

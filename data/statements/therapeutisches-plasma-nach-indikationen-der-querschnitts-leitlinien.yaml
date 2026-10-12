@@ -1,0 +1,11 @@
+# Box 8.3 of sources/sepsis-lf-4.0, its „sondern“ half (p. 109; spec §3.1, #328; card #355): for, beside the half
+# it opens with, statements/kein-therapeutisches-plasma-bei-volumenmangel.
+id: statements/therapeutisches-plasma-nach-indikationen-der-querschnitts-leitlinien
+type: statement
+lang: de
+label: "Bei Patienten mit Sepsis oder septischem Schock wird therapeutisches Plasma ausschließlich entsprechend den Indikationen der Querschnitts-Leitlinien der BÄK eingesetzt."
+short_label: "Plasma nur nach Indikationen der BÄK-Leitlinien"
+slots:
+  population: concepts/erwachsene-mit-sepsis-oder-septischem-schock
+  action: concepts/therapeutisches-plasma-nach-indikationen-der-querschnitts-leitlinien
+source: modelling

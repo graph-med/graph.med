@@ -1,0 +1,15 @@
+# A statement of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# Box 6.7 (p. 57). Anchor: the AF form narrowed by the duration (card #364, convention row 4), derived from 6.7's narrower
+# claim; asymptomatic and the dilated atria are its conditions (rows 9 and 5). Under ⇑ the action is what the sentence
+# says to do, rate control; „anstelle einer Rhythmuskontrolle“ and the target stay in the label (card #364, Decision 7;
+# #328 Decision 10).
+id: statements/frequenzkontrolle-anstelle-einer-rhythmuskontrolle
+type: statement
+lang: de
+label: "Bei asymptomatischen Patient*innen, bei denen das AF bereits seit mindestens zwei Jahren persistiert und dilatierte Vorhöfe bestehen, anstelle einer Rhythmuskontrolle eine Frequenzkontrolle (< 110 Schläge/min) erfolgen lassen."
+short_label: "Frequenzkontrolle anstelle einer Rhythmuskontrolle"
+slots:
+  population: concepts/seit-mindestens-zwei-jahren-persistierendes-vorhofflimmern
+  action: concepts/frequenzkontrolle
+  condition: [concepts/asymptomatisch, concepts/dilatierte-vorhoefe]
+source: modelling

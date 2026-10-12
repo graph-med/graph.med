@@ -1,0 +1,15 @@
+# A concept of cards #381 (C4) and #378 (C5), sections 6.1–6.8 of sources/vorhofflimmern-lf-1.1. C5 minted it in
+# parallel as concepts/dauer-des-af („Dauer des AF“), merged here in the stacking sweep (#314 Decision 6): one quantity
+# in two printings, p. 57, l. 39 „zwei Jahre der AF-Dauer“ and p. 62, l. 39 „die Dauer des AF“, labelled by the first.
+# A measured quantity, a finding (spec §3.2). The rules that bound it, each on its own claim: 6.7's „seit mindestens
+# zwei Jahren persistiert“ (p. 57, C4); „seit mindestens 12 Monaten persistiert“ (p. 61), „Dauer über 1 Jahr“ (p. 62),
+# „AF <24h“ (6.14, p. 64) and „weniger als 36 h“ (p. 64), all C5's. Not the time since the diagnosis
+# (concepts/zeit-seit-der-af-diagnose), which p. 50 bounds and from which p. 56 draws its 12-month line (card #364,
+# noticed 2). Near, not merged: concepts/episodendauer (C1), the quantity Tabelle 3 bounds „nach Episodendauer“ (p. 14),
+# printed as another term.
+id: concepts/af-dauer
+type: concept
+lang: de
+label: "AF-Dauer"
+facet: finding
+source: modelling

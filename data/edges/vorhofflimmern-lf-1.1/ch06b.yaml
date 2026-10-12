@@ -1,0 +1,104 @@
+# Edges of card #378 (#314's part C5) from sections 6.6–6.8 of sources/vorhofflimmern-lf-1.1 (pp. 61–66), all modelling.
+# Edges across parts are X1's, the scope and hierarchy edges X2's (#314 Decision 6).
+# evidence (spec §3.1): each box sentence of recommendation form supports a statement of its own, and the facts of
+# 6.14 and 6.16 the statement of the sentence they restrict or give the reason for; the narrower claim of 6.14 and
+# the body text support none
+- [claims/vorhofflimmern-lf-1.1/8ca72d91, supports, statements/beratung-ueber-katheterablation-bei-persistierendem-vorhofflimmern, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/8d887787, supports, statements/pruefung-eines-hybrid-verfahrens-bei-dilatiertem-linken-vorhof, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/09e4afab, supports, statements/unmittelbare-elektrische-kardioversion-bei-haemodynamischer-instabilitaet, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/04224392, supports, statements/elektive-kardioversion-zur-pruefung-der-symptome, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/2c0f14f0, supports, statements/antikoagulation-oder-thrombenausschluss-vor-elektiver-kardioversion, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/eb18d2f3, supports, statements/antikoagulation-oder-thrombenausschluss-vor-elektiver-kardioversion, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/975e983c, supports, statements/kardioversion-auch-nach-48-stunden-wait-and-watch, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/7563ac71, supports, statements/planung-des-weiterfuehrenden-managements-nach-kardioversion, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/2251b543, supports, statements/planung-des-weiterfuehrenden-managements-nach-kardioversion, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/23e4bdab, supports, statements/pill-in-the-pocket-therapie-bei-strukturell-herzgesunden-patientinnen, {source: modelling}]
+
+# defined_by (spec §3.1, §3.2, §5): the concepts the rules of these pages establish, owned by this part (#378 Decision 8)
+- [concepts/af-unter-24-h, defined_by, claims/vorhofflimmern-lf-1.1/e92bc393, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„AF <24h“ — Empfehlung 6.14 (S. 64), Satz 2: „Eine Ausnahme stellen Patient*innen mit AF <24h und geringem thromboembolischem Risiko dar.“"}]
+- [concepts/akut-symptomatisch, defined_by, claims/vorhofflimmern-lf-1.1/904eda57, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„akut symptomatisch“ — Abschnitt 6.8.4 (S. 64, Z. 66): „Unter „akut symptomatisch“ ist AF gemeint, das weniger als 36 h besteht.“"}]
+
+# body text (spec §5.1): section 6.6, p. 61
+- [claims/vorhofflimmern-lf-1.1/5d510a5a, refines, claims/vorhofflimmern-lf-1.1/8ca72d91, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: symptomatische Patient*innen — „Die Symptomatik des AF wird anhand des EHRA-Scores ermittelt (siehe Kapitel Diagnostik).“"}]
+
+# body text (spec §5.1): section 6.7, pp. 61–62; l. 59–60 and the concomitant ablation (p. 61, l. 67 – p. 62, l. 7) are
+# U, without an edge
+- [claims/vorhofflimmern-lf-1.1/267a1e23, refines, claims/vorhofflimmern-lf-1.1/8d887787, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: langanhaltend persistierendem AF — der Hintergrund (S. 61, Z. 58–59) definiert „lang-persistierendem AF“: „(definiert als AF, das seit mindestens 12 Monaten persistiert)“."}]
+- [claims/vorhofflimmern-lf-1.1/18d45496, refines, claims/vorhofflimmern-lf-1.1/8d887787, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: langanhaltend persistierendem AF — die Begründung (S. 62, Z. 36): „(definiert als Dauer über 1 Jahr)“."}]
+
+# body text (spec §5.1): section 6.8.2, p. 63
+- [claims/vorhofflimmern-lf-1.1/6aca16f4, refines, claims/vorhofflimmern-lf-1.1/04224392, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: um zu verifizieren, ob Symptome (z. B. Dyspnoe, Leistungsminderung) durch AF verursacht werden — „um anschließend im Sinusrhythmus die dann bestehende Symptomatik und ggfs. Veränderungen der linksventrikulären Pumpfunktion zu evaluieren (Symptom-Rhythmus-Korrelation)“."}]
+- [claims/vorhofflimmern-lf-1.1/ba3a4e55, supplements, claims/vorhofflimmern-lf-1.1/04224392, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: elektive Kardioversion — „Im Fall einer symptomatischen Besserung der Patient*innen sollte dann eine Rhythmuskontrolle, meist als definitive Therapie mittels Katheterablation erwogen werden“: der nächste Schritt."}]
+
+# body text (spec §5.1): section 6.8.3, p. 64; one edge per answer a member gives (§5.1 K); l. 20–22 is U, without an
+# edge
+- [claims/vorhofflimmern-lf-1.1/dfe8c592, refines, claims/vorhofflimmern-lf-1.1/2c0f14f0, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: ununterbrochene orale Antikoagulation — bei DOAK „ununterbrochen in adäquater Dosierung“."}]
+- [claims/vorhofflimmern-lf-1.1/bb83ad7b, refines, claims/vorhofflimmern-lf-1.1/2c0f14f0, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: ununterbrochene orale Antikoagulation — bei Vitamin-K-Antagonisten „durchgehend im INR-Zielbereich“."}]
+- [claims/vorhofflimmern-lf-1.1/6a8b7d6b, supplements, claims/vorhofflimmern-lf-1.1/2c0f14f0, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: elektive Kardioversion — „im Anschluss an eine elektrische Kardioversion immer für mindestens 4 Wochen … eine orale Antikoagulation“: die Maßnahme nach der Kardioversion."}]
+- [claims/vorhofflimmern-lf-1.1/6cf4d8a1, supplements, claims/vorhofflimmern-lf-1.1/2c0f14f0, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: elektive Kardioversion — „anschließend je nach individuellem Schlaganfallrisiko (CHA2DS2-VA- Score) eine orale Antikoagulation“: die Maßnahme danach."}]
+- [claims/vorhofflimmern-lf-1.1/1888aa0c, refines, claims/vorhofflimmern-lf-1.1/2c0f14f0, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: ununterbrochene orale Antikoagulation — „eine nachgewiesene bzw. seitens des/der Patienten*in versicherte, ununterbrochene und adäquate 3-wöchige orale Antikoagulation“."}]
+
+# body text (spec §5.1): section 6.8.4, p. 64
+- [claims/vorhofflimmern-lf-1.1/904eda57, refines, claims/vorhofflimmern-lf-1.1/975e983c, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: akutem symptomatischem AF — „Unter „akut symptomatisch“ ist AF gemeint, das weniger als 36 h besteht.“"}]
+
+# body text (spec §5.1): section 6.8.5, p. 65
+- [claims/vorhofflimmern-lf-1.1/cb51af58, supplements, claims/vorhofflimmern-lf-1.1/2251b543, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: das weiterführende Management — bei Patient*innen, bei denen die Evaluation „nach einer Kardioversion keine Besserung der Symptomatik ergeben hat und die absehbar nicht von einer Rhythmuskontrolle profitieren, ist nach Einschätzung der Leitliniengruppe eine Frequenzkontrolle indiziert“."}]
+- [claims/vorhofflimmern-lf-1.1/67f9ae24, refines, claims/vorhofflimmern-lf-1.1/2251b543, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: das weiterführende Management — die Begründung (S. 65, Z. 60–61): „dass ein langfristiges Therapiekonzept nach Kardioversion geplant werden soll“."}]
+
+# body text (spec §5.1): section 6.8.6, p. 66
+- [claims/vorhofflimmern-lf-1.1/459476ea, supplements, claims/vorhofflimmern-lf-1.1/23e4bdab, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: \"pill-in-the-pocket\"-Therapie — „die Einmalgabe mit einer die AV-Knoten-Leitung verlangsamenden Substanz (z.B. Betablocker) zu kombinieren“: eine Maßnahme neben der Therapie."}]
+- [claims/vorhofflimmern-lf-1.1/67dd1cde, refines, claims/vorhofflimmern-lf-1.1/23e4bdab, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: \"pill-in-the-pocket\"-Therapie mit Klasse-IC Antiarrhythmika — „die Einmalgabe eines Klasse-IC Antiarrhythmikums“; die Dosis „(z.B. 200-300mg Flecainid oral)“ ist ein Beispiel."}]
+- [claims/vorhofflimmern-lf-1.1/e77bffdd, supplements, claims/vorhofflimmern-lf-1.1/23e4bdab, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: \"pill-in-the-pocket\"-Therapie — „Bei der Erstgabe sollte dies unter EKG-Überwachung und anschließender Kontrolle des 12-Kanal EKGs erfolgen“: der Schritt vor der eigenständigen Einnahme."}]
+- [claims/vorhofflimmern-lf-1.1/e1b56405, refines, claims/vorhofflimmern-lf-1.1/23e4bdab, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: \"pill-in-the-pocket\"-Therapie — die einmalige intravenöse Gabe von Vernakalant: „Da die Gabe intravenös erfolgt, ist dies jedoch keine Medikation für ein „pill-in-the-pocket“ Konzept.“"}]
+
+# disagreement (spec §5, §5.1 D; #341): each printing kept as printed and shown, none chosen — the two definitions of
+# long-persistent AF on these pages (their edges to C1's Tabelle 3 are X1's), and the places that answer a term of a
+# box otherwise: a group (6.11, 6.14's exception, 6.17), a technique (6.14, three places), a time (6.16)
+- [claims/vorhofflimmern-lf-1.1/267a1e23, disagrees_with, claims/vorhofflimmern-lf-1.1/18d45496, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Abschnitt 6.7 definiert das lang-persistierende AF zweimal: „(definiert als AF, das seit mindestens 12 Monaten persistiert)“ (S. 61, Z. 58–59) und „(definiert als Dauer über 1 Jahr)“ (S. 62, Z. 36). Die eine Grenze schließt 12 Monate ein („mindestens“), die andere verlangt mehr als ein Jahr („über“); keine ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/8d887787, disagrees_with, claims/vorhofflimmern-lf-1.1/a7900b9e, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 6.11 (S. 62): das Hybrid-Verfahren „Bei symptomatischen Patient*innen mit langanhaltend persistierendem AF sowie dilatiertem linken Vorhof“; der Hintergrund (S. 61, Z. 64–66): „eine Empfehlung für eine interdisziplinäre Evaluation einer Hybridtherapie für symptomatische Patient*innen mit lang-persistierendem AF“. Der Text nennt die Gruppe ohne den dilatierten linken Vorhof, den der Kasten verlangt."}]
+- [claims/vorhofflimmern-lf-1.1/2c0f14f0, disagrees_with, claims/vorhofflimmern-lf-1.1/49da81bb, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 6.14 (S. 64): „ein Thrombenausschluss mittels transösophagealem Ultraschall“; der Hintergrund (S. 64, Z. 11–12): „ein in der Regel echokardiographischer Ausschluss (alternativ ggfs. CT oder MRT möglich) eines intrakardialen Thrombus“. Der Text nennt als Alternative eine andere Technik, die der Kasten nicht nennt."}]
+- [claims/vorhofflimmern-lf-1.1/2c0f14f0, disagrees_with, claims/vorhofflimmern-lf-1.1/3b5983bd, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 6.14 (S. 64): „ein Thrombenausschluss mittels transösophagealem Ultraschall“; die Begründung (S. 64, Z. 49): „einen Thrombenausschluss mittels Bildgebung“. Der Kasten nennt eine Technik, der Text die Bildgebung allgemein."}]
+- [claims/vorhofflimmern-lf-1.1/eb18d2f3, disagrees_with, claims/vorhofflimmern-lf-1.1/11819a4f, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 6.14 (S. 64), Satz 2: „Eine Ausnahme stellen Patient*innen mit AF <24h und geringem thromboembolischem Risiko dar.“; der Hintergrund (S. 64, Z. 15–19): „Besteht das AF kürzer als 24 h oder erfolgt eine pharmakologische Kardioversion im Rahmen einer \"pill-in-the-pocket\"-Therapie, kann bei Patient*innen ohne Indikation für eine dauerhafte Antikoagulation … auf diese verzichtet werden“. Der Text nennt für die Ausnahme eine andere Gruppe: auch die Kardioversion einer „pill-in-the-pocket“-Therapie, und „ohne Indikation für eine dauerhafte Antikoagulation“, wo der Kasten „geringem thromboembolischem Risiko“ druckt."}]
+- [claims/vorhofflimmern-lf-1.1/2c0f14f0, disagrees_with, claims/vorhofflimmern-lf-1.1/bb8b2f88, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 6.14 (S. 64): „ein Thrombenausschluss mittels transösophagealem Ultraschall“; der Hintergrund (S. 64, Z. 19–20): „Bei unklarer Dauer sollte aus Sicherheitsgründen immer eine Bildgebung (in der Regel eine transösophageale Echokardiographie) erwogen werden.“ Der Kasten nennt eine Technik, der Text die Bildgebung allgemein, die transösophageale Echokardiographie „in der Regel“."}]
+- [claims/vorhofflimmern-lf-1.1/23e4bdab, disagrees_with, claims/vorhofflimmern-lf-1.1/a8cded53, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 6.17 (S. 66): „Bei strukturell herzgesunden Patient*innen kann eine \"pill-in-the-pocket\"-Therapie mit Klasse-IC Antiarrhythmika zur Konversion von gelegentlich auftretenden symptomatischen AF-Episoden erfolgen.“; der Hintergrund (S. 66, Z. 9–13): „Patient*innen mit paroxysmalem AF ohne Kontraindikation für die Gabe von Klasse IC Antiarrhythmika und relativ seltenem symptomatischen AF, bei denen die Episoden von AF länger andauern, können … den Versuch einer eigenständigen medikamentösen Konversion … unternehmen“. Kasten und Text nennen für die Konversion zwei Gruppen: der Kasten strukturell herzgesunde Patient*innen, der Text Patient*innen mit paroxysmalem AF ohne Kontraindikation für Klasse IC Antiarrhythmika, deren Episoden länger andauern. Die Seite setzt die Angaben nicht gleich."}]
+- [claims/vorhofflimmern-lf-1.1/2251b543, disagrees_with, claims/vorhofflimmern-lf-1.1/0a1ddd56, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 6.16 (S. 65): „Nach Kardioversion soll daher das weiterführende Management geplant werden.“; der Hintergrund (S. 65, Z. 35): „Bei der Planung einer Kardioversion empfiehlt die Leitliniengruppe, ein langfristiges Therapiekonzept festzulegen“. Der Kasten plant nach der Kardioversion, der Text schon bei ihrer Planung."}]
+- [claims/vorhofflimmern-lf-1.1/0a1ddd56, disagrees_with, claims/vorhofflimmern-lf-1.1/67f9ae24, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Abschnitt 6.8.5 nennt zwei Zeitpunkte für das langfristige Therapiekonzept: „Bei der Planung einer Kardioversion“ (Hintergrund, S. 65, Z. 35) und „dass ein langfristiges Therapiekonzept nach Kardioversion geplant werden soll“ (Begründung, S. 65, Z. 60–61): vor und nach der Kardioversion."}]
+
+# sequences (spec §5 `follows`; #294, #295): within these pages, by the four tests — 6.16 follows each cardioversion
+# of 6.12, 6.13 and 6.15 („Nach Kardioversion“, the measure of a statement of the guideline), the cardioversion staying
+# 6.16's condition; no edge between 6.12 and 6.13, from 6.13 to 6.14, from 6.14 to 6.15, or from 6.16 to 6.17 (#378
+# Decision 11, readings 9 and 16)
+- [statements/planung-des-weiterfuehrenden-managements-nach-kardioversion, follows, statements/unmittelbare-elektrische-kardioversion-bei-haemodynamischer-instabilitaet, {source: modelling, as_of: "2026-10-11", lang: de, transition: follows, trigger: other,
+   rationale: "Empfehlung 6.16: „Nach Kardioversion soll daher das weiterführende Management geplant werden.“ — nach der elektrischen Kardioversion der Empfehlung 6.12."}]
+- [statements/planung-des-weiterfuehrenden-managements-nach-kardioversion, follows, statements/elektive-kardioversion-zur-pruefung-der-symptome, {source: modelling, as_of: "2026-10-11", lang: de, transition: follows, trigger: other,
+   rationale: "Empfehlung 6.16: „Nach Kardioversion soll daher das weiterführende Management geplant werden.“ — nach der elektiven Kardioversion der Empfehlung 6.13."}]
+- [statements/planung-des-weiterfuehrenden-managements-nach-kardioversion, follows, statements/kardioversion-auch-nach-48-stunden-wait-and-watch, {source: modelling, as_of: "2026-10-11", lang: de, transition: follows, trigger: other,
+   rationale: "Empfehlung 6.16: „Nach Kardioversion soll daher das weiterführende Management geplant werden.“ — nach der Kardioversion der Empfehlung 6.15."}]

@@ -1,0 +1,17 @@
+# The third view: everything in the pool drawn from the atrial fibrillation guideline — published at
+# graph.med/vorhofflimmern-lf-1.1 (docs/publication.md §2). A separate graph: no view combines it with another
+# source, and the site's index is where the graphs meet. Its statements are keyed on the patient group (spec §4.1,
+# question 1), so the population is the anchor (anchor_slot); the scope tree ends in the patients with AF whose care
+# the guideline means to optimise (Zielsetzung, p. 10; scope_root), and the edges in
+# data/edges/vorhofflimmern-lf-1.1/broader-edges.yaml and scope-edges.yaml hang every anchor there. It is drawn by
+# the first axis of group_by, axes/vorhofflimmern-population, whose first question is the AF form of Tabelle 3
+# (p. 14), asserted for this view by card #393 (#314's part X2). Its switch offers that tree first, then the
+# chapters (spec §4.1 "4. Shown").
+id: views/vorhofflimmern-lf-1.1
+type: view
+view_kind: selection
+filter:
+  sources: [sources/vorhofflimmern-lf-1.1]
+group_by: [axes/vorhofflimmern-population]
+anchor_slot: population
+scope_root: concepts/patientinnen-mit-vorhofflimmern

@@ -1,6 +1,6 @@
 id: concepts/kardiale-dauermedikation
 type: concept
 lang: de
-label: Kardiale Dauermedikation
+label: kardiale Dauermedikation
 facet: medication
 source: modelling   # a family minted to group the guideline's populations (spec §5 broader)

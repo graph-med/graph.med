@@ -1,0 +1,160 @@
+# Edges of card #381 (#314's part C4) from sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1 (pp. 47–60), all
+# modelling. Edges across parts are X1's, the scope and hierarchy edges X2's (#314 Decision 6).
+
+# evidence (spec §3.1): each box sentence of recommendation form supports a statement of its own; the narrower claims of
+# 6.2 and 6.7 and the body text support none
+- [claims/vorhofflimmern-lf-1.1/ff70d07b, supports, statements/pruefung-der-indikation-zur-fruehen-rhythmuskontrolle-bei-neu-diagnostiziertem-af, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/14bd6456, supports, statements/fruehe-rhythmuskontrolle-vor-allem-ab-cha2ds2-va-score-2, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/7e3529f4, supports, statements/rhythmuskontrolle-bei-af-induzierter-kardiomyopathie, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/4c8d05a4, supports, statements/rhythmuskontrolle-bei-schwerer-herzinsuffizienz-erwaegen, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/863e3fe0, supports, statements/katheterablation-bei-geeigneten-patientinnen, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/847a70c8, supports, statements/katheterablation-als-erstlinientherapie, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/4306f0d0, supports, statements/katheterablation-zur-reduktion-der-progression-bei-paroxysmalem-af, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/ebbc8539, supports, statements/frequenzkontrolle-anstelle-einer-rhythmuskontrolle, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/6ff40fc9, supports, statements/primaer-klasse-ic-antiarrhythmikum-ohne-strukturelle-herzerkrankung, {source: modelling}]
+- [claims/vorhofflimmern-lf-1.1/66aecd2c, supports, statements/amiodaron-zur-langfristigen-rhythmuskontrolle-vermeiden, {source: modelling}]
+
+# defined_by (spec §3.1, §3.2, §5): the concepts this part derives — 6.7's group to its narrower claim (card #381
+# Decision 3), and the two terms the Begründungen define as such (readings 8 and 12). 6.2's bound adds no edge: its group
+# reaches 5.4's equal printing (C3's), and the edge to p. 50's „>2“ is X1's. concepts/strukturell-herzgesund stays
+# stated (reading 9).
+- [concepts/seit-mindestens-zwei-jahren-persistierendes-vorhofflimmern, defined_by, claims/vorhofflimmern-lf-1.1/455a20be, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„seit mindestens zwei Jahren persistierendes Vorhofflimmern“ — Empfehlung 6.7 (S. 57): „bei denen das AF bereits seit mindestens zwei Jahren persistiert“."}]
+- [concepts/fruehe-rhythmuskontrolle, defined_by, claims/vorhofflimmern-lf-1.1/a56cd1a3, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„frühe Rhythmuskontrolle“ — Begründung von 6.2 (S. 50): „Eine „frühe“ Rhythmuskontrolle wird dabei für Patient*innen mit einer AF Diagnose < 1 Jahr definiert“."}]
+- [concepts/dilatierte-vorhoefe, defined_by, claims/vorhofflimmern-lf-1.1/074a710e, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„dilatierte Vorhöfe“ — Begründung von 6.7 (S. 57): der linke Vorhof ist dilatiert, „definiert durch ein erhöhtes LA-Volumen“."}]
+
+# body text (spec §5.1): section 6.1.1, p. 49; p. 48's permanent AF is U, without an edge
+- [claims/vorhofflimmern-lf-1.1/8b9ab59a, refines, claims/vorhofflimmern-lf-1.1/ff70d07b, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: Prüfung der Indikation — „Die starke Empfehlung bezieht sich explizit auf die Prüfung der Indikation, daraus resultiert nicht in jedem Falle auch eine entsprechende Therapie“: die Empfehlung gilt der Prüfung, nicht der Therapie."}]
+
+# body text (spec §5.1): section 6.1.2, p. 50 — the definition of „frühe“ Rhythmuskontrolle, R to 6.2 and, by E, to 6.1,
+# which uses the term (reading 12)
+- [claims/vorhofflimmern-lf-1.1/a56cd1a3, refines, claims/vorhofflimmern-lf-1.1/14bd6456, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: frühe Rhythmuskontrolle — „Eine „frühe“ Rhythmuskontrolle wird dabei für Patient*innen mit einer AF Diagnose < 1 Jahr definiert“ (S. 50)."}]
+- [claims/vorhofflimmern-lf-1.1/a56cd1a3, refines, claims/vorhofflimmern-lf-1.1/ff70d07b, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: frühen Rhythmuskontrolle — Empfehlung 6.1 (S. 49) nutzt den Begriff, den die Begründung von 6.2 als solchen definiert: „für Patient*innen mit einer AF Diagnose < 1 Jahr“ (S. 50)."}]
+
+# body text (spec §5.1): section 6.1.3, pp. 51–52
+- [claims/vorhofflimmern-lf-1.1/1092f4c3, refines, claims/vorhofflimmern-lf-1.1/7e3529f4, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: AF -induzierter Kardiomyopathie — „Eine wichtige Ausnahme ist die reduzierte linksventrikuläre Pumpfunktion aufgrund einer Tachykardie oder Arrhythmie, eine so genannte Tachykardie- oder Arrhythmie-induzierte Kardiomyopathie (AiCM)“ (S. 51)."}]
+- [claims/vorhofflimmern-lf-1.1/0c8b759e, supplements, claims/vorhofflimmern-lf-1.1/7e3529f4, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Patient*innen mit AF -induzierter Kardiomyopathie — „Bei neu aufgetretenem und vor allem tachykardem AF mit eingeschränkter linksventrikulärer Pumpfunktion, sollte an eine AiCM gedacht werden“: eine Maßnahme neben der Empfehlung."}]
+- [claims/vorhofflimmern-lf-1.1/2314743e, supplements, claims/vorhofflimmern-lf-1.1/7e3529f4, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Patient*innen mit AF -induzierter Kardiomyopathie — „Um eine durch AF bedingte AiCM zu diagnostizieren, kann der Versuch einer Rhythmisierung, zum Beispiel durch eine elektrische Kardioversion, unternommen … werden“: ein Schritt der Diagnose."}]
+- [claims/vorhofflimmern-lf-1.1/90f6b3ca, supplements, claims/vorhofflimmern-lf-1.1/7e3529f4, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Patient*innen mit AF -induzierter Kardiomyopathie — „… und die linksventrikuläre Funktion nach einigen Wochen im Sinusrhythmus re-evaluiert werden“: der Schritt nach der Rhythmisierung."}]
+- [claims/vorhofflimmern-lf-1.1/4ff7ad9f, refines, claims/vorhofflimmern-lf-1.1/7e3529f4, {source: modelling, as_of: "2026-10-12", lang: de,
+   rationale: "R: Rhythmuskontrolle — „Wenn sich der Verdacht bestätigt, wird eine dauerhafte Rhythmuskontrolle empfohlen“ (S. 51): die Dauer."}]
+- [claims/vorhofflimmern-lf-1.1/1f8f897e, refines, claims/vorhofflimmern-lf-1.1/7e3529f4, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: Rhythmuskontrolle — „Für die langfristige Rhythmuskontrolle wird die Durchführung einer Katheterablation empfohlen“ (S. 52): die Technik."}]
+
+# body text (spec §5.1): section 6.1.4, p. 53 — R to sentence 2 and, by E, to sentence 1 (reading 4)
+- [claims/vorhofflimmern-lf-1.1/a53b9d87, refines, claims/vorhofflimmern-lf-1.1/863e3fe0, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: geeigneten Patient*innen — „bei geeigneten Patient*innen mit einer schweren systolischen Herzinsuffizienz“ sollte „ebenfalls eine Rhythmisierung mittels Katheterablation angeboten werden“ (S. 53)."}]
+- [claims/vorhofflimmern-lf-1.1/a53b9d87, refines, claims/vorhofflimmern-lf-1.1/4c8d05a4, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: schwerer Herzinsuffizienz — die Begründung nennt „Patient*innen mit einer schweren systolischen Herzinsuffizienz“ (S. 53)."}]
+
+# body text (spec §5.1): section 6.2, p. 53 — the recurrence after the ablation, a claim per answer, each S (reading 5)
+- [claims/vorhofflimmern-lf-1.1/9bae843e, refines, claims/vorhofflimmern-lf-1.1/847a70c8, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: als Erstlinientherapie — „Eine vorherige Therapie mit Antiarrhythmika ist nicht erforderlich.“"}]
+- [claims/vorhofflimmern-lf-1.1/167a6234, supplements, claims/vorhofflimmern-lf-1.1/847a70c8, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Katheterablation — bei einem Frührezidiv „innerhalb der ersten 8 Wochen nach Katheterablation“ kann „noch zugewartet werden“: der nächste Schritt."}]
+- [claims/vorhofflimmern-lf-1.1/fa9f0c7f, supplements, claims/vorhofflimmern-lf-1.1/847a70c8, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Katheterablation — beim Frührezidiv „sollte für diese Zeit mittels elektrischer Kardioversion … wiederhergestellt werden“: der nächste Schritt."}]
+- [claims/vorhofflimmern-lf-1.1/7352feb4, supplements, claims/vorhofflimmern-lf-1.1/847a70c8, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Katheterablation — beim Frührezidiv „sollte für diese Zeit mittels … Gabe von Antiarrhythmika wiederhergestellt werden“: der nächste Schritt."}]
+- [claims/vorhofflimmern-lf-1.1/367a3cff, supplements, claims/vorhofflimmern-lf-1.1/847a70c8, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Katheterablation — bei einem späten AF-Rezidiv, „das nach mehr als 8 Wochen auftritt“, kann „eine erneute Katheterablation in Betracht gezogen werden“: der nächste Schritt."}]
+- [claims/vorhofflimmern-lf-1.1/302423fa, supplements, claims/vorhofflimmern-lf-1.1/847a70c8, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Katheterablation — Patient*innen, bei denen sie „initial zu einer Besserung der Symptome geführt hat, sollten für eine erneute Ablation bei Rezidiv des AF evaluiert werden“."}]
+
+# body text (spec §5.1): section 6.4, pp. 56–57
+- [claims/vorhofflimmern-lf-1.1/ab98ab2b, supplements, claims/vorhofflimmern-lf-1.1/ebbc8539, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: asymptomatischen Patient*Innen — „Das Vorhandensein von Symptomen sollte daher gezielt bei Patient*innen mit persistierendem AF … für die Therapieentscheidung eruiert werden“ (S. 56): eine Maßnahme neben der Empfehlung."}]
+- [claims/vorhofflimmern-lf-1.1/60baa179, refines, claims/vorhofflimmern-lf-1.1/ebbc8539, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: asymptomatischen — zu prüfen ist, „ob tatsächlich eine Symptomfreiheit besteht – hierzu zählt nicht nur die Wahrnehmung der Herzrhythmusstörung, sondern insbesondere auch die Leistungsfähigkeit der Patient*innen“ (S. 56)."}]
+- [claims/vorhofflimmern-lf-1.1/fc15a9a7, supplements, claims/vorhofflimmern-lf-1.1/ebbc8539, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Frequenzkontrolle — „Die frequenzkontrollierende Therapie sollte überprüft … werden“ (S. 56)."}]
+- [claims/vorhofflimmern-lf-1.1/6a811bf6, supplements, claims/vorhofflimmern-lf-1.1/ebbc8539, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Frequenzkontrolle — „Die frequenzkontrollierende Therapie sollte … wenn nötig intensiviert werden“ (S. 56)."}]
+- [claims/vorhofflimmern-lf-1.1/883a9883, refines, claims/vorhofflimmern-lf-1.1/ebbc8539, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: dilatierte Vorhöfe — „Zur Bestimmung der LA-Dilatation, sollte das LA-Volumen herangezogen werden“ (S. 57): welcher Wert das Wort bestimmt."}]
+- [claims/vorhofflimmern-lf-1.1/b7d3cfd4, refines, claims/vorhofflimmern-lf-1.1/ebbc8539, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: dilatierte Vorhöfe — ein hoch-normales LA-Volumen von 34 ml/m2 „sollte … als \"Cut-off\" für die Unterscheidung zwischen normalem und dilatiertem linken Vorhof verwendet werden“ (S. 57); die Seite druckt keinen Vergleichsoperator, so steht der Wert im Satz, nicht als Schwelle."}]
+- [claims/vorhofflimmern-lf-1.1/074a710e, refines, claims/vorhofflimmern-lf-1.1/ebbc8539, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: dilatierte Vorhöfe — der linke Vorhof ist dilatiert, „definiert durch ein erhöhtes LA-Volumen“ (S. 57)."}]
+- [claims/vorhofflimmern-lf-1.1/1003c376, refines, claims/vorhofflimmern-lf-1.1/455a20be, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: seit mindestens zwei Jahren — „Die in der Empfehlung genannten zwei Jahre der AF-Dauer beruhen auf Expertenkonsens und sind als Orientierungshilfe zu verstehen“ (S. 57)."}]
+- [claims/vorhofflimmern-lf-1.1/817f8639, supplements, claims/vorhofflimmern-lf-1.1/ebbc8539, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Frequenzkontrolle — „Bei diesem Patientenkollektiv sollte eine gezielte, adäquate Frequenzkontrolle beibehalten … werden“ (S. 57)."}]
+- [claims/vorhofflimmern-lf-1.1/9521baea, supplements, claims/vorhofflimmern-lf-1.1/ebbc8539, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Frequenzkontrolle — „Bei diesem Patientenkollektiv sollte eine gezielte, adäquate Frequenzkontrolle … bzw. intensiviert werden“ (S. 57)."}]
+
+# body text (spec §5.1): section 6.5.1, p. 58, and Tabelle 13 (p. 60), read there; its gap notices (l. 41–43) and
+# Tabelle 13's Dronedaron and Sotalol rows (U) carry none
+- [claims/vorhofflimmern-lf-1.1/c66dfa2e, refines, claims/vorhofflimmern-lf-1.1/6ff40fc9, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: ohne strukturelle Herzerkrankung — Klasse IC-Antiarrhythmika sind „nicht empfehlenswert bei Patient*innen mit Z.n. Myokardinfarkt, mittel- bis höhergradig eingeschränkter linksventrikulärer Funktion und/oder ausgeprägter linksventrikulärer Hypertrophie (z.B. Septumdicke > 14-16mm)“ (S. 58)."}]
+- [claims/vorhofflimmern-lf-1.1/25186e5d, refines, claims/vorhofflimmern-lf-1.1/6ff40fc9, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: Klasse IC-Antiarrhythmikum (Flecainid, Propafenon) — Tabelle 13 (S. 60), eingeführt im Abschnitt 6.5.1 (S. 58), nennt für Flecainid Administration, Dosis, Kontraindikationen und Kommentare."}]
+- [claims/vorhofflimmern-lf-1.1/4063eb40, refines, claims/vorhofflimmern-lf-1.1/6ff40fc9, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: Klasse IC-Antiarrhythmikum (Flecainid, Propafenon) — Tabelle 13 (S. 60), eingeführt im Abschnitt 6.5.1 (S. 58), nennt für Propafenon Administration, Dosis, Kontraindikationen und Kommentare."}]
+
+# body text (spec §5.1): section 6.5.2, pp. 58–59
+- [claims/vorhofflimmern-lf-1.1/d4638b02, supplements, claims/vorhofflimmern-lf-1.1/66aecd2c, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Amiodaron — sein Nebenwirkungsspektrum und proarrhythmische Effekte „erfordern strenge Sicherheitsabwägungen“ (S. 58): eine Maßnahme neben der Empfehlung."}]
+- [claims/vorhofflimmern-lf-1.1/12e1f5f5, supplements, claims/vorhofflimmern-lf-1.1/66aecd2c, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Amiodaron — sein Nebenwirkungsspektrum und proarrhythmische Effekte erfordern „ein engmaschiges Therapiemonitoring“ (S. 58): eine Maßnahme neben der Empfehlung."}]
+- [claims/vorhofflimmern-lf-1.1/bbf5acb5, supplements, claims/vorhofflimmern-lf-1.1/66aecd2c, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Amiodaron — die Therapie ist „im Verlauf kritisch zu prüfen“ (S. 59)."}]
+- [claims/vorhofflimmern-lf-1.1/483f9c6b, supplements, claims/vorhofflimmern-lf-1.1/66aecd2c, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Amiodaron — die Therapie ist „im Falle von Komplikationen oder Ineffektivität frühzeitig abzusetzen“ (S. 59): was zu tun ist, wenn sie versagt."}]
+- [claims/vorhofflimmern-lf-1.1/1d5ab9c0, refines, claims/vorhofflimmern-lf-1.1/66aecd2c, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: langfristigen — „Mit „langfristig“ meinen die Autor*innen dieser Leitlinie, dass das Fundament des Therapiekonzepts der Rhythmuskontrolle nicht auf der langfristigen Gabe von Amiodaron beruhen sollte“ (S. 59)."}]
+- [claims/vorhofflimmern-lf-1.1/8c47c028, refines, claims/vorhofflimmern-lf-1.1/66aecd2c, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: langfristigen Rhythmuskontrolle — „Eine kurzzeitige Überbrückung und Rhythmisierung mit Amiodaron … kann individuell sinnvoll sein“ (S. 59): was „langfristig“ nicht umfasst."}]
+- [claims/vorhofflimmern-lf-1.1/ed539183, supplements, claims/vorhofflimmern-lf-1.1/66aecd2c, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Amiodaron — nach einer kurzzeitigen Überbrückung empfiehlt die Leitliniengruppe, „den weiteren/nächsten Therapieschritt nach dieser Zeit der Überbrückung bereits früh festzulegen“ (S. 59): der nächste Schritt."}]
+
+# disagreement (spec §3.1, §5, §5.1 D; #341, #372): each printing kept as printed and shown, none chosen — two ratings of
+# a box against its Begründung (card #381 Decision 5), 6.2 and its bound against their restatement on p. 50 (Decision 6),
+# 6.7's group against p. 56 (reading 7)
+- [claims/vorhofflimmern-lf-1.1/ff70d07b, disagrees_with, claims/vorhofflimmern-lf-1.1/9907d927, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 6.1 (S. 49) bewertet ihre Evidenzzeile mit „Mortalität: gering ⊕⊕⊝⊝“; ihre Begründung (S. 49, Z. 23–25): „Die Aussagesicherheit für einen Effekt auf die Gesamtmortalität ist wegen der Limitationen der Studiendesigns und Indirektheit niedrig.“ Kasten und Text nennen für denselben Endpunkt zwei Wörter, „gering“ und „niedrig“; ob beide dieselbe Stufe meinen, sagt die Seite nicht. Als Evidenz des Kastens ist seine Zeile erfasst; keine Stufe ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/847a70c8, disagrees_with, claims/vorhofflimmern-lf-1.1/6aee6103, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 6.5 (S. 53) bewertet ihre Evidenzzeile mit „AF-Rezidiv, Hospitalisierung: gering ⊕⊕⊝⊝“; ihre Begründung (S. 54, Z. 9–10) nennt für die Rezidive „(Rezidive: RR, 0.62;95% KI, 0.51-0.74; I2= 40%; n=6 Studien; NNT 5; GRADE niedrig)“. Kasten und Text nennen für dieselben Rezidive zwei Wörter, „gering“ und „niedrig“; ob beide dieselbe Stufe meinen, sagt die Seite nicht. Als Evidenz des Kastens ist seine Zeile erfasst; keine Stufe ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/14bd6456, disagrees_with, claims/vorhofflimmern-lf-1.1/0d00367a, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 6.2 (S. 50): eine frühe Rhythmuskontrolle „vor allem bei Patient*innen mit AF und relevanten kardiovaskulären Risikofaktoren, höherem Lebensalter oder Komorbiditäten (CHA2DS2-VA Score ≥2)“; ihre Begründung (S. 50, Z. 52–54) gibt die Empfehlung der Leitlinie wieder „unter Berücksichtigung der o.g. Kriterien (Lebensalter, kardiovaskuläre Risikofaktoren, CHA2DS2Va Score >2; entsprechend der EAST-AFNET 4 Einschlusskriterien)“. Kasten und Text nennen zwei Grenzen desselben Scores, „≥2“ und „>2“; keine ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/fe1efb37, disagrees_with, claims/vorhofflimmern-lf-1.1/08e21436, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 6.2 druckt in ihrem Satz „(CHA2DS2-VA Score ≥2)“ (S. 50, Z. 31–32), ihre Begründung „CHA2DS2Va Score >2“ (S. 50, Z. 54): zwei Grenzen desselben Scores, „≥“ und „>“. Die Textebene gibt „>“, der Druck zeigt es unterstrichen; die Begründung ist wie die Textebene erfasst, keine Grenze ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/ebbc8539, disagrees_with, claims/vorhofflimmern-lf-1.1/2d8ff97e, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 6.7 (S. 57): „Bei asymptomatischen Patient*Innen, bei denen das AF bereits seit mindestens zwei Jahren persistiert und dilatierte Vorhöfe bestehen“; der Hintergrund des Abschnitts (S. 56, Z. 44–46) nennt für den Verzicht auf eine Rhythmuskontrolle „asymptomatische und adäquat frequenzkontrollierte Patient*innen … mit lang-persistierendem Vorhofflimmern …, bei denen der linke Vorhof bereits dilatiert ist“. Kasten und Text nennen zwei Gruppen: die eine nach zwei Jahren Persistenz, die andere nach der Form lang-persistierend und mit adäquater Frequenzkontrolle."}]
+
+# disagreement with a figure without a text layer (spec §5; #341; card #381 Decision 7, reading 1): Abb. 3 (p. 48)
+# restates the boxes in coloured rows, which no quote reaches; its caption's claim is the figure's side, and each
+# rationale says what the row shows after „(vom Bild abgelesen, nicht zitiert)“, never in quotation marks. Joined to each
+# C4 box a row answers otherwise (6.2, 6.5, 6.6), and to the two body-text places that answer 6.2's and 6.7's question
+# otherwise, every pair (§5.1 D). Rows that only leave words out are none: 6.1's „bei allen“, 6.4's second sentence,
+# 6.9's „wenn möglich“, and 6.7's red row, which says of rhythm control what the box's „anstelle einer
+# Rhythmuskontrolle“ says and leaves out the rate control (the judge, 2026-10-12). The rows of 6.10 and 6.11 are X1's.
+- [claims/vorhofflimmern-lf-1.1/14bd6456, disagrees_with, claims/vorhofflimmern-lf-1.1/7486dcad, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 6.2 (S. 50): eine frühe Rhythmuskontrolle „sollte unabhängig von Beschwerden vor allem bei Patient*innen mit AF und relevanten kardiovaskulären Risikofaktoren, höherem Lebensalter oder Komorbiditäten (CHA2DS2-VA Score ≥2) unter Berücksichtigung der absoluten Effekte“ empfohlen werden. Abbildung 3 (S. 48), gelbe Zeile (vom Bild abgelesen, nicht zitiert): eine frühe Rhythmuskontrolle sollte bei neu aufgetretenem AF, kardiovaskulären Risikofaktoren, höherem Lebensalter oder Komorbiditäten (CHA2DS2-VA Score ≥ 2) unabhängig der Symptomatik empfohlen werden. Die Zeile nennt neu aufgetretenes AF, das der Kasten nicht nennt, und lässt sein „vor allem“ und die absoluten Effekte weg: Bild und Kasten nennen zwei Gruppen."}]
+- [claims/vorhofflimmern-lf-1.1/847a70c8, disagrees_with, claims/vorhofflimmern-lf-1.1/7486dcad, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 6.5 (S. 53): die Katheterablation „jüngeren, symptomatischen Patient*innen ohne relevante Begleiterkrankungen und mit Indikation zu einer rhythmuskontrollierenden Behandlung als Erstlinientherapie“. Abbildung 3 (S. 48), grüne Zeile (vom Bild abgelesen, nicht zitiert): eine Katheterablation zur Reduktion von AF-Episoden und Krankenhausaufenthalten soll bei jüngeren, symptomatischen Patient*innen ohne relevante Begleiterkrankungen erfolgen. Die Zeile lässt die Indikation zu einer rhythmuskontrollierenden Behandlung und das „als Erstlinientherapie“ des Kastens weg: Bild und Kasten nennen zwei Gruppen."}]
+- [claims/vorhofflimmern-lf-1.1/4306f0d0, disagrees_with, claims/vorhofflimmern-lf-1.1/7486dcad, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Empfehlung 6.6 (S. 56): „Eine Katheterablation sollte Patient*innen mit paroxysmalem AF und Indikation zu einer rhythmuskontrollierenden Therapie empfohlen werden, um die Progression zu persistierendem AF zu reduzieren.“ Abbildung 3 (S. 48), gelbe Zeile (vom Bild abgelesen, nicht zitiert): eine Rhythmuskontrolle sollte bei paroxysmalem AF und Indikation zu einer rhythmuskontrollierenden Therapie empfohlen werden, um Progression zu persistierendem AF zu reduzieren. Für dieselben Patient*innen und dasselbe Ziel nennt das Bild die Rhythmuskontrolle, der Kasten die Katheterablation: zwei Maßnahmen."}]
+- [claims/vorhofflimmern-lf-1.1/0d00367a, disagrees_with, claims/vorhofflimmern-lf-1.1/7486dcad, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Die Begründung von 6.2 (S. 50, Z. 52–54) nennt für die frühe Rhythmuskontrolle „(Lebensalter, kardiovaskuläre Risikofaktoren, CHA2DS2Va Score >2; entsprechend der EAST-AFNET 4 Einschlusskriterien)“. Abbildung 3 (S. 48), gelbe Zeile (vom Bild abgelesen, nicht zitiert): bei neu aufgetretenem AF, kardiovaskulären Risikofaktoren, höherem Lebensalter oder Komorbiditäten (CHA2DS2-VA Score ≥ 2). Text und Bild nennen zwei Grenzen des Scores, „>2“ und ≥ 2, und das Bild eine Gruppe, neu aufgetretenes AF, die der Text nicht nennt."}]
+- [claims/vorhofflimmern-lf-1.1/2d8ff97e, disagrees_with, claims/vorhofflimmern-lf-1.1/7486dcad, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Der Hintergrund von Abschnitt 6.4 (S. 56, Z. 44–46) nennt für den Verzicht auf eine Rhythmuskontrolle „asymptomatische und adäquat frequenzkontrollierte Patient*innen … mit lang-persistierendem Vorhofflimmern …, bei denen der linke Vorhof bereits dilatiert ist“. Abbildung 3 (S. 48), rote Zeile (vom Bild abgelesen, nicht zitiert): bei asymptomatischen Patient*innen mit seit mindestens 2 Jahren anhaltendem persistierendem AF und dilatierten Vorhöfen wird eine Rhythmuskontrolle nicht mehr empfohlen. Text und Bild nennen zwei Gruppen: die eine nach der Form lang-persistierend und mit adäquater Frequenzkontrolle, die andere nach zwei Jahren Persistenz."}]
+
+# sequences (spec §5 `follows`; #294, #295): within sections 6.1–6.5, by the four tests (card #381 Decision 10). 6.5 and
+# 6.6 are for patients „mit Indikation zu einer rhythmuskontrollierenden Behandlung/Therapie“, the outcome of 6.1's
+# check: a sequence (test 1). 6.2's group is selected by a value, the score: a condition, no edge (test 4). The steps
+# only the body text gives — the recurrence after ablation (p. 53), the AiCM work-up (p. 51), the amiodarone bridging
+# (p. 59) — stay `supplements`.
+- [statements/katheterablation-als-erstlinientherapie, follows, statements/pruefung-der-indikation-zur-fruehen-rhythmuskontrolle-bei-neu-diagnostiziertem-af, {source: modelling, as_of: "2026-10-11", lang: de, transition: follows, trigger: finding,
+   rationale: "Empfehlung 6.5 gilt Patient*innen „mit Indikation zu einer rhythmuskontrollierenden Behandlung“ — der Indikation, deren Prüfung Empfehlung 6.1 verlangt: „Die Indikation zur frühen Rhythmuskontrolle soll bei allen Patient*innen mit neu diagnostiziertem AF geprüft werden.“"}]
+- [statements/katheterablation-zur-reduktion-der-progression-bei-paroxysmalem-af, follows, statements/pruefung-der-indikation-zur-fruehen-rhythmuskontrolle-bei-neu-diagnostiziertem-af, {source: modelling, as_of: "2026-10-11", lang: de, transition: follows, trigger: finding,
+   rationale: "Empfehlung 6.6 gilt Patient*innen mit paroxysmalem AF „und Indikation zu einer rhythmuskontrollierenden Therapie“ — der Indikation, deren Prüfung Empfehlung 6.1 verlangt: „Die Indikation zur frühen Rhythmuskontrolle soll bei allen Patient*innen mit neu diagnostiziertem AF geprüft werden.“"}]

@@ -50,7 +50,7 @@
       - {at: sources/sepsis-lf-4.0#page=53, quote: 'Konsensstärke: 94 %'}
       - {at: sources/sepsis-lf-4.0#page=148, quote: '> 75-95 % der Stimmberechtigten'}
     consensus_share: {at: sources/sepsis-lf-4.0#page=53, quote: 'Konsensstärke: 94 %'}
-- id: claims/sepsis-lf-4.0/e2707b32
+- id: claims/sepsis-lf-4.0/f1e63d42
   type: claim
   lang: de
   kind: recommendation
@@ -64,10 +64,10 @@
   consensus_share: 94 %
   source:
     at: sources/sepsis-lf-4.0#page=53
-    quote: Bei nicht erfolgreicher Fokussanierung, bei bestimm-
+    quote: "Bei nicht erfolgreicher Fokussanierung, bei bestimmten"
   provenance:
     grade: {at: sources/sepsis-lf-4.0#page=53, quote: EK}
-    direction: {at: sources/sepsis-lf-4.0#page=53, quote: dauer zu verlängern.}
+    direction: {at: sources/sepsis-lf-4.0#page=53, quote: "Therapiedauer zu verlängern."}
     consensus:
       - {at: sources/sepsis-lf-4.0#page=53, quote: 'Konsensstärke: 94 %'}
       - {at: sources/sepsis-lf-4.0#page=148, quote: '> 75-95 % der Stimmberechtigten'}
@@ -147,7 +147,7 @@
   source:
     at: sources/sepsis-lf-4.0#page=51
     quote: Sobald ein plausibler Erregernachweis vorliegt, empfehlen wir eine Fokussierung
-- id: claims/sepsis-lf-4.0/0ec0c3a5
+- id: claims/sepsis-lf-4.0/69ec6210
   type: claim
   lang: de
   kind: criterion
@@ -156,8 +156,8 @@
     Spektrum durch spezifischere Wirkstoffe (Schmalspektrum) und Kombinationstherapien, wenn möglich, durch Monotherapie zu ersetzen.
   source:   # the sentence runs on to p. 52; its first line is on p. 51
     at: sources/sepsis-lf-4.0#page=51
-    quote: Dies beinhaltet, alle nicht-erforderlichen antimikrobiellen Wirk-
-- id: claims/sepsis-lf-4.0/5d1fbffd
+    quote: "Dies beinhaltet, alle nicht-erforderlichen antimikrobiellen Wirkstoffe"
+- id: claims/sepsis-lf-4.0/ff84ef86
   type: claim
   lang: de
   kind: recommendation
@@ -166,8 +166,8 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=52
-    quote: Erregerspezifika wie z. B. für Staphylococcus aureus Infektionen sind zu be-
-- id: claims/sepsis-lf-4.0/40e9c553
+    quote: "Erregerspezifika wie z. B. für Staphylococcus aureus Infektionen sind zu beachten"
+- id: claims/sepsis-lf-4.0/f980dc20
   type: claim
   lang: de
   kind: recommendation
@@ -177,9 +177,9 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=52
-    quote: Falls die mikrobiologische Diagnostik keinen oder keinen plausiblen Erreger-
+    quote: "Falls die mikrobiologische Diagnostik keinen oder keinen plausiblen Erregernachweis"
   provenance:
-    direction: {at: sources/sepsis-lf-4.0#page=52, quote: schen Ansprechen möglich.}
+    direction: {at: sources/sepsis-lf-4.0#page=52, quote: "klinischen Ansprechen möglich."}
 - id: claims/sepsis-lf-4.0/cbcef784
   type: claim
   lang: de
@@ -193,7 +193,7 @@
     quote: Grundsätzlich wird die Nutzung von Antimicrobial Stewardship
   provenance:
     direction: {at: sources/sepsis-lf-4.0#page=52, quote: (AMS)-Programmen zur Optimierung der antiinfektiven Therapie befürwortet.}
-- id: claims/sepsis-lf-4.0/024a06b3
+- id: claims/sepsis-lf-4.0/7a685719
   type: claim
   lang: de
   kind: recommendation   # "besteht keine Indikation … fortzusetzen": the action is not indicated (spec §5.1 G4), not a decline
@@ -204,8 +204,8 @@
   direction: against
   source:
     at: sources/sepsis-lf-4.0#page=52
-    quote: dass keine Infektion vorliegt, besteht keine Indikation die an-
-- id: claims/sepsis-lf-4.0/3d980554
+    quote: "dass keine Infektion vorliegt, besteht keine Indikation die antiinfektive"
+- id: claims/sepsis-lf-4.0/28b7b5b7
   type: claim
   lang: de
   kind: recommendation
@@ -216,8 +216,8 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=52
-    quote: funden ist die Abgrenzung einer Infektion von einer Kontamination wichtig
-- id: claims/sepsis-lf-4.0/8838c4a8
+    quote: "Blutkulturbefunden ist die Abgrenzung einer Infektion von einer Kontamination wichtig"
+- id: claims/sepsis-lf-4.0/7aa4d2f5
   type: claim
   lang: de
   kind: criterion
@@ -227,8 +227,8 @@
     werden.
   source:
     at: sources/sepsis-lf-4.0#page=52
-    quote: sind hingegen als plausible Erreger zu betrachten, wenn sie aus Blutkultu-
-- id: claims/sepsis-lf-4.0/b0a1ea4a
+    quote: "sind hingegen als plausible Erreger zu betrachten, wenn sie aus Blutkulturen"
+- id: claims/sepsis-lf-4.0/700e25e0
   type: claim
   lang: de
   kind: criterion
@@ -236,7 +236,7 @@
   label: Ein Nachweis in respiratorischem Material ist hingegen am ehesten Ausdruck einer Kolonisation und nicht einer Infektion.
   source:
     at: sources/sepsis-lf-4.0#page=52
-    quote: schem Material ist hingegen am ehesten Ausdruck einer Kolonisation und nicht einer Infek-
+    quote: "respiratorischem Material ist hingegen am ehesten Ausdruck einer Kolonisation und nicht einer"
 - id: claims/sepsis-lf-4.0/c4c17a1f
   type: claim
   lang: de
@@ -249,7 +249,7 @@
   source:
     at: sources/sepsis-lf-4.0#page=52
     quote: Erreger, die bei Nachweis in der Blutkultur nahezu immer plausible Erreger sind, sind
-- id: claims/sepsis-lf-4.0/5d90f587
+- id: claims/sepsis-lf-4.0/5a63e156
   type: claim
   lang: de
   kind: recommendation
@@ -261,8 +261,8 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=54
-    quote: Eine längere antimikrobielle Therapie ist erforderlich bei einem langsamen klinischen Anspre-
-- id: claims/sepsis-lf-4.0/acbb99bd
+    quote: "Eine längere antimikrobielle Therapie ist erforderlich bei einem langsamen klinischen Ansprechen"
+- id: claims/sepsis-lf-4.0/76725c17
   type: claim
   lang: de
   kind: recommendation
@@ -272,8 +272,8 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=54
-    quote: Daher sind Ärztinnen und Ärzte, auch bei schweren Infektionen, aufgefordert, täglich zu eva-
-- id: claims/sepsis-lf-4.0/075460f1
+    quote: "Daher sind Ärztinnen und Ärzte, auch bei schweren Infektionen, aufgefordert, täglich zu evaluieren"
+- id: claims/sepsis-lf-4.0/4a3a95b6
   type: claim
   lang: de
   kind: recommendation
@@ -283,9 +283,9 @@
   direction: for
   source:
     at: sources/sepsis-lf-4.0#page=54
-    quote: Für besondere Fragestellungen (z. B. S. aureus Bakteriämie) ist ein in-
+    quote: "Für besondere Fragestellungen (z. B. S. aureus Bakteriämie) ist ein infektiologisches"
   provenance:
-    direction: {at: sources/sepsis-lf-4.0#page=54, quote: fektiologisches oder mikrobiologisches Konsil angeraten.}
+    direction: {at: sources/sepsis-lf-4.0#page=54, quote: "infektiologisches oder mikrobiologisches Konsil angeraten."}
 
 # ── body text of section 3.5 (pp. 55–56) ───────────────────────────────────
 # p. 56: a value 3.10's wording needs ("um die Dauer der antiinfektiven Therapie zu begrenzen") and does

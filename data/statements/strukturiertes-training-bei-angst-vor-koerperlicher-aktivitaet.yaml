@@ -1,0 +1,13 @@
+# A statement of card #376 (C2), chapter 4 of sources/vorhofflimmern-lf-1.1.
+# Box 4.2 (p. 30). Anchor: the AF form narrowed by a state, a subgroup (card #364, convention row 4 and its sample), read
+# as both at once; „Besonders“ kept in both labels, as restricting the group (#376 reading 1). Unlike chapter 5, the AF
+# form leads to this statement (#376 Decision 1).
+id: statements/strukturiertes-training-bei-angst-vor-koerperlicher-aktivitaet
+type: statement
+lang: de
+label: "Besonders Patient*innen mit paroxysmalem AF sowie Angst vor körperlicher Aktivität ein strukturiertes Training (z.B. Herzsportgruppe) empfehlen."
+short_label: "Besonders: strukturiertes Training (z.B. Herzsportgruppe)"
+slots:
+  population: concepts/paroxysmales-vorhofflimmern-mit-angst-vor-koerperlicher-aktivitaet
+  action: concepts/strukturiertes-training
+source: modelling

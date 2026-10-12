@@ -1,6 +1,6 @@
 ---
 name: derived-concepts-defined-by
-description: A concept established by a rule (a threshold, a score, a definition) is derived because its one `defined_by` edge reaches the criterion or definition claim giving the rule — computed from the edge, never stored; the threshold sits on the claim that prints it (`threshold`, one per claim: quantity concept, comparator from a closed mathematical list, value/unit/when as printed, `relative_to`); how several parts of a rule combine is extracted from the source as a `combination` on the claim quoting the passage (all_of, any_of, at_least n, not_stated; the connective as printed and quote-checked, the reading modelling), nesting through claims — never a default. Choices 1 and 2 proposed 2026-09-24 (#187); choice 3 decided by the maintainer 2026-09-24 (#204).
+description: A concept established by a rule (a threshold, a score, a definition) is derived because its `defined_by` edge reaches the criterion or definition claim giving the rule — one edge, or one per printing where the source prints the rule differently and every pair is joined by `disagrees_with` (#341) — computed from the edge, never stored; the threshold sits on the claim that prints it (`threshold`, one per claim: quantity concept, comparator from a closed mathematical list, value/unit/when as printed, `relative_to`); how several parts of a rule combine is extracted from the source as a `combination` on the claim quoting the passage (all_of, any_of, at_least n, not_stated; the connective as printed and quote-checked, the reading modelling), nesting through claims — never a default; a points table is a `sum` whose `points` are the cells as printed, one per part, its score a quantity that fills no slot, bounded by thresholds on the claims that print the bounds (#328); a rule inside a box sentence is a criterion claim of its own, so its concept is derived (#328). Choices 1 and 2 proposed 2026-09-24 (#187); choice 3 decided by the maintainer 2026-09-24 (#204); choice 4 #341; choices 5 and 6 on the maintainer's delegation 2026-10-10 (#328).
 metadata:
   type: project
 ---
@@ -8,9 +8,10 @@ metadata:
 A concept a clinician cannot observe but establishes by a rule is
 **derived** (*abgeleitet*); every other is **stated** (*angegeben*). The rule
 is a claim of kind `criterion` or `definition`, and the concept reaches it by
-the edge `defined_by` (concept → claim, modelling with a rationale). Three
-choices, written into `docs/graph-representation.md` §3.1, §3.2, §3.3 and §5
-and schema 0.12.0:
+the edge `defined_by` (concept → claim, modelling with a rationale). The
+choices below are written into `docs/graph-representation.md` §3.1, §3.2,
+§3.3 and §5 and into the schema (0.12.0; 0.18.0 for the fourth; 0.19.0 for
+the fifth):
 
 1. **The kind is computed, not stored**: a concept with a `defined_by` edge
    is derived. It therefore holds wherever the concept stands — anchor,
@@ -33,14 +34,16 @@ and schema 0.12.0:
      the page gives without saying how it combines);
    - its parts `of`, criterion or definition claims of the same source;
    - the `connective` as printed, each piece inside one of its `source`
-     quotes;
+     quotes — a word the page breaks at a line end is one piece, read as
+     its quotes read it ([[quotes-whole-words-across-lines]], #316);
    - the reading as a `rationale`.
 
    Operators **nest through claims**: a part that combines is itself a claim
    with its own combination, so each group keeps its claim, label and
    `refines` edge. A claim prints a threshold or combines parts, never both.
    The validator refuses a second `defined_by` edge, since it would be a
-   combination nobody read off the page. In this decision the maintainer also
+   combination nobody read off the page — unless the two claims are printings
+   of one rule that disagree (below). In this decision the maintainer also
    chose:
    - **no `none_of`**: a definition by exclusion stays one claim, its
      "ohne … oder …" in the sentence as printed;
@@ -51,6 +54,55 @@ and schema 0.12.0:
    Several conditions of a statement stay a conjunction
    ([[conditions-are-a-conjunction-list]]), and a connective inside a
    threshold's `when` stays as printed.
+
+4. **One edge per printing where the source disagrees with itself**
+   (#341, 2026-10-11, the maintainer's "the graph reflects the text"). Where
+   the source prints the rule differently in several places ("> 50 ml/kg/h"
+   on p. 99, "≥ 50ml/kg/h" on p. 101), the concept reaches each printing by a
+   `defined_by` edge of its own, each claim keeps its threshold as printed,
+   and the site lists them all; nothing computes a "true" bound and no
+   printing is chosen. The validator allows several edges only where every
+   pair of those claims is joined by `disagrees_with`
+   ([[source-disagreements-shown]]); otherwise one, as above. A second edge
+   is never a combination: printings that disagree are not parts of one rule.
+
+5. **A points table is a `sum`** (#328, 2026-10-10 on the maintainer's
+   delegation, ADR-0009; on 2026-10-11 the maintainer answered that a reader
+   under a bounded score needs each criterion with its points, as data). A
+   score is printed as a table whose rows each give a criterion its points,
+   and that column says how the parts combine. The combination's fifth
+   operator, `sum`, is admitted because it is arithmetic, as the comparators
+   are:
+   - the table's claim is the top, §5.1 K's one answer; each criterion given
+     points is a part — one per band of a graded criterion, one per part of
+     a row whose cell gives each its points („jeweils 1 Punkt“, so the row
+     keeps that it counts up to two);
+   - `points` lies on the combination, strings as printed, one per entry of
+     `of` and in its order: the weight belongs to the sum as `n` belongs to
+     `at_least`, and no field goes on the parts;
+   - the connective is the head of the points column, quoted; the points lie
+     in no quote — the one value read off a page that no quote carries, a
+     departure from §6.5's practice accepted for it, the judge reading each
+     point against its row;
+   - a row whose rule a footnote gives is the part itself, carrying the
+     footnote's threshold or combination, its provenance for it the
+     footnote's line, its label the footnote's narrowing words;
+   - a sum yields a number, not whether a rule holds: it is a part of no
+     combination. The score's concept is a quantity (`finding`) that reaches
+     the top by its `defined_by` edge, fills no statement slot and no axis
+     placement, and is the `quantity` of the thresholds on the claims that
+     print its bounds; the group a bound gives is a concept of its own;
+   - nothing is computed — no total, no maximum, no exclusivity between
+     bands —, a bound printed two ways („≥7“, „> 6“) is two printings
+     ([[source-disagreements-shown]]), and no tree of `at_least` and `any_of`
+     the arithmetic would allow is written.
+
+6. **A rule inside a box sentence is a claim of its own** (#328, the same
+   delegation): a parenthesis or qualifier that states which cases a term
+   covers is a narrower criterion claim, so the concept it gives reaches it
+   by `defined_by` and is derived, where under the interim rule it stayed
+   stated with the rule in its label. The unit and what the narrower claim
+   carries are [[box-granularity-per-sentence]].
 
 **Why:** the rule was already in the pool as criterion claims that `refines`
 the recommendation, but the concept knew nothing of it, so a reader of
@@ -68,16 +120,26 @@ when the guideline requires several. The operator and comparator lists are
 closed because they are logic and mathematics; no connective word, unit,
 score or quantity is enumerated ([[generic-over-guidelines]]).
 
+A points table read any other way misrepresents it: as one claim it loses
+its parts and the footnotes' rules, as `not_stated` it says „Verknüpfung nicht
+angegeben“ above a column that does say how, and as a tree of `at_least` and
+`any_of` it prints a rule no page prints. The sum records the weights the page
+prints, as #204 recorded the RCRI's count.
+
 **How to apply:** To mark a concept derived, find (or, where the page plainly
 prints it, extract) the criterion or definition claim and add one
 `defined_by` edge whose rationale names the clause and the term; never add a
-field on the concept. Where the page gives several ways or parts:
+field on the concept. Where the source prints the rule differently in
+several places, add an edge to each printing and join every pair of their
+claims by `disagrees_with`; never pick the one that fits. Where the page gives several ways or parts:
 1. extract each member the connective joins as a claim;
 2. extract the passage as the claim at the top, with its `combination`;
 3. quote every connective, and say its reading in the `rationale`, never
    inferring it from the word alone;
 4. where the page does not say how its parts combine, write `not_stated`,
-   never a guess.
+   never a guess;
+5. where a column of points says it, write `sum` with each part's points as
+   printed, and put a bound on the score only on the claim that prints it.
 
 Put a threshold only where the passage prints it, never inferred or
 completed. Where the source names the rule without a number, the edge stands

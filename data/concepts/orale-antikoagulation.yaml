@@ -1,0 +1,10 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): „orale Antikoagulation“ (OAK), the therapy of
+# chapters 3, 5 and 8: 5.4 („soll eine orale Antikoagulation empfohlen werden“, p. 40), 5.8, 5.10, 6.14, 8.1–8.3,
+# 8.5, Tabelle 6's line on p. 25, and „Initiierung Antikoagulation“ (3.1, p. 24). A drug therapy, medication (card
+# #364, Decision 4). Used by C1, C3, C5 and C7. DOAK and VKA are concepts of their own beside it.
+id: concepts/orale-antikoagulation
+type: concept
+lang: de
+label: "orale Antikoagulation"
+facet: medication
+source: modelling

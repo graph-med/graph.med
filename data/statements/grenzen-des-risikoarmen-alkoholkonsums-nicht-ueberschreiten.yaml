@@ -1,0 +1,13 @@
+# A statement of card #376 (C2), chapter 4 of sources/vorhofflimmern-lf-1.1.
+# Box 4.5, sentence 2 (p. 32): a statement of its own (#376 Decision 6). The sentence names no group: by convention row
+# 2 the anchor is the root or the chapter's subgroup, flagged. Taken: the root, the patients sentence 1 names (card
+# #314 Decision 20, "Anchors"; #376 reading 6). Its action is the derived concept itself (reading 6).
+id: statements/grenzen-des-risikoarmen-alkoholkonsums-nicht-ueberschreiten
+type: statement
+lang: de
+label: "Empfehlen, die Grenzen des „risikoarmen Alkoholkonsums“ nicht zu überschreiten."
+short_label: "Grenzen risikoarmen Alkoholkonsums nicht zu überschreiten"
+slots:
+  population: concepts/patientinnen-mit-vorhofflimmern
+  action: concepts/risikoarmer-alkoholkonsum
+source: modelling

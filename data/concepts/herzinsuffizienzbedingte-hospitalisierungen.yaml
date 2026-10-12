@@ -1,0 +1,11 @@
+# A concept of card #377 (C6), chapter 7 of sources/vorhofflimmern-lf-1.1.
+# The counted quantity the bound printed inside box 7.4 measures, „mit mindestens einer herzinsuffizienzbedingten
+# Hospitalisierung in den letzten 12 Monaten“ (p. 73): a finding, the quantity of a threshold (spec §3.2; card #377
+# Decision 4). Not the endpoint concepts/hospitalisierung (card #364, Decision 4: a circumstance and an endpoint stay two
+# concepts). A shared candidate (card #377 Decision 12).
+id: concepts/herzinsuffizienzbedingte-hospitalisierungen
+type: concept
+lang: de
+label: "herzinsuffizienzbedingte Hospitalisierungen"
+facet: finding
+source: modelling

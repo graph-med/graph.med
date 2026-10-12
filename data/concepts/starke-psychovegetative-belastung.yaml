@@ -1,0 +1,11 @@
+# A concept of card #376 (C2), chapter 4 of sources/vorhofflimmern-lf-1.1.
+# The state box 4.4 names beside AF, „Patient*innen mit AF mit starker psychovegetativer Belastung“ (p. 31): a subgroup
+# anchor, card #364's convention row 5 and its sample. Near-duplicates, named and not merged (card #364, reading 10):
+# 2.5's „psychische Störung“ and Tabelle 4's „psychische Komorbidität, psychosoziale Belastungen“ (C1's), and Tabelle
+# 7's „Psychosoziale Faktoren“ (p. 28), which stays on the page.
+id: concepts/starke-psychovegetative-belastung
+type: concept
+lang: de
+label: "starke psychovegetative Belastung"
+facet: patient_state
+source: modelling

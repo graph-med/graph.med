@@ -1,0 +1,13 @@
+# A concept of card #382 (C7a), chapter 8 of sources/vorhofflimmern-lf-1.1.
+# The group boxes 8.1, 8.2 and 8.3 address, „Bei Patient*innen unter oraler Antikoagulation“ (pp. 79, 82, 83), labelled as
+# printed: a group outside AF, its own concept (card #364, convention row 6), read as anticoagulated AF patients, under
+# the root by X2's in_scope_of with a condition naming AF (card #364, readings 4 and 7; #314 question 3). Abb. 6's caption
+# names „Patient*innen mit Vorhofflimmern“ (p. 81). Neighbours, named and not merged: concepts/orale-antikoagulation (the
+# therapy) and concepts/orale-antikoagulation-kontraindiziert (C3's state); C5 may mint a group for anticoagulation
+# around cardioversion.
+id: concepts/patientinnen-unter-oraler-antikoagulation
+type: concept
+lang: de
+label: "Patient*innen unter oraler Antikoagulation"
+facet: patient_state
+source: modelling

@@ -1,0 +1,9 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): heart failure, the comorbidity: Tabelle 4 (p. 19),
+# Tabelle 6 (p. 25), Tabelle 8 (p. 38), 4.9 (p. 35), and the narrower groups 6.4 („schwerer Herzinsuffizienz“, C4)
+# and 7.4 (C6). Used by C1, C2, C3, C4 and C6.
+id: concepts/herzinsuffizienz
+type: concept
+lang: de
+label: "Herzinsuffizienz"
+facet: patient_state
+source: modelling

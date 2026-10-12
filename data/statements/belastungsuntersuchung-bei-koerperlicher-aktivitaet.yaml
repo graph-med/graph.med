@@ -1,0 +1,12 @@
+# A statement of card #376 (C2), chapter 4 of sources/vorhofflimmern-lf-1.1.
+# Box 4.3 (p. 30). One statement: what the test serves stays in the label (#376 reading 2). Anchor: the eligibility as
+# printed, a subgroup (card #364, convention row 8, reading 4).
+id: statements/belastungsuntersuchung-bei-koerperlicher-aktivitaet
+type: statement
+lang: de
+label: "Patient*innen mit AF, die körperlich aktiv sind oder es werden wollen, eine Belastungsuntersuchung empfehlen, aus der Intensität, Dauer und Art der Aktivität (z. B. Rezept für Bewegung) abgeleitet werden können."
+short_label: "Belastungsuntersuchung: Intensität, Dauer, Art ableiten"
+slots:
+  population: concepts/patientinnen-mit-af-die-koerperlich-aktiv-sind-oder-es-werden-wollen
+  action: concepts/belastungsuntersuchung
+source: modelling

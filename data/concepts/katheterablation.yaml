@@ -1,0 +1,14 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): „Katheterablation“ (6.4–6.6, pp. 52–56; 6.10, 6.11,
+# pp. 61–62; 8.6's „(Ablation)“, p. 89; the body text of chapters 5 and 7), the act chapter 6's boxes judge („sollte
+# eine Katheterablation des AF durchgeführt werden“, p. 52; 6.6, p. 56), which the source calls „interventionelle
+# Katheterablation“ beside the „herzchirurgische Ablation“ (p. 62). Facet intervention, by spec §3.2's tie-breaker
+# (the act, not the case) and the pool's precedent for acts recommendations judge (Nierenersatztherapie, ECMO, the
+# drains). A reading for the physician (card #364): the other is procedure, from 8.6's „invasive Therapie
+# (Ablation)“ and its „prozeduraler Risiken“ (p. 89), where its indication is the case. Used by C4, C5, C7, C3 and
+# C6.
+id: concepts/katheterablation
+type: concept
+lang: de
+label: "Katheterablation"
+facet: intervention
+source: modelling

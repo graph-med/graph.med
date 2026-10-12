@@ -3,6 +3,6 @@
 id: concepts/pharmakologische-vte-prophylaxe-kontraindiziert
 type: concept
 lang: de
-label: "Pharmakologische VTE-Prophylaxe kontraindiziert"
+label: "pharmakologische VTE-Prophylaxe kontraindiziert"
 facet: patient_state
 source: modelling

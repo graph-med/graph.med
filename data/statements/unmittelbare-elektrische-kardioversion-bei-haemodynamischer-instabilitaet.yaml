@@ -1,0 +1,13 @@
+# A statement of card #378 (C5), sections 6.6–6.8 of sources/vorhofflimmern-lf-1.1.
+# Box 6.12 (p. 63). Anchor: the root, „hämodynamisch instabil“ a condition only (convention row 9 and its sample;
+# card #364's reuse list). „nicht pharmakologisch“ stays in the label and the short label (#378 Decision 5).
+id: statements/unmittelbare-elektrische-kardioversion-bei-haemodynamischer-instabilitaet
+type: statement
+lang: de
+label: "Hämodynamisch instabile Patient*innen mit AF unmittelbar elektrisch, nicht pharmakologisch kardiovertieren."
+short_label: "Elektrisch, nicht pharmakologisch kardiovertieren"
+slots:
+  population: concepts/patientinnen-mit-vorhofflimmern
+  action: concepts/elektrische-kardioversion
+  condition: [concepts/haemodynamisch-instabil]
+source: modelling

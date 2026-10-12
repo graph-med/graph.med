@@ -1,0 +1,10 @@
+# A measured quantity, named by the threshold that bounds it (spec §3.1): „respiratorische Insuffizienz definiert
+# als maschinelle Beatmung > 48 h“ (p. 122, section 8.8). Card #343: the quantity of a threshold is a finding, and a
+# circumstance and an endpoint stay two concepts (memory facet-boundaries), so it is not the endpoint of 5.13's
+# evidence row, concepts/beatmungsdauer. Labelled by the printed measure and what "> 48 h" bounds, its duration.
+id: concepts/dauer-der-maschinellen-beatmung
+type: concept
+lang: de
+label: "Dauer der maschinellen Beatmung"
+facet: finding
+source: modelling

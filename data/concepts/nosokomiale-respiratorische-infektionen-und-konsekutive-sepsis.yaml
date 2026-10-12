@@ -4,7 +4,7 @@
 id: concepts/nosokomiale-respiratorische-infektionen-und-konsekutive-sepsis
 type: concept
 lang: de
-label: "Nosokomiale respiratorische Infektionen und konsekutive Sepsis"
-short_label: "Nosokomiale respiratorische Infektionen und Sepsis"
+label: "nosokomiale respiratorische Infektionen und konsekutive Sepsis"
+short_label: "nosokomiale respiratorische Infektionen und Sepsis"
 facet: outcome
 source: modelling

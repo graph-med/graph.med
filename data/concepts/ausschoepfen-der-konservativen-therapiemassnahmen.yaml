@@ -5,6 +5,6 @@ id: concepts/ausschoepfen-der-konservativen-therapiemassnahmen
 type: concept
 lang: de
 label: "Ausschöpfen der konservativen Therapiemaßnahmen, einschließlich der Durchführung einer Bauchlagerung"
-short_label: "Konservative Therapie ausgeschöpft (inkl. Bauchlagerung)"
+short_label: "konservative Therapie ausgeschöpft (inkl. Bauchlagerung)"
 facet: patient_state
 source: modelling

@@ -1,0 +1,9 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): the endpoint „Hospitalisierung“ (6.5, p. 53; 6.6, p.
+# 56; 6.10, p. 61) and „Hospitalisierungen“ (7.1, p. 71). Used by C4, C5 and C6. Not 7.4's „Hospitalisierung in den
+# letzten 12 Monaten“ (p. 73), a circumstance of C6's (card #364, Decision 4).
+id: concepts/hospitalisierung
+type: concept
+lang: de
+label: "Hospitalisierung"
+facet: outcome
+source: modelling

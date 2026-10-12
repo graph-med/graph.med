@@ -55,12 +55,37 @@ concepts of two chapters, and the families across chapters), `scope-edges` (the
 view's scope tree) and `broader-edges` (`broader` between the concepts that fill a
 population or condition slot).
 
+The parts that extract `vorhofflimmern-lf-1.1` write one file per chapter, chapter 6
+cut at its section boundary 6.5 | 6.6 and chapter 8 at 8.6 | 8.7; chapters 1–3 are
+one part, with a file each. Each file holds the claims and the edges minted with
+them, its `defined_by` edges included, under the same file name in
+`claims/vorhofflimmern-lf-1.1/` and `edges/vorhofflimmern-lf-1.1/`. The pages end
+where each chapter's reference list begins, which is never read:
+
+| file | chapters | physical pages |
+|---|---|---|
+| `ch01` | 1 | 11 from the heading of 1 (line 44), to 14 |
+| `ch02` | 2 | 16 from the heading of 2 (line 13), to 22 line 30 |
+| `ch03` | 3 | 24 to 26 line 48 |
+| `ch04` | 4 | 28 to 36 line 11 |
+| `ch05` | 5 | 37 from the heading of 5 (line 39), to 45 line 49 |
+| `ch06a` | 6.1–6.5 | 47 from the heading of 6 (line 35), to 60 |
+| `ch06b` | 6.6–6.8 | 61 to 66 line 45 |
+| `ch07` | 7 | 70 to 77 line 38 |
+| `ch08a` | 8.1–8.6 | 78 from the heading of 8 (line 39), to 86 line 44 |
+| `ch08b` | 8.7–8.10 | 86 from the heading of 8.7 (line 45), to 90 |
+
+Its linking passes over the whole source write `cross-chapter`, `scope-edges` and
+`broader-edges` under `edges/vorhofflimmern-lf-1.1/`, as for `sepsis-lf-4.0`.
+
 Rules that bind everything here:
 
 - **Source language, tagged.** All content stays in the source language with a
   `lang` tag; nothing is translated at extraction (spec §2, "Language").
-- **Verbatim quotes, physical pages.** Every quote is a verbatim substring of
-  the source's extracted text; `#page=N` counts physical PDF pages (spec §6.2).
+- **Verbatim quotes, physical pages.** Every quote is a verbatim passage of
+  the source's extracted text in whole words, which may run across a line break
+  (read as a space, a line-end hyphen as the printed word reads); a claim's
+  quote lies on its page once; `#page=N` counts physical PDF pages (spec §6.2).
 - **Only current sources.** An expired guideline (AWMF: renamed with an
   `-abgelaufen` suffix, banner "wird aktuell überarbeitet") is not parsed — its
   successor will be, when published.

@@ -1,0 +1,9 @@
+# A concept of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# A condition of box 6.5: „jüngeren … Patient*innen“ (p. 53). Stated: the box prints no age, and the trials' mean ages
+# (p. 53, l. 31–33; Tabelle 12) are a report that stays on the page (reading 5).
+id: concepts/juengere-patientinnen
+type: concept
+lang: de
+label: "jüngere Patient*innen"
+facet: patient_state
+source: modelling

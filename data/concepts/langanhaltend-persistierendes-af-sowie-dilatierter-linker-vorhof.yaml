@@ -1,0 +1,12 @@
+# A concept of card #378 (C5), sections 6.6–6.8 of sources/vorhofflimmern-lf-1.1.
+# The group of 6.11 (p. 62), „mit langanhaltend persistierendem AF sowie dilatiertem linken Vorhof“, labelled in the
+# box's words: an AF form narrowed by a state, a subgroup anchor (card #364, convention row 4). Its form is
+# concepts/lang-persistierendes-vorhofflimmern (card #364, reading 1); the `broader` edge is X2's. p. 57's dilated left
+# atrium („dilatierte Vorhöfe“, 6.7) is C4's: a near-duplicate for the sweep (#378 reading 13).
+id: concepts/langanhaltend-persistierendes-af-sowie-dilatierter-linker-vorhof
+type: concept
+lang: de
+label: "langanhaltend persistierendes AF sowie dilatierter linker Vorhof"
+short_label: "langanhaltend persistierendes AF, dilatierter linker Vorhof"
+facet: patient_state
+source: modelling

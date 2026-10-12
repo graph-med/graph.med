@@ -1,0 +1,11 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): the endpoint stroke, one concept whatever the row
+# prints: „Schlaganfälle“ (2.3, p. 18), „Schlaganfallreduktion“ (5.3, 5.4, p. 40; the result word left out, #326
+# Decision 8), „Schlaganfall“ (5.10, p. 45; 6.1, 6.2), „Reduktion Schlaganfälle“ (7.1, p. 71). Used by C1, C3, C4
+# and C6. 3.1's „Vermeidung ischämischer Schlaganfälle“ (p. 24) is a narrower endpoint, C1's own (card #364, reading
+# 8). Not the circumstance concepts/schlaganfall-oder-tia-in-der-anamnese (card #364, Decision 4).
+id: concepts/schlaganfall
+type: concept
+lang: de
+label: "Schlaganfall"
+facet: outcome
+source: modelling

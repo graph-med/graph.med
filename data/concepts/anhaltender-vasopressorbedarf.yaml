@@ -3,6 +3,6 @@
 id: concepts/anhaltender-vasopressorbedarf
 type: concept
 lang: de
-label: "Anhaltender Vasopressorbedarf"
-facet: finding
+label: "anhaltender Vasopressorbedarf"
+facet: patient_state
 source: modelling

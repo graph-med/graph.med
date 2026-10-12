@@ -4,5 +4,5 @@ id: concepts/indikation-zur-nierenersatztherapie
 type: concept
 lang: de
 label: "Indikation zur Nierenersatztherapie"
-facet: finding
+facet: patient_state
 source: modelling

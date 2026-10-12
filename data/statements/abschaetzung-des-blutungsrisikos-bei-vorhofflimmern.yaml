@@ -1,0 +1,11 @@
+# A statement of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# Box 5.2 (p. 39). Anchor: the root (convention row 1).
+id: statements/abschaetzung-des-blutungsrisikos-bei-vorhofflimmern
+type: statement
+lang: de
+label: "Abschätzung des Blutungsrisikos bei Patient*innen mit AF (z.B. mit dem HAS-BLED-Score), um identifizierte Risikofaktoren für Blutungen bestmöglich zu minimieren."
+short_label: "Blutungsrisiko abschätzen (z.B. HAS-BLED-Score)"
+slots:
+  population: concepts/patientinnen-mit-vorhofflimmern
+  action: concepts/abschaetzung-des-blutungsrisikos
+source: modelling

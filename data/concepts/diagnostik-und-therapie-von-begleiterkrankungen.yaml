@@ -1,0 +1,11 @@
+# A concept of card #376 (C2), chapter 4 of sources/vorhofflimmern-lf-1.1.
+# The action of box 4.9 (p. 35), its printed examples in the label (§5.1 G3; #376 Decision 12 and reading 9), so the
+# ledger's adipositas, hypertonie, diabetes-mellitus, herzinsuffizienz and schlafapnoe are not linked by it. A
+# near-duplicate of C1's „Erfassen der Komorbiditäten“ (2.3, p. 18), named for the coordinator's sweep.
+id: concepts/diagnostik-und-therapie-von-begleiterkrankungen
+type: concept
+lang: de
+label: "Diagnostik und Therapie von Begleiterkrankungen wie Adipositas, arterielle Hypertonie, Diabetes mellitus, Herzinsuffizienz und schlafbezogene Atmungsstörungen"
+short_label: "Diagnostik und Therapie von Begleiterkrankungen"
+facet: intervention
+source: modelling

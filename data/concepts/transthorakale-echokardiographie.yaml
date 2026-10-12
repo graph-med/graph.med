@@ -1,0 +1,11 @@
+# A concept of card #380 (C1), chapter 2 of sources/vorhofflimmern-lf-1.1.
+# The action of box 2.6: „sollen eine transthorakale Echokardiographie erhalten“ (p. 22, l. 9–10); Tabelle 4 prints it
+# too (p. 19, l. 39). A judged imaging is an intervention (spec §3.2; card #364, reading 13). Not the Sepsis view's
+# concepts/echokardiographie-zur-beurteilung-der-herzfunktion-und-des-volumenstatus (a look-alike, named). Another
+# part may need it (the inventory's shared candidates).
+id: concepts/transthorakale-echokardiographie
+type: concept
+lang: de
+label: "transthorakale Echokardiographie"
+facet: intervention
+source: modelling

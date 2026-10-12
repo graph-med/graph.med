@@ -1,0 +1,12 @@
+# A statement of card #376 (C2), chapter 4 of sources/vorhofflimmern-lf-1.1.
+# Box 4.1 (p. 29), its second predicate: one of two statements its one claim supports (spec §3.1; #376 Decision 3).
+# Anchor: the root (card #364, convention row 1).
+id: statements/beratung-zu-den-vorteilen-moderater-koerperlicher-aktivitaet
+type: statement
+lang: de
+label: "Patient*innen mit AF zu den Vorteilen moderater körperlicher Aktivität beraten."
+short_label: "Zu Vorteilen moderater körperlicher Aktivität beraten"
+slots:
+  population: concepts/patientinnen-mit-vorhofflimmern
+  action: concepts/beratung-zu-den-vorteilen-moderater-koerperlicher-aktivitaet
+source: modelling

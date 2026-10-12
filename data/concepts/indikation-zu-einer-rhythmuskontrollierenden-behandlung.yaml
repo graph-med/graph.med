@@ -1,0 +1,13 @@
+# A concept of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# The eligibility box 6.5 addresses: „mit Indikation zu einer rhythmuskontrollierenden Behandlung“ (p. 53), a group of
+# its own (card #364, convention row 8; reading 4 confirmed), the box's other qualifiers its conditions. A need for a
+# measure is a patient_state (spec §3.2). Box 6.6 prints „Indikation zu einer rhythmuskontrollierenden Therapie“ with
+# paroxysmal AF (concepts/paroxysmales-vorhofflimmern-mit-indikation-zu-einer-rhythmuskontrollierenden-therapie). A
+# shared candidate: C5 (p. 61), C6 (p. 72).
+id: concepts/indikation-zu-einer-rhythmuskontrollierenden-behandlung
+type: concept
+lang: de
+label: "Indikation zu einer rhythmuskontrollierenden Behandlung"
+short_label: "Indikation zur rhythmuskontrollierenden Behandlung"
+facet: patient_state
+source: modelling

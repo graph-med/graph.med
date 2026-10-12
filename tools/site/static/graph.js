@@ -12,12 +12,19 @@
    its sources, or another axis of its `group_by` (spec §4.1) — as `?by=<grouping>` in the
    URL (`section` for the chapters, else the axis id; absent for the first), so a grouped
    view is a shareable link.
-   The legend under the graph keys what the view draws, open on a wide screen and a
-   pill on a phone.
-   Data: the #graph-data JSON written by tools/build.py, one tree per grouping. */
+   The legend under the graph keys what the view draws: a pill in the corner at every
+   load, which opens and closes it.
+   Data: the #graph-data JSON written by tools/build.py, one tree per grouping. Words: what
+   this script writes outside the graph — the counter, the chapter panel, the failure, the
+   strip's close label — is the page chrome's, read from the page (#graph's data-words,
+   #sheet's data-close), so that no word is written here. */
 (function () {
   "use strict";
   var legend = document.getElementById("legend"), sheet = document.getElementById("sheet");
+  var words = JSON.parse(document.getElementById("graph").dataset.words || "{}");
+  /* a word with its blanks filled ("{n} …"), and of a pair the form its count takes (`one` for 1, else `many`) */
+  function say(text, values) { return text.replace(/\{(\w+)\}/g, function (m, k) { return k in values ? String(values[k]) : m; }); }
+  function pair(p, n) { return n === 1 ? p.one : p.many; }
   var home = sheet.innerHTML;
   var data = JSON.parse(document.getElementById("graph-data").textContent);
   var chapters = document.getElementById("chapters"), chaptersToggle = document.getElementById("chapters-toggle");
@@ -27,15 +34,20 @@
   if (!data.groupings.some(function (g) { return g.axis === by; })) by = first;   /* an unknown axis in the link: the first grouping */
   data.groupings.forEach(function (g) { var o = document.createElement("option"); o.value = g.axis; o.textContent = g.label; o.lang = g.lang; axisSel.appendChild(o); });
   axisSel.value = by; axisSel.hidden = data.groupings.length < 2;   /* a single grouping needs no switch */
-  function fail(msg) { legend.textContent = "The graph could not be drawn: " + msg; }
+  function fail(msg) { legend.textContent = say(words.failed, { message: msg }); }
 
-  /* the legend: open on a wide screen, collapsed on a phone, at every load — nothing is remembered. The pill
-     toggles the panel above it; the zoom does not follow, the fit button does (the free row is re-read) */
+  /* the legend: collapsed at every load, on every screen, and opened only by its pill — nothing is remembered. The pill
+     toggles the panel beside it; the zoom does not follow, the fit button does (the free row is re-read). On a
+     phone the panel opens over the graph (site.css) and is as tall as the free row at most, read on opening */
   var legendPanel = document.getElementById("legend-panel"), legendToggle = document.getElementById("legend-toggle");
-  function showLegend(on) { legendPanel.hidden = !on; legendToggle.setAttribute("aria-expanded", String(on)); }
-  showLegend(!!(window.matchMedia && window.matchMedia("(min-width: 900px)").matches));
+  var freeRow = document.getElementById("free");
+  function showLegend(on) {
+    legendPanel.style.maxHeight = on && narrow() ? Math.max(120, freeRow.getBoundingClientRect().height - 8) + "px" : "";
+    legendPanel.hidden = !on; legendToggle.setAttribute("aria-expanded", String(on));
+  }
   /* on a phone the legend and the chapter panel share the little height the graph leaves, so opening one closes the other */
   var narrow = function () { return !(window.matchMedia && window.matchMedia("(min-width: 900px)").matches); };
+  showLegend(false);
   legendToggle.onclick = function () {
     var open = legendPanel.hidden;
     if (open && narrow() && !chapters.hidden) { chapters.hidden = true; chaptersToggle.setAttribute("aria-expanded", "false"); }
@@ -141,10 +153,31 @@
      strip raises the panel over the graph; the strip again, ✕ or Escape lowers it. A wide screen never shows it.
      A selection of several entities (an answer naming several conditions) is a card for each, one after another:
      the strip names every card's title, one to a line, and each card after the first numbers the ids its template repeats. */
+  /* what the reader opened or closed on one card stays so on the next: every disclosure the card marks with
+     `data-keep` (the evidence table, the general groups, a rule, the folded body text and related statements) is remembered by that
+     name for as long as the page is open — in this variable, never in storage — and set so on every fill */
+  var kept = {};
+  sheet.addEventListener("toggle", function (e) {
+    var k = e.target && e.target.getAttribute && e.target.getAttribute("data-keep");
+    if (k) kept[k] = e.target.open;
+  }, true);
+  /* raised on a phone, the strip shows the title and the judgement again once the card's own title has scrolled
+     away, so that the reader always knows which recommendation the text under the strip belongs to */
+  var titled = null;
+  sheet.addEventListener("scroll", function () {
+    if (!titled || !sheet.classList.contains("raised")) return;
+    var bar = sheet.querySelector(".peek-bar");
+    sheet.classList.toggle("titled", titled.getBoundingClientRect().bottom < (bar ? bar.getBoundingClientRect().bottom : 0));
+  }, { passive: true });
   function fill(html) {
     sheet.innerHTML = html;
-    sheet.classList.remove("peeking", "raised");
+    sheet.classList.remove("peeking", "raised", "titled");
+    sheet.querySelectorAll("details[data-keep]").forEach(function (d) {
+      var k = d.getAttribute("data-keep");
+      if (Object.prototype.hasOwnProperty.call(kept, k)) d.open = kept[k];
+    });
     var cards = Array.prototype.slice.call(sheet.querySelectorAll(".card")), card = cards[0], title = card && card.querySelector("h2.title, .label");
+    titled = title;
     cards.forEach(function (c, i) {
       if (i) c.querySelectorAll("[id], [aria-labelledby]").forEach(function (el) {
         if (el.id) el.id += "-" + i;
@@ -180,7 +213,7 @@
       if (mark) { var m = document.createElement("span"); m.className = "contested"; Array.prototype.forEach.call(mark.childNodes, function (n) { m.appendChild(n.cloneNode(true)); });   /* the glyph keeps its own span and weight */ verdict.appendChild(document.createTextNode(" · ")); verdict.appendChild(m); }
       text.appendChild(t); if (verdict.firstChild) text.appendChild(verdict);
       peek.appendChild(sw); peek.appendChild(text);
-      close.type = "button"; close.className = "peek-close"; close.setAttribute("aria-label", "close the details"); close.textContent = "✕";
+      close.type = "button"; close.className = "peek-close"; close.setAttribute("aria-label", sheet.dataset.close || ""); close.textContent = "✕";
       bar.appendChild(peek); bar.appendChild(close);
       sheet.insertBefore(bar, sheet.firstChild);
       sheet.classList.add("peeking");
@@ -190,6 +223,7 @@
   function raise(up) {
     if (!sheet.classList.contains("peeking")) return;
     sheet.classList.toggle("raised", up);
+    sheet.classList.remove("titled");
     sheet.querySelector(".peek").setAttribute("aria-expanded", up ? "true" : "false");
     sheet.scrollTop = 0;
   }
@@ -199,7 +233,7 @@
 
   function draw() {
   var tree = data.groupings.filter(function (g) { return g.axis === by; })[0];
-  if (typeof cytoscape !== "function") throw new Error("library missing");
+  if (typeof cytoscape !== "function") throw new Error(words.missing);
   if (typeof cytoscapeDagre === "function") cytoscape.use(cytoscapeDagre);
 
   /* the search compares folded text: no case, no diacritics ("osophagus" finds Ösophagus), ß as ss */
@@ -410,6 +444,7 @@
     if (!j) fit(near(eles).not(".folded"), 40);
   });
   cy.on("tap", function (evt) { if (evt.target === cy) select(null, null, true); });
+  cy.on("tapstart", function () { if (narrow() && !legendPanel.hidden) showLegend(false); });   /* the legend lies over the graph on a phone: touching the graph puts it away */
   /* the page's own handlers are assigned, not added, so that a redraw under another axis replaces them */
   document.getElementById("fit").onclick = function () { fit(cy.elements().not(".folded"), 20); };
   window.onresize = function () { cy.resize(); };
@@ -450,12 +485,15 @@
       var n = statementsIn(e.section).length;
       var b = document.createElement("button"); b.type = "button"; b.dataset.section = e.section;
       b.innerHTML = '<span class="sec">' + e.section + '</span><span lang="' + (data.lang || "") + '">' + e.title.replace(/&/g, "&amp;").replace(/</g, "&lt;") + '</span><span class="n">' + (n || "") + "</span>";
-      if (!n) { b.classList.add("empty"); b.disabled = true; b.title = "no recommendation extracted from this section"; }
+      if (!n) { b.classList.add("empty"); b.disabled = true; b.title = words.chapters.empty; }
       return b;
     }
     var lists = { "": document.createElement("ul") };
     var all = document.createElement("button"); all.type = "button"; all.className = "all active"; all.dataset.section = "";
-    all.innerHTML = '<span class="sec">all</span><span>' + statements.length + " recommendations</span>";
+    var allSec = document.createElement("span"), allN = document.createElement("span");
+    allSec.className = "sec"; allSec.textContent = words.chapters.all;
+    allN.textContent = say(pair(words.chapters.recommendations, statements.length), { n: statements.length });
+    all.appendChild(allSec); all.appendChild(allN);
     chapters.appendChild(all);   /* fixed at the top of the panel; the sections scroll below it */
     var list = document.createElement("div"); list.className = "list"; list.appendChild(lists[""]); chapters.appendChild(list);
     outline.forEach(function (e) {
@@ -480,15 +518,13 @@
   }
 
   /* the search: a soft highlight — matches keep their colour, everything else fades but
-     stays; groups holding a match unfold; the counter reads "n matches in m sections".
+     stays; groups holding a match unfold; the counter counts the matches and the sections they lie in.
      Stepping — the arrows beside the box, ↓ and ↑ while it has focus — walks the visible
-     matches in graph order and selects each as a tap would; the counter then reads
-     "i of n matches in m sections" until the query changes */
+     matches in graph order and selects each as a tap would; the counter then leads with
+     the reader's place among the matches until the query changes */
   var query = "", facet = "", cursor = null;   /* cursor: the id of the match the reader stepped to */
   var stepBox = document.getElementById("step");
-  while (facetSel.options.length > 1) facetSel.remove(1);
-  (data.facets || []).forEach(function (f) { var o = document.createElement("option"); o.value = f; o.textContent = f.replace("_", " "); facetSel.appendChild(o); });
-  facetSel.hidden = !(data.facets || []).length;
+  facetSel.hidden = facetSel.options.length < 2;   /* its entries are the page's: each facet the view draws, by its word */
   function matches() {   /* the search text and the facet filter compose; either alone is a query */
     if (!query && !facet) return cy.collection();
     return scope().nodes().filter(function (n) {   /* a node matches by its own text or by the answer that leads to it — a condition is an edge */
@@ -517,12 +553,13 @@
     return out;
   }
   function position(list) { for (var i = 0; i < list.length; i++) if (list[i].id() === cursor) return i; return -1; }
-  function counter() {   /* "n matches in m sections" — with the reader's place first, "i of n", once they have stepped */
+  function counter() {   /* n matches in m sections — with the reader's place first, i of n, once they have stepped; the words and their pairs the page's */
     var m = matches().not(".folded");
     var st = m.filter("[type = 'statement']").union(m.not("[type = 'statement']").neighborhood("node[type = 'statement']")), secs = {};
     st.forEach(function (n) { n.data("sections").forEach(function (s) { secs[s] = 1; }); });
     var n = m.length, k = Object.keys(secs).length, i = cursor ? position(ordered()) : -1;
-    count.textContent = (i >= 0 ? (i + 1) + " of " : "") + n + (n === 1 ? " match" : " matches") + " in " + k + (k === 1 ? " section" : " sections");
+    var S = words.search;
+    count.textContent = say(S.counter, { matches: say(i >= 0 ? pair(S.at, n) : pair(S.matches, n), { i: i + 1, n: n }), sections: say(pair(S.sections, k), { k: k }) });
   }
   /* a step selects the next (or previous) visible match as a tap would — the sheet opens, the graph fits to it —
      and wraps at both ends; the fading stays as it is. Only visible matches are stepped: research() has unfolded

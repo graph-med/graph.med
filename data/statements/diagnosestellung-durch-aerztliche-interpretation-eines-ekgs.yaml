@@ -1,0 +1,12 @@
+# A statement of card #380 (C1), chapter 2 of sources/vorhofflimmern-lf-1.1.
+# Box 2.1 (p. 16). Anchor: the root, „bei Vorhofflimmern“ naming nothing narrower (card #364, convention row 1;
+# #380 Decision 10).
+id: statements/diagnosestellung-durch-aerztliche-interpretation-eines-ekgs
+type: statement
+lang: de
+label: "Bei Vorhofflimmern die Diagnose durch ärztliche Interpretation eines EKGs von ausreichender Qualität stellen."
+short_label: "Diagnosestellung durch ärztliche Interpretation eines EKGs"
+slots:
+  population: concepts/patientinnen-mit-vorhofflimmern
+  action: concepts/diagnosestellung-durch-aerztliche-interpretation-eines-ekgs
+source: modelling

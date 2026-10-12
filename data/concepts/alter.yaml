@@ -1,0 +1,10 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): age, the quantity the thresholds on it bound: 3.1's
+# „im Alter ≥75 Jahren“ (p. 24), Tabelle 6 („Alter ≥ 75 Jahre“, p. 25), Tabelle 8 („Alter ≥ 75 Jahre“, „Alter 65 –
+# 74 Jahre“, p. 38), Tabelle 9 („Alter > 65“, p. 39). A measured quantity, finding (spec §3.2). Used by C1 and C3;
+# C4's „höherem Lebensalter“ (6.2) and „jüngeren“ (6.5) print no number.
+id: concepts/alter
+type: concept
+lang: de
+label: "Alter"
+facet: finding
+source: modelling

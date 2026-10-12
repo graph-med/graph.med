@@ -1,0 +1,11 @@
+# A concept of card #377 (C6), chapter 7 of sources/vorhofflimmern-lf-1.1.
+# The action of box 7.3, „eine Schrittmachertherapie mit AV-Knoten Ablation“ (p. 72), „AV-Knoten Ablation“ as printed
+# (#314 Decision 4). The text prints it otherwise: „AV-Knoten-Ablation und Schrittmachertherapie („pace and ablate“)“
+# (p. 71), „Schrittmachertherapie plus … AV-Knoten-Ablation“ (p. 72), „AV-Knoten-Ablation plus Schrittmachertherapie“
+# (p. 73), „SM + AVN“ in Abb. 5. A shared candidate (card #377 Decision 12): never one family with katheterablation (X1).
+id: concepts/schrittmachertherapie-mit-av-knoten-ablation
+type: concept
+lang: de
+label: "Schrittmachertherapie mit AV-Knoten Ablation"
+facet: intervention
+source: modelling

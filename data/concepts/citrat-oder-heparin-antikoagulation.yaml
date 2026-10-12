@@ -3,7 +3,7 @@
 id: concepts/citrat-oder-heparin-antikoagulation
 type: concept
 lang: de
-label: "Regionale Citrat-Antikoagulation oder systemische Heparin-Antikoagulation des extrakorporalen Blutkreislaufs"
-short_label: "Regionale Citrat- oder systemische Heparin-Antikoagulation"
+label: "regionale Citrat-Antikoagulation oder systemische Heparin-Antikoagulation des extrakorporalen Blutkreislaufs"
+short_label: "regionale Citrat- oder systemische Heparin-Antikoagulation"
 facet: intervention
 source: modelling

@@ -1,0 +1,8 @@
+# A measured quantity, named by the threshold that bounds it (spec §3.1): 8.2's „Hb-Wert von < 4,34 mmol/L
+# (< 7.0 g/dl)“ (p. 107, card #355), the quantity of both printed values.
+id: concepts/hb-wert
+type: concept
+lang: de
+label: "Hb-Wert"
+facet: finding
+source: modelling

@@ -1,0 +1,13 @@
+# A statement of card #383 (C7b), chapter 8 of sources/vorhofflimmern-lf-1.1.
+# Box 8.6 (p. 89). Anchor: the group the bound gives, derived (card #383 Decisions 4 and 6; convention row 5). „invasive
+# Therapie (Ablation)“ is an apposition: the act is concepts/katheterablation, a condition (card #383, reading 6).
+id: statements/prozedurale-risiken-und-erfolgsaussichten-der-ablation-bei-starker-adipositas
+type: statement
+lang: de
+label: "Bei stark adipösen Menschen (BMI > 35 kg/m2) mit Vorhofflimmern bei der Indikationsstellung für eine invasive Therapie (Ablation) die Zunahme prozeduraler Risiken bei gleichzeitig Abnahme der Erfolgsaussichten berücksichtigen."
+short_label: "Ablation: Risiken und Erfolgsaussichten berücksichtigen"
+slots:
+  population: concepts/stark-adipoese-menschen
+  action: concepts/beruecksichtigung-prozeduraler-risiken-und-erfolgsaussichten
+  condition: [concepts/katheterablation]
+source: modelling

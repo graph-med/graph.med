@@ -1,0 +1,11 @@
+# A statement of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# Box 5.8, sentence 1 (p. 43). Anchor: the state the box names beside AF (convention row 5).
+id: statements/vorhofohrverschluss-bei-kontraindizierter-oraler-antikoagulation
+type: statement
+lang: de
+label: "Den Vorhofohrverschluss als Option bei Patient*innen mit AF erwägen, bei denen eine orale Antikoagulation kontraindiziert ist."
+short_label: "Vorhofohrverschluss erwägen, wenn OAK kontraindiziert"
+slots:
+  population: concepts/orale-antikoagulation-kontraindiziert
+  action: concepts/vorhofohrverschluss
+source: modelling

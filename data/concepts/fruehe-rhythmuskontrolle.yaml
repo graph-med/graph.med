@@ -1,0 +1,12 @@
+# A concept of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# Early rhythm control, the action of box 6.2 (p. 50) and the heading of section 6.1.2, beside concepts/rhythmuskontrolle
+# (that concept's comment). Derived: it reaches the definition of p. 50, l. 56 by defined_by („Eine „frühe“
+# Rhythmuskontrolle wird dabei für Patient*innen mit einer AF Diagnose < 1 Jahr definiert“; reading 12). Box 6.1 checks
+# its indication (concepts/pruefung-der-indikation-zur-fruehen-rhythmuskontrolle). A shared candidate: p. 11 (C1)
+# prints it too.
+id: concepts/fruehe-rhythmuskontrolle
+type: concept
+lang: de
+label: "frühe Rhythmuskontrolle"
+facet: intervention
+source: modelling

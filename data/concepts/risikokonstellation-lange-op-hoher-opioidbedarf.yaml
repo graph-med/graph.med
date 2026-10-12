@@ -1,7 +1,12 @@
+# The condition of 7.10 (p. 82). Derived: its one defined_by edge reaches the narrower criterion claim of the
+# parenthesis inside the box sentence, „(lange OP-Zeiten, zu erwartender hoher postoperativer Opioidverbrauch)“, which
+# prints no number (spec §3.1, §3.2, #328; #355). The label, unchanged, reads otherwise than the box's
+# „Risiko-Konstellationen (lange OP-Zeiten, …)“: one constellation, its purpose („für die perioperative Analgesie“)
+# added, „lange OP-Zeit“ in the singular; the box's words are the claim's label.
 id: concepts/risikokonstellation-lange-op-hoher-opioidbedarf
 type: concept
 lang: de
 label: 'Risiko-Konstellation für die perioperative Analgesie: lange OP-Zeit, zu erwartender hoher postoperativer Opioidverbrauch'
-short_label: "Lange OP, hoher Opioidbedarf erwartet"
+short_label: "lange OP, hoher Opioidbedarf erwartet"
 facet: patient_state
 source: modelling

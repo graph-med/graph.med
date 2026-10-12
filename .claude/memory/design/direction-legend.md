@@ -1,6 +1,6 @@
 ---
 name: direction-legend
-description: The site's four-word direction (für, gegen, abwägen, Lücke) derives from claims read in their source's grading scheme: the wording of an open grade → abwägen with a lean, any other recommendation by its direction, gap notices → Lücke, facts none.
+description: The site's four-word direction (für, gegen, abwägen, Lücke) derives from claims read in their source's grading scheme: a grade that fixes a direction → für or gegen whatever the verb, an open grade → abwägen with a lean with or without a verb, otherwise the wording of an open grade → abwägen and any other recommendation by its direction; gap notices → Lücke, facts none.
 metadata:
   type: project
 ---
@@ -36,6 +36,21 @@ arrow up or down, and the maintainer, for the physician, decided it reads für o
 gegen (2026-09-24). So *abwägen* belongs to whatever grade a scheme itself calls
 open — a literal `kann` in the build would have read a sepsis box worded "kann
 NICHT empfohlen werden" as abwägen although the guideline advises against.
+
+**The grade decides first (2026-10-11, #324 Decision 9, on the maintainer's
+delegation).** A scheme may make a grade one for or one against (`direction` on
+the grade: the arrows ⇑⇑ ⇑ ⇓ ⇓⇓) — a claim of that grade reads für or gegen by
+it whatever its verb, so a "kann" printed under ⇑ reads für, not abwägen. A claim
+whose grade the scheme marks `open` (⇔, AWMF 0) reads abwägen with its lean, with
+or without a verb — a sentence that says only "ist zu beachten" or "ist als
+internationaler Standard anzusehen" under the open grade weighs as the grade
+does. Only a claim whose grade fixes neither, or that has none (EK, an ungraded
+sentence), is read by its verb as above. The grade is what the box prints for
+the sentence. This changed one POMGAT box when it was introduced:
+`statements/praeoperative-lebensstilmassnahmen-standard` (box 4.8, grade 0, no
+verb) went from für to abwägen, eher für. The negated form a claim says is read
+from its own grade's entry where that entry gives its verb (a wording two arrows
+share, `soll` under ⇑⇑ and ⇓⇓), otherwise from the scheme that defines the wording.
 
 **How to apply:** Never store a direction on a statement; derive it. Never name a
 verb in the build: which wording is open, and its negated form, come from the

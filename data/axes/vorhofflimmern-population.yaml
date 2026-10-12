@@ -1,0 +1,91 @@
+# The tree of patient groups views/vorhofflimmern-lf-1.1 opens with, as a hierarchy axis over its anchor slot (spec
+# §4.1 "4. Shown"): it chooses, for each population concept and each family above one, the one edge of the pool it
+# hangs by, up to the view's scope root, concepts/patientinnen-mit-vorhofflimmern (the Zielsetzung, p. 10), which has
+# no place of its own. Its first question is the AF form of Tabelle 3 (p. 14), as the maintainer answered #314's
+# question 1 on 2026-10-11 (hence proposed_by: maintainer). Proposed by card #364 (#314's part P3) with the placements
+# of the five forms; placed, tested (tools/axes.py) and asserted for the view by card #393 (#314's part X2), whose pull
+# request carries the report, for the physician to accept before the assertion merges. Every placement is an edge in
+# data/edges/vorhofflimmern-lf-1.1/ (broader-edges.yaml, scope-edges.yaml).
+id: axes/vorhofflimmern-population
+type: axis
+lang: de
+label: Population
+short_label: Population
+carrier: hierarchy
+slot: population
+several: false
+rule: >-
+  Jedes Konzept, das in einer Empfehlung der Sicht die Population nennt, und jede Familie über einem solchen
+  steht unter dem einen Konzept, zu dem die Kante des Pools führt, an der es zur Wurzel der Sicht hin hängt —
+  Patient*innen mit Vorhofflimmern (Zielsetzung, S. 10). Die erste Frage ist die Form des Vorhofflimmerns nach
+  Tabelle 3, „Klassifikation von klinischen Vorhofflimmern nach Episodendauer“ (S. 14), deren Zeilen nicht alle
+  nach der Dauer einteilen: „Erstdiagnostiziert“ gilt „unabhängig von seiner Dauer oder Symptomatik“, und die
+  Bezeichnung „Permanent“ stützt sich „vielmehr auf die aktuelle Behandlungsentscheidung“ (S. 13).
+  Erstdiagnostiziertes, paroxysmales, persistierendes, lang-persistierendes und permanentes Vorhofflimmern hängen
+  als erste Familien an der Wurzel (broader: Patient*innen mit einer Form des Vorhofflimmerns sind in jeder
+  Leitlinie Patient*innen mit Vorhofflimmern). Vorhofflimmern als Krankheit (1.1, S. 11) und diagnostiziertes
+  Vorhofflimmern (1.2, 2.2) nennen in keiner Empfehlung die Population: sie haben keinen Platz, und keine Form hängt
+  unter ihnen. Jedes andere Konzept hängt unter dem engsten Konzept, dessen
+  Sonderfall es ist (broader), wo der Satz „X ist ein Y“ in jeder Leitlinie gilt: eine Gruppe, die eine Form um
+  einen weiteren Zustand, eine Indikation oder eine Dauer enger fasst, unter dieser Form. Perioperatives
+  Vorhofflimmern (8.4) ist keine Zeile von Tabelle 3, sondern nach seinem Anlass benannt (S. 13: „Trigger“
+  induziertes AF), und hängt als eigene Familie an der Wurzel, postoperativ neu aufgetretenes Vorhofflimmern
+  (8.5) unter ihm (beide broader). Sonst hängt ein
+  Konzept unter dem Konzept, dem die Leitlinie es in ihrem Geltungsbereich zuordnet (in_scope_of), der Wurzel
+  oder der Form, die die Empfehlung nennt: ohne Bedingung, wo jedes Mitglied der Gruppe, das die Empfehlung
+  anspricht, Vorhofflimmern hat (ein Zustand, eine Therapie, ein Score-Wert oder ein Eingriff, den eine
+  Empfehlung für Patient*innen mit AF nennt, auch wo sie das Vorhofflimmern nur in der Maßnahme nennt); mit der
+  Bedingung, unter der ihre Mitglieder zur Zielgruppe gehören, für eine Gruppe, die die Leitlinie ohne
+  Vorhofflimmern in ihren Geltungsbereich nimmt (Screening, Rauchende, Nierenerkrankung, orale
+  Antikoagulation). Hat ein Konzept mehrere solche Kanten, hängt es an der zum engsten. Ein Konzept hängt an
+  genau einer Kante; die Wurzel selbst hat keinen Platz. Fehlt einem Konzept die Kante, wird zuerst sie in den
+  Pool geschrieben, mit eigener Begründung, und dann der Platz.
+proposed_by: maintainer
+views:
+  - {view: views/vorhofflimmern-lf-1.1, status: asserted, since: "2026-10-12"}
+placements:   # concept: parent — each an edge of the pool, grouped by the kind of that edge
+  # along broader (17): the five forms of Tabelle 3, the four groups that narrow a form, the peri- and
+  # postoperative family, strong obesity, the two heart-failure groups and chronic kidney disease under the narrowest
+  # concept they are a case of, the two groups whose label prints AF under the root
+  # (data/edges/vorhofflimmern-lf-1.1/broader-edges.yaml)
+  concepts/erstdiagnostiziertes-vorhofflimmern: concepts/patientinnen-mit-vorhofflimmern
+  concepts/paroxysmales-vorhofflimmern: concepts/patientinnen-mit-vorhofflimmern
+  concepts/persistierendes-vorhofflimmern: concepts/patientinnen-mit-vorhofflimmern
+  concepts/lang-persistierendes-vorhofflimmern: concepts/patientinnen-mit-vorhofflimmern
+  concepts/permanentes-vorhofflimmern: concepts/patientinnen-mit-vorhofflimmern
+  concepts/paroxysmales-vorhofflimmern-mit-angst-vor-koerperlicher-aktivitaet: concepts/paroxysmales-vorhofflimmern
+  concepts/paroxysmales-vorhofflimmern-mit-indikation-zu-einer-rhythmuskontrollierenden-therapie: concepts/paroxysmales-vorhofflimmern
+  concepts/seit-mindestens-zwei-jahren-persistierendes-vorhofflimmern: concepts/persistierendes-vorhofflimmern
+  concepts/langanhaltend-persistierendes-af-sowie-dilatierter-linker-vorhof: concepts/lang-persistierendes-vorhofflimmern
+  concepts/perioperatives-vorhofflimmern: concepts/patientinnen-mit-vorhofflimmern
+  concepts/postoperativ-neu-aufgetretenes-vorhofflimmern: concepts/perioperatives-vorhofflimmern
+  concepts/stark-adipoese-menschen: concepts/adipositas
+  concepts/schwere-herzinsuffizienz: concepts/herzinsuffizienz
+  concepts/herzinsuffizienz-mit-hospitalisierung-in-den-letzten-12-monaten: concepts/herzinsuffizienz
+  concepts/chronische-nierenerkrankung: concepts/nierenerkrankung
+  concepts/patientinnen-mit-af-die-koerperlich-aktiv-sind-oder-es-werden-wollen: concepts/patientinnen-mit-vorhofflimmern
+  concepts/patientinnen-mit-af-unter-frequenzkontrollierender-therapie: concepts/patientinnen-mit-vorhofflimmern
+  # along in_scope_of, without a condition (12): every member the box addresses has AF, printed beside the
+  # group or in the box's measure, aim, section or chapter; heart failure, the family of 6.4's and 7.4's groups
+  # (scope-edges.yaml)
+  concepts/positives-screening-auf-eine-psychische-stoerung: concepts/patientinnen-mit-vorhofflimmern
+  concepts/starke-psychovegetative-belastung: concepts/patientinnen-mit-vorhofflimmern
+  concepts/patientinnen-mit-cha2ds2-va-score-ab-2: concepts/patientinnen-mit-vorhofflimmern
+  concepts/patientinnen-mit-cha2ds2-va-score-1: concepts/patientinnen-mit-vorhofflimmern
+  concepts/orale-antikoagulation-kontraindiziert: concepts/patientinnen-mit-vorhofflimmern
+  concepts/patientinnen-die-fuer-einen-vorhofohrverschluss-in-frage-kommen: concepts/patientinnen-mit-vorhofflimmern
+  concepts/herzchirurgischer-eingriff: concepts/patientinnen-mit-vorhofflimmern
+  concepts/af-induzierte-kardiomyopathie: concepts/patientinnen-mit-vorhofflimmern
+  concepts/indikation-zu-einer-rhythmuskontrollierenden-behandlung: concepts/patientinnen-mit-vorhofflimmern
+  concepts/strukturell-herzgesund: concepts/patientinnen-mit-vorhofflimmern
+  concepts/adipositas: concepts/patientinnen-mit-vorhofflimmern
+  concepts/herzinsuffizienz: concepts/patientinnen-mit-vorhofflimmern
+  # along in_scope_of, with the condition concepts/bei-vorhofflimmern (6): groups the guideline takes into its
+  # scope without AF — the screened, the smokers, kidney disease, the dialysis group, the anticoagulated
+  # (scope-edges.yaml)
+  concepts/menschen-im-alter-ab-75-jahren-und-oder-mit-erhoehtem-schlaganfallrisiko: concepts/patientinnen-mit-vorhofflimmern
+  concepts/menschen-im-generellen-screening-auf-vorhofflimmern: concepts/patientinnen-mit-vorhofflimmern
+  concepts/patientinnen-mit-af-sowie-alle-patientinnen-die-regelmaessig-zigaretten-rauchen: concepts/patientinnen-mit-vorhofflimmern
+  concepts/nierenerkrankung: concepts/patientinnen-mit-vorhofflimmern
+  concepts/patientinnen-mit-nierenversagen-und-dialysepatientinnen: concepts/patientinnen-mit-vorhofflimmern
+  concepts/patientinnen-unter-oraler-antikoagulation: concepts/patientinnen-mit-vorhofflimmern

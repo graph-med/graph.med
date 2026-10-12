@@ -1,0 +1,11 @@
+# A concept of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# The group box 6.4 addresses: „Patient*innen mit schwerer Herzinsuffizienz“ (p. 52), an AF subgroup (card #364,
+# reading 7; convention row 5), narrower than concepts/herzinsuffizienz (that concept's comment). Stated: the
+# Begründung refines it as „schweren systolischen Herzinsuffizienz“ (p. 53, l. 9) and reports the trials' inclusions
+# (NYHA II–IV, LVEF ≤ 35 %), which stay on the page (reading 4). A shared candidate: C6 (p. 71).
+id: concepts/schwere-herzinsuffizienz
+type: concept
+lang: de
+label: "schwere Herzinsuffizienz"
+facet: patient_state
+source: modelling

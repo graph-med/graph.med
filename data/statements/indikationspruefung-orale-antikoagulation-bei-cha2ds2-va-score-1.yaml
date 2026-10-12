@@ -1,0 +1,11 @@
+# A statement of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# Box 5.4, second item (p. 40), „Orientierend“ kept. The action is the check (card #364, Decision 7).
+id: statements/indikationspruefung-orale-antikoagulation-bei-cha2ds2-va-score-1
+type: statement
+lang: de
+label: "Orientierend: bei einem ermittelten CHA2DS2-VA-Score von 1 die Indikation für eine orale Antikoagulation individuell prüfen."
+short_label: "Orientierend: OAK-Indikation bei Score 1 individuell prüfen"
+slots:
+  population: concepts/patientinnen-mit-cha2ds2-va-score-1
+  action: concepts/pruefung-der-indikation-zur-oralen-antikoagulation
+source: modelling

@@ -1,0 +1,12 @@
+# A statement of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# Box 5.9 (p. 44), a structural measure listed unclassified for #94. Anchor: the patients it serves, the eligibility the
+# box prints, its own concept (convention rows 8 and 10; #365 reading 6).
+id: statements/interdisziplinaere-indikationspruefung-zum-vorhofohrverschluss-im-zentrum
+type: statement
+lang: de
+label: "Die Indikation zum Vorhofohrverschluss ausgehend vom CHA2DS2-VA-Score für die Patient*innen, die für diese Prozedur in Frage kommen, interdisziplinär in einem Zentrum mit entsprechender Expertise prüfen."
+short_label: "Indikation zum Vorhofohrverschluss im Zentrum prüfen"
+slots:
+  population: concepts/patientinnen-die-fuer-einen-vorhofohrverschluss-in-frage-kommen
+  action: concepts/interdisziplinaere-indikationspruefung-zum-vorhofohrverschluss-im-zentrum
+source: modelling

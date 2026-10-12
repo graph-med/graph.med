@@ -1,5 +1,8 @@
 <!doctype html>
-<html lang="en">
+{# the page chrome's words (docs/publication.md §3 "Language"): the view layer's table in the page language, never the
+   source's — every page declares that language, and a part in another language carries its own `lang` #}
+{% set S = page.site %}
+<html lang="{{ page_lang }}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -22,18 +25,19 @@
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="graph.med: the three-branch mark on its black tile, beside the wordmark">
+<meta property="og:image:alt" content="{{ S.share_alt }}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ self.title() | trim }}">
 <meta name="twitter:description" content="{{ self.description() | trim }}">
 <meta name="twitter:image" content="{{ origin }}{{ base }}assets/social-card.png">
-<meta name="twitter:image:alt" content="graph.med: the three-branch mark on its black tile, beside the wordmark">
+<meta name="twitter:image:alt" content="{{ S.share_alt }}">
 {% if preview %}<meta name="robots" content="noindex, nofollow">
 {% endif %}{% block head %}{% endblock %}
 </head>
 <body>
 {% if preview %}
-<div class="preview">preview of <a href="{{ preview.url }}" rel="noopener">pull request #{{ preview.number }}</a> · not the published site · <a href="https://graph.med/">graph.med</a></div>
+{% set link %}<a href="{{ preview.url }}" rel="noopener">{{ S.preview_link | replace("{n}", preview.number) }}</a>{% endset %}
+<div class="preview">{{ S.preview | e | replace("{link}", link) }} · <a href="https://graph.med/">graph.med</a></div>
 {% endif %}
 {% block banner %}{% include "banner.html" %}{% endblock %}   {# every page, entity pages included #}
 <header class="top">
@@ -44,9 +48,9 @@
 {% block main %}{% endblock %}
 </main>
 <footer class="foot">
-  built from <code>{{ commit }}</code> on {{ built }} · schema {{ version }} ·
-  <a href="{{ repo }}">repository</a> ·
-  {{ repository_license }}
+  {% set at %}<code>{{ commit }}</code>{% endset %}{{ S.footer.built | e | replace("{commit}", at) | replace("{date}", built) }} · {{ S.footer.schema | replace("{version}", version) }} ·
+  <a href="{{ repo }}">{{ S.footer.repository }}</a> ·
+  <span lang="en">{{ repository_license }}</span>
 </footer>
 <script>
 /* the copy button beside a quote: for viewers that cannot highlight a search from the link

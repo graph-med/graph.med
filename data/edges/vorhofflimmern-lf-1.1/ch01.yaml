@@ -1,0 +1,32 @@
+# Edges of card #380 (#314's part C1) from chapter 1 of sources/vorhofflimmern-lf-1.1 (pp. 11–14), all modelling. The
+# chapter holds no box: its definitions and criteria carry no body-text edge, E's included (spec §5.1 G1). Edges across
+# parts are X1's, the scope and hierarchy edges X2's (#314 Decision 6).
+
+# defined_by (spec §3.2, §5; §5.1 G1's definition clause): the five forms of Tabelle 3, each to its row (card #364, the
+# ledger's owner C1). lang-persistierendes-vorhofflimmern gets its first edge here; X1 writes those to C5's printings
+# (pp. 61, 62) with their disagrees_with edges (card #364, Decision 5)
+- [concepts/erstdiagnostiziertes-vorhofflimmern, defined_by, claims/vorhofflimmern-lf-1.1/1202d109, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„Erstdiagnostiziert“ — Tabelle 3, „Klassifikation von Vorhofflimmern“ (S. 14): „Erstmals diagnostiziertes AF, unabhängig von seiner Dauer oder Symptomatik“."}]
+- [concepts/paroxysmales-vorhofflimmern, defined_by, claims/vorhofflimmern-lf-1.1/0b965be2, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„Paroxysmal“ — Tabelle 3, „Klassifikation von Vorhofflimmern“ (S. 14): „AF, das spontan oder durch medikamentöse/elektrische Kardioversion innerhalb von 7 Tagen endet*“."}]
+- [concepts/persistierendes-vorhofflimmern, defined_by, claims/vorhofflimmern-lf-1.1/4ee786f5, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„Persistierend“ — Tabelle 3, „Klassifikation von Vorhofflimmern“ (S. 14): „AF, das spontan oder durch medikamentöse/elektrische Kardioversion nach mehr als 7 Tagen endet*“."}]
+- [concepts/lang-persistierendes-vorhofflimmern, defined_by, claims/vorhofflimmern-lf-1.1/1dd86d3a, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„Lang-persistierend“ — Tabelle 3, „Klassifikation von Vorhofflimmern“ (S. 14): „AF, das zum Zeitpunkt der Entscheidung einer rhythmuskontrollierenden Strategie mehr als 12 Monate kontinuierlich vorhanden war“."}]
+- [concepts/permanentes-vorhofflimmern, defined_by, claims/vorhofflimmern-lf-1.1/e6865801, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„Permanent“ — Tabelle 3, „Klassifikation von Vorhofflimmern“ (S. 14): „Repräsentiert die Entscheidung des/der Patienten*in und des behandelnden Arztes, AF zu belassen und keine weiteren Versuche zur Rhythmuskontrolle zu unternehmen“."}]
+
+# defined_by (reading 1, option (b), the card's leaning): the disease to §1.1's definition; the diagnosis to each printing
+# of its rule — §1.2's top here and Tabelle 2's row, p. 16's in the edges of chapter 2 —, every pair joined by
+# disagrees_with (spec §5; #341; #380 Decision 5)
+- [concepts/vorhofflimmern, defined_by, claims/vorhofflimmern-lf-1.1/0c25853f, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„Vorhofflimmern“ — Abschnitt 1.1 „Definition“ (S. 11, Z. 46–47): „Vorhofflimmern (AF) ist durch schnelle, unkoordinierte elektrische Aktivierung des Vorhofmyokards gekennzeichnet.“"}]
+- [concepts/diagnostiziertes-vorhofflimmern, defined_by, claims/vorhofflimmern-lf-1.1/ff95c179, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„Die Diagnose von AF“ — Abschnitt 1.2 „Diagnostische Kriterien“ (S. 11, Z. 55 – S. 12, Z. 5): „Die Diagnose von AF erfolgt mittels eines Elektrokardiogramms (EKG).“, mit der Dokumentation „entweder … im 12-Kanal-EKG oder im Ein- oder Mehrkanal-EKG für 30 Sekunden“ und den EKG-Charakteristika."}]
+- [concepts/diagnostiziertes-vorhofflimmern, defined_by, claims/vorhofflimmern-lf-1.1/0bd856d2, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„Klinisches Vorhofflimmern“ — Tabelle 2, Kopf „Definition Vorhofflimmern“ (S. 13): „AF im 12-Kanal-EKG oder 1-Kanal-EKG über mindestens 30s“."}]
+
+# disagreement (spec §5, §5.1 D and K; #341; #380 Decision 5): two printings of the rule of the diagnosis, each kept as
+# printed and shown, none chosen
+- [claims/vorhofflimmern-lf-1.1/ff95c179, disagrees_with, claims/vorhofflimmern-lf-1.1/0bd856d2, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Die Diagnostischen Kriterien (S. 11, Z. 55–56) verlangen „entweder eine Dokumentation im 12-Kanal-EKG oder im Ein- oder Mehrkanal-EKG für 30 Sekunden“; Tabelle 2 (S. 13), Zeile „Klinisches Vorhofflimmern“: „AF im 12-Kanal-EKG oder 1-Kanal-EKG über mindestens 30s“. Die beiden Stellen nennen die Dauer mit verschiedenem Vergleich, „für 30 Sekunden“ und „über mindestens 30s“, und neben dem 12-Kanal-EKG verschiedene EKG-Arten, das „Ein- oder Mehrkanal-EKG“ und das „1-Kanal-EKG“. Keine Angabe ist gewählt."}]

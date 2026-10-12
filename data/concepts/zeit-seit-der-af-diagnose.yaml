@@ -1,0 +1,11 @@
+# A concept of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# The time since the AF was diagnosed, the quantity p. 50, l. 56 bounds in defining „frühe“ Rhythmuskontrolle: „für
+# Patient*innen mit einer AF Diagnose < 1 Jahr“. A measured quantity (spec §3.2). Not the AF's duration
+# (concepts/af-dauer), which 6.7 bounds by how long the AF has persisted; p. 56, l. 63 draws a line from the diagnosis
+# too („vor mehr als 12 Monaten diagnostiziert“), kept in its claim's label.
+id: concepts/zeit-seit-der-af-diagnose
+type: concept
+lang: de
+label: "Zeit seit der AF-Diagnose"
+facet: finding
+source: modelling

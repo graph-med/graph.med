@@ -2,7 +2,7 @@
 id: concepts/dynamische-variablen-zur-steuerung-der-fluessigkeitstherapie
 type: concept
 lang: de
-label: "Bevorzugt dynamische gegenüber statischen Variablen zur Steuerung der Flüssigkeitstherapie"
-short_label: "Dynamische Variablen zur Flüssigkeitssteuerung"
+label: "bevorzugt dynamische gegenüber statischen Variablen zur Steuerung der Flüssigkeitstherapie"
+short_label: "dynamische Variablen zur Flüssigkeitssteuerung"
 facet: intervention
 source: modelling

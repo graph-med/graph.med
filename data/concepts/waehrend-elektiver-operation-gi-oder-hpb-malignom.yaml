@@ -3,8 +3,8 @@
 id: concepts/waehrend-elektiver-operation-gi-oder-hpb-malignom
 type: concept
 lang: de
-label: Während einer elektiven Operation eines gastrointestinalen oder hepatopankreatobiliären Malignoms
-short_label: "Während einer elektiven OP eines GI- oder HPB-Malignoms"
+label: während einer elektiven Operation eines gastrointestinalen oder hepatopankreatobiliären Malignoms
+short_label: "während einer elektiven OP eines GI- oder HPB-Malignoms"
 facet: patient_state
 definition: Der Patient unterzieht sich einer elektiven Operation aufgrund eines gastrointestinalen oder
   hepatopankreatobiliären Malignoms, der Operation der Patientenzielgruppe der Leitlinie.

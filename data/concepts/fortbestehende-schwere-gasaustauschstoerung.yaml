@@ -3,6 +3,6 @@
 id: concepts/fortbestehende-schwere-gasaustauschstoerung
 type: concept
 lang: de
-label: "Fortbestehende schwere Gasaustauschstörung"
-facet: finding
+label: "fortbestehende schwere Gasaustauschstörung"
+facet: patient_state
 source: modelling

@@ -3,6 +3,6 @@
 id: concepts/mildes-ards
 type: concept
 lang: de
-label: "Mildes ARDS"
+label: "mildes ARDS"
 facet: patient_state
 source: modelling

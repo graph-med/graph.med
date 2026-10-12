@@ -9,4 +9,4 @@ facet: intervention
 definition: "Antibiotic Stewardship (ABS) bzw. Antimicrobial Stewardship (AMS)-Programm."
 source: modelling
 provenance:
-  definition: {at: "sources/sepsis-lf-4.0#page=135", quote: "fehlung zur Implementierung eines Antibiotic Stewardship (ABS) bzw. Antimicrobial Stewards-"}
+  definition: {at: "sources/sepsis-lf-4.0#page=135", quote: "Empfehlung zur Implementierung eines Antibiotic Stewardship (ABS) bzw. Antimicrobial Stewardship"}

@@ -3,6 +3,6 @@
 id: concepts/gastrointestinale-toleranz
 type: concept
 lang: de
-label: "Gastrointestinale Toleranz"
-facet: finding
+label: "gastrointestinale Toleranz"
+facet: patient_state
 source: modelling

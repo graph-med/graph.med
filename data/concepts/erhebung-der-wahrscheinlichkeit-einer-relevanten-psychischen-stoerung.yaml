@@ -1,0 +1,11 @@
+# A concept of card #380 (C1), chapter 2 of sources/vorhofflimmern-lf-1.1.
+# The action of box 2.5 a), first sentence: „Die Wahrscheinlichkeit für das Vorliegen einer relevanten psychischen
+# Störung … sollte erhoben werden.“ (p. 21, l. 13–16); the examples stay in the statement's label. Chapter-only. Not the
+# pool's concepts/depression or concepts/regelmaessige-anwendung-eines-screeninginstruments (look-alikes, named).
+id: concepts/erhebung-der-wahrscheinlichkeit-einer-relevanten-psychischen-stoerung
+type: concept
+lang: de
+label: "Erhebung der Wahrscheinlichkeit für das Vorliegen einer relevanten psychischen Störung"
+short_label: "Erhebung der Wahrscheinlichkeit einer psychischen Störung"
+facet: intervention
+source: modelling

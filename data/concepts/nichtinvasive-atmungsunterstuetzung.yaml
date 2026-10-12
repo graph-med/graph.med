@@ -2,7 +2,7 @@
 id: concepts/nichtinvasive-atmungsunterstuetzung
 type: concept
 lang: de
-label: "Nichtinvasive Atmungsunterstützung (NIV, CPAP oder HFNO)"
-short_label: "Nichtinvasive Atmungsunterstützung"
+label: "nichtinvasive Atmungsunterstützung (NIV, CPAP oder HFNO)"
+short_label: "nichtinvasive Atmungsunterstützung"
 facet: intervention
 source: modelling

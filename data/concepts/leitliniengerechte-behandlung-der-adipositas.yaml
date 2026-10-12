@@ -1,0 +1,11 @@
+# A concept of card #383 (C7b), chapter 8 of sources/vorhofflimmern-lf-1.1.
+# The action of box 8.7, „soll die leitliniengerechte Behandlung der Adipositas empfohlen werden“ (p. 89); the
+# Begründung adds „ggfs. auch unter Zuhilfenahme chirurgischer Therapieoptionen“ (p. 90, l. 10–11) and refers to two
+# other guidelines. Near-duplicate named, not merged: 4.9's „Die Diagnostik und Therapie von Begleiterkrankungen wie
+# Adipositas, …“ (p. 35), C2's action — for the concept sweep.
+id: concepts/leitliniengerechte-behandlung-der-adipositas
+type: concept
+lang: de
+label: "leitliniengerechte Behandlung der Adipositas"
+facet: intervention
+source: modelling

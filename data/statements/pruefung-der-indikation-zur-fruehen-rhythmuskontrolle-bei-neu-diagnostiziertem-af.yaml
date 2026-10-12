@@ -1,0 +1,12 @@
+# A statement of card #381 (C4), sections 6.1–6.5 of sources/vorhofflimmern-lf-1.1.
+# Box 6.1 (p. 49). Anchor: the AF form „neu diagnostiziertem AF“, read as Tabelle 3's „Erstdiagnostiziert“ (card #364,
+# convention row 3, reading 1). The action is the check (card #364, Decision 7).
+id: statements/pruefung-der-indikation-zur-fruehen-rhythmuskontrolle-bei-neu-diagnostiziertem-af
+type: statement
+lang: de
+label: "Bei allen Patient*innen mit neu diagnostiziertem AF die Indikation zur frühen Rhythmuskontrolle prüfen."
+short_label: "Indikation zur frühen Rhythmuskontrolle prüfen"
+slots:
+  population: concepts/erstdiagnostiziertes-vorhofflimmern
+  action: concepts/pruefung-der-indikation-zur-fruehen-rhythmuskontrolle
+source: modelling

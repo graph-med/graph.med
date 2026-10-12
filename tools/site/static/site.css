@@ -12,12 +12,13 @@
   --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif, "Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols", "DejaVu Sans", FreeSerif;
   --note: #f2d97a;   /* the preview strip */
   --surface: #f3f3f1;   /* the wording's own surface on the statement card (zone 3) */
+  --disagree: #8a4b00;   /* the source's own inconsistency (spec §5 disagrees_with): apart from the contested red, which is two sources */
   color-scheme: light dark;
 }
 @media (prefers-color-scheme: dark) {
   :root { --bg: #111; --fg: #eee; --mute: #999; --line: #333; --accent: #7cb7ff; --surface: #1d1d1b;
           --statement: #7cb7ff; --concept: #9ad17a; --contested: #ff6b6b; --edge: #555;
-          --dir-for: #7fc492; --dir-against: #dd8d92; --dir-weigh: #e5c95a; --dir-gap: #b4b4b4; }
+          --dir-for: #7fc492; --dir-against: #dd8d92; --dir-weigh: #e5c95a; --dir-gap: #b4b4b4; --disagree: #f0a35a; }
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
@@ -91,6 +92,7 @@ ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1re
 .entry-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0 1rem; margin: 0; }
 .entry-meta a { display: inline-flex; align-items: center; min-height: 44px; }   /* touch target */
 .entry-meta .entry-source-title { flex-basis: 100%; padding-top: .6rem; color: var(--fg); }   /* a view of several sources names each */
+.entry-meta .entry-edition { flex-basis: 100%; padding-top: .6rem; }   /* the version and date: a line of their own */
 .entry-licence { margin: 0 0 .3rem; }
 .entry-licence + .entry-meta { border-top: 1px solid var(--line); margin-top: .4rem; }   /* a view of several sources: one block each */
 
@@ -103,19 +105,25 @@ ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1re
 #graph { grid-area: 1 / 1 / 4 / 2; display: block; width: 100%; height: 62vh; touch-action: none; }
 .free { grid-area: 2 / 1 / 3 / 2; pointer-events: none; }   /* the free row itself, so that fit() measures it once instead of adding up the controls and the legend */
 /* the legend (docs/publication.md §3, "The legend"): in the third row, at the bottom left, a pill that says what it
-   opens — the word and the view's direction chips — and, expanded, a panel of named groups opening upward from it.
-   Only the keys the view draws (tools/build.py, legend_of), in the view layer's words (tools/site/words/). The row
-   spans the width so the panel can take it; only the pill and the panel take the tap, the rest reaches the graph */
-.legend { grid-area: 3 / 1 / 4 / 2; position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; gap: .4rem;
+   opens — the word and the view's direction chips — and, expanded, the panel: a small table, one row per group,
+   its name in a column of its own and its keys side by side beside it, a hairline between the groups — so that
+   the panel is as tall as its groups rather than as its longest group, and each group is told apart at a glance.
+   On a wide screen the panel stands beside the pill; on a phone it opens upward over the graph (below). Only the
+   keys the view draws (tools/build.py, legend_of), in the view layer's words (tools/site/words/). The row spans
+   the width so the panel can take it; only the pill and the panel take the tap, the rest reaches the graph */
+.legend { grid-area: 3 / 1 / 4 / 2; position: relative; z-index: 1; display: flex; flex-direction: row; align-items: flex-end; gap: .5rem;
   margin: 0 .6rem .6rem; min-width: 0; color: var(--fg); font-size: .8rem; line-height: 1.45; pointer-events: none; }   /* above the canvas, which Cytoscape positions with a z-index of its own */
 .legend > * { pointer-events: auto; }
-.legend-panel { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: .5rem 1rem; width: 100%; max-width: 56rem;
-  max-height: 40vh; overflow: auto; padding: .55rem .75rem; background: var(--bg); border: 1px solid var(--line); border-radius: .6rem; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+.legend-toggle { order: -1; flex: none; }   /* the pill keeps the corner; the panel stands beside it */
+.legend-panel { display: flex; flex-direction: column; min-width: 0; max-width: 56rem;
+  max-height: 40vh; overflow: auto; padding: .15rem .75rem; background: var(--bg); border: 1px solid var(--line); border-radius: .6rem; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
 .legend-panel[hidden] { display: none; }
-.legend .lg p { margin: .1rem 0; }
-.legend .lg-name { font-weight: 600; color: var(--mute); font-size: .74rem; }
+.legend .lg { display: flex; align-items: baseline; gap: .75rem; margin: 0; padding: .22rem 0; }
+.legend .lg + .lg { border-top: 1px solid var(--line); }   /* the hairline between groups */
+.legend .lg-name { flex: none; width: 4.6rem; font-weight: 700; color: var(--mute); font-size: .68rem; text-transform: uppercase; letter-spacing: .05em; }   /* the name column: one width, so every group's keys start in one line */
+.legend .keys { display: flex; flex-wrap: wrap; align-items: center; gap: .1rem .9rem; min-width: 0; }   /* keys that wrap stay in their column, beside the name; a key moves to the next line whole and breaks inside itself only when it is wider than the column */
 .legend .key .sw { margin: 0 .35em 0 0; }
-.legend .key.variant { padding-left: 1.2em; }   /* a state of the form above it: the folded question, the open group */
+.legend .variant { display: inline-block; white-space: nowrap; margin-left: .3rem; color: var(--mute); }   /* a state of the form, in its key: the open group — its mark and word never parted */
 .legend .grades b { font-weight: 700; }
 .legend-toggle { display: inline-flex; align-items: center; gap: .45rem; min-height: 44px; padding: 0 .9rem 0 .55rem; border: 1px solid var(--line); border-radius: 22px;
   background: var(--bg); color: var(--fg); font: inherit; font-size: .85rem; font-weight: 600; cursor: pointer; }
@@ -133,7 +141,6 @@ ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1re
 .chip.none { background: var(--bg); }   /* a statement without a direction: the page's colours, with a border, as in the graph */
 .sw { display: inline-block; width: .85em; height: .85em; vertical-align: -.05em; margin: 0 .15em 0 .45em; border: 1px solid var(--mute); box-sizing: border-box; }
 .sw.question { transform: rotate(45deg) scale(.8); border-color: var(--fg); }
-.sw.question.closed { background: var(--line); border-style: dashed; }   /* folded: there is more below */
 .sw.junction { border-radius: 50%; border: 2px solid var(--fg); }
 .sw.junction.open { background: var(--fg); }
 .sw.statement { border-radius: 2px; background: var(--mute); }
@@ -156,6 +163,7 @@ ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1re
 .sheet .card + .card { margin-top: 1.2rem; padding-top: .6rem; border-top: 1px solid var(--line); }   /* several selected (an answer naming several conditions): a card each */
 .kind { margin: .2rem 0; color: var(--mute); font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; }
 .label { font-size: 1.15rem; margin: .2rem 0 .6rem; }
+.label + .edition { margin: -.4rem 0 .6rem; font-size: .85rem; color: var(--mute); }   /* a source's version and date, a line of their own under its title */
 dl.slots { display: grid; grid-template-columns: max-content 1fr; gap: .2rem .8rem; margin: 0 0 .5rem; }
 dl.slots dt { color: var(--mute); font-size: .85rem; }
 dl.slots dd { margin: 0; }
@@ -166,16 +174,26 @@ button.copy { font: inherit; font-style: normal; font-size: .72rem; padding: 0 .
 button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: var(--fg); }
 .cite { font-size: .85rem; color: var(--mute); }
 .sheet .hint { margin: 0 0 .5rem; font-size: .85rem; color: var(--mute); }   /* the home text's one hint: where the details appear */
+/* the hint's verb follows the reader's pointer, chosen here and by no script: the touch sentence by default — the
+   page is read on a phone first —, the pointer one where a fine pointer can hover. Hidden by display: none, so a
+   screen reader reads only the sentence shown */
+.sheet .hint.pointer { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .sheet .hint.touch { display: none; }
+  .sheet .hint.pointer { display: block; }
+}
 .node-link { min-height: 44px; display: inline-flex; align-items: center; }   /* touch target */
 
 /* wide screens: the graph fills the height, the details sit beside it as a column */
 @media (min-width: 900px) {
+  .legend-toggle .caret::after { content: "▸"; }   /* on a wide screen the panel opens beside the pill */
+  .legend-toggle[aria-expanded="true"] .caret::after { content: "◂"; }
   /* the page is the window: the preview strip, the banner, the header and the footer take what they need — the
      banner wraps to as many lines as the width asks — and the view the rest; no constant states how tall any is */
   body:has(> main.view) { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
   body:has(> main.view) > :not(main) { flex: none; }
   :root:not(.js) body:has(> main.home), body:has(> main.home.flat) { display: block; height: auto; }   /* the index without its graph is a page like any other */
-  main.view { max-width: none; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr) 400px; flex: 1 1 auto; min-height: 0; width: 100%; }
+  main.view { max-width: none; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr) clamp(400px, 34vw, 560px); flex: 1 1 auto; min-height: 0; width: 100%; }
   main.view .graph-wrap { margin: 0; border-top: 0; height: 100%; min-height: 0; }
   main.view #graph { height: 100%; }
   main.view .sheet { border-top: 0; border-left: 1px solid var(--line); padding: .6rem 1rem 2rem; overflow: auto; min-height: 0; }
@@ -185,6 +203,12 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
    strip carrying the direction colour, the title and the judgement, and the page does not move; the strip raises
    the panel over the graph, ✕ or Escape lowers it. The strip's parts are built by graph.js from the card. */
 .peek-bar { display: none; }
+/* on a phone the panel opens upward from the pill over the graph instead of growing the legend's row: the free row,
+   and with it the zoom that fits the tree, stays as it is. Its height is the free row's (graph.js reads it on
+   opening); what does not fit scrolls, and a tap on the graph closes it */
+@media (max-width: 899px) {
+  .legend-panel { position: absolute; left: 0; right: 0; bottom: calc(100% + .4rem); max-width: none; }
+}
 @media (max-width: 899px) {
   main.view:has(.sheet.peeking) { padding-bottom: 5rem; }   /* the footer stays reachable above the strip */
   main.view .sheet.peeking { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; margin: 0; padding: 0 1rem; border-top: 0; background: var(--bg); box-shadow: 0 -2px 12px rgba(0,0,0,.18); }
@@ -198,7 +222,8 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
   .peek::after { content: "▴"; flex: none; margin-left: auto; color: var(--mute); font-size: 1.1rem; }   /* it rises */
   .sheet.raised .peek::after { content: none; }
   .sheet.raised .peek { min-height: 48px; }
-  .sheet.raised .peek-text { display: none; }   /* raised, the card below says it: the title stands once */
+  .sheet.raised .peek-text { display: none; }   /* raised, the card below says it: the title stands once … */
+  .sheet.raised.titled .peek-text { display: flex; }   /* … until it has scrolled away under the strip: then the strip says it again */
   .peek .sw-band { flex: none; width: 1.3rem; height: 1.3rem; border-radius: .3rem; background: var(--band, var(--line)); }
   .peek-text { min-width: 0; display: flex; flex-direction: column; }
   .peek-title { font-weight: 600; font-size: .95rem; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -255,6 +280,8 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card .zone + .zone { margin-top: 1.45rem; }
 .card .zone.title + .zone { margin-top: .2rem; }   /* the band belongs to its title */
 .card h2.title { font-size: 1.15rem; font-weight: 600; line-height: 1.3; margin: .3rem 0 .6rem; }
+.card h2.title:has(+ .source-line) { margin-bottom: .1rem; }
+.card .source-line { margin: 0 0 .6rem; color: var(--mute); font-size: .85rem; }   /* which guideline, which box: before the band, so it is never scrolled to */
 .card h3, .card h4 { font-size: .9rem; font-weight: 600; color: var(--mute); text-transform: none; letter-spacing: 0; }
 .card h3 { margin: 0 0 .4rem; }
 .card h4 { margin: .6rem 0 .1rem; font-size: .85rem; }
@@ -291,7 +318,7 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card .surface p { margin: 0; font-size: 1rem; line-height: 1.6; }
 .card ol.surfaces { margin: 0; padding-left: 1.4rem; }
 .card ol.surfaces li { margin-bottom: .5rem; }
-/* zone 4, the evidence: one line, or per outcome a native disclosure — open, no script — whose summary is the
+/* zone 4, the evidence: one line, or per outcome a native disclosure — closed, no script — whose summary is the
    counting line and whose table stands in the guideline's order; the system is named once, as the caption */
 .card .evidence .value { margin: .3rem 0; }
 .card .evidence details { margin: .3rem 0 .2rem; }
@@ -307,6 +334,19 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card dl.slots dd .families { flex-basis: 100%; color: var(--mute); font-size: .85rem; }
 .card dl.slots dd .families-label { margin-right: .15rem; }   /* "gehört zu:" — broader categories, not further requirements */
 .card dl.slots dd .families .node-link { min-height: 32px; }
+/* every entry of a row at one spacing, linked or plain, however its label wraps: the entries stand 44 px less one
+   line apart (--half above the first and below the last, twice it between two), so that one-line entries follow
+   each other every 44 px; a link reaches its 44 px touch target by reaching --half past its text into that space,
+   which it does not take (padding, and a margin as large taken back), painted above what it reaches over; the row's
+   word stands on the baseline of its first line */
+.card .applies dl.slots { --half: calc((44px - 1.45rem) / 2); align-items: baseline; }
+.card .applies dl.slots dd { padding: var(--half) 0; align-items: baseline; }
+.card .applies dl.slots dd > .and, .card .applies dl.slots dd.general-for > span + span { margin-top: calc(2 * var(--half)); }
+.card .applies dl.slots dd > .and > .entry { align-items: baseline; }
+.card .applies dl.slots dd > .node-link, .card .applies dl.slots dd > .and > .entry > .node-link,
+.card .applies dl.slots dd.general-for > span > .node-link {
+  display: inline-block; min-height: 0; padding: var(--half) 0; margin: calc(-1 * var(--half)) 0; position: relative; }
+.card .applies dl.slots dd .families { margin-top: var(--half); }   /* below the reach of the link above it */
 /* concepts that hold at once (a statement's conditions, a scope path's): every entry after the first on a line of its
    own, opened by the conjunction, so that no label's own "oder" reads across the join; in a row, the conjunction
    stands in a column of its own and the entry beside it is laid out like the row's first */
@@ -315,6 +355,22 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card dl.slots dd > .and { flex-basis: 100%; display: flex; align-items: baseline; column-gap: .4rem; }
 .card dl.slots dd > .and > .entry { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; column-gap: .4rem; }
 .card ul.body li p { margin: .2rem 0; }
+.card details.body-more > summary { cursor: pointer; min-height: 32px; padding: .2rem 0; color: var(--mute); font-size: .85rem; }   /* the passages past the third of a group */
+.card details.body-more[open] > summary { margin-bottom: .2rem; }
+.card details.body-more ul.body li:first-child { border-top: 1px solid var(--line); }
+/* where the source says otherwise (docs/publication.md §3): a line of its own under the claim it concerns, the other
+   printings under it, set apart by a rule of their own colour — on the card's wording, its body text, a rule's node
+   and a claim's page alike */
+.card .disagrees { border-left: 3px solid var(--disagree); padding: .1rem 0 .1rem .6rem; margin: .3rem 0 .6rem; max-width: 70ch; }
+.card .disagrees .disagrees-head { margin: 0 0 .15rem; color: var(--disagree); font-size: .9rem; font-weight: 600; }
+.card .disagrees .disagrees-head .glyph { font-weight: 400; }
+.card .disagrees ul { margin: 0; padding-left: 0; list-style: none; }   /* the rule beside the block sets it apart; no bullet inside it */
+.card .disagrees li { padding: .2rem 0; border-top: 0; }
+.card .disagrees li p { margin: .1rem 0; }
+.card .disagrees .cite a { min-height: 32px; }
+.card .disagrees details.differ { margin: .1rem 0 0; font-size: .9rem; }
+.card .disagrees details.differ summary { cursor: pointer; color: var(--mute); min-height: 32px; display: list-item; }
+.card .disagrees details.differ p { margin: .2rem 0 .1rem; }
 /* what applies generally to a concept (docs/publication.md §3): set apart under its own heading, below the concept's
    own statements, each entry the statement, where it stands, the concept it was made for and the condition; and on
    the card, zone 5's row naming the groups a statement applies generally to, each with its condition */
@@ -323,8 +379,19 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card div.general .condition { color: var(--fg); }
 .card ul.general li { padding: .3rem 0; }
 .card ul.general li .cite { display: block; font-size: .8rem; }
-.card dl.slots dd.general-for > span { flex-basis: 100%; }   /* one group per line */
-.card dl.slots dd.general-for small { color: var(--mute); }
+.card dl.slots dd.related > span { flex-basis: 100%; }   /* one related statement per line, the relation after it */
+.card dl.slots dd.related small { color: var(--mute); font-size: .8rem; }
+.card dl.slots dd.related .node-link { min-height: 32px; }
+.card dl.slots dd.related details.related-more { flex-basis: 100%; }   /* past the second, folded under them */
+.card dl.slots dd.related details.related-more > summary { cursor: pointer; min-height: 32px; padding: .2rem 0; color: var(--mute); font-size: .85rem; }
+.card dl.slots dd.related details.related-more > span { display: block; }
+.card dl.slots dd.general-for { grid-column: 2; display: block; margin-top: -.1rem; }   /* under the anchor's value, its second description */
+/* closed by default, so the slots read on from the anchor to the condition; opened, a table like zone 4's */
+.card .general-for summary { cursor: pointer; padding: .2rem 0; min-height: 32px; color: var(--mute); font-size: .85rem; }
+.card .general-for table { border-collapse: collapse; width: 100%; max-width: 40rem; margin: .2rem 0 .3rem; font-size: .9rem; }
+.card .general-for th, .card .general-for td { text-align: left; vertical-align: top; padding: .3rem .8rem .3rem 0; border-top: 1px solid var(--line); }
+.card .general-for th { border-top: 0; font-size: .75rem; font-weight: 600; color: var(--mute); text-transform: uppercase; letter-spacing: .04em; }
+.card .general-for td:nth-child(2) { color: var(--mute); }
 /* a grouped list: statements or concepts under what groups them — a concept's uses under each slot, an axis's
    placements under each parent or value — each member on its own line; a hierarchy member names in a quiet word
    the kind of edge it hangs by, and one without an edge (a proposal's) is marked */
@@ -338,15 +405,25 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
    and the claim's link — with its parts nested under it behind a line of their own, one level per combination; any
    other node is its threshold or its sentence, the page and the claim's link on a line of their own below */
 .card .rules { flex-basis: 100%; margin: .15rem 0 .3rem; padding-left: .6rem; border-left: 2px solid var(--line); }
-.card .rules p.derived { margin: 0 0 .15rem; color: var(--mute); font-size: .85rem; font-style: italic; }
+.card .rules p.derived, .card .rules summary.derived { margin: 0 0 .15rem; color: var(--mute); font-size: .85rem; font-style: italic; }
+.card details.rules summary.derived { cursor: pointer; min-height: 32px; display: list-item; padding: .2rem 0; margin: 0; }   /* on the card the rule is folded; the row reads on to the next */
+.card .rules a.rule { color: inherit; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: .2em; }   /* the rule is the link to its claim */
+.card .rules a.rule:hover, .card .rules a.rule:focus-visible { text-decoration-color: currentColor; }
 .card .rules p.op { margin: 0; }
 .card .rules p.op > .cite { display: block; }
 .card .rules ul.rule-list { margin: .15rem 0 0; padding-left: .6rem; border-left: 2px solid var(--line); }
 .card .rules ul.rule-list li { margin: 0; padding: .3rem 0; border-top: 0; }
 .card .rules ul.rule-list li + li { border-top: 1px dashed var(--line); }   /* the parts, one apart from the next */
-.card .rules .rule-tree > span, .card .rules ul.rule-list li > span { display: block; }
+.card .rules .rule-tree > span, .card .rules ul.rule-list li > span, .card .rules ul.rule-list li > a.rule { display: block; }
 .card .rules .threshold { white-space: normal; }
 .card .rules .cite a { min-height: 32px; }
+/* a sum's part (a points table) is its row: the row's words, its points among them, then set in under them the rule
+   the row prints or its footnote gives — a threshold, or a combination with its parts — behind a line of its own */
+.card .rules .row-rule { margin: .15rem 0 0; padding-left: .6rem; border-left: 2px solid var(--line); }
+.card .rules .row-rule > .threshold { display: block; }
+/* under a threshold whose quantity is itself derived (a score under its bound): a line naming the quantity, then its
+   rule, set in behind a line of its own as a combination's parts are */
+.card .rules .quantity-rule { margin: .25rem 0 0; padding-left: .6rem; border-left: 2px solid var(--line); }
 /* zone 7: the contesting claims, each with the contested colour beside it, its heading in that colour */
 .card .contested h3 { color: var(--contested); }
 .card .contested ol.claims li { border-left: 3px solid var(--contested); padding-left: .6rem; }
@@ -356,6 +433,7 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
    source, so that one source with one claim looks as before */
 .card .citation .source + .source { border-top: 1px solid var(--line); padding-top: .5rem; margin-top: .4rem; }
 .card .citation .source h4 { margin: 0; font-size: .85rem; font-weight: 500; color: var(--mute); text-transform: none; letter-spacing: 0; }
+.card .citation .source h4 + .edition { margin: 0; font-size: .8rem; color: var(--mute); }
 .card .citation .source ol.claims li:first-child { border-top: 0; padding-top: .1rem; }
 /* zone 8: the citation's two actions, unlike — the link into the source is the primary action (filled, opening
    in a new tab, marked as leaving the page), copying the quote a quiet text button beside it — and the review status */
@@ -382,17 +460,21 @@ button.copy.done { color: var(--fg); border-color: var(--fg); background: var(--
 
 /* narrow screens: the controls share one row and the counter wraps under them */
 @media (max-width: 520px) {
+  .card dl.slots dd.general-for { grid-column: 1 / -1; }   /* opened, the table takes the card's width, not the value column's */
   .tools.right { flex-direction: column; }   /* fit and reset stack, so the search row keeps its width */
   .tools input[type=search] { max-width: 34vw; }
   .tools select { max-width: 6.6rem; }
   .tools select#axis { max-width: calc(100% - 7.2rem); }   /* the row it wraps to holds it beside the facet select */
   .chapters button { min-height: 44px; align-items: center; }   /* touch targets */
-  .legend-panel { max-height: 26vh; }   /* expanded on a phone, it leaves the tree a strip of the free row; the panel scrolls */
 }
 
-/* print: the disclosure of zone 4 is open and has no marker to click; a table is not split across pages */
+/* print: the disclosures of zone 4 and of zone 5's general groups show their tables and have no marker to click; a table is not split across pages */
 @media print {
   .card .evidence summary { list-style: none; }
   .card .evidence summary::-webkit-details-marker { display: none; }
   .card .evidence table { break-inside: avoid; }
+  .card .general-for summary, .card details.rules > summary, .card details.body-more > summary, .card details.related-more > summary { list-style: none; }   /* closed on screen, printed open where the browser can */
+  .card .general-for summary::-webkit-details-marker { display: none; }
+  .card .general-for details::details-content, .card details.rules::details-content, .card details.body-more::details-content,
+  .card .evidence details::details-content, .card details.related-more::details-content { content-visibility: visible; display: block; }
 }

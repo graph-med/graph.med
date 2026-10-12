@@ -1,0 +1,13 @@
+# A concept of card #382 (C7a), chapter 8 of sources/vorhofflimmern-lf-1.1.
+# The occasion of boxes 8.1–8.3, „bei geplanten operativen und interventionellen Eingriffen“ (pp. 79, 82, 83), a further
+# qualifier of the group and so a condition (card #364, reading 4); one concept naming both kinds of procedure as
+# printed, either of which is the occasion (memory conditions-are-a-conjunction-list). Neighbours, named and not merged:
+# C3's concepts/herzchirurgischer-eingriff, and the first sources' concepts/vor-operativen-eingriffen-zentralvenoesen-
+# punktionen-oder-liquorpunktion.
+id: concepts/geplante-operative-und-interventionelle-eingriffe
+type: concept
+lang: de
+label: "geplante operative und interventionelle Eingriffe"
+short_label: "geplante Eingriffe"
+facet: procedure
+source: modelling

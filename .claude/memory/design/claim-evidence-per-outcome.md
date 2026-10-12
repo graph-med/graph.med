@@ -1,39 +1,92 @@
 ---
 name: claim-evidence-per-outcome
-description: A claim carries how certain its evidence is as `evidence`, a list of {outcome?, key?, value?, system}, one entry per printed row in the rating system's own words, each entry stating an outcome or a value. A row keyed by anything but an endpoint (component, subgroup, arm, comparator, device, regimen) keeps its printed `key`, never an outcome; values as printed, compared without regard to case; never a scalar, never mapped between systems, never reduced to one; a box's rows go to each of its sentences with a statement of its own.
+description: A claim carries how certain its evidence is as `evidence`, a list of {outcome?, key?, value?, note?, system?}, one entry per row of the box's evidence block, and per endpoint where a row names several, in the rating system's own words, each entry stating an outcome, a value or a note, and its system wherever it states an outcome or a value. A row keyed by anything but an endpoint (component, subgroup, arm, comparator, device, regimen) keeps its printed `key`, never an outcome, several names under one rating one key joined by ", "; a range one value as printed; the box's own rating beside its rows an entry of its own; the words a cell prints instead of a level, or a heading prints for the kind of evidence its rows rate, the entry's `note`; values as printed, compared without regard to case; never a scalar, never mapped between systems, never reduced to one; a rating printed outside the box no entry; a box's rows go to each of its sentences with a statement of its own.
 metadata:
   type: project
 ---
 
 How certain the evidence behind a recommendation is lives on the claim as
-`evidence`: a list, one entry per row the source prints and in its order,
-each entry the rating in the words of the system that made it (`value`,
-`system`), the `outcome` concept it applies to where the row names an
-endpoint, and the row's `key` as printed where the row names anything else —
-a component of the action, a subgroup, an arm, a comparator, a device, a
-regimen. A row naming both (an endpoint for a device, an endpoint under a
-comparison) carries both; an endpoint's own time frame or setting is part of
-the endpoint, not a key. A source that states one certainty for the whole
-recommendation gives a one-entry list without `outcome` or `key`. An outcome
-the source lists without a rating is an entry with `outcome` and `system` and
-no `value`; every entry states an outcome or a value. Absent or empty means
-"not recorded". Neither `system`, `value` nor `key` is an enum, and the list
-is the only shape — no scalar, no scalar-or-list alternative. Its provenance
-is `required`, like `grade` and `consensus`: one quote per row, the line
-printing its key or outcome. Decided by the maintainer on 2026-09-17 when
-registering WP-0023: the second option of the former `evidence-profiles` open
-question, narrowed to the rating and its outcome; in the schema since 0.6.0.
-`value` became optional in 0.7.0, decided by the maintainer on 2026-09-23
-(card #102). `key` came in 0.14.0 (card #215, 2026-09-24), when the second
-guideline printed rows keyed by component, subgroup, arm, comparator, device
-and regimen: the card's leanings, taken as the agent's proposal and awaiting
-the maintainer's confirmation at review.
+`evidence`: a list, one entry per row of the box's evidence block and per
+endpoint where a row names several, in its order, each entry the rating in the words
+of the system that made it (`value`, `system`), the `outcome` concept it
+applies to where the row names an endpoint, and the row's `key` as printed
+where the row names anything else — a component of the action, a subgroup, an
+arm, a comparator, a device, a regimen. A row naming both (an endpoint for a
+device, an endpoint under a comparison) carries both; an endpoint's own time
+frame or setting is part of the endpoint, not a key. A row that rates several
+names under one rating — agents, comparators, anything but an endpoint — is
+one entry whose key lists the names the rating covers, as printed and in
+printed order, joined by ", ", without the effect data between them; a row
+that rates several endpoints under one rating is one entry per endpoint, in
+printed order, each with the row's value and system and, as its key, the
+names the row prints for that endpoint — also where the row names nothing
+but endpoints. A row worded as a result or an aim of its endpoint rates the
+endpoint: the result words are effect data and go into no field. A source
+that states one certainty for the whole recommendation gives a one-entry
+list without `outcome` or `key`, and a rating the source prints for the box
+beside its rows is such an entry beside them, in its printed place. A range
+printed as the rating is one value, as printed, on every entry of its row;
+words beside a level that only say what it covers are no part of it. An
+outcome the source lists without a rating is an entry with `outcome` and
+`system` and no `value`. A cell that prints words instead of a level gives
+no value: its words are the entry's `note`, beside the row's `key`; a
+heading that says what kind of evidence its rows rate is the `note` of each
+entry under it, and where it heads no rating one entry with that note alone.
+A cell that prints the box's basis in place of a level gives that token to
+the claim's `basis`, and the words beside it are a note alone. Every entry
+states an outcome, a value or a note, and names its `system` wherever it states an outcome or a value; a note alone
+takes the system of its box's rated rows, and names none where no row of the
+box prints a rating. The entries are the box's evidence block and nothing
+else: a rating printed elsewhere is never an entry, and where it disagrees
+with the box it is a `fact` claim joined by `disagrees_with`
+([[source-disagreements-shown]]). Absent or empty means "not recorded".
+Neither `system`, `value`, `note` nor `key` is an enum, and the list is the
+only shape — no scalar, no scalar-or-list alternative. The `system` is a
+slug its claim's source declares in `rating_systems`, beside its grading
+scheme: the system's name as the source prints it ("GRADE", "Oxford 2011")
+and the source's own line that prints it, quoted — the validator refuses a
+slug the source does not declare, and the site names the system by that name,
+never by its slug. Its provenance is
+`required`, like `grade` and `consensus`: one quote per entry, the line
+printing its key or outcome (for an endpoint of a row that names several,
+the line printing that endpoint, a line printing several quoted once per
+entry; for a cell, the cell), then, each once, the lines the box prints for
+its rows as a whole — the line that identifies the system where an entry's
+own does not, and the heading in the notes; the validator refuses fewer
+quotes than entries.
+Decided by the maintainer on 2026-09-17 when registering WP-0023: the second
+option of the former `evidence-profiles` open question, narrowed to the
+rating and its outcome; in the schema since 0.6.0. `value` became optional in
+0.7.0, decided by the maintainer on 2026-09-23 (card #102). `key` came in
+0.14.0 (card #215, 2026-09-24), when the second guideline printed rows keyed
+by component, subgroup, arm, comparator, device and regimen: the card's
+leanings, taken as the agent's proposal and awaiting the maintainer's
+confirmation at review. Rows that rate several names or several endpoints
+under one rating came with card #261 (2026-10-10), its Decisions 1–2:
+answered by the agent on the maintainer's delegation, by the card's leanings,
+and awaiting the maintainer's confirmation at review. The cells beyond a
+rating per row — a result-worded label, a range, the box's own rating, the
+covering words, a cell without a level, a heading on indirect evidence, the
+system of a cell without a notation, a rating outside the box — came with
+card #326 and schema 0.19.0 (`note`; `system` optional on a note alone): its
+Decisions 6–15, answered by the agent on the maintainer's delegation
+(2026-10-10), the physician's halves answered by the maintainer on
+2026-10-11 (the range one span, the box's rating its own entry, the cells'
+words and the indirect evidence shown to the reader). `rating_systems` came
+with card #256 (its Decision 1, 2026-10-10, by the agent on the maintainer's
+delegation, by the card's leaning), awaiting the maintainer's confirmation at
+review.
 
 **Why:** two rules make the field safe, and both are about not inventing a
 value. A value is never mapped between systems: the ESC evidence levels
 (A/B/C) and GRADE's four words have no correspondence that would not be made
-up, so an unknown system is a valid state a consumer shows as it is
-([[generic-over-guidelines]]: no guideline's vocabulary is privileged).
+up, so the build holds no table of systems: a system's name is its source's
+declaration, read like its grading scheme, and a system the build has no
+display order for is shown unranked ([[generic-over-guidelines]],
+[[grading-scheme-on-the-source]]: no guideline's vocabulary is privileged).
+A system its source does not declare is refused, so that the name a reader
+sees is the source's own, quoted — a table of names in the build would be the
+vocabulary of systems this rules out, and would show an unknown one by its slug.
 Several entries are never reduced to one: POMGAT rates per outcome under a
 box, and a single summary certainty would be a value the guideline never
 stated — `docs/publication.md` §3, grades are shown, never composed. A
@@ -48,17 +101,46 @@ put "Sepsis-Screening" under the column *Endpunkt* and made three devices
 rated alike for one endpoint one entry, which the list refuses. The value is
 as printed ("Moderat") because the case is the print's, not a second level;
 the build's display order compares without regard to case, and the older
-lower-case values stay.
+lower-case values stay. A row that names several agents stays one entry so
+that the count the card shows is the page's and the key tells the reader
+what each rating covers: an entry per name would turn one printed row into
+many, and the row's lead-in as its key would hide the names. A row that
+names several endpoints becomes one entry per endpoint, not one keyed entry
+without an endpoint, so that every endpoint stays an `outcome` the validator
+holds to its facet and quote i stays paired with entry i. A cell that prints
+no level gives no value because a value is the system's word and nothing else
+— "underestimate, never upgrade" —, yet it is kept, with its words in `note`,
+because dropping it would drop a printed row and the reader must see what it
+says; a new field was preferred to a value that is no level and to an entry
+without one, the third extension of the entry made so that the list mirrors
+the printed table (after the outcome without a value and the key). A note
+alone in a box with no rated row names no system: writing one would be an
+inference no quote supports. A rating printed outside the box is no entry,
+since the list is the box's rows; where it disagrees, the graph reflects the
+text, and both are shown.
 
 **How to apply:** extract the rating as the source words it, one entry per
-row. Record an endpoint as `outcome` (a concept of facet `outcome`, which the
-validator checks) and anything else the row names as `key`, as printed, line
-breaks and end-of-line hyphens joined, reference marks left out; never mint a
+row, and per endpoint where a row names several. Record an endpoint as
+`outcome` (a concept of facet `outcome`, which the validator checks) and
+anything else the row names as `key`, as printed, line breaks and
+end-of-line hyphens joined, its reference marks left out as a label's are
+([[reference-marks-left-out]], spec §3.1). Where a row
+rates several names under one rating, its key is those names joined by ", "
+— the one place a key joins words the page prints apart —, leaving out the
+effect data between them and a name the row mentions only to say that
+nothing reports on it; where it rates several endpoints, write one entry per
+endpoint, each quoting the line that prints its endpoint. Never mint a
 component, subgroup or comparator as an outcome. An entry without `outcome`
 and `key` only where the source rates the recommendation as a whole; a bare
 level whose system only the method section names ("Evidenzgrad: 1") quotes
 that section's line after the box's. Where word and symbols disagree, record
-the word and name the disagreement in the pull request. A box's rows go to
+the word as the value and the symbols as a `fact` claim joined by
+`disagrees_with` (spec §3.1). Record a range as one value; the box's own
+rating as an entry without `outcome` or `key`, first where it stands first;
+a cell's words instead of a level, or a heading's words on the kind of
+evidence, as `note` — never "nicht erfasst", never a value; leave out the
+result words of a label and the words that only say what a rating covers,
+and name both in the pull request. A box's rows go to
 every sentence of it that supports a statement of its own, all of them, in
 the source's order — two sentences of opposite direction under rows keyed by
 arm each carry both — and to no sentence that supports another's statement
@@ -66,9 +148,16 @@ or none, which would show each row twice. An outcome the source lists with an
 empty certainty cell is recorded as the outcome alone, never dropped:
 dropping it would shrink the count the card shows (`3 von 5 Endpunkten
 erfasst`) without saying so. Its `system` is the system of the table that
-lists it. Never add an enum of systems, values or row kinds, or a mapping
-table, to the schema, the validator or the build; a renderer may hold a
-display order per system it knows and shows an unknown one unranked. Never
+lists it. Declare every system a row uses in its source's `rating_systems`,
+quoting the source's own line that prints its name — the method line, or
+where the method is in a separate report, a body-text line naming the system
+beside a rating the source gives, with a `rationale` saying where the method
+is; never the separate report, never `modelling`, never a notation alone.
+Show a system by its declared name, never by its slug, which stays in the
+data and the JSON. Never add an enum of systems, values or row kinds, a
+table of system names, or a mapping table, to the schema, the validator or
+the build; a renderer may hold a display order per system it knows and shows
+an unknown one unranked. Never
 compute one certainty for a claim or a statement from several entries. The
 effect data under a rating (effect sizes, intervals, study counts) is not
 this field. Related: [[box-granularity-per-sentence]],

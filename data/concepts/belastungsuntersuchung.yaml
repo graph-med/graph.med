@@ -1,0 +1,9 @@
+# A concept of card #376 (C2), chapter 4 of sources/vorhofflimmern-lf-1.1.
+# The action of box 4.3, „sollte eine Belastungsuntersuchung empfohlen werden“ (p. 30); what the test serves („aus der
+# Intensität, Dauer und Art der Aktivität … abgeleitet werden können“) stays in the statement's label (#376 reading 2).
+id: concepts/belastungsuntersuchung
+type: concept
+lang: de
+label: "Belastungsuntersuchung"
+facet: intervention
+source: modelling

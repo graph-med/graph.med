@@ -1,0 +1,12 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364: the lifestyle row, owner C2), minted by card #376 (C2):
+# „risikoarmer Alkoholkonsum“, the term of box 4.5's second sentence, „die Grenzen des „risikoarmen Alkoholkonsums“ nicht
+# zu überschreiten“ (p. 32), and of p. 33, l. 10–11. The action of that sentence's statement, staying within the limits
+# (#376 reading 6: the concept itself, not an action beside it). Derived: its one defined_by edge reaches the criterion
+# claim of p. 33, l. 4–5, whose label carries the limits per sex and the alcohol-free days as printed, with no threshold
+# (#314 Decision 19; #376 Decision 7). Not concepts/alkoholkonsum, the quantity of Tabelle 9's footnote § (C3's).
+id: concepts/risikoarmer-alkoholkonsum
+type: concept
+lang: de
+label: "risikoarmer Alkoholkonsum"
+facet: intervention
+source: modelling

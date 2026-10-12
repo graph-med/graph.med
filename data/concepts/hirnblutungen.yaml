@@ -1,0 +1,9 @@
+# A concept of card #365 (C3), chapter 5 of sources/vorhofflimmern-lf-1.1.
+# The second endpoint of box 5.5's row (p. 41); the Begründung says „intrakranielle Blutungen“ (p. 41, l. 64–65), a
+# printing of the same endpoint named here. Chapter-only (card #364, reading 8).
+id: concepts/hirnblutungen
+type: concept
+lang: de
+label: "Hirnblutungen"
+facet: outcome
+source: modelling

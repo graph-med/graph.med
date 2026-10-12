@@ -1,10 +1,10 @@
 # Chapter 10 of sources/sepsis-lf-4.0, „Präventionsmaßnahmen und Impfungen“ (physical pages 135–138), card
 # #226: every sentence of boxes 10.1–10.4 (spec §3.1, one claim per sentence, recommendation_no and section
 # read separately; all EK, no evidence rows — 10.3 and 10.4 print „Literatur: 568“ without a rating), and
-# the body-text places that pass spec §5.1. Quotes verbatim as printed on one pdftotext -layout line.
+# the body-text places that pass spec §5.1. Quotes verbatim in whole words (spec §6.2; re-cut by #316).
 
 # Box 10.1, p. 136 (section 10.1), its one sentence; „Ste-wardship“ and „Anti-infektiva“ joined
-- id: claims/sepsis-lf-4.0/5640dc77
+- id: claims/sepsis-lf-4.0/75b0e499
   type: claim
   lang: de
   kind: recommendation
@@ -18,7 +18,7 @@
   consensus_share: "100 %"
   source:
     at: sources/sepsis-lf-4.0#page=136
-    quote: "Wir empfehlen die Implementierung eines Antimicrobial Ste-"
+    quote: "Wir empfehlen die Implementierung eines Antimicrobial Stewardship"
   provenance:
     grade: {at: "sources/sepsis-lf-4.0#page=136", quote: "EK"}
     consensus:
@@ -70,7 +70,7 @@
       - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
     consensus_share: {at: "sources/sepsis-lf-4.0#page=137", quote: "Konsensstärke: 100 %"}
 # Box 10.3, p. 137 (section 10.2), sentence 2 of 2; it names the staff, who stay in the action (decision of 2026-09-25, section 1)
-- id: claims/sepsis-lf-4.0/53e868dd
+- id: claims/sepsis-lf-4.0/5f97d2c4
   type: claim
   lang: de
   kind: recommendation
@@ -84,7 +84,7 @@
   consensus_share: "100 %"
   source:
     at: sources/sepsis-lf-4.0#page=137
-    quote: "Wir empfehlen für das medizinische Personal die jährliche Imp-"
+    quote: "Wir empfehlen für das medizinische Personal die jährliche Impfung"
   provenance:
     grade: {at: "sources/sepsis-lf-4.0#page=137", quote: "EK"}
     consensus:
@@ -92,7 +92,7 @@
       - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
     consensus_share: {at: "sources/sepsis-lf-4.0#page=137", quote: "Konsensstärke: 100 %"}
 # Box 10.4, p. 137 (section 10.2), its one sentence with three coordinated actions: one claim (hard case 4); „STIKO-Emp-fehlungen“ joined
-- id: claims/sepsis-lf-4.0/62b37e0e
+- id: claims/sepsis-lf-4.0/1ba844f8
   type: claim
   lang: de
   kind: recommendation
@@ -106,7 +106,7 @@
   consensus_share: "100 %"
   source:
     at: sources/sepsis-lf-4.0#page=137
-    quote: "Wir empfehlen, dass Patienten mit Asplenie gemäß STIKO-Emp-"
+    quote: "Wir empfehlen, dass Patienten mit Asplenie gemäß STIKO-Empfehlungen"
   provenance:
     grade: {at: "sources/sepsis-lf-4.0#page=137", quote: "EK"}
     consensus:
@@ -114,7 +114,7 @@
       - {at: "sources/sepsis-lf-4.0#page=148", quote: "> 95 % der Stimmberechtigten"}
     consensus_share: {at: "sources/sepsis-lf-4.0#page=137", quote: "Konsensstärke: 100 %"}
 # body text, p. 136 (section 10.1): refines 10.2 — what its multimodal strategies comprise, one group's parts, one claim (K)
-- id: claims/sepsis-lf-4.0/f073fc2b
+- id: claims/sepsis-lf-4.0/733b50ff
   type: claim
   lang: de
   kind: criterion
@@ -122,9 +122,9 @@
   label: "Innerhalb von multimodalen Strategien werden verschiedene Implementierungsansätze (üblicherweise 5: Bereitstellung einer geeigneten Infrastruktur, Aus- und Weiterbildung, Monitoring von Infrastruktur, Prozessen und Ergebnisqualität, Kommunikation und Kulturwandel) zu einem Gesamtkonzept verbunden und beinhalten häufig Bundles oder Checklisten, die durch multidisziplinäre Teams entsprechend den lokalen Bedingungen entwickelt werden."
   source:
     at: sources/sepsis-lf-4.0#page=136
-    quote: "Innerhalb von multimodalen Strategien werden verschiedene Implementierungsansätze (üb-"
+    quote: "Innerhalb von multimodalen Strategien werden verschiedene Implementierungsansätze (üblicherweise"
 # body text, p. 136 (section 10.1): refines 10.2 — for which infection prevention measures the strategies matter most, beyond the box's example; reference mark left out
-- id: claims/sepsis-lf-4.0/acd15f08
+- id: claims/sepsis-lf-4.0/3342eec6
   type: claim
   lang: de
   kind: criterion
@@ -132,9 +132,9 @@
   label: "Solche multimodalen Strategien sind insbesondere bei der Verbesserung der Händehygiene-Compliance, der Reduktion von Zentraler Venenkatheter (ZVK)-assoziierten Blutstrominfektionen und Beatmungs-assoziierten Pneumonien relevant, aber auch bei der Senkung der Zahl von Infektionen mit Methicillin-resistentem Staphylococcus aureus (MRSA) und Clostridioides-difficile (C. difficile)."
   source:
     at: sources/sepsis-lf-4.0#page=136
-    quote: "len Strategien sind insbesondere bei der Verbesserung der Händehygiene-Compliance, der"
+    quote: "multimodalen Strategien sind insbesondere bei der Verbesserung der Händehygiene-Compliance, der"
 # body text, p. 137 (section 10.2): refines 10.3's second sentence — when and with which vaccine; the rest repeats the recommendation (G3); reference mark left out
-- id: claims/sepsis-lf-4.0/9fd94c7c
+- id: claims/sepsis-lf-4.0/34230d79
   type: claim
   lang: de
   kind: recommendation
@@ -144,9 +144,9 @@
   direction: "for"
   source:
     at: sources/sepsis-lf-4.0#page=137
-    quote: "lich zu Beginn der Saison eine Impfung mit den jeweils empfohlenen Vakzinen empfohlen."
+    quote: "jährlich zu Beginn der Saison eine Impfung mit den jeweils empfohlenen Vakzinen empfohlen."
 # body text, p. 138 (section 10.2): refines 10.4 — who is in its group
-- id: claims/sepsis-lf-4.0/7575c5ee
+- id: claims/sepsis-lf-4.0/80df7fca
   type: claim
   lang: de
   kind: fact
@@ -154,7 +154,7 @@
   label: "Ein besonders hohes Risiko für die Entwicklung einer Sepsis haben Patienten mit einer anatomischen oder funktionellen Asplenie."
   source:
     at: sources/sepsis-lf-4.0#page=138
-    quote: "Ein besonders hohes Risiko für die Entwicklung einer Sepsis haben Patienten mit einer anato-"
+    quote: "Ein besonders hohes Risiko für die Entwicklung einer Sepsis haben Patienten mit einer anatomischen"
 # body text, p. 138 (section 10.2): refines 10.4; member 1 of 3 of its sentence, another action than members 2 and 3 (K)
 - id: claims/sepsis-lf-4.0/8dd5c346
   type: claim
@@ -181,7 +181,7 @@
     at: sources/sepsis-lf-4.0#page=138
     quote: "in dem auch eine Dauerprophylaxe mit Penicillin"
 # body text, p. 138 (section 10.2): refines 10.4; member 3 of 3 of its sentence, the second alternative of its „oder“ (K); „Antibiotikapro-phylaxe“ joined
-- id: claims/sepsis-lf-4.0/455cc7b4
+- id: claims/sepsis-lf-4.0/6adfeeda
   type: claim
   lang: de
   kind: recommendation
@@ -191,7 +191,7 @@
   direction: "for"
   source:
     at: sources/sepsis-lf-4.0#page=138
-    quote: "phylaxe Amoxicillin/Clavulansäure (bessere Wirksamkeit bei H. influenzae) empfohlen wird."
+    quote: "Antibiotikaprophylaxe Amoxicillin/Clavulansäure (bessere Wirksamkeit bei H. influenzae) empfohlen"
 # body text, p. 138 (section 10.2): refines 10.3's first sentence — for whom and when: survivors, in the follow-up
 - id: claims/sepsis-lf-4.0/a3ba9224
   type: claim

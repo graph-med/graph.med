@@ -1,0 +1,12 @@
+# A concept of card #382 (C7a), chapter 8 of sources/vorhofflimmern-lf-1.1.
+# The action of boxes 8.1–8.3: „das Management von OAK gemäß dem in Abb. 7 dargestellten Schema“ (8.2, p. 82) and „…
+# gemäß dem in Abb.8 dargestellten Schema“ (8.3, p. 83); 8.1 says „nach dem in Abb. 6 dargestellten Algorithmus
+# vorgegangen werden“ (p. 79) under the heading „OAK-Management bei geplanten Operationen“ (p. 78). One act for all three,
+# the figures told apart in the statements' labels; no figure's content and no figure's number in it (spec §5.1 F; card
+# #382 reading 2). Not C3's concepts/wahl-des-oralen-antikoagulans (which agent), named.
+id: concepts/management-von-oak
+type: concept
+lang: de
+label: "Management von OAK"
+facet: intervention
+source: modelling

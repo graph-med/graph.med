@@ -1,0 +1,11 @@
+# A ledger concept of views/vorhofflimmern-lf-1.1 (card #364): the patients without structural heart disease, one
+# concept for 6.8's „Patient*innen ohne strukturelle Herzerkrankung“ (p. 58) and 6.17's „strukturell herzgesunden
+# Patient*innen“ (p. 66), labelled as p. 58 names the term it discusses the definition of („die Definition für
+# "strukturell herzgesund"“). Used by C4 and C5. Derived once C4 writes its defined_by edge to p. 58, if spec §5.1
+# admits it (owner C4). An AF subgroup of 6.8 and 6.17, which name AF only in the action (card #364, reading 7).
+id: concepts/strukturell-herzgesund
+type: concept
+lang: de
+label: "strukturell herzgesund"
+facet: patient_state
+source: modelling

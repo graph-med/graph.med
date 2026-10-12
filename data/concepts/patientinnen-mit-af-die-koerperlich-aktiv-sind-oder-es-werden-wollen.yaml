@@ -1,0 +1,12 @@
+# A concept of card #376 (C2), chapter 4 of sources/vorhofflimmern-lf-1.1.
+# The group box 4.3 addresses, as printed (p. 30): an eligibility, a subgroup anchor (card #364, convention row 8,
+# reading 4), one concept naming the alternatives „… oder es werden wollen“ (memory conditions-are-a-conjunction-list).
+# Whether it is a state rather than an eligibility (row 5) is #376 reading 2. AF is named, so its scope edge to the root
+# carries no condition (X2's).
+id: concepts/patientinnen-mit-af-die-koerperlich-aktiv-sind-oder-es-werden-wollen
+type: concept
+lang: de
+label: "Patient*innen mit AF, die körperlich aktiv sind oder es werden wollen"
+short_label: "körperlich aktiv oder es werden wollend"
+facet: patient_state
+source: modelling

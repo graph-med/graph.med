@@ -174,8 +174,10 @@ A card says what kind of work it is, in its text or by what it touches.
 **extraction** — phase one, claims, mechanical: for every sentence of every
 marked recommendation, whatever its form (spec §3.1), and for every body-text
 place — a sentence, a footnote, a table or figure read in rows — that passes
-the body-text rule (spec §5.1, which also says its `kind`, that it is never
-graded, and which declines are gap notices), a claim in
+the body-text rule (spec §5.1, which also says its section, its `kind`, that
+it is never graded, which declines are gap notices, and which recommendations
+outside the marked ones and which definitions are claims without an edge), a
+claim in
 `data/claims/<source-id>/<slug>.yaml`:
 
 - id `claims/<source-id>/<hash8>` where `hash8` = first 8 hex of
@@ -183,17 +185,58 @@ graded, and which declines are gap notices), a claim in
 - `label`: the full sentence, source language, `lang` tagged; one claim per
   sentence of a box, never one per box (memory
   `box-granularity-per-sentence`); a table claim as §5.1 K reads it
-  ("Kopf: Zelle; …", reference marks left out);
-- `quote`: a short **verbatim substring** of the extracted text, contiguous on
-  one line of the pdftotext output and inside one cell where columns
-  interleave — a box's grade column, a table's cells (layout columns break
-  sentences across lines — verify each quote by substring search before
-  writing it);
+  ("Kopf: Zelle; …"). Every label — and every evidence `key` — leaves out the
+  reference marks its passage prints, glued ("erfolgen55, daher" → "erfolgen,
+  daher"), bracketed ("[274], [275]") or in parentheses, and keeps every
+  number that is a value ("SpO2", "HA330") and the words around a mark
+  ("nach Apfel 1999") (spec §3.1, memory `reference-marks-left-out`);
+- `quote`: a short **verbatim** passage of the extracted text in **whole
+  words** (spec §6.2): it neither starts nor ends inside a word, and it may run
+  across a line break where the text runs on — to the next line, or to the next
+  line of the same column where a box's grade column or a table's cells
+  interleave. The line break reads as a space; a hyphen at its end reads as the
+  printed word does, dropped where it breaks the word ("Volu-" + "men" →
+  "Volumen"), kept where it belongs to it ("Povidon-" + "Iod" →
+  "Povidon-Iod"). Where the sentence allows, cut it so that no kept hyphen
+  ends a line inside it between two lower-case letters, after a capital or
+  after a letter with a diacritic, which pdf.js's search reads as a broken
+  word. It holds no ASCII double quote (`"`), which pdf.js strips from the
+  link's search (the validator refuses one; typographic „ “ stay), and it
+  stays within 100 characters, the longest quote the read-only server returns
+  whole (memory `quote-gate-follows-the-site`), a longer passage cut back to
+  its last whole word that fits. The same holds for every quoted field —
+  per-property, `combination` and concept quotes. A claim's quote also lies
+  **once** on its page, counted as pdf.js's search counts (ignoring case,
+  inside a word too), because the link lands on the page's first match and
+  the id hashes the quote. A passage the page prints more than once is
+  lengthened until it is unique: a symbols cell with its row's head
+  („Hämodynamische Instabilität: Sehr niedrig ⊕⊕⊝⊝“); a table's head that
+  recurs is quoted from its caption or from the sentence that introduces the
+  table (spec §5.1 K, §6.2). `--verify-quotes` refuses a claim quote that
+  recurs and reports any other quote that does. Check each with
+  `uv run tools/validate.py --verify-quotes` before committing;
 - `grade` and `consensus` as the box prints them, reaching its sentences as
   spec §3.1 says (the grade to its recommendation and gap-notice sentences,
-  the consensus to all); `verb`, `direction`, `recommendation_no` and
-  `section` (the section the box lies in, never its number) as printed;
-  nothing the box does not state (underestimate, never upgrade);
+  the consensus to all; a lettered part's to that part's sentences only);
+  `verb` read off the predicate by spec §3.1's rule; `direction`,
+  `recommendation_no` and `section` (the section the box lies in, never its
+  number) as printed; nothing the box does not state (underestimate, never
+  upgrade);
+- a **rule printed inside a box sentence** — a parenthesis or qualifier
+  stating which cases a term covers — is a narrower `criterion` claim of its
+  own, quoting and labelled by the qualifier's words, with the box's
+  `recommendation_no`, `section`, consensus and basis, no grade, and the
+  threshold or combination it prints; each half a „sondern“ joins, printed
+  with its own case and direction, is a claim with its own direction and the
+  box's grade, unless that grade fixes the other direction; nothing for what
+  a „nur“ only implies (spec §3.1);
+- a **points table** (a score) is the top claim of a `combination` of
+  operator `sum`: a `criterion` part per row the page gives points (one per
+  band of a graded criterion, one per part of a row whose cell gives each
+  its points), its `points` the cells as printed in the order of `of`, its
+  connective the head of the points column, a footnote's rule carried on its
+  row's own part with the footnote's line as that property's provenance; a
+  bound on the score is a threshold on the claim that prints it (spec §3.1);
 - locator `#page=N` with the **physical** page.
 
 Phase two, linking, judgment, all `modelling`: for each claim, search
@@ -201,14 +244,23 @@ Phase two, linking, judgment, all `modelling`: for each claim, search
 `supports`/`contests` it; mint a statement only when none fits, its slots
 referencing concepts. For each slot, search `data/concepts/` and the
 terminology namespaces before minting a concept; a new concept gets its
-`facet`. A box's fact or criterion sentence supports the statement spec §3.1
-names, a definition sentence none (its concept's `defined_by` reaches it), a gap
-notice none; a rule printed inside a box sentence stays in that claim and its
-concept stays stated — name each in the pull request (open question
-rule-claim-granularity). A body-text claim supports no statement: it gets the
+`facet`. A box's sentence of recommendation form supports a statement per
+action it instructs, a fact or criterion sentence the statement spec §3.1
+names, a fact saying only what the evidence shows none, a definition sentence
+none (its concept's `defined_by` reaches it), a gap notice none; the
+narrower claim of a rule printed inside a box sentence none, the concept it
+gives reaching it by `defined_by` (spec §3.1). A score's concept reaches the
+top of its table's `sum` by `defined_by` and fills no slot: the group a bound
+on it gives is a concept of its own (spec §3.2). A body-text claim supports no statement: it gets the
 edge spec §5.1 gives it (`refines`, `limits`, `supplements`, to the claim the
-rule names, its `rationale` naming the clause and the term), a decline none,
-and the rule's N clauses say what gets none. Edges go to
+rule names, its `rationale` naming the clause and the term), a decline and a
+recommendation outside the marked ones (§5.1 U) none and no statement, a
+definition only §5.1 G1's clause admits none (its concept's `defined_by`
+reaches it), and the rule's N clauses say what gets none. Where the source answers one
+question differently in two places, each printing is a claim and
+`disagrees_with` joins every pair (spec §5, §5.1 D; memory
+`source-disagreements-shown`): never pick the one that fits, and never leave
+the pull request the only place it is named. Edges go to
 `data/edges/<source-id>/<slug>.yaml`.
 
 **linking** — edits existing entities or adds edges under spec §11: every change

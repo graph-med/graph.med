@@ -1,0 +1,13 @@
+# A concept of card #377 (C6), chapter 7 of sources/vorhofflimmern-lf-1.1.
+# The action of box 7.1, the target as printed: „sollte eine Ruheherzfrequenz von unter 110 Schlägen / Minute mit
+# Symptomfreiheit das initiale Therapieziel sein“ (p. 71) — what the action aims at, not for whom, so no threshold (card
+# #377 Decisions 4, reading 6; `frequenzkontrolle` with the target in the label is the other reading). C4's 6.7 prints
+# „eine Frequenzkontrolle (< 110 Schläge/min)“ (p. 57): a near-duplicate, named for the sweep. p. 71, l. 6, prints the
+# target as „< 110 Schlägen/Minute“ and Abb. 5 draws „≤ 110/min“ (card #377 reading 1).
+id: concepts/ruheherzfrequenz-unter-110-schlaegen-minute-mit-symptomfreiheit
+type: concept
+lang: de
+label: "Ruheherzfrequenz von unter 110 Schlägen / Minute mit Symptomfreiheit"
+short_label: "Ruheherzfrequenz unter 110/min mit Symptomfreiheit"
+facet: intervention
+source: modelling

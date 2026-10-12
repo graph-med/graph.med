@@ -3,8 +3,8 @@
 id: concepts/elektive-operation-gi-oder-hpb-malignom
 type: concept
 lang: de
-label: Elektive Operation eines Erwachsenen aufgrund eines gastrointestinalen oder hepatopankreatobiliären Malignoms
-short_label: "Elektive OP Erwachsener wegen GI- oder HPB-Malignom"
+label: elektive Operation eines Erwachsenen aufgrund eines gastrointestinalen oder hepatopankreatobiliären Malignoms
+short_label: "elektive OP Erwachsener wegen GI- oder HPB-Malignom"
 facet: procedure
 definition: Die elektive Operation, der sich ein erwachsener Patient aufgrund eines gastrointestinalen oder
   hepatopankreatobiliären Malignoms unterziehen muss, gleich ob in kurativer oder palliativer Intention.

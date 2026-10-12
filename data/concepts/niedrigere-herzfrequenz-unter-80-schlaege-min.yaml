@@ -1,0 +1,10 @@
+# A concept of card #377 (C6), chapter 7 of sources/vorhofflimmern-lf-1.1.
+# The first action of box 7.2, the target as printed: „sollte eine niedrigere Herzfrequenz (<80 Schläge/min) angestrebt
+# werden“ (p. 72) — what the action aims at, so no threshold (card #377 Decision 4 and reading 6). p. 71, l. 7, prints
+# „< 80 Schlägen/Minute“ for the strict rate control, and Abb. 5 draws „≤ 80/min“ (reading 1).
+id: concepts/niedrigere-herzfrequenz-unter-80-schlaege-min
+type: concept
+lang: de
+label: "niedrigere Herzfrequenz (<80 Schläge/min)"
+facet: intervention
+source: modelling

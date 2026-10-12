@@ -1,6 +1,6 @@
 ---
 name: page-chrome-in-the-view-layer
-description: Only what the viewer reads is German; the backend stays English. The page chrome's words (the legend, the sheet's hint) live in a per-language table under tools/site/words/, never in tools/build.py, and are not published; the legend is open on a wide screen, collapsed on a phone, nothing remembered.
+description: Only what the viewer reads is German; the backend stays English. The page chrome's words (the legend, the sheet's hint) live in a per-language table under tools/site/words/, never in tools/build.py, and are not published; the legend is collapsed at every load on every screen and opened only by its pill, nothing remembered.
 metadata:
   type: project
 ---
@@ -13,9 +13,11 @@ function name and code comment behind the page stay English; the build decides
 *which* keys a page shows (for the legend: `legend_of`, from the view) and the
 table says them. The legend is the first chrome to follow this rule, with the
 sheet's one hint. The maintainer decided it on 2026-09-21 (card #155) and
-settled the legend's default on 2026-09-24: **open on a wide screen, collapsed
-on a phone, at every load; nothing is remembered** — the site keeps no client
-state.
+settled the legend's default on 2026-09-24 (open on a wide screen, collapsed
+on a phone) and changed it on 2026-10-03 (card #303): **collapsed at every
+load, on every screen; only its pill in the corner opens and closes it; nothing
+is remembered** — the site keeps no client state. A legend that opened by
+itself on a wide screen read as a pop-up over the graph.
 
 **Why:** A German and an English site come in a later phase. With the words in
 a table beside the templates, that switch is a second file, not a second
@@ -30,7 +32,11 @@ its first client state (`localStorage`) for a small convenience.
 **How to apply:** A word the viewer reads outside the graph and the card goes
 into `tools/site/words/<lang>.json`, keyed structurally in English; no German
 string enters `tools/build.py`, the schema or `data/`. Keep `static/` the only
-directory copied into `assets/`. Do not move `WORDS` or `CARD_WORDS` on the
+directory copied into `assets/`. Since #254 (2026-10-11) every page follows it —
+`<html lang>`, the controls, what the script writes (read from the page's data
+attributes), the sheet's home, the footer, the note beside a licence line —
+and the hint's verb follows the reader's pointer by CSS alone, no script and no
+state. Do not move `WORDS` or `CARD_WORDS` on the
 strength of this. What a missing page language does (fail or fall back) and
 whether the sheet's hint belongs to page or source chrome are open
 (`docs/open-questions.md`). Related: [[direction-legend]],
