@@ -1,0 +1,38 @@
+# Edges of card #380 (#314's part C1) from chapter 2 of sources/vorhofflimmern-lf-1.1 (pp. 16–22), all modelling. Edges
+# across parts are X1's, the scope and hierarchy edges X2's (#314 Decision 6).
+
+# defined_by (spec §3.2, §5): the third printing of the rule of the diagnosis (reading 1, option (b)); the EHRA score to
+# Tabelle 5 (card #364, the ledger's owner C1)
+- [concepts/diagnostiziertes-vorhofflimmern, defined_by, claims/vorhofflimmern-lf-1.1/a11a0b09, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„Die Diagnose “Vorhofflimmern” (AF)“ — Hintergrund zu Abschnitt 2.1 (S. 16, Z. 17–18): „… anhand einer EKG-Dokumentation mittels eines Ein- oder Mehr-Kanal-EKG über eine Dauer von >30 Sekunden (s. Kapitel 1)“."}]
+- [concepts/modifizierter-ehra-score, defined_by, claims/vorhofflimmern-lf-1.1/4808bb85, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "„modifizierten EHRA-Score“ — Tabelle 5 „Modifizierter EHRA Score“ (S. 20), die Empfehlung 2.4 nennt: seine Klassen 1, 2a, 2b, 3 und 4 mit ihren Symptomen und Beschreibungen, ohne Punkte."}]
+
+# disagreement (spec §5, §5.1 D and K; #341; #380 Decision 5): p. 16's printing against the two of chapter 1
+- [claims/vorhofflimmern-lf-1.1/a11a0b09, disagrees_with, claims/vorhofflimmern-lf-1.1/ff95c179, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Der Hintergrund zu 2.1 (S. 16, Z. 17–18) nennt für die Diagnose eine EKG-Dokumentation „mittels eines Ein- oder Mehr-Kanal-EKG über eine Dauer von >30 Sekunden (s. Kapitel 1)“; Kapitel 1 (S. 11, Z. 55–56) verlangt „entweder eine Dokumentation im 12-Kanal-EKG oder im Ein- oder Mehrkanal-EKG für 30 Sekunden“. Die beiden Stellen nennen die Dauer mit verschiedenem Vergleich, „>30 Sekunden“ und „für 30 Sekunden“, und Kapitel 1 nennt das 12-Kanal-EKG als eigene Möglichkeit, S. 16 nicht. Keine Angabe ist gewählt."}]
+- [claims/vorhofflimmern-lf-1.1/a11a0b09, disagrees_with, claims/vorhofflimmern-lf-1.1/0bd856d2, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "Der Hintergrund zu 2.1 (S. 16, Z. 17–18) nennt für die Diagnose eine EKG-Dokumentation „mittels eines Ein- oder Mehr-Kanal-EKG über eine Dauer von >30 Sekunden (s. Kapitel 1)“; Tabelle 2 (S. 13), Zeile „Klinisches Vorhofflimmern“: „AF im 12-Kanal-EKG oder 1-Kanal-EKG über mindestens 30s“. Die beiden Stellen nennen die Dauer mit verschiedenem Vergleich, „>30 Sekunden“ und „mindestens 30s“, und verschiedene EKG-Arten, das „Ein- oder Mehr-Kanal-EKG“ und das 12-Kanal- oder 1-Kanal-EKG. Keine Angabe ist gewählt."}]
+
+# body text (spec §5.1): section 2.1, p. 16
+- [claims/vorhofflimmern-lf-1.1/a11a0b09, refines, claims/vorhofflimmern-lf-1.1/05edbf70, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: eines EKGs — „Die Diagnose “Vorhofflimmern” (AF) erfolgt anhand einer EKG-Dokumentation mittels eines Ein- oder Mehr-Kanal-EKG über eine Dauer von >30 Sekunden“: welches EKG und wie lange; die Empfehlung nennt keine Dauer."}]
+
+# body text (spec §5.1): section 2.2, Tabelle 4 (p. 19), read against 2.3, a claim per row; the rows that say what a part
+# of 2.3 covers refine it, those that add a measure beside them supplement it (reading 6)
+- [claims/vorhofflimmern-lf-1.1/8e8bf3ff, refines, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: die Abschätzung des Schlaganfallrisikos — die Anamnese der Primärevaluation (Tabelle 4, S. 19) nennt unter anderem „Schlaganfall/periphere Embolie in der Vorgeschichte, kardiovaskuläre Risikofaktoren, EHRA-Klassifikation, CHA2DS2-VA Score“."}]
+- [claims/vorhofflimmern-lf-1.1/bb1d3dff, supplements, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Therapieplanung — die körperliche Untersuchung der Primärevaluation (Tabelle 4, S. 19): „Größe, Gewicht (BMI), Blutdruck, Auskultation, Frequenz, Zeichen einer Herzinsuffizienz, Vorliegen geriatrischer Syndrome bei Menschen höheren Alters“, eine Maßnahme neben den Teilen der Empfehlung."}]
+- [claims/vorhofflimmern-lf-1.1/b6ea4564, supplements, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Therapieplanung — der bisherige Verlauf in der Primärevaluation (Tabelle 4, S. 19): „Zeitpunkt der Erstdiagnose“, die Häufigkeit der symptomatischen Episoden „zwecks Abschätzung des Progressionsprozesses“, die „Episodendauer“, eine Maßnahme neben den Teilen der Empfehlung."}]
+- [claims/vorhofflimmern-lf-1.1/c93ac471, refines, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: das Erfassen der Komorbiditäten — „Somatische Komorbiditäten (insbesondere bei klinischem Verdacht evaluieren): Adipositas, Diabetes, Herzinsuffizienz, Hypertonie, obstruktive Schlafapnoe, PAVK, Schilddrüsenerkrankungen, Schlaganfall, KHK“ (Tabelle 4, S. 19)."}]
+- [claims/vorhofflimmern-lf-1.1/73560073, refines, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: das Erfassen der Komorbiditäten — „Psychische Komorbidität, psychosoziale Belastungen (insbesondere bei klinischem Verdacht evaluieren): Angst, Depression, somatoforme Störungen; beruflicher Stress, privater Stress, soziale Unterstützung“ (Tabelle 4, S. 19)."}]
+- [claims/vorhofflimmern-lf-1.1/b37bfd49, supplements, claims/vorhofflimmern-lf-1.1/55b66d4f, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "S: Therapieplanung — die Laboruntersuchungen der Primärevaluation (Tabelle 4, S. 19): „TSH“, „Hämoglobin (Hb)“, „Kalium“, „Kreatinin (GFR-Ermittlung)“, „Evtl. NT-pro BNP (bei Anzeichen einer Herzinsuffizienz)“, eine Maßnahme neben den Teilen der Empfehlung."}]
+
+# body text (spec §5.1): section 2.3.1, Tabelle 5 (p. 20), the instrument 2.4 names (K)
+- [claims/vorhofflimmern-lf-1.1/4808bb85, refines, claims/vorhofflimmern-lf-1.1/52b752b4, {source: modelling, as_of: "2026-10-11", lang: de,
+   rationale: "R: modifizierten EHRA-Score — Tabelle 5 (S. 20) nennt seine Klassen 1, 2a, 2b, 3 und 4 mit ihren Symptomen und Beschreibungen; die Empfehlung verweist darauf (siehe Tabelle 5)."}]

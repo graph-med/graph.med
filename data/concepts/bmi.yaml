@@ -1,8 +1,9 @@
-# A concept of card #383 (C7b), chapter 8 of sources/vorhofflimmern-lf-1.1.
-# The body-mass index, the measured quantity 8.6's bound „(BMI >35kg/m2)“ (p. 89) bounds: a finding (spec §3.2), labelled
-# as the page prints it. The source prints other bounds on it — Tabelle 6's „Übergewicht/Adipositas (BMI >30)“ (p. 25,
-# C1's), p. 89, l. 10 „Adipositas (BMI >30)“ and l. 13 „BMI 28“ (the Hintergrund, stays on the page) — and 4.1's
-# Begründung „einem BMI > 27 kg/m2“ (p. 29). C1 may mint the same quantity for Tabelle 6: named for the concept sweep.
+# A concept of cards #380 (C1) and #383 (C7b), chapters 3 and 8 of sources/vorhofflimmern-lf-1.1, minted by both in
+# parallel and merged in the stacking sweep (#314 Decision 6). The body-mass index, a measured quantity: a finding
+# (spec §3.2), labelled as the pages print it. Its printed bounds: Tabelle 6's „Übergewicht/Adipositas (BMI >30)“
+# (p. 25, l. 32; C1) and 8.6's „(BMI >35kg/m2)“ (p. 89; C7b), each on its own claim. Other printings stay on the page:
+# Tabelle 4's „Gewicht (BMI)“ and its legend „BMI = Body Mass Index“ (p. 19, l. 12, 40), p. 89, l. 10 „Adipositas
+# (BMI >30)“ and l. 13 „BMI 28“, and 4.1's Begründung „einem BMI > 27 kg/m2“ (p. 29).
 id: concepts/bmi
 type: concept
 lang: de

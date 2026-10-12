@@ -1,0 +1,11 @@
+# A concept of card #380 (C1), chapters 1 and 2 of sources/vorhofflimmern-lf-1.1.
+# The duration of the ECG documentation the diagnosis needs, the quantity of its three printings' thresholds: „für 30
+# Sekunden“ (p. 11, l. 56), „über mindestens 30s“ (Tabelle 2, p. 13, l. 8–9) and „über eine Dauer von >30 Sekunden“
+# (p. 16, l. 18) (reading 2). A measured quantity, finding (spec §3.2). Its label is ours; the pages print „Diese Dauer“
+# (p. 11, l. 56) and „EKG-Dokumentation“ (p. 16, l. 17).
+id: concepts/dauer-der-ekg-dokumentation
+type: concept
+lang: de
+label: "Dauer der EKG-Dokumentation"
+facet: finding
+source: modelling

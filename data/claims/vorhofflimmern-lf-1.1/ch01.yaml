@@ -1,0 +1,204 @@
+# Claims of card #380 (#314's part C1) from chapter 1 of sources/vorhofflimmern-lf-1.1, „Definition, Einteilung und
+# Epidemiologie von Vorhofflimmern“ (p. 11 from the heading of 1, l. 44, to p. 14; p. 15 is the Literatur, not read).
+# The chapter holds no box. Its definitions and criteria are claims where spec §5.1 G1's definition clause admits them —
+# a heading or table head that calls them a definition, classification or criterion, for a term a box uses (#325
+# Decision 5 and checklist case 1; #314 Decision 18) —, each reached by its concept's defined_by edge and carrying no
+# body-text edge, E's included; and the unmarked recommendations §5.1 U admits, claims without an edge and in no
+# statement. Ids: sha256("<at>|<quote>")[:8]. Line numbers are lines of `pdftotext -layout`.
+# Stays on the page (#380 Decision 4): p. 11, l. 47–52 (consequences, Abb. 1's mention) and l. 56–59 (the duration's
+# basis and the AF-Last's parenthesis, reading 4: concepts/af-last stays stated); Abb. 1 (p. 12, a raster image; its
+# caption l. 10 a title, G3); §1.3's AHRE and DDAF (p. 12, l. 16–22, 24–31) and Tabelle 2's DDAF row (p. 13, l. 11–16),
+# which no box uses; §1.4's other sentences (p. 13, l. 22–27, 29–35, 36–38); §1.5 and §1.7's epidemiology; §1.6's
+# classes and the „Trigger“ induced AF (p. 13, l. 50–56); Tabelle 3's footnote „*“ (p. 14, l. 22–24).
+
+# §1.1 „Definition“ (p. 11, l. 46–47): the definition of the diagnosis, its first sentence; concepts/vorhofflimmern
+# reaches it by defined_by (reading 1 (b)). Its other sentences (l. 47–52) state consequences and stay.
+- id: claims/vorhofflimmern-lf-1.1/0c25853f
+  type: claim
+  lang: de
+  kind: definition
+  section: "1.1"
+  label: "Vorhofflimmern (AF) ist durch schnelle, unkoordinierte elektrische Aktivierung des Vorhofmyokards gekennzeichnet."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=11
+    quote: "Vorhofflimmern (AF) ist durch schnelle, unkoordinierte elektrische Aktivierung des Vorhofmyokards"
+# §1.2 „Diagnostische Kriterien“ (p. 11, l. 55 – p. 12, l. 5): the first printing of the rule of the diagnosis. Its
+# first sentence is the top (reading 1 (b), the leaning): the passage lists the duration (l. 55–56) and the ECG
+# characteristics (p. 12, l. 4–5) without saying how they combine — not_stated, no connective. The duration's own
+# reference marks „[5, 6]“ are left out of its label. concepts/diagnostiziertes-vorhofflimmern reaches this top by
+# defined_by, and the top is joined by disagrees_with to the other two printings (Tabelle 2, p. 16; #341).
+- id: claims/vorhofflimmern-lf-1.1/ff95c179
+  type: claim
+  lang: de
+  kind: criterion
+  section: "1.2"
+  label: "Die Diagnose von AF erfolgt mittels eines Elektrokardiogramms (EKG)."
+  combination:
+    operator: not_stated
+    of: [claims/vorhofflimmern-lf-1.1/aad6f10f, claims/vorhofflimmern-lf-1.1/9aace7ec]
+    rationale: "Die Diagnostischen Kriterien (S. 11, Z. 55 – S. 12, Z. 5) nennen nach „Die Diagnose von AF erfolgt mittels eines Elektrokardiogramms (EKG).“ die erforderliche Dokumentation mit ihrer Dauer und die EKG-Charakteristika, ohne zu sagen, wie beide zusammen gelten."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=11
+    quote: "Die Diagnose von AF erfolgt mittels eines Elektrokardiogramms (EKG)."
+# §1.2, the duration (p. 11, l. 55–56): „entweder … oder“ joins two ECG kinds, each sufficing, and the duration „für 30
+# Sekunden“ stands on the member it follows (reading 2, its first option; the other reads it as binding both). The
+# line breaks inside „12-Kanal-EKG“ (l. 55–56), where the hyphen belongs to the word.
+- id: claims/vorhofflimmern-lf-1.1/aad6f10f
+  type: claim
+  lang: de
+  kind: criterion
+  section: "1.2"
+  label: "Es ist entweder eine Dokumentation im 12-Kanal-EKG oder im Ein- oder Mehrkanal-EKG für 30 Sekunden erforderlich."
+  combination:
+    operator: any_of
+    of: [claims/vorhofflimmern-lf-1.1/b1d80426, claims/vorhofflimmern-lf-1.1/3ae08e1e]
+    connective: "entweder … oder"
+    source: {at: sources/vorhofflimmern-lf-1.1#page=11, quote: "entweder eine Dokumentation im 12-Kanal-EKG oder"}
+    rationale: "„Es ist entweder eine Dokumentation im 12-Kanal-EKG oder im Ein- oder Mehrkanal-EKG für 30 Sekunden erforderlich“: „entweder … oder“ verbindet zwei EKG-Arten, jede genügt (ODER); die Dauer steht beim Glied, dem sie folgt, dem Ein- oder Mehrkanal-EKG."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=11
+    quote: "Es ist entweder eine Dokumentation im"
+# The duration's first member: the 12-lead ECG, a leaf without a threshold (reading 2).
+- id: claims/vorhofflimmern-lf-1.1/b1d80426
+  type: claim
+  lang: de
+  kind: criterion
+  section: "1.2"
+  label: "eine Dokumentation im 12-Kanal-EKG"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=11
+    quote: "eine Dokumentation im 12-Kanal-EKG"
+# The duration's second member: „Ein- oder Mehrkanal-EKG“ names one kind of ECG (members sharing one answer are one
+# claim, spec §5.1 K), with the duration as printed: „für 30 Sekunden“, read `=` (reading 2; the other reading is `≥`),
+# on concepts/dauer-der-ekg-dokumentation.
+- id: claims/vorhofflimmern-lf-1.1/3ae08e1e
+  type: claim
+  lang: de
+  kind: criterion
+  section: "1.2"
+  label: "im Ein- oder Mehrkanal-EKG für 30 Sekunden"
+  threshold: {quantity: concepts/dauer-der-ekg-dokumentation, comparator: "=", value: "30", unit: "Sekunden"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=11
+    quote: "im Ein- oder Mehrkanal-EKG für 30 Sekunden"
+# §1.2 continued on p. 12 (l. 4–5), before the heading of 1.3 (l. 15): the ECG characteristics, a part of the top above.
+- id: claims/vorhofflimmern-lf-1.1/9aace7ec
+  type: claim
+  lang: de
+  kind: criterion
+  section: "1.2"
+  label: "Die EKG-Charakteristika umfassen unregelmäßige atriale Aktivierung ohne abgrenzbare, gleichförmige P-Wellen im EKG und in der Regel absolut arrhythmische Herzaktionen."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=12
+    quote: "Die EKG-Charakteristika umfassen unregelmäßige atriale Aktivierung ohne abgrenzbare"
+# Tabelle 2 (p. 13, l. 4–16), „Unterscheidung von Vorhofflimmern nach Dokumentation“, its head „Definition
+# Vorhofflimmern“: printed in section 1.3, introduced by §1.2 (p. 11, l. 59, „siehe Tabelle 2“). Its row „Klinisches
+# Vorhofflimmern“ (l. 8–9) is the second printing of the rule, „Kopf: Zelle“ (spec §5.1 K), quoting its cell, since the
+# row head lies inside „Subklinisches Vorhofflimmern“ too. „oder“ joins two ECG kinds and the duration stands on the
+# member it follows (reading 2). concepts/diagnostiziertes-vorhofflimmern reaches it by defined_by. The DDAF row stays.
+- id: claims/vorhofflimmern-lf-1.1/0bd856d2
+  type: claim
+  lang: de
+  kind: criterion
+  section: "1.3"
+  label: "Klinisches Vorhofflimmern: AF im 12-Kanal-EKG oder 1-Kanal-EKG über mindestens 30s"
+  combination:
+    operator: any_of
+    of: [claims/vorhofflimmern-lf-1.1/9dc7d818, claims/vorhofflimmern-lf-1.1/4b4c2af4]
+    connective: "oder"
+    source: {at: sources/vorhofflimmern-lf-1.1#page=13, quote: "AF im 12-Kanal-EKG oder 1-Kanal-EKG über mindestens 30s"}
+    rationale: "Tabelle 2, Zeile „Klinisches Vorhofflimmern“: „AF im 12-Kanal-EKG oder 1-Kanal-EKG über mindestens 30s“ — „oder“ verbindet zwei EKG-Arten, jede genügt (ODER); die Dauer steht beim Glied, dem sie folgt, dem 1-Kanal-EKG."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=13
+    quote: "AF im 12-Kanal-EKG oder 1-Kanal-EKG über mindestens 30s"
+# Tabelle 2's row, first member: the 12-lead ECG, a leaf (reading 2).
+- id: claims/vorhofflimmern-lf-1.1/9dc7d818
+  type: claim
+  lang: de
+  kind: criterion
+  section: "1.3"
+  label: "AF im 12-Kanal-EKG"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=13
+    quote: "AF im 12-Kanal-EKG"
+# Tabelle 2's row, second member: the 1-lead ECG with the duration „über mindestens 30s“, `≥` as printed.
+- id: claims/vorhofflimmern-lf-1.1/4b4c2af4
+  type: claim
+  lang: de
+  kind: criterion
+  section: "1.3"
+  label: "1-Kanal-EKG über mindestens 30s"
+  threshold: {quantity: concepts/dauer-der-ekg-dokumentation, comparator: "≥", value: "30", unit: "s"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=13
+    quote: "1-Kanal-EKG über mindestens 30s"
+# §1.4 „Klassifikation“ (p. 13, l. 27–29): the dominant pattern decides the form where both are found — a criterion of
+# the classification, a claim no edge reaches (reading 3, its first option; #325 checklist case 1).
+- id: claims/vorhofflimmern-lf-1.1/b763b3ac
+  type: claim
+  lang: de
+  kind: criterion
+  section: "1.4"
+  label: "Wenn sowohl paroxysmales als auch persistierendes AF feststellbar ist, bestimmt das dominante Verteilungsmuster die Bezeichnung."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=13
+    quote: "Wenn sowohl paroxysmales als auch persistierendes AF feststellbar ist"
+# Tabelle 3 (p. 14, l. 4–24), „Klassifikation von klinischen Vorhofflimmern nach Episodendauer“ (the typo as printed),
+# its head „Klassifikation von Vorhofflimmern“: printed in section 1.6, introduced by §1.4 (p. 13, l. 23). Its five
+# rows, each „Kopf: Zelle“ (spec §5.1 K), each quoting its cell, since „Paroxysmal“ and „Persistierend“ recur on the
+# page; each reached by the defined_by edge of its form (card #364, the ledger's owner C1). The footnote marks
+# („endet*“) stay in the labels; they are no reference marks. Erstdiagnostiziert: a definition, no rule by duration.
+- id: claims/vorhofflimmern-lf-1.1/1202d109
+  type: claim
+  lang: de
+  kind: definition
+  section: "1.6"
+  label: "Erstdiagnostiziert: Erstmals diagnostiziertes AF, unabhängig von seiner Dauer oder Symptomatik"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=14
+    quote: "Erstmals diagnostiziertes AF, unabhängig von seiner Dauer oder Symptomatik"
+# Paroxysmal: „innerhalb von 7 Tagen“ read `≤` (reading 3) on concepts/episodendauer, the caption's word.
+- id: claims/vorhofflimmern-lf-1.1/0b965be2
+  type: claim
+  lang: de
+  kind: criterion
+  section: "1.6"
+  label: "Paroxysmal: AF, das spontan oder durch medikamentöse/elektrische Kardioversion innerhalb von 7 Tagen endet*"
+  threshold: {quantity: concepts/episodendauer, comparator: "≤", value: "7", unit: "Tagen"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=14
+    quote: "Kardioversion innerhalb von 7 Tagen endet"
+# Persistierend: „nach mehr als 7 Tagen“.
+- id: claims/vorhofflimmern-lf-1.1/4ee786f5
+  type: claim
+  lang: de
+  kind: criterion
+  section: "1.6"
+  label: "Persistierend: AF, das spontan oder durch medikamentöse/elektrische Kardioversion nach mehr als 7 Tagen endet*"
+  threshold: {quantity: concepts/episodendauer, comparator: ">", value: "7", unit: "Tagen"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=14
+    quote: "Kardioversion nach mehr als 7 Tagen endet"
+# Lang-persistierend: „mehr als 12 Monate“, measured „zum Zeitpunkt der Entscheidung einer rhythmuskontrollierenden
+# Strategie“. The first of its three printings; the others (pp. 61, 62) are C5's, their defined_by and disagrees_with
+# edges X1's (card #364, Decision 5).
+- id: claims/vorhofflimmern-lf-1.1/1dd86d3a
+  type: claim
+  lang: de
+  kind: criterion
+  section: "1.6"
+  label: "Lang-persistierend: AF, das zum Zeitpunkt der Entscheidung einer rhythmuskontrollierenden Strategie mehr als 12 Monate kontinuierlich vorhanden war"
+  threshold: {quantity: concepts/episodendauer, comparator: ">", value: "12", unit: "Monate", when: "zum Zeitpunkt der Entscheidung einer rhythmuskontrollierenden Strategie"}
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=14
+    quote: "AF, das zum Zeitpunkt der Entscheidung einer rhythmuskontrollierenden Strategie mehr als 12 Monate"
+# Permanent: a definition by a treatment decision, no rule by duration.
+- id: claims/vorhofflimmern-lf-1.1/e6865801
+  type: claim
+  lang: de
+  kind: definition
+  section: "1.6"
+  label: "Permanent: Repräsentiert die Entscheidung des/der Patienten*in und des behandelnden Arztes, AF zu belassen und keine weiteren Versuche zur Rhythmuskontrolle zu unternehmen"
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=14
+    quote: "Repräsentiert die Entscheidung des/der Patienten*in und des behandelnden Arztes"
