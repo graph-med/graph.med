@@ -1,12 +1,11 @@
-# The tree of patient groups proposed for views/vorhofflimmern-lf-1.1, as a hierarchy axis over its anchor slot
-# (spec §4.1 "4. Shown"): for each population concept and each family above one, the one edge of the pool it hangs
-# by, up to the view's scope root, concepts/patientinnen-mit-vorhofflimmern (the Zielsetzung, p. 10), which has no
-# place of its own. Its first question is the AF form of Tabelle 3 (p. 14), as the maintainer answered #314's
-# question 1 on 2026-10-11 (hence proposed_by: maintainer). Proposed by card #364 (#314's part P3) with the
-# placements of the five forms, the population concepts that card mints. The chapter parts' anchors are placed, the
-# broader and in_scope_of edges written, the axis tested on the statements, asserted, and listed first in the view's
-# group_by by the pass over the whole source that writes the scope tree (#314, X2). Until then tools/axes.py lists
-# every placement as carried by no edge of the pool, which is expected while the axis is proposed.
+# The tree of patient groups views/vorhofflimmern-lf-1.1 opens with, as a hierarchy axis over its anchor slot (spec
+# §4.1 "4. Shown"): it chooses, for each population concept and each family above one, the one edge of the pool it
+# hangs by, up to the view's scope root, concepts/patientinnen-mit-vorhofflimmern (the Zielsetzung, p. 10), which has
+# no place of its own. Its first question is the AF form of Tabelle 3 (p. 14), as the maintainer answered #314's
+# question 1 on 2026-10-11 (hence proposed_by: maintainer). Proposed by card #364 (#314's part P3) with the placements
+# of the five forms; placed, tested (tools/axes.py) and asserted for the view by card #393 (#314's part X2), whose pull
+# request carries the report, for the physician to accept before the assertion merges. Every placement is an edge in
+# data/edges/vorhofflimmern-lf-1.1/ (broader-edges.yaml, scope-edges.yaml).
 id: axes/vorhofflimmern-population
 type: axis
 lang: de
@@ -24,7 +23,9 @@ rule: >-
   Bezeichnung „Permanent“ stützt sich „vielmehr auf die aktuelle Behandlungsentscheidung“ (S. 13).
   Erstdiagnostiziertes, paroxysmales, persistierendes, lang-persistierendes und permanentes Vorhofflimmern hängen
   als erste Familien an der Wurzel (broader: Patient*innen mit einer Form des Vorhofflimmerns sind in jeder
-  Leitlinie Patient*innen mit Vorhofflimmern). Jedes andere Konzept hängt unter dem engsten Konzept, dessen
+  Leitlinie Patient*innen mit Vorhofflimmern). Vorhofflimmern als Krankheit (1.1, S. 11) und diagnostiziertes
+  Vorhofflimmern (1.2, 2.2) nennen in keiner Empfehlung die Population: sie haben keinen Platz, und keine Form hängt
+  unter ihnen. Jedes andere Konzept hängt unter dem engsten Konzept, dessen
   Sonderfall es ist (broader), wo der Satz „X ist ein Y“ in jeder Leitlinie gilt: eine Gruppe, die eine Form um
   einen weiteren Zustand, eine Indikation oder eine Dauer enger fasst, unter dieser Form. Perioperatives
   Vorhofflimmern (8.4) ist keine Zeile von Tabelle 3, sondern nach seinem Anlass benannt (S. 13: „Trigger“
@@ -41,7 +42,7 @@ rule: >-
   Pool geschrieben, mit eigener Begründung, und dann der Platz.
 proposed_by: maintainer
 views:
-  - {view: views/vorhofflimmern-lf-1.1, status: proposed, since: "2026-10-11"}
+  - {view: views/vorhofflimmern-lf-1.1, status: asserted, since: "2026-10-12"}
 placements:   # concept: parent — each an edge of the pool, grouped by the kind of that edge
   # along broader (12): the five forms of Tabelle 3, the four groups that narrow a form, the peri- and postoperative
   # family, strong obesity under obesity (data/edges/vorhofflimmern-lf-1.1/broader-edges.yaml)
