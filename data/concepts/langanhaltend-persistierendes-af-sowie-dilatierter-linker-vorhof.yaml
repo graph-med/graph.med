@@ -7,6 +7,6 @@ id: concepts/langanhaltend-persistierendes-af-sowie-dilatierter-linker-vorhof
 type: concept
 lang: de
 label: "langanhaltend persistierendes AF sowie dilatierter linker Vorhof"
-short_label: "langanhaltend persistierendes AF, dilatierter Vorhof"
+short_label: "langanhaltend persistierendes AF, dilatierter linker Vorhof"
 facet: patient_state
 source: modelling

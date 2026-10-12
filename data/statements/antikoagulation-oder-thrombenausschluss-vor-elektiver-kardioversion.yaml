@@ -7,7 +7,7 @@ id: statements/antikoagulation-oder-thrombenausschluss-vor-elektiver-kardioversi
 type: statement
 lang: de
 label: "Vor elektiver Kardioversion (medikamentös oder elektrisch) eine 3-wöchige ununterbrochene orale Antikoagulation oder einen Thrombenausschluss mittels transösophagealem Ultraschall durchführen; eine Ausnahme stellen Patient*innen mit AF <24h und geringem thromboembolischem Risiko dar."
-short_label: "Antikoagulation oder Thrombenausschluss vor Kardioversion"
+short_label: "Antikoagulation oder Ultraschall vor elektiver Kardioversion"
 slots:
   population: concepts/patientinnen-mit-vorhofflimmern
   action: concepts/3-woechige-orale-antikoagulation-oder-thrombenausschluss-mittels-tee

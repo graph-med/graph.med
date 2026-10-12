@@ -308,9 +308,11 @@
     quote: "kann bei Patient*innen ohne Indikation für eine dauerhafte Antikoagulation"
   provenance:
     direction: {at: sources/vorhofflimmern-lf-1.1#page=64, quote: "auf diese verzichtet werden"}
-# Section 6.8.3, Hintergrund (p. 64, l. 19–20): which of 6.14's alternatives holds when the duration is unclear, the
-# imaging (as a rule the transoesophageal echocardiography the box names) — R to 6.14's first claim (#378 reading 7;
-# the other reading is S).
+# Section 6.8.3, Hintergrund (p. 64, l. 19–20): the thrombus exclusion when the duration is unclear, „eine Bildgebung
+# (in der Regel eine transösophageale Echokardiographie)“, where box 6.14 prints „mittels transösophagealem Ultraschall“
+# alone — imaging in general, as l. 49 reads it: §5.1 D (tested before R), joined to 6.14's first claim by
+# disagrees_with, no R (#378 reading 7; the judge, half B). Not joined to l. 11–12 or l. 49, whose answers it does not
+# contradict.
 - id: claims/vorhofflimmern-lf-1.1/bb8b2f88
   type: claim
   lang: de
@@ -583,11 +585,13 @@
     quote: "dass ein langfristiges Therapiekonzept nach Kardioversion"
   provenance:
     verb: {at: sources/vorhofflimmern-lf-1.1#page=65, quote: "empfiehlt die Leitliniengruppe daher konsensbasiert"}
-# Section 6.8.6, Hintergrund (p. 66, l. 9–13): who is in 6.17's group — paroxysmal AF, no contraindication to class IC,
-# rare symptomatic AF, longer episodes — R to 6.17 (#378 reading 14; the other reading is D against „strukturell
-# herzgesunden“). „Klasse IC Antiarrhythmika“ and the box's „Klasse-IC Antiarrhythmika“ are two spellings, each kept;
-# „relativ seltenem symptomatischen AF“ as printed (#314 Decision 4); „EKG-“ ends l. 10, a hyphen the word keeps. The
-# first dose under ECG control it names in passing is l. 16–17's claim. The wording kann („können“).
+# Section 6.8.6, Hintergrund (p. 66, l. 9–13): the group for the self-conversion — paroxysmal AF, no contraindication to
+# class IC, rare symptomatic AF, longer episodes —, where box 6.17 prints „Bei strukturell herzgesunden Patient*innen“;
+# the page does not equate the two, and „länger andauern“ takes cases out: a group the box answers differently, §5.1 D,
+# joined to 6.17's claim by disagrees_with, no R (#378 reading 14; the judge, half B). „Klasse IC Antiarrhythmika“ and
+# the box's „Klasse-IC Antiarrhythmika“ are two spellings, each kept; „relativ seltenem symptomatischen AF“ as printed
+# (#314 Decision 4); „EKG-“ ends l. 10, a hyphen the word keeps. The first dose under ECG control it names in passing is
+# l. 16–17's claim. The wording kann („können“).
 - id: claims/vorhofflimmern-lf-1.1/a8cded53
   type: claim
   lang: de
@@ -600,8 +604,7 @@
     at: sources/vorhofflimmern-lf-1.1#page=66
     quote: "Patient*innen mit paroxysmalem AF ohne Kontraindikation für die Gabe von Klasse IC Antiarrhythmika"
 # Section 6.8.6, Hintergrund (p. 66, l. 13–15): a measure beside 6.17's therapy, the co-medication — S to 6.17 (#378
-# reading 14); „Betablocker“ an example. No declared wording: no verb. l. 15–16 restates the box's agent class with an
-# example dose („z.B. 200-300mg Flecainid oral“): an example as a whole adds nothing (G3; #378 reading 14).
+# reading 14); „Betablocker“ an example. No declared wording: no verb.
 - id: claims/vorhofflimmern-lf-1.1/459476ea
   type: claim
   lang: de
@@ -612,6 +615,19 @@
   source:
     at: sources/vorhofflimmern-lf-1.1#page=66
     quote: "die Einmalgabe mit einer die AV-Knoten-Leitung verlangsamenden Substanz"
+# Section 6.8.6, Hintergrund (p. 66, l. 15–16): which dose 6.17's „"pill-in-the-pocket"-Therapie mit Klasse-IC
+# Antiarrhythmika“ stands for, a single dose („Einmalgabe“), which the box does not print; only the parenthesis is an
+# example — R to 6.17 (#378 reading 14; the judge, half B, found the place missing). Kind criterion: it says what the
+# term covers and instructs nothing.
+- id: claims/vorhofflimmern-lf-1.1/67dd1cde
+  type: claim
+  lang: de
+  kind: criterion
+  section: "6.8.6"
+  label: "Es wird bei einer „pill-in-the-pocket“ Therapie die Einmalgabe eines Klasse-IC Antiarrhythmikums verwendet (z.B. 200-300mg Flecainid oral)."
+  source:
+    at: sources/vorhofflimmern-lf-1.1#page=66
+    quote: "Einmalgabe eines Klasse-IC Antiarrhythmikums verwendet (z.B. 200-300mg Flecainid oral)"
 # Section 6.8.6, Hintergrund (p. 66, l. 16–17): the first dose under ECG monitoring before self-administration, a step
 # only the body text gives — S to 6.17 (#378 Decision 11; reading 14). „(siehe Tabelle 13)“ is N4; Tabelle 13 is C4's.
 # The wording sollte.
