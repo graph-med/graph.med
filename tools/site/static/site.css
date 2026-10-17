@@ -417,7 +417,7 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 /* a derived concept's rule, under its row of zone 5 and on its page: the line saying it is derived, then the rule as a
    tree. A node that combines parts is its operator line — the operator in words, the connective as printed, the page
    and the claim's link — with its parts nested under it behind a line of their own, one level per combination; any
-   other node is its threshold or its sentence, the page and the claim's link on a line of their own below */
+   other node is its claim's sentence, the page and the claim's link on a line of their own below */
 .card .rules { flex-basis: 100%; margin: .15rem 0 .3rem; padding-left: .6rem; border-left: 2px solid var(--line); }
 .card .rules p.derived, .card .rules summary.derived { margin: 0 0 .15rem; color: var(--mute); font-size: .85rem; font-style: italic; }
 .card details.rules summary.derived { cursor: pointer; min-height: 32px; display: list-item; padding: .2rem 0; margin: 0; }   /* on the card the rule is folded; the row reads on to the next */
@@ -435,8 +435,8 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
    the row prints or its footnote gives — a threshold, or a combination with its parts — behind a line of its own */
 .card .rules .row-rule { margin: .15rem 0 0; padding-left: .6rem; border-left: 2px solid var(--line); }
 .card .rules .row-rule > .threshold { display: block; }
-/* under a threshold whose quantity is itself derived (a score under its bound): a line naming the quantity, then its
-   rule, set in behind a line of its own as a combination's parts are */
+/* under a node whose threshold's quantity is itself derived (a score under its bound): a line naming the quantity,
+   then its rule, set in behind a line of its own as a combination's parts are */
 .card .rules .quantity-rule { margin: .25rem 0 0; padding-left: .6rem; border-left: 2px solid var(--line); }
 /* zone 7: the contesting claims, each with the contested colour beside it, its heading in that colour */
 .card .contested h3 { color: var(--contested); }

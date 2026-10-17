@@ -795,8 +795,13 @@ glyph. Timing
      arterielle Hypertonie mit Werten > 160mmHg systolisch); Punkte: 1`), as
      the entry that links to the claim's page; then, set in under them by a
      line of their own, the rule the row prints or its footnote gives — its
-     threshold (`systolischer Blutdruck > 160 mmHg`), or its combination
-     with the parts under it —, by this same tree. The points are shown once,
+     threshold (`systolischer Blutdruck > 160 mmHg`), as quantity,
+     comparator, value, unit and time point, a relative one with its
+     reference quantity after the value — joined by `×` where the value is a
+     number alone (`> 80 % × Procalcitonin-Spitzenwert`), and as printed,
+     nothing added, where the value prints a sign or a word of its own
+     (`Bilirubin > 2x Normalwert`), so that no factor is said twice —, or its
+     combination with the parts under it —, by this same tree. The points are shown once,
      in the row's own words: nothing is set beside the label, since telling
      where a label prints its points would mean reading the label (card
      #369, on the maintainer's delegation); the sum's `points` stay in the
@@ -804,15 +809,16 @@ glyph. Timing
      shown that the page does not print (the maintainer, 2026-10-11: each
      criterion with its points; card #354). No
      operator is assumed anywhere: a claim without a combination is a single
-     rule. Any other claim is one entry: the threshold it prints, as quantity,
-     comparator, value, unit and time point (`Amylase-Konzentration im
-     Drainagesekret < 5000 U/L am ersten postop. Tag`), a relative one with
-     its reference quantity after the value — joined by `×` where the value
-     is a number alone (`> 80 % × Procalcitonin-Spitzenwert`), and as printed,
-     nothing added, where the value prints a sign or a word of its own
-     (`Bilirubin > 2x Normalwert`, `< Dreifach Amylase-Konzentration im
-     Serum`), so that no factor is said twice; a claim without a threshold
-     shows its sentence.
+     rule. Any other claim is one entry: its sentence, whether or not it
+     prints a threshold. The sentence prints the number with the words that
+     qualify it — `… persistierende arterielle Hypotension mit der
+     Notwendigkeit einer Therapie mit Vasopressoren, um einen mittleren
+     arteriellen Blutdruck von ≥ 65 mmHg zu erreichen`, `Hyperkaliämie:
+     > 6.0 mmol/l; therapieresistent (ohne NET)` —, which the threshold set
+     in its place would lose, so that the value would read as if it alone
+     were enough. A threshold is never shown in place of the sentence, nor
+     beside it, since the sentence already prints the number; it stays in
+     the JSON (card #253).
      The entry is itself the link to the claim's page; under it its page and
      section, linked into the source, only where they differ from the last
      ones the tree showed — parts printed on one page in one section are cited
@@ -821,9 +827,10 @@ glyph. Timing
      (`graph-representation.md` §3.2) — a line under the entry names it,
      linked to its page, `CHA2DS2-VA Score: abgeleitet, nach der Regel` (or
      the line of several printings), and its rule follows set in, by the same
-     tree: so the bound a recommendation puts on a score, `CHA2DS2-VA Score ≥
-     2` (S. 40), opens to the score's criteria with their points. A rule that
-     would reach its own concept again stops there. A
+     tree: so the bound a recommendation puts on a score, `Bei einem
+     ermittelten CHA2DS2-VA Score von ≥2` (S. 40), opens to the score's
+     criteria with their points. A rule that would reach its own concept
+     again stops there. A
      claim without a threshold says nothing about a missing number: its
      sentence shows whether one is printed, and nothing in the pool tells a
      quantity-like rule ("lange OP-Zeit") from a categorical one ("koronare
