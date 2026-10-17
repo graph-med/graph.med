@@ -210,7 +210,17 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
   .legend-panel { position: absolute; left: 0; right: 0; bottom: calc(100% + .4rem); max-width: none; }
 }
 @media (max-width: 899px) {
-  main.view:has(.sheet.peeking) { padding-bottom: 5rem; }   /* the footer stays reachable above the strip */
+  /* while a selection waits in the strip, the page is the window, as on a wide screen: the graph takes the height the
+     banner, the header and the footer leave — never less than it has without a selection —, the footer follows it, and
+     the page ends with the strip's own height (--strip, measured by graph.js and home.js), so that nothing blank
+     stands between the graph and the strip and the footer, scrolled to, lies wholly above it. The canvas is sized by
+     the page, never by what Cytoscape draws in it (contain), and one that grows keeps its pan and zoom: nothing in the
+     graph moves */
+  body:has(> main.view .sheet.peeking) { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; padding-bottom: var(--strip, 0px); }
+  body:has(> main.view .sheet.peeking) > :not(main) { flex: none; }
+  main.view:has(.sheet.peeking) { flex: 1 0 auto; display: flex; flex-direction: column; width: 100%; padding-bottom: 0; }
+  main.view:has(.sheet.peeking) .graph-wrap { flex: 1 0 auto; }
+  main.view:has(.sheet.peeking) #graph { height: auto; min-height: 62vh; contain: size; }
   main.view .sheet.peeking { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; margin: 0; padding: 0 1rem; border-top: 0; background: var(--bg); box-shadow: 0 -2px 12px rgba(0,0,0,.18); }
   main.view .sheet.peeking:not(.raised) > :not(.peek-bar) { display: none; }   /* lowered: the strip alone */
   main.view .sheet.peeking.raised { top: 2.5rem; overflow: auto; overscroll-behavior: contain; border-radius: .8rem .8rem 0 0; padding-bottom: 2rem; }

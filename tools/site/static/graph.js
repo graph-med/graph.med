@@ -169,6 +169,12 @@
     var bar = sheet.querySelector(".peek-bar");
     sheet.classList.toggle("titled", titled.getBoundingClientRect().bottom < (bar ? bar.getBoundingClientRect().bottom : 0));
   }, { passive: true });
+  /* the page ends with the strip's own height, so that the footer lies above it (site.css, --strip): read on every fill
+     and whenever the sheet changes size while it waits lowered, never stated as a constant */
+  function strip() {
+    if (sheet.classList.contains("peeking") && !sheet.classList.contains("raised")) document.body.style.setProperty("--strip", sheet.offsetHeight + "px");
+  }
+  if (window.ResizeObserver) new ResizeObserver(strip).observe(sheet);
   function fill(html) {
     sheet.innerHTML = html;
     sheet.classList.remove("peeking", "raised", "titled");
@@ -219,6 +225,8 @@
       sheet.classList.add("peeking");
     }
     sheet.scrollTop = 0;
+    strip();
+    if (cy) cy.resize();   /* on a phone the strip's coming or going changes the canvas's height (site.css): a fit that follows reads the new one */
   }
   function raise(up) {
     if (!sheet.classList.contains("peeking")) return;
