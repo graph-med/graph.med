@@ -353,7 +353,8 @@
     var g = canvas.getBoundingClientRect(), f = free.getBoundingClientRect();
     var top = Math.max(0, f.top - g.top), bottom = Math.max(0, g.bottom - f.bottom), room = h - top - bottom;
     var zoom = Math.max(READABLE, Math.min((w - 2 * padding) / bb.w, (room - 2 * padding) / bb.h, cy.maxZoom()));
-    var fb = focus && focus.nonempty() ? focus.boundingBox({ includeLabels: true }) : { x1: bb.x1, x2: bb.x1, y1: bb.y1, y2: bb.y1 };
+    var fb = focus && focus.nonempty() ? focus.boundingBox({ includeLabels: true, includeEdges: false }) : null;   /* an answer in the focus by its words, not its line */
+    if (!fb || !isFinite(fb.x1)) fb = { x1: bb.x1, x2: bb.x1, y1: bb.y1, y2: bb.y1 };
     cy.animate({ zoom: zoom, pan: { x: place(bb.x1, bb.x2, fb.x1, fb.x2, 0, w, padding, zoom),
                                     y: place(bb.y1, bb.y2, fb.y1, fb.y2, top, room, padding, zoom) } }, { duration: 250 });
   }
@@ -416,9 +417,16 @@
     highlight();
   }
   var laying = null;   /* the layout in flight: a step orders the matches by position, so it waits for this to settle */
+  /* what a fit frames (docs/publication.md §3, "The interaction"). Opening or closing a group frames its context: the
+     question the reader answered, with all its answers, and the group's open subtree (none once closed), so that the
+     reader keeps their place among the siblings; a deep link frames the group itself instead: its open subtree with the
+     answer that names it and the question it answers (open_). Either way the answer that names the group is what is
+     kept in view first */
+  function answers(eles) { return eles.nodes().incomers("edge[kind = 'answer']"); }   /* what names a group or a box: the answers into it */
+  function context(j) { var asked = answers(j).sources(); return asked.union(asked.outgoers()).union(j).union(j.successors()); }
   function toggle(j, force) {
     open[j.id()] = force === undefined ? !open[j.id()] : force;
-    relayout(open[j.id()] ? j.union(j.successors()) : j.closedNeighborhood(), open[j.id()] ? j.union(j.outgoers()) : j);   /* the group first, and the top of its column */
+    relayout(context(j), j.union(answers(j)));   /* the group, and the answer that names it, first */
   }
   function foldQuestion(q, force) {
     closed[q.id()] = force === undefined ? !closed[q.id()] : force;
@@ -470,7 +478,7 @@
     if (!refs.length) return;
     var eles = naming(refs);
     select(eles, refs, true);
-    if (!j) fit(near(eles).not(".folded"), 40, eles.not(".folded"));
+    if (!j) fit(near(eles).not(".folded"), 40, eles.union(answers(eles)).not(".folded"));
   });
   cy.on("tap", function (evt) { if (evt.target === cy) select(null, null, true); });
   cy.on("tapstart", function () { if (narrow() && !legendPanel.hidden) showLegend(false); });   /* the legend lies over the graph on a phone: touching the graph puts it away */
@@ -484,7 +492,7 @@
     var groups = before(eles).filter("[type = 'junction']");
     groups.forEach(function (j) { open[j.id()] = true; });
     unfoldTo(eles);
-    relayout(near(eles), eles);
+    relayout(near(eles).union(eles.nodes("[type = 'junction']").successors()), eles.union(answers(eles)));   /* a group with its open subtree */
     select(eles, refs, push);
   }
   sheet.onclick = function (e) {
@@ -600,7 +608,7 @@
     var i = position(list), n = list[dir < 0 ? (i < 0 ? len - 1 : (i + len - 1) % len) : (i + 1) % len], refs = n.data("refs");   /* from no place: the first, or the last when stepping back */
     cursor = n.id();
     if (refs.length) select(naming(refs), refs, true); else { select(null, null, true); n.addClass("picked"); }   /* a chapter node has no entity behind it */
-    fit(n.closedNeighborhood().not(".folded"), 40, n);
+    fit(n.closedNeighborhood().not(".folded"), 40, n.union(answers(n)).not(".folded"));
     counter();
   }
   search.onkeydown = function (e) {
