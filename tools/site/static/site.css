@@ -276,6 +276,10 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
    zone 8, where the card turns from the answer to where the answer comes from. The direction colours are the
    boxes' four (one variable each): here as the band of the judgement, whose chips keep a light fill of their own,
    so that a chip's fill still means the grade and nothing else. Also the facet select of the graph's controls. */
+/* any unbroken value in a card's text — a source's content hash, an id, an address printed as words — wraps
+   inside the card's width, on an entity's page and in the sheet alike, rather than widening the page or being cut
+   at the sheet's edge; no hyphen is set at such a break, so the value reads and copies as one */
+.card { overflow-wrap: anywhere; }
 .card .zone { margin: 0; }
 .card .zone + .zone { margin-top: 1.45rem; }
 .card .zone.title + .zone { margin-top: .2rem; }   /* the band belongs to its title */
@@ -449,7 +453,7 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 /* zone 9: closed by default; the only zone with ids and edge names */
 .card .more summary { cursor: pointer; }
 .card .more summary h3 { display: inline; }
-.card dl.meta { display: grid; grid-template-columns: max-content 1fr; gap: .2rem .8rem; margin: .4rem 0 0; font-size: .85rem; overflow-wrap: anywhere; }
+.card dl.meta { display: grid; grid-template-columns: max-content 1fr; gap: .2rem .8rem; margin: .4rem 0 0; font-size: .85rem; }
 .card dl.meta dt { color: var(--mute); }
 .card dl.meta dd { margin: 0; }
 button.copy.done { color: var(--fg); border-color: var(--fg); background: var(--line); }   /* the quote is on the clipboard */
