@@ -345,7 +345,9 @@
      panned to. Without a focus, it starts at the row's top left, so that it runs out below and to the right rather
      than under the controls above (docs/publication.md §3, "The interaction") */
   var canvas = document.getElementById("graph"), free = document.getElementById("free"), READABLE = 0.75;
+  var framed = cy.collection();   /* what the last fit framed, for the console and tests (window.graphmed.frame) */
   function fit(eles, padding, focus) {
+    framed = eles;
     var bb = eles.boundingBox({ includeLabels: true }), w = cy.width(), h = cy.height();
     if (!bb.w || !bb.h) return;
     var g = canvas.getBoundingClientRect(), f = free.getBoundingClientRect();
@@ -629,6 +631,7 @@
   cy.ready(function () { open_(decodeURIComponent(location.hash.slice(1)), false); });
   window.graphmed = { cy: cy, open: open_, toggle: toggle, fold: foldQuestion, reset: reset, isOpen: function (id) { return !!open[id]; }, isClosed: function (id) { return !!closed[id]; },
     section: setSection, search: function (q, f) { search.value = q; if (f !== undefined) facetSel.value = f; research(); }, step: step,
+    frame: function () { return framed.map(function (e) { return e.id(); }); },
     by: switchTo, state: function () { return { by: by, section: section, query: search.value, facet: facetSel.value, ref: decodeURIComponent(location.hash.slice(1)) }; } };   /* for the console and tests */
   }
 })();

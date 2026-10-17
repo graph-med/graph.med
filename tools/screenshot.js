@@ -125,8 +125,44 @@ const INDEX = new Set([...ANYWHERE, "open", "sheet", "graph"]);   /* what the in
     cy.elements().not(".folded").forEach(e => { if (e.data("label")) least = Math.min(least, e.pstyle("font-size").pfValue * zoom); });
     return `zoom ${zoom.toFixed(2)}, smallest label ${least === Infinity ? "none" : least.toFixed(1) + " px"}`;
   });
-  console.log(`${shown} elements shown, ${size}, ${overlaps.length} overlapping pairs; ${await across(page)}${await focus(page)}` + (errors.length ? `; page errors: ${errors.join(" | ")}` : ""));
+  /* what a panel covers or the canvas edge cuts: every shown node and answer, as drawn on the page, that a panel
+     floating over the canvas — a control, the legend's pill or panel, the chapter panel — covers by more than a pixel,
+     or that runs partly past the canvas's edge (what lies wholly beyond it is out of view, to be panned to, and is not
+     counted); each marked when it lies in the last frame, what the last fit framed (graph.js, `frame`) — the mechanical
+     half of "every node and answer in the frame fully visible" (docs/publication.md §3) */
+  const hidden = await page.evaluate(() => {
+    const g = window.graphmed, cy = g.cy, c = document.getElementById("graph").getBoundingClientRect(), w = cy.width(), h = cy.height();
+    const framed = new Set(g.frame ? g.frame() : []), panels = [];
+    function panel(name, el) {
+      if (!el || el.hidden || !el.getClientRects().length) return;
+      const r = el.getBoundingClientRect();
+      if (r.width && r.height) panels.push({ name, x1: r.left - c.left, y1: r.top - c.top, x2: r.right - c.left, y2: r.bottom - c.top });
+    }
+    document.querySelectorAll(".controls .tools > *").forEach(el => panel("the controls", el));
+    panel("the legend", document.getElementById("legend-toggle")); panel("the legend", document.getElementById("legend-panel"));
+    panel("the chapter panel", document.getElementById("chapters"));
+    const items = [], out = [];
+    cy.nodes().not(".folded").forEach(n => items.push({ id: n.id(), name: n.data("type") === "junction" ? "group " + (n.data("refs")[0] || n.id()) : n.data("label") || n.id(),   /* a group's label is its count */
+                                                         ...n.renderedBoundingBox({ includeLabels: true, includeOverlays: false }) }));
+    cy.edges().not(".folded").forEach(e => {
+      if (!e.data("label")) return;
+      const b = e.renderedBoundingBox({ includeEdges: false, includeLabels: true, includeOverlays: false });
+      if (b.w > 0 && b.h > 0) items.push({ id: e.id(), name: "answer " + e.data("label"), ...b });
+    });
+    items.forEach(b => {
+      if (b.x2 <= 0 || b.y2 <= 0 || b.x1 >= w || b.y1 >= h) return;   /* wholly out of view */
+      const name = b.name.replace(/\s+/g, " ").slice(0, 60), tag = framed.has(b.id) ? " (in the frame)" : "", where = [];
+      if (b.x1 < -1) where.push("left"); if (b.x2 > w + 1) where.push("right"); if (b.y1 < -1) where.push("top"); if (b.y2 > h + 1) where.push("bottom");
+      const by = [...new Set(panels.filter(p => Math.min(b.x2, p.x2) - Math.max(b.x1, p.x1) > 1 && Math.min(b.y2, p.y2) - Math.max(b.y1, p.y1) > 1).map(p => p.name))];
+      const what = [where.length ? `cut at the canvas's ${where.join(" and ")} edge` : "", by.length ? `covered by ${by.join(" and ")}` : ""].filter(Boolean);
+      if (what.length) out.push({ framed: !!tag, text: `${name}: ${what.join(", ")}${tag}` });
+    });
+    return out;
+  });
+  const covered = `${hidden.length} covered or cut (${hidden.filter(x => x.framed).length} in the frame)`;
+  console.log(`${shown} elements shown, ${size}, ${overlaps.length} overlapping pairs, ${covered}; ${await across(page)}${await focus(page)}` + (errors.length ? `; page errors: ${errors.join(" | ")}` : ""));
   overlaps.slice(0, 40).forEach(p => console.log("  " + p));
+  hidden.sort((a, b) => b.framed - a.framed).slice(0, 40).forEach(x => console.log("  " + x.text));
   await browser.close();
 })().catch(e => { console.error("screenshot failed: " + e.message + (errors.length ? "; page errors: " + errors.join(" | ") : "")); process.exit(1); });
 

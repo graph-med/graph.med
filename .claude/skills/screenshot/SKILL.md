@@ -86,8 +86,14 @@ answers, its font size times the zoom in CSS px (`zoom 0.75, smallest label
 overlaps**: every pair
 of nodes and answers whose boxes intersect, and every edge drawn across a node or
 an answer it does not touch — the mechanical half of "nothing overlaps"
-(`docs/publication.md` §3). It cannot see what a hand does on a phone, such as a
-pan that pushes nodes under the floating controls; look for that yourself.
+(`docs/publication.md` §3) — and **what is covered or cut**: every shown node and
+answer that a panel floating over the canvas (a control, the legend's pill or
+panel, the chapter panel) covers, or that runs partly past the canvas's edge, each
+marked `(in the frame)` when the last fit framed it (`3 covered or cut (1 in the
+frame)`, then one line each) — the mechanical half of "every node and answer in
+the frame fully visible". What lies wholly beyond the edge is out of view, not
+cut, and is not counted. It cannot see what a hand does on a phone, such as a
+pan; look for that yourself.
 On every page it prints any page error and whether the page is wider than
 the viewport (`overflows horizontally: <w> px wide at <width>`, or
 `fits <width> px across`) — the mechanical half of "the page fits a phone" —,
