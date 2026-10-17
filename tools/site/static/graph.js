@@ -228,12 +228,18 @@
     strip();
     if (cy) cy.resize();   /* on a phone the strip's coming or going changes the canvas's height (site.css): a fit that follows reads the new one */
   }
+  /* lowered, the sheet hides all but the strip: where the focus was on what it hides — a control of the card, or ✕ —
+     it goes to the strip, so that it never falls to the page and the next Tab goes on from the strip; anywhere else
+     it stays (home.js does the same) */
   function raise(up) {
     if (!sheet.classList.contains("peeking")) return;
+    var had = document.activeElement;
     sheet.classList.toggle("raised", up);
     sheet.classList.remove("titled");
-    sheet.querySelector(".peek").setAttribute("aria-expanded", up ? "true" : "false");
+    var peek = sheet.querySelector(".peek");
+    peek.setAttribute("aria-expanded", up ? "true" : "false");
     sheet.scrollTop = 0;
+    if (!up && had && sheet.contains(had) && !had.getClientRects().length) peek.focus({ preventScroll: true });
   }
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && sheet.classList.contains("raised")) raise(false); });
 
