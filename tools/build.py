@@ -843,9 +843,10 @@ def derivation_of(pool: "Pool", cid: str) -> dict:
     combination is a single rule. A threshold whose quantity (or reference quantity) is itself derived — a score,
     the quantity a points table defines — carries that quantity's `derivation` and `rules` on the resolved
     quantity, by this same path, so that the bound a recommendation puts on a score opens to the score's criteria
-    and their points; a stated quantity is resolved as before. A rule without a threshold is shown by its sentence, which says itself
-    whether a number is printed: nothing in the pool tells a quantity-like rule from a categorical one, so
-    no "no threshold given" is claimed. A node whose claim disagrees with another printing than its concept's own
+    and their points; a stated quantity is resolved as before. The card shows every node that is not a sum's part by
+    its claim's sentence, whether or not it prints a threshold: the sentence prints the number with the words that
+    qualify it, and says itself whether a number is printed — nothing in the pool tells a quantity-like rule from a
+    categorical one, so no "no threshold given" is claimed; the `threshold` stays in the node for programs. A node whose claim disagrees with another printing than its concept's own
     carries it (`disagrees_with`, Pool.disagreements_of). One code path for whatever row the concept stands in —
     anchor, condition or any other — and for the concept's own page."""
     ref = lambda q: {"id": q, "label": pool.entities[q].get("short_label") or pool.entities[q]["label"], "lang": pool.entities[q]["lang"]} \
