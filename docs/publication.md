@@ -436,7 +436,17 @@ open: each answer legible, each box clear of its neighbours.
 what is open (drawn, not a glyph a font may lack) — centred in the free row, and
 where the tree is too large even at the smallest zoom, starting at the row's top
 left so that it runs out below and to the right, never under the controls — and
-a **reset** button beside it that returns the page to its
+**no fit zooms out below a readable floor**: the zoom at which a box's 12 px text
+is drawn at 9 px, the index's floor (§2), one constant for every view and every
+screen; a pinch or the wheel still zooms out to the whole tree. This holds after
+every fit — the opening state, a tap on an answer, a group or a box, a deep link, a
+search step, the fit button and reset. Where what is fitted is larger than the free
+row even at the floor, the fit shows first what the reader acted on: at the opening
+state, the first question and its answers; after opening a group, the group and the
+top of its column; after a tap on a box, a deep link or a step, that box; after a
+search, its matches; and the rest runs out of view and is panned to — on a phone,
+the root box may start out of view to the left. Beside the fit button, a
+**reset** button that returns the page to its
 opening state — folded, no search, no facet, no chapter, nothing selected — so the
 way back from any search or filter is one tap. Tapping a node or an answer selects it: what leads to it and what
 follows it stay — for an answer, the question it answers and the box it leads
