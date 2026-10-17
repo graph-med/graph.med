@@ -449,7 +449,11 @@ at the bottom edge rather than below the graph: the direction colour as a swatch
 and an edge, the title, and the judgement (`✓ für · Grad B`, and `⚠ umstritten`
 where a contesting claim exists), so that closed it already answers the first
 question. Tapping the strip raises the section over the graph; `✕`, the strip
-again or Escape lowers it. Raised, the strip shows only the swatch and `✕` while
+again or Escape lowers it. While the strip waits, the graph takes the height the
+banner, the header and the footer leave — never less than it has without a
+selection —, the footer follows the graph, and the page ends with the strip's own
+height: nothing blank stands between the graph and the strip, and the footer,
+scrolled to where the page is taller than the screen, lies wholly above it. Raised, the strip shows only the swatch and `✕` while
 the card's own title is in sight, and its title and judgement again once the
 title has scrolled away under it, so that the reader always knows which
 recommendation the text below belongs to. On a wide screen the column is as wide
