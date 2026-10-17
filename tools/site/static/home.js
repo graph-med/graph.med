@@ -97,7 +97,12 @@
   /* the sheet (graph.js): every fill starts at the top. Below 900 px an entry waits in a peek strip at the bottom
      edge — its title and what the graph holds, and the entry's own link to its graph, all taken from the entry
      itself — so that a graph is two taps away, the box and the link; the rest of the strip raises the sheet over the
-     graph, and the strip again, ✕ or Escape lowers it. A wide screen never shows it */
+     graph, and the strip again, ✕ or Escape lowers it. A wide screen never shows it. The page ends with the strip's
+     own height, so that the footer lies above it (site.css, --strip; graph.js reads it the same way) */
+  function strip() {
+    if (sheet.classList.contains("peeking") && !sheet.classList.contains("raised")) document.body.style.setProperty("--strip", sheet.offsetHeight + "px");
+  }
+  if (window.ResizeObserver) new ResizeObserver(strip).observe(sheet);
   function fill(html, entry) {
     sheet.innerHTML = html;
     sheet.classList.remove("peeking", "raised");
@@ -119,6 +124,8 @@
       sheet.classList.add("peeking");
     }
     sheet.scrollTop = 0;
+    strip();
+    if (cy) cy.resize();   /* on a phone the strip's coming or going changes the canvas's height (site.css) */
   }
   function raise(up) {
     if (!sheet.classList.contains("peeking")) return;
