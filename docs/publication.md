@@ -436,7 +436,17 @@ open: each answer legible, each box clear of its neighbours.
 what is open (drawn, not a glyph a font may lack) — centred in the free row, and
 where the tree is too large even at the smallest zoom, starting at the row's top
 left so that it runs out below and to the right, never under the controls — and
-a **reset** button beside it that returns the page to its
+**no fit zooms out below a readable floor**: the zoom at which a box's 12 px text
+is drawn at 9 px, the index's floor (§2), one constant for every view and every
+screen; a pinch or the wheel still zooms out to the whole tree. This holds after
+every fit — the opening state, a tap on an answer, a group or a box, a deep link, a
+search step, the fit button and reset. Where what is fitted is larger than the free
+row even at the floor, the fit shows first what the reader acted on: at the opening
+state, the first question and its answers; after opening a group, the group and the
+top of its column; after a tap on a box, a deep link or a step, that box; after a
+search, its matches; and the rest runs out of view and is panned to — on a phone,
+the root box may start out of view to the left. Beside the fit button, a
+**reset** button that returns the page to its
 opening state — folded, no search, no facet, no chapter, nothing selected — so the
 way back from any search or filter is one tap. Tapping a node or an answer selects it: what leads to it and what
 follows it stay — for an answer, the question it answers and the box it leads
@@ -449,7 +459,15 @@ at the bottom edge rather than below the graph: the direction colour as a swatch
 and an edge, the title, and the judgement (`✓ für · Grad B`, and `⚠ umstritten`
 where a contesting claim exists), so that closed it already answers the first
 question. Tapping the strip raises the section over the graph; `✕`, the strip
-again or Escape lowers it. Raised, the strip shows only the swatch and `✕` while
+again or Escape lowers it. While the strip waits, the graph takes the height the
+banner, the header and the footer leave — never less than it has without a
+selection —, the footer follows the graph, and the page ends with the strip's own
+height: nothing blank stands between the graph and the strip, and the footer,
+scrolled to where the page is taller than the screen, lies wholly above it. Lowered
+while the keyboard is on what it hides — a control of the card, or `✕` —, the focus
+goes to the strip, so that it never falls to the page and the next Tab goes on from
+the strip; anywhere else it stays where it was. The index's strip does the same (§2).
+Raised, the strip shows only the swatch and `✕` while
 the card's own title is in sight, and its title and judgement again once the
 title has scrolled away under it, so that the reader always knows which
 recommendation the text below belongs to. On a wide screen the column is as wide
@@ -734,7 +752,19 @@ glyph. Timing
      this one in words — `allgemeinere Empfehlung`, `speziellere Empfehlung`,
      `ergänzende Empfehlung`, `gegenläufige Empfehlung` —, never the edge's
      name: a related recommendation answers "does it hold for my patient?"
-     as much as the slots do. Without one, the row is absent.
+     as much as the slots do. Without one, the row is absent. Under each
+     entry, closed, `Warum verwandt` says why the two are related: the
+     edge's `rationale` as stored, never composed by the build, tagged
+     *KI-erzeugt* with the date of the reading beside the tag (`Stand
+     12.10.2026`, the edge's `as_of` in the page's printed form of a date),
+     as the disagreement's fold says what two printings differ in (zone 3).
+     The reason is the project's reading, written while linking and printed
+     in no guideline (`graph-representation.md` §5: such an edge is always
+     `modelling`); the tag and the closed fold keep it from reading as the
+     guideline's words, and the card grows by one line per entry, not by
+     the reason. In the statement JSON each entry of `mehr.related` carries
+     `rationale`, `rationale_lang` and `as_of`, so that a program reads the
+     same reason.
 
      **The row's word is the slot's, never a graph's.** `Patientengruppe` is
      the word the page already uses for what the population slot holds — the
@@ -787,8 +817,13 @@ glyph. Timing
      arterielle Hypertonie mit Werten > 160mmHg systolisch); Punkte: 1`), as
      the entry that links to the claim's page; then, set in under them by a
      line of their own, the rule the row prints or its footnote gives — its
-     threshold (`systolischer Blutdruck > 160 mmHg`), or its combination
-     with the parts under it —, by this same tree. The points are shown once,
+     threshold (`systolischer Blutdruck > 160 mmHg`), as quantity,
+     comparator, value, unit and time point, a relative one with its
+     reference quantity after the value — joined by `×` where the value is a
+     number alone (`> 80 % × Procalcitonin-Spitzenwert`), and as printed,
+     nothing added, where the value prints a sign or a word of its own
+     (`Bilirubin > 2x Normalwert`), so that no factor is said twice —, or its
+     combination with the parts under it —, by this same tree. The points are shown once,
      in the row's own words: nothing is set beside the label, since telling
      where a label prints its points would mean reading the label (card
      #369, on the maintainer's delegation); the sum's `points` stay in the
@@ -796,15 +831,16 @@ glyph. Timing
      shown that the page does not print (the maintainer, 2026-10-11: each
      criterion with its points; card #354). No
      operator is assumed anywhere: a claim without a combination is a single
-     rule. Any other claim is one entry: the threshold it prints, as quantity,
-     comparator, value, unit and time point (`Amylase-Konzentration im
-     Drainagesekret < 5000 U/L am ersten postop. Tag`), a relative one with
-     its reference quantity after the value — joined by `×` where the value
-     is a number alone (`> 80 % × Procalcitonin-Spitzenwert`), and as printed,
-     nothing added, where the value prints a sign or a word of its own
-     (`Bilirubin > 2x Normalwert`, `< Dreifach Amylase-Konzentration im
-     Serum`), so that no factor is said twice; a claim without a threshold
-     shows its sentence.
+     rule. Any other claim is one entry: its sentence, whether or not it
+     prints a threshold. The sentence prints the number with the words that
+     qualify it — `… persistierende arterielle Hypotension mit der
+     Notwendigkeit einer Therapie mit Vasopressoren, um einen mittleren
+     arteriellen Blutdruck von ≥ 65 mmHg zu erreichen`, `Hyperkaliämie:
+     > 6.0 mmol/l; therapieresistent (ohne NET)` —, which the threshold set
+     in its place would lose, so that the value would read as if it alone
+     were enough. A threshold is never shown in place of the sentence, nor
+     beside it, since the sentence already prints the number; it stays in
+     the JSON (card #253).
      The entry is itself the link to the claim's page; under it its page and
      section, linked into the source, only where they differ from the last
      ones the tree showed — parts printed on one page in one section are cited
@@ -813,9 +849,10 @@ glyph. Timing
      (`graph-representation.md` §3.2) — a line under the entry names it,
      linked to its page, `CHA2DS2-VA Score: abgeleitet, nach der Regel` (or
      the line of several printings), and its rule follows set in, by the same
-     tree: so the bound a recommendation puts on a score, `CHA2DS2-VA Score ≥
-     2` (S. 40), opens to the score's criteria with their points. A rule that
-     would reach its own concept again stops there. A
+     tree: so the bound a recommendation puts on a score, `Bei einem
+     ermittelten CHA2DS2-VA Score von ≥2` (S. 40), opens to the score's
+     criteria with their points. A rule that would reach its own concept
+     again stops there. A
      claim without a threshold says nothing about a missing number: its
      sentence shows whether one is printed, and nothing in the pool tells a
      quantity-like rule ("lange OP-Zeit") from a categorical one ("koronare
@@ -970,8 +1007,10 @@ mark each part by where it comes from, read from the provenance `meta.provenance
 (§4): a small tag beside the title or a zone's heading — *KI-erzeugt* for content the
 project generated (`modelling`; *KI-erzeugt, mit Fundstelle* for `sourced`), *Zitat
 aus der Quelle* for a claim's sentence, quoted from its source (`anchored`): the
-statement's title and zone 5 (generated), zones 3, 6, 7 and 8 (quoted), and
-what two printings differ in under a disagreement (generated); a concept's
+statement's title and zone 5 (generated), zones 3, 6, 7 and 8 (quoted),
+what two printings differ in under a disagreement (generated), and why two
+statements are related, under each entry of zone 5's `Verwandt` row (generated,
+with the date of the reading); a concept's
 label, and its list of statements where they all share one kind. The words are the
 card's table (`origin.*`, §3 "Language"). A tag says where a part comes from, never
 that it was checked.

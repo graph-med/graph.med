@@ -117,7 +117,15 @@ const INDEX = new Set([...ANYWHERE, "open", "sheet", "graph"]);   /* what the in
     });
     return pairs;
   });
-  console.log(`${shown} elements shown, ${overlaps.length} overlapping pairs; ${await across(page)}${await focus(page)}` + (errors.length ? `; page errors: ${errors.join(" | ")}` : ""));
+  /* how large the text is drawn: the zoom, and the smallest label among the shown nodes and answers in CSS px — its
+     font size times the zoom —, the mechanical half of "everything readable" (docs/publication.md §3) */
+  const size = await page.evaluate(() => {
+    const cy = window.graphmed.cy, zoom = cy.zoom();
+    let least = Infinity;
+    cy.elements().not(".folded").forEach(e => { if (e.data("label")) least = Math.min(least, e.pstyle("font-size").pfValue * zoom); });
+    return `zoom ${zoom.toFixed(2)}, smallest label ${least === Infinity ? "none" : least.toFixed(1) + " px"}`;
+  });
+  console.log(`${shown} elements shown, ${size}, ${overlaps.length} overlapping pairs; ${await across(page)}${await focus(page)}` + (errors.length ? `; page errors: ${errors.join(" | ")}` : ""));
   overlaps.slice(0, 40).forEach(p => console.log("  " + p));
   await browser.close();
 })().catch(e => { console.error("screenshot failed: " + e.message + (errors.length ? "; page errors: " + errors.join(" | ") : "")); process.exit(1); });

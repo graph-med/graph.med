@@ -78,7 +78,11 @@ and works without a pointer —, `wait=<ms>` waits. `--dark`
 is a flag, not an action: the graph reads its colours from the stylesheet once,
 when it is drawn, so the theme is emulated before the page loads. On a view page the runner
 prints how many graph elements were shown, any page error — also when the
-graph never appears, which is a script error, not a slow run — and **what
+graph never appears, which is a script error, not a slow run —, **how small the
+text is drawn**: the zoom and the smallest label among the shown nodes and
+answers, its font size times the zoom in CSS px (`zoom 0.75, smallest label
+8.3 px`), the mechanical half of "everything readable" (no fit zooms out below
+0.75, `docs/publication.md` §3) — and **what
 overlaps**: every pair
 of nodes and answers whose boxes intersect, and every edge drawn across a node or
 an answer it does not touch — the mechanical half of "nothing overlaps"
