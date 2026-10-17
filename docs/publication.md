@@ -442,10 +442,23 @@ screen; a pinch or the wheel still zooms out to the whole tree. This holds after
 every fit — the opening state, a tap on an answer, a group or a box, a deep link, a
 search step, the fit button and reset. Where what is fitted is larger than the free
 row even at the floor, the fit shows first what the reader acted on: at the opening
-state, the first question and its answers; after opening a group, the group and the
-top of its column; after a tap on a box, a deep link or a step, that box; after a
-search, its matches; and the rest runs out of view and is panned to — on a phone,
-the root box may start out of view to the left. Beside the fit button, a
+state, the first question and its answers; after opening a group, the answer that
+names it and the group; after a tap on a box, a deep link or a step, that box and
+the answer that leads to it; after a search, its matches; and the rest runs out of
+view and is panned to — on a phone, the root box may start out of view to the left.
+**What a fit frames** follows from what the reader did. Opening a group by a tap
+frames its context: the question the reader answered, with all its answers, and the
+group's open subtree, so that the reader keeps their place among the siblings. A
+deep link to a group frames the group itself: its open subtree — its
+recommendations, its conditions and the boxes behind them, its member groups — with
+the answer that names it and the question that answer belongs to. A tap on a box, a
+deep link to it or a step to it frames the box with what it hangs from and what
+follows it. Either way the answer that names what was opened is in the frame, and
+every node and every answer in the frame is fully visible — in the free row, clear
+of the controls, the legend and the chapter panel, and inside the canvas — unless
+the frame is larger than the free row even at the floor, when the rule above
+decides what is shown first; what lies outside the frame may run under a panel or
+past the canvas's edge. Beside the fit button, a
 **reset** button that returns the page to its
 opening state — folded, no search, no facet, no chapter, nothing selected — so the
 way back from any search or filter is one tap. Tapping a node or an answer selects it: what leads to it and what
