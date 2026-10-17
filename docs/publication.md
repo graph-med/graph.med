@@ -742,7 +742,19 @@ glyph. Timing
      this one in words — `allgemeinere Empfehlung`, `speziellere Empfehlung`,
      `ergänzende Empfehlung`, `gegenläufige Empfehlung` —, never the edge's
      name: a related recommendation answers "does it hold for my patient?"
-     as much as the slots do. Without one, the row is absent.
+     as much as the slots do. Without one, the row is absent. Under each
+     entry, closed, `Warum verwandt` says why the two are related: the
+     edge's `rationale` as stored, never composed by the build, tagged
+     *KI-erzeugt* with the date of the reading beside the tag (`Stand
+     12.10.2026`, the edge's `as_of` in the page's printed form of a date),
+     as the disagreement's fold says what two printings differ in (zone 3).
+     The reason is the project's reading, written while linking and printed
+     in no guideline (`graph-representation.md` §5: such an edge is always
+     `modelling`); the tag and the closed fold keep it from reading as the
+     guideline's words, and the card grows by one line per entry, not by
+     the reason. In the statement JSON each entry of `mehr.related` carries
+     `rationale`, `rationale_lang` and `as_of`, so that a program reads the
+     same reason.
 
      **The row's word is the slot's, never a graph's.** `Patientengruppe` is
      the word the page already uses for what the population slot holds — the
@@ -985,8 +997,10 @@ mark each part by where it comes from, read from the provenance `meta.provenance
 (§4): a small tag beside the title or a zone's heading — *KI-erzeugt* for content the
 project generated (`modelling`; *KI-erzeugt, mit Fundstelle* for `sourced`), *Zitat
 aus der Quelle* for a claim's sentence, quoted from its source (`anchored`): the
-statement's title and zone 5 (generated), zones 3, 6, 7 and 8 (quoted), and
-what two printings differ in under a disagreement (generated); a concept's
+statement's title and zone 5 (generated), zones 3, 6, 7 and 8 (quoted),
+what two printings differ in under a disagreement (generated), and why two
+statements are related, under each entry of zone 5's `Verwandt` row (generated,
+with the date of the reading); a concept's
 label, and its list of statements where they all share one kind. The words are the
 card's table (`origin.*`, §3 "Language"). A tag says where a part comes from, never
 that it was checked.
