@@ -338,20 +338,32 @@
   /* fit what is open into the part of the canvas nothing covers. That part is the free row of the
      wrapper's grid (site.css, .graph-wrap): the controls make the row above it as tall as they are,
      the legend the row below, as tall as it is collapsed or expanded — so the free row is
-     read once here instead of adding up the controls' height and the legend's with a constant each. */
-  var canvas = document.getElementById("graph"), free = document.getElementById("free");
-  function fit(eles, padding) {
+     read once here instead of adding up the controls' height and the legend's with a constant each.
+     A fit never zooms below READABLE, where a box's 12 px text is drawn at 9 px — the index's floor (home.js); a pinch
+     or the wheel still zooms out to minZoom. What is larger than the free row even there is placed so that `focus`,
+     what the reader acted on, is in view, with as much of the rest as fits beside it; the rest runs out of view and is
+     panned to. Without a focus, it starts at the row's top left, so that it runs out below and to the right rather
+     than under the controls above (docs/publication.md §3, "The interaction") */
+  var canvas = document.getElementById("graph"), free = document.getElementById("free"), READABLE = 0.75;
+  function fit(eles, padding, focus) {
     var bb = eles.boundingBox({ includeLabels: true }), w = cy.width(), h = cy.height();
     if (!bb.w || !bb.h) return;
     var g = canvas.getBoundingClientRect(), f = free.getBoundingClientRect();
-    var top = Math.max(0, f.top - g.top), bottom = Math.max(0, g.bottom - f.bottom);
-    var zoom = Math.max(cy.minZoom(), Math.min((w - 2 * padding) / bb.w, (h - top - bottom - 2 * padding) / bb.h, cy.maxZoom()));
-    /* centred in the free row; what is still too large at the smallest zoom starts at the row's top left instead,
-       so that it runs out below and to the right rather than under the controls above */
-    var room = h - top - bottom, wide = bb.w * zoom > w - 2 * padding, tall = bb.h * zoom > room - 2 * padding;
-    var x = wide ? padding - bb.x1 * zoom : (w - bb.w * zoom) / 2 - bb.x1 * zoom;
-    var y = tall ? top + padding - bb.y1 * zoom : top + (room - bb.h * zoom) / 2 - bb.y1 * zoom;
-    cy.animate({ zoom: zoom, pan: { x: x, y: y } }, { duration: 250 });
+    var top = Math.max(0, f.top - g.top), bottom = Math.max(0, g.bottom - f.bottom), room = h - top - bottom;
+    var zoom = Math.max(READABLE, Math.min((w - 2 * padding) / bb.w, (room - 2 * padding) / bb.h, cy.maxZoom()));
+    var fb = focus && focus.nonempty() ? focus.boundingBox({ includeLabels: true }) : { x1: bb.x1, x2: bb.x1, y1: bb.y1, y2: bb.y1 };
+    cy.animate({ zoom: zoom, pan: { x: place(bb.x1, bb.x2, fb.x1, fb.x2, 0, w, padding, zoom),
+                                    y: place(bb.y1, bb.y2, fb.y1, fb.y2, top, room, padding, zoom) } }, { duration: 250 });
+  }
+  /* the pan along one axis, for the target [t1, t2] and the focus [f1, f2] in the span [from, from + span] of the canvas:
+     the target centred where it fits; else starting at the span's start, moved only as far as the focus needs to end
+     inside it. A focus larger than the span less its padding takes what padding is left — centred while it fits the
+     span, at the span's very start once it does not */
+  function place(t1, t2, f1, f2, from, span, padding, zoom) {
+    var lo = from + padding, hi = from + span - padding, size = (f2 - f1) * zoom;
+    if ((t2 - t1) * zoom <= hi - lo) return from + (span - (t2 - t1) * zoom) / 2 - t1 * zoom;
+    if (size > hi - lo) return from + Math.max(0, (span - size) / 2) - f1 * zoom;
+    return Math.min(lo - t1 * zoom, hi - f2 * zoom);
   }
 
   /* folding: the root, the first question and its answers — the families — are always
@@ -364,7 +376,8 @@
   var root = cy.nodes("[type = 'root']"), q0 = root.outgoers("node[type = 'question']"), frame = root.union(q0);
   var families = junctions.filter(function (j) { return j.incomers("node").intersection(frame).nonempty(); });
   var always = frame.union(root.connectedEdges()), fan = families.union(families.incomers("edge")), closed = {};
-  function relayout(fitTo) {
+  function opening() { return q0.union(q0.outgoers()); }   /* what the opening state shows first: the first question and its answers */
+  function relayout(fitTo, focus) {   /* lay out what is shown, then fit fitTo with focus in view (fit) */
     var shown = closed[q0.id()] ? always : always.union(fan), inScope = scope();
     var done = {}, grew = true;
     while (grew) {   /* an open junction unfolds only while it is itself shown, so closing a family folds its members too */
@@ -396,18 +409,18 @@
     var lay = shown.layout({ name: "dagre", rankDir: "LR", nodeSep: 18, rankSep: 230, edgeSep: 10, align: "UL", nodeDimensionsIncludeLabels: true,
                              animate: true, animationDuration: 250, fit: false });
     laying = lay;
-    lay.one("layoutstop", function () { if (laying === lay) laying = null; route(shown); related(cy.nodes(".picked")); general(cy.nodes(".picked")); if (fitTo) fit(fitTo.not(".folded"), 30); if (cursor) counter(); });
+    lay.one("layoutstop", function () { if (laying === lay) laying = null; route(shown); related(cy.nodes(".picked")); general(cy.nodes(".picked")); if (fitTo) fit(fitTo.not(".folded"), 30, focus && focus.not(".folded")); if (cursor) counter(); });
     lay.run();
     highlight();
   }
   var laying = null;   /* the layout in flight: a step orders the matches by position, so it waits for this to settle */
   function toggle(j, force) {
     open[j.id()] = force === undefined ? !open[j.id()] : force;
-    relayout(open[j.id()] ? j.union(j.successors()) : j.closedNeighborhood());
+    relayout(open[j.id()] ? j.union(j.successors()) : j.closedNeighborhood(), open[j.id()] ? j.union(j.outgoers()) : j);   /* the group first, and the top of its column */
   }
   function foldQuestion(q, force) {
     closed[q.id()] = force === undefined ? !closed[q.id()] : force;
-    relayout(closed[q.id()] ? q.closedNeighborhood() : q.union(q.successors()));
+    relayout(closed[q.id()] ? q.closedNeighborhood() : q.union(q.successors()), q);
   }
   /* what leads to a selection and what follows it, and what it is shown with. An answer is an edge, and Cytoscape walks
      from nodes only — an edge has no predecessors, successors or neighbours of its own —, so an edge is walked back
@@ -455,7 +468,7 @@
     if (!refs.length) return;
     var eles = naming(refs);
     select(eles, refs, true);
-    if (!j) fit(near(eles).not(".folded"), 40);
+    if (!j) fit(near(eles).not(".folded"), 40, eles.not(".folded"));
   });
   cy.on("tap", function (evt) { if (evt.target === cy) select(null, null, true); });
   cy.on("tapstart", function () { if (narrow() && !legendPanel.hidden) showLegend(false); });   /* the legend lies over the graph on a phone: touching the graph puts it away */
@@ -465,11 +478,11 @@
 
   function open_(hash, push) {   /* a deep link: the ids of what is selected, joined by a comma (select) */
     var refs = hash ? hash.split(",") : [], eles = naming(refs);
-    if (eles.empty()) { relayout(cy.elements()); return; }
+    if (eles.empty()) { relayout(cy.elements(), opening()); return; }
     var groups = before(eles).filter("[type = 'junction']");
     groups.forEach(function (j) { open[j.id()] = true; });
     unfoldTo(eles);
-    relayout(near(eles));
+    relayout(near(eles), eles);
     select(eles, refs, push);
   }
   sheet.onclick = function (e) {
@@ -490,7 +503,7 @@
     chapters.querySelectorAll("button").forEach(function (b) { b.classList.toggle("active", (b.dataset.section || "") === sec); });
     chaptersToggle.textContent = sec ? "§ " + sec : "§";
     select(null, null, true);
-    relayout(cy.elements());
+    relayout(cy.elements(), opening());
   }
   if (outline.length) {
     var byNumber = {};
@@ -585,7 +598,7 @@
     var i = position(list), n = list[dir < 0 ? (i < 0 ? len - 1 : (i + len - 1) % len) : (i + 1) % len], refs = n.data("refs");   /* from no place: the first, or the last when stepping back */
     cursor = n.id();
     if (refs.length) select(naming(refs), refs, true); else { select(null, null, true); n.addClass("picked"); }   /* a chapter node has no entity behind it */
-    fit(n.closedNeighborhood().not(".folded"), 40);
+    fit(n.closedNeighborhood().not(".folded"), 40, n);
     counter();
   }
   search.onkeydown = function (e) {
@@ -598,7 +611,7 @@
     query = fold(search.value.trim()); facet = facetSel.value; cursor = null;   /* a new query: no place in it yet */
     var m = matches(), changed = unfoldTo(m);
     m.predecessors("node[type = 'junction']").forEach(function (j) { if (!open[j.id()]) { open[j.id()] = true; changed = true; } });
-    if (changed) relayout(m.union(m.predecessors())); else highlight();
+    if (changed) relayout(m.union(m.predecessors()), m); else highlight();
   }
   search.oninput = research;
   facetSel.onchange = research;
