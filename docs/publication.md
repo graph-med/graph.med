@@ -453,7 +453,11 @@ again or Escape lowers it. While the strip waits, the graph takes the height the
 banner, the header and the footer leave — never less than it has without a
 selection —, the footer follows the graph, and the page ends with the strip's own
 height: nothing blank stands between the graph and the strip, and the footer,
-scrolled to where the page is taller than the screen, lies wholly above it. Raised, the strip shows only the swatch and `✕` while
+scrolled to where the page is taller than the screen, lies wholly above it. Lowered
+while the keyboard is on what it hides — a control of the card, or `✕` —, the focus
+goes to the strip, so that it never falls to the page and the next Tab goes on from
+the strip; anywhere else it stays where it was. The index's strip does the same (§2).
+Raised, the strip shows only the swatch and `✕` while
 the card's own title is in sight, and its title and judgement again once the
 title has scrolled away under it, so that the reader always knows which
 recommendation the text below belongs to. On a wide screen the column is as wide
