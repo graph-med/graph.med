@@ -216,8 +216,11 @@
 </table>
 </details></dd>
 {% endif %}{% endif %}{% endif %}{% endfor %}
-{# the related statements, one to a line: the first two, the rest folded under them as zone 6 folds its passages #}
-{% macro related_entry(r) %}<span><a class="node-link" data-node="{{ r.to or r.from }}" href="{{ base }}{{ r.to or r.from }}/" lang="{{ r.lang }}">{{ r.title }}</a> <small>{{ W("related." ~ r.edge ~ (".to" if r.to else ".from")) }}</small></span>{% endmacro %}
+{# the related statements, one to a line: the first two, the rest folded under them as zone 6 folds its passages; under
+   each, closed, why the two are related — the edge's rationale as stored, generated and tagged so, with its date, as
+   the disagreement's fold says what two printings differ in #}
+{% macro related_entry(r) %}<div class="related-entry"><span><a class="node-link" data-node="{{ r.to or r.from }}" href="{{ base }}{{ r.to or r.from }}/" lang="{{ r.lang }}">{{ r.title }}</a> <small>{{ W("related." ~ r.edge ~ (".to" if r.to else ".from")) }}</small></span>
+{%- if r.rationale %}<details class="why"><summary>{{ W("related.why") }} {{ from_tag("modelling") }}{% if r.as_of %} <small class="as-of">{{ W("related.as_of").format(date=r.as_of | printed_date) }}</small>{% endif %}</summary><p lang="{{ r.rationale_lang }}">{{ r.rationale }}</p></details>{% endif %}</div>{% endmacro %}
 {% if c.mehr.related %}{% set rest = c.mehr.related[2:] %}  <dt>{{ W("slot.related") }}</dt><dd class="related">{% for r in c.mehr.related[:2] %}{{ related_entry(r) }}{% endfor %}{% if rest %}<details class="related-more" data-keep="related-more"><summary>{{ W("related.more", rest | length).format(n=rest | length) }}</summary>{% for r in rest %}{{ related_entry(r) }}{% endfor %}</details>{% endif %}</dd>
 {% endif %}</dl>
 </section>
