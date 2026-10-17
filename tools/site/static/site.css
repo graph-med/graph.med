@@ -393,12 +393,17 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card div.general .condition { color: var(--fg); }
 .card ul.general li { padding: .3rem 0; }
 .card ul.general li .cite { display: block; font-size: .8rem; }
-.card dl.slots dd.related > span { flex-basis: 100%; }   /* one related statement per line, the relation after it */
+.card dl.slots dd.related > .related-entry { flex-basis: 100%; }   /* one related statement per line, the relation after it */
 .card dl.slots dd.related small { color: var(--mute); font-size: .8rem; }
 .card dl.slots dd.related .node-link { min-height: 32px; }
 .card dl.slots dd.related details.related-more { flex-basis: 100%; }   /* past the second, folded under them */
 .card dl.slots dd.related details.related-more > summary { cursor: pointer; min-height: 32px; padding: .2rem 0; color: var(--mute); font-size: .85rem; }
-.card dl.slots dd.related details.related-more > span { display: block; }
+.card dl.slots dd.related details.related-more > .related-entry { display: block; }
+/* under each related statement, closed: why the two are related — the edge's rationale, tagged generated, its date beside */
+.card dl.slots dd.related details.why { margin: 0 0 .15rem; font-size: .85rem; }
+.card dl.slots dd.related details.why > summary { cursor: pointer; color: var(--mute); min-height: 32px; display: list-item; }
+.card dl.slots dd.related details.why > p { margin: .2rem 0 .4rem; max-width: 70ch; }
+.card dl.slots dd.related details.why .as-of { white-space: nowrap; }   /* "Stand" and its date on one line */
 .card dl.slots dd.general-for { grid-column: 2; display: block; margin-top: -.1rem; }   /* under the anchor's value, its second description */
 /* closed by default, so the slots read on from the anchor to the condition; opened, a table like zone 4's */
 .card .general-for summary { cursor: pointer; padding: .2rem 0; min-height: 32px; color: var(--mute); font-size: .85rem; }

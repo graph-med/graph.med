@@ -134,6 +134,8 @@ CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", 
              "body.more.one", "body.more.many", "slot.related",
              "related.specializes.to", "related.specializes.from", "related.complements.to", "related.complements.from",
              "related.conflicts.to", "related.conflicts.from", "related.more.one", "related.more.many",
+             # under each related statement, closed: why the two are related — the edge's rationale, generated, and its date
+             "related.why", "related.as_of",
              # the detail sections of a concept, a claim and a source, and the entity page (docs/publication.md §3, §4)
              "type.concept", "type.claim", "type.source", "type.axis",
              "facet.procedure", "facet.patient_state", "facet.medication", "facet.intervention", "facet.outcome", "facet.finding", "facet.qualifier",
@@ -190,6 +192,7 @@ CARD_WORDS = {"de": {
     "related.complements.to": "ergänzende Empfehlung", "related.complements.from": "ergänzende Empfehlung",
     "related.conflicts.to": "gegenläufige Empfehlung", "related.conflicts.from": "gegenläufige Empfehlung",
     "related.more.one": "{n} weitere verwandte Empfehlung", "related.more.many": "{n} weitere verwandte Empfehlungen",
+    "related.why": "Warum verwandt", "related.as_of": "Stand {date}",
     "evidence.table.key": "Bezug",
     "type.concept": "Begriff", "type.claim": "Textstelle", "type.source": "Quelle", "type.axis": "Achse",
     "facet.procedure": "Eingriff", "facet.patient_state": "Patientenzustand", "facet.medication": "Medikament",
@@ -436,8 +439,7 @@ def edition_of(source: dict) -> str | None:
     """A source's version and the date it prints for it, as the page says them wherever it names the source
     (docs/publication.md §2, §3): one line, each half only where the source records it, None where it records
     neither. The words are the page chrome's (tools/site/words/<lang>.json, `source`), and so is the date's
-    printed form, read at the precision recorded (ISO 8601: a year, a month or a day; spec §6.1), the month's
-    name from the table. Nothing is parsed out of a title, and a date is shown, never compared or ranked by."""
+    printed form (printed_date()). Nothing is parsed out of a title, and a date is shown, never compared or ranked by."""
     words = page_words(PAGE_LANG).get("source")
     if not words:
         raise SystemExit(f"no page words for a source's version and date — add `source` to tools/site/words/{PAGE_LANG}.json")
@@ -445,11 +447,21 @@ def edition_of(source: dict) -> str | None:
     if source.get("version"):
         parts.append(words["version"].format(version=source["version"]))
     if source.get("date"):
-        year, month, day = (str(source["date"]).split("-") + [None, None])[:3]
-        form = "day" if day else "month" if month else "year"
-        named = words["months"][int(month) - 1] if month else None
-        parts.append(words["date"].format(date=words["dates"][form].format(year=year, month=month, day=day, month_name=named)))
+        parts.append(words["date"].format(date=printed_date(source["date"])))
     return words["separator"].join(parts) or None
+
+
+def printed_date(value) -> str:
+    """A date as the page prints it, wherever it prints one (a source's date, the date of a reading): the page
+    chrome's form (tools/site/words/<lang>.json, `source.dates`), read at the precision recorded (ISO 8601: a year,
+    a month or a day; spec §6.1), the month's name from the table. Shown, never compared or ranked by."""
+    words = page_words(PAGE_LANG).get("source")
+    if not words:
+        raise SystemExit(f"no page words for a date — add `source` to tools/site/words/{PAGE_LANG}.json")
+    year, month, day = (str(value).split("-") + [None, None])[:3]
+    form = "day" if day else "month" if month else "year"
+    named = words["months"][int(month) - 1] if month else None
+    return words["dates"][form].format(year=year, month=month, day=day, month_name=named)
 
 
 def index_path(sources: list, page: dict) -> list[dict]:
@@ -1493,6 +1505,7 @@ def main(argv=None) -> int:
     disclaimer = str(env.get_template("banner.html").module.text).strip()
     # a source's version and date wherever a page names it, by its id, in the page chrome's words (edition_of)
     env.globals["edition"] = lambda sid: edition_of(pool.entities[sid]) if sid in pool.entities else None
+    env.filters["printed_date"] = printed_date      # a date in the page chrome's printed form (the date of a reading)
     env.tests["numbered"] = numbered                 # a recommendation number the card cites after its word, else as printed
     env.tests["numeral"] = numeral                   # a threshold's value the card joins to its reference quantity by "×"
 
@@ -1683,8 +1696,11 @@ def main(argv=None) -> int:
             cited[-1]["claims"].append({**{k: c.get(k) for k in ("id", "recommendation_no", "page", "section", "link", "quote", "lang")},
                                         "excerpt": excerpt(c.get("quote"), c.get("label"))})
         rel = lambda eid: {"label": pool.entities[eid]["label"], "title": pool.entities[eid].get("short_label") or pool.entities[eid]["label"], "lang": pool.entities[eid]["lang"]}
-        related = [{"edge": k, "to": to, **rel(to)} for k, to, _ in pool.out.get(st["id"], []) if k in STATEMENT_EDGES and to in pool.entities] \
-                + [{"edge": k, "from": frm, **rel(frm)} for k, frm, _ in pool.inc.get(st["id"], []) if k in STATEMENT_EDGES and frm in pool.entities]
+        # why two statements are related is the edge's own rationale, as stored, with its language and date: a reading
+        # (always `modelling`, schema `modelling_edge_props`), shown on the card closed and tagged so, never composed
+        why = lambda props: {"rationale": props.get("rationale"), "rationale_lang": props.get("lang"), "as_of": props.get("as_of")}
+        related = [{"edge": k, "to": to, **rel(to), **why(props)} for k, to, props in pool.out.get(st["id"], []) if k in STATEMENT_EDGES and to in pool.entities] \
+                + [{"edge": k, "from": frm, **rel(frm), **why(props)} for k, frm, props in pool.inc.get(st["id"], []) if k in STATEMENT_EDGES and frm in pool.entities]
         return {
             "lang": st["lang"], "questions": CARD_QUESTIONS,
             "title": st.get("short_label") or st["label"], "label": st["label"],
