@@ -40,8 +40,9 @@ it), key=<key> (a key pressed as a keyboard presses it — Tab, Enter, Escape, w
 the whole scrolled page instead of the viewport. --dark renders the page in the dark theme: the graph
 reads its colours from the stylesheet once, when drawn, so the theme is emulated before the
 page loads rather than switched by an action. On a page with a graph the runner prints how many
-elements are shown and how many pairs of nodes and answers overlap — the mechanical half of "nothing
-overlaps"; on every page, whether it is wider than the viewport — the mechanical half of "the page
+elements are shown, the zoom and the smallest label drawn (its font size times the zoom, in CSS px) —
+the mechanical half of "everything readable" —, and how many pairs of nodes and answers overlap — the
+mechanical half of "nothing overlaps"; on every page, whether it is wider than the viewport — the mechanical half of "the page
 fits a phone" —, any page error, and where the focus is when it is not on the page itself (what the
 keys reached: the element, its words, whether it is pressed).
 The container name and the output directory default to the current branch, so that
