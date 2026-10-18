@@ -8,7 +8,8 @@
    highlight: matches keep their colour, the rest fades; the arrows beside the box, or
    ↓ and ↑ in it, step from match to match. Unfolding fits the whole unfolded part, the fit
    button everything open; the back button returns the view as it was before the reader's last
-   change, one change at a time (docs/publication.md §3). The axis switch chooses which of
+   change, one change at a time (docs/publication.md §3). An assistant beside the reader reads the
+   view and acts on it through the session tools, a page function and WebMCP tools (§8). The axis switch chooses which of
    the view's groupings is drawn — its tree of patient groups (the first), the chapters of
    its sources, or another axis of its `group_by` (spec §4.1) — as `?by=<grouping>` in the
    URL (`section` for the chapters, else the axis id; absent for the first), so a grouped
@@ -155,6 +156,11 @@
          for — keeps its colour and wears a double outline; the group's own boxes follow it as before, and the
          sheet lists the general ones apart, each with its condition (docs/publication.md §3) */
       { selector: "node.general", style: { "outline-width": 4, "outline-style": "double", "outline-color": css("--fg"), "outline-offset": 3 } },
+      /* the assistant's highlight (the session tools): a halo in the page's accent behind the box or the answer's line —
+         apart from the reader's selection (the border) and from the outlines of related and general boxes */
+      { selector: "node.assisted", style: { "underlay-color": css("--accent"), "underlay-opacity": 0.45, "underlay-padding": 7, "underlay-shape": "round-rectangle" } },
+      { selector: "node[type = 'junction'].assisted", style: { "underlay-shape": "ellipse" } },
+      { selector: "edge.assisted", style: { "underlay-color": css("--accent"), "underlay-opacity": 0.45, "underlay-padding": 5, "color": css("--accent") } },
       { selector: "edge.dup", style: { "target-label": "" } },   /* a group reached from two open parents names its answer once */
       { selector: ".folded", style: { "display": "none" } },
       /* a node fades as one piece; an edge fades by its line and arrowhead (`line-opacity`) and by the
@@ -275,7 +281,41 @@
   }
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && sheet.classList.contains("raised")) raise(false); });
 
+  /* the session tools as a page function — window.graphmed.agent, for an agent that runs script in the page — and as
+     WebMCP tools where the browser offers document.modelContext (or the older navigator.modelContext): one set of
+     definitions (tools/site/session-tools.json), each call answered by the graph drawn now (window.graphmed.session),
+     so that a redraw under another grouping, or back across one, keeps them (docs/publication.md §8) */
+  var tools = JSON.parse(document.getElementById("session-tools").textContent);
+  function describe() {
+    return { version: tools.version, about: tools.about,
+             tools: tools.tools.map(function (t) { return { name: t.name, title: t.title, description: t.description, inputSchema: t.inputSchema, readOnly: !!t.readOnly }; }) };
+  }
+  function call(name, args) {   /* a promise of the act's answer: what it refused, or the view after it, once at rest */
+    var s = window.graphmed && window.graphmed.session;
+    if (!s) return Promise.resolve({ error: "the graph is not drawn" });
+    if (!s.acts.hasOwnProperty(name)) return Promise.resolve({ error: "no tool " + name + "; the page's: " + tools.tools.map(function (t) { return t.name; }).join(", ") });
+    args = args && typeof args === "object" ? args : {};
+    var r;
+    try { r = s.acts[name](args); } catch (e) { return Promise.reject(e); }
+    if (r && r.error) return Promise.resolve({ error: r.error });
+    return new Promise(function (next) { setTimeout(next, 0); }).then(function () {   /* back across a grouping draws anew: read the graph drawn now */
+      var now = window.graphmed.session;
+      return now.rest().then(function () { return now.look(name === "view" ? args : {}); });
+    });
+  }
+  var agent = { version: tools.version, describe: describe, call: call };
+
   try { draw(); } catch (e) { fail(e && e.message ? e.message : String(e)); throw e; }
+  (function register() {   /* once, after the first draw; a browser that refuses a tool leaves the page function as it is */
+    var mc = document.modelContext || navigator.modelContext;
+    if (!mc || typeof mc.registerTool !== "function") return;
+    describe().tools.forEach(function (t) {
+      var tool = { name: t.name, title: t.title, description: t.name === "view" ? t.description + " " + tools.about : t.description, inputSchema: t.inputSchema,
+                   execute: function (input) { return call(t.name, input); } };
+      if (t.readOnly) tool.annotations = { readOnlyHint: true };
+      try { Promise.resolve(mc.registerTool(tool)).catch(function () {}); } catch (e) { /* refused */ }
+    });
+  })();
 
   function draw(then) {
   var tree = data.groupings.filter(function (g) { return g.axis === by; })[0];
@@ -288,7 +328,7 @@
   tree.nodes.forEach(function (n) { types[n.id] = n.type; });
   tree.nodes.forEach(function (n) {
     elements.push({ data: { id: n.id, refs: n.ref ? [n.ref] : [], type: n.type, label: n.label || "", group: n.group || "",
-      direction: n.direction || "", contested: n.contested ? 1 : 0,
+      direction: n.direction || "", contested: n.contested ? 1 : 0, grade: n.grade || "", no: n.no || "",
       sections: n.sections || [], text: fold(n.text), facets: n.facets || [], general: n.general || [] } });
   });
   tree.edges.forEach(function (e, i) {
@@ -373,6 +413,7 @@
      read once here instead of adding up the controls' height and the legend's with a constant each. */
   var canvas = document.getElementById("graph"), free = document.getElementById("free");
   var framed = cy.collection();   /* what the last fit framed, none once a view is restored (window.graphmed.frame, for tests) */
+  var fitted = null;   /* where the last fit put the graph, so that a change to the free row can tell whether the reader moved it since (mark) */
   function fit(eles, padding) {
     framed = eles;
     var bb = eles.boundingBox({ includeLabels: true }), w = cy.width(), h = cy.height();
@@ -385,6 +426,7 @@
     var room = h - top - bottom, wide = bb.w * zoom > w - 2 * padding, tall = bb.h * zoom > room - 2 * padding;
     var x = wide ? padding - bb.x1 * zoom : (w - bb.w * zoom) / 2 - bb.x1 * zoom;
     var y = tall ? top + padding - bb.y1 * zoom : top + (room - bb.h * zoom) / 2 - bb.y1 * zoom;
+    fitted = { zoom: zoom, pan: { x: x, y: y }, padding: padding };
     cy.animate({ zoom: zoom, pan: { x: x, y: y } }, { duration: 250 });
   }
 
@@ -666,12 +708,14 @@
   facetSel.onchange = research;
 
   /* the view the back button keeps and returns to (remember, back): the folding, the chapter, the search, the selection,
-     the grouping, where every box stands, and the viewport — returned to, it shows what the reader saw */
+     the assistant's highlight, the grouping, where every box stands, and the viewport — returned to, it shows what the
+     reader saw */
   function view() {
     var pos = {};
     cy.nodes().not(".folded").forEach(function (n) { var p = n.position(); pos[n.id()] = { x: p.x, y: p.y }; });
     return { by: by, open: copy(open), closed: copy(closed), section: section, query: typed, facet: facet, cursor: cursor,
-             ref: decodeURIComponent(location.hash.slice(1)), pos: pos, zoom: cy.zoom(), pan: { x: cy.pan().x, y: cy.pan().y } };
+             ref: decodeURIComponent(location.hash.slice(1)), assist: assist && { ids: assist.ids.slice(), note: assist.note },
+             pos: pos, zoom: cy.zoom(), pan: { x: cy.pan().x, y: cy.pan().y } };
   }
   function copy(flags) { var c = {}; Object.keys(flags).forEach(function (k) { if (flags[k]) c[k] = true; }); return c; }
   function restore(v) {
@@ -681,13 +725,171 @@
     relayout(null, v);
     select(refs.length ? naming(refs) : null, refs, true);
     if (!refs.length && cursor) cy.getElementById(cursor).addClass("picked");   /* a step to a chapter node, which names no entity */
+    assist = v.assist && { ids: v.assist.ids.slice(), note: v.assist.note };
+    mark();
   }
+
+  /* the session tools (docs/publication.md §8, "The session tools"; their names, the words a model reads about them and
+     their arguments are tools/site/session-tools.json; the page function and the WebMCP tools are beside draw()): what an
+     assistant beside the reader reads of the view and does to it. An act is one the reader's own controls make — a deep
+     link, a fold, a fit, a search, a step, back —, kept for the back button like theirs (remember), and answered with the
+     view after it, once the layout and the fit are at rest; nothing persists. The highlight is the assistant's own mark,
+     drawn apart from the reader's selection and named on a line under the controls, where the reader clears it */
+  var assist = null, assistLine = document.getElementById("assist");   /* the highlight: the ids it names and its note */
+  var KIND = { root: "root", question: "question", junction: "group", statement: "statement", aim: "aim" };
+  function ident(e) { return e.data("refs")[0] || e.id(); }   /* an element by its entity id; a question, which names none, by its node id */
+  function known(ids, entities) {   /* the elements the ids name — entities, and with `entities` false node ids too — or what names nothing */
+    if (!Array.isArray(ids) || !ids.length || ids.some(function (i) { return typeof i !== "string"; })) return { error: "ids: a list of entity ids" };
+    var eles = cy.collection(), unknown = [];
+    ids.forEach(function (id) {
+      var found = naming([id]).union(entities ? cy.collection() : cy.getElementById(id));
+      if (found.empty()) unknown.push(id); else eles = eles.union(found);
+    });
+    return unknown.length ? { error: "nothing in this grouping is named " + unknown.join(", ") } : { eles: eles };
+  }
+  /* the tree as drawn: the box a node hangs from is the source of its first shown answer or flow (a group reached from
+     two open parents hangs from the first, an aim from its first box); what hangs from a node, top to bottom, then left
+     to right — the order the reader sees, and the one a place among siblings ("3/32") counts in */
+  function up(n) { var e = n.incomers("edge").not(".folded").not(".dup").first(); return e.nonempty() ? e.source() : null; }
+  function below(n) {
+    return n.outgoers("edge").not(".folded").targets().not(".folded").filter(function (t) { var p = up(t); return p && p.same(n); })
+      .sort(function (a, b) { return a.position("y") - b.position("y") || a.position("x") - b.position("x"); });
+  }
+  function reading() {   /* every box the folding shows: from the root, a box before what hangs from it */
+    var out = [], seen = {};
+    (function visit(n) { if (seen[n.id()]) return; seen[n.id()] = true; out.push(n); below(n).forEach(visit); })(root);
+    cy.nodes().not(".folded").forEach(function (n) { if (!seen[n.id()]) { seen[n.id()] = true; out.push(n); } });   /* none, in a tree */
+    return out;
+  }
+  function sight() {   /* the part of the canvas the reader sees, in its own pixels: inside it and the window, in the free row, above a phone's strip */
+    var c = canvas.getBoundingClientRect(), f = free.getBoundingClientRect();
+    var strip = sheet.classList.contains("peeking") && getComputedStyle(sheet).position === "fixed" ? sheet.getBoundingClientRect().top : Infinity;
+    return { x1: Math.max(c.left, 0) - c.left, x2: Math.min(c.right, innerWidth) - c.left, y1: Math.max(c.top, f.top, 0) - c.top, y2: Math.min(c.bottom, f.bottom, innerHeight, strip) - c.top };
+  }
+  function inSight(n, V) {
+    var b = n.renderedBoundingBox({ includeLabels: true, includeOverlays: false, includeUnderlays: false });
+    return b.x1 >= V.x1 - 1 && b.x2 <= V.x2 + 1 && b.y1 >= V.y1 - 1 && b.y2 <= V.y2 + 1;
+  }
+  function entry(n, V, twice, at) {   /* one box as view gives it, only what it has; `at`: each shown box's place in reading order */
+    var t = n.data("type"), e = { i: at[n.id()], id: ident(n), kind: KIND[t] || t, label: n.data("label") };
+    var into = n.incomers("edge[kind = 'answer']").not(".folded").not(".dup").first(), answer = into.nonempty() ? into.data("label").replace(/\n/g, "; ") : "";
+    if (t === "statement") {
+      e.label = e.label.indexOf(" · ") >= 0 ? e.label.slice(e.label.indexOf(" · ") + 3) : e.label;   /* the glyph, grade and verb before it are dir and grade */
+      if (n.data("direction")) e.dir = n.data("direction");
+      if (n.data("grade")) e.grade = n.data("grade");
+      if (n.data("no")) e.no = n.data("no");
+      if (answer) e.answer = answer;
+    } else if (t === "junction") {
+      e.label = answer || n.data("group"); e.n = Number(n.data("label")); e.open = !!open[n.id()];
+      if (twice[e.id]) e.node = n.id();   /* the concept stands at more than one group here: toggle names the node */
+    } else if (t === "question" && closed[n.id()]) e.closed = true;
+    var p = up(n);   /* the box it hangs from by its i, which a parent's long id would repeat at every child */
+    if (p) { var sib = below(p).map(function (x) { return x.id(); }); e.up = at[p.id()]; e.place = (sib.indexOf(n.id()) + 1) + "/" + sib.length; }
+    e.in_view = inSight(n, V);
+    if (n.hasClass("picked")) e.selected = true;
+    if (n.hasClass("assisted")) e.highlighted = true;
+    return e;
+  }
+  function shownNamed(id) { return naming([id]).nodes().not(".folded").union(cy.getElementById(id).not(".folded")).first(); }   /* the first shown box an id names */
+  function look(a) {   /* the view tool */
+    var V = sight(), all = reading(), twice = {}, count = {}, at = {};
+    all.forEach(function (n, k) { at[n.id()] = k; });
+    junctions.not(".folded").forEach(function (j) { var c = ident(j); count[c] = (count[c] || 0) + 1; if (count[c] > 1) twice[c] = true; });
+    if (a.under) {   /* a box and what hangs below it: the read a question about one node needs */
+      var keep = {}, top = shownNamed(a.under);
+      (function down(n) { keep[n.id()] = true; below(n).forEach(down); })(top);
+      all = all.filter(function (n) { return keep[n.id()]; });
+    }
+    if (a.in_view) all = all.filter(function (n) { return inSight(n, V); });
+    var from = Math.max(0, Math.floor(a.from) || 0), limit = Math.min(200, Math.max(1, Math.floor(a.limit) || 40));
+    var refs = decodeURIComponent(location.hash.slice(1)).split(",").filter(Boolean);
+    var out = { v: tools.version, graph: data.id, grouping: by, chapter: section || null,
+      search: query || facet ? { text: typed, facet: facet || null, matches: matches().not(".folded").length, at: cursor ? position(ordered()) + 1 : null } : null,
+      selected: refs.map(function (r) {   /* each selected entity with the boxes it hangs from, root first */
+        var n = naming([r]).nodes().not(".folded").first(), path = [];
+        for (var p = n.nonempty() ? up(n) : null; p; p = up(p)) path.unshift(ident(p));
+        return { id: r, path: n.nonempty() ? path : null };
+      }),
+      highlighted: assist && { ids: assist.ids, note: assist.note || null },
+      total: all.length, from: from, boxes: all.slice(from, from + limit).map(function (n) { return entry(n, V, twice, at); }) };
+    if (from + limit < all.length) out.more = all.length - from - limit;
+    return out;
+  }
+  /* the highlight on what it names, and its line. The line makes the controls' row taller or shorter, and the free row
+     with it: a graph still where the last fit put it is fitted again into the new free row, so what it framed stays whole
+     in view; one the reader has moved since moves with the line, so nothing slides under the controls */
+  function mark() {
+    var top = free.getBoundingClientRect().top, eles = assist ? known(assist.ids).eles || cy.collection() : cy.collection();
+    cy.elements(".assisted").removeClass("assisted");
+    eles.addClass("assisted");
+    assistLine.hidden = !assist;
+    if (assist) assistLine.querySelector(".text").textContent = assist.note || say(pair(words.agent.marked, eles.length), { n: eles.length });
+    var d = free.getBoundingClientRect().top - top, z = cy.zoom(), at = cy.pan();
+    if (!d) return;
+    if (framed.nonempty() && fitted && Math.abs(z - fitted.zoom) < 1e-3 && Math.abs(at.x - fitted.pan.x) < 1 && Math.abs(at.y - fitted.pan.y) < 1) fit(framed, fitted.padding);
+    else cy.panBy({ x: 0, y: d });
+  }
+  document.getElementById("assist-clear").onclick = function () { remember(); assist = null; mark(); };
+  function group(id) {   /* a group by its node id, or by the concept it stands for where one group of this grouping does */
+    var n = cy.getElementById(id || "");
+    if (n.nonempty() && n.data("type") === "junction") return n;
+    var js = naming([id]).nodes("[type = 'junction']");
+    if (js.length === 1) return js;
+    return { error: js.length ? id + " stands at " + js.length + " groups here; name one by its node (view's node): " + js.map(function (j) { return j.id(); }).join(", ") : "no group " + id };
+  }
+  function rest() {   /* a promise of the graph at rest: no layout in flight, no fit and no box moving, twice in a row */
+    return new Promise(function (done) {
+      var quiet = 0, start = Date.now();
+      (function poll() {
+        quiet = !laying && !cy.animated() && !cy.nodes().some(function (n) { return n.animated(); }) ? quiet + 1 : 0;
+        if (quiet >= 2 || Date.now() - start > 4000) done(); else setTimeout(poll, 60);
+      })();
+    });
+  }
+  /* each act checks its arguments before it changes anything, and answers what it refused; what it changes it keeps
+     for back first (remember: one change, however many steps it takes) */
+  var acts = {
+    view: function (a) {   /* read at rest, by call() */
+      if (a.under !== undefined && (typeof a.under !== "string" || shownNamed(a.under).empty())) return { error: "under: the id of a box the folding shows" };
+    },
+    open: function (a) { var r = known(a.ids, true); if (r.error) return r; remember(); open_(a.ids.join(","), true); },
+    focus: function (a) {
+      var r = known(a.ids); if (r.error) return r;
+      remember();
+      before(r.eles).not(r.eles.nodes()).filter("[type = 'junction']").forEach(function (j) { open[j.id()] = true; });   /* the way there, not the group itself */
+      unfoldTo(r.eles);
+      relayout(near(r.eles));
+    },
+    highlight: function (a) {
+      var r = known(a.ids); if (r.error) return r;
+      if (a.note !== undefined && (typeof a.note !== "string" || a.note.length > 140)) return { error: "note: a text of at most 140 characters" };
+      remember(); assist = { ids: a.ids.slice(), note: a.note || "" }; mark();
+    },
+    clear: function () { if (!assist) return { error: "nothing is highlighted" }; remember(); assist = null; mark(); },
+    toggle: function (a) {
+      var j = group(a.id); if (j.error) return j;
+      if (a.open === undefined || !!open[j.id()] !== !!a.open) toggle(j, a.open);
+    },
+    fold: function (a) {
+      var q = cy.getElementById(a.id || "");
+      if (q.empty() || q.data("type") !== "question") return { error: "no question " + a.id + "; a question is named by its node id (q:…)" };
+      if (a.closed === undefined || !!closed[q.id()] !== !!a.closed) foldQuestion(q, a.closed);
+    },
+    search: function (a) {
+      var kinds = [].map.call(facetSel.options, function (o) { return o.value; }).filter(Boolean);
+      if (a.facet && kinds.indexOf(a.facet) < 0) return { error: "no facet " + a.facet + " here; the page's: " + kinds.join(", ") };
+      search.value = a.text || ""; facetSel.value = a.facet || ""; research();
+    },
+    step: function (a) { if (!ordered().length) return { error: "no match to step to: search first" }; step(a.by < 0 ? -1 : 1); },
+    back: function () { if (!trail.length) return { error: "nothing to go back to" }; back(); }
+  };
 
   window.onhashchange = function () { remember(); open_(decodeURIComponent(location.hash.slice(1)), false); };
   cy.ready(function () { if (then) restore(then); else open_(decodeURIComponent(location.hash.slice(1)), false); });
   window.graphmed = { cy: cy, open: open_, toggle: toggle, fold: foldQuestion, back: back, view: view, restore: restore, isOpen: function (id) { return !!open[id]; }, isClosed: function (id) { return !!closed[id]; },
     section: setSection, search: function (q, f) { search.value = q; if (f !== undefined) facetSel.value = f; research(); }, step: step,
     frame: function () { return framed.map(function (e) { return e.id(); }); },
+    agent: agent, session: { acts: acts, rest: rest, look: look },   /* the session tools: the page function, and what it calls in the graph drawn now */
     by: switchTo, state: function () { return { by: by, section: section, query: search.value, facet: facetSel.value, ref: decodeURIComponent(location.hash.slice(1)) }; } };   /* for the console and tests */
   }
 })();

@@ -1,0 +1,211 @@
+{
+  "_": "The session tools of a graph.med view page (docs/publication.md §8, \"The session tools\"): their names, the words a model reads about them, and the shape of their arguments. graph.js implements each by name; the build hands this file to every view page. The words state what a tool does and returns, as a fact; none tells a model how to behave, and none names a graph, a grouping or an axis.",
+  "version": 1,
+  "about": "Tools of a graph.med view page. They read and change what the reader of this page sees: what is unfolded, selected, searched, highlighted, and where the graph stands. They change nothing else and persist nothing: a reload shows the page as before, and the page's back button undoes each act like the reader's own. Ids are graph.med entity ids, as in the page's URL fragment (statements/…, concepts/…, sources/…) and in the graph.med MCP server; a question is named by its node id (q:…). Every act returns the view after it.",
+  "tools": [
+    {
+      "name": "view",
+      "title": "Read the view",
+      "readOnly": true,
+      "description": "What the reader sees: the graph, the grouping, the chapter filter, the search, the selection with its path from the root, the assistant's highlight, and the boxes the current folding shows, in reading order (from the root, a box before what hangs from it, siblings top to bottom as drawn, then left to right). Each box has i, its index in that order; its id, kind (root, question, group, statement, aim) and label; up, the i of the box it hangs from, and place, its place among that box's shown children as drawn (\"3/32\"); and in_view: whether it lies wholly in the part of the graph the reader can see now. A statement adds its direction, grade and box number, and the answer (condition) that leads to it where there is one; a group adds the number of recommendations behind it and whether it is open; a question whether it is folded. Long views come in pages of 40 boxes; under reads one box and what hangs below it.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "under": {
+            "type": "string",
+            "description": "Only this box and what hangs below it: an entity id, or a question's node id."
+          },
+          "from": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "The first box to return, counted in reading order from 0. Default 0."
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200,
+            "description": "How many boxes to return. Default 40."
+          },
+          "in_view": {
+            "type": "boolean",
+            "description": "Only the boxes that lie wholly in the part of the graph the reader can see now."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "open",
+      "title": "Open and select",
+      "description": "Opens entities as a link to them does: unfolds the groups and questions on the way, selects them, fits the graph to them and what is around them, and shows their details beside or below the graph. Several ids select several boxes at once.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "Entity ids."
+          }
+        },
+        "required": [
+          "ids"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "focus",
+      "title": "Bring into view",
+      "description": "Unfolds the way to boxes and fits the graph to them and what is around them, without changing the selection.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "Entity ids, or question node ids."
+          }
+        },
+        "required": [
+          "ids"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "highlight",
+      "title": "Highlight for the reader",
+      "description": "Marks boxes and answers with the assistant's highlight, drawn apart from the reader's own selection, and names it on a line under the page's controls (the note, or how many fields are marked), where the reader can clear it. Replaces the previous highlight. Nothing unfolds: boxes that are folded away stay unseen until focused. Where the line takes room from the graph, a graph still where the last fit put it is fitted again, so that what it framed stays in view.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "Entity ids, or question node ids."
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 140,
+            "description": "A short note shown to the reader with the highlight."
+          }
+        },
+        "required": [
+          "ids"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "clear",
+      "title": "Clear the highlight",
+      "description": "Removes the assistant's highlight and its note.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "toggle",
+      "title": "Unfold or fold a group",
+      "description": "Unfolds a patient group, or folds it if it is open, as a tap on it does; the graph then fits the group and everything it unfolded.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The group's concept id (concepts/…), or its node id from view."
+          },
+          "open": {
+            "type": "boolean",
+            "description": "true to unfold, false to fold; without it, the group switches."
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "fold",
+      "title": "Fold or unfold below a question",
+      "description": "Folds everything below a question, or restores what was open there, as a tap on the question does.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The question's node id (q:…), as view gives it."
+          },
+          "closed": {
+            "type": "boolean",
+            "description": "true to fold, false to unfold; without it, the question switches."
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "search",
+      "title": "Search",
+      "description": "Sets the page's search, as typing in its search box does: the matches keep their colour, everything else fades, and the groups holding a match unfold. An empty text and no facet end the search.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The search text; case and diacritics are ignored."
+          },
+          "facet": {
+            "type": "string",
+            "description": "Only concepts of this kind, one of the page's facet filter values; empty for every kind."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "step",
+      "title": "Step through the matches",
+      "description": "Selects the next match of the search in reading order, or the previous one, as the page's arrows do, and fits the graph to it.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "by": {
+            "type": "integer",
+            "enum": [
+              1,
+              -1
+            ],
+            "description": "1 for the next match, -1 for the previous one. Default 1."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "back",
+      "title": "Back",
+      "description": "Returns the view as it was before the last change, the reader's or the assistant's, as the page's back button does.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    }
+  ]
+}

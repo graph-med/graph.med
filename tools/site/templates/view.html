@@ -11,7 +11,7 @@
 <section class="graph-wrap">
   {# the graph is drawn in its source's language; the words the script writes outside it are the page chrome's #}
   <div id="graph" role="img" aria-label="{{ title }}" lang="{{ sources[0].lang }}"
-       data-words='{{ {"failed": page.view.failed, "missing": page.view.missing, "search": page.search, "chapters": page.chapters} | tojson }}'></div>
+       data-words='{{ {"failed": page.view.failed, "missing": page.view.missing, "search": page.search, "chapters": page.chapters, "agent": page.agent} | tojson }}'></div>
   <div class="controls">
     <div class="tools left">
       <button type="button" id="chapters-toggle" title="{{ page.chapters.label }}" aria-controls="chapters" aria-expanded="false">§</button>
@@ -23,6 +23,8 @@
         {%- for f in facets %}<option value="{{ f.value }}" lang="{{ f.lang }}">{{ f.label }}</option>{% endfor -%}
       </select>
       <span class="count" id="count" hidden></span>
+      {# the assistant's highlight, named on a line of its own under the controls, where the reader can clear it (session tools) #}
+      <p class="assist" id="assist" role="status" hidden><span class="who">{{ page.agent.who }}</span> <span class="text"></span><button type="button" id="assist-clear" title="{{ page.agent.unmark }}" aria-label="{{ page.agent.unmark }}">✕</button></p>
     </div>
     <div class="tools right">
       <button type="button" id="fit" title="{{ page.controls.fit }}" aria-label="{{ page.controls.fit }}"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2.5h4v4M13.5 2.5 9 7M6.5 13.5h-4v-4M2.5 13.5 7 9"/></svg></button>
@@ -93,6 +95,8 @@
   <p class="cite"><a href="{{ base }}{{ vid }}.json">{{ page.view.json }}</a></p>
 </section>
 <script type="application/json" id="graph-data">{{ graph_json | safe }}</script>
+{# the session tools' names, the words a model reads about them, and their arguments (tools/site/session-tools.json) #}
+<script type="application/json" id="session-tools">{{ tools_json | safe }}</script>
 {% endblock %}
 {% block scripts %}
 <script src="{{ base }}assets/vendor/cytoscape-3.30.2.min.js?v={{ commit }}"></script>
