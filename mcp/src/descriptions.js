@@ -33,6 +33,10 @@ export const about = {
     "Holds verbatim source text: each claim's sentence whole, as graph.med's pages show it, and quotes of at most the stated number of characters; each with its link into the source or its page.",
 };
 
+// The `detail` argument of the tools that answer in two forms (tools.js, FORMS).
+const DETAIL =
+  "Optional: 'compact' (the default) or 'full'. Compact keeps every id, label, URL and deep link of an item, its direction, grade and verb, its place and depth, and the metadata; it leaves out what the full form repeats: a concept named inside another item gives only its id and short label, a language equal to the graph's, empty lists of aims, an answer's concepts where they are the node it leads to, a search hit's slots.";
+
 export const tools = {
   list_graphs: {
     title: 'List graphs',
@@ -53,32 +57,41 @@ export const tools = {
   get_tree_node: {
     title: 'Get a tree node',
     description:
-      "Returns one node of one grouping of a graph: the question asked there and its answers (each with its label, the concepts it stands for and the node it leads to), its parents, the recommendations under it with direction, grade, verb and URL, the recommendations that apply to it generally with the way they reach it and their condition where the grouping carries them, and their aims. A node naming an entity is addressed by the entity's id or URL, any other node by its id in the grouping's tree; without a node it is the grouping's root, without a grouping the graph's first. An entity standing at several nodes returns each with its node id. A depth returns the nodes below as well. Every node carries the page link that opens it.",
+      "Returns one node of one grouping of a graph: the question asked there and its answers (each with its label, the concepts it stands for and the node it leads to), its parents, the recommendations under it with direction, grade, verb and URL, the recommendations that apply to it generally with the way they reach it and their condition where the grouping carries them, and their aims. A node naming an entity is addressed by the entity's id or URL, any other node by its id in the grouping's tree; without a node it is the grouping's root, without a grouping the graph's first. An entity standing at several nodes returns each with its node id. A depth returns the nodes below as well. Every node carries the page link that opens it, and its depth: how many answers lie between the root and it. Each answer, each recommendation and each parent link carries a place, counted from 1 among the siblings of its kind (a question's answers, a node's recommendations, a node's questions, a recommendation's aims) in the order the build writes the grouping; the site's drawing orders a few siblings differently, so an item is identified across the two by its entity id, not its place. Compact by default and kept under 24,000 characters by paging; with detail 'full', under 45,000.",
     args: {
       graph: 'The graph: its id or its page URL.',
       grouping: "The grouping's id, as the list of groupings gives it; default: the graph's first grouping.",
       node: "A node id from the grouping's tree, or the id or URL of an entity a node names; default: the root.",
       depth: 'How many levels below the node to include (0 to 3); default 0.',
       offset: 'Where to continue lists that returned a next offset.',
+      detail: DETAIL,
     },
   },
   get_entity: {
     title: 'Get an entity',
     description:
-      "Returns a recommendation or a concept by its id or URL. A recommendation: its wording (modelling, the project's own), grade, verb, consensus and direction as the guideline prints them, the claims it rests on by URL and page (without their text), and its related recommendations within its graph. A concept: the recommendations that hold it, per graph and slot, and the nodes where it stands in each grouping of each graph, each with its page link; for a concept established by a rule, the claim giving it, or each where the source prints the rule differently. A claim: its kind, page, section, grade, verb and consensus, without its text, and the claims where its source says otherwise, by URL. With a graph, the result keeps to that graph; without one, it is grouped per graph.",
+      "Returns a recommendation or a concept by its id or URL. A recommendation: its wording (modelling, the project's own), grade, verb, consensus and direction as the guideline prints them, the claims it rests on by URL and page (without their text), and its related recommendations within its graph. A concept: the recommendations that hold it, per graph and slot, and the nodes where it stands in each grouping of each graph, each with its page link; for a concept established by a rule, the claim giving it, or each where the source prints the rule differently. A claim: its kind, page, section, grade, verb and consensus, without its text, and the claims where its source says otherwise, by URL. With a graph, the result keeps to that graph; without one, it is grouped per graph. Compact by default; with detail 'full', the URLs and short labels of the concepts it names, the languages, and a claim's source and section.",
     args: {
       entity: 'The id or URL of a recommendation (statements/…), a concept (concepts/…) or a claim (claims/…).',
       graph: 'Optional: the graph (id or page URL) to keep to.',
       offset: 'Where to continue lists that returned a next offset.',
+      detail: DETAIL,
     },
   },
   search: {
     title: 'Search',
     description:
-      "Searches the labels of a graph's recommendations and concepts. Within one graph, or across all graphs with the hits grouped per graph, each group ranked on its own and never merged. Each hit gives its id, kind, label, URL, page link and, for a recommendation, its direction, grade and verb; never a sentence or quote of a source.",
+      "Searches a graph's recommendations and concepts by the words of their labels, by filters, or both: a kind, a direction, a grade or a verb, as the results give them, and a subtree — the recommendations, aims and concepts at and below one node of a grouping. Within one graph, or across all graphs with the hits grouped per graph, each group ranked on its own and never merged. Ranked by the words; without words, in the subtree's order where one is given (depth first, in the grouping's order), else recommendations first, by label. With a subtree, each hit gives the depth of the node it stands at, as tree nodes do. Each hit gives its id, kind, label, URL, page link and, for a recommendation, its direction, grade and verb; with detail 'full' also its slots; never a sentence or quote of a source.",
     args: {
-      query: 'Words to find in labels; every word must occur. Case and accents are ignored.',
+      query: 'Optional: words to find in labels; every word must occur. Case and accents are ignored. Needed unless a filter is given.',
       graph: 'Optional: the graph (id or page URL) to search; without one, every graph.',
+      kind: "Optional: 'statement' (a recommendation) or 'concept'.",
+      direction: 'Optional: a direction, as results give it; only recommendations have one.',
+      grade: 'Optional: a grade, as printed; only recommendations have one.',
+      verb: 'Optional: a verb, as printed; only recommendations have one.',
+      under: "Optional, with a graph: a node of a grouping — a node id from its tree, or the id or URL of an entity a node names — whose subtree is searched.",
+      grouping: "Optional, with under: the grouping's id; default: the graph's first grouping.",
+      detail: DETAIL,
       limit: 'Hits per graph (1 to 50); default 20.',
       offset: 'Where to continue a graph’s hits that returned a next offset.',
     },
