@@ -33,15 +33,16 @@ q:j:concepts/leberresektion:population), open=<entity id> (deep link: unfold and
 section=<number> (chapter filter), search=<text>, facet=<kind>, step=<n> (n steps through the
 matches, back when negative), chapters (open the chapter panel), chapters-scroll=<px> (scroll its
 list), legend (collapse or expand the legend), all (every patient group open), fit (fit what is
-open), reset (the opening state), graph and sheet (bring the graph or the sheet into view: on a phone
+open), back (the back button, pressed once: the view before the last change), graph and sheet (bring the graph or the sheet into view: on a phone
 a selection waits in a peek strip, which sheet raises and graph lowers; elsewhere the page scrolls to
 it), key=<key> (a key pressed as a keyboard presses it — Tab, Enter, Escape, with modifiers joined by
 + as in Shift+Tab — to check that a control is reached and works without a pointer), wait=<ms>. --full captures
 the whole scrolled page instead of the viewport. --dark renders the page in the dark theme: the graph
 reads its colours from the stylesheet once, when drawn, so the theme is emulated before the
 page loads rather than switched by an action. On a page with a graph the runner prints how many
-elements are shown and how many pairs of nodes and answers overlap — the mechanical half of "nothing
-overlaps"; on every page, whether it is wider than the viewport — the mechanical half of "the page
+elements are shown, the zoom, how many of the nodes and answers the last fit framed lie wholly in the
+visible canvas, naming each that does not — the mechanical half of "what a fit frames is in view, whole" —,
+and how many pairs of nodes and answers overlap — the mechanical half of "nothing overlaps"; on every page, whether it is wider than the viewport — the mechanical half of "the page
 fits a phone" —, any page error, and where the focus is when it is not on the page itself (what the
 keys reached: the element, its words, whether it is pressed).
 The container name and the output directory default to the current branch, so that
