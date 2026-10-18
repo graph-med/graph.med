@@ -68,7 +68,10 @@ matches (back when negative), `chapters` opens the chapter
 panel and `chapters-scroll=<px>` scrolls its list, `legend` collapses or expands the legend
 (collapsed at load on every screen), `all` opens every patient
 group one tap at a time (the physician's extreme state), `fit` fits what is
-open, `back` presses the back button once (the view before the last change), `sheet` and `graph` bring
+open, `back` presses the back button once (the view before the last change),
+`call=<tool>[:<json>]` calls one of the page's session tools as an assistant does
+(`call=view`, `call=highlight:{"ids":["statements/…"],"note":"…"}`) and prints its answer and its size
+in bytes under the report, `sheet` and `graph` bring
 the details or the graph into view as a reader does — on a phone, where a
 selection waits in a peek strip, `sheet` raises the panel by tapping the strip
 and `graph` lowers it again; elsewhere they scroll the page to the section,
