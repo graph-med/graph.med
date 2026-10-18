@@ -6,8 +6,9 @@
    was open there. A chapter tree (from the source's outline and the claims' sections) is
    a hard filter: only what that section supports is shown. The search is a soft
    highlight: matches keep their colour, the rest fades; the arrows beside the box, or
-   ↓ and ↑ in it, step from match to match. The reset button returns the
-   page to its opening state (docs/publication.md §3). The axis switch chooses which of
+   ↓ and ↑ in it, step from match to match. Unfolding fits the whole unfolded part, the fit
+   button everything open; the back button returns the view as it was before the reader's last
+   change, one change at a time (docs/publication.md §3). The axis switch chooses which of
    the view's groupings is drawn — its tree of patient groups (the first), the chapters of
    its sources, or another axis of its `group_by` (spec §4.1) — as `?by=<grouping>` in the
    URL (`section` for the chapters, else the axis id; absent for the first), so a grouped
@@ -59,17 +60,48 @@
      so the reader lands where they were, under the other axis; the URL carries the choice */
   axisSel.onchange = function () { switchTo(axisSel.value); };
   function switchTo(axis) {
+    remember();
     var g = window.graphmed, was = g.state();
-    by = data.groupings.some(function (x) { return x.axis === axis; }) ? axis : first;
-    axisSel.value = by;
-    history.replaceState(null, "", location.pathname + (by !== first ? "?by=" + encodeURIComponent(by) : "") + location.hash);
-    cy.destroy();
-    draw();
+    redraw(axis);
     g = window.graphmed;
     if (was.section) g.section(was.section);
     if (was.query || was.facet) g.search(was.query, was.facet);
     if (was.ref) g.open(was.ref, true);
   }
+  function redraw(axis, then) {   /* the tree of a grouping, opened as a load opens it — or, with `then`, as that view (back) */
+    by = data.groupings.some(function (x) { return x.axis === axis; }) ? axis : first;
+    axisSel.value = by;
+    history.replaceState(null, "", location.pathname + (by !== first ? "?by=" + encodeURIComponent(by) : "") + location.hash);
+    cy.destroy();
+    draw(then);
+  }
+
+  /* the back button: every change the reader makes to the view first keeps the view it leaves — what is open and what
+     is closed, the selection, the chapter, the search and its facet, the grouping, the zoom and the pan (view, in
+     draw) —, and back returns to the last view kept, one change at a time, until the view the page opened with; with
+     nothing kept it is disabled (docs/publication.md §3). One action is one change, however many steps it takes (a tap
+     that unfolds a group selects it too): what one turn of the event loop keeps, it keeps once, before its first step.
+     A search being typed, or its facet chosen, is one change until a change of another kind follows */
+  var trail = [], backBtn = document.getElementById("back"), keeping = false;
+  function remember(kind) {
+    if (keeping || !window.graphmed) return;
+    keeping = true;
+    setTimeout(function () { keeping = false; }, 0);
+    kind = kind || "";
+    if (kind && trail.length && trail[trail.length - 1].kind === kind) return;
+    var v = window.graphmed.view();
+    v.kind = kind;
+    trail.push(v);
+    if (trail.length > 100) trail.shift();
+    backBtn.disabled = false;
+  }
+  function back() {
+    var v = trail.pop();
+    backBtn.disabled = !trail.length;
+    if (!v) return;
+    if (v.by !== by) redraw(v.by, v); else window.graphmed.restore(v);
+  }
+  backBtn.onclick = back;
 
   /* the graph's colours are the page's: the custom properties on :root (site.css), read when the
      stylesheet is built — at every draw, and again when the theme changes while the page is open */
@@ -245,7 +277,7 @@
 
   try { draw(); } catch (e) { fail(e && e.message ? e.message : String(e)); throw e; }
 
-  function draw() {
+  function draw(then) {
   var tree = data.groupings.filter(function (g) { return g.axis === by; })[0];
   if (typeof cytoscape !== "function") throw new Error(words.missing);
   if (typeof cytoscapeDagre === "function") cytoscape.use(cytoscapeDagre);
@@ -274,7 +306,7 @@
   cy = cytoscape({
     container: document.getElementById("graph"),
     elements: elements,
-    minZoom: 0.1, maxZoom: 4,
+    minZoom: 0.02, maxZoom: 4,   /* low enough that the fit button holds everything open, whole, on a phone too (fit) */
     boxSelectionEnabled: false, autounselectify: true,
     style: stylesheet(),
     layout: { name: "preset" }
@@ -340,7 +372,9 @@
      the legend the row below, as tall as it is collapsed or expanded — so the free row is
      read once here instead of adding up the controls' height and the legend's with a constant each. */
   var canvas = document.getElementById("graph"), free = document.getElementById("free");
+  var framed = cy.collection();   /* what the last fit framed, none once a view is restored (window.graphmed.frame, for tests) */
   function fit(eles, padding) {
+    framed = eles;
     var bb = eles.boundingBox({ includeLabels: true }), w = cy.width(), h = cy.height();
     if (!bb.w || !bb.h) return;
     var g = canvas.getBoundingClientRect(), f = free.getBoundingClientRect();
@@ -364,7 +398,7 @@
   var root = cy.nodes("[type = 'root']"), q0 = root.outgoers("node[type = 'question']"), frame = root.union(q0);
   var families = junctions.filter(function (j) { return j.incomers("node").intersection(frame).nonempty(); });
   var always = frame.union(root.connectedEdges()), fan = families.union(families.incomers("edge")), closed = {};
-  function relayout(fitTo) {
+  function relayout(fitTo, view) {   /* lay out what is shown, then fit fitTo — or, with `view` (restore), return to its zoom and pan */
     var shown = closed[q0.id()] ? always : always.union(fan), inScope = scope();
     var done = {}, grew = true;
     while (grew) {   /* an open junction unfolds only while it is itself shown, so closing a family folds its members too */
@@ -393,19 +427,34 @@
     /* nodes just unfolded were display:none a moment ago, so their label-derived heights are not
        computed yet and dagre would stack them; measuring their bounding boxes first fills them in */
     shown.nodes().forEach(function (n) { n.boundingBox({ includeLabels: true }); });
-    var lay = shown.layout({ name: "dagre", rankDir: "LR", nodeSep: 18, rankSep: 230, edgeSep: 10, align: "UL", nodeDimensionsIncludeLabels: true,
-                             animate: true, animationDuration: 250, fit: false });
+    /* a view returned to (restore) puts every box back where it stood: the places are kept with the view, because a
+       layout of the same groups can land a few units aside — a selected box is drawn wider, and its column with it */
+    var placed = view && shown.nodes().every(function (n) { return view.pos[n.id()]; });
+    var lay = placed ? shown.layout({ name: "preset", positions: function (n) { return view.pos[n.id()]; }, animate: true, animationDuration: 250, fit: false })
+                   : shown.layout({ name: "dagre", rankDir: "LR", nodeSep: 18, rankSep: 230, edgeSep: 10, align: "UL", nodeDimensionsIncludeLabels: true,
+                                    animate: true, animationDuration: 250, fit: false });
     laying = lay;
-    lay.one("layoutstop", function () { if (laying === lay) laying = null; route(shown); related(cy.nodes(".picked")); general(cy.nodes(".picked")); if (fitTo) fit(fitTo.not(".folded"), 30); if (cursor) counter(); });
+    lay.one("layoutstop", function () {
+      var last = laying === lay;   /* a layout overtaken by a later one leaves the viewport to that one */
+      if (last) laying = null;
+      route(shown); related(cy.nodes(".picked")); general(cy.nodes(".picked"));
+      if (last && view) { framed = cy.collection(); cy.animate({ zoom: view.zoom, pan: view.pan }, { duration: 250 }); }
+      else if (last && fitTo) fit(fitTo.not(".folded"), 30);
+      if (cursor) counter();
+    });
     lay.run();
     highlight();
   }
   var laying = null;   /* the layout in flight: a step orders the matches by position, so it waits for this to settle */
+  /* unfolding a group fits the group and everything it unfolds, as far out as that takes; folding it, the group and
+     what is around it */
   function toggle(j, force) {
+    remember();
     open[j.id()] = force === undefined ? !open[j.id()] : force;
     relayout(open[j.id()] ? j.union(j.successors()) : j.closedNeighborhood());
   }
   function foldQuestion(q, force) {
+    remember();
     closed[q.id()] = force === undefined ? !closed[q.id()] : force;
     relayout(closed[q.id()] ? q.closedNeighborhood() : q.union(q.successors()));
   }
@@ -453,14 +502,19 @@
     var j = t.isNode() && t.data("type") === "junction" ? t : (t.isEdge() && t.data("kind") === "answer" && t.target().data("type") === "junction" ? t.target() : null);
     if (j) { toggle(j); }
     if (!refs.length) return;
+    remember();   /* after a group's toggle, the same change (remember) */
     var eles = naming(refs);
     select(eles, refs, true);
     if (!j) fit(near(eles).not(".folded"), 40);
   });
-  cy.on("tap", function (evt) { if (evt.target === cy) select(null, null, true); });
+  cy.on("tap", function (evt) {
+    if (evt.target !== cy) return;
+    if (location.hash.length > 1 || cy.elements(".picked").nonempty()) remember();   /* a selection undone is a change */
+    select(null, null, true);
+  });
   cy.on("tapstart", function () { if (narrow() && !legendPanel.hidden) showLegend(false); });   /* the legend lies over the graph on a phone: touching the graph puts it away */
   /* the page's own handlers are assigned, not added, so that a redraw under another axis replaces them */
-  document.getElementById("fit").onclick = function () { fit(cy.elements().not(".folded"), 20); };
+  document.getElementById("fit").onclick = function () { remember(); fit(cy.elements().not(".folded"), 20); };
   window.onresize = function () { cy.resize(); };
 
   function open_(hash, push) {   /* a deep link: the ids of what is selected, joined by a comma (select) */
@@ -476,19 +530,23 @@
     if (e.target.closest(".peek-close")) { raise(false); return; }
     if (e.target.closest(".peek")) { raise(!sheet.classList.contains("raised")); return; }
     var a = e.target.closest("a.node-link");
-    if (a && naming([a.dataset.node]).nonempty()) { e.preventDefault(); open_(a.dataset.node, true); if (window.innerWidth < 900) window.scrollTo({ top: 0, behavior: "smooth" }); }
+    if (a && naming([a.dataset.node]).nonempty()) { e.preventDefault(); remember(); open_(a.dataset.node, true); if (window.innerWidth < 900) window.scrollTo({ top: 0, behavior: "smooth" }); }
   };
 
   /* the chapter tree: every section of the outline with the number of recommendations
      under it; sections without one are greyed; tapping one filters, "all" clears */
   var outline = data.outline || [];
   chapters.innerHTML = "";
+  function marks(sec) {   /* the chapter shown: its entry in the panel active, its number on the panel's button */
+    chapters.querySelectorAll("button").forEach(function (b) { b.classList.toggle("active", (b.dataset.section || "") === sec); });
+    chaptersToggle.textContent = sec ? "§ " + sec : "§";
+  }
   function setSection(sec) {
+    remember();
     section = sec;
     open = {}; closed = {};
     if (sec) statementsIn(sec).predecessors("node[type = 'junction']").forEach(function (j) { open[j.id()] = true; });   /* a chapter opens unfolded */
-    chapters.querySelectorAll("button").forEach(function (b) { b.classList.toggle("active", (b.dataset.section || "") === sec); });
-    chaptersToggle.textContent = sec ? "§ " + sec : "§";
+    marks(sec);
     select(null, null, true);
     relayout(cy.elements());
   }
@@ -582,6 +640,7 @@
     if (laying) { laying.one("layoutstop", function () { step(dir); }); return; }
     var list = ordered(), len = list.length;
     if (!len) return;
+    remember();
     var i = position(list), n = list[dir < 0 ? (i < 0 ? len - 1 : (i + len - 1) % len) : (i + 1) % len], refs = n.data("refs");   /* from no place: the first, or the last when stepping back */
     cursor = n.id();
     if (refs.length) select(naming(refs), refs, true); else { select(null, null, true); n.addClass("picked"); }   /* a chapter node has no entity behind it */
@@ -594,7 +653,10 @@
   document.getElementById("step-next").onclick = function () { step(1); };
   document.getElementById("step-back").onclick = function () { step(-1); };
   stepBox.onmousedown = function (e) { e.preventDefault(); };   /* the search box keeps its focus, so the arrow keys keep working after a click */
+  var typed = "";   /* the search as typed, for the view kept before the next one (the box holds the new text already) */
   function research() {
+    remember("search");
+    typed = search.value;
     query = fold(search.value.trim()); facet = facetSel.value; cursor = null;   /* a new query: no place in it yet */
     var m = matches(), changed = unfoldTo(m);
     m.predecessors("node[type = 'junction']").forEach(function (j) { if (!open[j.id()]) { open[j.id()] = true; changed = true; } });
@@ -603,19 +665,29 @@
   search.oninput = research;
   facetSel.onchange = research;
 
-  /* the reset button: the page's opening state — folded, no search, no facet, no chapter,
-     nothing selected — so the way back from any search or filter is one tap */
-  function reset() {
-    search.value = ""; facetSel.value = ""; query = ""; facet = ""; cursor = null;
-    chapters.hidden = true; chaptersToggle.setAttribute("aria-expanded", "false");
-    setSection("");   /* clears the fold and the selection, then lays out and fits */
+  /* the view the back button keeps and returns to (remember, back): the folding, the chapter, the search, the selection,
+     the grouping, where every box stands, and the viewport — returned to, it shows what the reader saw */
+  function view() {
+    var pos = {};
+    cy.nodes().not(".folded").forEach(function (n) { var p = n.position(); pos[n.id()] = { x: p.x, y: p.y }; });
+    return { by: by, open: copy(open), closed: copy(closed), section: section, query: typed, facet: facet, cursor: cursor,
+             ref: decodeURIComponent(location.hash.slice(1)), pos: pos, zoom: cy.zoom(), pan: { x: cy.pan().x, y: cy.pan().y } };
   }
-  document.getElementById("reset").onclick = reset;
+  function copy(flags) { var c = {}; Object.keys(flags).forEach(function (k) { if (flags[k]) c[k] = true; }); return c; }
+  function restore(v) {
+    open = copy(v.open); closed = copy(v.closed); section = v.section; marks(section);
+    search.value = typed = v.query; facetSel.value = facet = v.facet; query = fold(v.query.trim()); cursor = v.cursor;
+    var refs = v.ref ? v.ref.split(",") : [];
+    relayout(null, v);
+    select(refs.length ? naming(refs) : null, refs, true);
+    if (!refs.length && cursor) cy.getElementById(cursor).addClass("picked");   /* a step to a chapter node, which names no entity */
+  }
 
-  window.onhashchange = function () { open_(decodeURIComponent(location.hash.slice(1)), false); };
-  cy.ready(function () { open_(decodeURIComponent(location.hash.slice(1)), false); });
-  window.graphmed = { cy: cy, open: open_, toggle: toggle, fold: foldQuestion, reset: reset, isOpen: function (id) { return !!open[id]; }, isClosed: function (id) { return !!closed[id]; },
+  window.onhashchange = function () { remember(); open_(decodeURIComponent(location.hash.slice(1)), false); };
+  cy.ready(function () { if (then) restore(then); else open_(decodeURIComponent(location.hash.slice(1)), false); });
+  window.graphmed = { cy: cy, open: open_, toggle: toggle, fold: foldQuestion, back: back, view: view, restore: restore, isOpen: function (id) { return !!open[id]; }, isClosed: function (id) { return !!closed[id]; },
     section: setSection, search: function (q, f) { search.value = q; if (f !== undefined) facetSel.value = f; research(); }, step: step,
+    frame: function () { return framed.map(function (e) { return e.id(); }); },
     by: switchTo, state: function () { return { by: by, section: section, query: search.value, facet: facetSel.value, ref: decodeURIComponent(location.hash.slice(1)) }; } };   /* for the console and tests */
   }
 })();

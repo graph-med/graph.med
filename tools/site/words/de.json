@@ -70,7 +70,7 @@
       "any": "Alle Arten"
     },
     "fit": "Alles Geöffnete einpassen",
-    "reset": "Zurücksetzen: alles zuklappen, Suche und Kapitel aufheben"
+    "back": "Zurück zur vorigen Ansicht"
   },
   "search": {
     "placeholder": "Suchen",
