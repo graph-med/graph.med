@@ -321,7 +321,9 @@ the tree readable at ninety recommendations:
 - **Folded by default.** The page opens with the root, the first question and its
   answers, one junction per patient group carrying the number of recommendations
   behind it. Tapping an answer or its junction unfolds that group's conditions and
-  recommendations; tapping again folds it. Only what the reader opened takes space.
+  recommendations, and the graph fits the group with everything it unfolded, whole,
+  zoomed out as far as that takes; tapping again folds it. Only what the reader
+  opened takes space.
   A deep link unfolds the group its target is in. Every question folds too:
   tapping "Welche Population?" folds the whole tree back to the root and the
   question, tapping "Welche Bedingung?" folds its group's conditions and
@@ -412,8 +414,8 @@ the tree readable at ninety recommendations:
   absent for the first grouping, and an unknown value falls back to it — so a link to a grouped view is shareable and a deep
   link unfolds to its target under the chosen grouping.
   Switching keeps the chapter, the search, the facet and the selected entity;
-  the reset button keeps the axis, because it undoes narrowing and the axis
-  narrows nothing.
+  it is a change like any other, and the back button returns to the grouping
+  the reader left.
 
 **Boxes show the short form.** A box shows a statement's `short_label` when it
 has one and its `label` otherwise; the section always shows the full label. The
@@ -433,12 +435,19 @@ own rather than run into a box. The physician's test is a family with ten member
 open: each answer legible, each box clear of its neighbours.
 
 **The interaction.** Pan by one finger, pinch or wheel to zoom, a fit button for
-what is open (drawn, not a glyph a font may lack) — centred in the free row, and
-where the tree is too large even at the smallest zoom, starting at the row's top
-left so that it runs out below and to the right, never under the controls — and
-a **reset** button beside it that returns the page to its
-opening state — folded, no search, no facet, no chapter, nothing selected — so the
-way back from any search or filter is one tap. Tapping a node or an answer selects it: what leads to it and what
+everything that is open (drawn, not a glyph a font may lack) — centred in the free
+row, whole, zoomed out as far as that takes, and where the tree is too large even
+at the smallest zoom, starting at the row's top left so that it runs out below and
+to the right, never under the controls — and a **back** button beside it, drawn
+too, that returns the view as it was before the reader's last change: what is open
+and what is closed, the selection, the chapter, the search and its facet, the
+grouping, the zoom and the pan. It goes back one change per tap — a group or a
+question folded or unfolded, a tap that selects or deselects, the fit button, a
+step, a chapter, a grouping; a search while it is typed is one change — as far as
+the view the page opened with, and is disabled when there is nothing to go back
+to. The view returned to is the one the reader saw: every box where it stood, at the
+zoom and the pan it had (the maintainer, 2026-10-18: focus before a readable zoom,
+and a back button in place of a reset). Tapping a node or an answer selects it: what leads to it and what
 follows it stay — for an answer, the question it answers and the box it leads
 to —, everything else fades, and its details open in the **section below the
 graph** — on a wide screen, in a **column beside it**, the graph taking
