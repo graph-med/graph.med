@@ -68,7 +68,7 @@ matches (back when negative), `chapters` opens the chapter
 panel and `chapters-scroll=<px>` scrolls its list, `legend` collapses or expands the legend
 (collapsed at load on every screen), `all` opens every patient
 group one tap at a time (the physician's extreme state), `fit` fits what is
-open, `reset` returns the page to its opening state, `sheet` and `graph` bring
+open, `back` presses the back button once (the view before the last change), `sheet` and `graph` bring
 the details or the graph into view as a reader does — on a phone, where a
 selection waits in a peek strip, `sheet` raises the panel by tapping the strip
 and `graph` lowers it again; elsewhere they scroll the page to the section,
@@ -77,7 +77,11 @@ modifiers joined by `+` as in `Shift+Tab`) — to check that a control is reache
 and works without a pointer —, `wait=<ms>` waits. `--dark`
 is a flag, not an action: the graph reads its colours from the stylesheet once,
 when it is drawn, so the theme is emulated before the page loads. On a view page the runner
-prints how many graph elements were shown, any page error — also when the
+prints how many graph elements were shown, the zoom, **what the last fit framed
+that is not in view** — of the nodes and answers the last fit framed, how many lie
+wholly in the visible canvas (inside the canvas and the window, in the free row,
+above a phone's strip), each that does not on a line `not in view: <name>`, the
+mechanical half of "what a fit frames is in view, whole" —, any page error — also when the
 graph never appears, which is a script error, not a slow run — and **what
 overlaps**: every pair
 of nodes and answers whose boxes intersect, and every edge drawn across a node or

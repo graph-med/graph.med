@@ -157,6 +157,7 @@ ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1re
 .controls > * { pointer-events: auto; }   /* the row spans the width so that left and right keep their ends; only the controls themselves take the tap */
 .tools { display: flex; gap: .4rem; }
 .tools button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--bg); color: var(--fg); font-size: 1.2rem; }
+.tools button:disabled { opacity: .4; cursor: default; }   /* the back button with nothing to go back to */
 
 /* the sheet below the graph, and the entity page */
 .sheet { border-top: 2px solid var(--line); padding-top: .6rem; }
@@ -210,7 +211,17 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
   .legend-panel { position: absolute; left: 0; right: 0; bottom: calc(100% + .4rem); max-width: none; }
 }
 @media (max-width: 899px) {
-  main.view:has(.sheet.peeking) { padding-bottom: 5rem; }   /* the footer stays reachable above the strip */
+  /* while a selection waits in the strip, the page is the window, as on a wide screen: the graph takes the height the
+     banner, the header and the footer leave — never less than it has without a selection —, the footer follows it, and
+     the page ends with the strip's own height (--strip, measured by graph.js and home.js), so that nothing blank
+     stands between the graph and the strip and the footer, scrolled to, lies wholly above it. The canvas is sized by
+     the page, never by what Cytoscape draws in it (contain), and one that grows keeps its pan and zoom: nothing in the
+     graph moves */
+  body:has(> main.view .sheet.peeking) { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; padding-bottom: var(--strip, 0px); }
+  body:has(> main.view .sheet.peeking) > :not(main) { flex: none; }
+  main.view:has(.sheet.peeking) { flex: 1 0 auto; display: flex; flex-direction: column; width: 100%; padding-bottom: 0; }
+  main.view:has(.sheet.peeking) .graph-wrap { flex: 1 0 auto; }
+  main.view:has(.sheet.peeking) #graph { height: auto; min-height: 62vh; contain: size; }
   main.view .sheet.peeking { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; margin: 0; padding: 0 1rem; border-top: 0; background: var(--bg); box-shadow: 0 -2px 12px rgba(0,0,0,.18); }
   main.view .sheet.peeking:not(.raised) > :not(.peek-bar) { display: none; }   /* lowered: the strip alone */
   main.view .sheet.peeking.raised { top: 2.5rem; overflow: auto; overscroll-behavior: contain; border-radius: .8rem .8rem 0 0; padding-bottom: 2rem; }
@@ -245,7 +256,7 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 }
 
 /* chapters and search (docs/publication.md §3 "Chapters and search"): a hard filter and a soft highlight */
-.tools.left { flex: 1 1 auto; min-width: 0; align-items: center; flex-wrap: wrap; }   /* what does not fit wraps under, the counter first; the flex row keeps the fit and reset buttons their place */
+.tools.left { flex: 1 1 auto; min-width: 0; align-items: center; flex-wrap: wrap; }   /* what does not fit wraps under, the counter first; the flex row keeps the fit and back buttons their place */
 .tools.right { flex: none; }
 .tools input[type=search] { height: 44px; width: 11rem; max-width: 40vw; padding: 0 .8rem; border: 1px solid var(--line); border-radius: 22px; background: var(--bg); color: var(--fg); font: inherit; font-size: .95rem; }
 .tools .count { font-size: .78rem; color: var(--mute); background: var(--bg); padding: .1rem .5rem; border-radius: 1rem; white-space: nowrap; }
@@ -276,6 +287,10 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
    zone 8, where the card turns from the answer to where the answer comes from. The direction colours are the
    boxes' four (one variable each): here as the band of the judgement, whose chips keep a light fill of their own,
    so that a chip's fill still means the grade and nothing else. Also the facet select of the graph's controls. */
+/* any unbroken value in a card's text — a source's content hash, an id, an address printed as words — wraps
+   inside the card's width, on an entity's page and in the sheet alike, rather than widening the page or being cut
+   at the sheet's edge; no hyphen is set at such a break, so the value reads and copies as one */
+.card { overflow-wrap: anywhere; }
 .card .zone { margin: 0; }
 .card .zone + .zone { margin-top: 1.45rem; }
 .card .zone.title + .zone { margin-top: .2rem; }   /* the band belongs to its title */
@@ -379,12 +394,17 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card div.general .condition { color: var(--fg); }
 .card ul.general li { padding: .3rem 0; }
 .card ul.general li .cite { display: block; font-size: .8rem; }
-.card dl.slots dd.related > span { flex-basis: 100%; }   /* one related statement per line, the relation after it */
+.card dl.slots dd.related > .related-entry { flex-basis: 100%; }   /* one related statement per line, the relation after it */
 .card dl.slots dd.related small { color: var(--mute); font-size: .8rem; }
 .card dl.slots dd.related .node-link { min-height: 32px; }
 .card dl.slots dd.related details.related-more { flex-basis: 100%; }   /* past the second, folded under them */
 .card dl.slots dd.related details.related-more > summary { cursor: pointer; min-height: 32px; padding: .2rem 0; color: var(--mute); font-size: .85rem; }
-.card dl.slots dd.related details.related-more > span { display: block; }
+.card dl.slots dd.related details.related-more > .related-entry { display: block; }
+/* under each related statement, closed: why the two are related — the edge's rationale, tagged generated, its date beside */
+.card dl.slots dd.related details.why { margin: 0 0 .15rem; font-size: .85rem; }
+.card dl.slots dd.related details.why > summary { cursor: pointer; color: var(--mute); min-height: 32px; display: list-item; }
+.card dl.slots dd.related details.why > p { margin: .2rem 0 .4rem; max-width: 70ch; }
+.card dl.slots dd.related details.why .as-of { white-space: nowrap; }   /* "Stand" and its date on one line */
 .card dl.slots dd.general-for { grid-column: 2; display: block; margin-top: -.1rem; }   /* under the anchor's value, its second description */
 /* closed by default, so the slots read on from the anchor to the condition; opened, a table like zone 4's */
 .card .general-for summary { cursor: pointer; padding: .2rem 0; min-height: 32px; color: var(--mute); font-size: .85rem; }
@@ -403,7 +423,7 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 /* a derived concept's rule, under its row of zone 5 and on its page: the line saying it is derived, then the rule as a
    tree. A node that combines parts is its operator line — the operator in words, the connective as printed, the page
    and the claim's link — with its parts nested under it behind a line of their own, one level per combination; any
-   other node is its threshold or its sentence, the page and the claim's link on a line of their own below */
+   other node is its claim's sentence, the page and the claim's link on a line of their own below */
 .card .rules { flex-basis: 100%; margin: .15rem 0 .3rem; padding-left: .6rem; border-left: 2px solid var(--line); }
 .card .rules p.derived, .card .rules summary.derived { margin: 0 0 .15rem; color: var(--mute); font-size: .85rem; font-style: italic; }
 .card details.rules summary.derived { cursor: pointer; min-height: 32px; display: list-item; padding: .2rem 0; margin: 0; }   /* on the card the rule is folded; the row reads on to the next */
@@ -421,8 +441,8 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
    the row prints or its footnote gives — a threshold, or a combination with its parts — behind a line of its own */
 .card .rules .row-rule { margin: .15rem 0 0; padding-left: .6rem; border-left: 2px solid var(--line); }
 .card .rules .row-rule > .threshold { display: block; }
-/* under a threshold whose quantity is itself derived (a score under its bound): a line naming the quantity, then its
-   rule, set in behind a line of its own as a combination's parts are */
+/* under a node whose threshold's quantity is itself derived (a score under its bound): a line naming the quantity,
+   then its rule, set in behind a line of its own as a combination's parts are */
 .card .rules .quantity-rule { margin: .25rem 0 0; padding-left: .6rem; border-left: 2px solid var(--line); }
 /* zone 7: the contesting claims, each with the contested colour beside it, its heading in that colour */
 .card .contested h3 { color: var(--contested); }
@@ -449,7 +469,7 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 /* zone 9: closed by default; the only zone with ids and edge names */
 .card .more summary { cursor: pointer; }
 .card .more summary h3 { display: inline; }
-.card dl.meta { display: grid; grid-template-columns: max-content 1fr; gap: .2rem .8rem; margin: .4rem 0 0; font-size: .85rem; overflow-wrap: anywhere; }
+.card dl.meta { display: grid; grid-template-columns: max-content 1fr; gap: .2rem .8rem; margin: .4rem 0 0; font-size: .85rem; }
 .card dl.meta dt { color: var(--mute); }
 .card dl.meta dd { margin: 0; }
 button.copy.done { color: var(--fg); border-color: var(--fg); background: var(--line); }   /* the quote is on the clipboard */
@@ -461,7 +481,7 @@ button.copy.done { color: var(--fg); border-color: var(--fg); background: var(--
 /* narrow screens: the controls share one row and the counter wraps under them */
 @media (max-width: 520px) {
   .card dl.slots dd.general-for { grid-column: 1 / -1; }   /* opened, the table takes the card's width, not the value column's */
-  .tools.right { flex-direction: column; }   /* fit and reset stack, so the search row keeps its width */
+  .tools.right { flex-direction: column; }   /* fit and back stack, so the search row keeps its width */
   .tools input[type=search] { max-width: 34vw; }
   .tools select { max-width: 6.6rem; }
   .tools select#axis { max-width: calc(100% - 7.2rem); }   /* the row it wraps to holds it beside the facet select */

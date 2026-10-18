@@ -48,14 +48,14 @@ const INDEX = new Set([...ANYWHERE, "open", "sheet", "graph"]);   /* what the in
     if (action === "all") {   /* every patient group open, one tap at a time as a reader would */
       const ids = await page.evaluate(() => window.graphmed.cy.nodes("[type = 'junction']").map(j => j.id()));
       for (const id of ids) { await page.evaluate(id => window.graphmed.toggle(window.graphmed.cy.getElementById(id), true), id); await sleep(400); }
-      await sleep(900); continue;
+      await sleep(900); await settle(page); continue;
     }
     await page.evaluate((action, value) => {
       const g = window.graphmed;
       if (action === "toggle") g.toggle(g.cy.getElementById(value.indexOf("j:") === 0 ? value : "j:" + value));   /* a concept id, or a junction id in full (under an axis: j:<value>:<concept>) */
       else if (action === "by") g.by(value);
       else if (action === "fold") g.fold(g.cy.getElementById(value));
-      else if (action === "reset") g.reset();
+      else if (action === "back") document.getElementById("back").click();   /* the back button, pressed once */
       else if (action === "open") g.open(value, false);
       else if (action === "section") g.section(value);
       else if (action === "search") g.search(value);
@@ -68,6 +68,7 @@ const INDEX = new Set([...ANYWHERE, "open", "sheet", "graph"]);   /* what the in
       else throw new Error("unknown action " + action);
     }, action, value);
     await sleep(900);
+    await settle(page);   /* the next action, and the capture, start from the view this one left */
   }
   await page.screenshot(spec.full ? { path: "/tmp/shot.png", fullPage: true } : { path: "/tmp/shot.png" });
   const shown = await page.evaluate(() => window.graphmed.cy.elements().not(".folded").length);
@@ -117,10 +118,48 @@ const INDEX = new Set([...ANYWHERE, "open", "sheet", "graph"]);   /* what the in
     });
     return pairs;
   });
-  console.log(`${shown} elements shown, ${overlaps.length} overlapping pairs; ${await across(page)}${await focus(page)}` + (errors.length ? `; page errors: ${errors.join(" | ")}` : ""));
+  /* the last frame in view: of the nodes and answers the last fit framed (graph.js, `frame`), how many lie wholly in the
+     visible part of the canvas — inside the canvas and the window, in the free row between the controls and the legend,
+     above the strip a phone keeps a selection in —, each that does not by name, and the zoom it took: the mechanical
+     half of "what a fit frames is in view, whole" (docs/publication.md §3). After the back button there is no frame:
+     the view returned to is the one the reader left */
+  const frame = await page.evaluate(() => {
+    const g = window.graphmed, cy = g.cy, ids = new Set(g.frame ? g.frame() : []), zoom = cy.zoom().toFixed(2);
+    if (!ids.size) return { zoom, n: 0, out: [] };
+    const c = document.getElementById("graph").getBoundingClientRect(), f = document.getElementById("free").getBoundingClientRect();
+    const s = document.getElementById("sheet");
+    const strip = s && s.classList.contains("peeking") && getComputedStyle(s).position === "fixed" ? s.getBoundingClientRect().top : Infinity;
+    const x1 = Math.max(c.left, 0) - c.left, x2 = Math.min(c.right, innerWidth) - c.left;
+    const y1 = Math.max(c.top, f.top, 0) - c.top, y2 = Math.min(c.bottom, f.bottom, innerHeight, strip) - c.top;
+    const items = [];
+    cy.nodes().not(".folded").forEach(n => {
+      if (ids.has(n.id())) items.push({ name: n.data("type") === "junction" ? "group " + (n.data("refs")[0] || n.id()) : n.data("label") || n.id(),   /* a group's label is its count */
+                                        ...n.renderedBoundingBox({ includeLabels: true, includeOverlays: false }) });
+    });
+    cy.edges().not(".folded").forEach(e => {
+      if (!ids.has(e.id()) || !e.data("label")) return;
+      const b = e.renderedBoundingBox({ includeEdges: false, includeLabels: true, includeOverlays: false });
+      if (b.w > 0 && b.h > 0) items.push({ name: "answer " + e.data("label"), ...b });
+    });
+    const out = items.filter(b => b.x1 < x1 - 1 || b.x2 > x2 + 1 || b.y1 < y1 - 1 || b.y2 > y2 + 1).map(b => b.name.replace(/\s+/g, " ").slice(0, 60));
+    return { zoom, n: items.length, out };
+  });
+  const framing = frame.n ? `the last fit's ${frame.n} in view: ${frame.n - frame.out.length}` : "no fit framed";
+  console.log(`${shown} elements shown, zoom ${frame.zoom}, ${framing}, ${overlaps.length} overlapping pairs; ${await across(page)}${await focus(page)}` + (errors.length ? `; page errors: ${errors.join(" | ")}` : ""));
   overlaps.slice(0, 40).forEach(p => console.log("  " + p));
+  frame.out.slice(0, 40).forEach(n => console.log("  not in view: " + n));
   await browser.close();
 })().catch(e => { console.error("screenshot failed: " + e.message + (errors.length ? "; page errors: " + errors.join(" | ") : "")); process.exit(1); });
+
+/* the graph at rest before the capture: a layout and a fit animate, and on a busy machine they outlast the pause
+   after an action, so the image would show a view the report, read after it, no longer has */
+async function settle(page) {
+  await page.waitForFunction(() => {
+    const cy = window.graphmed && window.graphmed.cy;
+    return !cy || (!cy.animated() && !cy.nodes().some(n => n.animated()));
+  }, { timeout: 20000, polling: 100 });
+  await sleep(150);
+}
 
 /* an action the page does not take fails before anything runs, naming itself and what the page takes */
 function refuse(takes, what, list) {

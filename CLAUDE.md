@@ -187,7 +187,8 @@ one worker per card in its own git worktree, branch `agent/<card>-<slug>` and
 pull request, the session coordinating and stacking — claim each on the
 board, keep its work record and report progress on it, and end when each has
 a pull request that says `Closes #<card>` and a handover comment. The agent
-manages the board (ADR-0005) and registers no work of its own finding. The
+manages the board (ADR-0005), registers the work it is sure of and asks the
+maintainer for general directions (ADR-0009). The
 `process-work-package` skill is the procedure, `process-next-work-package`
 the resumption; the `project-board` skill describes the board; the `handover` skill maintains
 `docs/open-questions.md`; decisions about the repository are `docs/adr/`.

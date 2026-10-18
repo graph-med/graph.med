@@ -41,8 +41,9 @@ an agent's branch on it, Done has merged.
 7. **The agent manages the board**: it closes the cards whose commits are on
    `main` and are still open, and the stacked pull requests below a merged top
    (they target branches and stay open otherwise), keeps columns, dependencies and sub-issues true, and names every
-   write in its final message. It registers no work of its own finding — that
-   goes into the final message, for the maintainer to register.
+   write in its final message. It registers the work it is sure of, and asks
+   the maintainer for general directions (ADR-0009); what it is not sure of
+   goes into the final message as a question.
 
 There is no registry, log or handoff in the repository: the board is the
 single point of truth for work, and its README (on the project page) carries
