@@ -1471,7 +1471,21 @@ axis, a slot or a grouping:
   parent; the recommendations under it, each with direction, grade, verb and URL —
   in a grouping over a scope tree also those that apply generally, with `via` and
   condition (§3) —; and their aims. An optional small depth returns a subtree in one
-  result, so a deep path needs few calls.
+  result, so a deep path needs few calls. **Where a node stands** (#409): every node
+  carries its depth, how many answers lie between the root and it; every answer,
+  recommendation and parent link carries its place, counted from 1 in the tree file's
+  order among the siblings of its kind (a question's answers, a node's
+  recommendations, a node's questions, a recommendation's aims), so "the third
+  recommendation against under this node" is read off one result. The places are the
+  build's order; the page's drawing (dagre) follows it in most parents, not all.
+  Measured on 2026-10-18, sibling lists of two or more, drawn order against the tree
+  file: with each group of the first grouping opened alone, as a tap opens it, 289 of
+  289 the same; with everything open, 13 of 185 differ (none of 23 in POMGAT's first
+  grouping, 1 of 34 and 3 of 34 in its other two; 1 of 19 and 5 of 36 in Sepsis's;
+  none of 16 and 3 of 23 in Vorhofflimmern's). The server reads Layer 0 only and
+  cannot know the drawn order, so the key the server and the page share is the
+  entity id, never the place; a place on screen ("the third one I see") is the
+  page's to give, counted as drawn (#408).
 - **Get entity**: a recommendation — its wording, marked `modelling`; grade, verb,
   consensus and direction; the claims behind it by URL and page, with no verbatim
   text (no claim sentence, no quote); its `specializes` and `complements` relations — or a concept — the
@@ -1480,10 +1494,28 @@ axis, a slot or a grouping:
   its own returns it.
 - **Search**, over a graph's search file, within one graph, or across graphs with
   the hits grouped per graph, each group ranked on its own and never merged; it
-  returns ids, labels, URLs and the metadata, never a quote.
+  returns ids, labels, URLs and the metadata, never a quote. Beside the words, or
+  instead of them, it filters (#409) by kind, direction, grade and verb, as results
+  give them, and by a subtree: the entities at and below one node of a grouping, in
+  depth-first order, each hit with the depth of the node it stands at.
 - **Provenance**, the only tool that returns verbatim source text: each claim's
   sentence whole, as the site shows it, and the quotes that anchor it, capped (the
   guardrails, below).
+
+**Two forms** (#409). Get tree node, get entity and search answer **compact** by
+default, and in full on request (`detail: "full"`). The compact form keeps every id,
+label, entity URL and deep link of an item, its direction, grade and verb, its place
+and depth, and the whole metadata; it leaves out what the full form repeats — a
+concept named inside another item gives only its id and short label, a language
+equal to the graph's, empty lists of aims and conditions, an answer's concepts where
+they are the node it leads to, a claim's section, a search hit's slots. A compact
+result is kept under 24,000 characters, a full one under 45,000, each by paging.
+Measured on the build of 2026-10-18 (characters, full → compact): the sepsis root
+8,887 → 6,549; *septischer Schock* 24,244 → 18,315; a concept's card 26,211 →
+21,175; a recommendation 3,643 → 3,275; a search 5,854 → 4,744. Most of what remains
+in a large node is its list of recommendations that apply generally; a question
+narrowed by the filters is smaller still (the recommendations against under the
+sepsis root group, five at a time: 3,845).
 
 No tool follows edges generically; this replaces the plan's "follow edges" and "get a
 patient group's pathway". **Addressing:** a node that names an entity is addressed by
@@ -1493,7 +1525,8 @@ URL such as `patient-groups/<id>`: one concept can fill different slots — the
 population of one recommendation, the condition of another — and the URL is the
 identity (`.claude/memory/design/pool-and-views.md`). **Cost:** get tree node reads
 the grouping's tree file and the graph's search file — one or two static GET requests
-whatever the depth — and get entity reads the entity's JSON; parsed files stay in
+whatever the depth —, a search over a subtree also the grouping's tree file, and get
+entity reads the entity's JSON; parsed files stay in
 memory between calls. On today's build, `JSON.parse` of a whole lean view JSON takes
 about 2.2–2.5 ms in Node 22.
 
