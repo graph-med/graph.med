@@ -1630,8 +1630,9 @@ take; a question, which names no entity, goes by its node id (`q:…`).
     which the MCP server reads. With every group open, 13 of the 185 parents with
     two or more children differ across all groupings, and 1 of the 58 in the views'
     first groupings (2026-10-18; #408's pull request lists them).
-  - So "the third one" is the page's answer about the page. #409 decides what the
-    server's places count in.
+  - So "the third one" is the page's answer about the page. The server's places
+    count in the tree file's order (#409, "The tools" above), and the key the two
+    share is the entity id, never the place.
 - **`in_view` answers both readings of "visible".** Every box the folding shows is
   listed, and `in_view` says whether it lies wholly in the part of the canvas the
   reader sees: inside the canvas and the window, in the free row, above a phone's
