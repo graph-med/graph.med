@@ -273,8 +273,9 @@ and which card is next, is not a question and lives on the board (`uv run tools/
 - read it from the later statement's condition where it has one (an entry per earlier measure: together; one entry naming them all: any), and say nothing where it has none;
 - a property on `follows` naming the edges that call for the step together (a schema change, a closed form like `transition`).
 
-**Leaning:** none; it bears on what #297 and #298 draw. (2026-10-22)
-**Settled by:** the maintainer, before #298 draws a path through a statement with several earlier ones.
+**Leaning:** none. (2026-10-22)
+**Meanwhile:** #297's strip, #298's path view and #299's get entity show each step on its own, with its own transition and trigger, and join none (the first option's drawing, not its answer). The path view writes the later statement's condition on each of its steps, its entries joined by „und“ as the view page joins them: 8.1's two entries name the outcome of each earlier measure, so the two steps can read as "after both", which is the second option's reading.
+**Settled by:** the maintainer, with the review of the stack that carries #296–#299.
 
 ## sequence-words-language  (publication.md §3 zone 5 and "Language"; memories `page-chrome-in-the-view-layer`, `sequences-are-edges`; cards #294, #297)
 **Question:** The words of a statement's steps before and after — zone 5's rows `Davor` and `Danach`, the transitions (`anstelle von`, `ersetzt durch`, …) and the triggers (`Anlass: Ziel nicht erreicht`, …) — are the page chrome's, from `tools/site/words/<lang>.json`, as card #294's Decision 3 placed them. Every other word of the card is the card's table (`CARD_WORDS`), in the statement's source language, `Verwandt` and its relation words beside these rows included. For the first views both are German and nothing shows the seam; in a view whose source is English the card would be English and these rows German. It is the seam of `page-hint-language`, inside the card.
