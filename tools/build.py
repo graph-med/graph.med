@@ -486,15 +486,29 @@ def edition_of(source: dict) -> str | None:
     """A source's version and the date it prints for it, as the page says them wherever it names the source
     (docs/publication.md §2, §3): one line, each half only where the source records it, None where it records
     neither. The words are the page chrome's (tools/site/words/<lang>.json, `source`), and so is the date's
-    printed form (printed_date()). Nothing is parsed out of a title, and a date is shown, never compared or ranked by."""
+    printed form (printed_date()). A half the source prints two ways or more (spec §6.1) names every printing, in the
+    order recorded — the pages that first print them —, each with the pages its quotes name, under the words that say
+    the source gives it inconsistently: none is chosen, none is set below another. Nothing is parsed out of a title,
+    and a date is shown, never compared or ranked by."""
     words = page_words(PAGE_LANG).get("source")
     if not words:
         raise SystemExit(f"no page words for a source's version and date — add `source` to tools/site/words/{PAGE_LANG}.json")
     parts = []
-    if source.get("version"):
-        parts.append(words["version"].format(version=source["version"]))
-    if source.get("date"):
-        parts.append(words["date"].format(date=printed_date(source["date"])))
+    for field, shown in (("version", str), ("date", printed_date)):
+        value = source.get(field)
+        if isinstance(value, list):   # printed two ways or more: each printing, with its own quotes
+            several = words["printings"]
+            items = []
+            for printing in value:
+                refs = printing.get("source") or []
+                refs = [refs] if isinstance(refs, dict) else refs
+                pages = sorted({n for n in (page_of(r.get("at", "")) for r in refs) if n is not None})
+                text = shown(printing[field])
+                items.append(several["at"].format(value=text, pages=several["pages"].join(map(str, pages))) if pages else text)
+            joined = several["list"].join(items[:-1]) + several["last"] + items[-1]
+            parts.append(several[field].format(printings=joined))
+        elif value:
+            parts.append(words[field].format(**{field: shown(value)}))
     return words["separator"].join(parts) or None
 
 

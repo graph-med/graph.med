@@ -158,6 +158,14 @@
     "version": "Version {version}",
     "date": "Stand {date}",
     "separator": ", ",
+    "printings": {
+      "version": "Version uneinheitlich angegeben: {printings}",
+      "date": "Stand uneinheitlich angegeben: {printings}",
+      "at": "{value} (S. {pages})",
+      "pages": ", ",
+      "list": ", ",
+      "last": " und "
+    },
     "dates": {
       "year": "{year}",
       "month": "{month_name} {year}",
