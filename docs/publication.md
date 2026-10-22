@@ -462,7 +462,8 @@ zoom and the pan it had (the maintainer, 2026-10-18: focus before a readable zoo
 and a back button in place of a reset). An assistant's acts through the session
 tools (§8) are changes like the reader's, undone by the same button; its highlight
 is a halo in the page's accent, named on a line under the controls that the reader
-clears with ✕. Tapping a node or an answer selects it: what leads to it and what
+clears with ✕. Beside the fit button, except on a phone, a third button copies a
+ready prompt for such an assistant (§8, "Three ways to find them"). Tapping a node or an answer selects it: what leads to it and what
 follows it stay — for an answer, the question it answers and the box it leads
 to —, everything else fades, and its details open in the **section below the
 graph** — on a wide screen, in a **column beside it**, the graph taking
@@ -1476,7 +1477,7 @@ cut-publication).
 > | 1 — the read-only server: its six tools, a server factory in `mcp/` | built: tools, description file (`mcp/src/descriptions.js`), quote gate, paging, the check (`CLAUDE.md` "Checks"); a recommendation's steps in get entity | #272; #299 |
 > | 1 — the read-only server, hosted | deployed at `https://mcp.graph.med/mcp` since 2026-10-06: the Worker (`mcp/src/worker.js`, `mcp/wrangler.toml`), checked through Workers' local runtime (`CLAUDE.md` "Checks"); the one way the server is reached (2026-09-28). `.github/workflows/mcp.yml` deploys it after each Pages deploy from `main` once the server's check passes against the site just published (ADR-0008); every run from 2026-10-12 to 2026-10-22 stopped at that check, the first two on the quote gate #415 fixes, so until a run passes the endpoint serves the server deployed on 2026-10-06. Transient errors from Pages are retried, and the check before a deploy is the fixture and a short walk of the site (#317) | #279, #317 |
 > | 2 — the inline view | designed, not built | #278 (with #276, #277) |
-> | the session tools in the view page (below) | built: the page function and WebMCP registration; the relay that would take them outside the browser is not (#412, after #411) | #408, its second version #416 (initiative `co-navigation`, #407) |
+> | the session tools in the view page (below) | built: the page function and WebMCP registration, named by the page, `llms.txt` and the server's instructions, and a ready prompt one click away; the relay that would take them outside the browser is not (#412, after #411) | #408, its second version #416, found by #410 (initiative `co-navigation`, #407) |
 >
 > This section is the design; the keys and URLs it relies on are §2's and §4's, the
 > server's runtime, toolchain and home ADR-0007's (#271), the choice of host
@@ -1858,10 +1859,10 @@ server — is #278's to decide, and ADR-0007's how its bundle is built.
 
 ### The session tools
 
-> **Status: built (#408), in its second version (#416)**, the first part of the
-> initiative `co-navigation` (#407). Its other parts are the MCP server's side (#409),
-> the page and `llms.txt` describing the tools (#410), and a relay for clients outside
-> the browser (#412, after the decision #411). Two of #407's questions are the
+> **Status: built (#408), in its second version (#416), and named where an assistant
+> looks (#410)**, the first part of the initiative `co-navigation` (#407). Its other
+> parts are the MCP server's side (#409) and a relay for clients outside the browser
+> (#412, after the decision #411). Two of #407's questions are the
 > maintainer's and stay open: whether the tools wait for the reader to switch a
 > session on (opt-in), and whether conversation-driven highlighting makes the page a
 > medical device (#283).
@@ -1885,6 +1886,36 @@ take; a question, which names no entity, goes by its node id (`q:…`).
     older `navigator.modelContext`) where the browser offers it, from the full
     definitions. The reads carry the read-only hint. Nothing is registered where
     neither is offered.
+- **Three ways to find them** (#410). An assistant that reads WebMCP finds the tools
+  by itself; Claude in Chrome does not yet (anthropics/claude-code#76809), so a
+  reader once had to name the page function in a prompt. None of the three reaches
+  every assistant, so the page offers all of them.
+  - **The page says so.** A passage, first in `<main>` and drawn nowhere, states that
+    the page offers the tools, where `describe()` and `llms.txt` describe them, and
+    that their ids are the MCP server's. It is in the page chrome's words and
+    language, and it states, never asks: an assistant treats a request in a page's
+    text as a possible injection. A reading of the page's text — `innerText`,
+    `textContent`, the accessibility tree — reaches it first in `<main>`, before
+    the controls and the legend. While the legend is collapsed, as it is at every
+    load (§3), `innerText` and the accessibility tree leave its keys out;
+    `textContent`, which reads hidden elements too, holds them after the passage,
+    with the chapter list.
+  - **A ready prompt, one click away.** A button among the tools, beside the fit
+    button, copies a short prompt in the page's language: it asks the assistant to
+    read the tools once through the page function and then to act through it, with
+    no screenshot and no click. It is the one text that asks anything, and the
+    reader chooses to send it. The button shows a tick for a moment; where the
+    clipboard is missing or refuses, a dialog holds the prompt marked for copying by
+    hand (the site's one copy handler, the quote's too). Its accessible description
+    is the passage. On a phone (narrow, no hovering pointer) it is left out: no
+    assistant there drives a page, and a third button would make the stacked tools a
+    row taller.
+  - **The site and the server say so.** `llms.txt` has a section on the session
+    tools, its list of them rendered from `session-tools.json`. The MCP server gives
+    the disclaimer and then, as a fact, what a graph's page offers an assistant as
+    its instructions, so that a client that holds the server knows of the tools
+    before it reads a page ("Guardrails, carried as data" below). It reaches
+    `mcp.graph.med` with the next deploy, which waits for #415.
 - **Three reads change nothing** and leave nothing for the back button.
   - `view` returns the state and the boxes the folding shows, in reading order.
     - The state is the graph, the grouping, the chapter filter, the search (its shown
@@ -2006,8 +2037,10 @@ which the maintainer decided on 2026-09-28:
   project's summary; the review status, today `pending` for everything; provenance
   per entity type (a claim sourced, a statement `modelling` with its supporting
   claims); the build commit; and `disclaimer`, the banner's text (§2), which the
-  server also gives as its instructions — the one copy in `mcp/src/descriptions.js`,
-  checked against what `index.json` publishes. There is no intended-use field (the
+  server also gives as the first paragraph of its instructions — the one copy in
+  `mcp/src/descriptions.js`, checked against what `index.json` publishes. The second
+  paragraph states what a graph's page offers an assistant beside its reader (#410,
+  "The session tools" above). There is no intended-use field (the
   maintainer, 2026-10-06, #291). Results pass a card's `questions` through unchanged; whether they
   stay, are recast or are left out is `mdr-status`'s to decide.
 - **The quote gate: nothing is gated that the site shows openly** (the maintainer,
