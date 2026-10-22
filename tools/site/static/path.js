@@ -138,7 +138,7 @@
     function spread(list, end, other) {   /* points of their own along a node's edge, centred, in the order of the other ends */
       list.sort(function (a, b) { return other(a).position("x") - other(b).position("x"); });
       list.forEach(function (e, i) {
-        var n = end(e), step = list.length < 2 ? 0 : Math.min(24, (n.width() - 16) / (list.length - 1));
+        var n = end(e), step = list.length < 2 ? 0 : Math.min(40, (n.width() * .7) / (list.length - 1));
         e.scratch("_dx" + (end === src ? "s" : "t"), (i - (list.length - 1) / 2) * step);
       });
     }
