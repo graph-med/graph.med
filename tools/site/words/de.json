@@ -111,6 +111,33 @@
     },
     "empty": "Aus diesem Abschnitt ist keine Empfehlung erfasst"
   },
+  "sequence": {
+    "before": "Davor",
+    "after": "Danach",
+    "transitions": {
+      "before": {
+        "replaces": "anstelle von",
+        "adds": "zusätzlich zu",
+        "follows": "nach",
+        "concurrent": "gleichzeitig mit"
+      },
+      "after": {
+        "replaces": "ersetzt durch",
+        "adds": "erweitert um",
+        "follows": "gefolgt von",
+        "concurrent": "gleichzeitig mit"
+      }
+    },
+    "triggers": {
+      "target_missed": "Anlass: Ziel nicht erreicht",
+      "intolerance": "Anlass: Unverträglichkeit",
+      "contraindication": "Anlass: Kontraindikation",
+      "target_reached": "Anlass: Ziel erreicht",
+      "reevaluation": "Anlass: Neubewertung",
+      "finding": "Anlass: Befund",
+      "other": "sonstiger Anlass"
+    }
+  },
   "source": {
     "licence_note": "verlinkt über die öffentliche URL, nie auf graph.med bereitgestellt",
     "version": "Version {version}",

@@ -58,6 +58,9 @@ REGISTER_FIELDS = ("awmf_register",)   # the schema's register fields of a sourc
 
 CLAIM_EDGES = ("supports", "contests")   # how a claim bears on a statement (spec §5)
 STATEMENT_EDGES = ("specializes", "complements", "conflicts")
+# a step the outcome of another triggers (spec §5): [later, follows, earlier]. Not an edge of the tree; the card names
+# a statement's direct neighbours along it in zone 5's rows before and after, and its JSON carries them as `sequence`
+SEQUENCE = "follows"
 BODY_TEXT = ("limits", "refines", "supplements")   # zone 6 of the statement card, in order of their effect on the decision
 # the four glyphs, on the box and in the judgement: ⚖ (U+2696) carries the text variation selector U+FE0E, or several
 # platforms draw it from a colour emoji font; ✓ ✗ ∅ need none
@@ -435,6 +438,21 @@ def page_words(lang: str) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def sequence_words(words: dict, schema: dict) -> None:
+    """The page chrome's words for the steps before and after a statement (spec §5 `follows`; docs/publication.md §3
+    zone 5): the two rows, the transition read from either side — `before` from the later statement's card, its
+    neighbour the earlier one, `after` from the earlier's —, and the trigger. The keys are the schema's closed lists
+    (`edge_props`), so that a value the schema allows and the table lacks stops the build, naming it, rather than
+    leaving a blank where a word should be (as a source kind without a word does, index_path())."""
+    w = words.get("sequence") or {}
+    props = schema["$defs"]["edge_props"]["properties"]
+    missing = [k for k in ("before", "after") if not w.get(k)] \
+        + [f"transitions.{side}.{t}" for side in ("before", "after") for t in props["transition"]["enum"] if not (w.get("transitions") or {}).get(side, {}).get(t)] \
+        + [f"triggers.{t}" for t in props["trigger"]["enum"] if not (w.get("triggers") or {}).get(t)]
+    if missing:
+        raise SystemExit(f"no page words for the steps of a sequence: missing sequence.{', sequence.'.join(missing)} — add them to tools/site/words/{PAGE_LANG}.json")
+
+
 @cache
 def session_tools() -> dict:
     """The session tools of a view page (tools/site/session-tools.json; docs/publication.md §8, "The session
@@ -515,6 +533,21 @@ def worded_verb(claims: list[dict], implied: dict[tuple[str, str], str]) -> str 
     rule for the box and for the legend, which names the grades it applies to."""
     carried = all(implied.get((c["source"], c.get("grade"))) == c["verb"] for c in claims if c["edge"] == "supports" and c.get("verb"))
     return None if carried else verb_of(claims)
+
+
+def stamp_of(claims: list[dict], pool) -> str:
+    """What a statement's box writes between its direction's glyph and its short label (docs/publication.md §3): the
+    grade as printed, in its scheme's order (every grade when the claims differ — shown, never composed); the basis
+    printed beside it, as printed, in its scheme's order (every basis the claims carry); the verb as a word, only where
+    the grades do not already carry it (worded_verb). One rule for the box in the tree and for a statement the card
+    names as a step before or after its own (spec §5 `follows`), so that both read alike; empty where the claims print
+    none of them."""
+    sup = [c for c in claims if c["edge"] == "supports"]
+    grades = {(c["source"], c["grade"]) for c in sup if c.get("grade")}   # read in each claim's own scheme
+    bases = {(c["source"], c["basis"]) for c in sup if c.get("basis")}
+    letters = "/".join(tokens(sorted(grades, key=lambda p: (p[0], pool.grade_rank(*p)))))
+    based = "/".join(tokens(sorted(bases, key=lambda p: (p[0], pool.basis_rank(*p)))))
+    return " ".join(filter(None, [letters, based, worded_verb(claims, pool.implied)]))
 
 
 def legend_of(statements: list[dict], groupings: list[dict], pool, sources: list[str]) -> dict:
@@ -752,6 +785,16 @@ class Pool:
     def first_no(self, st: dict) -> tuple:
         """A statement's place in its guideline: the first recommendation number among its claims (no_key), for sorting."""
         return min((self.no_key(c) for c in self.claims_for(st["id"]) if c.get("recommendation_no")), default=(natural(""), 0, []))
+
+    def steps_of(self, statement_id: str) -> list[tuple[str, str, dict]]:
+        """A statement's direct neighbours along `follows` (spec §5), each (side, neighbour, the edge's properties):
+        `before` for a statement this one follows — the edge runs from it —, `after` for one that follows it; the
+        befores first, each side in its guideline's order (first_no), then by id and discriminator. One edge per entry,
+        as stored: two edges between one pair (each printing of an order the source states twice) are two entries.
+        Read off the edges, never composed: nothing is inherited along them and no further step is reached."""
+        rows = [("before", to, props) for kind, to, props in self.out.get(statement_id, []) if kind == SEQUENCE and to in self.entities] \
+             + [("after", frm, props) for kind, frm, props in self.inc.get(statement_id, []) if kind == SEQUENCE and frm in self.entities]
+        return sorted(rows, key=lambda r: (r[0] != "before", self.first_no(self.entities[r[1]]), r[1], r[2].get("discriminator") or ""))
 
     def slots_of(self, st: dict) -> dict:
         """What a statement shows in its slots: its own, then the value each asserted dimension axis gives it,
@@ -1348,16 +1391,10 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
         d = direction_of(claims)
         again = st["id"] in seen   # under two answers (two chapters): one node, hung from both, its aim and relations once
         # the box reads "✗ EK soll nicht · <short label>", "✓ ⇑ EK · <short label>" (docs/publication.md §3): the
-        # direction's glyph, the redundancy for a reader who does not see the colour; the grade as printed, in its
-        # scheme's order (every grade when the claims differ — shown, never composed); the basis printed beside it,
-        # as printed, after the grade as the box prints it, in its scheme's order (every basis the claims carry); the
-        # verb as a word, only where the grades do not already carry it — some supporting claim's grade does not
-        # determine its verb in its scheme (implied_verbs) — and never when the claims disagree on it; then the short form
-        letters = "/".join(tokens(sorted(grades, key=lambda p: (p[0], pool.grade_rank(*p)))))
-        bases = {(c["source"], c["basis"]) for c in claims if c["edge"] == "supports" and c.get("basis")}
-        based = "/".join(tokens(sorted(bases, key=lambda p: (p[0], pool.basis_rank(*p)))))
+        # direction's glyph, the redundancy for a reader who does not see the colour; then the grade, the basis and the
+        # verb where the grade does not carry it, as stamp_of() writes them; then the short form
         verb = verb_of(claims)
-        stamp = " ".join(filter(None, [d["glyph"] if d else None, letters, based, worded_verb(claims, pool.implied)]))
+        stamp = " ".join(filter(None, [d["glyph"] if d else None, stamp_of(claims, pool)]))
         sid = add(st["id"], ref=st["id"], type="statement", lang=st["lang"],
                   label=(stamp + " · " if stamp else "") + (st.get("short_label") or st["label"]), full=st["label"],
                   direction=d["word"] if d else None, verb=verb, facets=sorted({f for f in (facet(c) for _, c in pool.filled(st)) if f}),
@@ -1516,6 +1553,7 @@ def main(argv=None) -> int:
     # the page chrome's words and their language, for every page — the index, each view and each entity page, and
     # the sections a view embeds — so that each declares its language and its chrome reads from the one table
     words = page_words(PAGE_LANG)
+    sequence_words(words, schema)
     env.globals.update(page=words, page_lang=PAGE_LANG)
     env.globals["badge_words"] = pool.badge_words   # a badge's words, from its source's grading scheme (spec §3.1)
     # the banner's text (docs/publication.md §3, §4), defined once in banner.html: the same string goes into
@@ -1719,6 +1757,19 @@ def main(argv=None) -> int:
         why = lambda props: {"rationale": props.get("rationale"), "rationale_lang": props.get("lang"), "as_of": props.get("as_of")}
         related = [{"edge": k, "to": to, **rel(to), **why(props)} for k, to, props in pool.out.get(st["id"], []) if k in STATEMENT_EDGES and to in pool.entities] \
                 + [{"edge": k, "from": frm, **rel(frm), **why(props)} for k, frm, props in pool.inc.get(st["id"], []) if k in STATEMENT_EDGES and frm in pool.entities]
+        def step(side, eid, props):
+            """A neighbour along `follows` (Pool.steps_of), as zone 5's rows before and after name it: its short label,
+            its direction and its stamp as its box writes them (stamp_of) — every neighbour shows its grade, so that a
+            chain of open recommendations reads as what the guideline says, never as a protocol —, the edge's
+            `transition` and `trigger` as stored (their words are the page chrome's), and why: the edge's rationale,
+            which quotes the trigger's wording as printed, with its language and date — a reading, shown closed and
+            tagged so. `to` for a statement this one follows, `from` for one that follows it, as `related` has them."""
+            oc = pool.claims_for(eid)
+            od = direction_of(oc)
+            return {("to" if side == "before" else "from"): eid, **rel(eid), "direction": od["word"] if od else None,
+                    "glyph": od["glyph"] if od else None, "stamp": stamp_of(oc, pool), "transition": props.get("transition"),
+                    "trigger": props.get("trigger"), **({"discriminator": props["discriminator"]} if props.get("discriminator") else {}), **why(props)}
+        follows = [step(*s) for s in pool.steps_of(st["id"])]
         return {
             "lang": st["lang"], "questions": CARD_QUESTIONS,
             "title": st.get("short_label") or st["label"], "label": st["label"],
@@ -1731,7 +1782,7 @@ def main(argv=None) -> int:
             "widerspruch": contests_of(claims),
             "beleg": {"sources": cited, "review": "pending"},   # the pool has no attestation yet; what a present one reads is a maintainer decision (WP-0024, open questions)
             "mehr": {"id": st["id"], "slots": {slot: as_stored(st, slot, concept, slots) for slot in slots},
-                     "related": related, "claims": [{"edge": c["edge"], "id": c["id"]} for c in claims], "source": st.get("source")},
+                     "related": related, "follows": follows, "claims": [{"edge": c["edge"], "id": c["id"]} for c in claims], "source": st.get("source")},
         }
 
     def edges_json(eid: str) -> dict:
@@ -1809,6 +1860,18 @@ def main(argv=None) -> int:
             statements[vid] = row
         return {"statements": statements, "appears_in": {vid: appear[vid][cid] for vid in sorted(appear) if cid in appear[vid]}}
 
+    def sequence_of(sid: str) -> dict:
+        """A statement's direct neighbours along `follows`, for a program that reads the chain without the page
+        (docs/publication.md §4): `before`, the statements it follows, and `after`, those that follow it, each with its
+        id, the absolute URLs of its page and JSON, and the edge's `transition` and `trigger` as stored — and its
+        `discriminator` where the edge has one. In Pool.steps_of's order; both lists empty for a statement on no such
+        edge. Nothing further along the chain, and nothing the edge does not hold."""
+        rows: dict[str, list] = {"before": [], "after": []}
+        for side, eid, props in pool.steps_of(sid):
+            rows[side].append({"id": eid, "url": at(eid + "/"), "json": at(eid + ".json"), "transition": props.get("transition"),
+                               "trigger": props.get("trigger"), **({"discriminator": props["discriminator"]} if props.get("discriminator") else {})})
+        return rows
+
     entity_tpl = env.get_template("entity.html")
     detail_tpl = env.get_template("details.html")
     for eid, ent in sorted(pool.entities.items()):
@@ -1819,7 +1882,8 @@ def main(argv=None) -> int:
         (out / eid / "index.html").write_text(entity_tpl.render(**d), encoding="utf-8")
         doc = {**ent, "edges": edges_json(eid), **({"card": d["card"]} if "card" in d else {}),
                **({k: d[k] for k in ("derivation", "rules")} if "derivation" in d else {}),
-               **(walk_of(eid) if ent["type"] == "concept" else {})}
+               **(walk_of(eid) if ent["type"] == "concept" else {}),
+               **({"sequence": sequence_of(eid)} if ent["type"] == "statement" else {})}
         (out / (eid + ".json")).write_text(dumps({**doc, "meta": meta_of(ent, doc)}), encoding="utf-8")
 
     views = []
@@ -1862,6 +1926,12 @@ def main(argv=None) -> int:
         # the view's entry on the index (docs/publication.md §2): what it holds — its recommendations, the patient
         # groups a reader meets in its tree (the junctions of its first grouping, each concept once) and its claims
         # — and its sources, each with its register number and licence line; the title in its source's language
+        # the sequences the view holds (spec §5 `follows`; card #294 Decision 10 (d)): the edges between two of its
+        # statements, and how many of them name no kind of outcome (`trigger: other`) — a count each linking pass
+        # reports its measure by, never a failure
+        steps = [p for frm, kind, to, p in pool.edges if kind == SEQUENCE and members.get(frm, {}).get("type") == "statement"
+                 and members.get(to, {}).get("type") == "statement"]
+        print(f"{view['id']}: {len(steps)} follows edge(s), {sum(1 for p in steps if p.get('trigger') == 'other')} with trigger: other")
         groups = len({n["ref"] for n in groupings[0]["nodes"] if n["type"] == "junction" and n.get("ref")})
         views.append({"id": view["id"], "vid": vid, "title": title, "lang": sources[0].get("lang") if len(sources) == 1 else None, "sources": sources,
                       "holds": {"statement": counts["statement"], "group": groups, "claim": counts["claim"]}, "path": index_path(sources, words)})
@@ -1898,7 +1968,9 @@ def main(argv=None) -> int:
     (out / "index.json").write_text(dumps(index), encoding="utf-8")
     (out / "llms.txt").write_text(env.get_template("llms.txt").render(
         index=index, index_url=at("index.json"), site=at(""), cards=list(CARD_QUESTIONS), directions=list(DIRECTION_GLYPH),
-        plain=PLAIN, chapters=CHAPTERS, lean_node=LEAN_NODE, lean_edge=LEAN_EDGE), encoding="utf-8")
+        plain=PLAIN, chapters=CHAPTERS, lean_node=LEAN_NODE, lean_edge=LEAN_EDGE,
+        transitions=schema["$defs"]["edge_props"]["properties"]["transition"]["enum"],
+        triggers=schema["$defs"]["edge_props"]["properties"]["trigger"]["enum"]), encoding="utf-8")
     print(f"built {len(views)} view(s) and {len(pool.entities) - len(views)} entity pages into {out.relative_to(ROOT) if out.is_relative_to(ROOT) else out} (base {base}{', preview of pull request ' + str(args.preview) if args.preview else ''})")
     return 0
 

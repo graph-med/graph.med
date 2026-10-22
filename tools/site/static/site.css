@@ -408,11 +408,22 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card dl.slots dd.related details.related-more { flex-basis: 100%; }   /* past the second, folded under them */
 .card dl.slots dd.related details.related-more > summary { cursor: pointer; min-height: 32px; padding: .2rem 0; color: var(--mute); font-size: .85rem; }
 .card dl.slots dd.related details.related-more > .related-entry { display: block; }
-/* under each related statement, closed: why the two are related — the edge's rationale, tagged generated, its date beside */
-.card dl.slots dd.related details.why { margin: 0 0 .15rem; font-size: .85rem; }
-.card dl.slots dd.related details.why > summary { cursor: pointer; color: var(--mute); min-height: 32px; display: list-item; }
-.card dl.slots dd.related details.why > p { margin: .2rem 0 .4rem; max-width: 70ch; }
-.card dl.slots dd.related details.why .as-of { white-space: nowrap; }   /* "Stand" and its date on one line */
+/* zone 5's steps before and after (spec §5 `follows`): one neighbour to a line — the transition as a quiet word, then
+   the neighbour as its box names it, led by its direction's chip (the box's fill with the glyph inside, as the legend
+   keys it) — and under it, closed, the trigger in words with the edge's rationale */
+.card dl.slots dd.steps > .step-entry { flex-basis: 100%; }
+.card dl.slots dd.steps > .step-entry + .step-entry { margin-top: .35rem; }   /* one neighbour apart from the next, its fold between them */
+.card dl.slots dd.steps .step { color: var(--mute); font-size: .85rem; margin-right: .15rem; }
+/* the neighbour's link runs as text — chip, stamp, " · ", short label —, wrapping as a sentence does, and reaches its
+   touch target by padding past its line into the row's spacing, which it does not take (inline padding moves no line) */
+.card dl.slots dd.steps .node-link { display: inline; min-height: 0; padding: var(--half) 0; }
+.card dl.slots dd.steps .chip { font-size: .85em; margin-right: .3em; vertical-align: -.1em; }
+/* under each related statement and each step, closed: why — the edge's rationale, tagged generated, its date beside */
+.card dl.slots dd.related details.why, .card dl.slots dd.steps details.why { margin: 0 0 .15rem; font-size: .85rem; }
+.card dl.slots dd.related details.why > summary, .card dl.slots dd.steps details.why > summary { cursor: pointer; color: var(--mute); min-height: 32px; display: list-item; }
+.card dl.slots dd.related details.why > p, .card dl.slots dd.steps details.why > p { margin: .2rem 0 .4rem; max-width: 70ch; }
+.card dl.slots dd.related details.why .as-of, .card dl.slots dd.steps details.why .as-of { white-space: nowrap; }   /* "Stand" and its date on one line */
+.card dl.slots dd.steps > .step-entry > small { display: block; color: var(--mute); font-size: .85rem; }   /* a trigger without a rationale: its word alone */
 .card dl.slots dd.general-for { grid-column: 2; display: block; margin-top: -.1rem; }   /* under the anchor's value, its second description */
 /* closed by default, so the slots read on from the anchor to the condition; opened, a table like zone 4's */
 .card .general-for summary { cursor: pointer; padding: .2rem 0; min-height: 32px; color: var(--mute); font-size: .85rem; }
