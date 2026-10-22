@@ -54,6 +54,7 @@ SITE = "https://graph.med"   # the origin of the published site and its previews
 # as `meta.repository_license` (docs/publication.md §4) — the repository's, with no claim about what it covers
 REPOSITORY_LICENSE = "PolyForm Noncommercial 1.0.0"
 CONTRACT = f"{REPO}/blob/main/docs/publication.md#4-entity-pages-and-json"   # where the JSON's keys are described
+MCP = "https://mcp.graph.med/mcp"   # the read-only MCP server (docs/publication.md §8), named in llms.txt beside the session tools
 REGISTER_FIELDS = ("awmf_register",)   # the schema's register fields of a source, carried by index.json as recorded
 
 CLAIM_EDGES = ("supports", "contests")   # how a claim bears on a statement (spec §5)
@@ -2148,7 +2149,7 @@ def main(argv=None) -> int:
     (out / "index.json").write_text(dumps(index), encoding="utf-8")
     (out / "llms.txt").write_text(env.get_template("llms.txt").render(
         index=index, index_url=at("index.json"), site=at(""), cards=list(CARD_QUESTIONS), directions=list(DIRECTION_GLYPH),
-        plain=PLAIN, chapters=CHAPTERS, lean_node=LEAN_NODE, lean_edge=LEAN_EDGE,
+        plain=PLAIN, chapters=CHAPTERS, lean_node=LEAN_NODE, lean_edge=LEAN_EDGE, tools=session_tools(), mcp=MCP,
         transitions=schema["$defs"]["edge_props"]["properties"]["transition"]["enum"],
         triggers=schema["$defs"]["edge_props"]["properties"]["trigger"]["enum"]), encoding="utf-8")
     print(f"built {len(views)} view(s) and {len(pool.entities) - len(views)} entity pages into {out.relative_to(ROOT) if out.is_relative_to(ROOT) else out} (base {base}{', preview of pull request ' + str(args.preview) if args.preview else ''})")

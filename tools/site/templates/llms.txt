@@ -59,6 +59,20 @@ A tree file holds no claim sentence, no quote and no card; box and answer labels
 
 The page link that opens a position in a grouping is `{{ site }}<view-id>/?by=<axis>#<id>[,<id>]`: `<view-id>` is the view id without `views/`, `?by=` carries the grouping's `axis` (URL-encoded) and is left out for the first grouping, an unknown value falls back to the first, and the ids after `#` are entity ids (a concept, a statement), several joined by a comma. The page unfolds to, selects and fits every element that names one of them.
 
+## Session tools of a view page
+
+Every view page offers an assistant beside its reader a set of tools (interface version {{ tools.version }}): they read what the reader sees and change it as the page's own controls do. They change nothing else and persist nothing: a reload shows the page as before, and the page's back button undoes each act like the reader's own.
+
+- Page function, for a program that runs script in the page: `window.graphmed.agent.describe()` gives the brief form (the version, what the tools are, and each tool's name, title, one line and argument names, an optional one marked `?`); `describe(name)` gives one tool's full definition with the JSON Schema of its input; `window.graphmed.agent.call(name, args)` returns a promise of the answer.
+- WebMCP: where the browser offers `document.modelContext` (or the older `navigator.modelContext`), the page registers the same tools there, from the same definitions; the reads carry the read-only hint.
+- The tools:
+{% for t in tools.tools %}
+  - `{{ t.name }}`{% if t.readOnly %} (reads){% endif %}: {{ t.line }}
+{% endfor %}
+- Ids: an entity is named by its graph.med id, as after `#` in the page's URL (above) and in the read-only MCP server ({{ mcp }}), which takes the same ids; a question by its node id (`q:…`).
+- An act answers briefly: the state after it and how many of the boxes it acted on are shown and in view; `view` gives the boxes. A refusal says what was refused (`error`), what is accepted (`hint`) and, for an id that names nothing, the nearest ids (`near`).
+- The page names the tools in a passage at the top of its main content, in the page's language; except on a phone, its toolbar holds a button that copies a ready prompt for an assistant to the clipboard.
+
 ## Per-view file and search file
 
 - The per-view file (`lean` in the index) holds the view JSON minus content: `id`, `title`, `sources`, `commit`, `outline` (the sources' chapter titles), `facets`, `legend`, `scope` (a view with a scope tree: `anchor_slot`, `root`, and per concept its `own` and `general` statements, each general entry `{id, anchor, via, condition}`), `groupings` (as in the index, each pointing to its tree file) and `meta` (below). No card HTML, no claim sentence, no quote.

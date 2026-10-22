@@ -160,6 +160,11 @@ ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1re
 .tools { display: flex; gap: .4rem; }
 .tools button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--bg); color: var(--fg); font-size: 1.2rem; }
 .tools button:disabled { opacity: .4; cursor: default; }   /* the back button with nothing to go back to */
+.tools button svg.copied, .tools button.done svg.idle { display: none; }   /* the prompt for an assistant: a tick for a moment once it is on the clipboard */
+.tools button.done svg.copied { display: inline; }
+.tools button.done { border-color: var(--fg); background: var(--line); }
+/* read by a screen reader and in the page's text, not drawn: the passage naming the session tools */
+.visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 
 /* the sheet below the graph, and the entity page */
 .sheet { border-top: 2px solid var(--line); padding-top: .6rem; }
@@ -542,6 +547,11 @@ button.copy.done { color: var(--fg); border-color: var(--fg); background: var(--
   .tools select { max-width: 6.6rem; }
   .tools select#axis { max-width: calc(100% - 7.2rem); }   /* the row it wraps to holds it beside the facet select */
   .chapters button { min-height: 44px; align-items: center; }   /* touch targets */
+}
+/* a phone: no assistant there drives a page, and a third button would make the stacked tools a row taller than the
+   search's two — the prompt's button is left out; a narrow window with a hovering pointer keeps it */
+@media (max-width: 520px) and (hover: none) {
+  .tools #agent-copy { display: none; }
 }
 
 /* print: the disclosures of zone 4 and of zone 5's general groups show their tables and have no marker to click; a table is not split across pages */

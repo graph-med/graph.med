@@ -8,6 +8,10 @@
 {% block mainclass %}view{% endblock %}
 {% block crumbs %}<span class="crumb">{{ vid }}</span>{% endblock %}
 {% block main %}
+{# the session tools named for whoever reads the page's text — a screen reader, an assistant — first in <main>, in
+   the page chrome's words: what the page offers and where it is described, a fact and no request (§8) #}
+{% set llms %}<a href="{{ base }}llms.txt">llms.txt</a>{% endset %}
+<p class="visually-hidden" id="agent-note" lang="{{ page_lang }}">{{ page.agent.note | e | replace("{llms}", llms) }}</p>
 <section class="graph-wrap">
   {# the graph is drawn in its source's language; the words the script writes outside it are the page chrome's #}
   <div id="graph" role="img" aria-label="{{ title }}" lang="{{ sources[0].lang }}"
@@ -27,6 +31,9 @@
       <p class="assist" id="assist" role="status" hidden><span class="who">{{ page.agent.who }}</span> <span class="text"></span><button type="button" id="assist-clear" title="{{ page.agent.unmark }}" aria-label="{{ page.agent.unmark }}">✕</button></p>
     </div>
     <div class="tools right">
+      {# a ready prompt for an assistant beside the reader, copied by the page's one copy handler (base.html); its
+         description is the passage above #}
+      <button type="button" id="agent-copy" data-copy="{{ page.agent.prompt.text }}" title="{{ page.agent.prompt.label }}" aria-label="{{ page.agent.prompt.label }}" aria-describedby="agent-note"><svg class="idle" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 1.5 8.4 5.6 12.5 7 8.4 8.4 7 12.5 5.6 8.4 1.5 7 5.6 5.6ZM12.5 10.5v4M10.5 12.5h4"/></svg><svg class="copied" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 6.5 12 13 4.5"/></svg></button>
       <button type="button" id="fit" title="{{ page.controls.fit }}" aria-label="{{ page.controls.fit }}"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2.5h4v4M13.5 2.5 9 7M6.5 13.5h-4v-4M2.5 13.5 7 9"/></svg></button>
       <button type="button" id="back" title="{{ page.controls.back }}" aria-label="{{ page.controls.back }}" disabled><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3.5 2.5 8 7 12.5M2.5 8h11"/></svg></button>
     </div>
