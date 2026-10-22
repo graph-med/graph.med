@@ -286,21 +286,36 @@
      definitions (tools/site/session-tools.json), each call answered by the graph drawn now (window.graphmed.session),
      so that a redraw under another grouping, or back across one, keeps them (docs/publication.md §8) */
   var tools = JSON.parse(document.getElementById("session-tools").textContent);
-  function describe() {
-    return { version: tools.version, about: tools.about,
-             tools: tools.tools.map(function (t) { return { name: t.name, title: t.title, description: t.description, inputSchema: t.inputSchema, readOnly: !!t.readOnly }; }) };
+  function names() { return "the page's tools: " + tools.tools.map(function (t) { return t.name; }).join(", "); }
+  /* the brief form: each tool's name, title, line and arguments (an optional one marked "?"); with a tool's name, its
+     full definition — what WebMCP registers */
+  function describe(name) {
+    if (name !== undefined) {
+      var t = tools.tools.filter(function (x) { return x.name === name; })[0];
+      return t ? { name: t.name, title: t.title, description: t.description, inputSchema: t.inputSchema, readOnly: !!t.readOnly } : { error: "no tool " + name, hint: names() };
+    }
+    return { version: tools.version, about: tools.about, tools: tools.tools.map(function (t) {
+      var req = t.inputSchema.required || [];
+      return { name: t.name, title: t.title, line: t.line, args: Object.keys(t.inputSchema.properties || {}).map(function (k) { return req.indexOf(k) >= 0 ? k : k + "?"; }) };
+    }) };
   }
-  function call(name, args) {   /* a promise of the act's answer: what it refused, or the view after it, once at rest */
+  /* a promise of the answer: what was refused; a read (find, details) at once; view once the graph is at rest; an act,
+     once at rest, briefly — the state after it and what became of the boxes it acted on (brief), with the boxes when
+     its `view` asks for them */
+  function call(name, args) {
     var s = window.graphmed && window.graphmed.session;
     if (!s) return Promise.resolve({ error: "the graph is not drawn" });
-    if (!s.acts.hasOwnProperty(name)) return Promise.resolve({ error: "no tool " + name + "; the page's: " + tools.tools.map(function (t) { return t.name; }).join(", ") });
+    if (!s.acts.hasOwnProperty(name)) return Promise.resolve({ error: "no tool " + name, hint: names() });
     args = args && typeof args === "object" ? args : {};
+    if (args.view !== undefined && (!args.view || typeof args.view !== "object" || Array.isArray(args.view)))
+      return Promise.resolve({ error: "view: an object of view's arguments", hint: "{} reads the first page of boxes after the act" });
     var r;
-    try { r = s.acts[name](args); } catch (e) { return Promise.reject(e); }
-    if (r && r.error) return Promise.resolve({ error: r.error });
+    try { r = s.acts[name](args) || {}; } catch (e) { return Promise.reject(e); }
+    if (r.error) return Promise.resolve(r);
+    if (r.answer) return Promise.resolve(r.answer);
     return new Promise(function (next) { setTimeout(next, 0); }).then(function () {   /* back across a grouping draws anew: read the graph drawn now */
       var now = window.graphmed.session;
-      return now.rest().then(function () { return now.look(name === "view" ? args : {}); });
+      return now.rest().then(function () { return name === "view" ? now.look(args) : now.brief(name, now === s ? r.targets : null, args.view); });
     });
   }
   var agent = { version: tools.version, describe: describe, call: call };
@@ -309,7 +324,7 @@
   (function register() {   /* once, after the first draw; a browser that refuses a tool leaves the page function as it is */
     var mc = document.modelContext || navigator.modelContext;
     if (!mc || typeof mc.registerTool !== "function") return;
-    describe().tools.forEach(function (t) {
+    tools.tools.forEach(function (t) {
       var tool = { name: t.name, title: t.title, description: t.name === "view" ? t.description + " " + tools.about : t.description, inputSchema: t.inputSchema,
                    execute: function (input) { return call(t.name, input); } };
       if (t.readOnly) tool.annotations = { readOnlyHint: true };
@@ -562,13 +577,17 @@
   document.getElementById("fit").onclick = function () { remember(); fit(cy.elements().not(".folded"), 20); };
   window.onresize = function () { cy.resize(); };
 
-  function open_(hash, push) {   /* a deep link: the ids of what is selected, joined by a comma (select) */
+  /* a deep link: the ids of what is selected, joined by a comma (select). It unfolds the way and every group it names,
+     and fits what it selects and what is around it — a group it names with everything that group shows, as unfolding
+     it by a tap does (toggle) */
+  function open_(hash, push) {
     var refs = hash ? hash.split(",") : [], eles = naming(refs);
     if (eles.empty()) { relayout(cy.elements()); return; }
     var groups = before(eles).filter("[type = 'junction']");
     groups.forEach(function (j) { open[j.id()] = true; });
     unfoldTo(eles);
-    relayout(near(eles));
+    var named = eles.nodes("[type = 'junction']");
+    relayout(near(eles).union(named).union(named.successors()));
     select(eles, refs, push);
   }
   sheet.onclick = function (e) {
@@ -642,11 +661,11 @@
   var query = "", facet = "", cursor = null;   /* cursor: the id of the match the reader stepped to */
   var stepBox = document.getElementById("step");
   facetSel.hidden = facetSel.options.length < 2;   /* its entries are the page's: each facet the view draws, by its word */
-  function matches() {   /* the search text and the facet filter compose; either alone is a query */
-    if (!query && !facet) return cy.collection();
-    return scope().nodes().filter(function (n) {   /* a node matches by its own text or by the answer that leads to it — a condition is an edge */
-      if (!n.data("text") || (facet && n.data("facets").indexOf(facet) < 0)) return false;
-      return !query || n.data("text").indexOf(query) >= 0 || n.incomers("edge[kind = 'answer']").some(function (e) { return e.data("text").indexOf(query) >= 0; });
+  function matches() { return query || facet ? matching(query, facet, scope()) : cy.collection(); }   /* the search text and the facet filter compose; either alone is a query */
+  function matching(q, f, within) {   /* the nodes of `within` a folded text and a facet match: by a node's own text or by the answer that leads to it — a condition is an edge */
+    return within.nodes().filter(function (n) {
+      if (!n.data("text") || (f && n.data("facets").indexOf(f) < 0)) return false;
+      return !q || n.data("text").indexOf(q) >= 0 || n.incomers("edge[kind = 'answer']").some(function (e) { return e.data("text").indexOf(q) >= 0; });
     });
   }
   function highlight() {
@@ -734,21 +753,57 @@
 
   /* the session tools (docs/publication.md §8, "The session tools"; their names, the words a model reads about them and
      their arguments are tools/site/session-tools.json; the page function and the WebMCP tools are beside draw()): what an
-     assistant beside the reader reads of the view and does to it. An act is one the reader's own controls make — a deep
-     link, a fold, a fit, a search, a step, back —, kept for the back button like theirs (remember), and answered with the
-     view after it, once the layout and the fit are at rest; nothing persists. The highlight is the assistant's own mark,
-     drawn apart from the reader's selection and named on a line under the controls, where the reader clears it */
+     assistant beside the reader reads of the view and does to it. view, find and details read and change nothing. An act
+     is one the reader's own controls make — a deep link, a fold, a fit, a search, a step, back —, kept for the back button
+     like theirs (remember), and answered briefly once the layout and the fit are at rest: the state after it and what
+     became of the boxes it acted on (brief); nothing persists. The highlight is the assistant's own mark, drawn apart from
+     the reader's selection and named on a line under the controls, where the reader clears it */
   var assist = null, assistLine = document.getElementById("assist");   /* the highlight: the ids it names and its note */
   var KIND = { root: "root", question: "question", junction: "group", statement: "statement", aim: "aim" };
   function ident(e) { return e.data("refs")[0] || e.id(); }   /* an element by its entity id; a question, which names none, by its node id */
+  function cut(s, n) { return s.length > n ? s.slice(0, n - 1) + "…" : s; }
+  function facets() { return [].map.call(facetSel.options, function (o) { return o.value; }).filter(Boolean); }   /* the page's facet filter values */
+  /* a box's label as the tools give it: a statement's without the glyph, grade and verb before it (dir and grade say
+     them), a group's by the answer that leads to it */
+  function labelOf(n) {
+    var t = n.data("type"), l = n.data("label");
+    if (t === "statement") return l.indexOf(" · ") >= 0 ? l.slice(l.indexOf(" · ") + 3) : l;
+    if (t === "junction") { var into = n.incomers("edge[kind = 'answer']").first(); return (into.nonempty() && into.data("label").replace(/\n/g, "; ")) || n.data("group"); }
+    return l;
+  }
+  /* a refusal: what was refused, what is accepted, and for an id that names nothing here the nearest ids that do: one
+     that begins with it first, then those holding most of its words, a word in the id counting twice one in the text */
+  var FINDS = "find(text) lists the boxes of this grouping whose words match, folded ones too";
+  function refused(error, unknown) {
+    var r = { error: error, hint: FINDS }, near = [], seen = {};
+    unknown.forEach(function (id) { nearby(id).forEach(function (h) { if (!seen[h.id]) { seen[h.id] = true; near.push(h); } }); });
+    if (near.length) r.near = near.slice(0, 5);
+    return r;
+  }
+  function nearby(id) {
+    var ws = fold(String(id).split("/").pop().replace(/[-_.:]+/g, " ")).split(" ").filter(function (w) { return w.length > 2; });
+    var score = {}, label = {};
+    if (!ws.length) return [];
+    cy.elements().forEach(function (e) {
+      e.data("refs").forEach(function (r) {
+        if (score[r]) return;
+        var own = fold(r.replace(/[-_\/]+/g, " ")), s = r.indexOf(id) === 0 ? 100 : 0;
+        ws.forEach(function (w) { s += own.indexOf(w) >= 0 ? 2 : e.data("text").indexOf(w) >= 0 ? 1 : 0; });
+        if (s) { score[r] = s; label[r] = e.isNode() ? labelOf(e) : e.data("label").replace(/\n/g, "; "); }
+      });
+    });
+    return Object.keys(score).sort(function (a, b) { return score[b] - score[a] || a.length - b.length; }).slice(0, 5)
+      .map(function (r) { return { id: r, label: cut(label[r], 80) }; });
+  }
   function known(ids, entities) {   /* the elements the ids name — entities, and with `entities` false node ids too — or what names nothing */
-    if (!Array.isArray(ids) || !ids.length || ids.some(function (i) { return typeof i !== "string"; })) return { error: "ids: a list of entity ids" };
+    if (!Array.isArray(ids) || !ids.length || ids.some(function (i) { return typeof i !== "string"; }))
+      return { error: "ids: a list of " + (entities ? "entity ids" : "entity ids or question node ids"), hint: "statements/…, concepts/…, sources/…" + (entities ? "" : ", q:…") };
     var eles = cy.collection(), unknown = [];
     ids.forEach(function (id) {
       var found = naming([id]).union(entities ? cy.collection() : cy.getElementById(id));
       if (found.empty()) unknown.push(id); else eles = eles.union(found);
     });
-    return unknown.length ? { error: "nothing in this grouping is named " + unknown.join(", ") } : { eles: eles };
+    return unknown.length ? refused("nothing in this grouping is named " + unknown.join(", "), unknown) : { eles: eles };
   }
   /* the tree as drawn: the box a node hangs from is the source of its first shown answer or flow (a group reached from
      two open parents hangs from the first, an aim from its first box); what hangs from a node, top to bottom, then left
@@ -773,11 +828,12 @@
     var b = n.renderedBoundingBox({ includeLabels: true, includeOverlays: false, includeUnderlays: false });
     return b.x1 >= V.x1 - 1 && b.x2 <= V.x2 + 1 && b.y1 >= V.y1 - 1 && b.y2 <= V.y2 + 1;
   }
-  function entry(n, V, twice, at) {   /* one box as view gives it, only what it has; `at`: each shown box's place in reading order */
+  /* one box as view gives it, only what it has; `at`: each shown box's place in reading order; `hit`: the shown matches */
+  function entry(n, V, twice, at, hit) {
     var t = n.data("type"), e = { i: at[n.id()], id: ident(n), kind: KIND[t] || t, label: n.data("label") };
     var into = n.incomers("edge[kind = 'answer']").not(".folded").not(".dup").first(), answer = into.nonempty() ? into.data("label").replace(/\n/g, "; ") : "";
     if (t === "statement") {
-      e.label = e.label.indexOf(" · ") >= 0 ? e.label.slice(e.label.indexOf(" · ") + 3) : e.label;   /* the glyph, grade and verb before it are dir and grade */
+      e.label = labelOf(n);   /* the glyph, grade and verb before it are dir and grade */
       if (n.data("direction")) e.dir = n.data("direction");
       if (n.data("grade")) e.grade = n.data("grade");
       if (n.data("no")) e.no = n.data("no");
@@ -791,32 +847,184 @@
     e.in_view = inSight(n, V);
     if (n.hasClass("picked")) e.selected = true;
     if (n.hasClass("assisted")) e.highlighted = true;
+    if (hit[n.id()]) e.match = true;
     return e;
   }
   function shownNamed(id) { return naming([id]).nodes().not(".folded").union(cy.getElementById(id).not(".folded")).first(); }   /* the first shown box an id names */
-  function look(a) {   /* the view tool */
-    var V = sight(), all = reading(), twice = {}, count = {}, at = {};
-    all.forEach(function (n, k) { at[n.id()] = k; });
-    junctions.not(".folded").forEach(function (j) { var c = ident(j); count[c] = (count[c] || 0) + 1; if (count[c] > 1) twice[c] = true; });
-    if (a.under) {   /* a box and what hangs below it: the read a question about one node needs */
-      var keep = {}, top = shownNamed(a.under);
-      (function down(n) { keep[n.id()] = true; below(n).forEach(down); })(top);
-      all = all.filter(function (n) { return keep[n.id()]; });
-    }
-    if (a.in_view) all = all.filter(function (n) { return inSight(n, V); });
-    var from = Math.max(0, Math.floor(a.from) || 0), limit = Math.min(200, Math.max(1, Math.floor(a.limit) || 40));
+  function unseen(id) {   /* view's `under` names no shown box: folded away, or nothing at all */
+    if (typeof id !== "string") return { error: "under: an entity id or a question node id" };
+    if (naming([id]).nonempty() || cy.getElementById(id).nonempty()) return { error: "under: " + id + " is folded away", hint: "focus shows a box, toggle unfolds a group" };
+    return refused("under: nothing in this grouping is named " + id, [id]);
+  }
+  /* the search as the answers give it: its text and facet, the shown matches by count, the reader's place among them
+     once stepped, and the first ids in step order */
+  function sought() {
+    if (!query && !facet) return null;
+    var list = ordered(), i = cursor ? position(list) : -1;
+    var s = { text: typed, facet: facet || null, matches: list.length, at: i >= 0 ? i + 1 : null, ids: list.slice(0, 10).map(ident) };
+    if (list.length > 10) s.more = list.length - 10;
+    return s;
+  }
+  function state() {   /* what view and every act's answer begin with */
     var refs = decodeURIComponent(location.hash.slice(1)).split(",").filter(Boolean);
-    var out = { v: tools.version, graph: data.id, grouping: by, chapter: section || null,
-      search: query || facet ? { text: typed, facet: facet || null, matches: matches().not(".folded").length, at: cursor ? position(ordered()) + 1 : null } : null,
+    return { v: tools.version, graph: data.id, grouping: by, chapter: section || null, search: sought(),
       selected: refs.map(function (r) {   /* each selected entity with the boxes it hangs from, root first */
         var n = naming([r]).nodes().not(".folded").first(), path = [];
         for (var p = n.nonempty() ? up(n) : null; p; p = up(p)) path.unshift(ident(p));
         return { id: r, path: n.nonempty() ? path : null };
       }),
       highlighted: assist && { ids: assist.ids, note: assist.note || null },
-      total: all.length, from: from, boxes: all.slice(from, from + limit).map(function (n) { return entry(n, V, twice, at); }) };
+      shown: cy.nodes().not(".folded").length };
+  }
+  function look(a) {   /* the view tool: the state, and the boxes in reading order, a page of them */
+    if (a.under !== undefined && shownNamed(a.under).empty()) return unseen(a.under);
+    var V = sight(), all = reading(), twice = {}, count = {}, at = {}, hit = {};
+    all.forEach(function (n, k) { at[n.id()] = k; });
+    junctions.not(".folded").forEach(function (j) { var c = ident(j); count[c] = (count[c] || 0) + 1; if (count[c] > 1) twice[c] = true; });
+    matches().not(".folded").forEach(function (n) { hit[n.id()] = true; });
+    if (a.under) {   /* a box and what hangs below it: the read a question about one node needs */
+      var keep = {}, top = shownNamed(a.under);
+      (function down(n) { keep[n.id()] = true; below(n).forEach(down); })(top);
+      all = all.filter(function (n) { return keep[n.id()]; });
+    }
+    if (a.in_view) all = all.filter(function (n) { return inSight(n, V); });
+    var from = Math.max(0, Math.floor(a.from) || 0), limit = a.limit === 0 ? 0 : Math.min(200, Math.max(1, Math.floor(a.limit) || 20));
+    var out = state();
+    out.total = all.length;
+    if (!limit) return out;   /* the state alone */
+    out.from = from;
+    out.boxes = all.slice(from, from + limit).map(function (n) { return entry(n, V, twice, at, hit); });
     if (from + limit < all.length) out.more = all.length - from - limit;
     return out;
+  }
+  /* an act's answer: the state after it, and what became of the boxes it acted on — how many are shown and how many of
+     those lie wholly in view, the first few that do not, and how many are folded away; the boxes too when `v` asks */
+  function brief(name, targets, v) {
+    var out = { act: name }, st = state();
+    Object.keys(st).forEach(function (k) { out[k] = st[k]; });
+    if (targets) {
+      var all = targets(), shown = all.not(".folded"), V = sight(), away = shown.filter(function (e) { return !inSight(e, V); });
+      var on = out.acted_on = { shown: shown.length, in_view: shown.length - away.length };
+      if (away.length) on.not_in_view = away.slice(0, 5).map(ident);
+      if (all.length > shown.length) on.folded = all.length - shown.length;
+    }
+    if (v) {
+      var l = look(v);
+      if (l.error) out.view = l;
+      else ["total", "from", "boxes", "more"].forEach(function (k) { if (k in l) out[k] = l[k]; });
+    }
+    return out;
+  }
+  /* find: every node of the grouping that a text or a facet matches as the page's search matches it, folded ones too,
+     in the tree's own order (from the root, a node before what hangs from it, in the order the grouping's tree gives —
+     the one the MCP server's places count in) */
+  function treeOrder() {
+    var out = [], seen = {};
+    (function visit(n) { if (seen[n.id()]) return; seen[n.id()] = true; out.push(n); n.outgoers("node").forEach(visit); })(root);
+    return out;
+  }
+  function parentOf(n) { var e = n.incomers("edge").first(); return e.nonempty() ? e.source() : null; }   /* in the whole tree: its first answer or flow */
+  function find(a) {
+    if ((a.text !== undefined && typeof a.text !== "string") || (a.facet !== undefined && typeof a.facet !== "string")) return { error: "text and facet: strings" };
+    var q = fold((a.text || "").trim()), f = a.facet || "", kinds = facets();
+    if (f && kinds.indexOf(f) < 0) return { error: "no facet " + f + " here", hint: "the page's facets: " + kinds.join(", ") };
+    if (!q && !f) return { error: "nothing to find", hint: "a text, a facet, or both" };
+    var m = {}, within = scope(), twice = {}, count = {};
+    matching(q, f, cy.nodes()).forEach(function (n) { m[n.id()] = true; });
+    junctions.forEach(function (j) { var c = ident(j); count[c] = (count[c] || 0) + 1; if (count[c] > 1) twice[c] = true; });
+    var list = treeOrder().filter(function (n) { return m[n.id()]; });
+    var from = Math.max(0, Math.floor(a.from) || 0), limit = Math.min(200, Math.max(1, Math.floor(a.limit) || 10));
+    var out = { text: a.text || "", facet: f || null, total: list.length, from: from, hits: list.slice(from, from + limit).map(function (n) {
+      var t = n.data("type"), h = { id: ident(n), kind: KIND[t] || t, label: labelOf(n) }, groups = [];
+      for (var p = parentOf(n); p; p = parentOf(p)) if (p.data("type") === "junction") groups.unshift(ident(p));
+      if (t === "statement") {
+        var into = n.incomers("edge[kind = 'answer']").first();
+        if (n.data("direction")) h.dir = n.data("direction");
+        if (n.data("grade")) h.grade = n.data("grade");
+        if (n.data("no")) h.no = n.data("no");
+        if (into.nonempty() && into.data("label")) h.answer = into.data("label").replace(/\n/g, "; ");
+      } else if (t === "junction") {
+        h.n = Number(n.data("label"));
+        if (twice[h.id]) h.node = n.id();
+      }
+      h.groups = groups; h.shown = !n.hasClass("folded");
+      if (section && !within.contains(n)) h.in_chapter = false;
+      return h;
+    }) };
+    if (from + limit < list.length) out.more = list.length - from - limit;
+    return out;
+  }
+  /* details: what the details panel shows for an entity of this graph (the card the build wrote for it), as text, part by
+     part — a part per zone of the card, named by the zone and headed as the panel heads it, with the origin its heading
+     carries. A line per block, a table row's cells joined by " | ", a term and its value by ": ", a link as [words](target),
+     its target an entity id where it leads to a page of this site; what a reader is not shown (aria-hidden) and the card's
+     buttons are left out. A part over PART characters is cut at a line; one asked for by name comes WHOLE characters at a
+     time, from `from` */
+  var PART = 800, WHOLE = 5000, BLOCK = /^(P|LI|DT|H[1-6]|BLOCKQUOTE|TR|DIV|SECTION|UL|OL|DL|TABLE|THEAD|TBODY|DETAILS|SUMMARY|FIGURE|FIGCAPTION)$/;
+  var site = location.pathname.replace(/[^\/]*$/, "").replace(/[^\/]+\/$/, "");   /* the site's root: a view page lives in a folder of its own under it */
+  function target(href) {
+    var u; try { u = new URL(href, location.href); } catch (e) { return href; }
+    if (u.protocol === location.protocol && u.host === location.host && u.pathname.indexOf(site) === 0 && !u.search && !u.hash) return u.pathname.slice(site.length).replace(/\/$/, "") || u.href;
+    return u.href;
+  }
+  function said(n) {   /* an element's words as a reader is shown them, without its origin tag */
+    var c = n.cloneNode(true);
+    c.querySelectorAll("button, .origin").forEach(function (x) { x.remove(); });
+    c.querySelectorAll("[aria-hidden='true']").forEach(function (x) { x.replaceWith(" "); });
+    return c.textContent.replace(/\s+/g, " ").trim();
+  }
+  function prose(el, skip) {
+    var lines = [], line = "";
+    function flush() { var s = line.replace(/\s+/g, " ").trim(); if (s) lines.push(s); line = ""; }
+    (function walk(n) {
+      if (n.nodeType === 3) { line += n.nodeValue; return; }
+      if (n.nodeType !== 1 || n === skip || /^(BUTTON|SCRIPT|STYLE|TEMPLATE)$/.test(n.tagName)) return;
+      if (n.getAttribute("aria-hidden") === "true") { line += " "; return; }   /* a glyph or a separator: the words beside it stay apart */
+      if (n.tagName === "A") { var w = said(n), to = n.getAttribute("data-node") || target(n.getAttribute("href") || ""); line += w === to ? to : "[" + w + "](" + to + ")"; return; }
+      if ((n.tagName === "TD" || n.tagName === "TH") && n.previousElementSibling) line += " | ";
+      var block = BLOCK.test(n.tagName);
+      if (block) flush();
+      [].forEach.call(n.childNodes, walk);
+      if (n.tagName === "DT") line += ": "; else if (block || n.tagName === "DD") flush();
+    })(el);
+    flush();
+    return lines.join("\n");
+  }
+  function shorten(p, n) {   /* a part's text cut at its last line within n characters (at n where the line ends early), what is left counted */
+    if (p.text.length <= n) return;
+    var at = p.text.lastIndexOf("\n", n); if (at < n / 2) at = n;
+    p.cut = p.text.length - at; p.text = p.text.slice(0, at);
+    return at;
+  }
+  function details(a) {
+    if (typeof a.id !== "string" || !a.id) return { error: "id: an entity id", hint: "statements/…, concepts/…, sources/…" };
+    if (a.part !== undefined && typeof a.part !== "string") return { error: "part: a part's name or heading, as details gives it" };
+    if (a.from !== undefined && (a.part === undefined || typeof a.from !== "number" || a.from < 0)) return { error: "from: a character of the part named, counted from 0" };
+    var html = data.html[a.id];
+    if (!html) return refused("no details of " + a.id + " on this page", [a.id]);
+    var t = document.createElement("template"); t.innerHTML = html;
+    var card = t.content.querySelector(".card") || t.content, title = card.querySelector("h2.title, .label"), parts = [], loose = document.createElement("div");
+    [].slice.call(card.children).forEach(function (c) {
+      if (c.tagName !== "SECTION") { if (c !== title) loose.appendChild(c.cloneNode(true)); return; }
+      var h = c.querySelector("h2, h3, h4"), o = h && h.querySelector(".origin"), name = c.classList[1] || (c.getAttribute("aria-labelledby") || "").replace(/^zone-|-h\d*$/g, "") || "part";
+      var p = { part: name };
+      if (h && h !== title) p.head = said(h);
+      if (o) p.origin = o.textContent.trim();
+      p.text = prose(c, h);
+      parts.push(p);
+    });
+    if (loose.childNodes.length) parts.unshift({ part: "card", text: prose(loose) });
+    parts = parts.filter(function (p) { return p.text; });
+    if (a.part !== undefined) {
+      parts = parts.filter(function (p) { return p.part === a.part || p.head === a.part; });
+      if (!parts.length) return { error: "no part " + a.part + " in the details of " + a.id, hint: "its parts: " + details({ id: a.id }).parts.map(function (p) { return p.part; }).join(", ") };
+      var from = Math.floor(a.from) || 0;
+      parts.forEach(function (p) {
+        if (from) { p.from = from; p.text = p.text.slice(from); }
+        var at = shorten(p, WHOLE); if (at) p.next = from + at;   /* the `from` of the rest */
+      });
+    } else parts.forEach(function (p) { shorten(p, PART); });
+    return { id: a.id, title: title ? said(title) : null, parts: parts };
   }
   /* the highlight on what it names, and its line. The line makes the controls' row taller or shorter, and the free row
      with it: a graph still where the last fit put it is fitted again into the new free row, so what it framed stays whole
@@ -838,7 +1046,8 @@
     if (n.nonempty() && n.data("type") === "junction") return n;
     var js = naming([id]).nodes("[type = 'junction']");
     if (js.length === 1) return js;
-    return { error: js.length ? id + " stands at " + js.length + " groups here; name one by its node (view's node): " + js.map(function (j) { return j.id(); }).join(", ") : "no group " + id };
+    if (js.length) return { error: id + " stands at " + js.length + " groups here", hint: "name one by its node id (view's and find's node): " + js.map(function (j) { return j.id(); }).join(", ") };
+    return refused("no group " + id, [String(id)]);
   }
   function rest() {   /* a promise of the graph at rest: no layout in flight, no fit and no box moving, twice in a row */
     return new Promise(function (done) {
@@ -850,41 +1059,56 @@
     });
   }
   /* each act checks its arguments before it changes anything, and answers what it refused; what it changes it keeps
-     for back first (remember: one change, however many steps it takes) */
+     for back first (remember: one change, however many steps it takes). It names the boxes it acts on (targets), read
+     once the graph is at rest, for its answer (brief) */
   var acts = {
-    view: function (a) {   /* read at rest, by call() */
-      if (a.under !== undefined && (typeof a.under !== "string" || shownNamed(a.under).empty())) return { error: "under: the id of a box the folding shows" };
+    view: function (a) { if (a.under !== undefined && shownNamed(a.under).empty()) return unseen(a.under); },   /* read at rest, by call() */
+    find: function (a) { var r = find(a); return r.error ? r : { answer: r }; },
+    details: function (a) { var r = details(a); return r.error ? r : { answer: r }; },
+    open: function (a) {
+      var r = known(a.ids, true); if (r.error) return r;
+      remember(); open_(a.ids.join(","), true);
+      return { targets: function () { var e = naming(a.ids).nodes(); return e.union(e.filter("[type = 'junction']").successors().nodes().not(".folded")); } };
     },
-    open: function (a) { var r = known(a.ids, true); if (r.error) return r; remember(); open_(a.ids.join(","), true); },
     focus: function (a) {
       var r = known(a.ids); if (r.error) return r;
       remember();
       before(r.eles).not(r.eles.nodes()).filter("[type = 'junction']").forEach(function (j) { open[j.id()] = true; });   /* the way there, not the group itself */
       unfoldTo(r.eles);
       relayout(near(r.eles));
+      return { targets: function () { return r.eles; } };
     },
     highlight: function (a) {
       var r = known(a.ids); if (r.error) return r;
       if (a.note !== undefined && (typeof a.note !== "string" || a.note.length > 140)) return { error: "note: a text of at most 140 characters" };
       remember(); assist = { ids: a.ids.slice(), note: a.note || "" }; mark();
+      return { targets: function () { return r.eles; } };
     },
     clear: function () { if (!assist) return { error: "nothing is highlighted" }; remember(); assist = null; mark(); },
     toggle: function (a) {
       var j = group(a.id); if (j.error) return j;
       if (a.open === undefined || !!open[j.id()] !== !!a.open) toggle(j, a.open);
+      return { targets: function () { return open[j.id()] ? j.union(j.successors().nodes().not(".folded")) : j; } };
     },
     fold: function (a) {
-      var q = cy.getElementById(a.id || "");
-      if (q.empty() || q.data("type") !== "question") return { error: "no question " + a.id + "; a question is named by its node id (q:…)" };
+      var q = cy.getElementById(typeof a.id === "string" ? a.id : "");
+      if (q.empty() || q.data("type") !== "question") return { error: "no question " + a.id, hint: "a question is named by its node id (q:…), as view gives it" };
       if (a.closed === undefined || !!closed[q.id()] !== !!a.closed) foldQuestion(q, a.closed);
+      return { targets: function () { return closed[q.id()] ? q : q.union(q.successors().nodes().not(".folded")); } };
     },
     search: function (a) {
-      var kinds = [].map.call(facetSel.options, function (o) { return o.value; }).filter(Boolean);
-      if (a.facet && kinds.indexOf(a.facet) < 0) return { error: "no facet " + a.facet + " here; the page's: " + kinds.join(", ") };
+      if ((a.text !== undefined && typeof a.text !== "string") || (a.facet !== undefined && typeof a.facet !== "string")) return { error: "text and facet: strings" };
+      var kinds = facets();
+      if (a.facet && kinds.indexOf(a.facet) < 0) return { error: "no facet " + a.facet + " here", hint: "the page's facets: " + kinds.join(", ") };
       search.value = a.text || ""; facetSel.value = a.facet || ""; research();
+      return { targets: function () { return matches(); } };
     },
-    step: function (a) { if (!ordered().length) return { error: "no match to step to: search first" }; step(a.by < 0 ? -1 : 1); },
-    back: function () { if (!trail.length) return { error: "nothing to go back to" }; back(); }
+    step: function (a) {
+      if (!ordered().length) return { error: "no match to step to", hint: "step walks the shown matches of a running search" };
+      step(a.by < 0 ? -1 : 1);
+      return { targets: function () { return cursor ? cy.getElementById(cursor) : cy.collection(); } };
+    },
+    back: function () { if (!trail.length) return { error: "nothing to go back to", hint: "the view is the one the page opened with" }; back(); }
   };
 
   window.onhashchange = function () { remember(); open_(decodeURIComponent(location.hash.slice(1)), false); };
@@ -892,7 +1116,7 @@
   window.graphmed = { cy: cy, open: open_, toggle: toggle, fold: foldQuestion, back: back, view: view, restore: restore, isOpen: function (id) { return !!open[id]; }, isClosed: function (id) { return !!closed[id]; },
     section: setSection, search: function (q, f) { search.value = q; if (f !== undefined) facetSel.value = f; research(); }, step: step,
     frame: function () { return framed.map(function (e) { return e.id(); }); },
-    agent: agent, session: { acts: acts, rest: rest, look: look },   /* the session tools: the page function, and what it calls in the graph drawn now */
+    agent: agent, session: { acts: acts, rest: rest, look: look, brief: brief },   /* the session tools: the page function, and what it calls in the graph drawn now */
     by: switchTo, state: function () { return { by: by, section: section, query: search.value, facet: facetSel.value, ref: decodeURIComponent(location.hash.slice(1)) }; } };   /* for the console and tests */
   }
 })();

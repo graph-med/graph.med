@@ -490,13 +490,14 @@ def session_tools() -> dict:
     tools"): their names, the words a model reads about them, and the shape of their arguments, handed to every
     view page as data; graph.js implements each by name. Read once; a name WebMCP would refuse (letters, digits,
     `_`, `-` and `.`, at most 128), a name twice, a tool without a description or without an object schema stops
-    the build, as a browser's registration would refuse it later."""
+    the build, as a browser's registration would refuse it later; so does one without its `line`, which
+    describe()'s brief form gives in place of the description."""
     path = SITE_SRC / "session-tools.json"
     spec = json.loads(path.read_text(encoding="utf-8"))
     names = [t.get("name", "") for t in spec["tools"]]
     for t in spec["tools"]:
-        if not re.fullmatch(r"[A-Za-z0-9_.-]{1,128}", t.get("name", "")) or not t.get("description") or (t.get("inputSchema") or {}).get("type") != "object":
-            raise SystemExit(f"{path.relative_to(ROOT)}: tool {t.get('name')!r} needs a name WebMCP accepts, a description and an object inputSchema")
+        if not re.fullmatch(r"[A-Za-z0-9_.-]{1,128}", t.get("name", "")) or not t.get("description") or not t.get("line") or (t.get("inputSchema") or {}).get("type") != "object":
+            raise SystemExit(f"{path.relative_to(ROOT)}: tool {t.get('name')!r} needs a name WebMCP accepts, a description, a line and an object inputSchema")
     if len(set(names)) != len(names):
         raise SystemExit(f"{path.relative_to(ROOT)}: a tool name twice: {', '.join(sorted({n for n in names if names.count(n) > 1}))}")
     return {k: v for k, v in spec.items() if k != "_"}   # the file's own note stays in the repository

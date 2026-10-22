@@ -1,13 +1,14 @@
 {
-  "_": "The session tools of a graph.med view page (docs/publication.md §8, \"The session tools\"): their names, the words a model reads about them, and the shape of their arguments. graph.js implements each by name; the build hands this file to every view page. The words state what a tool does and returns, as a fact; none tells a model how to behave, and none names a graph, a grouping or an axis.",
-  "version": 1,
-  "about": "Tools of a graph.med view page. They read and change what the reader of this page sees: what is unfolded, selected, searched, highlighted, and where the graph stands. They change nothing else and persist nothing: a reload shows the page as before, and the page's back button undoes each act like the reader's own. Ids are graph.med entity ids, as in the page's URL fragment (statements/…, concepts/…, sources/…) and in the graph.med MCP server; a question is named by its node id (q:…). Every act returns the view after it.",
+  "_": "The session tools of a graph.med view page (docs/publication.md §8, \"The session tools\"): their names, the words a model reads about them, and the shape of their arguments; `line` is a tool's one line in describe()'s brief form. graph.js implements each by name; the build hands this file to every view page. The words state what a tool does and returns, as a fact; none tells a model how to behave, and none names a graph, a grouping or an axis.",
+  "version": 2,
+  "about": "Tools of a graph.med view page. They read and change what the reader of this page sees: what is unfolded, selected, searched, highlighted, and where the graph stands. They change nothing else and persist nothing: a reload shows the page as before, and the page's back button undoes each act like the reader's own. view, find and details only read: they change nothing and leave nothing for back. Ids are graph.med entity ids, as in the page's URL fragment (statements/…, concepts/…, sources/…) and in the graph.med MCP server; a question is named by its node id (q:…). An act answers briefly: the state after it (search, selection, highlight) and how many of the boxes it acted on are shown and in view; view gives the boxes. A refusal says what was refused (error), what is accepted (hint) and, for an id that names nothing, the nearest ids (near).",
   "tools": [
     {
       "name": "view",
       "title": "Read the view",
       "readOnly": true,
-      "description": "What the reader sees: the graph, the grouping, the chapter filter, the search, the selection with its path from the root, the assistant's highlight, and the boxes the current folding shows, in reading order (from the root, a box before what hangs from it, siblings top to bottom as drawn, then left to right). Each box has i, its index in that order; its id, kind (root, question, group, statement, aim) and label; up, the i of the box it hangs from, and place, its place among that box's shown children as drawn (\"3/32\"); and in_view: whether it lies wholly in the part of the graph the reader can see now. A statement adds its direction, grade and box number, and the answer (condition) that leads to it where there is one; a group adds the number of recommendations behind it and whether it is open; a question whether it is folded. Long views come in pages of 40 boxes; under reads one box and what hangs below it.",
+      "line": "Reads what the reader sees: the state, and the boxes the folding shows in reading order, 20 a page.",
+      "description": "What the reader sees: the graph, the grouping, the chapter filter, the search (its matches by count, and the first match ids in step order), the selection with its path from the root, the assistant's highlight, how many boxes are shown, and those boxes in reading order (from the root, a box before what hangs from it, siblings top to bottom as drawn, then left to right). Each box has i, its index in that order; its id, kind (root, question, group, statement, aim) and label; up, the i of the box it hangs from, and place, its place among that box's shown children as drawn (\"3/32\"); and in_view: whether it lies wholly in the part of the graph the reader can see now. A statement adds its direction, grade and box number, and the answer (condition) that leads to it where there is one; a group adds the number of recommendations behind it and whether it is open; a question whether it is folded; a box the search matches, match. Pages hold 20 boxes; limit 0 reads the state alone; under reads one box and what hangs below it.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -22,9 +23,9 @@
           },
           "limit": {
             "type": "integer",
-            "minimum": 1,
+            "minimum": 0,
             "maximum": 200,
-            "description": "How many boxes to return. Default 40."
+            "description": "How many boxes to return. Default 20; 0 for the state alone."
           },
           "in_view": {
             "type": "boolean",
@@ -35,9 +36,71 @@
       }
     },
     {
+      "name": "find",
+      "title": "Find boxes",
+      "readOnly": true,
+      "line": "Reads which boxes of the whole grouping match a text or a facet, folded ones too; changes nothing.",
+      "description": "The boxes of the whole grouping whose words match a text, or whose concepts are of a facet, folded ones included, in the order of the grouping's tree. It changes nothing and leaves nothing for back. Words match as the page's search matches them: case and diacritics are ignored, and a box matches by its own words or by those of the answer that leads to it. Each hit gives its id, kind and label; groups, the ids of the patient groups it hangs under, outermost first; and shown, whether the current folding shows it. A statement adds its direction, grade, box number and answer; a group its number of recommendations, and its node id where its concept stands at more than one group; a hit a chapter filter hides, in_chapter false. Pages hold 10 hits.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The words to match; case and diacritics are ignored."
+          },
+          "facet": {
+            "type": "string",
+            "description": "Only concepts of this kind, one of the page's facet filter values."
+          },
+          "from": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "The first hit to return, counted from 0. Default 0."
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200,
+            "description": "How many hits to return. Default 10."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "details",
+      "title": "Read the details",
+      "readOnly": true,
+      "line": "Reads what the details panel shows for an entity: wording, grade, evidence, quoted passages with page links, related entries.",
+      "description": "What the page's details panel shows for an entity of this graph (a statement, a concept, the source), as text, whether or not it is selected: its title and, part by part under the panel's headings, what the panel says. For a statement that is its wording as quoted, its grade and evidence, whom it applies to, the notes from the body text, each quoted passage with its page and a link that opens the source there, and its related entries. A link is written [words](target), the target an entity id or a URL. A part longer than 800 characters is cut at a line, the characters left in cut. part reads one part, 5000 characters at a time: where it is cut, next is the from of the rest. It changes nothing and leaves nothing for back.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "An entity id of this graph: statements/…, concepts/…, sources/…."
+          },
+          "part": {
+            "type": "string",
+            "description": "One part's name or heading, as details gives it: only that part, 5000 characters at a time."
+          },
+          "from": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "With part: the character of the part to start at, as next gives it. Default 0."
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
       "name": "open",
       "title": "Open and select",
-      "description": "Opens entities as a link to them does: unfolds the groups and questions on the way, selects them, fits the graph to them and what is around them, and shows their details beside or below the graph. Several ids select several boxes at once.",
+      "line": "Selects entities as a link does: unfolds the way, shows their details, fits them; a group named opens whole.",
+      "description": "Opens entities as a link to them does: unfolds the groups and questions on the way, selects them, and shows their details beside or below the graph. The graph then fits them and what is around them; a group named is unfolded, and the fit takes in everything it shows below it. Several ids select several boxes at once. A running search stays: its matches keep their colour and everything else fades, what is newly shown too.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -48,6 +111,10 @@
             },
             "minItems": 1,
             "description": "Entity ids."
+          },
+          "view": {
+            "type": "object",
+            "description": "With it, the answer also carries the boxes after the act, read as view reads them with these arguments (under, from, limit, in_view); {} for the first page."
           }
         },
         "required": [
@@ -59,7 +126,8 @@
     {
       "name": "focus",
       "title": "Bring into view",
-      "description": "Unfolds the way to boxes and fits the graph to them and what is around them, without changing the selection.",
+      "line": "Unfolds the way to boxes and fits them, the selection unchanged.",
+      "description": "Unfolds the way to boxes and fits the graph to them and what is around them, without changing the selection. A group named is shown, not unfolded itself (toggle unfolds it). A running search stays: its matches keep their colour and everything else fades, what is newly shown too.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -70,6 +138,10 @@
             },
             "minItems": 1,
             "description": "Entity ids, or question node ids."
+          },
+          "view": {
+            "type": "object",
+            "description": "With it, the answer also carries the boxes after the act, read as view reads them with these arguments (under, from, limit, in_view); {} for the first page."
           }
         },
         "required": [
@@ -81,6 +153,7 @@
     {
       "name": "highlight",
       "title": "Highlight for the reader",
+      "line": "Marks boxes with the assistant's highlight, apart from the reader's selection, with an optional note.",
       "description": "Marks boxes and answers with the assistant's highlight, drawn apart from the reader's own selection, and names it on a line under the page's controls (the note, or how many fields are marked), where the reader can clear it. Replaces the previous highlight. Nothing unfolds: boxes that are folded away stay unseen until focused. Where the line takes room from the graph, a graph still where the last fit put it is fitted again, so that what it framed stays in view.",
       "inputSchema": {
         "type": "object",
@@ -97,6 +170,10 @@
             "type": "string",
             "maxLength": 140,
             "description": "A short note shown to the reader with the highlight."
+          },
+          "view": {
+            "type": "object",
+            "description": "With it, the answer also carries the boxes after the act, read as view reads them with these arguments (under, from, limit, in_view); {} for the first page."
           }
         },
         "required": [
@@ -108,17 +185,24 @@
     {
       "name": "clear",
       "title": "Clear the highlight",
+      "line": "Removes the assistant's highlight and its note.",
       "description": "Removes the assistant's highlight and its note.",
       "inputSchema": {
         "type": "object",
-        "properties": {},
+        "properties": {
+          "view": {
+            "type": "object",
+            "description": "With it, the answer also carries the boxes after the act, read as view reads them with these arguments (under, from, limit, in_view); {} for the first page."
+          }
+        },
         "additionalProperties": false
       }
     },
     {
       "name": "toggle",
       "title": "Unfold or fold a group",
-      "description": "Unfolds a patient group, or folds it if it is open, as a tap on it does; the graph then fits the group and everything it unfolded.",
+      "line": "Unfolds or folds a patient group, as a tap does; unfolding fits everything it shows below it.",
+      "description": "Unfolds a patient group, or folds it if it is open, as a tap on it does. Unfolding fits the graph to the group and everything it shows below it; folding, to the group and what is around it. The selection stays. A running search stays: its matches keep their colour and everything else fades, what is newly shown too.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -129,6 +213,10 @@
           "open": {
             "type": "boolean",
             "description": "true to unfold, false to fold; without it, the group switches."
+          },
+          "view": {
+            "type": "object",
+            "description": "With it, the answer also carries the boxes after the act, read as view reads them with these arguments (under, from, limit, in_view); {} for the first page."
           }
         },
         "required": [
@@ -140,7 +228,8 @@
     {
       "name": "fold",
       "title": "Fold or unfold below a question",
-      "description": "Folds everything below a question, or restores what was open there, as a tap on the question does.",
+      "line": "Folds everything below a question, or restores what was open there, as a tap does.",
+      "description": "Folds everything below a question, or restores what was open there, as a tap on the question does; the graph then fits the question and what it shows. The selection stays. A running search stays: its matches keep their colour and everything else fades, what is newly shown too.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -151,6 +240,10 @@
           "closed": {
             "type": "boolean",
             "description": "true to fold, false to unfold; without it, the question switches."
+          },
+          "view": {
+            "type": "object",
+            "description": "With it, the answer also carries the boxes after the act, read as view reads them with these arguments (under, from, limit, in_view); {} for the first page."
           }
         },
         "required": [
@@ -162,7 +255,8 @@
     {
       "name": "search",
       "title": "Search",
-      "description": "Sets the page's search, as typing in its search box does: the matches keep their colour, everything else fades, and the groups holding a match unfold. An empty text and no facet end the search.",
+      "line": "Sets the page's search: matches keep their colour, the rest fades, groups holding a match unfold.",
+      "description": "Sets the page's search, as typing in its search box does: the matches keep their colour, everything else fades, and the groups holding a match unfold. The answer gives the number of shown matches and the first ids in step order. An empty text and no facet end the search.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -173,6 +267,10 @@
           "facet": {
             "type": "string",
             "description": "Only concepts of this kind, one of the page's facet filter values; empty for every kind."
+          },
+          "view": {
+            "type": "object",
+            "description": "With it, the answer also carries the boxes after the act, read as view reads them with these arguments (under, from, limit, in_view); {} for the first page."
           }
         },
         "additionalProperties": false
@@ -181,6 +279,7 @@
     {
       "name": "step",
       "title": "Step through the matches",
+      "line": "Selects the next or the previous match of the search, and fits the graph to it.",
       "description": "Selects the next match of the search in reading order, or the previous one, as the page's arrows do, and fits the graph to it.",
       "inputSchema": {
         "type": "object",
@@ -192,6 +291,10 @@
               -1
             ],
             "description": "1 for the next match, -1 for the previous one. Default 1."
+          },
+          "view": {
+            "type": "object",
+            "description": "With it, the answer also carries the boxes after the act, read as view reads them with these arguments (under, from, limit, in_view); {} for the first page."
           }
         },
         "additionalProperties": false
@@ -200,10 +303,16 @@
     {
       "name": "back",
       "title": "Back",
+      "line": "Undoes the last change, the reader's or the assistant's, as the page's back button does.",
       "description": "Returns the view as it was before the last change, the reader's or the assistant's, as the page's back button does.",
       "inputSchema": {
         "type": "object",
-        "properties": {},
+        "properties": {
+          "view": {
+            "type": "object",
+            "description": "With it, the answer also carries the boxes after the act, read as view reads them with these arguments (under, from, limit, in_view); {} for the first page."
+          }
+        },
         "additionalProperties": false
       }
     }
