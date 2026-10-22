@@ -1477,11 +1477,12 @@ cut-publication).
 > | 1 — the read-only server: its six tools, a server factory in `mcp/` | built: tools, description file (`mcp/src/descriptions.js`), quote gate, paging, the check (`CLAUDE.md` "Checks"); a recommendation's steps in get entity | #272; #299 |
 > | 1 — the read-only server, hosted | deployed at `https://mcp.graph.med/mcp` since 2026-10-06: the Worker (`mcp/src/worker.js`, `mcp/wrangler.toml`), checked through Workers' local runtime (`CLAUDE.md` "Checks"); the one way the server is reached (2026-09-28). `.github/workflows/mcp.yml` deploys it after each Pages deploy from `main` once the server's check passes against the site just published (ADR-0008); every run from 2026-10-12 to 2026-10-22 stopped at that check, the first two on the quote gate #415 fixes, so until a run passes the endpoint serves the server deployed on 2026-10-06. Transient errors from Pages are retried, and the check before a deploy is the fixture and a short walk of the site (#317) | #279, #317 |
 > | 2 — the inline view | designed, not built | #278 (with #276, #277) |
-> | the session tools in the view page (below) | built: the page function and WebMCP registration, named by the page, `llms.txt` and the server's instructions, and a ready prompt one click away; the relay that would take them outside the browser is not (#412, after #411) | #408, its second version #416, found by #410 (initiative `co-navigation`, #407) |
+> | the session tools in the view page (below) | built: the page function and WebMCP registration, named by the page, `llms.txt` and the server's instructions, and a ready prompt one click away; the relay that would take them outside the browser is not (#412, allowed by ADR-0010) | #408, its second version #416, found by #410 (initiative `co-navigation`, #407) |
 >
 > This section is the design; the keys and URLs it relies on are §2's and §4's, the
 > server's runtime, toolchain and home ADR-0007's (#271), the choice of host
-> ADR-0008's (#279). What is marked *proposed* waits for the maintainer's
+> ADR-0008's (#279), and the one session the server may hold, the relay's,
+> ADR-0010's (#411). What is marked *proposed* waits for the maintainer's
 > confirmation; the rest is agreed design. The facts it gives about other parties'
 > products change; each carries its source and the date it was read.
 
@@ -1536,6 +1537,17 @@ refuses `pathway` views, and no `data/pathways/` exists (open question
 > 6. **Graph-agnostic.** Nothing names a specific graph. The server and the view work
 >    from the schema and the build's index, so a newly published graph is available
 >    without code changes.
+
+**Principle 2, amended** (ADR-0010; the maintainer, 2026-10-22). The server stays
+read-only and stateless, with one exception: the relay (#412) may hold a session
+that a reader opens in the page. It pairs their open tab with an MCP client by a
+short code that expires, and it passes the page's session tools only ("The session
+tools" below).
+- It writes nothing to the pool or the site.
+- It stores nothing about the reader and logs no tool argument.
+- What it holds ends with the session, which expires.
+
+Nothing else the server does holds a session.
 
 The first sentence is the one the repository holds for its own agent
 (`.claude/memory/environment/security-enforced-outside-model.md`): whatever must
@@ -1862,7 +1874,7 @@ server — is #278's to decide, and ADR-0007's how its bundle is built.
 > **Status: built (#408), in its second version (#416), and named where an assistant
 > looks (#410)**, the first part of the initiative `co-navigation` (#407). Its other
 > parts are the MCP server's side (#409) and a relay for clients outside the browser
-> (#412, after the decision #411). Two of #407's questions are the
+> (#412, which ADR-0010 allows, #411). Two of #407's questions are the
 > maintainer's and stay open: whether the tools wait for the reader to switch a
 > session on (opt-in), and whether conversation-driven highlighting makes the page a
 > medical device (#283).
@@ -2121,7 +2133,8 @@ The design:
   records DNS only (not proxied), so only `mcp.graph.med` passes Cloudflare's
   proxy.
 - It serves stateless Streamable HTTP. Cloudflare recommends the stateless handler
-  `createMcpHandler`; `McpAgent` is deprecated.
+  `createMcpHandler`; `McpAgent` is deprecated. The one session it may hold is the
+  relay's (ADR-0010; #412 builds it), held apart from the six tools.
 - **No IP allowlist.** The maintainer, 2026-09-28: "we want to board other ai
   platforms too without that friction." Any MCP client may call the endpoint:
   hosted assistants of any vendor, and clients on the user's machine (Claude Code,

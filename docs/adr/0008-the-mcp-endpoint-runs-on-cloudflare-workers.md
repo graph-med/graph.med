@@ -6,7 +6,9 @@ pull request (#290, which carries card #279) on 2026-09-28: the host name
 out; Workers Free with one rate-limiting rule; and the deploy trigger. The
 rest was agreed on 2026-09-27 (#267, agreed decision 4; #279, Decisions). The
 allowlist of #267's agreed decisions 3 and 9 (only Anthropic's range let
-through, other vendors' hosted assistants not) is overturned.
+through, other vendors' hosted assistants not) is overturned. Decision 1's "The
+server keeps no session" is superseded, for the relay to a reader's open tab
+alone, by ADR-0010 (2026-10-22).
 
 Deployed: `https://mcp.graph.med/mcp` answers since 2026-10-06 (#279). Amended
 on 2026-10-22 (#317): the reader retries a transient error from Pages, and
