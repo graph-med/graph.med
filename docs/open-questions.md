@@ -327,3 +327,16 @@ and which card is next, is not a question and lives on the board (`uv run tools/
 
 **Leaning:** none. (2026-10-22)
 **Settled by:** the maintainer.
+
+## graph-frame  (publication.md §3 "Folded by default", "The interaction"; card #251)
+**Question:** What does a tap that opens a patient group frame, beyond the group with everything it unfolded and the answer that names it (built, #251)? Card #251 asks for the question that answer belongs to as well. The question stands at the top of its column of answers, so framing it frames every answer above the group too.
+
+**Options:**
+- the group, what it unfolded and its answer (built): every answer and every box the tap shows wholly in view, in all 91 groups of the three views at 1280 and 390 px; at the median the zoom is 0.83 times `main`'s, a box's 12 px text 11.2 px on a desktop and 4.7 px on a phone;
+- the same and the question: wholly in view as well; at the median the zoom is 0.55 (desktop) and 0.61 (phone) times `main`'s, the text 6.8 and 3.2 px;
+- the question with all its answers and the group (#251's first attempt, withdrawn 2026-10-17: on a phone the group's boxes started out of view).
+
+In the first two, the question's other answers and their groups fall where the fit puts them, some under the controls or past the canvas edge, a pan away: opening Asplenie in the Sepsis view leaves the group above it under the search box at 1280 px.
+
+**Leaning:** the first: focus before a readable zoom (the maintainer, 2026-10-18), and the answer alone says which group was opened. (2026-10-22)
+**Settled by:** the maintainer, on the preview.
