@@ -182,8 +182,9 @@ claim in
 
 - id `claims/<source-id>/<hash8>` where `hash8` = first 8 hex of
   sha256(`<locator>|<quote>`) — script it, never hand-compute;
-- `label`: the full sentence, source language, `lang` tagged; one claim per
-  sentence of a box, never one per box (memory
+- `label`: the full sentence, source language, `lang` tagged, in the case
+  the page prints (running-text case is the concepts' rule, below, never a
+  claim's); one claim per sentence of a box, never one per box (memory
   `box-granularity-per-sentence`); a table claim as §5.1 K reads it
   ("Kopf: Zelle; …"). Every label — and every evidence `key` — leaves out the
   reference marks its passage prints, glued ("erfolgen55, daher" → "erfolgen,
@@ -244,9 +245,15 @@ Phase two, linking, judgment, all `modelling`: for each claim, search
 `supports`/`contests` it; mint a statement only when none fits, its slots
 referencing concepts. For each slot, search `data/concepts/` and the
 terminology namespaces before minting a concept; a new concept gets its
-`facet`. A box's sentence of recommendation form supports a statement per
-action it instructs, a fact or criterion sentence the statement spec §3.1
-names, a fact saying only what the evidence shows none, a definition sentence
+`facet`, and its `label` and `short_label` in running-text case — as their
+words read inside a sentence of the label's language, the first word
+included, read in its label: a first word that language writes in lower case
+inside a sentence opens in lower case, a noun, a name or a token whose case
+is fixed keeps its own (spec §3.2, memory `label-case`); the pull request
+names each first word that could be read either way, and a statement's label
+begins as a sentence does. A box's sentence of recommendation form supports
+a statement per action it instructs, a fact or criterion sentence the
+statement spec §3.1 names, a fact saying only what the evidence shows none, a definition sentence
 none (its concept's `defined_by` reaches it), a gap notice none; the
 narrower claim of a rule printed inside a box sentence none, the concept it
 gives reaching it by `defined_by` (spec §3.1). A score's concept reaches the
@@ -265,7 +272,8 @@ the pull request the only place it is named. Edges go to
 
 **linking** — edits existing entities or adds edges under spec §11: every change
 `modelling` or sourced, search before minting, nothing inherited, no review
-status written.
+status written; a concept relabelled keeps its id and takes running-text
+case like one minted.
 
 **schema** — changes `schema/schema.yaml` and `tools/validate.py` together and
 leaves the data valid.
