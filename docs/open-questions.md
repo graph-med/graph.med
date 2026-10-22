@@ -292,3 +292,14 @@ and which card is next, is not a question and lives on the board (`uv run tools/
 - no tool returns it; the result says where it stands (as built by #299).
 **Leaning:** the second, as the agent reads the memory: what the gate guards is verbatim source text wherever it stands, which these rationales hold, and the maintainer's ground — nothing gated that the site shows openly — places it where provenance returns a claim's sentence, whole. The fourth is built so that nothing the gate decided is widened before the maintainer answers. (2026-10-22)
 **Settled by:** the maintainer, in card #299's pull request.
+
+## label-case-foreign-first-word  (graph-representation.md §3.2, §8.1; memory `label-case`; cards #257, #340)
+**Question:** §3.2 writes a concept's label as its words read inside a sentence of the label's language. It names no case for a first word from another language standing in the label. The judge of #257's relabel (pull request #338) noticed this. The pool has two such labels, and both follow the case the page prints inside its German sentence: the short label „double gram-negative coverage“ (lower case, as p. 42 of the second source prints it) and „Antimicrobial Stewardship (AMS)-Programm“ (upper case, as its claims print it). The judge's eighth question (#340) asks a concept label's case, and no clause decides such a word.
+
+**Options:**
+- the case the page prints for the word inside its sentence;
+- the case the word's own language gives it inside a sentence;
+- the case the label's language gives a foreign word inside a sentence (in German, a foreign noun phrase opens in upper case).
+
+**Leaning:** none recorded. (2026-10-22)
+**Settled by:** the maintainer.
