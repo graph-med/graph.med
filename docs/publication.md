@@ -1910,6 +1910,19 @@ take; a question, which names no entity, goes by its node id (`q:…`).
     is the passage. On a phone (narrow, no hovering pointer) it is left out: no
     assistant there drives a page, and a third button would make the stacked tools a
     row taller.
+  - **From the index on.** The index offers no session tools, and says so in the
+    same ways, so that an assistant starting there is led to a graph instead of
+    failing.
+    - Its passage, first in `<main>`, states that each graph's page offers the tools
+      and that this one does not.
+    - Its button, in the same corner as a graph page's, copies a prompt that asks
+      the assistant to open the graph it needs and to work there as above.
+    - Its page function gives, in place of tools, the words of `session-tools.json`'s
+      `index` and the graphs, each with the URL of its page: `describe()` returns
+      them with an empty list of tools, and `call()` refuses with them. A prompt
+      copied on a graph's page and sent on the index therefore leads on, too.
+    - The tree fits below the controls' row while the button shows, as a graph
+      fits in its free row.
   - **The site and the server say so.** `llms.txt` has a section on the session
     tools, its list of them rendered from `session-tools.json`. The MCP server gives
     the disclaimer and then, as a fact, what a graph's page offers an assistant as
