@@ -473,10 +473,13 @@ export async function getTreeNode(L, { graph, grouping, node, depth = 0, offset 
 
 // The deepest subtree, and the largest page size, that keep the result under
 // MAX_CHARS — the first that fits, trying depth d down to 0 and at each depth
-// the sizes of PAGE_SIZES in turn, with `depth_reduced_to` when the depth was
-// lowered. Each node's detail is built and serialised once, and each
-// candidate's length is added up from those, not by building and
-// serialising the candidate: a Worker request has 10 ms of CPU (#279).
+// the sizes of PAGE_SIZES in turn. When the depth was lowered, the result says
+// to what (`depth_reduced_to`), why (`depth_reduced_reason`: 'size_cap', the
+// one reason: the depth asked for does not fit even at the smallest page
+// size) and the cap (`size_cap`, in characters, the form's) (#317). Each
+// node's detail is built and serialised once, and each candidate's length is
+// added up from those, not by building and serialising the candidate: a
+// Worker request has 10 ms of CPU (#279).
 // A grouping's node details at PAGE from offset 0, and their subtrees'
 // JSON lengths, kept with its parsed tree file and search file: they depend
 // on nothing else, and are the same for every call on them.
@@ -524,7 +527,9 @@ function fittedTree(L, ctx, base, meta, n, d, offset) {
     return k === 0 ? len : withBelow(len, belowIds(T, n, offset, size).map((c) => subLength(c, k - 1)));
   };
   const frame = JSON.stringify({ ...base, node: 0, about: meta }).length - 1;
-  const reduced = (k) => (k < d ? ',"depth_reduced_to":'.length + String(k).length : 0);
+  const reducedKeys = (k) => ({ depth_reduced_to: k, depth_reduced_reason: 'size_cap', size_cap: MAX_CHARS });
+  // The keys appended to the result: their JSON without its braces, after a comma.
+  const reduced = (k) => (k < d ? JSON.stringify(reducedKeys(k)).length - 1 : 0);
 
   let size;
   let k;
@@ -536,7 +541,7 @@ function fittedTree(L, ctx, base, meta, n, d, offset) {
   const [x] = tops.get(size);
   const node = k === 0 ? x : { ...x, below: belowIds(T, n, offset, size).map((c) => subtree(c, k - 1)) };
   const result = { ...base, node, about: meta };
-  if (k < d) result.depth_reduced_to = k;
+  if (k < d) Object.assign(result, reducedKeys(k));
   return result;
 }
 

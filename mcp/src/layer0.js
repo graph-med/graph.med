@@ -8,6 +8,17 @@
 // whichever comes first.
 export const TTL_MS = 10 * 60 * 1000;
 
+// A request that fails with a 5xx or a network error — GitHub Pages answers
+// a 503 now and then (#317) — is made again after each of these waits, then
+// reported. A retry is made only while the tool call has made fewer than
+// RETRY_WITHIN requests in all, half the subrequests Workers allow one
+// request (SUBREQUESTS): a call of at most RETRY_WITHIN requests stays within
+// the limit however many of them fail. A wait costs no CPU time. A 404 and
+// every other answer are reported at once.
+export const RETRY_DELAYS_MS = [200, 600];
+export const SUBREQUESTS = 50;
+export const RETRY_WITHIN = SUBREQUESTS / 2;
+
 export class InputError extends Error {}
 
 export function normaliseBase(base) {
@@ -27,15 +38,29 @@ export function normaliseBase(base) {
 export class Layer0 {
   // base: the site's root (https://graph.med/, a preview, a local build).
   // fetch: the fetch to use (default: the global one).
-  // onFetch: called with each URL this reader requests, for a request log.
+  // onFetch: called with each URL this reader requests, a retry included, for
+  // a request log.
+  // onRetry: called with the URL and the failure before each retry.
   // now: a clock, for tests.
-  constructor({ base, fetch: fetchImpl, onFetch, now } = {}) {
+  constructor({ base, fetch: fetchImpl, onFetch, onRetry, now } = {}) {
     this.base = normaliseBase(base);
     this.fetchImpl = fetchImpl || ((...a) => globalThis.fetch(...a));
     this.onFetch = onFetch || (() => {});
+    this.onRetry = onRetry || (() => {});
     this.now = now || (() => Date.now());
     this.cache = new Map(); // url -> {at, promise}
     this.commit = null;
+    this.root = this;
+  }
+
+  // The reader one tool call uses: this one — its cache, its commit — with a
+  // count of the requests the call makes, which bounds its retries
+  // (RETRY_WITHIN). Used directly, a reader counts nothing and retries each
+  // request as RETRY_DELAYS_MS allows.
+  forCall() {
+    const call = Object.create(this.root);
+    call.requests = 0;
+    return call;
   }
 
   inBase(url) {
@@ -47,16 +72,47 @@ export class Layer0 {
     if (!this.inBase(url)) throw new InputError(`outside the base ${this.base}: ${url}`);
     const hit = this.cache.get(url);
     if (hit && this.now() - hit.at < TTL_MS) return hit.promise;
-    const promise = (async () => {
-      this.onFetch(url);
-      const res = await this.fetchImpl(url, { headers: { accept: 'application/json' } });
-      if (res.status === 404) throw new InputError(`not found: ${url}`);
-      if (!res.ok) throw new Error(`GET ${url}: HTTP ${res.status}`);
-      return res.json();
-    })();
+    const promise = this.read(url);
     this.cache.set(url, { at: this.now(), promise });
     promise.catch(() => this.cache.delete(url));
     return promise;
+  }
+
+  // One file read, retried as RETRY_DELAYS_MS and RETRY_WITHIN allow.
+  async read(url) {
+    for (let retry = 0; ; retry++) {
+      if (this.requests !== undefined) this.requests++;
+      this.onFetch(url);
+      const r = await this.attempt(url);
+      if (!r.failure) return r.file;
+      const attempts = `${retry + 1} attempt${retry ? 's' : ''}`;
+      if (retry === RETRY_DELAYS_MS.length || this.requests >= RETRY_WITHIN) throw new Error(`GET ${url}: ${r.failure} (${attempts})`);
+      this.onRetry(url, r.failure);
+      await new Promise((resolve) => setTimeout(resolve, RETRY_DELAYS_MS[retry]));
+    }
+  }
+
+  // One request: {file}, the parsed file, or {failure} where a retry may
+  // help — a 5xx, a network error; a 404 and every other answer throw.
+  async attempt(url) {
+    let res;
+    try {
+      res = await this.fetchImpl(url, { headers: { accept: 'application/json' } });
+    } catch (err) {
+      return { failure: `network error: ${err.message}` };
+    }
+    if (res.status === 404) throw new InputError(`not found: ${url}`);
+    if (res.status >= 500) {
+      await res.body?.cancel().catch(() => {});
+      return { failure: `HTTP ${res.status}` };
+    }
+    if (!res.ok) throw new Error(`GET ${url}: HTTP ${res.status}`);
+    try {
+      return { file: await res.json() };
+    } catch (err) {
+      if (err instanceof SyntaxError) throw err;
+      return { failure: `network error: ${err.message}` };
+    }
   }
 
   async index() {
@@ -67,7 +123,7 @@ export class Layer0 {
       this.cache.clear();
       if (kept) this.cache.set(this.base + 'index.json', kept);
     }
-    this.commit = index.commit;
+    this.root.commit = index.commit;
     return index;
   }
 
