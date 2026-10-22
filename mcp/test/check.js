@@ -426,9 +426,10 @@ async function runTarget(target) {
   const index = await raw(base + 'index.json');
   // The disclaimer (card #291): the server's copy is the site's, as index.json
   // publishes it (a built site; the synthetic fixture has no banner), and the
-  // server gives it as its instructions.
+  // server gives it as the first paragraph of its instructions, what a graph's
+  // page offers an assistant (card #410) as the second.
   if (target.kind !== 'fixture') C.ok(index.disclaimer === words.disclaimer, 'disclaimer: the server\'s copy differs from index.json');
-  C.ok(client.getInstructions() === words.disclaimer, 'instructions: not the disclaimer');
+  C.ok(client.getInstructions() === `${words.disclaimer}\n\n${words.pages}`, 'instructions: not the disclaimer, then the page\'s session tools');
   const forbiddenUrls = new Set(index.views.map((v) => v.json));
   const views = index.views;
 
