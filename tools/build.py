@@ -492,13 +492,16 @@ def session_tools() -> dict:
     view page as data; graph.js implements each by name. Read once; a name WebMCP would refuse (letters, digits,
     `_`, `-` and `.`, at most 128), a name twice, a tool without a description or without an object schema stops
     the build, as a browser's registration would refuse it later; so does one without its `line`, which
-    describe()'s brief form gives in place of the description."""
+    describe()'s brief form gives in place of the description; and so does a file without `index`, the words the
+    index page's page function gives in their place (it has no tools, and names the graphs)."""
     path = SITE_SRC / "session-tools.json"
     spec = json.loads(path.read_text(encoding="utf-8"))
     names = [t.get("name", "") for t in spec["tools"]]
     for t in spec["tools"]:
         if not re.fullmatch(r"[A-Za-z0-9_.-]{1,128}", t.get("name", "")) or not t.get("description") or not t.get("line") or (t.get("inputSchema") or {}).get("type") != "object":
             raise SystemExit(f"{path.relative_to(ROOT)}: tool {t.get('name')!r} needs a name WebMCP accepts, a description, a line and an object inputSchema")
+    if not spec.get("index"):
+        raise SystemExit(f"{path.relative_to(ROOT)}: `index` needs the words the index page's page function gives")
     if len(set(names)) != len(names):
         raise SystemExit(f"{path.relative_to(ROOT)}: a tool name twice: {', '.join(sorted({n for n in names if names.count(n) > 1}))}")
     return {k: v for k, v in spec.items() if k != "_"}   # the file's own note stays in the repository
@@ -2079,7 +2082,7 @@ def main(argv=None) -> int:
         (out / vid / "index.html").write_text(
             view_tpl.render(view=view, vid=vid, title=title, sources=sources, counts=counts, legend=data["legend"], facets=facets,
                             graph_json=dumps(data).replace("</", "<\\/"),   # safe inside <script>
-                            tools_json=dumps(session_tools()).replace("</", "<\\/")), encoding="utf-8")
+                            tools_json=dumps({k: v for k, v in session_tools().items() if k != "index"}).replace("</", "<\\/")), encoding="utf-8")
         (out / (vid + ".json")).write_text(dumps(data), encoding="utf-8")
         # the path view (docs/publication.md §3 "The path view"): a page for every statement of the view on a `follows`
         # edge, <view-id>/sequence/<statement>/, drawing the chain it stands in (path_of) entered from it — the same
@@ -2141,7 +2144,10 @@ def main(argv=None) -> int:
 
     # the index: the only page where the views meet — one question, a box and an entry per view, the box drawn by
     # assets/home.js from the entry; its words are the page chrome's (tools/site/words/)
-    (out / "index.html").write_text(env.get_template("index.html").render(views=views), encoding="utf-8")
+    # and, for an assistant beside its reader, what its page function gives in place of tools: the words, the graphs
+    # it reads from the entries (home.js)
+    agent = {"version": session_tools()["version"], "about": session_tools()["index"]}
+    (out / "index.html").write_text(env.get_template("index.html").render(views=views, agent_json=dumps(agent).replace("</", "<\\/")), encoding="utf-8")
     # the index for programs and its description (docs/publication.md §2, §4): every view with its files and groupings,
     # at the root of the site and of every preview; llms.txt describes, in English, and instructs nothing
     index = {"commit": commit, "schema": {"version": schema.get("x-version"), "url": at("schema/schema.yaml")},

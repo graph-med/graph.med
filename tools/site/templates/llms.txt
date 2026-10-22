@@ -64,6 +64,7 @@ The page link that opens a position in a grouping is `{{ site }}<view-id>/?by=<a
 Every view page offers an assistant beside its reader a set of tools (interface version {{ tools.version }}): they read what the reader sees and change it as the page's own controls do. They change nothing else and persist nothing: a reload shows the page as before, and the page's back button undoes each act like the reader's own.
 
 - Page function, for a program that runs script in the page: `window.graphmed.agent.describe()` gives the brief form (the version, what the tools are, and each tool's name, title, one line and argument names, an optional one marked `?`); `describe(name)` gives one tool's full definition with the JSON Schema of its input; `window.graphmed.agent.call(name, args)` returns a promise of the answer.
+- The index page ({{ site }}) offers no tools: its `window.graphmed.agent.describe()` gives, in their place, every graph with the URL of its page, and `call()` refuses with the same.
 - WebMCP: where the browser offers `document.modelContext` (or the older `navigator.modelContext`), the page registers the same tools there, from the same definitions; the reads carry the read-only hint.
 - The tools:
 {% for t in tools.tools %}

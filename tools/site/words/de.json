@@ -82,6 +82,10 @@
     "prompt": {
       "label": "Prompt für einen KI-Assistenten kopieren",
       "text": "Diese Seite von graph.med bietet dir Werkzeuge im Skript der Seite. Rufe einmal per JavaScript window.graphmed.agent.describe() auf (describe(name) beschreibt ein Werkzeug ganz) und arbeite danach nur mit await window.graphmed.agent.call(name, args), ohne Screenshots und ohne Klicks. Die Ids sind die Entity-ids von graph.med, wie in der Adresse nach # und im MCP-Server von graph.med."
+    },
+    "home": {
+      "note": "Für Assistenten: Diese Seite führt zu den Graphen von graph.med und bietet selbst keine Werkzeuge für KI-Assistenten; die Seite jedes Graphen bietet sie an, im Skript der Seite unter window.graphmed.agent. Hier nennt window.graphmed.agent.describe() die Graphen mit den Adressen ihrer Seiten. {llms} beschreibt die Werkzeuge ausführlich.",
+      "prompt": "Die Seiten der Graphen von graph.med bieten dir Werkzeuge im Skript der Seite. Öffne die Adresse des Graphen, den du brauchst (per JavaScript nennt window.graphmed.agent.describe() hier alle mit ihren Adressen), rufe dort einmal window.graphmed.agent.describe() auf (describe(name) beschreibt ein Werkzeug ganz) und arbeite danach nur mit await window.graphmed.agent.call(name, args), ohne Screenshots und ohne Klicks. Die Ids sind die Entity-ids von graph.med, wie in der Adresse nach # und im MCP-Server von graph.med."
     }
   },
   "search": {

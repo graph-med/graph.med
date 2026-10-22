@@ -299,7 +299,7 @@ ol.path-steps .chip, .card ol.step-run .chip { font-size: .85em; margin-right: .
 
 /* chapters and search (docs/publication.md §3 "Chapters and search"): a hard filter and a soft highlight */
 .tools.left { flex: 1 1 auto; min-width: 0; align-items: center; flex-wrap: wrap; }   /* what does not fit wraps under, the counter first; the flex row keeps the fit and back buttons their place */
-.tools.right { flex: none; }
+.tools.right { flex: none; margin-left: auto; }   /* at the right end on the index too, where it is the row's only part */
 .tools input[type=search] { height: 44px; width: 11rem; max-width: 40vw; padding: 0 .8rem; border: 1px solid var(--line); border-radius: 22px; background: var(--bg); color: var(--fg); font: inherit; font-size: .95rem; }
 .tools .count { font-size: .78rem; color: var(--mute); background: var(--bg); padding: .1rem .5rem; border-radius: 1rem; white-space: nowrap; }
 /* the assistant's highlight named on a line of its own under the controls (session tools): the controls' row grows, so the
