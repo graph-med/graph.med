@@ -663,19 +663,29 @@ glyph. Timing
      |---|---|
      | One value | one line, no disclosure: `moderat nach GRADE`, `1 nach Oxford 2011` — the value as the claim stores it, then the system's name; one entry with neither an outcome nor a key |
      | One row | one line, no disclosure: the value and the system's name, then what the value rates — `Moderat nach GRADE · Endpunkt: Klinisch relevante obere GI-Blutungen`, a keyed row `… · Bezug: <key>`, a row naming both `… · Bezug: <key> · Endpunkt: <endpoint>`; a row the source lists unrated reads `nicht erfasst nach GRADE · Endpunkt: …` — a table of one row is no table |
-     | Per row | a native `<details>`, closed — its summary already says what was rated and how certain, the table is for whoever asks which endpoint —: its `<summary>` reads `für 4 Endpunkte bewertet, hoch bis sehr niedrig`, under it a table `Endpunkt \| Sicherheit` in the guideline's order, never sorted, the system named once as the table's caption; a table with keyed rows reads by its keys (below) |
+     | Per row | a native `<details>`, closed — its summary already says what was rated and how certain, the table is for whoever asks which endpoint —: its `<summary>` reads `für 4 Endpunkte bewertet, hoch bis sehr niedrig`, or `für 2 Endpunkte bewertet, hoch` where every row carries one level, under it a table `Endpunkt \| Sicherheit` in the guideline's order, never sorted, the system named once as the table's caption; a table with keyed rows reads by its keys (below) |
      | Expert consensus only | one line: `Expertenkonsens, keine Evidenzbewertung` — no supporting claim carrying an entry, and each either graded by a grade that fixes no wording in its scheme (`EK`, an expert consensus, `graph-representation.md` §3.1) or printing a basis beside its grade (`⇑⇑ EK`); the first words are the scheme's description of that grade or basis, one line per description where the claims rest on different ones |
      | Nothing recorded | one line: `nicht erfasst` — what is not recorded, never that the guideline says nothing |
 
      The summary line says what the source rated and how many, and the range
      follows it after a comma, as what it is — a description of a set, no value
-     of the recommendation. A table counts two rows or more, so the line has
+     of the recommendation. Where every row carries one value instead, matched
+     without regard to case, that value follows in the range's place (`für 2
+     Endpunkte bewertet, hoch`), so that a closed table still shows its rating:
+     it is the value each row prints, named once, for any system, since naming
+     it needs no order, and nothing is composed — rows that differ keep their
+     range, or lose it as below, and are never named by one of their levels. It
+     is named in the form the display order holds where the system has one and
+     the value is on it, as the range is, else as its first row prints it
+     (`für 3 Endpunkte bewertet, sehr gering`); the statement JSON carries it
+     as the group's `level`, beside `range`. A table counts two rows or more, so the line has
      no singular: one row is the one-row line, which names the endpoint or the
      key its value belongs to, so that the certainty stays with what it rates
      and no line claims that a single value depends on anything. The
      range is the highest and the lowest value present by the system's display
      order (`EVIDENCE_SCALES` in `tools/build.py`, keyed by system, read for
-     this and nothing else), matched without regard to case — a value is
+     this and for the form of the one level, and nothing else), matched
+     without regard to case — a value is
      stored as printed, and a box's `Moderat` and a method section's `moderat`
      are one level — and named in the form that order holds (`moderat bis
      sehr niedrig`), while each row shows its value as the claim stores it; a
@@ -698,6 +708,7 @@ glyph. Timing
      follows only where some row names an endpoint, and the summary line
      counts rows, not endpoints, with the same range rule:
      `in 2 Zeilen aufgeschlüsselt, moderat bis sehr niedrig`,
+     `in 3 Zeilen aufgeschlüsselt, moderat`,
      `in 5 Zeilen aufgeschlüsselt`, `in 5 Zeilen aufgeschlüsselt, 3 davon
      erfasst`. `Sepsis-Screening | Moderat`,
      `Dopamin | Hoch`, `oXiris® | Mortalität | Sehr niedrig`: the key is never
