@@ -282,3 +282,13 @@ and which card is next, is not a question and lives on the board (`uv run tools/
 **Options:** harmless, keep them in the view layer's table (Decision 3 as it stands) · the card's table, in the source language, like `Verwandt` · decide with `page-hint-language`, by one rule for every word the sheet shows
 **Leaning:** none. (2026-10-22)
 **Settled by:** the first view whose source language is not the page language, with `page-hint-language`.
+
+## step-wording-gate  (publication.md §8 "Guardrails, carried as data"; memories `quote-gate-follows-the-site`, `sequences-are-edges`; card #299)
+**Question:** A `follows` edge's rationale quotes the trigger's wording as printed, in „…“, as every modelling edge's rationale cites its passage (#294, Decision 4). Does the read-only server return it, and from which tool? The quote gate lets verbatim source text leave the server only through the provenance tool: each claim's sentence whole, quotes capped at 100 characters, and every other tool returning no claim sentence and no quote, a recommendation's wording withheld where it carries one word for word. The rationale is the project's modelling text, shown openly under each step on the site (publication.md §3 zone 5), but it carries source text: on the build of 2026-10-22, 6 of the 18 rationales carry a claim's whole sentence, 10 a claim's quote, and 5 a quoted passage longer than 100 characters. Card #299's own reading is that the trigger's wording "is a modelling rationale, not a source quote"; returning it from get entity would breach the gate as the check enforces it.
+**Options:**
+- get entity returns each step's rationale, read as modelling text (the card's reading); the gate and its check then admit rationales outside provenance;
+- the provenance tool returns it, whole as the site shows it, like a claim's sentence, its quotes uncapped;
+- the provenance tool returns it with its quoted passages capped like other quotes;
+- no tool returns it; the result says where it stands (as built by #299).
+**Leaning:** the second, as the agent reads the memory: what the gate guards is verbatim source text wherever it stands, which these rationales hold, and the maintainer's ground — nothing gated that the site shows openly — places it where provenance returns a claim's sentence, whole. The fourth is built so that nothing the gate decided is widened before the maintainer answers. (2026-10-22)
+**Settled by:** the maintainer, in card #299's pull request.

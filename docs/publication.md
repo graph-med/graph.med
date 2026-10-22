@@ -1443,7 +1443,7 @@ cut-publication).
 > | Layer | Status | Built by |
 > |---|---|---|
 > | 0 — the machine-readable site | built: index, `llms.txt`, tree files, per-view file, search file (§2, §4); entity JSON with `meta`, a concept's `statements` and `appears_in` (§4) | #270 (with #269) |
-> | 1 — the read-only server: its six tools, a server factory in `mcp/` | built: tools, description file (`mcp/src/descriptions.js`), quote gate, paging, the check (`CLAUDE.md` "Checks") | #272 |
+> | 1 — the read-only server: its six tools, a server factory in `mcp/` | built: tools, description file (`mcp/src/descriptions.js`), quote gate, paging, the check (`CLAUDE.md` "Checks"); a recommendation's steps in get entity | #272; #299 |
 > | 1 — the read-only server, hosted | built, not deployed: the Worker (`mcp/src/worker.js`, `mcp/wrangler.toml`), checked through Workers' local runtime (`CLAUDE.md` "Checks"); the one way the server is reached (2026-09-28); the deploy is a person's (ADR-0008) | #279 |
 > | 2 — the inline view | designed, not built | #278 (with #276, #277) |
 > | the session tools in the view page (below) | built: the page function and WebMCP registration; the relay that would take them outside the browser is not (#412, after #411) | #408 (initiative `co-navigation`, #407) |
@@ -1678,10 +1678,33 @@ axis, a slot or a grouping:
   page's to give, counted as drawn (#408).
 - **Get entity**: a recommendation — its wording, marked `modelling`; grade, verb,
   consensus and direction; the claims behind it by URL and page, with no verbatim
-  text (no claim sentence, no quote); its `specializes` and `complements` relations — or a concept — the
+  text (no claim sentence, no quote); its `specializes` and `complements` relations;
+  and its **steps** (#299), read from its JSON's `sequence` (§4) — or a concept — the
   recommendations that hold it, per graph and slot, and where it appears in each
   grouping of each graph. A condition is a concept seen from its slot, so no tool of
   its own returns it.
+
+  The steps are the recommendations before and after it along `follows`
+  (`graph-representation.md` §5), one entry per edge in the guideline's order, and
+  the whole chain they form. Each recommendation is named as tree nodes name it —
+  label, direction, grade and verb as its box shows them, URL, deep link — with its
+  recommendation number and pages; each step carries its `transition` and `trigger`
+  as stored and in the server's words (`mcp/src/descriptions.js`), `concurrent`
+  worded as running at the same time with no order in time given. The chain is its
+  nodes, each with its distance from this recommendation in steps, and its edges,
+  later → earlier, with the words of their keys once; it is cut to the 25 nodes
+  nearest to this one, the count it was cut from and the cut stated, and carries a
+  deep link selecting it. The words are data, as the guardrails below say: they
+  state what a key means, a grade on every node, and that several steps into one
+  recommendation mean neither that their outcomes call for it together nor that any
+  one does (open question `follows-several-earlier`). A step carries no threshold —
+  one the trigger prints stands on the rule of the later recommendation's condition
+  — and nothing compares a value with one. It carries no rationale either: the
+  rationale quotes the trigger's wording and carries source text, so it stays on the
+  page until the maintainer decides where the server may return it (open question
+  `step-wording-gate`). Every node is a recommendation, never a step of the body
+  text (`graph-representation.md` §5), so none is marked as having no
+  recommendation of its own; one without a recommendation number shows `no: null`.
 - **Search**, over a graph's search file, within one graph, or across graphs with
   the hits grouped per graph, each group ranked on its own and never merged; it
   returns ids, labels, URLs and the metadata, never a quote. Beside the words, or
@@ -1716,7 +1739,8 @@ population of one recommendation, the condition of another — and the URL is th
 identity (`.claude/memory/design/pool-and-views.md`). **Cost:** get tree node reads
 the grouping's tree file and the graph's search file — one or two static GET requests
 whatever the depth —, a search over a subtree also the grouping's tree file, and get
-entity reads the entity's JSON; parsed files stay in
+entity reads the entity's JSON — a recommendation's steps and its whole chain come
+from that one file and the search file, no other recommendation's JSON —; parsed files stay in
 memory between calls. On today's build, `JSON.parse` of a whole lean view JSON takes
 about 2.2–2.5 ms in Node 22.
 
