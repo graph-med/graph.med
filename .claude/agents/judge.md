@@ -205,7 +205,11 @@ lower case.
    the title proper as the title page prints it — without what the document
    prints apart from it (its version, its date, its form), and with nothing
    of the title left out? Is each version the source records the label its
-   quote prints, without the word for it? Is each date it records the one
+   quote prints, without the word for it? Where it records a version or a
+   date as several printings: is each printing's value what its own quotes
+   print, do the printings differ as printed (one value printed in several
+   places being one printing with a quote for each), and has every place
+   the document prints one a quote? Is each date it records the one
    its quote prints and the document gives that version — not a register's
    publication date, an adoption date or a download date —, written in
    ISO 8601 at the precision printed (a year, a month, a day), nothing
