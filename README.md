@@ -377,7 +377,8 @@ the requests and CPU time each call costs there. Its commands are in
 [`CLAUDE.md`](CLAUDE.md) under "Checks" as well. The server is JavaScript on Node,
 its dependencies pinned with npm in `mcp/` (ADR-0007), and it runs as a Cloudflare
 Worker (ADR-0008; see "graph.med in Claude" below). `.github/workflows/mcp.yml` runs its check
-against the live site before each deploy.
+before each deploy: on the synthetic fixture, and a short walk of each graph of the
+site just published.
 
 CI runs the same validator (`.github/workflows/validate.yml`) on every pull request —
 including every push to an open pull request — and on every push to `main`, as two
@@ -429,7 +430,8 @@ graph.med reaches Claude, and any other MCP client, as a **remote MCP server**:
 the read-only server in `mcp/`, hosted as a Cloudflare Worker (ADR-0008). Its
 tools list the graphs, walk their groupings, search, and read an entity or the
 verbatim passages behind it. Every result cites graph.med URLs and carries the
-licence and review status. Its URL is `https://mcp.graph.med/mcp`.
+licence and review status. Its URL is `https://mcp.graph.med/mcp`; it has been
+live there since 2026-10-06.
 
 It runs on the project's Cloudflare account, which holds graph.med's DNS zone (the
 site's records are DNS only, so the site itself is served by GitHub Pages, not through

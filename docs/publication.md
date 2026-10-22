@@ -13,10 +13,10 @@
 > generally, for a view that declares one (§3), and the deploy workflow with one
 > preview per open pull request (§6), and the machine-readable site of §8 (Layer 0:
 > `index.json`, `llms.txt`, a tree file per grouping, a per-view file and a search
-> file per view, §2 and §4), and the read-only server's tools (§8, Layer 1: `mcp/`).
-> Designed, not built: the rest of the pool in programs and assistants — the
-> server's hosted endpoint and a view inside a conversation (§8, which carries each
-> layer's status). Not built and not
+> file per view, §2 and §4), and the read-only server's tools (§8, Layer 1: `mcp/`)
+> with its hosted endpoint, deployed at `https://mcp.graph.med/mcp` since 2026-10-06.
+> Designed, not built: the rest of the pool in programs and assistants — a view
+> inside a conversation (§8, which carries each layer's status). Not built and not
 > registered: cuts (§7), pathway views, and everything under §9. The
 > domain `graph.med` points at GitHub Pages. This document fixes what the site is *meant*
 > to be so that the build is written to it, not the other way round. It is the
@@ -1465,14 +1465,15 @@ cut-publication).
 ## 8. The pool in programs and assistants
 
 > **Status: Layer 0 built; Layer 1's tools and its hosted endpoint built, the
-> endpoint not deployed; Layer 2 designed, not built.** Each layer's status changes here when the card
+> endpoint deployed at `https://mcp.graph.med/mcp` since 2026-10-06; Layer 2
+> designed, not built.** Each layer's status changes here when the card
 > that builds it lands.
 >
 > | Layer | Status | Built by |
 > |---|---|---|
 > | 0 — the machine-readable site | built: index, `llms.txt`, tree files, per-view file, search file (§2, §4); entity JSON with `meta`, a concept's `statements` and `appears_in` (§4) | #270 (with #269) |
 > | 1 — the read-only server: its six tools, a server factory in `mcp/` | built: tools, description file (`mcp/src/descriptions.js`), quote gate, paging, the check (`CLAUDE.md` "Checks"); a recommendation's steps in get entity | #272; #299 |
-> | 1 — the read-only server, hosted | built, not deployed: the Worker (`mcp/src/worker.js`, `mcp/wrangler.toml`), checked through Workers' local runtime (`CLAUDE.md` "Checks"); the one way the server is reached (2026-09-28); the deploy is a person's (ADR-0008) | #279 |
+> | 1 — the read-only server, hosted | deployed at `https://mcp.graph.med/mcp` since 2026-10-06: the Worker (`mcp/src/worker.js`, `mcp/wrangler.toml`), checked through Workers' local runtime (`CLAUDE.md` "Checks"); the one way the server is reached (2026-09-28). `.github/workflows/mcp.yml` deploys it after each Pages deploy from `main` once the server's check passes against the site just published (ADR-0008); every run from 2026-10-12 to 2026-10-22 stopped at that check, the first two on the quote gate #415 fixes, so until a run passes the endpoint serves the server deployed on 2026-10-06. Transient errors from Pages are retried, and the check before a deploy is the fixture and a short walk of the site (#317) | #279, #317 |
 > | 2 — the inline view | designed, not built | #278 (with #276, #277) |
 > | the session tools in the view page (below) | built: the page function and WebMCP registration; the relay that would take them outside the browser is not (#412, after #411) | #408 (initiative `co-navigation`, #407) |
 >
@@ -1765,6 +1766,11 @@ concept named inside another item gives only its id and short label, a language
 equal to the graph's, empty lists of aims and conditions, an answer's concepts where
 they are the node it leads to, a claim's section, a search hit's slots. A compact
 result is kept under 24,000 characters, a full one under 45,000, each by paging.
+Where the levels a get tree node depth asks for do not fit under the cap even at the
+smallest page (eight items a list), the depth is lowered, and the result says so:
+`depth_reduced_to`, `depth_reduced_reason` (`size_cap`, the one reason) and
+`size_cap`, the form's cap in characters (#317) — on the site of 2026-10-22, depth 1
+at the sepsis root returns depth 0 for that reason, in either form.
 Measured on the build of 2026-10-18 (characters, full → compact): the sepsis root
 8,887 → 6,549; *septischer Schock* 24,244 → 18,315; a concept's card 26,211 →
 21,175; a recommendation 3,643 → 3,275; a search 5,854 → 4,744. Most of what remains
@@ -1787,7 +1793,15 @@ search file, no other recommendation's JSON —; where a claim has evidence rows
 its source's JSON, which declares each system's name, and, for a claim read on its
 own, the JSON of each recommendation it supports, whose card names its rows'
 outcomes (an outcome no card names is read from the concept's JSON); parsed files stay in
-memory between calls. On today's build, `JSON.parse` of a whole lean view JSON takes
+memory between calls. **A transient error is retried** (#317): a GET that fails with
+a 5xx or a network error — GitHub Pages answers a 503 now and then, and one failed
+the first automatic deploy on 2026-10-06 after 3,169 of its check's 3,170 calls had
+passed — is made again after 200 ms and after another 600 ms, then reported; a 404
+or any other answer is reported at once. A call retries only while it has made fewer
+than 25 requests, half the 50 subrequests a Worker's request may make, so a call of at
+most 25 requests stays within the limit however many of them fail; on the build of
+2026-10-22 the most a call makes with nothing in memory is 7 (a search across the
+three graphs). On today's build, `JSON.parse` of a whole lean view JSON takes
 about 2.2–2.5 ms in Node 22.
 
 **Layer 2: the inline view.** The plan: "One tool is bound to a UI resource, which
@@ -2032,8 +2046,10 @@ The design:
   "Agent" behaviour is not blocked: on the Free plan Bot Fight Mode cannot be
   skipped per path, and AI platforms' servers cannot solve a challenge.
 - The Worker keeps parsed files in memory between requests; a call with a cold cache
-  costs one or two GETs (Layer 1, "Cost"), within the 50 subrequests and 10 ms of CPU
-  a request has.
+  costs a few GETs, at most 7 on the build of 2026-10-22, and a transient error adds
+  at most two retries to a GET and none once the call has made 25 requests (Layer 1,
+  "Cost"), within the 50 subrequests and 10 ms of CPU a request has: the wait before
+  a retry costs no CPU time.
 
 The facts, as read on 2026-09-27 (developers.cloudflare.com/workers/platform/limits/,
 /workers/platform/pricing/, /agents/model-context-protocol/protocol/transport/,
@@ -2088,6 +2104,17 @@ The Worker's configuration (`mcp/wrangler.toml`), the rate-limiting rule and the
 deploy trigger are ADR-0008's; the account, the DNS, the rule as entered, the API
 token and the deploy workflow (`.github/workflows/mcp.yml`) are a person's steps
 (#279), all taken on 2026-10-06. This section states the design only.
+
+**The check before a deploy** (#317) is the server's check on the synthetic fixture
+and a short walk of the site just published (`--light`, `CLAUDE.md` "Checks"): per
+graph its groupings, the first four nodes of each grouping's walk from its root, four
+recommendations and four concepts spread over its search file with the claims behind
+those recommendations, and search with its filters. Measured against a local build of
+2026-10-22, it makes 512 tool calls and 188 requests to the site in 8 seconds, where
+the full walk makes 7,716 calls and 2,463 requests in 5 minutes; against
+`https://graph.med/` the same day it passed in under half a minute. The full walk
+stays the check of a change to `mcp/` or to the files for programs, run before its
+pull request (`CLAUDE.md` "Checks"), and a deploy started by hand can ask for it.
 
 ### What this section leaves open
 

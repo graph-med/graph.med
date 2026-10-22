@@ -540,6 +540,8 @@ $defs:
       verb:      {$ref: '#/$defs/text', x-provenance: required}
              # the wording the sentence uses, in the form a scheme gives it (never inflected, never negated): one
              # some declared `grading_scheme` defines — its own source's, or another's (validator)
+             # absent where the sentence prints none (`verb: null` in the MCP server's results): a fact, a definition, a gap
+             # notice, most criteria, and an instruction in no scheme's wording ("ist … zu beachten"), graded or not
       direction: {enum: [for, against], x-provenance: required}
              # as the sentence reads; the one its grade fixes, where the grade fixes one (validator; spec §3.1)
       basis:     {$ref: '#/$defs/text', x-provenance: required}
