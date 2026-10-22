@@ -143,8 +143,9 @@
    row is one line: its value — `nicht erfasst` where the row has none — and its system by the name its source
    declares, then what the value rates, its endpoint, its key or both; a single value for the whole recommendation
    names nothing after the system. A group of more rows is a native <details>, closed, its <summary> the summary
-   line and under it the table in the guideline's order, the system named once as the table's caption and never
-   per row. A summary line counts two rows or more and has no singular. A table with a row the source keys by
+   line — after its count the range where the rows differ, the one level where every row carries it — and under it
+   the table in the guideline's order, the system named once as the table's caption and never per row. A summary
+   line counts two rows or more and has no singular. A table with a row the source keys by
    anything but its endpoint (a component, a subgroup, a comparator, …: the row's printed `key`) is read by its
    keys: a first column `Bezug`, the endpoint column only where a row names one, and the summary line counts
    rows, not endpoints; a table without a key reads by its endpoints. A row that names no key or no endpoint
@@ -176,7 +177,7 @@
 {% set noted = g.rows | selectattr("value") | selectattr("note") | list | length > 0 %}
 {% set by = "evidence.by_key" if keyed else "evidence.by_outcome" %}
 <details class="outcomes" data-keep="outcomes">
-<summary>{% if g.k < g.n %}{{ W(by ~ ".partial.many").format(k=g.k, n=g.n) }}{% elif g.range %}{{ W(by).format(n=g.n, von=g.range.von, bis=g.range.bis) }}{% else %}{{ W(by ~ ".no_range.many").format(n=g.n) }}{% endif %}</summary>
+<summary>{% if g.k < g.n %}{{ W(by ~ ".partial.many").format(k=g.k, n=g.n) }}{% elif g.range %}{{ W(by).format(n=g.n, von=g.range.von, bis=g.range.bis) }}{% elif g.level %}{{ W(by ~ ".one_level.many").format(n=g.n, wert=g.level) }}{% else %}{{ W(by ~ ".no_range.many").format(n=g.n) }}{% endif %}</summary>
 <table>
 {% if g.system_name %}<caption>{{ g.system_name }}</caption>
 {% endif %}<thead><tr>{% if keyed %}<th scope="col">{{ W("evidence.table.key") }}</th>{% endif %}{% if endpoints %}<th scope="col">{{ W("evidence.table.outcome") }}</th>{% endif %}<th scope="col">{{ W("evidence.table.certainty") }}</th>{% if noted %}<th scope="col">{{ W("evidence.table.note") }}</th>{% endif %}</tr></thead>

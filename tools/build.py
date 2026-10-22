@@ -69,10 +69,11 @@ DIRECTION_GLYPH = {"für": "✓", "gegen": "✗", "abwägen": "⚖\ufe0e", "Lüc
 # as data (`grading_scheme`): the order of the grades, their wordings and negated forms, which wording is an open
 # recommendation, the consensus classes. The build names none of them — Pool reads each from the declaration.
 # An evidence system's values from high to low (docs/publication.md §3, zone 4), keyed by the `system` a claim's
-# `evidence` entry names: read for the range a table of rows is summarised by ("hoch bis sehr niedrig") and for
-# nothing else — never for a comparison, a threshold or a derived value, and a value is never mapped onto another
-# system's. A value is recorded as printed (spec §3.1), so it is matched without regard to case — a box's "Moderat"
-# and a method section's "moderat" are one level — and the range names the level in the form this order holds.
+# `evidence` entry names: read for the range a table of rows is summarised by ("hoch bis sehr niedrig"), and for the
+# form a table's one level is named in where every row carries it ("hoch"), and for nothing else — never for a
+# comparison, a threshold or a derived value, and a value is never mapped onto another system's. A value is recorded
+# as printed (spec §3.1), so it is matched without regard to case — a box's "Moderat" and a method section's
+# "moderat" are one level — and the summary line names the level in the form this order holds.
 # A system not in the table is a valid state that costs the range, never the build. A display order,
 # not a fact about the world, which is why it lives here and not in the schema (WP-0025).
 EVIDENCE_SCALES = {"grade": ("hoch", "moderat", "niedrig", "sehr niedrig")}
@@ -109,8 +110,9 @@ CHAPTERS = "section"   # the URL token and grouping id of the built-in chapter g
 # and the keys (card_words()). A line that counts something
 # is a pair, `<key>.one` and `<key>.many`, chosen by the count at render time (card_words(): word(key, count));
 # the grammar sits in the pair, never in the code. The summary lines of zone 4's table (`evidence.by_outcome`,
-# `evidence.by_key` and their `.no_range.many` and `.partial.many`) have no pair: a table counts two rows or more,
-# one row being the one-row line (`evidence.one_row.*`), and a range needs two values (evidence_of()). A word the
+# `evidence.by_key` and their `.one_level.many`, `.no_range.many` and `.partial.many`) have no pair: a table counts
+# two rows or more, one row being the one-row line (`evidence.one_row.*`), and a range needs two values, one level
+# a value every row carries (evidence_of()). A word the
 # source's scheme gives is a placeholder in its frame, never a key: the share of a source that declares no class
 # (`consensus.unclassed`), the description in zone 4's expert-consensus line (`evidence.ek_only`).
 CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", "zone.contested.one", "zone.contested.many",
@@ -124,6 +126,8 @@ CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", 
              "consensus.unclassed",
              "marker.contested", "body.limits", "body.refines", "body.supplements", "body.empty",
              "evidence.single", "evidence.by_outcome", "evidence.by_outcome.no_range.many", "evidence.by_outcome.partial.many",
+             # a table whose rows all carry one value names it, in place of the range (#339)
+             "evidence.by_outcome.one_level.many", "evidence.by_key.one_level.many",
              "evidence.ek_only", "evidence.missing", "evidence.table.outcome", "evidence.table.certainty", "evidence.row.missing",
              # a table whose rows carry a printed key (spec §3.1): read by that key, counted in rows, not endpoints
              "evidence.by_key", "evidence.by_key.no_range.many", "evidence.by_key.partial.many", "evidence.table.key",
@@ -178,11 +182,13 @@ CARD_WORDS = {"de": {
     "body.empty": "Der Begleittext schränkt diese Empfehlung nicht ein und ergänzt oder präzisiert sie nicht.",
     "evidence.single": "{wert} nach {system}", "evidence.by_outcome": "für {n} Endpunkte bewertet, {von} bis {bis}",
     "evidence.by_outcome.no_range.many": "für {n} Endpunkte bewertet",
+    "evidence.by_outcome.one_level.many": "für {n} Endpunkte bewertet, {wert}",
     "evidence.by_outcome.partial.many": "für {k} von {n} Endpunkten erfasst",
     "evidence.ek_only": "{description}, keine Evidenzbewertung", "evidence.missing": "nicht erfasst",
     "evidence.table.outcome": "Endpunkt", "evidence.table.certainty": "Sicherheit", "evidence.row.missing": "nicht erfasst",
     "evidence.by_key": "in {n} Zeilen aufgeschlüsselt, {von} bis {bis}",
     "evidence.by_key.no_range.many": "in {n} Zeilen aufgeschlüsselt",
+    "evidence.by_key.one_level.many": "in {n} Zeilen aufgeschlüsselt, {wert}",
     "evidence.by_key.partial.many": "in {n} Zeilen aufgeschlüsselt, {k} davon erfasst",
     "evidence.one_row.outcome": "{wert} nach {system} · Endpunkt: {endpunkt}",
     "evidence.one_row.key": "{wert} nach {system} · Bezug: {bezug}",
@@ -371,7 +377,11 @@ def evidence_of(claims: list[dict], concept, system_name) -> dict:
     a range — the highest and the lowest value present, by EVIDENCE_SCALES' order, matched without regard to case
     and named in the form the order holds — only where every row has a value, the system is in that table, every
     value is on its scale and more than one level occurs; no order is guessed — a source's own level words that
-    table does not hold stay unranked —, and a partial table is summarised by its count alone. `concept` resolves
+    table does not hold stay unranked —, and a partial table is summarised by its count alone. A table whose rows
+    all carry one value instead, matched without regard to case, carries that `level` (#339): the value every row
+    prints, named once — in the form EVIDENCE_SCALES holds where the value is on its system's scale, as the range
+    is, else as its first row prints it —, for any system, since naming it needs no order; nothing is composed,
+    and it stays None on a group of one row, which is its own line, and wherever a row has no value. `concept` resolves
     an outcome id to {id, label, lang}; `system_name` a (source, slug) pair to the system's declared name
     (Pool.system_name)."""
     sup = [c for c in claims if c["edge"] == "supports"]
@@ -405,13 +415,16 @@ def evidence_of(claims: list[dict], concept, system_name) -> dict:
             g["box"] = [r for r in g["rows"] if whole(r)]
             g["rows"] = [r for r in g["rows"] if not whole(r)]
         values = [r["value"] for r in g["rows"] if r["value"]]
-        g["n"], g["k"], g["range"] = len(g["rows"]), sum(1 for r in g["rows"] if r["value"] or r.get("note")), None
+        g["n"], g["k"], g["range"], g["level"] = len(g["rows"]), sum(1 for r in g["rows"] if r["value"] or r.get("note")), None, None
         scale = [s.casefold() for s in EVIDENCE_SCALES.get(g["system"], ())]
         levels = {v.casefold() for v in values}
         if scale and len(values) == g["n"] and levels <= set(scale) and len(levels) > 1:
             ranked = sorted(levels, key=scale.index)
             g["range"] = {"von": EVIDENCE_SCALES[g["system"]][scale.index(ranked[0])],
                           "bis": EVIDENCE_SCALES[g["system"]][scale.index(ranked[-1])]}
+        if g["n"] > 1 and len(values) == g["n"] and len(levels) == 1:
+            (level,) = levels
+            g["level"] = EVIDENCE_SCALES[g["system"]][scale.index(level)] if level in scale else values[0]
     return {"state": "single" if single else "by_outcome", "groups": groups}
 
 
