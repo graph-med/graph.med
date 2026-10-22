@@ -264,3 +264,14 @@ and which card is next, is not a question and lives on the board (`uv run tools/
 
 **Leaning:** the second, since neither side can be quoted. (2026-10-12)
 **Settled by:** the maintainer, with #327 question 4.
+
+## follows-several-earlier  (graph-representation.md §5 `follows`; memory `sequences-are-edges`; cards #296, #297, #298)
+**Question:** A statement can follow several earlier ones, and nothing in the pool says whether their outcomes call for it together or each alone. The second source's 8.1 follows 4.5 and 4.1 together: hydrocortisone where the vasopressor need persists under the noradrenaline „trotz ausreichender Volumengabe“, its condition the conjunction [anhaltender-vasopressorbedarf, ausreichende-volumengabe] (#296). The third source's 6.16 follows 6.12, 6.13 and 6.15 each alone („Nach Kardioversion“: after any one of the three, its one condition `kardioversion`), and its 5.3 follows 5.1 and 5.2 together („die ermittelten Risiken aus den beiden o.g. Scores“) with no condition at all. The edges are alike in all three, so a path strip (#297) or a path view (#298) that draws the earlier statements cannot tell "after both" from "after any", and the later statement's condition does not tell it either where it has none.
+
+**Options:**
+- leave it to each edge's rationale, which quotes the wording („beiden“, „Nach Kardioversion“), and draw every earlier statement without saying all or any;
+- read it from the later statement's condition where it has one (an entry per earlier measure: together; one entry naming them all: any), and say nothing where it has none;
+- a property on `follows` naming the edges that call for the step together (a schema change, a closed form like `transition`).
+
+**Leaning:** none; it bears on what #297 and #298 draw. (2026-10-22)
+**Settled by:** the maintainer, before #298 draws a path through a statement with several earlier ones.
