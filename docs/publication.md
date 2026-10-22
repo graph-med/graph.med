@@ -335,7 +335,8 @@ the tree readable at ninety recommendations:
   answer that names it, so that the reader sees which group they opened, whole,
   zoomed out as far as that takes; tapping again folds it. Only what the reader
   opened takes space.
-  A deep link unfolds the group its target is in. Every question folds too:
+  A deep link unfolds the group its target is in, and a link to a group itself fits it
+  with everything it unfolded, as the tap does. Every question folds too:
   tapping "Welche Population?" folds the whole tree back to the root and the
   question, tapping "Welche Bedingung?" folds its group's conditions and
   recommendations, and tapping the question again restores what was open below it.
@@ -1475,7 +1476,7 @@ cut-publication).
 > | 1 — the read-only server: its six tools, a server factory in `mcp/` | built: tools, description file (`mcp/src/descriptions.js`), quote gate, paging, the check (`CLAUDE.md` "Checks"); a recommendation's steps in get entity | #272; #299 |
 > | 1 — the read-only server, hosted | deployed at `https://mcp.graph.med/mcp` since 2026-10-06: the Worker (`mcp/src/worker.js`, `mcp/wrangler.toml`), checked through Workers' local runtime (`CLAUDE.md` "Checks"); the one way the server is reached (2026-09-28). `.github/workflows/mcp.yml` deploys it after each Pages deploy from `main` once the server's check passes against the site just published (ADR-0008); every run from 2026-10-12 to 2026-10-22 stopped at that check, the first two on the quote gate #415 fixes, so until a run passes the endpoint serves the server deployed on 2026-10-06. Transient errors from Pages are retried, and the check before a deploy is the fixture and a short walk of the site (#317) | #279, #317 |
 > | 2 — the inline view | designed, not built | #278 (with #276, #277) |
-> | the session tools in the view page (below) | built: the page function and WebMCP registration; the relay that would take them outside the browser is not (#412, after #411) | #408 (initiative `co-navigation`, #407) |
+> | the session tools in the view page (below) | built: the page function and WebMCP registration; the relay that would take them outside the browser is not (#412, after #411) | #408, its second version #416 (initiative `co-navigation`, #407) |
 >
 > This section is the design; the keys and URLs it relies on are §2's and §4's, the
 > server's runtime, toolchain and home ADR-0007's (#271), the choice of host
@@ -1857,12 +1858,13 @@ server — is #278's to decide, and ADR-0007's how its bundle is built.
 
 ### The session tools
 
-> **Status: built (#408)**, the first part of the initiative `co-navigation` (#407).
-> Its other parts are the MCP server's side (#409), the page and `llms.txt`
-> describing the tools (#410), and a relay for clients outside the browser (#412,
-> after the decision #411). Two of #407's questions are the maintainer's and stay
-> open: whether the tools wait for the reader to switch a session on (opt-in), and
-> whether conversation-driven highlighting makes the page a medical device (#283).
+> **Status: built (#408), in its second version (#416)**, the first part of the
+> initiative `co-navigation` (#407). Its other parts are the MCP server's side (#409),
+> the page and `llms.txt` describing the tools (#410), and a relay for clients outside
+> the browser (#412, after the decision #411). Two of #407's questions are the
+> maintainer's and stay open: whether the tools wait for the reader to switch a
+> session on (opt-in), and whether conversation-driven highlighting makes the page a
+> medical device (#283).
 
 A view page offers an assistant beside the reader a small set of tools: read what the
 reader sees, and change it as the reader's own controls would. They are the session
@@ -1874,29 +1876,62 @@ take; a question, which names no entity, goes by its node id (`q:…`).
   names, the words a model reads about them, and the shape of their arguments. The
   build hands it to every view page, and `graph.js` implements each tool by name.
   - **A page function** serves an agent that runs script in the page, as Claude in
-    Chrome and Claude Code with `--chrome` do: `window.graphmed.agent.describe()`
-    lists the tools and the interface's version, and
+    Chrome and Claude Code with `--chrome` do. `window.graphmed.agent.describe()`
+    gives the brief form: the interface's version, what the tools are, and each
+    tool's name, title, one line and argument names (an optional one marked `?`).
+    `describe(name)` gives one tool's full definition, and
     `window.graphmed.agent.call(name, args)` returns a promise of the answer.
   - **WebMCP tools** are registered with `document.modelContext.registerTool` (or the
-    older `navigator.modelContext`) where the browser offers it, from the same
-    definitions. `view` carries the read-only hint. Nothing is registered where
+    older `navigator.modelContext`) where the browser offers it, from the full
+    definitions. The reads carry the read-only hint. Nothing is registered where
     neither is offered.
-- **The tools.**
-  - `view` reads. It returns the graph, the grouping, the chapter filter, the
-    search, the selection with the path of boxes from the root, the assistant's
-    highlight, and the boxes the folding shows, in reading order.
-  - Each box gives its index `i` in that order, its id, kind and label, and `up`,
-    the index of the box it hangs from. It also gives its place among that box's
-    shown children (`3/32`), and `in_view`.
-  - A statement adds its direction, grade, box number, and the answer that leads to
-    it. A group adds its count and whether it is open.
-  - Pages hold 40 boxes. `under` reads one box and what hangs below it, and
-    `in_view` reads only what the reader can see.
-  - The acts are `open` (as a deep link), `focus` (unfold the way and fit, the
-    selection unchanged), `highlight` (with a note of at most 140 characters),
-    `clear`, `toggle`, `fold`, `search`, `step` and `back`. Every act answers with
-    the view after it, once the layout and the fit are at rest. An argument it
-    cannot take is refused with the reason, and nothing changes.
+- **Three reads change nothing** and leave nothing for the back button.
+  - `view` returns the state and the boxes the folding shows, in reading order.
+    - The state is the graph, the grouping, the chapter filter, the search (its shown
+      matches by count, the reader's place among them, and the first ten ids in
+      step order), the selection with the path of boxes from the root, the
+      assistant's highlight, and how many boxes are shown.
+    - Each box gives its index `i` in that order, its id, kind and label, and `up`,
+      the index of the box it hangs from. It also gives its place among that box's
+      shown children (`3/32`), and `in_view`; `match` where the search matches it.
+    - A statement adds its direction, grade, box number, and the answer that leads
+      to it. A group adds its count and whether it is open.
+    - Pages hold 20 boxes, and `limit: 0` reads the state alone. `under` reads one
+      box and what hangs below it, and `in_view` reads only what the reader can see.
+  - `find` searches the whole grouping, folded boxes included, as the page's search
+    matches: by a text, a facet, or both.
+    - Each hit gives its id, kind and label, the ids of the patient groups it hangs
+      under, and whether the folding shows it. A statement adds its direction,
+      grade, box number and answer, and a hit a chapter filter hides says so.
+    - Hits come in the grouping tree's own order, the one the server's places count
+      in, because a folded box has no drawn place. Pages hold 10 hits.
+  - `details` gives what the details panel shows for an entity of the graph, as
+    text, whether or not it is selected, and no more than the panel shows (memory
+    `quote-gate-follows-the-site`).
+    - It comes part by part, a part per zone of the card (`wording`, `evidence`,
+      `citation`, …), each headed as the panel heads it and with the origin its
+      heading carries.
+    - A link is written `[words](target)`, the target an entity id or a URL: a quoted
+      passage's link opens the source at its page.
+    - A part over 800 characters is cut at a line, and `cut` counts what is left.
+      `part` reads one part, 5,000 characters at a time; where it is cut, `next` is
+      the `from` of the rest.
+- **Nine acts change the view** as the reader's controls do: `open` (as a deep link),
+  `focus` (unfold the way and fit, the selection unchanged), `highlight` (with a note
+  of at most 140 characters), `clear`, `toggle`, `fold`, `search`, `step` and `back`.
+  - **Every unfolding fits what it unfolded** (§3). A group `open` names is unfolded,
+    and the fit takes in everything it shows, as a tap on it does; `focus` shows a
+    group without unfolding it. A running search stays through every act.
+  - **An act answers briefly,** once the layout and the fit are at rest: its name,
+    the state after it, and `acted_on`. That is how many of the boxes it acted on
+    are shown and how many of those lie wholly in view, the first few ids that do
+    not, and how many are folded away.
+  - Its `view` argument asks for the boxes too, read with `view`'s arguments
+    (`{}` for the first page).
+  - **A refusal changes nothing.** It says what was refused (`error`) and what is
+    accepted (`hint`). For an id that names nothing in the grouping, it adds the
+    nearest ids that do (`near`): one that begins with it first, then those holding
+    most of its words.
 - **Reading order and place are what the reader sees.** From the root, a box comes
   before what hangs from it, and siblings run top to bottom as drawn, then left to
   right. A place among siblings counts in that order.
@@ -1905,8 +1940,8 @@ take; a question, which names no entity, goes by its node id (`q:…`).
     two or more children differ across all groupings, and 1 of the 58 in the views'
     first groupings (2026-10-18; #408's pull request lists them).
   - So "the third one" is the page's answer about the page. The server's places
-    count in the tree file's order (#409, "The tools" above), and the key the two
-    share is the entity id, never the place.
+    count in the tree file's order (#409, "The tools" above), as `find`'s hits do,
+    and the key the two share is the entity id, never the place.
 - **`in_view` answers both readings of "visible".** Every box the folding shows is
   listed, and `in_view` says whether it lies wholly in the part of the canvas the
   reader sees: inside the canvas and the window, in the free row, above a phone's
@@ -1925,10 +1960,22 @@ take; a question, which names no entity, goes by its node id (`q:…`).
     row, so what it framed stays whole in view. A graph the reader has moved since
     moves down with the line, so nothing slides under the controls.
   - Nothing unfolds to show a highlight: `focus` does that.
-- **Sizes.** An answer without arguments was at most 10.7 KB on every published
-  graph (2026-10-18). The opening views took 1.3–5.2 KB, and a page of 40 boxes
-  with the largest group open 8.2–10.7 KB. A tool's description and schemas, read
-  once, take about 6 KB.
+- **Sizes.** An act's brief answer stays under 1.5 KB, and every other answer to
+  default arguments under 6 KB. So does every run of a part `details` reads by name;
+  only a larger `limit` on `view` or `find` passes it. The screenshot runner's
+  `call=` reports each answer against these. The limit of the script output an
+  assistant reads is not documented, so these are the interface's own.
+  - Measured on every published graph at 390 and 1280 px (2026-10-22):
+    - an act's answer, 0.3–1.1 KB;
+    - `describe()`, 3.0 KB (the full definitions, about 11 KB);
+    - `find`, up to 3.2 KB;
+    - `details`, up to 4.7 KB, and a run of a part, up to 5.4 KB;
+    - a page of `view`, up to 3.8 KB, and up to 5.4 KB when an act asks for it.
+  - In version 1 every act answered with a page of 40 boxes, up to 10.7 KB, and
+    `describe()` gave the full definitions; an assistant's script tool cut both.
+  - The walk-through that found #416 takes six calls and 5–8 KB in all: `find` a
+    group by a word, `open` it, `view` under it, `highlight` its third
+    recommendation against, then `details` with `wording` and `citation`.
 
 ### Guardrails, carried as data
 
