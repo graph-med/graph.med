@@ -302,4 +302,18 @@ and which card is next, is not a question and lives on the board (`uv run tools/
 - the case the label's language gives a foreign word inside a sentence (in German, a foreign noun phrase opens in upper case).
 
 **Leaning:** none recorded. (2026-10-22)
+
+## outline-printed-otherwise  (graph-representation.md §6.7; schema `outline_entry`; cards #363, #366)
+**Question:** A source's outline is its table of contents, each entry `{section, title, page}`, unquoted and checked against the document by review. The third source prints five headings otherwise than its table, and two of the table's entries have no number. Under "the graph reflects the text" (memory `source-disagreements-shown`), is a heading worded otherwise a second printing to record, and where does an unnumbered entry go? Today the outline takes the table's wording and leaves the unnumbered entries out (#363 Decision 7):
+- 5.4.1–5.4.3: the table prints „Indikation“, „Indikationsprüfung in Zentrum“ and „Herzchirurgische Patient*innen mit Vorhofflimmern“ (p. 8); the headings add „Vorhofohrverschluss: “ (pp. 43, 44, 45);
+- 8.5.1–8.5.2: the table prints „Reversierung von Vitamin-K-Antagonisten“ and „Reversierung von DOAK“ (p. 8); the headings print `"Antagonisierung" von …` (pp. 85, 86), 8.5.1's with a full stop;
+- „Vorwort“ (p. 6) and „Einführung“ (p. 10) stand in the table without a number, and `outline_entry` requires a `section`. The Einführung holds Tabelle 1 and the method text (pp. 10–11).
+
+**Options:**
+- a title printed otherwise as a list of printings, like a version printed two ways (#366, spec §6.1), each with its quotes. The outline carries no quotes, though, and two of the headings print ASCII double quotes, which no quote may hold (§6.2);
+- a title printed otherwise as a list of `{title, page}`, the table's and the heading's, unquoted like the rest of the outline;
+- the table's wording only, as now;
+- an unnumbered entry with no `section`, placed by its page, or left out, as now.
+
+**Leaning:** the second for the titles, since it keeps the outline as it is checked today. None for the unnumbered entries. (2026-10-22)
 **Settled by:** the maintainer.
