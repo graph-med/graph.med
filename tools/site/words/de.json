@@ -161,8 +161,8 @@
     "printings": {
       "version": "Version uneinheitlich angegeben: {printings}",
       "date": "Stand uneinheitlich angegeben: {printings}",
-      "at": "{value} (S. {pages})",
-      "pages": ", ",
+      "at": "{value} (S.\u00a0{pages})",
+      "pages": ",\u00a0",
       "list": ", ",
       "last": " und "
     },
