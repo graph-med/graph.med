@@ -1,0 +1,34 @@
+{# One step of a chain in the path view (docs/publication.md §3 "The path view"), and the parts the path page shares
+   with it. `box(n)`: a statement as its box in the graph names it — the chip of its direction (the box's fill with the
+   glyph inside, its direction word for a screen reader), its grade and basis as printed and its verb where the grade
+   does not carry it, its short label — linked so that the graph moves to it, as zone 5's steps name a neighbour.
+   `lines(s)`: what a step's label in the graph says, one to a line — the transition read from the earlier statement,
+   the trigger, the later statement's condition as the build writes it. Rendered with a `step`, the step's section in
+   the sheet: the earlier statement, the transition, the later one, the trigger and the condition, then the edge's
+   rationale — the project's reading, which quotes the trigger's wording as printed —, open, tagged generated, with the
+   date of the reading. Its frame is the page chrome's; the rationale and the condition carry their own language. #}
+{% macro box(n) -%}
+<a class="node-link" data-node="{{ n.id }}" href="{{ base }}{{ n.id }}/">{% if n.direction %}<span class="chip d-{{ n.direction }}" role="img" aria-label="{{ page.legend.directions[n.direction] }}" lang="{{ page_lang }}">{{ n.glyph }}</span>{% else %}<span class="chip none" aria-hidden="true"></span>{% endif %}{% if n.stamp %}<span class="stamp">{{ n.stamp }}</span> · {% endif %}<span lang="{{ n.lang }}">{{ n.title }}</span></a>
+{%- endmacro %}
+{% macro lines(s) -%}
+<span class="step-word" lang="{{ page_lang }}">{{ s.words.transition }}</span> <span class="step-word" lang="{{ page_lang }}">{{ s.words.trigger }}</span>{% for c in s.condition_lines %} <span class="step-condition" lang="{{ s.lang }}">{{ c }}</span>{% endfor %}
+{%- endmacro %}
+{% if step is defined %}{% set s = step %}
+<div class="card step-card" lang="{{ page_lang }}">
+<section class="zone title" aria-labelledby="step-title-h">
+<p class="kind">{{ page.path.step }}</p>
+<h2 class="title" id="step-title-h"><span lang="{{ s.earlier.lang }}">{{ s.earlier.title }}</span> → <span lang="{{ s.later.lang }}">{{ s.later.title }}</span></h2>
+</section>
+<section class="zone step-parts" aria-labelledby="step-title-h">
+<ol class="step-run">
+  <li class="step-box">{{ box(s.earlier) }}</li>
+  <li class="step-label">{{ lines(s) }}</li>
+  <li class="step-box">{{ box(s.later) }}</li>
+</ol>
+</section>
+{% if s.rationale %}<section class="zone step-why" aria-labelledby="step-why-h">
+<h3 id="step-why-h">{{ page.path.why }} <span class="origin origin-modelling" lang="{{ s.lang }}">{{ W("origin.modelling") }}</span>{% if s.as_of %} <small class="as-of" lang="{{ s.lang }}">{{ W("related.as_of").format(date=s.as_of | printed_date) }}</small>{% endif %}</h3>
+<p lang="{{ s.rationale_lang }}">{{ s.rationale }}</p>
+</section>{% endif %}
+</div>
+{% endif %}

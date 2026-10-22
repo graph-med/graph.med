@@ -561,6 +561,16 @@ def stamp_of(claims: list[dict], pool) -> str:
     return " ".join(filter(None, [letters, based, worded_verb(claims, pool.implied)]))
 
 
+def box_label(st: dict, claims: list[dict], pool) -> str:
+    """What a statement's box reads (docs/publication.md §3): "✗ EK soll nicht · <short label>", "✓ ⇑ EK · <short
+    label>" — the direction's glyph, the redundancy for a reader who does not see the colour; then the grade, the basis
+    and the verb where the grade does not carry it, as stamp_of() writes them; then the short form. One rule for the
+    box in the view's tree and in the path view (§3 "The path view"), so that a statement reads alike in both."""
+    d = direction_of(claims)
+    stamp = " ".join(filter(None, [d["glyph"] if d else None, stamp_of(claims, pool)]))
+    return (stamp + " · " if stamp else "") + (st.get("short_label") or st["label"])
+
+
 def legend_of(statements: list[dict], groupings: list[dict], pool, sources: list[str]) -> dict:
     """The keys a view's legend shows (docs/publication.md §3, "The legend"): what the view draws, and nothing
     else — computed from its trees under every grouping and from its statements' claims, never declared. Each
@@ -603,8 +613,9 @@ def legend_of(statements: list[dict], groupings: list[dict], pool, sources: list
         "verb_grades": tokens(sorted(worded, key=order)),
         "states": [s for s, on in (("contested", any(n.get("contested") for n in boxes)),
                                    ("related", "relation" in kinds),
-                                   ("general", any(n.get("general") for n in nodes))) if on],
-        "edges": [k for k in ("answer", "flow", "aim") if k in kinds],
+                                   ("general", any(n.get("general") for n in nodes)),
+                                   ("entered", any(n.get("entered") for n in boxes))) if on],   # the path view's: where it was opened
+        "edges": [k for k in ("answer", "flow", "aim", "step") if k in kinds],   # a step: the path view's (path_of)
     }
 
 
@@ -1368,6 +1379,50 @@ def search_file(view_id: str, commit: str, statements: list[dict], filled_of, gr
     return {"view": view_id, "commit": commit, "entries": entries}
 
 
+PATH_SEGMENT = "sequence"   # the path view's pages under their view: <view-id>/sequence/<statement>/ (docs/publication.md §2, §3)
+
+
+def path_of(statement_id: str, pool: Pool, page: dict) -> dict:
+    """The path view of a statement (docs/publication.md §3 "The path view"): the chain it stands in, as Pool.chain_of
+    walks it — the same from whichever member it is read, uncut — with what the page draws of it. `nodes`, a box per
+    statement as the view's tree writes it (box_label), with its direction and whether it is contested, and the parts
+    its card's steps name it by (title, chip, stamp); `steps`, one per `follows` edge in chain_of's order, from the
+    earlier statement to the later, each with what its label says, one to a line: the transition read from the
+    earlier statement (the page chrome's `after` word, as on the earlier one's card), the trigger's word, and the later
+    statement's condition, written as the view page's condition answer writes it — each concept by its short form on a
+    line of its own, every line after the first opened by the conjunction — behind the path view's frame
+    (`path.condition`); and the edge's rationale, language and date, for the step's section. Each edge is a step of its
+    own: two that lead to one statement are two labels and two arrows, nothing between them. Nothing is computed that
+    the edges and the slots do not hold; no threshold, nothing inherited along the chain."""
+    chain = pool.chain_of(statement_id)
+    def box(sid: str) -> dict:
+        st, claims = pool.entities[sid], pool.claims_for(sid)
+        d = direction_of(claims)
+        return {"id": sid, "label": box_label(st, claims, pool), "title": st.get("short_label") or st["label"], "lang": st["lang"],
+                "direction": d["word"] if d else None, "glyph": d["glyph"] if d else None, "stamp": stamp_of(claims, pool),
+                "contested": any(c["edge"] == "contests" for c in claims), **pool.place_of(sid)}
+    nodes = [box(n["id"]) for n in chain["nodes"]]
+    at = {n["id"]: n for n in nodes}
+    def stored(e: dict) -> dict:   # the stored edge behind one of chain_of's, for its rationale
+        return next(p for kind, to, p in pool.out.get(e["from"], [])
+                    if kind == SEQUENCE and to == e["to"] and (p.get("discriminator") or "") == (e.get("discriminator") or ""))
+    W = page["sequence"]
+    steps = []
+    for i, e in enumerate(chain["edges"]):
+        later, earlier = pool.entities[e["from"]], at[e["to"]]
+        lang = later["lang"]
+        short = lambda cid: (pool.entities[cid].get("short_label") or pool.entities[cid]["label"]) if cid in pool.entities else cid
+        conds = [short(c) for c in fillers(later, "condition")]
+        lines = [page["path"]["condition"].format(condition=conds[0])] + [WORDS[lang]["conjunction"] + " " + c for c in conds[1:]] if conds else []
+        p = stored(e)
+        words = {"transition": W["transitions"]["after"][e["transition"]], "trigger": W["triggers"][e["trigger"]]}
+        steps.append({"id": f"step:{i}", "from": e["to"], "to": e["from"], "earlier": earlier, "later": at[e["from"]], "lang": lang,
+                      "transition": e["transition"], "trigger": e["trigger"], **({"discriminator": e["discriminator"]} if e.get("discriminator") else {}),
+                      "words": words, "condition_lines": lines, "label": "\n".join([words["transition"], words["trigger"], *lines]),
+                      "rationale": p.get("rationale"), "rationale_lang": p.get("lang"), "as_of": p.get("as_of")})
+    return {"nodes": nodes, "steps": steps}
+
+
 def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question: tuple[str, str] | None = None,
                      partition: list[dict] | None = None, hierarchy_axis: dict | None = None, scope: dict | None = None) -> dict:
     """One decision tree for the whole view, derived from the statements' slots
@@ -1439,13 +1494,9 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
         conds, outc = fillers(st, "condition"), sl.get("outcome")
         d = direction_of(claims)
         again = st["id"] in seen   # under two answers (two chapters): one node, hung from both, its aim and relations once
-        # the box reads "✗ EK soll nicht · <short label>", "✓ ⇑ EK · <short label>" (docs/publication.md §3): the
-        # direction's glyph, the redundancy for a reader who does not see the colour; then the grade, the basis and the
-        # verb where the grade does not carry it, as stamp_of() writes them; then the short form
+        # the box reads "✗ EK soll nicht · <short label>", "✓ ⇑ EK · <short label>" (box_label)
         verb = verb_of(claims)
-        stamp = " ".join(filter(None, [d["glyph"] if d else None, stamp_of(claims, pool)]))
-        sid = add(st["id"], ref=st["id"], type="statement", lang=st["lang"],
-                  label=(stamp + " · " if stamp else "") + (st.get("short_label") or st["label"]), full=st["label"],
+        sid = add(st["id"], ref=st["id"], type="statement", lang=st["lang"], label=box_label(st, claims, pool), full=st["label"],
                   direction=d["word"] if d else None, verb=verb, facets=sorted({f for f in (facet(c) for _, c in pool.filled(st)) if f}),
                   grade=next(iter(grades))[1] if len(grades) == 1 else ("mixed" if grades else None),
                   against={c["direction"] for c in claims if c["edge"] == "supports" and c.get("direction")} == {"against"},
@@ -1645,6 +1696,10 @@ def main(argv=None) -> int:
                 for slot, cid in pool.filled(m):
                     held[cid][vid].append({"id": eid, "slot": slot})
     ref = lambda cid: {"id": cid, "label": pool.entities[cid]["label"], "lang": pool.entities[cid]["lang"]}
+    # the path view (docs/publication.md §3 "The path view"): a page per statement of a view that stands on a `follows`
+    # edge, under that view — the statements of each view that have one, and where each one's page is
+    on_chain = {vid: {sid for sid, m in ms.items() if m["type"] == "statement" and pool.steps_of(sid)} for vid, ms in memberships.items()}
+    path_href = lambda vid, sid: f"{base}{vid.split('/', 1)[1]}/{PATH_SEGMENT}/{sid.split('/', 1)[1]}/"
 
     def general_of(cid: str) -> list[dict]:
         """The statements that apply generally to a concept, per view with a scope tree (docs/publication.md §3):
@@ -1686,10 +1741,13 @@ def main(argv=None) -> int:
         kinds = {kind_of(pool.entities[i].get("source")) for i in ids if i in pool.entities}
         return kinds.pop() if len(kinds) == 1 else None
 
-    def details(ent: dict) -> dict:
+    def details(ent: dict, view: str | None = None, on_path: bool = False) -> dict:
         """What the sheet and the entity page show for one entity (docs/publication.md §3, §4). Every word
         of the chrome is W(key) from CARD_WORDS in the entity's own language; an entity without `lang`
-        has no language to show its page in, so the build stops there rather than falling back."""
+        has no language to show its page in, so the build stops there rather than falling back. `view` is the
+        view whose page shows it (none on the entity's own page), `on_path` that the page is that view's path view:
+        a statement on a `follows` edge links its path view from its card's steps — in the view shown, or on its own
+        page in each view it belongs to —, and in the path view itself links back to the view's tree at itself."""
         d = {"entity": ent}
         t = ent["type"]
         if not ent.get("lang"):
@@ -1702,6 +1760,11 @@ def main(argv=None) -> int:
         d["origin_of_all"] = origin_of_all
         if t == "statement":
             d["card"] = card_of(ent)
+            if on_path:
+                d["tree_link"] = f"{base}{view.split('/', 1)[1]}/#{ent['id']}"
+            else:
+                d["paths"] = [{"view": v.split("/", 1)[1], "href": path_href(v, ent["id"])}
+                              for v in ([view] if view else views_of.get(ent["id"], [])) if ent["id"] in on_chain.get(v, ())]
             # zone 4's expert-consensus state names what each supporting claim rests on, in its scheme's words; read
             # here for the template, not stored in the card, whose `evidenz` keeps its state alone
             d["consensus_words"] = pool.consensus_words(pool.claims_for(ent["id"])) if d["card"]["evidenz"]["state"] == "ek_only" else []
@@ -1934,6 +1997,7 @@ def main(argv=None) -> int:
     views = []
     machine = []   # each view's entry in index.json
     view_tpl = env.get_template("view.html")
+    path_tpl, step_tpl = env.get_template("path.html"), env.get_template("step.html")
     for view in sorted(pool.of_type("view"), key=lambda v: v["id"]):
         vid = view["id"].split("/", 1)[1]
         members = memberships[view["id"]]
@@ -1950,7 +2014,7 @@ def main(argv=None) -> int:
         data = {"id": view["id"], "title": title, "sources": [s["id"] for s in sources], "commit": commit, "outline": outline,
                 "facets": sorted({f for g in groupings for n in g["nodes"] for f in n.get("facets", [])}),
                 "groupings": [{k: g[k] for k in DRAWN} for g in groupings],   # a grouping's kind and short label are the files' for programs
-                "html": {r: detail_tpl.render(**details(pool.entities[r])) for r in sorted(refs) if r in pool.entities},
+                "html": {r: detail_tpl.render(**details(pool.entities[r], view=view["id"])) for r in sorted(refs) if r in pool.entities},
                 # every concept the view's statements hold, derived or stated, with its rule — the keys of a card's row (zone 5)
                 "concepts": {cid: derivation_of(pool, cid) for m in members.values() if m["type"] == "statement"
                              for _, cid in pool.filled(m) if cid in pool.entities}}
@@ -1968,6 +2032,29 @@ def main(argv=None) -> int:
                             graph_json=dumps(data).replace("</", "<\\/"),   # safe inside <script>
                             tools_json=dumps(session_tools()).replace("</", "<\\/")), encoding="utf-8")
         (out / (vid + ".json")).write_text(dumps(data), encoding="utf-8")
+        # the path view (docs/publication.md §3 "The path view"): a page for every statement of the view on a `follows`
+        # edge, <view-id>/sequence/<statement>/, drawing the chain it stands in (path_of) entered from it — the same
+        # chain from each of its members, the member marked —, never an entry of the grouping switch; its legend keys
+        # what it draws (legend_of). The cards and the steps of one chain are rendered once for all its pages
+        drawn: dict[tuple, dict] = {}
+        for sid in sorted(on_chain[view["id"]]):
+            chain = path_of(sid, pool, words)
+            key = tuple(n["id"] for n in chain["nodes"])
+            if key not in drawn:
+                drawn[key] = {**{n["id"]: detail_tpl.render(**details(pool.entities[n["id"]], view=view["id"], on_path=True)) for n in chain["nodes"]},
+                              **{s["id"]: step_tpl.render(step=s, W=card_words(s["lang"])) for s in chain["steps"]}}
+            boxes = [{**n, "type": "statement", "entered": n["id"] == sid} for n in chain["nodes"]]
+            legend = legend_of([pool.entities[n["id"]] for n in boxes], [{"nodes": boxes, "edges": [{"kind": "step"}] if chain["steps"] else []}],
+                               pool, view["filter"]["sources"])
+            drawing = {"view": view["id"], "entered": sid, "html": drawn[key],
+                       "nodes": [{k: n[k] for k in ("id", "label", "direction", "contested")} for n in chain["nodes"]],
+                       "steps": [{k: s[k] for k in ("id", "from", "to", "trigger", "label")} for s in chain["steps"]]}
+            slug = sid.split("/", 1)[1]
+            (out / vid / PATH_SEGMENT / slug).mkdir(parents=True, exist_ok=True)
+            (out / vid / PATH_SEGMENT / slug / "index.html").write_text(path_tpl.render(
+                vid=vid, slug=slug, segment=PATH_SEGMENT, title=title, sources=sources, lang=view_lang, legend=legend,
+                entered=next(n for n in chain["nodes"] if n["id"] == sid), steps=chain["steps"],
+                path_json=dumps(drawing).replace("</", "<\\/")), encoding="utf-8")   # safe inside <script>
         # the view's entry on the index (docs/publication.md §2): what it holds — its recommendations, the patient
         # groups a reader meets in its tree (the junctions of its first grouping, each concept once) and its claims
         # — and its sources, each with its register number and licence line; the title in its source's language

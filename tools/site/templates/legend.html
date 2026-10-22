@@ -1,0 +1,52 @@
+{# The legend (docs/publication.md §3, "The legend"): the keys of what the page draws and nothing else, computed by
+   the build (legend_of), in the view layer's words — a pill in the corner and, opened, a panel, one row per group.
+   Shared by the view page and the path view (§3 "The path view"). #}
+  {% set W = page.legend %}
+  <div class="legend" id="legend" lang="{{ page_lang }}">
+    <div class="legend-panel" id="legend-panel" role="group" aria-label="{{ W.label }}" hidden>
+      <p class="lg"><span class="lg-name">{{ W.groups.form }}</span><span class="keys">
+        {% for f in legend.forms %}
+        <span class="key"><span class="sw {{ f }}"></span> {{ W.forms[f] }}
+          {%- if f == "junction" and legend.open %} <span class="variant"><span class="sw junction open"></span> {{ W.open }}</span>{% endif %}</span>
+        {% endfor %}
+      </span></p>
+      {% if legend.directions or legend.undirected %}
+      <p class="lg"><span class="lg-name">{{ W.groups.direction }}</span><span class="keys">
+        {% for d in legend.directions %}
+        <span class="key"><span class="chip d-{{ d.word }}" aria-hidden="true">{{ d.glyph }}</span> {{ W.directions[d.word] }}</span>
+        {% endfor %}
+        {% if legend.undirected %}<span class="key"><span class="chip none" aria-hidden="true"></span> {{ W.undirected }}</span>{% endif %}
+      </span></p>
+      {% endif %}
+      {% if legend.grades or legend.verb_grades or legend.bases %}
+      <p class="lg"><span class="lg-name">{{ W.groups.grade }}</span><span class="keys">
+        {% if legend.grades %}
+        <span class="key grades">{% for g in legend.grades %}<b>{{ g }}</b>{% if not loop.last %} · {% endif %}{% endfor %}</span>
+        {% endif %}
+        {% if legend.verb_grades %}<span class="key">{{ W.verb | replace("{grades}", legend.verb_grades | join(" · ")) }}</span>{% endif %}
+        {# a basis printed beside the grade: a key of its own, its token and its scheme's description, never a further grade #}
+        {% for b in legend.bases %}<span class="key basis" lang="{{ b.lang }}"><b>{{ b.basis }}</b>{% if b.description %} {{ b.description }}{% endif %}</span>
+        {% endfor %}
+      </span></p>
+      {% endif %}
+      {% if legend.states %}
+      <p class="lg"><span class="lg-name">{{ W.groups.state }}</span><span class="keys">
+        {% for st in legend.states %}
+        <span class="key"><span class="sw {{ st }}"></span> {{ W.states[st] }}</span>
+        {% endfor %}
+      </span></p>
+      {% endif %}
+      {% if legend.edges %}
+      <p class="lg"><span class="lg-name">{{ W.groups.edges }}</span><span class="keys">
+        {% for e in legend.edges %}
+        <span class="key"><span class="ln {{ e }}"></span> {{ W.edges[e] }}</span>
+        {% endfor %}
+      </span></p>
+      {% endif %}
+    </div>
+    <button type="button" class="legend-toggle" id="legend-toggle" aria-controls="legend-panel" aria-expanded="false">
+      <span class="chips" aria-hidden="true">{% for d in legend.directions %}<span class="chip d-{{ d.word }}">{{ d.glyph }}</span>{% endfor %}</span>
+      <span class="word">{{ W.toggle }}</span><span class="caret" aria-hidden="true"></span>
+    </button>
+  </div>
+
