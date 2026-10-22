@@ -1706,11 +1706,25 @@ axis, a slot or a grouping:
   page's to give, counted as drawn (#408).
 - **Get entity**: a recommendation — its wording, marked `modelling`; grade, verb,
   consensus and direction; the claims behind it by URL and page, with no verbatim
-  text (no claim sentence, no quote); its `specializes` and `complements` relations;
-  and its **steps** (#299), read from its JSON's `sequence` (§4) — or a concept — the
+  text (no claim sentence, no quote), each with its evidence rows; its `specializes`
+  and `complements` relations; and its **steps** (#299), read from its JSON's
+  `sequence` (§4) — or a concept — the
   recommendations that hold it, per graph and slot, and where it appears in each
-  grouping of each graph. A condition is a concept seen from its slot, so no tool of
-  its own returns it.
+  grouping of each graph — or a claim — its kind, page, section, grade, verb,
+  consensus and direction, its evidence rows, and the claims where its source says
+  otherwise, by URL. A condition is a concept seen from its slot, so no tool of
+  its own returns it. **Evidence rows** (#330): how certain the evidence is, as the
+  claim's entity JSON gives it (`evidence`, memory `claim-evidence-per-outcome`) — one
+  entry per printed row, in its order, with the outcome it rates (the concept's id and
+  label, read as a slot's label is read, in the full form also its URL) or the row's
+  `key` as printed, its `value` (null where the row prints none), its `note` where it
+  has one, and its `system` by slug and by `system_name`, the name the claim's source
+  declares for it (`rating_systems`), never made from the slug; an empty list where
+  the claim records none. A row carries rating words, as a grade does, and no quote.
+  The values are the source's own, never mapped between systems and never reduced to
+  one: a recommendation's rows stay per claim, in `claims`, and nothing is added at
+  its top level (§3, "Grades are shown, never composed"). Tree nodes and search hits
+  carry none, since a summary of a recommendation's evidence would compose one.
 
   The steps are the recommendations before and after it along `follows`
   (`graph-representation.md` §5), one entry per edge in the guideline's order, and
@@ -1767,8 +1781,12 @@ population of one recommendation, the condition of another — and the URL is th
 identity (`.claude/memory/design/pool-and-views.md`). **Cost:** get tree node reads
 the grouping's tree file and the graph's search file — one or two static GET requests
 whatever the depth —, a search over a subtree also the grouping's tree file, and get
-entity reads the entity's JSON — a recommendation's steps and its whole chain come
-from that one file and the search file, no other recommendation's JSON —; parsed files stay in
+entity reads the entity's JSON, the graph's search file and, for a recommendation, the
+JSONs of its claims — its steps and its whole chain come from its own JSON and the
+search file, no other recommendation's JSON —; where a claim has evidence rows, also
+its source's JSON, which declares each system's name, and, for a claim read on its
+own, the JSON of each recommendation it supports, whose card names its rows'
+outcomes (an outcome no card names is read from the concept's JSON); parsed files stay in
 memory between calls. On today's build, `JSON.parse` of a whole lean view JSON takes
 about 2.2–2.5 ms in Node 22.
 
