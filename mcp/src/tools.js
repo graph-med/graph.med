@@ -654,18 +654,25 @@ function quotedStrings(o, out = []) {
 
 function statementEntity(L, e, views, searches, meta, claimDocs, form = 'full') {
   const card = e.card || {};
-  // The wording is withheld where it carries source text: a claim sentence,
-  // or a quote of the claims behind it, word for word.
+  // The wording is withheld where it carries source text word for word: a
+  // sentence or a quote that provenance returns for it — of every claim it
+  // names, the rules of the concepts it applies to among them (#355) — or a
+  // quote of a claim behind it. A text that a name in the graph's search file
+  // carries too (a concept named in the source's words) is that name, not
+  // source text, as the check counts it (memory quote-gate-follows-the-site).
   const claimLabels = (card.wortlaut || []).map((w) => w.label);
   const values = (c) => new Set([c.grade, c.verb, c.consensus].filter(Boolean).map((x) => x.toLowerCase()));
   const cardQuotes = [
-    ...(card.beleg?.sources || []).flatMap((s) => (s.claims || []).map((c) => c.quote)),
+    ...quotesIn(e).map((x) => x.o.quote),
+    ...claimSentences(e).map(([, f]) => f.sentence),
     ...claimDocs.flatMap((c) => [c.label, ...quotedStrings(c).filter((q) => !values(c).has(q.toLowerCase()))]),
   ].filter(Boolean);
   const norm = (x) => (x || '').replace(/\s+/g, ' ').trim();
+  const wording = norm(e.label);
+  const named = (q) => searches.some((s) => s.entries.some((x) => [x.label, x.short_label].some((n) => n && norm(n).includes(norm(q)))));
   const withheld =
-    claimLabels.some((l) => sameText(l, e.label) || norm(e.label).includes(norm(l))) ||
-    cardQuotes.some((q) => norm(e.label).includes(norm(q)));
+    claimLabels.some((l) => sameText(l, e.label) || wording.includes(norm(l))) ||
+    cardQuotes.some((q) => wording.includes(norm(q)) && !named(q));
   const u = card.urteil || {};
   const slotLabels = card.mehr?.slots || {};
   const slots = {};
