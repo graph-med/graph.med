@@ -331,7 +331,8 @@ the tree readable at ninety recommendations:
 - **Folded by default.** The page opens with the root, the first question and its
   answers, one junction per patient group carrying the number of recommendations
   behind it. Tapping an answer or its junction unfolds that group's conditions and
-  recommendations, and the graph fits the group with everything it unfolded, whole,
+  recommendations, and the graph fits the group with everything it unfolded and the
+  answer that names it, so that the reader sees which group they opened, whole,
   zoomed out as far as that takes; tapping again folds it. Only what the reader
   opened takes space.
   A deep link unfolds the group its target is in. Every question folds too:

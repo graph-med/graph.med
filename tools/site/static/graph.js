@@ -6,9 +6,9 @@
    was open there. A chapter tree (from the source's outline and the claims' sections) is
    a hard filter: only what that section supports is shown. The search is a soft
    highlight: matches keep their colour, the rest fades; the arrows beside the box, or
-   ↓ and ↑ in it, step from match to match. Unfolding fits the whole unfolded part, the fit
-   button everything open; the back button returns the view as it was before the reader's last
-   change, one change at a time (docs/publication.md §3). An assistant beside the reader reads the
+   ↓ and ↑ in it, step from match to match. Unfolding fits the whole unfolded part and the
+   answer that names it, the fit button everything open; the back button returns the view as it
+   was before the reader's last change, one change at a time (docs/publication.md §3). An assistant beside the reader reads the
    view and acts on it through the session tools, a page function and WebMCP tools (§8). The axis switch chooses which of
    the view's groupings is drawn — its tree of patient groups (the first), the chapters of
    its sources, or another axis of its `group_by` (spec §4.1) — as `?by=<grouping>` in the
@@ -410,13 +410,15 @@
   /* fit what is open into the part of the canvas nothing covers. That part is the free row of the
      wrapper's grid (site.css, .graph-wrap): the controls make the row above it as tall as they are,
      the legend the row below, as tall as it is collapsed or expanded — so the free row is
-     read once here instead of adding up the controls' height and the legend's with a constant each. */
+     read once here instead of adding up the controls' height and the legend's with a constant each.
+     What is framed is its nodes and every word on them and on its edges; an edge's line runs between its nodes, so an
+     answer that leads into the frame from a question outside it adds its words, not its line back to that question */
   var canvas = document.getElementById("graph"), free = document.getElementById("free");
   var framed = cy.collection();   /* what the last fit framed, none once a view is restored (window.graphmed.frame, for tests) */
   var fitted = null;   /* where the last fit put the graph, so that a change to the free row can tell whether the reader moved it since (mark) */
   function fit(eles, padding) {
     framed = eles;
-    var bb = eles.boundingBox({ includeLabels: true }), w = cy.width(), h = cy.height();
+    var bb = eles.boundingBox({ includeLabels: true, includeEdges: false }), w = cy.width(), h = cy.height();
     if (!bb.w || !bb.h) return;
     var g = canvas.getBoundingClientRect(), f = free.getBoundingClientRect();
     var top = Math.max(0, f.top - g.top), bottom = Math.max(0, g.bottom - f.bottom);
@@ -488,12 +490,13 @@
     highlight();
   }
   var laying = null;   /* the layout in flight: a step orders the matches by position, so it waits for this to settle */
-  /* unfolding a group fits the group and everything it unfolds, as far out as that takes; folding it, the group and
-     what is around it */
+  /* unfolding a group fits the group, everything it unfolds and the answer that names it — written left of the group,
+     so that the reader sees which group they opened —, as far out as that takes; folding it, the group and what is
+     around it */
   function toggle(j, force) {
     remember();
     open[j.id()] = force === undefined ? !open[j.id()] : force;
-    relayout(open[j.id()] ? j.union(j.successors()) : j.closedNeighborhood());
+    relayout(open[j.id()] ? j.union(j.successors()).union(j.incomers("edge[kind = 'answer']")) : j.closedNeighborhood());
   }
   function foldQuestion(q, force) {
     remember();
