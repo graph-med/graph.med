@@ -96,7 +96,7 @@ the date at the precision recorded — *Version 1.0, Stand November 2023*,
 *Version 4.0, Stand 30.04.2025* —, and no line where it records neither; a half the
 source prints two ways names every printing, in the order recorded, each with the pages
 its quotes name, under words that say the source gives it inconsistently — *Version
-uneinheitlich angegeben: 1.1 (S. 1) und 1 (S. 4, 11), Stand 14.04.2025* —, none
+uneinheitlich angegeben: 1.1 (S. 1, 93) und 1 (S. 4, 11), Stand 14.04.2025* —, none
 chosen and none set below another; its
 register number where the source records one (`awmf_register`); and what the graph holds: its recommendations (the
 statements), the patient groups a reader meets in its tree (the junctions of its first

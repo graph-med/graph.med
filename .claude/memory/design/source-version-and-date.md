@@ -35,9 +35,10 @@ it. Each value is listed once (one value printed in several places is one
 printing with a quote for each), in the order of the pages that first print
 them. The validator holds each printing to its own quotes and checks the
 order. The line names every printing with its pages: "Version uneinheitlich
-angegeben: 1.1 (S. 1) und 1 (S. 4, 11), Stand 14.04.2025". The first case is
-the third source, whose cover prints "Version 1.1" and whose citation line
-(p. 4) and methods paragraph (p. 11) print "Version 1". A field printed one way
+angegeben: 1.1 (S. 1, 93) und 1 (S. 4, 11), Stand 14.04.2025". The first case is
+the third source, whose cover (p. 1) and register sheet (p. 93) print "1.1"
+and whose citation line (p. 4) and methods paragraph (p. 11) print
+"Version 1". A field printed one way
 keeps its one value, so the other sources are unchanged.
 
 **Why:** Both titles carried version and date joined by the extractor, a string
