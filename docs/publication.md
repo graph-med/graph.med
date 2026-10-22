@@ -5,7 +5,8 @@
 > graph-and-sheet page with patient groups folded by family, the chapter tree and
 > the search with facet filters, short labels, direction glyphs, legend and judgement,
 > the order of the detail section (§3) — with a statement's steps before and after
-> along `follows` (zone 5) —, entity pages and JSON — with `meta`, a statement's
+> along `follows` (zone 5) and its path view, the whole chain on a page of its own
+> (§3, "The path view") —, entity pages and JSON — with `meta`, a statement's
 > `sequence`, and a concept's `statements` and `appears_in` (§4) —, source links
 > (§5), the grouping switch — the view's tree of patient groups · Kapitel · each
 > other axis the view declares (§3, "The axis is the reader's choice") —, the scope tree and what applies
@@ -52,6 +53,7 @@ graph.med/<view-id>.json            the view as data: what its page draws, card 
 graph.med/<view-id>/trees/<axis>.json    one grouping's tree file, without content (§4)
 graph.med/<view-id>/view.json       the view without content: its groupings by their tree files (§4)
 graph.med/<view-id>/search.json     the view's search file (§4)
+graph.med/<view-id>/sequence/<statement>/   the path view: the chain a statement stands in (§3)
 graph.med/index.json                every view, its groupings and its files, for programs (§4)
 graph.med/llms.txt                  what the files for programs hold, in English (§4)
 graph.med/schema/schema.yaml        the schema, at its $id
@@ -228,7 +230,8 @@ decision-graph-derivation):
   related to it that are shown keep their colour and wear a dotted outline; no
   line is drawn across the tree, and the card names each relation (zone 9).
   A sequence (`follows`, `graph-representation.md` §5) is no edge of the tree
-  either: the card names a statement's steps before and after (zone 5).
+  either: the card names a statement's steps before and after (zone 5) and
+  opens the whole chain on a page of its own ("The path view", below).
   A box takes the colour of its direction — the four colours of the judgement band
   in the details, so that box and section agree — and its label begins with a
   stamp, in text, before the short form: `✗ EK soll nicht · Keine präoperative
@@ -820,7 +823,12 @@ glyph. Timing
      `glyph`, `stamp` (what the box writes between its glyph and its short
      label), `transition`, `trigger`, `discriminator` where the edge has
      one, `rationale`, `rationale_lang` and `as_of`; a program reads the
-     chain from `sequence` (§4).
+     chain from `sequence` (§4). Under the last of the two rows, on a line
+     of its own, `Pfad anzeigen` opens the statement's path view ("The path
+     view", below) — on the statement's own page one link per view it
+     belongs to, each named by its view where there are several; in the
+     path view itself the same place leads back to the view's tree at the
+     statement, `Im Entscheidungsbaum zeigen`.
 
      **The row's word is the slot's, never a graph's.** `Patientengruppe` is
      the word the page already uses for what the population slot holds — the
@@ -1040,7 +1048,10 @@ wherever a page names the source (its words, and the month names that write its
 date); the words of a statement's steps before and after on its card — zone 5's
 rows `Davor` and `Danach`, the transitions and the triggers (card #294, Decision 3)
 —, which stand among the card's source-language words as the version line stands
-in its citation, each carrying the page language; the note beside every licence line that the
+in its citation, each carrying the page language, and the link to its path view;
+the path view's own — its kind line, the way back to the tree, the step's frame
+(`Bedingung: …`) and heading, the transitions and triggers on its labels ("The path
+view", below); the note beside every licence line that the
 document is linked at its public URL and never served here (§5), the project's rule
 said once and not part of the source's line; the preview strip, the footer, the
 share image's description, and an entity page's description by its type. The
@@ -1070,11 +1081,93 @@ aus der Quelle* for a claim's sentence, quoted from its source (`anchored`): the
 statement's title and zone 5 (generated), zones 3, 6, 7 and 8 (quoted),
 what two printings differ in under a disagreement (generated), and why two
 statements are related, under each entry of zone 5's `Verwandt` row, and what
-triggers a step, under each entry of its rows `Davor` and `Danach` (generated,
-with the date of the reading); a concept's
+triggers a step, under each entry of its rows `Davor` and `Danach` and in a step's
+section of the path view (generated, with the date of the reading); a concept's
 label, and its list of statements where they all share one kind. The words are the
 card's table (`origin.*`, §3 "Language"). A tag says where a part comes from, never
 that it was checked.
+
+### The path view
+
+A statement that stands in a sequence (`graph-representation.md` §5 `follows`) has a
+page of its own that draws the whole chain it stands in,
+`graph.med/<view-id>/sequence/<statement>/` — `<statement>` its id without
+`statements/` —, under each view it belongs to, for every statement of the view on a
+`follows` edge. Its card opens it (zone 5, `Pfad anzeigen`). It is **not an entry of
+the grouping switch**, whose rule above stays as it is: a chain groups nothing of a
+view — most statements stand in none — but is what one recommendation reaches by its
+steps, so it is opened from a statement and from nowhere else (card #298, the
+discussion's Option B).
+
+**A page, not an overlay of the view page.** The view page is one decision tree, and
+everything around its canvas is fitted to that tree — the switch, the chapters, the
+search and its steps, the back button, the session tools (§8); a second graph in the
+same canvas would need a meaning in each of them or would have to switch them off. A
+page of its own leaves the view page as it is, loads the chain alone, and is a link a
+reader shares and a program gives. The chain has no id in the pool — it is read off
+the edges and owns no data —, so the page is addressed by the statement it is opened
+from, whose id stays while the chain grows or splits; every member's page draws the
+same chain. One code path reads it, `Pool.chain_of`, the walk the statement JSON's
+`sequence.chain` gives (§4), and nothing in it is named after a guideline.
+
+**What it draws.** The chain whole and uncut: every statement the opened one reaches
+along `follows` edges, either way and through any number of them, and every such
+edge among them — a line, a branch, a join, a star (the sepsis guideline's 4.6 and
+8.1 around 4.5), a cycle —, top to bottom by the view page's renderer (Cytoscape.js
+with dagre), the earlier statement above the later. Each statement is a **box** as
+its box in the view's tree reads: coloured by its direction, its label the glyph,
+the grade as printed, a basis beside it, the verb where the grade does not carry it
+and the short label — one rule for both (`box_label` in the build) —, a dashed red
+border where it is contested; so every step shows how binding it is, and a chain of
+open recommendations reads as what the guideline says, never as a protocol. Each
+`follows` edge is a **step**: a line from the earlier box to the step's label, an
+arrow from the label to the later box. The label says, one to a line, the transition
+read from the earlier statement (`ersetzt durch`, `erweitert um`, `gefolgt von`,
+`gleichzeitig mit`, the words of zone 5's `Danach` row), the trigger (`Anlass: Ziel
+nicht erreicht`, …) and the later statement's condition, `Bedingung: …`, each further
+condition on a line of its own opened by the conjunction, as the view page's
+condition answer writes it — on the step, never a node of its own. The trigger's
+wording as printed is quoted by the edge's rationale: a tap on a step opens its
+section in the sheet — the earlier box, the label's lines, the later box, and under
+`Warum dieser Schritt` the rationale, tagged *KI-erzeugt* with the date of the
+reading. Nothing is computed beyond the edges and the slots: no threshold (the
+condition's rule is on its card), nothing inherited along the chain. The label is a
+node of the layout, so that no label runs into a box or another label; the lines run
+orthogonally — down from their upper end, across in the gap between two ranks, down
+into their lower end —, so that none crosses a box or a label, and the lines of one
+gap run across at heights of their own. **A cycle keeps its back edge**: a step whose
+trigger is a re-evaluation or a target reached — the triggers a cycle may run
+through (`graph-representation.md` §5) — and which closes a cycle is laid out upward, its arrow at its upper
+end; a cycle without such a step (the source giving an order both ways, the same §5) is
+broken by the layout itself, and the edge it turns bows beside the column.
+
+**Several steps into one box** — a statement that follows several, as the sepsis
+guideline's 8.1 follows 4.5 and 4.1 — are several labels and several arrows, each
+reaching the box at a point of its own with an arrowhead of its own. Nothing joins
+them: no node stands between them and no word is written across them, so the drawing
+says neither that the earlier statements' outcomes call for the step together nor
+that any one of them does, which the pool does not say (`open-questions.md` →
+follows-several-earlier). The later statement's condition stands whole on each of its
+steps; its conjunction joins that statement's conditions, which hold at once
+(`graph-representation.md` §3.2), never two steps.
+
+**Opened from a statement, read on a phone.** The statement it was opened from wears
+an outline the whole time and is selected at load, its card in the sheet; the same
+chain opened from another member outlines that one. A tap on a box opens its card, as
+on the view page; a tap on a step its section; a tap on the canvas the sheet's home; a
+link in a card to another member of the chain selects it in place. The hash is the
+selected statement's id. The page is a view page's graph and sheet, read on a phone
+first: the fit never zooms the chain out below a size a phone reads — a chain wider
+than that is shown around the selected box and panned, the fit button showing it
+whole —, and the card waits in the peek strip at the bottom edge. Over the graph a
+link leads back to the view's tree at the statement it was opened from
+(`Entscheidungsbaum`). The legend keys what the page draws: its directions and grades,
+a contested border, the step, and the box it was opened from. The sheet's home says
+what the page shows and names every step in words — the earlier box, the label's
+lines, the later box —, so that the page reads without the script and to a screen
+reader; without the script it is the page. Its words are the page chrome's (`path`,
+"Language" above); the boxes', the conditions' and the rationales' are the data's, in
+their language.
 
 ---
 
