@@ -275,3 +275,9 @@ and which card is next, is not a question and lives on the board (`uv run tools/
 
 **Leaning:** none; it bears on what #297 and #298 draw. (2026-10-22)
 **Settled by:** the maintainer, before #298 draws a path through a statement with several earlier ones.
+
+## sequence-words-language  (publication.md §3 zone 5 and "Language"; memories `page-chrome-in-the-view-layer`, `sequences-are-edges`; cards #294, #297)
+**Question:** The words of a statement's steps before and after — zone 5's rows `Davor` and `Danach`, the transitions (`anstelle von`, `ersetzt durch`, …) and the triggers (`Anlass: Ziel nicht erreicht`, …) — are the page chrome's, from `tools/site/words/<lang>.json`, as card #294's Decision 3 placed them. Every other word of the card is the card's table (`CARD_WORDS`), in the statement's source language, `Verwandt` and its relation words beside these rows included. For the first views both are German and nothing shows the seam; in a view whose source is English the card would be English and these rows German. It is the seam of `page-hint-language`, inside the card.
+**Options:** harmless, keep them in the view layer's table (Decision 3 as it stands) · the card's table, in the source language, like `Verwandt` · decide with `page-hint-language`, by one rule for every word the sheet shows
+**Leaning:** none. (2026-10-22)
+**Settled by:** the first view whose source language is not the page language, with `page-hint-language`.

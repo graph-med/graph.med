@@ -4,8 +4,9 @@
 > "Build") renders §2–§5 for `selection` views over sources: the URL layout, the
 > graph-and-sheet page with patient groups folded by family, the chapter tree and
 > the search with facet filters, short labels, direction glyphs, legend and judgement,
-> the order of the detail section (§3), entity pages and JSON — with `meta`, and a
-> concept's `statements` and `appears_in` (§4) —, source links
+> the order of the detail section (§3) — with a statement's steps before and after
+> along `follows` (zone 5) —, entity pages and JSON — with `meta`, a statement's
+> `sequence`, and a concept's `statements` and `appears_in` (§4) —, source links
 > (§5), the grouping switch — the view's tree of patient groups · Kapitel · each
 > other axis the view declares (§3, "The axis is the reader's choice") —, the scope tree and what applies
 > generally, for a view that declares one (§3), and the deploy workflow with one
@@ -226,6 +227,8 @@ decision-graph-derivation):
   unfolding a group never follows it. While a box is selected, the boxes
   related to it that are shown keep their colour and wear a dotted outline; no
   line is drawn across the tree, and the card names each relation (zone 9).
+  A sequence (`follows`, `graph-representation.md` §5) is no edge of the tree
+  either: the card names a statement's steps before and after (zone 5).
   A box takes the colour of its direction — the four colours of the judgement band
   in the details, so that box and section agree — and its label begins with a
   stamp, in text, before the short form: `✗ EK soll nicht · Keine präoperative
@@ -572,11 +575,11 @@ glyph. Timing
   | 2 | Judgement | none | supporting claims; whether a contesting claim exists | never |
   | 3 | Wording | `Wortlaut der Empfehlung` | `claim.label` per supporting claim | never |
   | 4 | Evidence | `Evidenz` | the supporting claims' `evidence`, per row; else `nicht erfasst` | never |
-  | 5 | Applies to | `Gilt für` | the `population`, `condition`, `action` slots, then the value of every dimension axis that places the statement, named by that axis's `short_label` (else `label`) | no slot filled |
+  | 5 | Applies to | `Gilt für` | the `population`, `condition`, `action` slots, then the value of every dimension axis that places the statement, named by that axis's `short_label` (else `label`); then the steps before and after it, `follows` (`Davor`, `Danach`), and the statements related to it, `specializes`, `complements`, `conflicts` (`Verwandt`), each row absent without an edge | no slot filled, no step and no related statement |
   | 6 | Body text | `Hinweise aus dem Begleittext` | `limits`, `refines`, `supplements` | never (empty state) |
   | 7 | Contradiction | `Widersprechende Empfehlung(en)` | `contests` | no contesting claim |
   | 8 | Citation | `Beleg` | the supporting claims' `source`, the source's title, `version` and `date` | never |
-  | 9 | More | `Mehr zu dieser Aussage` | `specializes`, `complements`, `conflicts`, the ids, the slots as stored | never (closed) |
+  | 9 | More | `Mehr zu dieser Aussage` | `specializes`, `complements`, `conflicts`, `follows` with its `transition` and `trigger`, the ids, the slots as stored | never (closed) |
 
   1. **Title.** The short label, exactly once on the card. Under it one muted
      line names where the recommendation comes from — each source by its
@@ -768,6 +771,57 @@ glyph. Timing
      `rationale`, `rationale_lang` and `as_of`, so that a program reads the
      same reason.
 
+     **The steps before and after.** Where the statement stands in a
+     sequence (`graph-representation.md` §5 `follows`), two rows come
+     between the slots and `Verwandt`: `Davor`, the statements it follows,
+     and `Danach`, those that follow it. Each is absent without such an
+     edge, as `Verwandt` is: a card without a sequence shows neither row and
+     no empty state, since no pass has read every source for the order it
+     states, and an empty row would claim what nobody checked. A row names
+     every one of its neighbours, one to a line, in the guideline's order:
+     the transition as a word read from this card's side — on the later
+     statement's card `anstelle von`, `zusätzlich zu`, `nach`,
+     `gleichzeitig mit` the earlier one, on the earlier's `ersetzt durch`,
+     `erweitert um`, `gefolgt von`, `gleichzeitig mit` the later one —,
+     then the neighbour as its box names it: the chip of its direction (the
+     box's fill with the glyph inside, as the legend keys it, its direction
+     word for a screen reader), its grade and basis as printed and its verb
+     where the grade does not carry it, its short label — `anstelle von
+     ✓ ⇑ sollte · Initial: Ruheherzfrequenz unter 110/min mit
+     Symptomfreiheit` —, linked so that the graph moves to it. Every
+     neighbour shows its grade, so that a chain of open recommendations
+     reads as what the guideline says, never as a protocol. Under it,
+     closed, the trigger in words — `Anlass: Ziel nicht erreicht`,
+     `Anlass: Befund`, `sonstiger Anlass` — and, opened, the edge's
+     `rationale`, which quotes the trigger's wording as printed, tagged
+     *KI-erzeugt* with the date of the reading beside the tag, as `Warum
+     verwandt` is: both are the project's reading, and the condition row
+     above says *what* the circumstance is, the step *after which measure*.
+     Nothing is computed beyond the edge: no step further along the chain,
+     no threshold (that is the condition's rule, above), nothing inherited.
+     Several neighbours in a row stand one under the other, each with its
+     own edge's transition and trigger, never joined by a conjunction, an
+     alternative or a count: the pool does not say whether a statement that
+     follows several follows all of them together or any one of them, and
+     the row says neither. Two edges between one pair — the source stating
+     their order twice (§5) — are two entries. The rows' words, the
+     transitions' and the triggers' are the page chrome's ("Language"
+     below), not the card's table (card #294, Decision 3). The steps are
+     rows of this zone and not a zone of their own: a `follows` edge is a
+     statement → statement relation beside `specializes`, `complements` and
+     `conflicts`, whose reader's place is this zone's `Verwandt` row since
+     the related statements' zone of their own was removed (below); the
+     edge says to which measure the condition refers, so it reads beside
+     the condition; and a row absent without an edge needs no exception to
+     the rule that every zone keeps its heading, nor renumbers the zones
+     after it. In the statement JSON the card keeps them under
+     `mehr.follows`, each with `to` (a statement this one follows) or
+     `from` (one that follows it), `label`, `title`, `lang`, `direction`,
+     `glyph`, `stamp` (what the box writes between its glyph and its short
+     label), `transition`, `trigger`, `discriminator` where the edge has
+     one, `rationale`, `rationale_lang` and `as_of`; a program reads the
+     chain from `sequence` (§4).
+
      **The row's word is the slot's, never a graph's.** `Patientengruppe` is
      the word the page already uses for what the population slot holds — the
      legend keys the junction a statement hangs from as a patient group, and the
@@ -915,8 +969,9 @@ glyph. Timing
      ausstehend` (the pool has no attestation yet). Where a recommendation
      comes from is as much part of the answer as whom it is for.
   9. **More.** A `<details>`, closed: the related statements over
-     `specializes`, `complements`, `conflicts` by their edge names (zone 5
-     names them for the reader), the statement's and its claims'
+     `specializes`, `complements`, `conflicts` and the steps over `follows`,
+     each with its `transition` and `trigger` as stored, by their edge names
+     (zone 5 names them for the reader), the statement's and its claims'
      ids, every slot as stored, the modelling source. The only zone where
      developer vocabulary — edge names, raw values, ids — is allowed.
 
@@ -982,7 +1037,10 @@ counter and the chapter panel, which the script reads from the page; the sheet's
 home — its kind line, its counts (a pair per count, as the index's), its links and
 its hint; the index's words (§2); the line that says a source's version and date
 wherever a page names the source (its words, and the month names that write its
-date); the note beside every licence line that the
+date); the words of a statement's steps before and after on its card — zone 5's
+rows `Davor` and `Danach`, the transitions and the triggers (card #294, Decision 3)
+—, which stand among the card's source-language words as the version line stands
+in its citation, each carrying the page language; the note beside every licence line that the
 document is linked at its public URL and never served here (§5), the project's rule
 said once and not part of the source's line; the preview strip, the footer, the
 share image's description, and an entity page's description by its type. The
@@ -1011,7 +1069,8 @@ project generated (`modelling`; *KI-erzeugt, mit Fundstelle* for `sourced`), *Zi
 aus der Quelle* for a claim's sentence, quoted from its source (`anchored`): the
 statement's title and zone 5 (generated), zones 3, 6, 7 and 8 (quoted),
 what two printings differ in under a disagreement (generated), and why two
-statements are related, under each entry of zone 5's `Verwandt` row (generated,
+statements are related, under each entry of zone 5's `Verwandt` row, and what
+triggers a step, under each entry of its rows `Davor` and `Danach` (generated,
 with the date of the reading); a concept's
 label, and its list of statements where they all share one kind. The words are the
 card's table (`origin.*`, §3 "Language"). A tag says where a part comes from, never
@@ -1041,8 +1100,8 @@ rationale where it has one. The words come from the build's per-language table.
 
 **What a program walks and cites by.** Beside what the entity stores and its
 `edges` (and a statement's `card`, a derived concept's `derivation` and `rules`),
-every entity JSON carries one key more, `meta`, and a concept two more,
-`statements` and `appears_in`. They are added, never in place of a stored key: a
+every entity JSON carries one key more, `meta`, a statement one more, `sequence`,
+and a concept two more, `statements` and `appears_in`. They are added, never in place of a stored key: a
 stored `url`, `license`, `provenance`, `rule` or `views` keeps its meaning, which
 is why the metadata sits under a key of its own. This section is their contract.
 
@@ -1073,6 +1132,20 @@ is why the metadata sits under a key of its own. This section is their contract.
 - `meta.commit`, `meta.schema_version` — the build's commit and the schema's
   version. Nothing in the JSON carries a build date, so one commit and one set of
   flags give the same bytes.
+- `sequence` (a statement) — its direct neighbours along `follows`
+  (`graph-representation.md` §5), so that a program reads the chain without the
+  page: `before`, the statements it follows (the edges that run from it), and
+  `after`, those that follow it (the edges that run to it). Each is a list in the
+  guideline's order — by the neighbour's first recommendation number, then its
+  id —, one entry per edge: `id`; `url` and `json`, the neighbour's page and JSON
+  as absolute URLs, as `meta.url` and `meta.json` give them; `transition` and
+  `trigger`, as the edge stores them (the schema's English keys, never the page's
+  words); and `discriminator`, only where the edge has one. The key is on every
+  statement, both lists empty for one on no such edge. It carries nothing the edge
+  does not hold: no label, no rationale (both are in `edges` and in the card's
+  `mehr.follows`, §3 zone 5), no step further along the chain, no threshold. Two
+  entries in one list say neither that both hold together nor that either one
+  does: the pool does not say which.
 - `statements` (a concept) — keyed by each view it belongs to: `held_by`, the
   view's statements that hold the concept, each `{id, slot}`; and, in a view with
   a scope tree, `own` and `general` as that view JSON's `scope.concepts` gives
@@ -1199,7 +1272,12 @@ validator. It reads `data/` and `schema/schema.yaml`, writes a `site/` directory
 (gitignored), and takes the base path and output directory as parameters. It runs
 offline, needs nothing beyond the dependencies in `pyproject.toml`, and is
 deterministic. A contributor runs it locally and opens `site/index.html` to see a
-change before proposing it — the same habit as the validator.
+change before proposing it — the same habit as the validator. Beside what it
+writes, it prints one line per view: the `follows` edges between two of the view's
+statements and how many of them have `trigger: other`
+(`views/<id>: 15 follows edge(s), 4 with trigger: other`), the count each linking
+pass reports its measure by (card #294, Decision 10 (d)) — a count, never a
+failure.
 
 Publication is a workflow (`.github/workflows/pages.yml`): on every push to `main`,
 validate, build, deploy to GitHub Pages. The deploy step never runs on a pool that
