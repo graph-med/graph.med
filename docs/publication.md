@@ -593,7 +593,10 @@ glyph. Timing
      `short_label` (else its title) and the recommendation numbers of its
      supporting claims, `S3 Sepsis 2025 · Empf. 8.15` —, so that the guideline
      is known before the band and never only at the end of the card; zone 8
-     keeps the full title.
+     keeps the full title. Each number stands once: where a box's
+     recommendation sentence and the fact it prints beside it both support the
+     statement, the line names the box once, `S3 Vorhofflimmern 2025 ·
+     Empf. 6.14`, and zone 8 keeps an entry per sentence.
   2. **Judgement.** One band, a block filled with the direction colour, no
      heading; its lines share the left edge. Line 1, in the card's largest
      type: the glyph, the direction word and the verb as the claims say it —
@@ -602,7 +605,12 @@ glyph. Timing
      supporting claim in claim order, its grade as text on the chip's own light
      fill — the grade as printed in the card's frame (`Grad A`, `Grad Stark`),
      and a grade that fixes no wording, an expert consensus, by its scheme's
-     description of it (`Expertenkonsens`) —, a basis the claim prints beside
+     description of it (`Expertenkonsens`) —, a claim that recommends nothing —
+     a fact, a criterion, a definition, which carry no grade
+     (`graph-representation.md` §3.1) — by its kind where the grade would
+     stand, in plain type, since the bold is the grade (`Feststellung ·
+     Expertenkonsens · Konsensstärke 92%`), so that its chip never reads as a
+     grade left empty; a basis the claim prints beside
      its grade by its scheme's description of it, after the grade (`Grad ⇑ ·
      Expertenkonsens`; the token stays on the box), and its consensus beside
      them: the class as the scheme names it (`Starker Konsens`) and, where the
@@ -611,8 +619,9 @@ glyph. Timing
      bare — `Grad ⇑ · Expertenkonsens · Konsensstärke 100%` —, since a bare number
      does not say what it counts and `Konsens` alone is a class of other schemes.
      Identical chips collapse to one with a count, `Grad A (2)`, a chip with a
-     basis never into one without; the statement JSON's badge carries `basis`
-     only where its claim prints one. A chip is
+     basis never into one without, a fact's never into a criterion's; the
+     statement JSON's badge carries `basis` only where its claim prints one,
+     and `kind` only for a claim that recommends nothing. A chip is
      read in its claim's own scheme: the same token from two schemes is two
      chips.
      The chips wrap under line 1 and never squeeze it. **Their order is the
@@ -977,7 +986,10 @@ glyph. Timing
      first supporting claim; under it one entry per supporting claim from that
      source, in the guideline's order — by recommendation number, and a
      recommendation number that is not a number ("Definition 1") by the page it
-     is printed on, after the numbered ones printed before it: recommendation
+     is printed on, after the numbered ones printed before it; the sentences of
+     one box in the order the box prints them, by page and then by where the
+     pool lists them, which is the order an extraction writes a box's
+     sentences in (no claim records its line), never by id: recommendation
      number (`Empf. 2.1`; one that is not a number as printed, `Definition 1`),
      page, section, the verbatim quote as an excerpt — the quote is the search
      text that finds the passage, often a sentence's head cut where a line
