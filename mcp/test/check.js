@@ -1129,21 +1129,24 @@ async function checkSentences(C, name, p, raw, base) {
 
 // The pool's quoted strings: every `quote`, and every claim sentence (the
 // gate counts `claim.label`: only provenance returns it, whole — card #272,
-// option 2, the maintainer's answer of 2026-09-28). A per-property quote equal
-// to the value it backs (a grade as printed) is that value, carried as data.
+// option 2, the maintainer's answer of 2026-09-28) wherever an entity names a
+// claim with its sentence: the claim itself, the claims behind a
+// recommendation, the rules of a concept and their parts (#355, card #415). A
+// per-property quote equal to the value it backs (a grade as printed) is that
+// value, carried as data.
 function collectQuotes(j, quotes) {
   const values = new Set(strings({ grade: j.grade, verb: j.verb, consensus: j.consensus, evidence: j.evidence }).map((x) => x.s.toLowerCase()));
-  (function walk(o, k) {
-    if (Array.isArray(o)) o.forEach((x) => walk(x, k));
-    else if (o && typeof o === 'object')
+  (function walk(o) {
+    if (Array.isArray(o)) o.forEach(walk);
+    else if (o && typeof o === 'object') {
+      if (typeof o.id === 'string' && o.id.startsWith('claims/') && typeof o.label === 'string' && o.label) quotes.add(o.label);
       for (const [key, v] of Object.entries(o)) {
         if (key === 'meta') continue;
         if (key === 'quote' && typeof v === 'string' && !values.has(v.toLowerCase())) quotes.add(v);
-        else walk(v, key);
+        else walk(v);
       }
+    }
   })(j);
-  if (j.type === 'claim' && j.label) quotes.add(j.label);
-  for (const w of j.card?.wortlaut || []) if (w.label) quotes.add(w.label);
 }
 
 // No tool module imports a transport or a Node module (ADR-0007): the tool
