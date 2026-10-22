@@ -484,6 +484,7 @@ async function runTarget(target) {
   C.ok(eq(lg.map((g) => g.id), views.map((v) => v.id)), 'list_graphs: not every view of the index');
 
   const quotes = new Set(); // the pool's quoted strings, collected below
+  const claimsRead = new Set(); // `<view> <claim>`, each claim read once per graph
   const leanStrings = new Set(strings(index).map((x) => x.s));
 
   for (const v of views) {
@@ -586,7 +587,8 @@ async function runTarget(target) {
       C.counts[`${G}: recommendations reached / in tree file`] = `${statementsInTree.filter((x) => recsReached.has(x)).length} / ${statementsInTree.length}`;
     }
 
-    // 4. get_entity: every concept and every recommendation of the search file.
+    // 4. get_entity: every concept and every recommendation of the search file,
+    //    and every claim a recommendation rests on.
     for (const e of search.entries) {
       const r = await fullEntity(call, { entity: e.id, graph: v.id, detail: 'full' });
       if (r.error) {
@@ -596,7 +598,11 @@ async function runTarget(target) {
       const rc = await fullEntity(call, { entity: e.id, graph: v.id });
       compareCompactEntity(C, `get_entity ${e.id}`, rc, r);
       checkAbout(C, 'get_entity', r.about);
-      checkIds(C, `get_entity ${e.id}`, r, isMember);
+      // An evidence row names its outcome, a concept the claim's JSON names,
+      // which may stand in no graph's filter (#330).
+      const claimJsons = e.kind === 'statement' ? await Promise.all((r.entity.claims || []).map((c) => raw(base + c.id + '.json'))) : [];
+      const rowOutcomes = new Set(claimJsons.flatMap(outcomesOf));
+      checkIds(C, `get_entity ${e.id}`, r, (id) => isMember(id) || rowOutcomes.has(id));
       const j = await raw(base + e.id + '.json');
       collectQuotes(j, quotes);
       if (j.type === 'concept') [j.label, j.short_label].filter(Boolean).forEach((x) => leanStrings.add(x));
@@ -627,10 +633,30 @@ async function runTarget(target) {
         if (j.sequence?.before?.length || j.sequence?.after?.length)
           C.ok(r._gets.every((u) => !/\/statements\//.test(u) || u === base + e.id + '.json'), `get_entity ${e.id}: fetched another recommendation: ${r._gets.join(' ')}`);
         C.ok(!/"rationale"/.test(r._text), `get_entity ${e.id}: carries a rationale`);
-        for (const c of r.entity.claims) {
-          const cj = await raw(base + c.id + '.json');
+        // Evidence stays per claim: no certainty at the recommendation's top
+        // level (docs/publication.md §3, "Grades are shown, never composed").
+        C.ok(!('evidence' in r.entity) && !('evidence' in rc.entity), `get_entity ${e.id}: evidence at the recommendation's top level`);
+        for (const [i, c] of r.entity.claims.entries()) {
+          const cj = claimJsons[i];
           collectQuotes(cj, quotes);
           C.ok(c.url === cj.meta.url, `get_entity ${e.id}: claim URL ${c.url} ≠ ${cj.meta.url}`);
+          await checkEvidence(C, `get_entity ${e.id}: ${c.id}`, c.evidence, cj, 'full', S, base, leanStrings);
+          await checkEvidence(C, `get_entity ${e.id}: ${c.id} (compact)`, rc.entity.claims[i]?.evidence, cj, 'compact', S, base, leanStrings);
+          // The claim itself, in both forms, once per graph.
+          if (claimsRead.has(`${v.id} ${c.id}`)) continue;
+          claimsRead.add(`${v.id} ${c.id}`);
+          const cf = await call('get_entity', { entity: c.id, graph: v.id, detail: 'full' });
+          if (!C.ok(!cf.error, `get_entity ${c.id}: ${cf.error}`)) continue;
+          const cc = await call('get_entity', { entity: c.id, graph: v.id });
+          compareCompactEntity(C, `get_entity ${c.id}`, cc, cf);
+          checkAbout(C, 'get_entity', cf.about);
+          const own = new Set(outcomesOf(cj));
+          checkIds(C, `get_entity ${c.id}`, cf, (id) => isMember(id) || own.has(id));
+          C.ok(cf.graphs.length === 1 && cf.graphs[0].graph.id === v.id, `get_entity ${c.id}: not kept to ${v.id}`);
+          for (const x of strings(cf.graphs[0]).filter((x) => x.key === 'link')) checkLink(C, v, null, x.s, isMember, true);
+          await checkEvidence(C, `get_entity ${c.id}`, cf.entity.evidence, cj, 'full', S, base, leanStrings);
+          await checkEvidence(C, `get_entity ${c.id} (compact)`, cc.entity?.evidence, cj, 'compact', S, base, leanStrings);
+          C.count(`claims read, ${(cj.evidence || []).length ? 'with' : 'without'} evidence rows`);
         }
         // Provenance: the only verbatim text — each quote capped, each claim's
         // sentence whole as the site shows it — each with its link or page.
@@ -720,7 +746,11 @@ async function runTarget(target) {
   // Provenance is scanned too, without the places verbatim text may stand
   // there: `quotes` (capped, checked above) and `sentences` (claim sentences,
   // whole, checked above), each with the link that searches its quote, and a
-  // claim's anchor link in its metadata.
+  // claim's anchor link in its metadata. An evidence row's key, value or note
+  // equal to its claim's entry (checkEvidence) is that entry's datum, as
+  // printed and as the site shows it, carried as data like a grade (#330): its
+  // quote stays gated everywhere else. Tree nodes and search hits carry no
+  // evidence: a summary of a recommendation's would compose one.
   let scanned = 0;
   for (const [key, text] of resultTexts) {
     let result = JSON.parse(text);
@@ -728,10 +758,24 @@ async function runTarget(target) {
       const bare = (list) => (list || []).map(({ quote, sentence, link, ...rest }) => rest);
       const { link, ...provenance } = result.about?.provenance || {};
       result = { ...result, quotes: bare(result.quotes), sentences: bare(result.sentences), about: { ...result.about, provenance } };
-    } else C.ok(!text.includes('"sentences"'), `quote gate: ${key} carries claim sentences`);
+    } else {
+      C.ok(!text.includes('"sentences"'), `quote gate: ${key} carries claim sentences`);
+      // A claim's own result carries its anchor link in its metadata, as
+      // provenance's does (the link its page shows, searching its quote): not
+      // scanned here, as there. Unexamined before #330, which first reads a
+      // claim through get_entity in this walk; reported, not changed (#330
+      // changes no text the server withholds).
+      if (/^get_entity \{"entity":"claims\//.test(key) && result.about?.provenance?.link) {
+        const { link, ...provenance } = result.about.provenance;
+        result = { ...result, about: { ...result.about, provenance } };
+        C.count('claim results whose anchor link was not scanned');
+      }
+    }
+    if (/^(get_tree_node|search) /.test(key)) C.ok(!text.includes('"evidence":'), `${key}: carries evidence`);
     scanned++;
-    for (const { s } of strings(result)) {
+    for (const { key: k, s } of strings(result)) {
       if (leanStrings.has(s)) continue;
+      if (EVIDENCE_DATA.includes(k) && evidenceData.has(s)) continue;
       for (const q of gated)
         if (s.includes(q) || s.includes(encodeURIComponent(q))) C.fail(`quote gate: ${key} carries ${JSON.stringify(q.slice(0, 40))} in ${JSON.stringify(s.slice(0, 60))}`);
     }
@@ -1124,6 +1168,45 @@ async function checkSentences(C, name, p, raw, base) {
     C.ok(x.sentence === cj.label, `${name}: the sentence of ${x.claim} is not its claim's, whole`);
     C.ok(!!x.link || !!x.page, `${name}: the sentence of ${x.claim} without link or page`);
     C.count('claim sentences returned by provenance');
+  }
+}
+
+// A claim's evidence rows (#330) against its entity JSON (memory
+// claim-evidence-per-outcome): one row per entry, in its order, nothing
+// composed; each the entry's key, value and note as it gives them, its system
+// by slug and by the name the claim's source declares (`rating_systems`), and
+// its outcome by id and label, read as a slot's — compact, the graph's search
+// file's short label where it has one, else the concept's label; full, the
+// concept's label and its URL. No other key, and so no quote. The outcome's
+// label and the system's name are words of Layer 0 (leanStrings); the key,
+// value and note the entry's data (evidenceData).
+const EVIDENCE_DATA = ['key', 'value', 'note'];
+const ROW_KEYS = ['outcome', ...EVIDENCE_DATA, 'system', 'system_name'];
+const evidenceData = new Set();
+const outcomesOf = (cj) => (Array.isArray(cj?.evidence) ? cj.evidence : []).map((x) => x.outcome).filter(Boolean);
+async function checkEvidence(C, where, rows, cj, form, S, base, leanStrings) {
+  const want = Array.isArray(cj.evidence) ? cj.evidence : [];
+  if (!C.ok(Array.isArray(rows) && rows.length === want.length, `${where}: ${Array.isArray(rows) ? rows.length : rows} evidence rows, ${want.length} in the claim's JSON`)) return;
+  const src = (cj.source?.at || '').split('#')[0];
+  const declared = want.some((x) => x.system) ? (await raw(base + src + '.json')).rating_systems || [] : [];
+  for (const [i, x] of want.entries()) {
+    const row = rows[i];
+    C.count(`evidence rows compared (${form})`);
+    C.ok(Object.keys(row).every((k) => ROW_KEYS.includes(k)), `${where}: row ${i} carries ${Object.keys(row).join(', ')}`);
+    C.ok((row.key ?? null) === (x.key ?? null) && row.value === (x.value ?? null) && (row.note ?? null) === (x.note ?? null), `${where}: row ${i}'s key, value or note ≠ the claim's entry`);
+    EVIDENCE_DATA.forEach((k) => x[k] && evidenceData.add(x[k]));
+    const name = x.system ? (declared.find((d) => d.system === x.system)?.name ?? null) : null;
+    C.ok(row.system === (x.system ?? null) && row.system_name === name, `${where}: row ${i}'s system ${row.system} / ${row.system_name} ≠ ${x.system} / ${name}`);
+    if (name) leanStrings.add(name);
+    if (!x.outcome) {
+      C.ok(row.outcome === undefined, `${where}: row ${i} has an outcome the entry lacks`);
+      continue;
+    }
+    const cpt = await raw(base + x.outcome + '.json');
+    leanStrings.add(cpt.label);
+    const label = form === 'compact' ? (S.get(x.outcome)?.short_label ?? cpt.label) : cpt.label;
+    C.ok(row.outcome?.id === x.outcome && row.outcome.label === label, `${where}: row ${i}'s outcome ${JSON.stringify(row.outcome)} ≠ ${x.outcome} ${JSON.stringify(label)}`);
+    C.ok(form === 'full' ? row.outcome?.url === cpt.meta.url : row.outcome?.url === undefined, `${where}: row ${i}'s outcome URL`);
   }
 }
 

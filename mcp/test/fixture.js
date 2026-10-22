@@ -3,10 +3,15 @@
 // chapter outline, not a hierarchy; no scope tree (no `scope_root`, no
 // junction `general`); several sources; a source that is not German; no
 // register number; one concept standing at two nodes of one grouping; a
-// recommendation whose wording equals its claim's sentence; steps (`follows`)
-// with two edges between one pair and a recommendation following two, their
-// rationale quoting a claim (which no result but provenance may carry); and,
-// in `chainFiles`, a chain longer than the server returns. Every file is
+// recommendation whose wording equals its claim's sentence; claims with
+// evidence rows (#330) — outcomes outside the view, a keyed row whose quote is
+// a part of its key, a note, an outcome without a rating, a rating for the
+// whole box in a system whose declared name is not its slug — and a claim
+// without rows; a card without zone 4, so that an outcome's label comes from
+// the concept's own JSON; steps (`follows`) with two edges between one pair
+// and a recommendation following two, their rationale quoting a claim (which
+// no result but provenance may carry); and, in `chainFiles`, a chain longer
+// than the server returns. Every file is
 // keyed by its path under the base; `files(base)` returns them as
 // {path: object}. Nothing here is a real guideline.
 
@@ -17,6 +22,11 @@ export function files(base) {
   const commit = 'fixture';
   const srcA = { id: 'sources/fx-a', title: 'Example guideline A', lang: 'en', url: 'https://example.org/guideline-a.pdf', license: 'Example licence line A' };
   const srcB = { id: 'sources/fx-b', title: 'Beispielleitlinie B', lang: 'de', url: 'https://example.org/leitlinie-b.pdf', license: 'Beispiel-Lizenzzeile B' };
+  // The rating systems each source declares (`rating_systems`): a slug, the name as printed, its line.
+  const ratingSystems = {
+    'sources/fx-a': [{ system: 'fx_grade', name: 'Example GRADE', source: { at: 'sources/fx-a#page=2', quote: 'Table 1: certainty after Example GRADE' } }],
+    'sources/fx-b': [{ system: 'fx_stufen', name: 'Beispielstufen 2020', source: { at: 'sources/fx-b#page=2', quote: 'Evidenzstufen nach Beispielstufen 2020' } }],
+  };
   const sources = [srcA, srcB];
   const metaSources = sources.map((s) => ({ id: s.id, json: B + s.id + '.json', license: s.license }));
   const viewRef = { id: VIEW, url: B + V + '/', json: B + V + '.json' };
@@ -44,6 +54,7 @@ export function files(base) {
     'statements/fx-s3': { label: 'Z may be considered in stage one.', short_label: 'Consider Z early', lang: 'en', direction: 'abwägen', grade: '0', verb: 'may', slots: { action: 'concepts/fx-z', stage: 'concepts/fx-stage-1' }, claim: 'claims/fx-a/aaaa0002', src: srcA, page: '4', section: '1' },
     'statements/fx-s4': { label: 'Z may be continued in stage two.', short_label: 'Continue Z later', lang: 'en', direction: 'abwägen', grade: '0', verb: 'may', slots: { action: 'concepts/fx-z', stage: 'concepts/fx-stage-2' }, claim: 'claims/fx-a/aaaa0003', src: srcA, page: '5', section: '1' },
   };
+  const claimOf = Object.fromEntries(Object.entries(st).map(([id, s]) => [s.claim, id]));
   const claimLabel = {
     'claims/fx-a/aaaa0001': 'X should be done when the stage is one.',
     'claims/fx-b/bbbb0001': 'Y soll nicht angewendet werden.',
@@ -63,6 +74,36 @@ export function files(base) {
     'concepts/fx-stage-1': { label: 'Stage one', lang: 'en', facet: 'qualifier', slots: ['stage'] },
     'concepts/fx-stage-2': { label: 'Stage two', lang: 'en', facet: 'qualifier', slots: ['stage'] },
     'concepts/fx-outcome': { label: 'Outcome', lang: 'en', facet: 'outcome', slots: [] },
+  };
+  // Outcomes only evidence rows name: in no view, no search file, no tree.
+  const outcomes = {
+    'concepts/fx-endpoint': { label: 'Endpoint E', lang: 'en', facet: 'outcome' },
+    'concepts/fx-endpoint-2': { label: 'Endpoint F within 30 days', lang: 'en', facet: 'outcome' },
+  };
+  const label = (id) => (concepts[id] || outcomes[id]).label;
+  const lang = (id) => (concepts[id] || outcomes[id]).lang;
+  // Each claim's evidence rows as its entity JSON gives them, and the quote of
+  // each; none for claims/fx-a/aaaa0003.
+  const evidence = {
+    'claims/fx-a/aaaa0001': [
+      [{ outcome: 'concepts/fx-endpoint', system: 'fx_grade', value: 'Low' }, 'Endpoint E: low certainty'],
+      [{ key: 'Drug P, Drug Q', outcome: 'concepts/fx-outcome', system: 'fx_grade', value: 'moderate' }, 'Drug P'],
+    ],
+    'claims/fx-a/aaaa0002': [
+      [{ key: 'Subgroup R', system: 'fx_grade', value: 'very low' }, 'Subgroup R: very low'],
+      [{ note: 'Indirect evidence', system: 'fx_grade' }, 'Indirect evidence'],
+      [{ outcome: 'concepts/fx-endpoint-2', system: 'fx_grade' }, 'Endpoint F within 30 days:'],
+    ],
+    'claims/fx-b/bbbb0001': [[{ system: 'fx_stufen', value: 'Stufe 2' }, 'Evidenzstufe: Stufe 2']],
+  };
+  // Zone 4 of a card, as the build writes it (tools/build.py, evidence_of);
+  // statements/fx-s3's card has none.
+  const zone4 = (claim, src) => {
+    const rows = (evidence[claim] || []).map(([x]) => ({ outcome: x.outcome ? { id: x.outcome, label: label(x.outcome), lang: lang(x.outcome) } : null, value: x.value ?? null, lang: st[claimOf[claim]].lang, ...(x.key ? { key: x.key } : {}), ...(x.note ? { note: x.note } : {}) }));
+    if (!rows.length) return { state: 'missing', groups: [] };
+    const system = evidence[claim][0][0].system;
+    const single = rows.length === 1 && !rows[0].outcome && !rows[0].key;
+    return { state: single ? 'single' : 'by_outcome', groups: [{ system, system_name: ratingSystems[src.id].find((r) => r.system === system).name, rows, n: rows.length, k: rows.filter((r) => r.value || r.note).length, range: null }] };
   };
   const glyph = { 'für': '✓', gegen: '✗', 'abwägen': '~' };
   const sNode = (id) => ({ id, ref: id, type: 'statement', label: `${glyph[st[id].direction]} ${st[id].grade} · ${st[id].short_label}`, lang: st[id].lang, direction: st[id].direction, grade: st[id].grade, verb: st[id].verb, sections: [st[id].section], facets: [], against: st[id].direction === 'gegen', contested: false });
@@ -231,6 +272,7 @@ export function files(base) {
         wortlaut: [{ id: s.claim, label: claimLabel[s.claim], lang: s.lang }],
         beleg: { review: 'pending', sources: [{ id: s.src.id, lang: s.src.lang, title: s.src.title, claims: [{ id: s.claim, lang: s.lang, page: s.page, section: s.section, recommendation_no: s.section, quote: claimQuote[s.claim], link: `${s.src.url}#page=${s.page}&search=${encodeURIComponent(claimQuote[s.claim])}&phrase=true` }] }] },
         urteil: { badges: [{ consensus: 'konsens', count: 1, grade: s.grade, share: null, source: s.src.id }], direction: s.direction, glyph: glyph[s.direction], umstritten: false, verbs: [s.verb] },
+        ...(id === 'statements/fx-s3' ? {} : { evidenz: zone4(s.claim, s.src) }),
         mehr: { slots: Object.fromEntries(Object.entries(s.slots).map(([k, v]) => [k, { id: v, label: concepts[v].label, lang: concepts[v].lang }])) },
         questions: { urteil: 'What should I do?' },
       },
@@ -250,6 +292,12 @@ export function files(base) {
       section: s.section,
       recommendation_no: s.section,
       source: { at: `${s.src.id}#page=${s.page}`, quote: claimQuote[s.claim] },
+      ...(evidence[s.claim]
+        ? {
+            evidence: evidence[s.claim].map(([x]) => x),
+            provenance: { evidence: evidence[s.claim].map(([, quote]) => ({ at: `${s.src.id}#page=${s.page}`, quote })) },
+          }
+        : {}),
       edges: { in: [], out: [{ kind: 'supports', to: id, source: 'modelling' }] },
       meta: meta(s.claim, { kind: 'anchored', at: `${s.src.id}#page=${s.page}`, link: `${s.src.url}#page=${s.page}&search=${encodeURIComponent(claimQuote[s.claim])}&phrase=true` }, { sources: [{ id: s.src.id, json: B + s.src.id + '.json', license: s.src.license }] }),
     };
@@ -271,6 +319,33 @@ export function files(base) {
       meta: meta(id, { kind: 'modelling', source: 'modelling' }, { sources: [] }),
     };
   }
+  for (const [id, c] of Object.entries(outcomes))
+    out[id + '.json'] = {
+      id,
+      type: 'concept',
+      label: c.label,
+      lang: c.lang,
+      facet: c.facet,
+      source: 'modelling',
+      derivation: 'stated',
+      rules: [],
+      edges: { in: [], out: [] },
+      statements: {},
+      appears_in: {},
+      meta: meta(id, { kind: 'modelling', source: 'modelling' }, { sources: [], views: [] }),
+    };
+  for (const src of sources)
+    out[src.id + '.json'] = {
+      id: src.id,
+      type: 'source',
+      title: src.title,
+      lang: src.lang,
+      url: src.url,
+      license: src.license,
+      rating_systems: ratingSystems[src.id],
+      edges: { in: [], out: [] },
+      meta: meta(src.id, { kind: 'anchored', at: src.id }, { sources: [] }),
+    };
   return out;
 }
 
