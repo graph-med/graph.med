@@ -1566,6 +1566,21 @@ overrule (§3.4, §11 rule 4); a version is no view's cut (§4) and pins no edge
 neither, and nothing is parsed out of a title. The period a document declares
 itself valid for is not recorded yet.
 
+**A version or a date printed two ways.** Where the document prints its
+version, or the date it gives it, differently in two places — "Version 1.1" on
+its cover, "Version 1" in its citation line —, the source records each
+printing and chooses none: the graph reflects the text (§5 `disagrees_with`),
+and a source's own version is no claim, so the field itself holds the
+printings. It is then a list of at least two, each the value as those places
+print it with its own quotes (`{version, source}`, `{date, source}`), in place
+of `provenance.version` or `provenance.date`. Each value is listed once — one
+value printed in several places is one printing with a quote for each — and
+the printings stand in the order of the pages that first print them, so that
+the first is first by its page, not because it is the cover's. The validator
+holds each printing to its own quotes, never to another's ("1" lies inside
+"Version 1.1"), and the site names every printing with its pages, none set
+below another. A field printed one way keeps its one value.
+
 ### 6.2 A reference is a locator plus a verbatim quote
 
 ```yaml

@@ -93,7 +93,11 @@ prints it, in the source's language (`lang`); on a line of their own under it, i
 version and the date it prints for that version where the source records them
 (`version`, `date`; `graph-representation.md` §6.1), in the page chrome's words and
 the date at the precision recorded — *Version 1.0, Stand November 2023*,
-*Version 4.0, Stand 30.04.2025* —, and no line where it records neither; its
+*Version 4.0, Stand 30.04.2025* —, and no line where it records neither; a half the
+source prints two ways names every printing, in the order recorded, each with the pages
+its quotes name, under words that say the source gives it inconsistently — *Version
+uneinheitlich angegeben: 1.1 (S. 1) und 1 (S. 4, 11), Stand 14.04.2025* —, none
+chosen and none set below another; its
 register number where the source records one (`awmf_register`); and what the graph holds: its recommendations (the
 statements), the patient groups a reader meets in its tree (the junctions of its first
 grouping, each concept once) and the claims they rest on, or, while it holds no claim,
