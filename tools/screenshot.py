@@ -33,7 +33,9 @@ q:j:concepts/leberresektion:population), open=<entity id> (deep link: unfold and
 section=<number> (chapter filter), search=<text>, facet=<kind>, step=<n> (n steps through the
 matches, back when negative), chapters (open the chapter panel), chapters-scroll=<px> (scroll its
 list), legend (collapse or expand the legend), all (every patient group open), fit (fit what is
-open), back (the back button, pressed once: the view before the last change), graph and sheet (bring the graph or the sheet into view: on a phone
+open), back (the back button, pressed once: the view before the last change), call=<tool>[:<json>] (a session tool,
+called as an assistant calls it, window.graphmed.agent.call; its answer and its size in bytes go into the report),
+graph and sheet (bring the graph or the sheet into view: on a phone
 a selection waits in a peek strip, which sheet raises and graph lowers; elsewhere the page scrolls to
 it), key=<key> (a key pressed as a keyboard presses it — Tab, Enter, Escape, with modifiers joined by
 + as in Shift+Tab — to check that a control is reached and works without a pointer), wait=<ms>. --full captures

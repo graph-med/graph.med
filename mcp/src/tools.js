@@ -14,9 +14,26 @@ export const PAGE = 50;
 const PAGE_SIZES = [PAGE, 20, 8];
 // The longest verbatim quote the provenance tool returns, in characters.
 export const QUOTE_CAP = 100;
-// get_tree_node's deepest subtree, and the size a result is kept under.
+// get_tree_node's deepest subtree, and the size a result is kept under: in
+// the full form, and in the compact form, each by paging (fitted).
 export const MAX_DEPTH = 3;
 export const MAX_CHARS = 45000;
+export const COMPACT_MAX_CHARS = 24000;
+
+// A result's form, the `detail` argument: `compact` by default, or `full`.
+// The compact form keeps every id, label, entity URL and deep link of an
+// item, the direction, grade and verb, the places and depths, and the whole
+// metadata; it leaves out what the full form repeats: a concept named inside
+// another item is its id and label only (its own call gives its URL), a
+// language equal to the graph's, an empty list of aims, an answer's concepts
+// where they are just the node it leads to, and a search hit's slots.
+export const FORMS = ['compact', 'full'];
+function formOf(detail) {
+  if (detail === undefined || detail === null) return 'compact';
+  if (!FORMS.includes(detail)) throw new InputError(`detail is ${FORMS.join(' or ')}, not ${JSON.stringify(detail)}`);
+  return detail;
+}
+const limitOf = (form) => (form === 'full' ? MAX_CHARS : COMPACT_MAX_CHARS);
 
 // --- metadata carried by every result -------------------------------------
 
@@ -58,14 +75,15 @@ function page(list, offset, size = PAGE) {
   return { items, total: list.length, next: start + size < list.length ? start + size : null };
 }
 
-// The result at the largest page size that keeps it under MAX_CHARS: built
-// once at PAGE, then cut to the smaller sizes (`cut(result, size)`) until one
-// fits, never rebuilt — a Worker request has 10 ms of CPU (#279).
-function fitted(full, cut) {
+// The result at the largest page size that keeps it under `limit` (the
+// form's): built once at PAGE, then cut to the smaller sizes (`cut(result,
+// size)`) until one fits, never rebuilt — a Worker request has 10 ms of CPU
+// (#279).
+function fitted(full, cut, limit = MAX_CHARS) {
   let result = full;
   for (const size of PAGE_SIZES) {
     result = size === PAGE ? full : cut(full, size);
-    if (JSON.stringify(result).length <= MAX_CHARS) break;
+    if (JSON.stringify(result).length <= limit) break;
   }
   return result;
 }
@@ -83,6 +101,15 @@ function once(obj, build) {
   return x;
 }
 
+// A tree file indexed: its nodes, edges out of and into each node, the root,
+// each node's depth and each edge's place.
+// - depth: how many answers lie between the root and the node — the questions
+//   answered to reach it — on its shortest path (relations not followed).
+// - place: an edge's target's place among its siblings, `{n, of}`, counted
+//   from 1 in the tree file's order within the group of siblings it belongs to:
+//   a question's answers, a node's recommendations, a node's questions, a
+//   recommendation's aims (an edge's kind, and for a flow edge the type of
+//   what it leads to).
 function treeIndex(tree) {
   return once(tree, (t) => {
     const nodes = new Map(t.nodes.map((n) => [n.id, n]));
@@ -94,7 +121,32 @@ function treeIndex(tree) {
       if (!into.has(e.to)) into.set(e.to, []);
       into.get(e.to).push(e);
     }
-    return { nodes, out, into, root: t.nodes.find((n) => n.type === 'root') };
+    const root = t.nodes.find((n) => n.type === 'root');
+    const depth = new Map(root ? [[root.id, 0]] : []);
+    const queue = root ? [root.id] : [];
+    while (queue.length) {
+      const id = queue.shift();
+      for (const e of out.get(id) || []) {
+        if (e.kind === 'relation' || !nodes.has(e.to)) continue;
+        const d = depth.get(id) + (e.kind === 'answer' ? 1 : 0);
+        if (depth.has(e.to) && depth.get(e.to) <= d) continue;
+        depth.set(e.to, d);
+        if (e.kind === 'answer') queue.push(e.to);
+        else queue.unshift(e.to);
+      }
+    }
+    const place = new Map();
+    for (const es of out.values()) {
+      const groups = new Map();
+      for (const e of es) {
+        if (e.kind === 'relation') continue;
+        const key = e.kind === 'flow' ? `flow:${nodes.get(e.to)?.type}` : e.kind;
+        if (!groups.has(key)) groups.set(key, []);
+        groups.get(key).push(e);
+      }
+      for (const list of groups.values()) list.forEach((e, i) => place.set(e, { n: i + 1, of: list.length }));
+    }
+    return { nodes, out, into, root, depth, place };
   });
 }
 
@@ -136,12 +188,16 @@ function namedEntity(n) {
   return n && n.type !== 'root' && n.ref ? n.ref : null;
 }
 
-function statementSummary(L, S, v, axis, id) {
+// A language is given where the full form is asked for, or where it is not
+// the graph's.
+const langOf = (lang, v, form) => (lang && (form === 'full' || lang !== v.lang) ? { lang } : {});
+
+function statementSummary(L, S, v, axis, id, form = 'full') {
   const e = S.get(id);
   const out = { id, url: L.entityUrl(id) };
   if (e) {
     out.label = e.short_label ?? e.label ?? null;
-    out.lang = e.lang;
+    Object.assign(out, langOf(e.lang, v, form));
     out.direction = e.direction ?? null;
     out.grade = e.grade ?? null;
     out.verb = e.verb ?? null;
@@ -152,16 +208,21 @@ function statementSummary(L, S, v, axis, id) {
   return out;
 }
 
-function conceptSummary(L, S, id) {
+// A concept named inside another item. Compact: its id and its short label
+// (its label where it has none); its own call gives the rest.
+function conceptSummary(L, S, id, form = 'full') {
   const e = S.get(id);
+  if (form === 'compact') return { id, label: e?.short_label ?? e?.label ?? null };
   const out = { id, url: L.entityUrl(id), label: e?.label ?? null };
   if (e?.short_label) out.short_label = e.short_label;
   return out;
 }
 
-function nodeSummary(L, S, v, axis, n) {
+// T, where given, adds the node's depth (treeIndex).
+function nodeSummary(L, S, v, axis, n, form = 'full', T = null) {
   if (!n) return null;
-  if (n.type === 'statement') return { type: 'statement', ...statementSummary(L, S, v, axis, n.id) };
+  const depth = T ? { depth: T.depth.get(n.id) ?? null } : {};
+  if (n.type === 'statement') return { type: 'statement', ...statementSummary(L, S, v, axis, n.id, form), ...depth };
   const out = { id: n.id, type: n.type };
   if (n.type === 'junction') {
     out.label = n.group ?? null;
@@ -169,35 +230,46 @@ function nodeSummary(L, S, v, axis, n) {
   } else {
     out.label = n.label ?? null;
   }
-  if (n.lang) out.lang = n.lang;
+  Object.assign(out, langOf(n.lang, v, form));
   const ent = namedEntity(n);
   if (ent) {
     out.entity = ent;
     out.url = L.entityUrl(ent);
   }
   out.link = deepLink(v, axis, ent ? [ent] : []);
+  Object.assign(out, depth);
   return out;
+}
+
+// The concepts an answer names. Compact: none where they are just the
+// entity of the node it leads to, which that node's summary carries.
+function answerRefs(L, S, e, to, form) {
+  const refs = e.refs || [];
+  if (form === 'compact' && refs.length === 1 && refs[0] === namedEntity(to)) return {};
+  return { refs: refs.map((r) => conceptSummary(L, S, r, form)) };
 }
 
 // --- get_tree_node -----------------------------------------------------------
 
 function nodeDetail(L, ctx, n, depth, offset) {
-  const { v, g, T, S } = ctx;
+  const { v, g, T, S, form } = ctx;
   const axis = g.axis;
-  const out = nodeSummary(L, S, v, axis, n);
+  const out = nodeSummary(L, S, v, axis, n, form, T);
   if (n.type === 'statement') {
     const tn = T.nodes.get(n.id);
     if (tn.no) out.no = tn.no;
     if (tn.contested) out.contested = true;
   }
 
-  // Parents: the nodes whose flow, answer or aim edge leads here.
+  // Parents: the nodes whose flow, answer or aim edge leads here, each with
+  // this node's place among that parent's children of its kind.
   out.parents = (T.into.get(n.id) || [])
     .filter((e) => e.kind !== 'relation')
     .map((e) => ({
-      node: nodeSummary(L, S, v, axis, T.nodes.get(e.from)),
+      node: nodeSummary(L, S, v, axis, T.nodes.get(e.from), form, T),
       edge: e.kind,
-      ...(e.kind === 'answer' ? { answer: e.label ?? null, refs: (e.refs || []).map((r) => conceptSummary(L, S, r)) } : {}),
+      ...(e.kind === 'answer' ? { answer: e.label ?? null, ...answerRefs(L, S, e, n, form) } : {}),
+      place: T.place.get(e) ?? null,
     }));
 
   const outs = T.out.get(n.id) || [];
@@ -213,21 +285,26 @@ function nodeDetail(L, ctx, n, depth, offset) {
     const p = page(answers, offset, ctx.size);
     track(p);
     return {
-      question: { id: q.id, label: q.label ?? null, lang: q.lang ?? null },
-      answers: p.items.map((e) => ({
-        answer: e.label ?? null,
-        refs: (e.refs || []).map((r) => conceptSummary(L, S, r)),
-        to: nodeSummary(L, S, v, axis, T.nodes.get(e.to)),
-      })),
+      question: { id: q.id, label: q.label ?? null, ...(form === 'full' ? { lang: q.lang ?? null } : langOf(q.lang, v, form)) },
+      answers: p.items.map((e) => {
+        const to = T.nodes.get(e.to);
+        return { place: T.place.get(e).n, answer: e.label ?? null, ...answerRefs(L, S, e, to, form), to: nodeSummary(L, S, v, axis, to, form, T) };
+      }),
       answers_total: p.total,
     };
   });
 
-  // The recommendations hung under this node, with their aims.
-  const recs = outs.filter((e) => e.kind === 'flow').map((e) => T.nodes.get(e.to)).filter((m) => m.type === 'statement');
+  // The recommendations hung under this node, each with its place among
+  // them and its depth, and with their aims.
+  const recs = outs.filter((e) => e.kind === 'flow' && T.nodes.get(e.to)?.type === 'statement');
   const pr = page(recs, offset, ctx.size);
   track(pr);
-  out.recommendations = pr.items.map((m) => ({ ...statementSummary(L, S, v, axis, m.id), aims: aimsOf(L, ctx, m.id) }));
+  out.recommendations = pr.items.map((e) => ({
+    place: T.place.get(e).n,
+    ...statementSummary(L, S, v, axis, e.to, form),
+    depth: T.depth.get(e.to) ?? null,
+    ...aimsField(L, ctx, e.to),
+  }));
   out.recommendations_total = pr.total;
 
   // The recommendations that apply here generally: the junction's `general`
@@ -239,13 +316,13 @@ function nodeDetail(L, ctx, n, depth, offset) {
     const found = new Set(entries.map((x) => x.id));
     const gen = [
       ...entries.map((x) => ({
-        ...statementSummary(L, S, v, axis, x.id),
-        anchor: x.anchor ? conceptSummary(L, S, x.anchor) : null,
-        via: x.via ? conceptSummary(L, S, x.via) : null,
-        condition: (x.condition || []).map((c) => conceptSummary(L, S, c)),
-        aims: aimsOf(L, ctx, x.id),
+        ...statementSummary(L, S, v, axis, x.id, form),
+        anchor: x.anchor ? conceptSummary(L, S, x.anchor, form) : null,
+        via: x.via ? conceptSummary(L, S, x.via, form) : null,
+        ...conditionField(L, S, x.condition, form),
+        ...aimsField(L, ctx, x.id),
       })),
-      ...n.general.filter((id) => !found.has(id)).map((id) => ({ ...statementSummary(L, S, v, axis, id), via_and_condition_not_in_layer0: true })),
+      ...n.general.filter((id) => !found.has(id)).map((id) => ({ ...statementSummary(L, S, v, axis, id, form), via_and_condition_not_in_layer0: true })),
     ];
     const pg = page(gen, offset, ctx.size);
     track(pg);
@@ -256,8 +333,8 @@ function nodeDetail(L, ctx, n, depth, offset) {
   if (n.type === 'statement') {
     out.aims = aimsOf(L, ctx, n.id);
     out.relations = [
-      ...outs.filter((e) => e.kind === 'relation').map((e) => ({ relation: e.label, direction: 'out', other: statementSummary(L, S, v, axis, e.to) })),
-      ...(T.into.get(n.id) || []).filter((e) => e.kind === 'relation').map((e) => ({ relation: e.label, direction: 'in', other: statementSummary(L, S, v, axis, e.from) })),
+      ...outs.filter((e) => e.kind === 'relation').map((e) => ({ relation: e.label, direction: 'out', other: statementSummary(L, S, v, axis, e.to, form) })),
+      ...(T.into.get(n.id) || []).filter((e) => e.kind === 'relation').map((e) => ({ relation: e.label, direction: 'in', other: statementSummary(L, S, v, axis, e.from, form) })),
     ];
   }
   if (next !== null) out.next_offset = next;
@@ -310,13 +387,25 @@ function cutNode(out, offset, size) {
 }
 
 function aimsOf(L, ctx, statementId) {
-  const { v, g, T, S } = ctx;
+  const { v, g, T } = ctx;
   return (T.out.get(statementId) || [])
     .filter((e) => e.kind === 'aim')
     .map((e) => {
       const a = T.nodes.get(e.to);
       return { id: a.id, label: a.label ?? null, url: L.entityUrl(a.id), link: deepLink(v, g.axis, [a.id]) };
     });
+}
+
+// A general recommendation's condition: in the compact form only where it has one.
+function conditionField(L, S, condition, form) {
+  const c = (condition || []).map((id) => conceptSummary(L, S, id, form));
+  return form === 'compact' && !c.length ? {} : { condition: c };
+}
+
+// A list item's aims: in the compact form only where it has some.
+function aimsField(L, ctx, statementId) {
+  const aims = aimsOf(L, ctx, statementId);
+  return ctx.form === 'compact' && !aims.length ? {} : { aims };
 }
 
 // The nodes of a grouping that name an entity: by `ref`, else those an answer
@@ -335,13 +424,14 @@ function nodesNaming(T, id) {
   return out;
 }
 
-export async function getTreeNode(L, { graph, grouping, node, depth = 0, offset = 0 }) {
+export async function getTreeNode(L, { graph, grouping, node, depth = 0, offset = 0, detail }) {
+  const form = formOf(detail);
   const { index, v, lean } = await viewContext(L, graph);
   const { g, position } = groupingOf(v, grouping);
   const [tree, search] = await Promise.all([L.get(g.tree), L.get(v.search)]);
   const T = treeIndex(tree);
   const S = searchIndex(search);
-  const ctx = { v, g, T, S, size: PAGE };
+  const ctx = { v, g, T, S, size: PAGE, form };
   const base = {
     graph: graphRef(v),
     grouping: groupingRef(g, position),
@@ -360,11 +450,12 @@ export async function getTreeNode(L, { graph, grouping, node, depth = 0, offset 
         ...base,
         entity: id,
         places: found.map((m) => ({
-          node: nodeSummary(L, S, v, g.axis, m),
+          node: nodeSummary(L, S, v, g.axis, m, form, T),
           parents: (T.into.get(m.id) || []).filter((e) => e.kind !== 'relation').map((e) => ({
-            node: nodeSummary(L, S, v, g.axis, T.nodes.get(e.from)),
+            node: nodeSummary(L, S, v, g.axis, T.nodes.get(e.from), form, T),
             edge: e.kind,
             ...(e.kind === 'answer' ? { answer: e.label ?? null } : {}),
+            place: T.place.get(e) ?? null,
           })),
         })),
         note: words.about.places,
@@ -388,15 +479,16 @@ export async function getTreeNode(L, { graph, grouping, node, depth = 0, offset 
 // on nothing else, and are the same for every call on them.
 const detailCaches = new WeakMap();
 
-function detailCache(T, S) {
+function detailCache(T, S, form) {
   let c = detailCaches.get(T);
-  if (!c || c.S !== S) detailCaches.set(T, (c = { S, flat: new Map(), lengths: new Map() }));
-  return c;
+  if (!c || c.S !== S) detailCaches.set(T, (c = { S }));
+  return (c[form] ||= { flat: new Map(), lengths: new Map() });
 }
 
 function fittedTree(L, ctx, base, meta, n, d, offset) {
-  const { T, S } = ctx;
-  const { flat, lengths } = detailCache(T, S); // node id -> [detail at PAGE from 0, its JSON length]; `${id}|${depth}` -> JSON length of its subtree
+  const { T, S, form } = ctx;
+  const MAX_CHARS = limitOf(form);
+  const { flat, lengths } = detailCache(T, S, form); // node id -> [detail at PAGE from 0, its JSON length]; `${id}|${depth}` -> JSON length of its subtree
   const flatOf = (id) => {
     if (!flat.has(id)) {
       const x = nodeDetail(L, ctx, T.nodes.get(id), 0, 0);
@@ -523,7 +615,8 @@ function pageOf(at) {
   return m ? m[1] : null;
 }
 
-export async function getEntity(L, { entity, graph, offset = 0 }) {
+export async function getEntity(L, { entity, graph, offset = 0, detail }) {
+  const form = formOf(detail);
   const id = L.entityId(entity);
   const index = await L.index();
   const graphView = graph ? await L.view(graph) : null;
@@ -536,10 +629,11 @@ export async function getEntity(L, { entity, graph, offset = 0 }) {
     // The claims behind it, read for the quote gate only (statementEntity).
     const claimIds = (e.edges?.in || []).filter((x) => x.kind === 'supports' || x.kind === 'contests').map((x) => x.from);
     const claims = await Promise.all(claimIds.map((c) => L.entity(c).catch(() => null)));
-    return statementEntity(L, e, views, searches, meta, claims.filter(Boolean));
+    return statementEntity(L, e, views, searches, meta, claims.filter(Boolean), form);
   }
-  if (e.type === 'concept') return fitted(conceptEntity(L, e, views, searches, meta, offset, PAGE), (x, size) => cutConcept(x, offset, size));
-  if (e.type === 'claim') return claimEntity(L, e, views, searches, meta);
+  if (e.type === 'concept')
+    return fitted(conceptEntity(L, e, views, searches, meta, offset, PAGE, form), (x, size) => cutConcept(x, offset, size), limitOf(form));
+  if (e.type === 'claim') return claimEntity(L, e, views, searches, meta, form);
   throw new InputError(`${id} is a ${e.type}; this tool reads a recommendation, a concept or a claim`);
 }
 
@@ -555,7 +649,7 @@ function quotedStrings(o, out = []) {
   return out;
 }
 
-function statementEntity(L, e, views, searches, meta, claimDocs) {
+function statementEntity(L, e, views, searches, meta, claimDocs, form = 'full') {
   const card = e.card || {};
   // The wording is withheld where it carries source text: a claim sentence,
   // or a quote of the claims behind it, word for word.
@@ -574,16 +668,23 @@ function statementEntity(L, e, views, searches, meta, claimDocs) {
   const slots = {};
   for (const [slot, val] of Object.entries(e.slots || {})) {
     const ids = Array.isArray(val) ? val : [val];
-    slots[slot] = ids.map((cid) => ({
-      id: cid,
-      label: slotLabels[slot]?.id === cid ? slotLabels[slot].label : (searches.map((s) => searchIndex(s).get(cid)).find(Boolean)?.label ?? null),
-      url: L.entityUrl(cid),
-    }));
+    slots[slot] = ids.map((cid) => {
+      const found = searches.map((s) => searchIndex(s).get(cid)).find(Boolean);
+      if (form === 'compact') return { id: cid, label: found?.short_label ?? (slotLabels[slot]?.id === cid ? slotLabels[slot].label : found?.label ?? null) };
+      return { id: cid, label: slotLabels[slot]?.id === cid ? slotLabels[slot].label : (found?.label ?? null), url: L.entityUrl(cid) };
+    });
   }
+  // The claims behind it: by URL and page; compact, without the section, and
+  // without the source where it is the only one (the metadata names it).
   const claims = [];
-  for (const src of card.beleg?.sources || [])
+  const sources = card.beleg?.sources || [];
+  for (const src of sources)
     for (const c of src.claims || [])
-      claims.push({ id: c.id, url: L.entityUrl(c.id), source: src.id, page: c.page ?? null, section: c.section ?? null, recommendation_no: c.recommendation_no ?? null });
+      claims.push(
+        form === 'compact'
+          ? { id: c.id, url: L.entityUrl(c.id), ...(sources.length > 1 ? { source: src.id } : {}), page: c.page ?? null, recommendation_no: c.recommendation_no ?? null }
+          : { id: c.id, url: L.entityUrl(c.id), source: src.id, page: c.page ?? null, section: c.section ?? null, recommendation_no: c.recommendation_no ?? null },
+      );
   const edgesIn = e.edges?.in || [];
   const edgesOut = e.edges?.out || [];
   const kindOf = new Map(edgesIn.filter((x) => x.kind === 'supports' || x.kind === 'contests').map((x) => [x.from, x.kind]));
@@ -597,7 +698,7 @@ function statementEntity(L, e, views, searches, meta, claimDocs) {
       ...edgesIn.filter((x) => x.kind === 'specializes' || x.kind === 'complements').map((x) => ({ relation: x.kind, direction: 'in', id: x.from, source: x.source ?? null })),
     ]
       .filter((r) => S.has(r.id))
-      .map((r) => ({ relation: r.relation, direction: r.direction, edge_source: r.source, other: statementSummary(L, S, v, first, r.id) }));
+      .map((r) => ({ relation: r.relation, direction: r.direction, edge_source: r.source, other: statementSummary(L, S, v, first, r.id, form) }));
     return { graph: graphRef(v), link: deepLink(v, first, [e.id]), related };
   });
 
@@ -624,7 +725,7 @@ function statementEntity(L, e, views, searches, meta, claimDocs) {
   };
 }
 
-function conceptEntity(L, e, views, searches, meta, offset, size) {
+function conceptEntity(L, e, views, searches, meta, offset, size, form = 'full') {
   let next = null;
   const track = (p) => {
     if (p.next !== null) next = next === null ? p.next : Math.min(next, p.next);
@@ -640,16 +741,16 @@ function conceptEntity(L, e, views, searches, meta, offset, size) {
     const where = e.appears_in?.[v.id] || {};
     return {
       graph: graphRef(v),
-      held_by: held.items.map((h) => ({ slot: h.slot, ...statementSummary(L, S, v, first, h.id) })),
+      held_by: held.items.map((h) => ({ slot: h.slot, ...statementSummary(L, S, v, first, h.id, form) })),
       held_by_total: held.total,
-      ...(st.own ? { own: own.items.map((id) => statementSummary(L, S, v, first, id)), own_total: own.total } : {}),
+      ...(st.own ? { own: own.items.map((id) => statementSummary(L, S, v, first, id, form)), own_total: own.total } : {}),
       ...(st.general
         ? {
             general: gen.items.map((x) => ({
-              ...statementSummary(L, S, v, first, x.id),
-              anchor: x.anchor ? conceptSummary(L, S, x.anchor) : null,
-              via: x.via ? conceptSummary(L, S, x.via) : null,
-              condition: (x.condition || []).map((c) => conceptSummary(L, S, c)),
+              ...statementSummary(L, S, v, first, x.id, form),
+              anchor: x.anchor ? conceptSummary(L, S, x.anchor, form) : null,
+              via: x.via ? conceptSummary(L, S, x.via, form) : null,
+              ...conditionField(L, S, x.condition, form),
             })),
             general_total: gen.total,
           }
@@ -725,7 +826,7 @@ function sourceRefs(src) {
   };
 }
 
-function claimEntity(L, e, views, searches, meta) {
+function claimEntity(L, e, views, searches, meta, form = 'full') {
   const supports = (e.edges?.out || []).filter((x) => x.kind === 'supports' || x.kind === 'contests');
   // where the same source says otherwise (spec §5 `disagrees_with`): symmetric,
   // so both directions, each other claim once, by URL — its text is provenance's
@@ -757,7 +858,7 @@ function claimEntity(L, e, views, searches, meta) {
       const first = v.groupings[0]?.axis;
       return {
         graph: graphRef(v),
-        statements: supports.filter((x) => S.has(x.to)).map((x) => ({ edge: x.kind, ...statementSummary(L, S, v, first, x.to) })),
+        statements: supports.filter((x) => S.has(x.to)).map((x) => ({ edge: x.kind, ...statementSummary(L, S, v, first, x.to, form) })),
       };
     }),
     about: meta,
@@ -770,30 +871,93 @@ function fold(s) {
   return (s || '').normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
 }
 
-export async function search(L, { query, graph, limit = 20, offset = 0 }) {
+// The entities in the subtree of a grouping's node (or of every node an
+// entity stands at), in the tree's order — depth first, children in the tree
+// file's order: the recommendations and aims at its nodes, the concepts its
+// nodes name, and the concepts its answers name; each with the depth of the
+// node it stands at (an answer's concepts: the node the answer leads to).
+function subtreeEntities(T, starts) {
+  const order = new Map(); // entity id -> [its place in the subtree's order, the depth of the node it stands at]
+  const add = (id, at) => id && !order.has(id) && order.set(id, [order.size, T.depth.get(at) ?? null]);
+  const seen = new Set();
+  const visit = (id) => {
+    if (seen.has(id)) return;
+    seen.add(id);
+    const n = T.nodes.get(id);
+    if (!n) return;
+    if (n.type === 'statement' || n.type === 'aim') add(n.id, id);
+    add(namedEntity(n), id);
+    for (const e of T.out.get(id) || []) {
+      if (e.kind === 'relation') continue;
+      if (e.kind === 'answer') (e.refs || []).forEach((r) => add(r, e.to));
+      visit(e.to);
+    }
+  };
+  starts.forEach((n) => visit(n.id));
+  return order;
+}
+
+// Filters beside the words, each optional; every filter given must hold. A
+// value is compared as the search compares words: case and accents ignored.
+const FILTERS = ['kind', 'direction', 'grade', 'verb'];
+
+export async function search(L, { query, graph, kind, direction, grade, verb, grouping, under, detail, limit = 20, offset = 0 }) {
+  const form = formOf(detail);
   const words_ = fold(query).split(/\s+/).filter(Boolean);
-  if (!words_.length) throw new InputError('no query given');
+  const filters = Object.fromEntries(Object.entries({ kind, direction, grade, verb }).filter(([, x]) => typeof x === 'string' && x.trim()));
+  if (under !== undefined && under !== null && under !== '') filters.under = under;
+  if (grouping !== undefined && grouping !== null && filters.under === undefined) throw new InputError('a grouping is given only with under, the node whose subtree is searched');
+  if (!words_.length && !Object.keys(filters).length) throw new InputError('no query and no filter given');
+  if (filters.kind !== undefined && !['statement', 'concept'].includes(filters.kind)) throw new InputError(`kind is statement or concept, not ${JSON.stringify(filters.kind)}`);
+  if (filters.under !== undefined && !graph) throw new InputError('under needs a graph: a subtree is of one graph');
   const lim = Math.max(1, Math.min(50, limit | 0 || 20));
   const index = await L.index();
   const views = graph ? [await L.view(graph)] : index.views;
   const files = await Promise.all(views.flatMap((v) => [L.get(v.search), L.get(v.lean)]));
+  let within = null;
+  if (filters.under !== undefined) {
+    const { g } = groupingOf(views[0], grouping);
+    const T = treeIndex(await L.get(g.tree));
+    let starts;
+    if (T.nodes.has(filters.under)) starts = [T.nodes.get(filters.under)];
+    else {
+      const id = L.entityId(filters.under);
+      starts = nodesNaming(T, id);
+      if (!starts.length) throw new InputError(`${id} names no node of grouping ${JSON.stringify(g.axis)} of ${views[0].id}`);
+    }
+    within = subtreeEntities(T, starts);
+    if (grouping !== undefined && grouping !== null) filters.grouping = g.axis;
+  }
   const q = fold(query).trim();
+  const same = (a, b) => typeof a === 'string' && fold(a).trim() === fold(b).trim();
   const groups = views.map((v, i) => {
     const s = files[2 * i];
     const lean = files[2 * i + 1];
     const first = v.groupings[0]?.axis;
     const hits = [];
     for (const e of s.entries) {
+      if (FILTERS.some((k) => filters[k] !== undefined && !same(e[k], filters[k]))) continue;
+      if (within && !within.has(e.id)) continue;
       const texts = [e.label, e.short_label].filter(Boolean).map(fold);
       const hay = texts.join(' \u0000 ');
       if (!words_.every((w) => hay.includes(w))) continue;
       let score = 0;
-      if (texts.some((t) => t === q)) score += 4;
-      if (texts.some((t) => t.startsWith(q))) score += 2;
-      if (texts.some((t) => t.includes(q))) score += 1;
+      if (q) {
+        if (texts.some((t) => t === q)) score += 4;
+        if (texts.some((t) => t.startsWith(q))) score += 2;
+        if (texts.some((t) => t.includes(q))) score += 1;
+      }
       hits.push({ e, score });
     }
-    hits.sort((a, b) => b.score - a.score || (a.e.kind === b.e.kind ? 0 : a.e.kind === 'statement' ? -1 : 1) || (a.e.short_label ?? a.e.label ?? '').localeCompare(b.e.short_label ?? b.e.label ?? ''));
+    // Ranked by the words; without words, in the subtree's order where one is
+    // given, else recommendations first, by label.
+    hits.sort(
+      (a, b) =>
+        b.score - a.score ||
+        (within && !q ? within.get(a.e.id)[0] - within.get(b.e.id)[0] : 0) ||
+        (a.e.kind === b.e.kind ? 0 : a.e.kind === 'statement' ? -1 : 1) ||
+        (a.e.short_label ?? a.e.label ?? '').localeCompare(b.e.short_label ?? b.e.label ?? ''),
+    );
     const start = Math.max(0, offset | 0);
     const items = hits.slice(start, start + lim);
     return {
@@ -801,17 +965,19 @@ export async function search(L, { query, graph, limit = 20, offset = 0 }) {
       total: hits.length,
       ...(start + lim < hits.length ? { next_offset: start + lim } : {}),
       hits: items.map(({ e }) => {
+        const compact = form === 'compact';
         const h = {
           id: e.id,
           kind: e.kind,
-          label: e.kind === 'statement' ? e.short_label ?? e.label ?? null : e.label ?? null,
-          ...(e.kind === 'concept' && e.short_label ? { short_label: e.short_label } : {}),
-          lang: e.lang,
+          label: e.kind === 'statement' || compact ? e.short_label ?? e.label ?? null : e.label ?? null,
+          ...(e.kind === 'concept' && e.short_label && !compact ? { short_label: e.short_label } : {}),
+          ...langOf(e.lang, v, form),
           url: L.entityUrl(e.id),
           link: deepLink(v, first, [e.id]),
         };
         if (e.kind === 'statement') Object.assign(h, { direction: e.direction ?? null, grade: e.grade ?? null, verb: e.verb ?? null });
-        if (e.slots) h.slots = e.slots;
+        if (within) h.depth = within.get(e.id)[1];
+        if (e.slots && !compact) h.slots = e.slots;
         return h;
       }),
       review: lean.meta?.review ?? null,
@@ -820,7 +986,8 @@ export async function search(L, { query, graph, limit = 20, offset = 0 }) {
     };
   });
   return {
-    query,
+    query: query ?? null,
+    ...(Object.keys(filters).length ? { filters } : {}),
     groups,
     about: about({
       commit: index.commit,

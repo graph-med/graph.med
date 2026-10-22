@@ -435,6 +435,24 @@ def page_words(lang: str) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+@cache
+def session_tools() -> dict:
+    """The session tools of a view page (tools/site/session-tools.json; docs/publication.md §8, "The session
+    tools"): their names, the words a model reads about them, and the shape of their arguments, handed to every
+    view page as data; graph.js implements each by name. Read once; a name WebMCP would refuse (letters, digits,
+    `_`, `-` and `.`, at most 128), a name twice, a tool without a description or without an object schema stops
+    the build, as a browser's registration would refuse it later."""
+    path = SITE_SRC / "session-tools.json"
+    spec = json.loads(path.read_text(encoding="utf-8"))
+    names = [t.get("name", "") for t in spec["tools"]]
+    for t in spec["tools"]:
+        if not re.fullmatch(r"[A-Za-z0-9_.-]{1,128}", t.get("name", "")) or not t.get("description") or (t.get("inputSchema") or {}).get("type") != "object":
+            raise SystemExit(f"{path.relative_to(ROOT)}: tool {t.get('name')!r} needs a name WebMCP accepts, a description and an object inputSchema")
+    if len(set(names)) != len(names):
+        raise SystemExit(f"{path.relative_to(ROOT)}: a tool name twice: {', '.join(sorted({n for n in names if names.count(n) > 1}))}")
+    return {k: v for k, v in spec.items() if k != "_"}   # the file's own note stays in the repository
+
+
 def edition_of(source: dict) -> str | None:
     """A source's version and the date it prints for it, as the page says them wherever it names the source
     (docs/publication.md §2, §3): one line, each half only where the source records it, None where it records
@@ -1838,7 +1856,8 @@ def main(argv=None) -> int:
         (out / vid).mkdir(parents=True, exist_ok=True)
         (out / vid / "index.html").write_text(
             view_tpl.render(view=view, vid=vid, title=title, sources=sources, counts=counts, legend=data["legend"], facets=facets,
-                            graph_json=dumps(data).replace("</", "<\\/")), encoding="utf-8")   # safe inside <script>
+                            graph_json=dumps(data).replace("</", "<\\/"),   # safe inside <script>
+                            tools_json=dumps(session_tools()).replace("</", "<\\/")), encoding="utf-8")
         (out / (vid + ".json")).write_text(dumps(data), encoding="utf-8")
         # the view's entry on the index (docs/publication.md §2): what it holds — its recommendations, the patient
         # groups a reader meets in its tree (the junctions of its first grouping, each concept once) and its claims

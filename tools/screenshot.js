@@ -10,6 +10,7 @@ const puppeteer = require("/usr/src/app/node_modules/puppeteer");
 const spec = JSON.parse(process.argv[2]);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const errors = [];
+const calls = [];   /* what each call= answered, for the report */
 const ANYWHERE = new Set(["wait", "key"]);   /* what a page without the graph takes */
 const INDEX = new Set([...ANYWHERE, "open", "sheet", "graph"]);   /* what the index takes: its graph selects a guideline's box, and nothing else */
 (async () => {
@@ -34,6 +35,14 @@ const INDEX = new Set([...ANYWHERE, "open", "sheet", "graph"]);   /* what the in
       if (page.url().split("#")[0] !== before.split("#")[0])   /* a key that follows a link leaves the page: nothing of it is captured */
         throw new Error(`key=${value} followed a link to ${page.url().replace("file:///site/", "")}; a followed link cannot be captured, so stop the keys before it`);
       continue;
+    }
+    if (action === "call") {   /* a session tool, called as an assistant calls it (window.graphmed.agent): its answer, and its size, in the report */
+      const at = value.indexOf(":"), name = at < 0 ? value : value.slice(0, at), args = at < 0 ? {} : JSON.parse(value.slice(at + 1));
+      const r = await page.evaluate((n, a) => window.graphmed.agent.call(n, a), name, args);
+      const bytes = Buffer.byteLength(JSON.stringify(r));
+      calls.push(`call ${name}: ${bytes} bytes, ` + (r.error ? `refused: ${r.error}` : `${r.boxes.length} of ${r.total} boxes, ${r.boxes.filter(b => b.in_view).length} in view`),
+                 "    " + (JSON.stringify(r).length > 1500 ? JSON.stringify(r).slice(0, 1500) + " …" : JSON.stringify(r)));
+      await settle(page); continue;
     }
     if (action === "graph" || action === "sheet") {   /* bring the graph or the details into view as a reader does */
       await page.evaluate(a => {
@@ -148,6 +157,7 @@ const INDEX = new Set([...ANYWHERE, "open", "sheet", "graph"]);   /* what the in
   console.log(`${shown} elements shown, zoom ${frame.zoom}, ${framing}, ${overlaps.length} overlapping pairs; ${await across(page)}${await focus(page)}` + (errors.length ? `; page errors: ${errors.join(" | ")}` : ""));
   overlaps.slice(0, 40).forEach(p => console.log("  " + p));
   frame.out.slice(0, 40).forEach(n => console.log("  not in view: " + n));
+  calls.forEach(c => console.log("  " + c));
   await browser.close();
 })().catch(e => { console.error("screenshot failed: " + e.message + (errors.length ? "; page errors: " + errors.join(" | ") : "")); process.exit(1); });
 

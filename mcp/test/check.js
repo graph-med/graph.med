@@ -33,7 +33,7 @@ import { createServerFactory, callTool } from '../src/server.js';
 import { createHandler } from '../src/worker.js';
 import { Layer0 } from '../src/layer0.js';
 import * as words from '../src/descriptions.js';
-import { QUOTE_CAP, MAX_DEPTH } from '../src/tools.js';
+import { QUOTE_CAP, MAX_DEPTH, MAX_CHARS, COMPACT_MAX_CHARS } from '../src/tools.js';
 import * as fixture from './fixture.js';
 
 const LIMIT_CHARS = 50000;
@@ -518,7 +518,7 @@ async function runTarget(target) {
         const id = queue.shift();
         if (seen.has(id)) continue;
         seen.add(id);
-        const r = await fullNode(call, { graph: v.id, grouping: g.axis, node: id });
+        const r = await fullNode(call, { graph: v.id, grouping: g.axis, node: id, detail: 'full' });
         if (r.error) {
           C.fail(`${G} ${id}: ${r.error}`);
           continue;
@@ -527,6 +527,9 @@ async function runTarget(target) {
         checkIds(C, `get_tree_node ${G} ${id}`, r, isMember);
         checkLinksIn(C, v, g.axis, r.node, isMember);
         compareNode(C, G, r.node, T, lean, S);
+        // The compact form, the default: what the full form says, less what it repeats.
+        const c = await fullNode(call, { graph: v.id, grouping: g.axis, node: id });
+        compareCompactNode(C, `${G} ${id}`, c, r);
         for (const a of r.node.asks) {
           queue.push(a.question.id);
           for (const x of a.answers) queue.push(x.to.id);
@@ -549,12 +552,15 @@ async function runTarget(target) {
             C.ok(e.places.some((p) => p.node.id === id), `${G}: ${ent}'s places lack ${id}`);
           } else C.ok(e.node?.id === id, `${G}: ${ent} selects ${e.node?.id}, not ${id}`);
         }
-        // A depth returns what the calls one level down return.
+        // A depth returns what the calls one level down return, in either form.
         if (n.type !== 'statement' && n.type !== 'aim') {
-          const d1 = await call('get_tree_node', { graph: v.id, grouping: g.axis, node: id, depth: 1 });
-          for (const b of d1.node.below || []) {
-            const one = await call('get_tree_node', { graph: v.id, grouping: g.axis, node: b.id });
-            C.ok(eq(b, one.node), `${G} ${id}: depth 1 ≠ the call for ${b.id}`);
+          for (const detail of ['compact', 'full']) {
+            const d1 = await call('get_tree_node', { graph: v.id, grouping: g.axis, node: id, depth: 1, detail });
+            if (d1.depth_reduced_to !== undefined) continue;
+            for (const b of d1.node.below || []) {
+              const one = await call('get_tree_node', { graph: v.id, grouping: g.axis, node: b.id, detail });
+              C.ok(eq(b, one.node), `${G} ${id}: depth 1 ≠ the call for ${b.id} (${detail})`);
+            }
           }
           await call('get_tree_node', { graph: v.id, grouping: g.axis, node: id, depth: MAX_DEPTH });
         }
@@ -568,11 +574,12 @@ async function runTarget(target) {
 
     // 4. get_entity: every concept and every recommendation of the search file.
     for (const e of search.entries) {
-      const r = await fullEntity(call, { entity: e.id, graph: v.id });
+      const r = await fullEntity(call, { entity: e.id, graph: v.id, detail: 'full' });
       if (r.error) {
         C.fail(`get_entity ${e.id}: ${r.error}`);
         continue;
       }
+      compareCompactEntity(C, `get_entity ${e.id}`, await fullEntity(call, { entity: e.id, graph: v.id }), r);
       checkAbout(C, 'get_entity', r.about);
       checkIds(C, `get_entity ${e.id}`, r, isMember);
       const j = await raw(base + e.id + '.json');
@@ -646,6 +653,7 @@ async function runTarget(target) {
       }
       const x = await call('search', { query: word });
       C.ok(eq(x.groups.map((g) => g.graph.id), views.map((w) => w.id)), 'search without a graph: not grouped per graph');
+      await checkFilters(C, call, v, search);
       for (const grp of x.groups) {
         const w = views.find((w) => w.id === grp.graph.id);
         const s2 = await raw(w.search);
@@ -779,6 +787,18 @@ function compareNode(C, G, node, T, lean, S) {
   const id = node.id;
   const n = T.nodes.get(id);
   const outs = T.out.get(id) || [];
+  // Depth and places (card #409): depth from the root, in answers; a place counted from 1 in the tree file's order
+  // among the siblings of its kind.
+  const D = (T.depths ||= depths(T));
+  C.ok(node.depth === D.get(id), `${G} ${id}: depth ${node.depth} ≠ ${D.get(id)}`);
+  const kindOf = (e) => (e.kind === 'flow' ? `flow:${T.nodes.get(e.to).type}` : e.kind);
+  const placeOf = (e) => {
+    const sib = (T.out.get(e.from) || []).filter((x) => x.kind !== 'relation' && kindOf(x) === kindOf(e));
+    return { n: sib.indexOf(e) + 1, of: sib.length };
+  };
+  const into = (T.into.get(id) || []).filter((e) => e.kind !== 'relation');
+  C.ok(eq(node.parents.map((p) => p.place), into.map(placeOf)), `${G} ${id}: parents' places`);
+  C.ok(node.parents.every((p) => p.node.depth === D.get(p.node.id)), `${G} ${id}: a parent's depth`);
   C.ok(sameSet(node.parents.map((p) => `${p.node.id}|${p.edge}|${p.answer ?? ''}`), (T.into.get(id) || []).filter((e) => e.kind !== 'relation').map((e) => `${e.from}|${e.kind}|${e.kind === 'answer' ? e.label ?? '' : ''}`)), `${G} ${id}: parents`);
   const qs = n.type === 'question' ? [n] : outs.filter((e) => e.kind === 'flow').map((e) => T.nodes.get(e.to)).filter((m) => m.type === 'question');
   C.ok(eq(node.asks.map((a) => a.question.id), qs.map((q) => q.id)), `${G} ${id}: question`);
@@ -786,9 +806,11 @@ function compareNode(C, G, node, T, lean, S) {
     const want = (T.out.get(qs[i].id) || []).filter((e) => e.kind === 'answer');
     C.ok(a.question.label === qs[i].label, `${G} ${id}: question label`);
     C.ok(eq(a.answers.map((x) => [x.answer, x.refs.map((r) => r.id), x.to.id]), want.map((e) => [e.label, e.refs || [], e.to])), `${G} ${id}: answers`);
+    C.ok(eq(a.answers.map((x) => x.place), want.map((e) => placeOf(e).n)) && a.answers.every((x) => x.to.depth === D.get(x.to.id)), `${G} ${id}: answers' places or depths`);
   });
   const recs = outs.filter((e) => e.kind === 'flow' && T.nodes.get(e.to).type === 'statement').map((e) => e.to);
   C.ok(eq(node.recommendations.map((r) => r.id), recs), `${G} ${id}: recommendations`);
+  C.ok(eq(node.recommendations.map((r) => [r.place, r.depth]), recs.map((to, i) => [i + 1, D.get(to)])), `${G} ${id}: recommendations' places or depths`);
   for (const r of node.recommendations) {
     const tn = T.nodes.get(r.id);
     C.ok(r.direction === (tn.direction ?? null) && r.grade === (tn.grade ?? null) && r.verb === (tn.verb ?? null), `${G} ${r.id}: direction, grade or verb ≠ the tree's`);
@@ -805,6 +827,123 @@ function compareNode(C, G, node, T, lean, S) {
   if (n.type === 'statement') {
     C.ok(sameSet(node.relations.map((r) => `${r.relation}|${r.direction}|${r.other.id}`), [...outs.filter((e) => e.kind === 'relation').map((e) => `${e.label}|out|${e.to}`), ...(T.into.get(id) || []).filter((e) => e.kind === 'relation').map((e) => `${e.label}|in|${e.from}`)]), `${G} ${id}: relations`);
   }
+}
+
+// The compact form against the full one (tools.js, FORMS): the same items,
+// ids, URLs, deep links, places and depths, the same metadata, kept under its
+// limit and never larger; where the compact form leaves something out, it is
+// what the full form repeats.
+const ITEM = (x) => x && { id: x.id ?? null, url: x.url ?? null, link: x.link ?? null, place: x.place ?? null, depth: x.depth ?? null, direction: x.direction ?? null, grade: x.grade ?? null, verb: x.verb ?? null };
+function compareCompactNode(C, where, c, f) {
+  if (!C.ok(!c.error, `${where}: compact: ${c.error}`)) return;
+  C.count('nodes compared, compact against full');
+  C.ok(eq(c.about, f.about), `${where}: compact metadata ≠ full`);
+  C.ok(c._text.length <= f._text.length, `${where}: compact ${c._text.length} > full ${f._text.length}`);
+  C.ok(c._text.length <= COMPACT_MAX_CHARS || c.node.next_offset !== undefined, `${where}: compact ${c._text.length} characters, not paged`);
+  const a = c.node, b = f.node;
+  C.ok(eq(ITEM(a), ITEM(b)) && a.type === b.type && a.label === b.label, `${where}: compact node ≠ full`);
+  C.ok(eq(a.parents.map((p) => [p.node.id, p.edge, p.answer ?? null, p.place]), b.parents.map((p) => [p.node.id, p.edge, p.answer ?? null, p.place])), `${where}: compact parents ≠ full`);
+  C.ok(eq(a.asks.map((q) => [q.question.id, q.answers.map((x) => [x.place, x.answer, ITEM(x.to)])]), b.asks.map((q) => [q.question.id, q.answers.map((x) => [x.place, x.answer, ITEM(x.to)])])), `${where}: compact answers ≠ full`);
+  for (const [i, q] of a.asks.entries())
+    for (const [k, x] of q.answers.entries()) {
+      const full = b.asks[i].answers[k].refs.map((r) => r.id);
+      C.ok(x.refs ? eq(x.refs.map((r) => r.id), full) : eq(full, [x.to.entity]), `${where}: compact answer ${x.answer}: concepts left out that are not its node's`);
+    }
+  C.ok(eq(a.recommendations.map(ITEM), b.recommendations.map(ITEM)), `${where}: compact recommendations ≠ full`);
+  C.ok(eq((a.general || []).map((x) => [ITEM(x), x.anchor?.id ?? null, x.via?.id ?? null, (x.condition || []).map((y) => y.id)]), (b.general || []).map((x) => [ITEM(x), x.anchor?.id ?? null, x.via?.id ?? null, (x.condition || []).map((y) => y.id)])), `${where}: compact general ≠ full`);
+}
+
+function compareCompactEntity(C, where, c, f) {
+  if (!C.ok(!c.error, `${where}: compact: ${c.error}`)) return;
+  C.count('entities compared, compact against full');
+  C.ok(eq(c.about, f.about), `${where}: compact metadata ≠ full`);
+  C.ok(c._text.length <= f._text.length, `${where}: compact ${c._text.length} > full ${f._text.length}`);
+  const bare = ({ about, _text, _gets, ...r }) => r;
+  const of = (r, keys) => strings(bare(r)).filter((x) => keys.includes(x.key)).map((x) => x.s);
+  C.ok(sameSet(of(c, ['id', 'claim', 'link']), of(f, ['id', 'claim', 'link'])), `${where}: compact ids or links ≠ full`);
+  const cu = of(c, ['url']);
+  const fu = of(f, ['url']);
+  C.ok(cu.every((u) => fu.includes(u)) && fu.filter((u) => !cu.includes(u)).every((u) => /\/concepts\//.test(u)), `${where}: compact leaves out a URL that is not a named concept's`);
+}
+
+// Depth: how many answers lie between the root and a node, on its shortest path.
+function depths(T) {
+  const d = new Map([[T.root.id, 0]]);
+  for (let changed = true; changed; ) {
+    changed = false;
+    for (const [from, es] of T.out)
+      for (const e of es) {
+        if (e.kind === 'relation' || !d.has(from)) continue;
+        const x = d.get(from) + (e.kind === 'answer' ? 1 : 0);
+        if (!d.has(e.to) || x < d.get(e.to)) d.set(e.to, x), (changed = true);
+      }
+  }
+  return d;
+}
+
+// The search filters (card #409), each against the search file and the trees.
+async function checkFilters(C, call, v, search) {
+  const fold = (x) => (x || '').normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().trim();
+  const all = async (args) => {
+    const hits = [];
+    let total = null;
+    for (let offset = 0; offset !== undefined; ) {
+      const r = await call('search', { graph: v.id, limit: 50, ...args, ...(offset ? { offset } : {}) });
+      if (r.error) return { error: r.error };
+      hits.push(...r.groups[0].hits);
+      total = r.groups[0].total;
+      offset = r.groups[0].next_offset;
+    }
+    C.ok(hits.length === total, `search ${JSON.stringify(args)}: paged ${hits.length} of ${total}`);
+    return { hits };
+  };
+  const want = (pred) => search.entries.filter(pred).map((e) => e.id).sort();
+  for (const kind of ['statement', 'concept']) {
+    const r = await all({ kind });
+    C.ok(eq(r.hits.map((h) => h.id).sort(), want((e) => e.kind === kind)), `search kind ${kind}: ≠ the search file`);
+  }
+  for (const key of ['direction', 'grade', 'verb']) {
+    const values = [...new Set(search.entries.map((e) => e[key]).filter(Boolean))];
+    for (const value of values.slice(0, key === 'direction' ? values.length : 3)) {
+      const r = await all({ [key]: value.toUpperCase() });
+      C.ok(eq(r.hits.map((h) => h.id).sort(), want((e) => fold(e[key]) === fold(value))), `search ${key} ${value}: ≠ the search file`);
+      C.count(`search filters checked: ${key}`);
+    }
+  }
+  // A subtree: from each node of the first grouping one answer below the root (and the root), every entity at
+  // and below it, in depth-first order, each with the depth of the node it stands at.
+  const g = v.groupings[0];
+  const T = indexTree(await raw(g.tree));
+  const D = depths(T);
+  const tops = [T.root, ...(T.out.get(T.root.id) || []).flatMap((e) => (T.out.get(e.to) || []).filter((x) => x.kind === 'answer').map((x) => T.nodes.get(x.to)))];
+  for (const top of tops) {
+    const expect = [];
+    const seen = new Set();
+    const at = new Map();
+    const add = (id, node) => id && !at.has(id) && (at.set(id, D.get(node)), expect.push(id));
+    (function visit(id) {
+      if (seen.has(id)) return;
+      seen.add(id);
+      const n = T.nodes.get(id);
+      if (n.type === 'statement' || n.type === 'aim') add(n.id, id);
+      if (n.type !== 'root' && n.ref) add(n.ref, id);
+      for (const e of T.out.get(id) || []) {
+        if (e.kind === 'relation') continue;
+        if (e.kind === 'answer') (e.refs || []).forEach((r) => add(r, e.to));
+        visit(e.to);
+      }
+    })(top.id);
+    const inFile = new Set(search.entries.map((e) => e.id));
+    const r = await all({ under: top.id });
+    const got = r.hits.map((h) => h.id);
+    C.ok(eq(got, expect.filter((id) => inFile.has(id))), `search under ${top.id}: ≠ the subtree, depth first`);
+    C.ok(r.hits.every((h) => h.depth === at.get(h.id)), `search under ${top.id}: a hit's depth ≠ its node's`);
+    C.count('search subtrees checked');
+  }
+  // Errors: nothing to search for; a grouping without under; under without a graph.
+  C.ok(!!(await call('search', {})).error, 'search without query or filter: no error');
+  C.ok(!!(await call('search', { graph: v.id, query: 'a', grouping: g.axis })).error, 'search with a grouping but no under: no error');
+  C.ok(!!(await call('search', { under: T.root.id })).error, 'search under without a graph: no error');
 }
 
 function checkAbout(C, name, about, verbatim = false) {

@@ -260,6 +260,14 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .tools.right { flex: none; }
 .tools input[type=search] { height: 44px; width: 11rem; max-width: 40vw; padding: 0 .8rem; border: 1px solid var(--line); border-radius: 22px; background: var(--bg); color: var(--fg); font: inherit; font-size: .95rem; }
 .tools .count { font-size: .78rem; color: var(--mute); background: var(--bg); padding: .1rem .5rem; border-radius: 1rem; white-space: nowrap; }
+/* the assistant's highlight named on a line of its own under the controls (session tools): the controls' row grows, so the
+   free row, and every fit after it, stays clear of it; the reader's ✕ clears it */
+.tools .assist { flex: 1 0 100%; display: flex; align-items: center; gap: .4rem; margin: 0; padding: .25rem .3rem .25rem .7rem; font-size: .85rem;
+  background: var(--bg); border: 2px solid var(--accent); border-radius: 1.2rem; }
+.tools .assist[hidden] { display: none; }
+.tools .assist .who { font-weight: 700; color: var(--accent); }
+.tools .assist .text { flex: 1 1 auto; min-width: 0; }
+.tools .assist button { width: 32px; height: 32px; flex: none; font-size: .9rem; }
 /* stepping through the matches: one pill beside the search box, its two halves the arrows of find-in-document */
 .tools .step { display: inline-flex; border: 1px solid var(--line); border-radius: 22px; background: var(--bg); overflow: hidden; }
 .tools .step[hidden] { display: none; }

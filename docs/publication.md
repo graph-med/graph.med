@@ -447,7 +447,10 @@ step, a chapter, a grouping; a search while it is typed is one change — as far
 the view the page opened with, and is disabled when there is nothing to go back
 to. The view returned to is the one the reader saw: every box where it stood, at the
 zoom and the pan it had (the maintainer, 2026-10-18: focus before a readable zoom,
-and a back button in place of a reset). Tapping a node or an answer selects it: what leads to it and what
+and a back button in place of a reset). An assistant's acts through the session
+tools (§8) are changes like the reader's, undone by the same button; its highlight
+is a halo in the page's accent, named on a line under the controls that the reader
+clears with ✕. Tapping a node or an answer selects it: what leads to it and what
 follows it stay — for an answer, the question it answers and the box it leads
 to —, everything else fades, and its details open in the **section below the
 graph** — on a wide screen, in a **column beside it**, the graph taking
@@ -1253,6 +1256,7 @@ cut-publication).
 > | 1 — the read-only server: its six tools, a server factory in `mcp/` | built: tools, description file (`mcp/src/descriptions.js`), quote gate, paging, the check (`CLAUDE.md` "Checks") | #272 |
 > | 1 — the read-only server, hosted | built, not deployed: the Worker (`mcp/src/worker.js`, `mcp/wrangler.toml`), checked through Workers' local runtime (`CLAUDE.md` "Checks"); the one way the server is reached (2026-09-28); the deploy is a person's (ADR-0008) | #279 |
 > | 2 — the inline view | designed, not built | #278 (with #276, #277) |
+> | the session tools in the view page (below) | built: the page function and WebMCP registration; the relay that would take them outside the browser is not (#412, after #411) | #408 (initiative `co-navigation`, #407) |
 >
 > This section is the design; the keys and URLs it relies on are §2's and §4's, the
 > server's runtime, toolchain and home ADR-0007's (#271), the choice of host
@@ -1467,7 +1471,21 @@ axis, a slot or a grouping:
   parent; the recommendations under it, each with direction, grade, verb and URL —
   in a grouping over a scope tree also those that apply generally, with `via` and
   condition (§3) —; and their aims. An optional small depth returns a subtree in one
-  result, so a deep path needs few calls.
+  result, so a deep path needs few calls. **Where a node stands** (#409): every node
+  carries its depth, how many answers lie between the root and it; every answer,
+  recommendation and parent link carries its place, counted from 1 in the tree file's
+  order among the siblings of its kind (a question's answers, a node's
+  recommendations, a node's questions, a recommendation's aims), so "the third
+  recommendation against under this node" is read off one result. The places are the
+  build's order; the page's drawing (dagre) follows it in most parents, not all.
+  Measured on 2026-10-18, sibling lists of two or more, drawn order against the tree
+  file: with each group of the first grouping opened alone, as a tap opens it, 289 of
+  289 the same; with everything open, 13 of 185 differ (none of 23 in POMGAT's first
+  grouping, 1 of 34 and 3 of 34 in its other two; 1 of 19 and 5 of 36 in Sepsis's;
+  none of 16 and 3 of 23 in Vorhofflimmern's). The server reads Layer 0 only and
+  cannot know the drawn order, so the key the server and the page share is the
+  entity id, never the place; a place on screen ("the third one I see") is the
+  page's to give, counted as drawn (#408).
 - **Get entity**: a recommendation — its wording, marked `modelling`; grade, verb,
   consensus and direction; the claims behind it by URL and page, with no verbatim
   text (no claim sentence, no quote); its `specializes` and `complements` relations — or a concept — the
@@ -1476,10 +1494,28 @@ axis, a slot or a grouping:
   its own returns it.
 - **Search**, over a graph's search file, within one graph, or across graphs with
   the hits grouped per graph, each group ranked on its own and never merged; it
-  returns ids, labels, URLs and the metadata, never a quote.
+  returns ids, labels, URLs and the metadata, never a quote. Beside the words, or
+  instead of them, it filters (#409) by kind, direction, grade and verb, as results
+  give them, and by a subtree: the entities at and below one node of a grouping, in
+  depth-first order, each hit with the depth of the node it stands at.
 - **Provenance**, the only tool that returns verbatim source text: each claim's
   sentence whole, as the site shows it, and the quotes that anchor it, capped (the
   guardrails, below).
+
+**Two forms** (#409). Get tree node, get entity and search answer **compact** by
+default, and in full on request (`detail: "full"`). The compact form keeps every id,
+label, entity URL and deep link of an item, its direction, grade and verb, its place
+and depth, and the whole metadata; it leaves out what the full form repeats — a
+concept named inside another item gives only its id and short label, a language
+equal to the graph's, empty lists of aims and conditions, an answer's concepts where
+they are the node it leads to, a claim's section, a search hit's slots. A compact
+result is kept under 24,000 characters, a full one under 45,000, each by paging.
+Measured on the build of 2026-10-18 (characters, full → compact): the sepsis root
+8,887 → 6,549; *septischer Schock* 24,244 → 18,315; a concept's card 26,211 →
+21,175; a recommendation 3,643 → 3,275; a search 5,854 → 4,744. Most of what remains
+in a large node is its list of recommendations that apply generally; a question
+narrowed by the filters is smaller still (the recommendations against under the
+sepsis root group, five at a time: 3,845).
 
 No tool follows edges generically; this replaces the plan's "follow edges" and "get a
 patient group's pathway". **Addressing:** a node that names an entity is addressed by
@@ -1489,7 +1525,8 @@ URL such as `patient-groups/<id>`: one concept can fill different slots — the
 population of one recommendation, the condition of another — and the URL is the
 identity (`.claude/memory/design/pool-and-views.md`). **Cost:** get tree node reads
 the grouping's tree file and the graph's search file — one or two static GET requests
-whatever the depth — and get entity reads the entity's JSON; parsed files stay in
+whatever the depth —, a search over a subtree also the grouping's tree file, and get
+entity reads the entity's JSON; parsed files stay in
 memory between calls. On today's build, `JSON.parse` of a whole lean view JSON takes
 about 2.2–2.5 ms in Node 22.
 
@@ -1543,6 +1580,81 @@ publishes it on Pages with the data."
 
 Where the view's page comes from — fetched from graph.med or shipped with the
 server — is #278's to decide, and ADR-0007's how its bundle is built.
+
+### The session tools
+
+> **Status: built (#408)**, the first part of the initiative `co-navigation` (#407).
+> Its other parts are the MCP server's side (#409), the page and `llms.txt`
+> describing the tools (#410), and a relay for clients outside the browser (#412,
+> after the decision #411). Two of #407's questions are the maintainer's and stay
+> open: whether the tools wait for the reader to switch a session on (opt-in), and
+> whether conversation-driven highlighting makes the page a medical device (#283).
+
+A view page offers an assistant beside the reader a small set of tools: read what the
+reader sees, and change it as the reader's own controls would. They are the session
+channel of #407; the MCP server above is its data channel, and the two share their
+ids. An entity id is what follows `#` in the page's URL and what the server's tools
+take; a question, which names no entity, goes by its node id (`q:…`).
+
+- **One definition, two entries.** `tools/site/session-tools.json` holds the tools'
+  names, the words a model reads about them, and the shape of their arguments. The
+  build hands it to every view page, and `graph.js` implements each tool by name.
+  - **A page function** serves an agent that runs script in the page, as Claude in
+    Chrome and Claude Code with `--chrome` do: `window.graphmed.agent.describe()`
+    lists the tools and the interface's version, and
+    `window.graphmed.agent.call(name, args)` returns a promise of the answer.
+  - **WebMCP tools** are registered with `document.modelContext.registerTool` (or the
+    older `navigator.modelContext`) where the browser offers it, from the same
+    definitions. `view` carries the read-only hint. Nothing is registered where
+    neither is offered.
+- **The tools.**
+  - `view` reads. It returns the graph, the grouping, the chapter filter, the
+    search, the selection with the path of boxes from the root, the assistant's
+    highlight, and the boxes the folding shows, in reading order.
+  - Each box gives its index `i` in that order, its id, kind and label, and `up`,
+    the index of the box it hangs from. It also gives its place among that box's
+    shown children (`3/32`), and `in_view`.
+  - A statement adds its direction, grade, box number, and the answer that leads to
+    it. A group adds its count and whether it is open.
+  - Pages hold 40 boxes. `under` reads one box and what hangs below it, and
+    `in_view` reads only what the reader can see.
+  - The acts are `open` (as a deep link), `focus` (unfold the way and fit, the
+    selection unchanged), `highlight` (with a note of at most 140 characters),
+    `clear`, `toggle`, `fold`, `search`, `step` and `back`. Every act answers with
+    the view after it, once the layout and the fit are at rest. An argument it
+    cannot take is refused with the reason, and nothing changes.
+- **Reading order and place are what the reader sees.** From the root, a box comes
+  before what hangs from it, and siblings run top to bottom as drawn, then left to
+  right. A place among siblings counts in that order.
+  - The layout can draw siblings in another order than the published tree file,
+    which the MCP server reads. With every group open, 13 of the 185 parents with
+    two or more children differ across all groupings, and 1 of the 58 in the views'
+    first groupings (2026-10-18; #408's pull request lists them).
+  - So "the third one" is the page's answer about the page. The server's places
+    count in the tree file's order (#409, "The tools" above), and the key the two
+    share is the entity id, never the place.
+- **`in_view` answers both readings of "visible".** Every box the folding shows is
+  listed, and `in_view` says whether it lies wholly in the part of the canvas the
+  reader sees: inside the canvas and the window, in the free row, above a phone's
+  strip. The reading of #322's open question is left to the maintainer.
+- **Nothing persists, and back undoes the assistant.** Each act is kept for the back
+  button like the reader's own change (§3, "The interaction"), the highlight with
+  it. A reload shows the page as it was.
+- **The highlight is the assistant's own mark.** It is a halo in the page's accent
+  behind the boxes and answers it names, apart from the reader's selection (the
+  border) and from the outlines of related and general boxes. A line under the
+  controls names it, with the note or the number of marked fields, and the reader
+  clears it there.
+  - The line makes the controls' row taller, so the free row and every fit after it
+    stay clear of it.
+  - A graph still where the last fit put it is fitted again into the smaller free
+    row, so what it framed stays whole in view. A graph the reader has moved since
+    moves down with the line, so nothing slides under the controls.
+  - Nothing unfolds to show a highlight: `focus` does that.
+- **Sizes.** An answer without arguments was at most 10.7 KB on every published
+  graph (2026-10-18). The opening views took 1.3–5.2 KB, and a page of 40 boxes
+  with the largest group open 8.2–10.7 KB. A tool's description and schemas, read
+  once, take about 6 KB.
 
 ### Guardrails, carried as data
 

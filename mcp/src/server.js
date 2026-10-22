@@ -12,7 +12,7 @@
 import { McpServer } from '@modelcontextprotocol/server';
 import { z } from 'zod';
 import { Layer0, InputError } from './layer0.js';
-import { handlers, MAX_DEPTH } from './tools.js';
+import { handlers, MAX_DEPTH, FORMS } from './tools.js';
 import * as words from './descriptions.js';
 
 export const VERSION = '0.1.0';
@@ -44,15 +44,24 @@ const zodSchemas = {
     node: z.string().optional().describe(d('get_tree_node', 'node')),
     depth: z.number().int().min(0).max(MAX_DEPTH).optional().describe(d('get_tree_node', 'depth')),
     offset: z.number().int().min(0).optional().describe(d('get_tree_node', 'offset')),
+    detail: z.enum(FORMS).optional().describe(d('get_tree_node', 'detail')),
   }),
   get_entity: z.object({
     entity: z.string().describe(d('get_entity', 'entity')),
     graph: z.string().optional().describe(d('get_entity', 'graph')),
     offset: z.number().int().min(0).optional().describe(d('get_entity', 'offset')),
+    detail: z.enum(FORMS).optional().describe(d('get_entity', 'detail')),
   }),
   search: z.object({
-    query: z.string().describe(d('search', 'query')),
+    query: z.string().optional().describe(d('search', 'query')),
     graph: z.string().optional().describe(d('search', 'graph')),
+    kind: z.enum(['statement', 'concept']).optional().describe(d('search', 'kind')),
+    direction: z.string().optional().describe(d('search', 'direction')),
+    grade: z.string().optional().describe(d('search', 'grade')),
+    verb: z.string().optional().describe(d('search', 'verb')),
+    under: z.string().optional().describe(d('search', 'under')),
+    grouping: z.string().optional().describe(d('search', 'grouping')),
+    detail: z.enum(FORMS).optional().describe(d('search', 'detail')),
     limit: z.number().int().min(1).max(50).optional().describe(d('search', 'limit')),
     offset: z.number().int().min(0).optional().describe(d('search', 'offset')),
   }),

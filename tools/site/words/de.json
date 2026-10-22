@@ -72,6 +72,11 @@
     "fit": "Alles Geöffnete einpassen",
     "back": "Zurück zur vorigen Ansicht"
   },
+  "agent": {
+    "who": "Assistent:",
+    "marked": { "one": "{n} Feld markiert", "many": "{n} Felder markiert" },
+    "unmark": "Markierung des Assistenten aufheben"
+  },
   "search": {
     "placeholder": "Suchen",
     "label": "Im Graphen suchen",
