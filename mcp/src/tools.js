@@ -19,6 +19,9 @@ export const QUOTE_CAP = 100;
 export const MAX_DEPTH = 3;
 export const MAX_CHARS = 45000;
 export const COMPACT_MAX_CHARS = 24000;
+// The most recommendations of a chain (get_entity's `sequence.chain`) one
+// result returns: those nearest to the recommendation asked for, by steps.
+export const MAX_CHAIN = 25;
 
 // A result's form, the `detail` argument: `compact` by default, or `full`.
 // The compact form keeps every id, label, entity URL and deep link of an
@@ -699,7 +702,7 @@ function statementEntity(L, e, views, searches, meta, claimDocs, form = 'full') 
     ]
       .filter((r) => S.has(r.id))
       .map((r) => ({ relation: r.relation, direction: r.direction, edge_source: r.source, other: statementSummary(L, S, v, first, r.id, form) }));
-    return { graph: graphRef(v), link: deepLink(v, first, [e.id]), related };
+    return { graph: graphRef(v), link: deepLink(v, first, [e.id]), related, ...sequenceField(L, e, v, S, first, form) };
   });
 
   return {
@@ -723,6 +726,110 @@ function statementEntity(L, e, views, searches, meta, claimDocs, form = 'full') 
     graphs: perView,
     about: meta,
   };
+}
+
+// --- a recommendation's steps (spec §5 `follows`) ------------------------------
+
+// A step's transition and trigger as the edge stores them, with their words
+// (descriptions.js) where `worded`; its discriminator where it has one.
+function stepKeys(x, worded = true) {
+  return {
+    transition: x.transition ?? null,
+    ...(worded ? { transition_words: words.sequence.transition[x.transition] ?? null } : {}),
+    trigger: x.trigger ?? null,
+    ...(worded ? { trigger_words: words.sequence.trigger[x.trigger] ?? null } : {}),
+    ...(x.discriminator ? { discriminator: x.discriminator } : {}),
+  };
+}
+
+// The words of the keys a chain's edges use, once each (descriptions.js).
+function stepTerms(edges) {
+  const terms = { transition: {}, trigger: {} };
+  for (const x of edges) {
+    terms.transition[x.transition] = words.sequence.transition[x.transition] ?? null;
+    terms.trigger[x.trigger] = words.sequence.trigger[x.trigger] ?? null;
+  }
+  return terms;
+}
+
+// A recommendation named by a step: as tree nodes summarise it (label,
+// direction, grade and verb from the search file, its URL and deep link),
+// with its recommendation number and pages as the statement JSON gives them.
+function stepNode(L, S, v, axis, x, form) {
+  return { ...statementSummary(L, S, v, axis, x.id, form), no: x.no ?? null, pages: x.pages ?? [] };
+}
+
+// A recommendation's steps, from its JSON's `sequence` (docs/publication.md
+// §4), read from that one file — no other recommendation's is fetched:
+// - before / after: its direct neighbours, one entry per edge, in the JSON's
+//   order (the guideline's);
+// - chain: the whole component the steps join it to, its nodes and edges in
+//   the JSON's order, cut to the MAX_CHAIN nodes nearest to it — by steps,
+//   either way along an edge; ties in the JSON's order — with the edges
+//   between the nodes kept, and the count it was cut from; its edges carry
+//   their keys, and `terms` the words of each key once (a chain of MAX_CHAIN
+//   with every edge worded would cross the compact form's size).
+// Each kept to the graph's members; what is left out is counted. Nothing is
+// composed: no step is inferred, no condition or threshold read. Compact:
+// none where it has no step; full: two empty lists.
+function sequenceField(L, e, v, S, axis, form) {
+  const seq = e.sequence;
+  if (!seq) return {};
+  const outside = new Set();
+  const member = (id) => {
+    if (S.has(id)) return true;
+    outside.add(id);
+    return false;
+  };
+  const side = (list) => (list || []).filter((x) => member(x.id)).map((x) => ({ ...stepNode(L, S, v, axis, x, form), ...stepKeys(x) }));
+  const before = side(seq.before);
+  const after = side(seq.after);
+  if (!before.length && !after.length) return form === 'compact' ? {} : { sequence: { before, after } };
+
+  const out = { before, after };
+  const chain = seq.chain;
+  if (chain && Array.isArray(chain.nodes)) {
+    // Steps away from this recommendation, over every edge of the component.
+    const next = new Map();
+    for (const x of chain.edges || []) {
+      for (const [a, b] of [[x.from, x.to], [x.to, x.from]]) {
+        if (!next.has(a)) next.set(a, []);
+        next.get(a).push(b);
+      }
+    }
+    const distance = new Map([[e.id, 0]]);
+    const queue = [e.id];
+    while (queue.length) {
+      const id = queue.shift();
+      for (const b of next.get(id) || [])
+        if (!distance.has(b)) {
+          distance.set(b, distance.get(id) + 1);
+          queue.push(b);
+        }
+    }
+    const nodes = chain.nodes.filter((x) => member(x.id));
+    const order = new Map(nodes.map((x, i) => [x.id, i]));
+    const kept = new Set(
+      [...nodes]
+        .sort((a, b) => (distance.get(a.id) ?? Infinity) - (distance.get(b.id) ?? Infinity) || order.get(a.id) - order.get(b.id))
+        .slice(0, MAX_CHAIN)
+        .map((x) => x.id),
+    );
+    const shown = nodes.filter((x) => kept.has(x.id));
+    const edges = (chain.edges || []).filter((x) => kept.has(x.from) && kept.has(x.to));
+    out.chain = {
+      nodes: shown.map((x) => ({ ...stepNode(L, S, v, axis, x, form), distance: distance.get(x.id) ?? null })),
+      edges: edges.map((x) => ({ from: x.from, to: x.to, ...stepKeys(x, false) })),
+      terms: stepTerms(edges),
+      nodes_total: nodes.length,
+      ...(shown.length < nodes.length ? { cut_to: MAX_CHAIN, cut_note: words.about.sequenceCut } : {}),
+      link: deepLink(v, axis, shown.map((x) => x.id)),
+    };
+  }
+  if (outside.size) Object.assign(out, { outside_graph: outside.size, outside_note: words.about.sequenceOutside });
+  out.note = words.about.sequence;
+  out.wording = words.about.sequenceWording;
+  return { sequence: out };
 }
 
 function conceptEntity(L, e, views, searches, meta, offset, size, form = 'full') {

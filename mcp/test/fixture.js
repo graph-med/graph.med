@@ -3,7 +3,10 @@
 // chapter outline, not a hierarchy; no scope tree (no `scope_root`, no
 // junction `general`); several sources; a source that is not German; no
 // register number; one concept standing at two nodes of one grouping; a
-// recommendation whose wording equals its claim's sentence. Every file is
+// recommendation whose wording equals its claim's sentence; steps (`follows`)
+// with two edges between one pair and a recommendation following two, their
+// rationale quoting a claim (which no result but provenance may carry); and,
+// in `chainFiles`, a chain longer than the server returns. Every file is
 // keyed by its path under the base; `files(base)` returns them as
 // {path: object}. Nothing here is a real guideline.
 
@@ -183,9 +186,38 @@ export function files(base) {
       ...Object.entries(concepts).map(([id, c]) => ({ id, kind: 'concept', lang: c.lang, label: c.label, slots: c.slots })),
     ],
   };
+  // Steps (spec §5 `follows`, later → earlier), as the build publishes them in
+  // a statement JSON's `sequence` (docs/publication.md §4): fx-s4 follows fx-s1
+  // and, twice — the source stating the order in two places, a discriminator
+  // each — fx-s3. fx-s2 is on no step.
+  const steps = [
+    { from: 'statements/fx-s4', to: 'statements/fx-s1', transition: 'replaces', trigger: 'intolerance' },
+    { from: 'statements/fx-s4', to: 'statements/fx-s3', transition: 'follows', trigger: 'reevaluation', discriminator: 'p1' },
+    { from: 'statements/fx-s4', to: 'statements/fx-s3', transition: 'concurrent', trigger: 'other', discriminator: 'p2' },
+  ];
+  const stepKeys = ({ transition, trigger, discriminator }) => ({ transition, trigger, ...(discriminator ? { discriminator } : {}) });
+  const stepRef = (sid) => ({ id: sid, url: B + sid + '/', json: B + sid + '.json', no: st[sid].section, pages: [st[sid].page] });
+  const chainIds = ['statements/fx-s1', 'statements/fx-s3', 'statements/fx-s4'];
+  const sequenceOf = (sid) => {
+    const before = steps.filter((x) => x.from === sid).map((x) => ({ ...stepRef(x.to), ...stepKeys(x) }));
+    const after = steps.filter((x) => x.to === sid).map((x) => ({ ...stepRef(x.from), ...stepKeys(x) }));
+    const on = chainIds.includes(sid);
+    return {
+      before,
+      after,
+      chain: {
+        nodes: on ? chainIds.map((c) => ({ id: c, no: st[c].section, pages: [st[c].page] })) : [],
+        edges: on ? steps.map((x) => ({ from: x.from, to: x.to, ...stepKeys(x) })) : [],
+      },
+    };
+  };
+  const stepEdges = (sid) => ({
+    out: steps.filter((x) => x.from === sid).map((x) => ({ to: x.to, kind: 'follows', source: 'modelling', ...stepKeys(x), rationale: 'A synthetic step, quoting its claim: „Z may be continued in the second“.', lang: 'en', as_of: '2026-10-22' })),
+    in: steps.filter((x) => x.to === sid).map((x) => ({ from: x.from, kind: 'follows', source: 'modelling', ...stepKeys(x), rationale: 'A synthetic step, quoting its claim: „Z may be continued in the second“.', lang: 'en', as_of: '2026-10-22' })),
+  });
   for (const [id, s] of Object.entries(st)) {
-    const related = id === 'statements/fx-s3' ? [{ from: id, to: 'statements/fx-s1', kind: 'specializes', source: 'modelling' }] : [];
-    const relatedIn = id === 'statements/fx-s1' ? [{ from: 'statements/fx-s3', kind: 'specializes', source: 'modelling' }] : [];
+    const related = [...(id === 'statements/fx-s3' ? [{ from: id, to: 'statements/fx-s1', kind: 'specializes', source: 'modelling' }] : []), ...stepEdges(id).out];
+    const relatedIn = [...(id === 'statements/fx-s1' ? [{ from: 'statements/fx-s3', kind: 'specializes', source: 'modelling' }] : []), ...stepEdges(id).in];
     out[id + '.json'] = {
       id,
       type: 'statement',
@@ -203,6 +235,7 @@ export function files(base) {
         questions: { urteil: 'What should I do?' },
       },
       edges: { in: [{ from: s.claim, kind: 'supports', source: 'modelling' }, ...relatedIn], out: related },
+      sequence: sequenceOf(id),
       meta: meta(id, { kind: 'modelling', source: 'modelling', supported_by: { [s.src.id]: 1 }, contested_by: {} }, { sources: [{ id: s.src.id, json: B + s.src.id + '.json', license: s.src.license }] }),
     };
     out[s.claim + '.json'] = {
@@ -238,5 +271,60 @@ export function files(base) {
       meta: meta(id, { kind: 'modelling', source: 'modelling' }, { sources: [] }),
     };
   }
+  return out;
+}
+
+// A second synthetic Layer 0, for the chain's cap (tools.js, MAX_CHAIN): one
+// graph of `length` recommendations in a line, each following the one before
+// (fx-c02 follows fx-c01, …), every statement JSON carrying the whole chain.
+// Only what get_entity reads: the index, the search file, the statement JSONs.
+export function chainFiles(base, length = 30) {
+  const B = base;
+  const VIEW = 'views/fx-chain';
+  const V = 'fx-chain';
+  const src = { id: 'sources/fx-c', title: 'Example guideline C', lang: 'en', url: 'https://example.org/guideline-c.pdf', license: 'Example licence line C' };
+  const ids = Array.from({ length }, (_, i) => `statements/fx-c${String(i + 1).padStart(2, '0')}`);
+  const no = (i) => `1.${i + 1}`;
+  const node = (i) => ({ id: ids[i], no: no(i), pages: [String(i + 10)] });
+  const edges = ids.slice(1).map((id, i) => ({ from: id, to: ids[i], transition: 'adds', trigger: 'target_missed' }));
+  const ref = (i) => ({ id: ids[i], url: B + ids[i] + '/', json: B + ids[i] + '.json', no: no(i), pages: [String(i + 10)], transition: 'adds', trigger: 'target_missed' });
+  const out = {};
+  out['index.json'] = {
+    commit: 'fixture-chain',
+    repository_license: 'PolyForm Noncommercial 1.0.0',
+    views: [
+      {
+        id: VIEW,
+        title: 'Example guideline C',
+        lang: 'en',
+        url: B + V + '/',
+        json: B + V + '.json',
+        lean: B + V + '/view.json',
+        search: B + V + '/search.json',
+        sources: [{ ...src, json: B + src.id + '.json', page: B + src.id + '/' }],
+        groupings: [{ axis: 'section', default: true, kind: 'outline', label: 'Chapters', lang: 'en', question: { label: 'Which chapter?', lang: 'en' }, short_label: null, tree: B + V + '/trees/section.json' }],
+      },
+    ],
+  };
+  out[V + '/search.json'] = {
+    view: VIEW,
+    commit: 'fixture-chain',
+    entries: ids.map((id, i) => ({ id, kind: 'statement', lang: 'en', short_label: `Step ${i + 1}`, slots: {}, direction: 'für', grade: 'B', verb: 'should' })),
+  };
+  ids.forEach((id, i) => {
+    out[id + '.json'] = {
+      id,
+      type: 'statement',
+      label: `Step ${i + 1} is taken when step ${i} misses its target.`,
+      short_label: `Step ${i + 1}`,
+      lang: 'en',
+      source: 'modelling',
+      slots: {},
+      card: { title: `Step ${i + 1}`, wortlaut: [], beleg: { review: 'pending', sources: [] }, urteil: { badges: [], direction: 'für', verbs: ['should'] } },
+      edges: { in: [], out: [] },
+      sequence: { before: i > 0 ? [ref(i - 1)] : [], after: i < length - 1 ? [ref(i + 1)] : [], chain: { nodes: ids.map((_, k) => node(k)), edges } },
+      meta: { commit: 'fixture-chain', url: B + id + '/', json: B + id + '.json', review: 'pending', provenance: { kind: 'modelling' }, sources: [{ id: src.id, license: src.license }], views: [{ id: VIEW }] },
+    };
+  });
   return out;
 }

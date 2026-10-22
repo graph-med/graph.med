@@ -31,6 +31,36 @@ export const about = {
   wordingWithheld: 'The wording carries source text word for word; the provenance tool returns source text.',
   verbatimProvenance:
     "Holds verbatim source text: each claim's sentence whole, as graph.med's pages show it, and quotes of at most the stated number of characters; each with its link into the source or its page.",
+  // A recommendation's steps before and after (get_entity's `sequence`; spec §5 `follows`).
+  sequence:
+    "before: the recommendations this one follows, the outcome of whose measure calls for its step; after: those that follow it; chain: every recommendation joined to it by such steps, this one included, each with its distance (how many steps lie between the two, either way along them), each edge from the later to the earlier, and the words of its keys once in terms. Each entry and each edge is one step as the source states it, with its own transition and trigger; several into one recommendation say neither that their outcomes call for it together nor that any one of them does: the source data does not say which. A grade is the box's own, as printed. A step carries no threshold: the circumstance that calls for it is the later recommendation's condition, and a threshold printed for it stands on that concept's rule.",
+  sequenceWording:
+    "Each step's rationale quotes the trigger's wording as printed; it carries source text and is not returned here. It stands under the step on the recommendation's page.",
+  sequenceCut: "The chain holds more recommendations than are returned: those nearest to this one, by steps along it; each node's own result gives its steps.",
+  sequenceOutside: 'Steps to recommendations outside this graph are left out, and counted.',
+};
+
+// The words of a step's transition and trigger, by the schema's keys (spec §5
+// `follows`), stated from the later recommendation to the earlier — "later"
+// and "earlier" being the order of the decision, not of the clock. A key
+// without words here is returned with null words; the check fails on one.
+export const sequence = {
+  transition: {
+    replaces: "the later measure replaces the earlier one (instead of it)",
+    adds: "the later measure is added to the earlier one (in addition to it)",
+    follows: "the later measure comes after the earlier one has ended (after it)",
+    concurrent:
+      "both measures run at the same time: the guideline gives no order between them in time; the later is the one it makes depend on the other's outcome",
+  },
+  trigger: {
+    target_missed: "the earlier measure's target is missed",
+    intolerance: 'the patient does not tolerate the earlier measure',
+    contraindication: 'a contraindication arises under the earlier measure',
+    target_reached: "the earlier measure's target is reached",
+    reevaluation: 'a re-evaluation of the earlier measure',
+    finding: 'a finding under the earlier measure',
+    other: 'another outcome of the earlier measure, of none of the named kinds',
+  },
 };
 
 // The `detail` argument of the tools that answer in two forms (tools.js, FORMS).
@@ -70,7 +100,7 @@ export const tools = {
   get_entity: {
     title: 'Get an entity',
     description:
-      "Returns a recommendation or a concept by its id or URL. A recommendation: its wording (modelling, the project's own), grade, verb, consensus and direction as the guideline prints them, the claims it rests on by URL and page (without their text), and its related recommendations within its graph. A concept: the recommendations that hold it, per graph and slot, and the nodes where it stands in each grouping of each graph, each with its page link; for a concept established by a rule, the claim giving it, or each where the source prints the rule differently. A claim: its kind, page, section, grade, verb and consensus, without its text, and the claims where its source says otherwise, by URL. With a graph, the result keeps to that graph; without one, it is grouped per graph. Compact by default; with detail 'full', the URLs and short labels of the concepts it names, the languages, and a claim's source and section.",
+      "Returns a recommendation or a concept by its id or URL. A recommendation: its wording (modelling, the project's own), grade, verb, consensus and direction as the guideline prints them, the claims it rests on by URL and page (without their text), its related recommendations within its graph, and its steps: the recommendations before and after it in the order the guideline states, and the whole chain they form (up to 25 recommendations, the nearest), each with direction, grade, verb, recommendation number and pages, and each step's transition and trigger, as keys and in words. A concept: the recommendations that hold it, per graph and slot, and the nodes where it stands in each grouping of each graph, each with its page link; for a concept established by a rule, the claim giving it, or each where the source prints the rule differently. A claim: its kind, page, section, grade, verb and consensus, without its text, and the claims where its source says otherwise, by URL. With a graph, the result keeps to that graph; without one, it is grouped per graph. Compact by default; with detail 'full', the URLs and short labels of the concepts it names, the languages, and a claim's source and section.",
     args: {
       entity: 'The id or URL of a recommendation (statements/…), a concept (concepts/…) or a claim (claims/…).',
       graph: 'Optional: the graph (id or page URL) to keep to.',

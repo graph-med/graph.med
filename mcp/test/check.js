@@ -33,7 +33,7 @@ import { createServerFactory, callTool } from '../src/server.js';
 import { createHandler } from '../src/worker.js';
 import { Layer0 } from '../src/layer0.js';
 import * as words from '../src/descriptions.js';
-import { QUOTE_CAP, MAX_DEPTH, MAX_CHARS, COMPACT_MAX_CHARS } from '../src/tools.js';
+import { QUOTE_CAP, MAX_DEPTH, MAX_CHARS, COMPACT_MAX_CHARS, MAX_CHAIN } from '../src/tools.js';
 import * as fixture from './fixture.js';
 
 const LIMIT_CHARS = 50000;
@@ -430,6 +430,20 @@ async function runTarget(target) {
   }
   const toolText = JSON.stringify(tools.map((t) => [t.name, t.title, t.description, t.inputSchema])).toLowerCase();
   for (const b of banned) C.ok(!toolText.includes(b), `tools/list names ${JSON.stringify(b)}`);
+  C.ok(tools.find((t) => t.name === 'get_entity')?.description.includes(`up to ${MAX_CHAIN} `), `get_entity: its description does not state the chain's cap, ${MAX_CHAIN}`);
+
+  // The words of a step's keys (card #299): one for each key the site's
+  // llms.txt lists from the schema (a site that lists none is counted).
+  if (target.kind !== 'fixture') {
+    const llms = await (await fetch(index.llms_txt)).text();
+    const m = /`transition` is one of ((?:`[a-z_]+`(?:, )?)+); `trigger` one of ((?:`[a-z_]+`(?:, )?)+)/.exec(llms);
+    const keys = (x) => [...x.matchAll(/`([a-z_]+)`/g)].map((y) => y[1]);
+    if (m) {
+      C.ok(sameSet(keys(m[1]), Object.keys(words.sequence.transition)), `words: the transitions llms.txt lists, ${keys(m[1]).join(', ')}, ≠ the server's`);
+      C.ok(sameSet(keys(m[2]), Object.keys(words.sequence.trigger)), `words: the triggers llms.txt lists, ${keys(m[2]).join(', ')}, ≠ the server's`);
+      C.counts['step keys with words (llms.txt)'] = `${keys(m[1]).length} transitions, ${keys(m[2]).length} triggers`;
+    } else C.counts['step keys with words (llms.txt)'] = 'llms.txt lists none';
+  }
 
   // 8. Requests: cold, one call per tool on a fresh reader; warm, a repeat.
   //    Transport-agnostic: the direct call returns the transport's text.
@@ -579,7 +593,8 @@ async function runTarget(target) {
         C.fail(`get_entity ${e.id}: ${r.error}`);
         continue;
       }
-      compareCompactEntity(C, `get_entity ${e.id}`, await fullEntity(call, { entity: e.id, graph: v.id }), r);
+      const rc = await fullEntity(call, { entity: e.id, graph: v.id });
+      compareCompactEntity(C, `get_entity ${e.id}`, rc, r);
       checkAbout(C, 'get_entity', r.about);
       checkIds(C, `get_entity ${e.id}`, r, isMember);
       const j = await raw(base + e.id + '.json');
@@ -607,6 +622,11 @@ async function runTarget(target) {
           ...(j.edges.in || []).filter((x) => ['specializes', 'complements'].includes(x.kind)).map((x) => `${x.kind}<${x.from}`),
         ].filter((x) => S.has(x.split(/[<>]/)[1]));
         C.ok(sameSet(pv.related.map((x) => `${x.relation}${x.direction === 'out' ? '>' : '<'}${x.other.id}`), rel), `get_entity ${e.id}: related`);
+        // Its steps (card #299): what its statement JSON's `sequence` gives, read from that file alone.
+        compareSequence(C, `get_entity ${e.id}`, j, pv, rc.graphs?.[0], v, S, isMember);
+        if (j.sequence?.before?.length || j.sequence?.after?.length)
+          C.ok(r._gets.every((u) => !/\/statements\//.test(u) || u === base + e.id + '.json'), `get_entity ${e.id}: fetched another recommendation: ${r._gets.join(' ')}`);
+        C.ok(!/"rationale"/.test(r._text), `get_entity ${e.id}: carries a rationale`);
         for (const c of r.entity.claims) {
           const cj = await raw(base + c.id + '.json');
           collectQuotes(cj, quotes);
@@ -866,6 +886,121 @@ function compareCompactEntity(C, where, c, f) {
   C.ok(cu.every((u) => fu.includes(u)) && fu.filter((u) => !cu.includes(u)).every((u) => /\/concepts\//.test(u)), `${where}: compact leaves out a URL that is not a named concept's`);
 }
 
+// A recommendation's steps (card #299) against its statement JSON's `sequence`
+// (docs/publication.md §4): before and after, entry by entry in the JSON's
+// order, kept to the graph's members; each neighbour's label, direction, grade
+// and verb as the search file gives them, its number and pages as the JSON
+// gives them; each step's keys with their words; the chain — its nodes the
+// MAX_CHAIN nearest by steps (ties in the JSON's order) with their distances,
+// its edges those between them, the count it was cut from, its deep link — and
+// that the JSON's chain holds the direct steps; the compact form the same, less
+// the languages; no step where the JSON has none.
+function compareSequence(C, where, j, f, c, v, S, isMember) {
+  const seq = j.sequence;
+  if (!seq) return C.ok(f.sequence === undefined && c?.sequence === undefined, `${where}: a sequence the JSON lacks`);
+  const keep = (list) => (list || []).filter((x) => S.has(x.id));
+  const before = keep(seq.before);
+  const after = keep(seq.after);
+  if (!before.length && !after.length) {
+    C.ok(eq(f.sequence, { before: [], after: [] }), `${where}: full form: steps where the JSON has none`);
+    C.ok(c?.sequence === undefined, `${where}: compact form: steps where the JSON has none`);
+    return;
+  }
+  C.count('recommendations with steps compared');
+  const s = f.sequence;
+  if (!C.ok(!!s, `${where}: no sequence`)) return;
+  const summary = (x) => {
+    const e = S.get(x.id);
+    return [e?.short_label ?? e?.label ?? null, e?.direction ?? null, e?.grade ?? null, e?.verb ?? null];
+  };
+  const worded = (x) => {
+    C.ok(typeof x.transition_words === 'string' && x.transition_words === words.sequence.transition[x.transition], `${where}: transition ${x.transition}: no words, or not the server's`);
+    C.ok(typeof x.trigger_words === 'string' && x.trigger_words === words.sequence.trigger[x.trigger], `${where}: trigger ${x.trigger}: no words, or not the server's`);
+  };
+  for (const [name, want] of [['before', before], ['after', after]]) {
+    const got = s[name] || [];
+    const key = (x) => [x.id, x.url, x.no ?? null, x.pages ?? [], x.transition, x.trigger, x.discriminator ?? null];
+    C.ok(eq(got.map(key), want.map(key)), `${where}: ${name} ≠ the JSON's`);
+    C.ok(eq(got.map((x) => [x.label, x.direction, x.grade, x.verb]), want.map(summary)), `${where}: ${name}: a label, direction, grade or verb ≠ the search file's`);
+    for (const x of got) {
+      worded(x);
+      checkLink(C, v, v.groupings[0].axis, x.link, isMember);
+    }
+    C.count('steps compared', got.length);
+  }
+  if (!C.ok(!!seq.chain, `${where}: Layer 0: steps but no chain in the statement JSON`)) return;
+  const nodes = keep(seq.chain.nodes);
+  const ids = nodes.map((x) => x.id);
+  // The JSON's chain holds this recommendation, its direct neighbours and their edges.
+  C.ok([j.id, ...before.map((x) => x.id), ...after.map((x) => x.id)].every((id) => ids.includes(id)), `${where}: Layer 0: the chain lacks this recommendation or a direct neighbour`);
+  const edgeKey = (x) => `${x.from}>${x.to}|${x.transition}|${x.trigger}|${x.discriminator ?? ''}`;
+  const chainEdges = new Set((seq.chain.edges || []).map(edgeKey));
+  C.ok([...before.map((x) => ({ from: j.id, to: x.id, ...x })), ...after.map((x) => ({ ...x, from: x.id, to: j.id }))].every((x) => chainEdges.has(edgeKey(x))), `${where}: Layer 0: a direct step missing from the chain's edges`);
+  const next = new Map();
+  for (const x of seq.chain.edges || [])
+    for (const [a, b] of [[x.from, x.to], [x.to, x.from]]) (next.get(a) || next.set(a, []).get(a)).push(b);
+  const dist = new Map([[j.id, 0]]);
+  for (const q = [j.id]; q.length; ) {
+    const id = q.shift();
+    for (const b of next.get(id) || []) if (!dist.has(b)) dist.set(b, dist.get(id) + 1), q.push(b);
+  }
+  const nearest = new Set([...nodes.keys()].sort((a, b) => (dist.get(ids[a]) ?? Infinity) - (dist.get(ids[b]) ?? Infinity) || a - b).slice(0, MAX_CHAIN).map((i) => ids[i]));
+  const want = nodes.filter((x) => nearest.has(x.id));
+  const ch = s.chain;
+  if (!C.ok(!!ch, `${where}: no chain`)) return;
+  C.ok(eq(ch.nodes.map((x) => [x.id, x.no ?? null, x.pages ?? [], x.distance]), want.map((x) => [x.id, x.no ?? null, x.pages ?? [], dist.get(x.id) ?? null])), `${where}: chain nodes ≠ the JSON's nearest ${MAX_CHAIN}`);
+  C.ok(ch.nodes.every((x) => typeof x.url === 'string' && x.url.endsWith('/' + x.id + '/')), `${where}: a chain node without its URL`);
+  C.ok(eq(ch.nodes.map((x) => [x.label, x.direction, x.grade, x.verb]), want.map(summary)), `${where}: chain: a label, direction, grade or verb ≠ the search file's`);
+  const kept = new Set(want.map((x) => x.id));
+  const wantEdges = (seq.chain.edges || []).filter((x) => kept.has(x.from) && kept.has(x.to));
+  C.ok(eq(ch.edges.map((x) => [x.from, x.to, x.transition, x.trigger, x.discriminator ?? null]), wantEdges.map((x) => [x.from, x.to, x.transition, x.trigger, x.discriminator ?? null])), `${where}: chain edges ≠ the JSON's between the nodes kept`);
+  C.ok(eq(ch.terms, { transition: Object.fromEntries(wantEdges.map((x) => [x.transition, words.sequence.transition[x.transition]])), trigger: Object.fromEntries(wantEdges.map((x) => [x.trigger, words.sequence.trigger[x.trigger]])) }) && Object.values(ch.terms.transition).concat(Object.values(ch.terms.trigger)).every((w) => typeof w === 'string'), `${where}: chain terms: a key without words, or not the server's`);
+  C.ok(ch.nodes_total === nodes.length && (ch.cut_to !== undefined) === (nodes.length > MAX_CHAIN), `${where}: chain: nodes_total or cut_to`);
+  checkLink(C, v, v.groupings[0].axis, ch.link, isMember);
+  C.ok(eq((ch.link.split('#')[1] || '').split(','), want.map((x) => x.id)), `${where}: chain link ≠ its nodes`);
+  for (const x of ch.nodes) checkLink(C, v, v.groupings[0].axis, x.link, isMember);
+  C.count('chain nodes compared', ch.nodes.length);
+  C.counts['largest chain (recommendations)'] = Math.max(C.counts['largest chain (recommendations)'] || 0, nodes.length);
+  // The compact form: the same, less the languages it shares with the graph.
+  const noLang = (o) => JSON.parse(JSON.stringify(o, (k, x) => (k === 'lang' ? undefined : x)));
+  C.ok(eq(noLang(c?.sequence), noLang(s)), `${where}: compact steps ≠ full`);
+}
+
+// The chain's cap (tools.js, MAX_CHAIN), on a synthetic graph longer than it
+// (fixture.chainFiles), read through a reader over that file set: from inside
+// the chain and from its end, the nearest MAX_CHAIN recommendations by steps,
+// ties in the chain's order, the edges between them, the count it was cut
+// from; one GET for the statement JSON and none for any other recommendation.
+async function checkChainCap() {
+  const base = 'http://chain.invalid/';
+  const files = fixture.chainFiles(base);
+  const fetchImpl = async (url) => {
+    const p = url.slice(base.length);
+    return p in files ? new Response(JSON.stringify(files[p]), { status: 200, headers: { 'content-type': 'application/json' } }) : new Response('', { status: 404 });
+  };
+  const gets = [];
+  const reader = new Layer0({ base, fetch: fetchImpl, onFetch: (u) => gets.push(u) });
+  const ids = files['fx-chain/search.json'].entries.map((e) => e.id);
+  const bad = [];
+  for (const at of [Math.floor(ids.length / 2), 0])
+    for (const detail of ['compact', 'full']) {
+      gets.length = 0;
+      const r = JSON.parse((await callTool(reader, 'get_entity', { entity: ids[at], detail })).content[0].text);
+      const ch = r.graphs?.[0]?.sequence?.chain;
+      if (!ch) {
+        bad.push(`${ids[at]} (${detail}): no chain`);
+        continue;
+      }
+      const want = [...ids.keys()].sort((a, b) => Math.abs(a - at) - Math.abs(b - at) || a - b).slice(0, MAX_CHAIN).sort((a, b) => a - b);
+      if (!eq(ch.nodes.map((n) => [n.id, n.distance]), want.map((i) => [ids[i], Math.abs(i - at)]))) bad.push(`${ids[at]} (${detail}): not the nearest ${MAX_CHAIN}`);
+      if (!eq(ch.edges.map((x) => [x.from, x.to]), want.slice(1).filter((i) => want.includes(i - 1)).map((i) => [ids[i], ids[i - 1]]))) bad.push(`${ids[at]} (${detail}): edges ≠ those between the nodes kept`);
+      if (ch.nodes_total !== ids.length || ch.cut_to !== MAX_CHAIN || !ch.cut_note) bad.push(`${ids[at]} (${detail}): the cut is not stated`);
+      const others = gets.filter((u) => /\/statements\//.test(u) && u !== base + ids[at] + '.json');
+      if (others.length) bad.push(`${ids[at]} (${detail}): fetched ${others.length} other recommendation(s)`);
+    }
+  return { bad, length: ids.length };
+}
+
 // Depth: how many answers lie between the root and a node, on its shortest path.
 function depths(T) {
   const d = new Map([[T.root.id, 0]]);
@@ -1039,6 +1174,9 @@ let failed = 0;
 const bad = await checkImports();
 console.log(`imports of src/: ${bad.length ? 'FAILED: ' + bad.join('; ') : 'no Node module; the transport only in the Worker entry point'}`);
 if (bad.length) failed++;
+const cap = await checkChainCap();
+console.log(`chain cap, on a synthetic chain of ${cap.length}: ${cap.bad.length ? 'FAILED: ' + cap.bad.join('; ') : `the nearest ${MAX_CHAIN}, the cut stated, no other recommendation fetched`}`);
+if (cap.bad.length) failed++;
 for (const t of targets) {
   resultTexts.length = 0;
   served.length = 0;
