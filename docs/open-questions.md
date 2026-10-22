@@ -316,4 +316,14 @@ and which card is next, is not a question and lives on the board (`uv run tools/
 - an unnumbered entry with no `section`, placed by its page, or left out, as now.
 
 **Leaning:** the second for the titles, since it keeps the outline as it is checked today. None for the unnumbered entries. (2026-10-22)
+
+## sentence-order-in-a-box  (publication.md §3 zones 2, 3 and 8; graph-representation.md §3.1; card #384)
+**Question:** The card shows a box's sentences in printed order: recommendation number, then their place on the page. No claim records that place. The build reads it from where the pool lists the claims, which is the order an extraction writes a box's sentences in, since files are read in path order and each file in its own order. Nothing states that order as a rule of extraction, and nothing checks it. Against the pages, it holds today for all six boxes with two supporting sentences (6.14 and 6.16 of the third source; 2.4, 3.1, 3.10 and 8.1 of the second). The ids hash the quote, so their order held in only four of the six.
+
+**Options:**
+- the file order as the record, written into the extraction's rules (a box's claims in printed order);
+- the same, checked by `--verify-quotes` against where each claim's quote lies on its page;
+- a field on the claim recording its place (a line, or an ordinal within its box), checked the same way.
+
+**Leaning:** none. (2026-10-22)
 **Settled by:** the maintainer.
