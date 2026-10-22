@@ -1132,20 +1132,39 @@ is why the metadata sits under a key of its own. This section is their contract.
 - `meta.commit`, `meta.schema_version` — the build's commit and the schema's
   version. Nothing in the JSON carries a build date, so one commit and one set of
   flags give the same bytes.
-- `sequence` (a statement) — its direct neighbours along `follows`
+- `sequence` (a statement) — where it stands along `follows`
   (`graph-representation.md` §5), so that a program reads the chain without the
-  page: `before`, the statements it follows (the edges that run from it), and
-  `after`, those that follow it (the edges that run to it). Each is a list in the
-  guideline's order — by the neighbour's first recommendation number, then its
-  id —, one entry per edge: `id`; `url` and `json`, the neighbour's page and JSON
-  as absolute URLs, as `meta.url` and `meta.json` give them; `transition` and
-  `trigger`, as the edge stores them (the schema's English keys, never the page's
-  words); and `discriminator`, only where the edge has one. The key is on every
-  statement, both lists empty for one on no such edge. It carries nothing the edge
-  does not hold: no label, no rationale (both are in `edges` and in the card's
-  `mehr.follows`, §3 zone 5), no step further along the chain, no threshold. Two
-  entries in one list say neither that both hold together nor that either one
-  does: the pool does not say which.
+  page, from this one file:
+  - `before`, the statements it follows (the edges that run from it), and `after`,
+    those that follow it (the edges that run to it) — its direct neighbours. Each is
+    a list in the guideline's order — by the neighbour's first recommendation
+    number, then its id —, one entry per edge: `id`; `url` and `json`, the
+    neighbour's page and JSON as absolute URLs, as `meta.url` and `meta.json` give
+    them; `no`, its first recommendation number as printed, the number its box
+    carries in the tree (null where no claim carries one); `pages`, the distinct
+    pages of its supporting claims, as printed and in its card's citation order
+    (zone 8); `transition` and `trigger`, as the edge stores them (the schema's
+    English keys, never the page's words); and `discriminator`, only where the edge
+    has one.
+  - `chain`, the whole sequence it belongs to: every statement connected to it by
+    `follows` edges, in either direction and through any number of them, and every
+    `follows` edge among them — branches, joins and a cycle through a re-evaluation
+    included, never cut by the build (a reader caps what it shows). `nodes`, each
+    `{id, no, pages}` as above, by first recommendation number, then id, the
+    statement itself among them; `edges`, each `{from, to, transition, trigger}`,
+    `from` the later statement and `to` the earlier as the edge runs, with
+    `discriminator` where the edge has one, ordered by the nodes' order of their
+    `from`, then their `to`. Ids and keys only: a label, a direction or a grade is
+    the node's own JSON's, or the search file's.
+
+  The key is on every statement; for one on no such edge both lists and the
+  chain's `nodes` and `edges` are empty — it stands in no chain. It carries nothing
+  the edges do not hold: no label, no rationale (both are in `edges` and in the
+  card's `mehr.follows`, §3 zone 5), no threshold, nothing inherited. Several
+  entries of one list, or several edges into one node of the chain, say neither
+  that they hold together nor that any one of them suffices: the pool does not say
+  which. The chain is the build's one walk of it (`Pool.chain_of` in
+  `tools/build.py`).
 - `statements` (a concept) — keyed by each view it belongs to: `held_by`, the
   view's statements that hold the concept, each `{id, slot}`; and, in a view with
   a scope tree, `own` and `general` as that view JSON's `scope.concepts` gives

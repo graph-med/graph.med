@@ -300,6 +300,17 @@ def excerpt(quote: str | None, sentence: str | None) -> dict | None:
     return {"text": text, "lead": lead, "tail": tail}
 
 
+def cited_order(claims: list[dict]) -> list[dict]:
+    """A statement's supporting claims in the one order of zones 2, 3 and 8 of its card (docs/publication.md §3) —
+    the badges' order is zone 8's: grouped by source, sources by their first supporting claim, the claims of a source
+    as Pool.claims_for() sorts them (the guideline's order)."""
+    first: dict[str, int] = {}
+    for c in claims:
+        if c["edge"] == "supports":
+            first.setdefault(c["source"], len(first))
+    return sorted((c for c in claims if c["edge"] == "supports"), key=lambda c: first[c["source"]])
+
+
 def contests_of(claims: list[dict]) -> list[dict]:
     """Zone 7 of the card: the claims that contest the statement, each with its own badge by zone 2's rules,
     its wording and its own citation. Its existence is what the ⚠ marker in the judgement announces."""
@@ -795,6 +806,44 @@ class Pool:
         rows = [("before", to, props) for kind, to, props in self.out.get(statement_id, []) if kind == SEQUENCE and to in self.entities] \
              + [("after", frm, props) for kind, frm, props in self.inc.get(statement_id, []) if kind == SEQUENCE and frm in self.entities]
         return sorted(rows, key=lambda r: (r[0] != "before", self.first_no(self.entities[r[1]]), r[1], r[2].get("discriminator") or ""))
+
+    def place_of(self, statement_id: str) -> dict:
+        """Where a statement stands in its guideline, as its box and its card cite it: `no`, the recommendation number of
+        its first claim (no_key; the number its box carries in the tree, None where no claim carries one), and `pages`,
+        the distinct pages of its supporting claims in its card's citation order (cited_order) — as printed, never a range."""
+        claims = self.claims_for(statement_id)
+        no = min((c for c in claims if c.get("recommendation_no")), key=self.no_key, default={}).get("recommendation_no")
+        return {"no": no, "pages": list(dict.fromkeys(c["page"] for c in cited_order(claims) if c.get("page")))}
+
+    def chain_of(self, statement_id: str) -> dict:
+        """A statement's whole chain along `follows` (spec §5): every statement it is connected to by such edges, in
+        either direction and through any number of them, and every `follows` edge among them — the connected
+        component, whatever its shape (a branch, a join, a cycle through a re-evaluation), never cut. `nodes`, each
+        {id, no, pages} (place_of), by first_no and then id; `edges`, each {from: the later statement, to: the earlier,
+        transition, trigger, discriminator where the edge has one}, by the order of their later, then their earlier
+        end, then discriminator. Both empty for a statement on no `follows` edge: it stands in no chain. Ids and the
+        edges' keys only — no label, direction, grade, word or URL — and nothing the edges do not hold: several edges
+        into one statement say neither that their earlier ends hold together nor that any one of them does. The one
+        walk of a chain, for the statement JSON's `sequence.chain` and for any view of a path."""
+        if not self.steps_of(statement_id):
+            return {"nodes": [], "edges": []}
+        seen, queue, edges = {statement_id}, [statement_id], []
+        while queue:
+            sid = queue.pop(0)
+            for kind, to, props in self.out.get(sid, []):
+                if kind == SEQUENCE and to in self.entities:
+                    edges.append((sid, to, props))
+                    if to not in seen:
+                        seen.add(to); queue.append(to)
+            for kind, frm, _ in self.inc.get(sid, []):
+                if kind == SEQUENCE and frm in self.entities and frm not in seen:
+                    seen.add(frm); queue.append(frm)   # its edge is listed from its own side, once
+        order = sorted(seen, key=lambda s: (self.first_no(self.entities[s]), s))
+        rank = {s: i for i, s in enumerate(order)}
+        edges.sort(key=lambda e: (rank[e[0]], rank[e[1]], e[2].get("discriminator") or ""))
+        return {"nodes": [{"id": s, **self.place_of(s)} for s in order],
+                "edges": [{"from": frm, "to": to, "transition": p.get("transition"), "trigger": p.get("trigger"),
+                           **({"discriminator": p["discriminator"]} if p.get("discriminator") else {})} for frm, to, p in edges]}
 
     def slots_of(self, st: dict) -> dict:
         """What a statement shows in its slots: its own, then the value each asserted dimension axis gives it,
@@ -1401,7 +1450,7 @@ def decision_tree_of(view: dict, members: dict[str, dict], pool: Pool, question:
                   grade=next(iter(grades))[1] if len(grades) == 1 else ("mixed" if grades else None),
                   against={c["direction"] for c in claims if c["edge"] == "supports" and c.get("direction")} == {"against"},
                   contested=any(c["edge"] == "contests" for c in claims),
-                  no=min((c for c in claims if c.get("recommendation_no")), key=pool.no_key, default={}).get("recommendation_no"),
+                  no=pool.place_of(st["id"])["no"],
                   sections=sorted({c["section"] for c in claims if c.get("section")}, key=natural),
                   # what the search matches: the statement, its short form, its slot concepts (label and short
                   # label), its claims' sentences and quotes (docs/publication.md §3)
@@ -1710,13 +1759,7 @@ def main(argv=None) -> int:
         claims, the slots, the edges and the source; the build adds only the words of CARD_WORDS, at render time."""
         slots = pool.slots_of(st)   # its own, and the value each dimension axis gives it (spec §4.1)
         claims = pool.claims_for(st["id"])
-        # The supporting claims in one order for zones 2, 3 and 8 — the badges' order is zone 8's order (§3):
-        # grouped by source, sources by their first supporting claim, claims as claims_for() sorts them.
-        first = {}
-        for c in claims:
-            if c["edge"] == "supports":
-                first.setdefault(c["source"], len(first))
-        sup = sorted((c for c in claims if c["edge"] == "supports"), key=lambda c: first[c["source"]])
+        sup = cited_order(claims)   # the supporting claims in one order for zones 2, 3 and 8 (§3)
         claims = sup + [c for c in claims if c["edge"] != "supports"]
         d = direction_of(claims)
         concept = lambda cid: {"id": cid, "label": pool.entities[cid]["label"], "lang": pool.entities[cid]["lang"]} if cid in pool.entities \
@@ -1861,16 +1904,18 @@ def main(argv=None) -> int:
         return {"statements": statements, "appears_in": {vid: appear[vid][cid] for vid in sorted(appear) if cid in appear[vid]}}
 
     def sequence_of(sid: str) -> dict:
-        """A statement's direct neighbours along `follows`, for a program that reads the chain without the page
+        """A statement's place in its sequences, for a program that reads the chain without the page
         (docs/publication.md §4): `before`, the statements it follows, and `after`, those that follow it, each with its
-        id, the absolute URLs of its page and JSON, and the edge's `transition` and `trigger` as stored — and its
-        `discriminator` where the edge has one. In Pool.steps_of's order; both lists empty for a statement on no such
-        edge. Nothing further along the chain, and nothing the edge does not hold."""
+        id, the absolute URLs of its page and JSON, where it stands (`no`, `pages`: Pool.place_of) and the edge's
+        `transition` and `trigger` as stored — and its `discriminator` where the edge has one —, in Pool.steps_of's
+        order; and `chain`, the whole connected component along `follows` (Pool.chain_of), ids and keys only. All
+        empty for a statement on no such edge. Nothing the edges do not hold."""
         rows: dict[str, list] = {"before": [], "after": []}
         for side, eid, props in pool.steps_of(sid):
-            rows[side].append({"id": eid, "url": at(eid + "/"), "json": at(eid + ".json"), "transition": props.get("transition"),
-                               "trigger": props.get("trigger"), **({"discriminator": props["discriminator"]} if props.get("discriminator") else {})})
-        return rows
+            rows[side].append({"id": eid, "url": at(eid + "/"), "json": at(eid + ".json"), **pool.place_of(eid),
+                               "transition": props.get("transition"), "trigger": props.get("trigger"),
+                               **({"discriminator": props["discriminator"]} if props.get("discriminator") else {})})
+        return {**rows, "chain": pool.chain_of(sid)}
 
     entity_tpl = env.get_template("entity.html")
     detail_tpl = env.get_template("details.html")
