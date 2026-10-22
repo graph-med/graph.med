@@ -62,6 +62,9 @@ STATEMENT_EDGES = ("specializes", "complements", "conflicts")
 # a statement's direct neighbours along it in zone 5's rows before and after, and its JSON carries them as `sequence`
 SEQUENCE = "follows"
 BODY_TEXT = ("limits", "refines", "supplements")   # zone 6 of the statement card, in order of their effect on the decision
+# the kinds of claim that recommend nothing and so carry no grade (spec §3.1): a badge of one names its kind where a
+# grade would stand ("Feststellung · Expertenkonsens"), so that it never reads as a grade left empty (badge_of, #384)
+UNGRADED_KINDS = ("fact", "criterion", "definition")
 # the four glyphs, on the box and in the judgement: ⚖ (U+2696) carries the text variation selector U+FE0E, or several
 # platforms draw it from a colour emoji font; ✓ ✗ ∅ need none
 DIRECTION_GLYPH = {"für": "✓", "gegen": "✗", "abwägen": "⚖\ufe0e", "Lücke": "∅"}
@@ -261,10 +264,14 @@ def badge_of(c: dict) -> dict:
     """A claim's badge (docs/publication.md §3, zone 2): its grade, its consensus class and the share it prints,
     as the claim states them, the basis it prints beside its grade (`basis`, only where it carries one), and the
     source whose grading scheme they are read in — a grade of one scheme is never the same badge as the same token
-    of another (spec §3.1). The words are the scheme's, at render time."""
+    of another (spec §3.1) —, and for a claim that recommends nothing (UNGRADED_KINDS: a fact, a criterion, a
+    definition) its `kind`, which the badge names where a grade would stand (#384); a recommendation or a gap notice
+    whose box prints no grade carries none. The words are the scheme's and the card's, at render time."""
     b = {"source": c["source"], "grade": c.get("grade"), "consensus": c.get("consensus"), "share": c.get("consensus_share")}
     if c.get("basis"):
         b["basis"] = c["basis"]
+    if c.get("kind") in UNGRADED_KINDS:
+        b["kind"] = c["kind"]
     return b
 
 
@@ -272,8 +279,8 @@ def badges_of(claims: list[dict]) -> list[dict]:
     """Line 2 of the judgement (docs/publication.md §3, zone 2): one badge per supporting claim, in the order
     of the claims — the order zone 8 lists them in, which is the only thing tying a badge to its citation —
     each its grade, basis and consensus as the claim states them (badge_of); identical badges collapse into one
-    with a count, a badge with a basis never into one without. Shown, never composed into one value. A claim
-    stating none of them has no badge."""
+    with a count, a badge with a basis never into one without, a fact's never into a criterion's (its `kind`).
+    Shown, never composed into one value. A claim stating none of them has no badge."""
     rows: list[dict] = []
     for c in claims:
         if c["edge"] != "supports" or not (c.get("grade") or c.get("basis") or c.get("consensus") or c.get("consensus_share")):
@@ -712,6 +719,10 @@ class Pool:
                 else:
                     for ent in (doc if isinstance(doc, list) else [doc]):
                         self.entities[ent["id"]] = ent
+        # where each entity stands in the pool as read — files in path order, each file's entities in its order: for
+        # claims, the order an extraction writes a box's sentences in, which is the order the box prints them (#384).
+        # No claim records its line on the page, so this is the only place the build can read it from (printed_key)
+        self.place = {eid: i for i, eid in enumerate(self.entities)}
         self.out: dict[str, list] = defaultdict(list)
         self.inc: dict[str, list] = defaultdict(list)
         for frm, kind, to, props in self.edges:
@@ -831,6 +842,14 @@ class Pool:
         before = [n for p, n in self.numbered.get(c["source"], []) if page is not None and p < page]
         return (max(before, default=natural("")), 1, natural(str(no)))
 
+    def printed_key(self, c: dict) -> tuple:
+        """Where a claim stands in its source as printed, for sorting (docs/publication.md §3): by its
+        recommendation number (no_key), then by its place on the page — its page, then where the pool lists it
+        (`place`) —, so that the sentences of one box stand in the order the box prints them (#384), never in the
+        order of their ids, which hash the quote."""
+        page = int(c["page"]) if str(c.get("page") or "").isdigit() else 0
+        return (self.no_key(c), page, self.place.get(c["id"], len(self.place)), c["id"])
+
     def first_no(self, st: dict) -> tuple:
         """A statement's place in its guideline: the first recommendation number among its claims (no_key), for sorting."""
         return min((self.no_key(c) for c in self.claims_for(st["id"]) if c.get("recommendation_no")), default=(natural(""), 0, []))
@@ -898,12 +917,13 @@ class Pool:
         return claim["source"]["at"].split("#", 1)[0]
 
     def claims_for(self, statement_id: str) -> list[dict]:
-        """Claims linked to a statement by supports/contests, with the edge kind."""
+        """Claims linked to a statement by supports/contests, with the edge kind: the supporting ones first, each
+        group in printed order (printed_key)."""
         rows = []
         for kind, frm, _ in self.inc.get(statement_id, []):
             if kind in CLAIM_EDGES and frm in self.entities:
                 rows.append({"edge": kind, **self.claim_view(self.entities[frm])})
-        rows.sort(key=lambda r: (r["edge"] != "supports", self.no_key(r), r["id"]))
+        rows.sort(key=lambda r: (r["edge"] != "supports", self.printed_key(r)))
         return rows
 
     def passage_of(self, claim: dict) -> dict:
