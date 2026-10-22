@@ -1,6 +1,7 @@
 # Edges between statements or concepts of two chapters of sources/sepsis-lf-4.0 (card #227), all modelling: what a
 # chapter part could not see, asserted once after all of them (card #210, Decision 6). Two kinds:
-#   - cross-statement semantics (spec §5), statement → statement, each rationale naming both boxes;
+#   - cross-statement semantics (spec §5), statement → statement, each rationale naming both boxes — card #296 added
+#     the sequence edges `follows` of box 8.1;
 #   - subsumption (spec §5 `broader`), the families across chapters of concepts that fill no population or condition
 #     slot of a statement in views/sepsis-lf-4.0 (those that do are card #228's, in broader-edges.yaml).
 # No `broader` edge runs from a concept the first source also uses (open question scope-edge-pinning); one into
@@ -22,6 +23,16 @@
    rationale: "Empfehlungen 3.8 und 10.1: 3.8 passt die antiinfektive Therapie des einzelnen Patienten an, sobald ein plausibler Erregernachweis geführt ist, 10.1 empfiehlt dem Krankenhaus ein AMS-Programm „zur Sicherung einer rationalen Antiinfektiva-Anwendung“; S. 52, bei der Fokussierung der Therapie: „Grundsätzlich wird die Nutzung von Antimicrobial Stewardship (AMS)-Programmen zur Optimierung der antiinfektiven Therapie befürwortet.“ Keine ersetzt die andere."}]
 - [statements/ams-programm-im-krankenhaus, complements, statements/antibiotikatherapie-7-bis-10-tage, {source: modelling, as_of: "2026-09-25", lang: de,
    rationale: "Empfehlungen 3.9 und 10.1: 3.9 begrenzt die Antibiotikatherapie in der Regel auf 7 bis 10 Tage, 10.1 empfiehlt dem Krankenhaus ein AMS-Programm; S. 53: „Eine Begrenzung der Therapie auf die kürzest mögliche Dauer ist ein wichtiger Teil des Antimikrobiellen Stewardship“. Keine ersetzt die andere."}]
+
+# sequences (spec §5 `follows`; #294, #295; card #296): 8.1 after 4.5 and 4.1, by the four tests of spec §5 — the
+# noradrenaline of Bemerkung 2 measures the response to 4.5's measure (test 4), and „trotz ausreichender Volumengabe“
+# names a measure (test 2), the fluid therapy of 4.1; the condition [anhaltender-vasopressorbedarf,
+# ausreichende-volumengabe] stays as it is (§5.1 N3). No edge 8.1 → 4.6: Bemerkung 2 measures the need by
+# noradrenaline alone. The volume of 2.5 and 2.8 (chapter 2) lies outside card #296's pages, named in its pull request.
+- [statements/hydrokortison-bei-septischem-schock-mit-anhaltendem-vasopressorbedarf, follows, statements/noradrenalin-vasopressor-erster-wahl, {source: modelling, as_of: "2026-10-22", lang: de, transition: adds, trigger: target_missed,
+   rationale: "Empfehlungen 4.5 und 8.1: 8.1 (S. 105) schlägt Hydrokortison bei septischem Schock „mit anhaltendem Vasopressorbedarf“ vor, und ihre Bemerkung misst ihn am Vasopressor, den 4.5 (S. 62) als ersten empfiehlt: „Als „anhaltender Vasopressorbedarf“ wird die Gabe von Noradrenalin ≥ 0,25 µg∙kg-1min-1 über mindestens vier Stunden bezeichnet.“ Der Wert misst das Ansprechen auf das Noradrenalin und wählt keine Patienten vor ihm aus: unter Noradrenalin endet der Bedarf nicht. Hydrokortison tritt hinzu, nichts setzt Noradrenalin ab. Der Hintergrund berichtet dieselbe Folge aus der SSC-Leitlinie 2021, Hydrokortison, „falls sich die Hämodynamik nicht innerhalb von 4 Stunden durch Noradrenalin … stabilisieren lässt“ (S. 105, Z. 32–34). Die Schwelle trägt die Definition, die concepts/anhaltender-vasopressorbedarf über defined_by erreicht; die Kante trägt keine."}]
+- [statements/hydrokortison-bei-septischem-schock-mit-anhaltendem-vasopressorbedarf, follows, statements/balancierte-kristalloide-erste-wahl-sepsis, {source: modelling, as_of: "2026-10-22", lang: de, transition: adds, trigger: target_missed,
+   rationale: "Empfehlungen 4.1 und 8.1: 8.1 (S. 105) schlägt Hydrokortison bei septischem Schock mit anhaltendem Vasopressorbedarf „trotz ausreichender Volumengabe“ vor — trotz der Flüssigkeitstherapie, für die 4.1 im Abschnitt „4.1 Flüssigkeitstherapie“ (S. 57) balancierte Kristalloide als erste Wahl empfiehlt. Die Volumengabe hat den Vasopressorbedarf nicht beendet; Hydrokortison tritt hinzu. Der Hintergrund berichtet dieselbe Folge aus der S3-Leitlinie 2018, Hydrokortison „für den Fall …, dass eine adäquate Flüssigkeits- und hochdosierte Vasopressor-Therapie nicht in der Lage sind, eine hämodynamische Stabilität wiederherzustellen“ (S. 105, Z. 36–38). Die Volumengabe geben auch die Empfehlungen 2.5 und 2.8 (Kapitel 2); welchen Kasten sie meint, sagt die Seite nicht."}]
 
 # subsumption (spec §5): families across chapters of action and outcome concepts, "X is a Y" in any guideline, where
 # the value changes which thing is present, not how it is done (§4.1, question 2); a member shares its family's facet
