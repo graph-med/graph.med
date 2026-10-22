@@ -625,18 +625,24 @@ export async function getEntity(L, { entity, graph, offset = 0, detail }) {
   const graphView = graph ? await L.view(graph) : null;
   const e = await L.entity(id);
   const views = viewsFor(index, e.meta, graphView);
+  // A claim's evidence words are read beside the search files, from the cards
+  // of the recommendations it supports (evidenceWords).
+  const claimWords = e.type === 'claim' ? evidenceWords(L, [e], supportedCards(L, e)) : null;
   const searches = await Promise.all(views.map((v) => L.get(v.search)));
   const meta = about({ meta: e.meta, repositoryLicense: index.repository_license });
 
   if (e.type === 'statement') {
-    // The claims behind it, read for the quote gate only (statementEntity).
+    // The claims behind it, read for the quote gate (statementEntity), and
+    // those it lists for their evidence rows.
     const claimIds = (e.edges?.in || []).filter((x) => x.kind === 'supports' || x.kind === 'contests').map((x) => x.from);
-    const claims = await Promise.all(claimIds.map((c) => L.entity(c).catch(() => null)));
-    return statementEntity(L, e, views, searches, meta, claims.filter(Boolean), form);
+    const claims = (await Promise.all(claimIds.map((c) => L.entity(c).catch(() => null)))).filter(Boolean);
+    const listed = new Set((e.card?.beleg?.sources || []).flatMap((s) => (s.claims || []).map((c) => c.id)));
+    const ev = await evidenceWords(L, claims.filter((c) => listed.has(c.id)), [e.card]);
+    return statementEntity(L, e, views, searches, meta, claims, ev, form);
   }
   if (e.type === 'concept')
     return fitted(conceptEntity(L, e, views, searches, meta, offset, PAGE, form), (x, size) => cutConcept(x, offset, size), limitOf(form));
-  if (e.type === 'claim') return claimEntity(L, e, views, searches, meta, form);
+  if (e.type === 'claim') return claimEntity(L, e, views, searches, meta, await claimWords, form);
   throw new InputError(`${id} is a ${e.type}; this tool reads a recommendation, a concept or a claim`);
 }
 
@@ -652,7 +658,86 @@ function quotedStrings(o, out = []) {
   return out;
 }
 
-function statementEntity(L, e, views, searches, meta, claimDocs, form = 'full') {
+// --- evidence rows -------------------------------------------------------------
+
+// The source a claim is anchored in: the entity its anchor names.
+const sourceOf = (d) => (typeof d?.source?.at === 'string' ? d.source.at.split('#')[0] : '') || null;
+const evidenceList = (d) => (Array.isArray(d?.evidence) ? d.evidence : []);
+
+// One entity read for its words, or null: never rejects.
+function readOrNull(L, id) {
+  try {
+    return L.entity(L.entityId(id)).catch(() => null);
+  } catch {
+    return Promise.resolve(null);
+  }
+}
+
+// The cards of the recommendations a claim supports, read only where the
+// claim has a row naming an outcome: each names the outcomes of the rows of
+// the claims behind it (zone 4, docs/publication.md §3).
+async function supportedCards(L, d) {
+  if (!evidenceList(d).some((x) => x?.outcome)) return [];
+  const ids = (d.edges?.out || []).filter((x) => x.kind === 'supports').map((x) => x.to);
+  return (await Promise.all(ids.map((id) => readOrNull(L, id)))).map((s) => s?.card);
+}
+
+// The words an evidence row is named by, each read from the file that gives
+// it: an outcome's label from the card of a recommendation the claim
+// supports, as a slot's label is read, else from the concept's own JSON; a
+// rating system's name as the claim's source declares it (`rating_systems`),
+// never made from its slug. `cards` (a list, or the promise of one) are read
+// beside the sources; the concepts only for outcomes no card names. Read only
+// for claims with rows. Never rejects: a file that cannot be read leaves its
+// words null.
+async function evidenceWords(L, docs, cards = []) {
+  const entries = docs.flatMap((d) => evidenceList(d).map((x) => [d, x]));
+  const sources = [...new Set(entries.filter(([, x]) => x?.system).map(([d]) => sourceOf(d)).filter(Boolean))];
+  const declared = Promise.all(sources.map((s) => readOrNull(L, s)));
+  const labels = new Map();
+  for (const card of await cards)
+    for (const g of card?.evidenz?.groups || [])
+      for (const r of [...(g.rows || []), ...(g.box || [])]) if (r?.outcome?.id && r.outcome.label) labels.set(r.outcome.id, r.outcome.label);
+  const outcomes = [...new Set(entries.map(([, x]) => x?.outcome).filter((o) => typeof o === 'string' && !labels.has(o)))];
+  const concepts = await Promise.all(outcomes.map((o) => readOrNull(L, o)));
+  outcomes.forEach((o, i) => labels.set(o, concepts[i]?.label ?? null));
+  const names = new Map();
+  (await declared).forEach((src, i) => {
+    for (const r of src?.rating_systems || []) if (r?.system) names.set(`${sources[i]}|${r.system}`, r.name ?? null);
+  });
+  return { labels, names };
+}
+
+// A claim's evidence, row by row as its entity JSON gives it (memory
+// claim-evidence-per-outcome): one entry per printed row, in the claim's
+// order — its outcome (the concept's id and label, read as a slot's: compact,
+// the short label where the graph's search file has one; full, also its URL),
+// or its key, as printed; its value (null where the row prints none) and its
+// note where it has one, in the source's words; its system by slug and by the
+// name its source declares (null where the entry names none). Rating words
+// only, no quote. Nothing is composed, mapped between systems or ranked.
+function evidenceOf(L, d, searches, words, form) {
+  const src = sourceOf(d);
+  return evidenceList(d).map((x) => {
+    const row = {};
+    if (x?.outcome) {
+      const found = searches.map((s) => searchIndex(s).get(x.outcome)).find(Boolean);
+      const label = words.labels.get(x.outcome) ?? null;
+      row.outcome =
+        form === 'compact'
+          ? { id: x.outcome, label: found?.short_label ?? label ?? found?.label ?? null }
+          : { id: x.outcome, label: label ?? found?.label ?? null, url: L.entityUrl(x.outcome) };
+    }
+    if (x?.key) row.key = x.key;
+    row.value = x?.value ?? null;
+    if (x?.note) row.note = x.note;
+    row.system = x?.system ?? null;
+    row.system_name = x?.system ? (words.names.get(`${src}|${x.system}`) ?? null) : null;
+    return row;
+  });
+}
+
+function statementEntity(L, e, views, searches, meta, claimDocs, ev, form = 'full') {
   const card = e.card || {};
   // The wording is withheld where it carries source text word for word: a
   // sentence or a quote that provenance returns for it — of every claim it
@@ -699,6 +784,12 @@ function statementEntity(L, e, views, searches, meta, claimDocs, form = 'full') 
   const edgesOut = e.edges?.out || [];
   const kindOf = new Map(edgesIn.filter((x) => x.kind === 'supports' || x.kind === 'contests').map((x) => [x.from, x.kind]));
   for (const c of claims) c.edge = kindOf.get(c.id) ?? null;
+  // Each claim's evidence rows, its own (#330): none is composed for the
+  // recommendation, and nothing is added at its top level (docs/publication.md
+  // §3, "Grades are shown, never composed"). Null where the claim could not
+  // be read.
+  const docOf = new Map(claimDocs.map((d) => [d.id, d]));
+  for (const c of claims) c.evidence = docOf.has(c.id) ? evidenceOf(L, docOf.get(c.id), searches, ev, form) : null;
 
   const perView = views.map((v, i) => {
     const S = searchIndex(searches[i]);
@@ -940,7 +1031,7 @@ function sourceRefs(src) {
   };
 }
 
-function claimEntity(L, e, views, searches, meta, form = 'full') {
+function claimEntity(L, e, views, searches, meta, ev, form = 'full') {
   const supports = (e.edges?.out || []).filter((x) => x.kind === 'supports' || x.kind === 'contests');
   // where the same source says otherwise (spec §5 `disagrees_with`): symmetric,
   // so both directions, each other claim once, by URL — its text is provenance's
@@ -963,6 +1054,7 @@ function claimEntity(L, e, views, searches, meta, form = 'full') {
       verb: e.verb ?? null,
       consensus: e.consensus ?? null,
       direction: e.direction ?? null,
+      evidence: evidenceOf(L, e, searches, ev, form),
       text: null,
       text_note: words.about.verbatim,
       ...(others.length ? { disagrees_with: others.map((id) => ({ claim: id, url: L.entityUrl(id) })) } : {}),
