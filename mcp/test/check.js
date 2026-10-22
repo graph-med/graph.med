@@ -14,13 +14,23 @@
 //                                                 --origin http://localhost:<port> first
 //   node test/check.js --base https://graph.med/preview/pr<N>/   a published site
 //   node test/check.js --worker …                 the same, through `wrangler dev`
+//   node test/check.js --light …                  a short walk of each site given,
+//                                                 the fixture still walked in full
 //
 // Several targets may be given; it exits non-zero on any failure. Besides the
 // walk it checks the transport (405 for GET and DELETE on /mcp, 404 elsewhere,
-// ping, the initialize handshake of the 1.x SDK's client); with --worker it
-// also counts each request's subrequests from the runtime's trace, against
-// Workers' 50, and its CPU time from a profile of the isolate, against the
-// 10 ms of Workers Free.
+// ping, the initialize handshake of the 1.x SDK's client) and the reader's
+// retries (a 503 or a network error once, the call still answered); with
+// --worker it also counts each request's subrequests from the runtime's
+// trace, against Workers' 50, and its CPU time from a profile of the isolate,
+// against the 10 ms of Workers Free.
+//
+// The short walk (--light, before each deploy: .github/workflows/mcp.yml) is
+// the same checks on less of each site: per graph its groupings, the first
+// LIGHT_NODES nodes of each grouping's walk from the root, LIGHT_ENTITIES
+// recommendations and as many concepts spread over the search file, with the
+// claims behind those recommendations, search and its filters. It reads a
+// small part of the site's files; the full walk reads every entity once.
 
 import http from 'node:http';
 import fs from 'node:fs/promises';
@@ -31,23 +41,27 @@ import { Client as Client1 } from '@modelcontextprotocol/sdk/client/index.js';
 import { StreamableHTTPClientTransport as Transport1 } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 import { createServerFactory, callTool } from '../src/server.js';
 import { createHandler } from '../src/worker.js';
-import { Layer0 } from '../src/layer0.js';
+import { Layer0, RETRY_DELAYS_MS, RETRY_WITHIN, SUBREQUESTS } from '../src/layer0.js';
 import * as words from '../src/descriptions.js';
 import { QUOTE_CAP, MAX_DEPTH, MAX_CHARS, COMPACT_MAX_CHARS, MAX_CHAIN } from '../src/tools.js';
 import * as fixture from './fixture.js';
 
 const LIMIT_CHARS = 50000;
 const CPU_MS = 10; // Workers Free, per request
-const SUBREQUESTS = 50; // Workers, per request
+// The short walk (--light): nodes per grouping, and entities of each kind per graph.
+const LIGHT_NODES = 4;
+const LIGHT_ENTITIES = 4;
 const TOOLS = ['list_graphs', 'list_groupings', 'get_tree_node', 'get_entity', 'search', 'get_provenance'];
 
 // --- targets -------------------------------------------------------------------
 
 let WORKER = false;
+let LIGHT = false;
 function parseArgs(argv) {
   const targets = [];
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--worker') WORKER = true;
+    else if (argv[i] === '--light') LIGHT = true;
     else if (argv[i] === '--fixture') targets.push({ kind: 'fixture' });
     else if (argv[i] === '--site') targets.push({ kind: 'site', dir: argv[++i] });
     else if (argv[i] === '--base') targets.push({ kind: 'base', base: argv[++i] });
@@ -64,6 +78,9 @@ function listen(server, port = 0) {
 // Every URL the static server is asked for, for the request log of a Worker
 // run (in-process, the reader's onFetch records the same).
 const served = [];
+// Paths under the base the static server answers once with a 503 (the
+// retry through the transport, checkRetryServed).
+const failOnce = new Set();
 
 async function serveStatic(target) {
   if (target.kind === 'fixture') {
@@ -74,6 +91,7 @@ async function serveStatic(target) {
     srv.on('request', (req, res) => {
       served.push(base + req.url.replace(/^\//, ''));
       const p = decodeURIComponent(req.url.split('?')[0]).replace(/^\//, '');
+      if (failOnce.delete(p)) return res.writeHead(503).end();
       if (!(p in files)) return res.writeHead(404).end();
       res.writeHead(200, { 'content-type': 'application/json' }).end(JSON.stringify(files[p]));
     });
@@ -87,13 +105,13 @@ async function serveStatic(target) {
   const srv = http.createServer(async (req, res) => {
     served.push(u.origin + req.url);
     const rel = decodeURIComponent(req.url.split('?')[0]).slice(u.pathname.length);
+    if (failOnce.delete(rel)) return res.writeHead(503).end();
     const p = path.resolve(root, rel);
     if (!p.startsWith(root)) return res.writeHead(403).end();
-    try {
-      res.writeHead(200, { 'content-type': 'application/json' }).end(await fs.readFile(p));
-    } catch {
-      res.writeHead(404).end();
-    }
+    // Read before answering: a missing file is a 404, its head not yet sent.
+    const body = await fs.readFile(p).catch(() => null);
+    if (body === null) return res.writeHead(404).end();
+    res.writeHead(200, { 'content-type': 'application/json' }).end(body);
   });
   await listen(srv, Number(u.port));
   return { base, close: () => srv.close() };
@@ -319,16 +337,32 @@ async function workerCpu(base, calls) {
 
 // --- helpers -------------------------------------------------------------------
 
+// The requests this run makes to the site: the check's own reads (raw), and
+// the server's — every in-process reader's, and through the Worker the
+// fetches of the runtime's trace — with the retries among them.
+const site = { check: 0, server: 0, retries: [] };
+const onRetry = (url, failure) => site.retries.push(`${url}: ${failure}`);
+
+// The check's own reads of the site's files, with the reader's tolerance: a
+// 5xx or a network error is tried again after each wait of RETRY_DELAYS_MS.
 const rawCache = new Map();
+async function rawFetch(url) {
+  for (let retry = 0; ; retry++) {
+    site.check++;
+    let failure;
+    const r = await fetch(url).catch((e) => void (failure = `network error: ${e.message}`));
+    if (r && r.status < 500) {
+      if (!r.ok) throw new Error(`GET ${url}: ${r.status}`);
+      return r.json();
+    }
+    if (r) failure = `HTTP ${r.status}`;
+    if (retry === RETRY_DELAYS_MS.length) throw new Error(`GET ${url}: ${failure} (${retry + 1} attempts)`);
+    onRetry(url, failure);
+    await new Promise((r) => setTimeout(r, RETRY_DELAYS_MS[retry]));
+  }
+}
 async function raw(url) {
-  if (!rawCache.has(url))
-    rawCache.set(
-      url,
-      fetch(url).then((r) => {
-        if (!r.ok) throw new Error(`GET ${url}: ${r.status}`);
-        return r.json();
-      }),
-    );
+  if (!rawCache.has(url)) rawCache.set(url, rawFetch(url));
   return rawCache.get(url);
 }
 
@@ -369,17 +403,25 @@ class Check {
 async function runTarget(target) {
   const stat = target.kind === 'base' ? { base: target.base, close() {} } : await serveStatic(target);
   const base = stat.base;
+  // The short walk: of a site, never of the fixture, which is walked in full.
+  const light = LIGHT && target.kind !== 'fixture';
   const C = new Check(target.kind === 'site' ? `local build (${base})` : target.kind === 'fixture' ? `synthetic fixture (${base})` : base);
   // The request log: the reader's own in-process; through the Worker, what
   // the static server was asked for (none for a published base).
   const readerLog = [];
-  const factory = createServerFactory({ base, onFetch: (u) => readerLog.push(u) });
+  const factory = createServerFactory({ base, onFetch: (u) => (readerLog.push(u), site.server++), onRetry });
   const mcp = WORKER ? await serveWorker(base) : await serveMcp(factory);
   const log = WORKER ? served : readerLog;
   const observable = !WORKER || target.kind !== 'base';
   if (WORKER) C.name += ' through wrangler dev';
+  if (light) C.name += ', short walk';
   const client = new Client({ name: 'graph-med-check', version: '0' });
   await client.connect(new StreamableHTTPClientTransport(new URL(mcp.url)));
+  // The retries: through the transport on a site served here (the first
+  // request of the server's reader), and the reader's own on every target.
+  if (target.kind !== 'base') await checkRetryServed(C, client, base);
+  site.retries = [];
+  await checkRetry(C, base);
 
   const index = await raw(base + 'index.json');
   // The disclaimer (card #291): the server's copy is the site's, as index.json
@@ -445,6 +487,10 @@ async function runTarget(target) {
     } else C.counts['step keys with words (llms.txt)'] = 'llms.txt lists none';
   }
 
+  // Get tree node's description names the caps a lowered depth gives as its reason (#317).
+  const tn = tools.find((t) => t.name === 'get_tree_node')?.description || '';
+  C.ok([COMPACT_MAX_CHARS, MAX_CHARS].every((n) => tn.includes(n.toLocaleString('en-US'))) && tn.includes('size_cap'), 'get_tree_node: its description names not both caps, or not the reason for a lowered depth');
+
   // 8. Requests: cold, one call per tool on a fresh reader; warm, a repeat.
   //    Transport-agnostic: the direct call returns the transport's text.
   const v0 = views[0];
@@ -460,13 +506,14 @@ async function runTarget(target) {
   };
   for (const name of TOOLS) {
     const gets = [];
-    const reader = new Layer0({ base, onFetch: (u) => gets.push(u) });
+    const reader = new Layer0({ base, onFetch: (u) => (gets.push(u), site.server++), onRetry });
     const direct = await callTool(reader, name, sample[name]);
     const cold = gets.length;
     gets.length = 0;
     await callTool(reader, name, sample[name]);
     C.gets[name] = { cold, warm: gets.length };
     C.ok(gets.length === 0, `${name}: a repeated call fetched ${gets.length}`);
+    C.ok(cold <= RETRY_WITHIN, `${name}: ${cold} GETs cold, more than the ${RETRY_WITHIN} within which a call retries`);
     const viaHttp = await client.callTool({ name, arguments: sample[name] });
     C.ok(viaHttp.content[0].text === direct.content[0].text, `${name}: the transport's result ≠ the direct call's: ${direct.content[0].text.slice(0, 200)}`);
   }
@@ -529,7 +576,7 @@ async function runTarget(target) {
       const seen = new Set();
       const queue = [T.root.id];
       const recsReached = new Set();
-      while (queue.length) {
+      while (queue.length && !(light && seen.size >= LIGHT_NODES)) {
         const id = queue.shift();
         if (seen.has(id)) continue;
         seen.add(id);
@@ -571,25 +618,33 @@ async function runTarget(target) {
         if (n.type !== 'statement' && n.type !== 'aim') {
           for (const detail of ['compact', 'full']) {
             const d1 = await call('get_tree_node', { graph: v.id, grouping: g.axis, node: id, depth: 1, detail });
-            if (d1.depth_reduced_to !== undefined) continue;
+            if (checkReduced(C, `${G} ${id} depth 1 (${detail})`, d1, 1, detail)) continue;
             for (const b of d1.node.below || []) {
               const one = await call('get_tree_node', { graph: v.id, grouping: g.axis, node: b.id, detail });
               C.ok(eq(b, one.node), `${G} ${id}: depth 1 ≠ the call for ${b.id} (${detail})`);
             }
           }
-          await call('get_tree_node', { graph: v.id, grouping: g.axis, node: id, depth: MAX_DEPTH });
+          const deep = await call('get_tree_node', { graph: v.id, grouping: g.axis, node: id, depth: MAX_DEPTH });
+          checkReduced(C, `${G} ${id} depth ${MAX_DEPTH}`, deep, MAX_DEPTH, 'compact');
         }
       }
       const expected = [...T.nodes.keys()];
       const statementsInTree = tree.nodes.filter((n) => n.type === 'statement').map((n) => n.id);
+      if (light) {
+        C.counts[`${G}: nodes walked (short walk) / in tree file`] = `${seen.size} / ${expected.length}`;
+        continue;
+      }
       C.ok(expected.every((x) => seen.has(x)), `${G}: nodes not reached: ${expected.filter((x) => !seen.has(x)).slice(0, 5).join(', ')}`);
       C.counts[`${G}: nodes reached / in tree file`] = `${expected.filter((x) => seen.has(x)).length} / ${expected.length}`;
       C.counts[`${G}: recommendations reached / in tree file`] = `${statementsInTree.filter((x) => recsReached.has(x)).length} / ${statementsInTree.length}`;
     }
 
-    // 4. get_entity: every concept and every recommendation of the search file,
-    //    and every claim a recommendation rests on.
-    for (const e of search.entries) {
+    // 4. get_entity: every concept and every recommendation of the search file
+    //    (the short walk: a sample of each), and every claim a recommendation
+    //    rests on.
+    const entities = light ? sampleOf(search.entries) : search.entries;
+    if (light) C.counts[`${v.id}: entities read (short walk) / in search file`] = `${entities.length} / ${search.entries.length}`;
+    for (const e of entities) {
       const r = await fullEntity(call, { entity: e.id, graph: v.id, detail: 'full' });
       if (r.error) {
         C.fail(`get_entity ${e.id}: ${r.error}`);
@@ -699,7 +754,7 @@ async function runTarget(target) {
       }
       const x = await call('search', { query: word });
       C.ok(eq(x.groups.map((g) => g.graph.id), views.map((w) => w.id)), 'search without a graph: not grouped per graph');
-      await checkFilters(C, call, v, search);
+      await checkFilters(C, call, v, search, light);
       for (const grp of x.groups) {
         const w = views.find((w) => w.id === grp.graph.id);
         const s2 = await raw(w.search);
@@ -785,16 +840,23 @@ async function runTarget(target) {
 
   await client.close();
   if (!observable) C.counts['request log'] = 'not observable for a published base through the Worker; the subrequests below count every fetch';
-  else C.counts['most Layer 0 GETs in one call'] = C.maxGets;
+  else {
+    C.counts['most Layer 0 GETs in one call'] = C.maxGets;
+    C.ok(C.maxGets <= RETRY_WITHIN, `a call made ${C.maxGets} GETs, more than the ${RETRY_WITHIN} within which a call retries`);
+  }
   if (WORKER) {
     const [[requests]] = await mcp.spans('SELECT count(*) FROM spans WHERE parent_id IS NULL');
     const [[most]] = await mcp.spans(
       "SELECT coalesce(max(n), 0) FROM (SELECT count(*) AS n FROM spans WHERE kind = 'fetch' GROUP BY parent_id)",
     );
+    const [[fetches]] = await mcp.spans("SELECT count(*) FROM spans WHERE kind = 'fetch'");
+    site.server += fetches;
     C.counts['requests the Worker served (runtime trace)'] = requests;
     C.counts['most subrequests in one request (runtime trace)'] = most;
     C.ok(most <= SUBREQUESTS, `a request made ${most} subrequests, over ${SUBREQUESTS}`);
   }
+  C.counts['requests to the site'] = `${site.server + site.check}: the server's ${site.server}, the check's own ${site.check}`;
+  C.counts['requests retried (the check\'s, and the server\'s in-process)'] = site.retries.length ? `${site.retries.length}: ${site.retries.join('; ')}` : 0;
   await mcp.close();
   const calls = resultTexts.map(([k]) => {
     const i = k.indexOf(' ');
@@ -1061,7 +1123,7 @@ function depths(T) {
 }
 
 // The search filters (card #409), each against the search file and the trees.
-async function checkFilters(C, call, v, search) {
+async function checkFilters(C, call, v, search, light = false) {
   const fold = (x) => (x || '').normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().trim();
   const all = async (args) => {
     const hits = [];
@@ -1094,7 +1156,7 @@ async function checkFilters(C, call, v, search) {
   const g = v.groupings[0];
   const T = indexTree(await raw(g.tree));
   const D = depths(T);
-  const tops = [T.root, ...(T.out.get(T.root.id) || []).flatMap((e) => (T.out.get(e.to) || []).filter((x) => x.kind === 'answer').map((x) => T.nodes.get(x.to)))];
+  const tops = [T.root, ...(T.out.get(T.root.id) || []).flatMap((e) => (T.out.get(e.to) || []).filter((x) => x.kind === 'answer').map((x) => T.nodes.get(x.to)))].slice(0, light ? 3 : undefined);
   for (const top of tops) {
     const expect = [];
     const seen = new Set();
@@ -1123,6 +1185,90 @@ async function checkFilters(C, call, v, search) {
   C.ok(!!(await call('search', {})).error, 'search without query or filter: no error');
   C.ok(!!(await call('search', { graph: v.id, query: 'a', grouping: g.axis })).error, 'search with a grouping but no under: no error');
   C.ok(!!(await call('search', { under: T.root.id })).error, 'search under without a graph: no error');
+}
+
+// A lowered depth says to what, why and under which cap (#317): `size_cap`,
+// the form's limit in characters; a result that kept its depth says none of
+// it. True where the depth was lowered.
+function checkReduced(C, where, r, asked, detail) {
+  if (r.error) return C.fail(`${where}: ${r.error}`), true;
+  if (r.depth_reduced_to === undefined) {
+    C.ok(!('depth_reduced_reason' in r) && !('size_cap' in r), `${where}: a reason or a cap where the depth was kept`);
+    return false;
+  }
+  const cap = detail === 'full' ? MAX_CHARS : COMPACT_MAX_CHARS;
+  C.ok(Number.isInteger(r.depth_reduced_to) && r.depth_reduced_to >= 0 && r.depth_reduced_to < asked && r.depth_reduced_reason === 'size_cap' && r.size_cap === cap,
+    `${where}: depth lowered to ${r.depth_reduced_to}, reason ${r.depth_reduced_reason}, cap ${r.size_cap} (asked ${asked}; the cap is ${cap})`);
+  C.count('depths lowered, each with its reason and cap');
+  return true;
+}
+
+// The retry through the transport: the static server answers the server's
+// first request, for index.json, with a 503; list graphs still answers, from
+// the second — in-process and through the Worker alike.
+async function checkRetryServed(C, client, base) {
+  const from = served.length;
+  failOnce.add('index.json');
+  const r = await client.callTool({ name: 'list_graphs', arguments: {} });
+  const asked = served.slice(from).filter((u) => u === base + 'index.json').length;
+  C.ok(!r.isError && asked === 2 && !failOnce.size, `retry through the transport: ${r.isError ? r.content[0].text.slice(0, 160) : 'answered'}, index.json asked ${asked} times`);
+  C.counts['retry through the transport'] = `index.json answered 503 once and asked ${asked} times; list graphs ${r.isError ? 'failed' : 'answered'}`;
+}
+
+// The reader's retries (layer0.js), with a fetch that fails as told: a 503
+// once, or a network error once, and the call answers from the second
+// request; a 503 every time, and the call reports it after 1 +
+// RETRY_DELAYS_MS.length requests; a 404, reported after one; and a call
+// that has made RETRY_WITHIN requests retries none.
+async function checkRetry(C, base) {
+  const run = async ({ url, failures = 0, how = '503', name = 'list_graphs', args = {}, spent = null }) => {
+    const retried = [];
+    let left = failures;
+    let times = 0;
+    const fetchImpl = (u, init) => {
+      if (u === url) times++;
+      if (u === url && left > 0) {
+        left--;
+        return how === 'network' ? Promise.reject(new TypeError('fetch failed')) : Promise.resolve(new Response('busy', { status: 503 }));
+      }
+      return fetch(u, init);
+    };
+    const reader = new Layer0({ base, fetch: fetchImpl, onFetch: () => site.server++, onRetry: (u, f) => retried.push(f) });
+    if (spent !== null) {
+      // One request of a call that has already made `spent`.
+      const call = reader.forCall();
+      call.requests = spent;
+      const error = await call.get(url).then(() => null, (e) => e.message);
+      return { error, times, retried };
+    }
+    const r = await callTool(reader, name, args);
+    return { error: r.isError ? JSON.parse(r.content[0].text).error : null, times, retried };
+  };
+  const index = base + 'index.json';
+  const attempts = RETRY_DELAYS_MS.length + 1;
+  const show = (x) => `${x.error ? 'error ' + JSON.stringify(x.error.slice(0, 120)) : 'answered'}, asked ${x.times} times, retried ${JSON.stringify(x.retried)}`;
+  const once = await run({ url: index, failures: 1 });
+  C.ok(!once.error && once.times === 2 && eq(once.retried, ['HTTP 503']), `retry: a 503 once: ${show(once)}`);
+  const net = await run({ url: index, failures: 1, how: 'network' });
+  C.ok(!net.error && net.times === 2 && net.retried.length === 1 && net.retried[0].startsWith('network error'), `retry: a network error once: ${show(net)}`);
+  const always = await run({ url: index, failures: Infinity });
+  C.ok(!!always.error && always.times === attempts && always.error.includes(`HTTP 503 (${attempts} attempts)`), `retry: a 503 every time: ${show(always)}`);
+  const missing = base + 'concepts/no-such-concept-317.json';
+  const gone = await run({ url: missing, name: 'get_entity', args: { entity: 'concepts/no-such-concept-317' } });
+  C.ok(!!gone.error && gone.error.startsWith('not found') && gone.times === 1, `retry: a 404: ${show(gone)}`);
+  const spent = await run({ url: index, failures: 1, spent: RETRY_WITHIN });
+  C.ok(!!spent.error && spent.error.includes('HTTP 503 (1 attempt)') && spent.times === 1, `retry: a call past ${RETRY_WITHIN} requests: ${show(spent)}`);
+  C.counts['retries of the reader'] =
+    `a 503 once: ${once.error ? 'failed' : 'answered'}, after ${once.times} requests; a network error once: ${net.error ? 'failed' : 'answered'}, after ${net.times}; ` +
+    `a 503 every time: reported after ${always.times}; a 404: reported after ${gone.times}; past ${RETRY_WITHIN} requests in a call: reported after ${spent.times}`;
+}
+
+// The short walk's entities: LIGHT_ENTITIES recommendations and as many
+// concepts, each spread evenly over the search file's order, the first and
+// the last included.
+function sampleOf(entries) {
+  const pick = (xs) => (xs.length <= LIGHT_ENTITIES ? xs : Array.from({ length: LIGHT_ENTITIES }, (_, i) => xs[Math.round((i * (xs.length - 1)) / (LIGHT_ENTITIES - 1))]));
+  return ['statement', 'concept'].flatMap((k) => pick(entries.filter((e) => e.kind === k)));
 }
 
 function checkAbout(C, name, about, verbatim = false) {
@@ -1267,6 +1413,7 @@ for (const t of targets) {
   resultTexts.length = 0;
   served.length = 0;
   rawCache.clear();
+  Object.assign(site, { check: 0, server: 0, retries: [] });
   const C = await runTarget(t);
   console.log(`\n== ${C.name}`);
   for (const [k, v] of Object.entries(C.counts)) console.log(`  ${k}: ${v}`);
