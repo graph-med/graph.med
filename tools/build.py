@@ -17,7 +17,8 @@ claims' sections, docs/publication.md §3), with a detail section beside or belo
 — plus <view-id>.json; the index is the only page where the views meet, a graph like
 theirs — one question, one answer per view, each a box naming its guideline (drawn in the
 browser by assets/home.js) — over one entry per view in its sheet: its source's title,
-register number and licence line, and what it holds; every entity becomes
+register number and licence line, and what it holds; the about page, about/index.html, reached from a node of the
+index under graph.med; every entity becomes
 <namespace>/<entity-id>/index.html and <namespace>/<entity-id>.json; the schema is copied to schema/schema.yaml. For
 programs (docs/publication.md §4 "Files for programs"): index.json and llms.txt at the root, and per view a tree file
 per grouping (<view-id>/trees/<axis>.json), the view without content (<view-id>/view.json) and a search file
@@ -2148,6 +2149,9 @@ def main(argv=None) -> int:
     # it reads from the entries (home.js)
     agent = {"version": session_tools()["version"], "about": session_tools()["index"]}
     (out / "index.html").write_text(env.get_template("index.html").render(views=views, agent_json=dumps(agent).replace("</", "<\\/")), encoding="utf-8")
+    # the about page (docs/publication.md §2): what graph.med is for and who makes it, its words in its template
+    (out / "about").mkdir(exist_ok=True)
+    (out / "about" / "index.html").write_text(env.get_template("about.html").render(), encoding="utf-8")
     # the index for programs and its description (docs/publication.md §2, §4): every view with its files and groupings,
     # at the root of the site and of every preview; llms.txt describes, in English, and instructs nothing
     index = {"commit": commit, "schema": {"version": schema.get("x-version"), "url": at("schema/schema.yaml")},

@@ -12,7 +12,9 @@
    home, as tapping the canvas or a level does. The tree is small and always whole, so it is drawn at a size a
    phone reads: left to right where the canvas leaves a box its least width beside the levels, else as an indented
    tree, each level under its parent and set in by a step, a box taking the width left; the fit never zooms far
-   past that size. */
+   past that size. Beside the levels, graph.med has one more child, the about page, a node of its label's width
+   read from the link the sheet's home carries for it (its data-node): tapped, it opens the page; it is no view, so
+   nothing selects it. */
 (function () {
   "use strict";
   var canvas = document.getElementById("graph"), sheet = document.getElementById("sheet"), main = canvas.closest("main");
@@ -32,7 +34,7 @@
           "label": "data(label)", "color": css("--fg"), "font-family": css("--font"), "font-size": 13, "line-height": 1.3,
           "text-wrap": "wrap", "text-max-width": w - 24, "text-valign": "center", "text-halign": "center", "text-justification": "left",
           "width": w, "height": "label", "padding": 12 } },
-      { selector: "node[type = 'root'], node[type = 'level']", style: { "width": "label", "padding": 8, "text-max-width": 200,
+      { selector: "node[type = 'root'], node[type = 'level'], node[type = 'page']", style: { "width": "label", "padding": 8, "text-max-width": 200,
           "text-justification": "center" } },
       { selector: "node[type = 'root']", style: { "font-weight": 700 } },
       { selector: "edge", style: {
@@ -210,16 +212,24 @@
       elements.push({ data: { id: ref, type: "box", label: lines[0] + (lines.length > 1 ? "\n\n" + lines.slice(1).join("\n") : ""), depth: path.length + 1 } });
       elements.push({ data: { id: "a:" + ref, source: parent, target: ref } });
     });
+    /* the pages under graph.med that are no view (the about page), after the views, each from its link */
+    sheet.querySelectorAll("a[data-node]").forEach(function (a) {
+      var id = "p:" + a.dataset.node;
+      links[id] = a.getAttribute("href");
+      elements.push({ data: { id: id, type: "page", label: a.textContent.trim(), depth: 1 } });
+      elements.push({ data: { id: "e:" + id, source: "root", target: id } });
+    });
     cy = cytoscape({ container: canvas, elements: elements, minZoom: 0.3, maxZoom: 3, boxSelectionEnabled: false, autounselectify: true,
                      style: stylesheet(), layout: { name: "preset" } });
     layout();
-    /* a box, or the answer leading to it, opens its graph: no selection in between */
+    /* a box, or the answer leading to it, opens its graph, and the about node its page: no selection in between */
     function go(ref) { if (links[ref]) location.href = links[ref]; else select(ref, true); }
-    cy.on("tap", "node[type = 'box']", function (e) { go(e.target.id()); });
-    cy.on("tap", "edge", function (e) { if (e.target.target().data("type") === "box") go(e.target.target().id()); });
-    cy.on("mouseover", "node[type = 'box']", function () { canvas.style.cursor = "pointer"; });
-    cy.on("mouseout", "node[type = 'box']", function () { canvas.style.cursor = ""; });
-    cy.on("tap", function (e) { if (e.target === cy || (e.target.isNode() && e.target.data("type") !== "box")) select(null, true); });
+    function opens(n) { return n.data("type") === "box" || n.data("type") === "page"; }
+    cy.on("tap", "node[type = 'box'], node[type = 'page']", function (e) { go(e.target.id()); });
+    cy.on("tap", "edge", function (e) { if (opens(e.target.target())) go(e.target.target().id()); });
+    cy.on("mouseover", "node[type = 'box'], node[type = 'page']", function () { canvas.style.cursor = "pointer"; });
+    cy.on("mouseout", "node[type = 'box'], node[type = 'page']", function () { canvas.style.cursor = ""; });
+    cy.on("tap", function (e) { if (e.target === cy || (e.target.isNode() && !opens(e.target))) select(null, true); });
     /* a new width (a phone turned) gives the boxes another width: restyle, lay out and fit again */
     var width = canvas.clientWidth, pending = null;
     window.addEventListener("resize", function () {

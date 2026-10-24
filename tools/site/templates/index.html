@@ -74,6 +74,9 @@
 {% endfor %}
 </ul>
 </div>
+{# the about page: a node under graph.med beside the levels where the graph is drawn (home.js reads it from here, by
+   its data-node), a link of the sheet's home without it — no view, and like the heading English #}
+<p class="about-entry"><a href="{{ base }}about/" lang="en" data-node="about">About</a></p>
 </section>
 {% endblock %}
 {% block scripts %}

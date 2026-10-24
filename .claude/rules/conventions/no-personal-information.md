@@ -30,6 +30,12 @@ after someone's home path. The places where this comes up:
 into it, or into a path it is later copied from, cannot be reliably taken back.
 The maintainer set this rule on 2026-09-06.
 
+**The one exception is the about page.** At the maintainer's request (2026-10-24, #433),
+the site's about page (`tools/site/templates/about.html`, `graph.med/about/`) names the
+people who make graph.med and carries their bios. It shows a person's photo only once the
+maintainer adds one. Nothing else is exempt, and the rest of this rule still holds for that
+page's own commits and pull requests.
+
 **What not to do about the past.** Occurrences that already exist in the history
 are left alone; do not rewrite history or open a clean-up on your own initiative.
 The maintainer said so explicitly. The rule is for what you write from now on.
