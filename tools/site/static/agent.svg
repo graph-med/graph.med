@@ -1,27 +1,38 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200" height="200" role="img" aria-label="robot with the graph.med mark as its head">
-  <!-- a robot on tracks, in the mark's black: an antenna, the graph.med mark (logo.svg) as its head, a heartbeat on its chest,
-       jointed arms with grippers -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200" height="200" role="img" aria-label="robot holding the Rod of Asclepius">
+  <!-- a robot in the mark's black: an antenna; as its head the graph.med mark (logo.svg) turned a quarter to the left, so that
+       its three dots are eyes and its arc a mouth; a heartbeat on its chest; jointed arms, the right holding the Rod of
+       Asclepius, a staff with one snake around it; legs -->
   <defs><clipPath id="disc"><circle cx="50" cy="50" r="50"/></clipPath></defs>
-  <g clip-path="url(#disc)"><rect width="100" height="100" fill="#d9dce1"/>
-    <path d="M50 10 V5.5" stroke="#000" stroke-width="2" stroke-linecap="round"/><circle cx="50" cy="4.5" r="2.2" fill="#000"/>
-    <rect x="47" y="39" width="6" height="5" fill="#000"/>
-    <rect x="36" y="44" width="28" height="25" rx="4" fill="#000"/>
-    <path d="M40 57 H44.5 L46.5 52 L49.5 62 L52 55 L53.5 57 H60" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-    <g fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M36 48 L28 57 V66"/><path d="M64 48 L72 57 V66"/>
-      <path d="M25 70 L28 66 L31 70"/><path d="M69 70 L72 66 L75 70"/>
-    </g>
-    <circle cx="28" cy="57" r="2.6" fill="#000"/><circle cx="72" cy="57" r="2.6" fill="#000"/>
-    <rect x="47" y="69" width="6" height="5" fill="#000"/>
-    <rect x="33" y="74" width="34" height="11" rx="5.5" fill="#000"/>
-    <g fill="#d9dce1"><circle cx="39" cy="79.5" r="2.4"/><circle cx="46.3" cy="79.5" r="2.4"/><circle cx="53.7" cy="79.5" r="2.4"/><circle cx="61" cy="79.5" r="2.4"/></g>
-    <g transform="translate(35 10) scale(.30)">
-      <rect width="100" height="100" rx="26" ry="26" fill="#000000"/>
-      <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M62.3 29.7 A23 23 0 1 0 62.3 70.3" stroke-width="10.4"/>
-        <g stroke-width="6.6"><path d="M43.5 50 H60"/><path d="M60 50 L73 37"/><path d="M60 50 L73 63"/><path d="M60 50 H76.4"/></g>
+  <g clip-path="url(#disc)">
+    <rect width="100" height="100" fill="#d9dce1"/>
+    <g transform="translate(-5 0)">
+      <path d="M50 10 V5.5" stroke="#000" stroke-width="2" stroke-linecap="round"/><circle cx="50" cy="4.5" r="2.2" fill="#000"/>
+      <rect x="47" y="39" width="6" height="5" fill="#000"/>
+      <rect x="36" y="44" width="28" height="25" rx="4" fill="#000"/>
+      <path d="M40 57 H44.5 L46.5 52 L49.5 62 L52 55 L53.5 57 H60" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <g fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M36 48 L28 57 V66"/><path d="M25 70 L28 66 L31 70"/>
+        <path d="M64 48 L71 60 L79 74"/>
       </g>
-      <g fill="#ffffff"><circle cx="73" cy="37" r="4.4"/><circle cx="76.4" cy="50" r="4.4"/><circle cx="73" cy="63" r="4.4"/></g>
+      <circle cx="28" cy="57" r="2.6" fill="#000"/><circle cx="71" cy="60" r="2.6" fill="#000"/>
+      <rect x="40" y="69" width="6" height="14" fill="#000"/><rect x="54" y="69" width="6" height="14" fill="#000"/>
+      <rect x="37" y="83" width="11" height="4.5" rx="1.8" fill="#000"/><rect x="52" y="83" width="11" height="4.5" rx="1.8" fill="#000"/>
+      <g transform="translate(35 10) scale(.30)"><rect width="100" height="100" rx="26" ry="26" fill="#000"/>
+        <g transform="rotate(-90 50 50)">
+          <g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M62.3 29.7 A23 23 0 1 0 62.3 70.3" stroke-width="10.4"/>
+            <g stroke-width="6.6"><path d="M43.5 50 H60"/><path d="M60 50 L73 37"/><path d="M60 50 L73 63"/><path d="M60 50 H76.4"/></g>
+          </g>
+          <g fill="#fff"><circle cx="73" cy="37" r="4.4"/><circle cx="76.4" cy="50" r="4.4"/><circle cx="73" cy="63" r="4.4"/></g>
+        </g></g>
     </g>
+    <path d="M76 29 V91" stroke="#000" stroke-width="2.6" stroke-linecap="round"/>
+    <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path id="snake" d="M76 67 C81.5 65 81.5 61 76 59 C70.5 57 70.5 53 76 51 C81.5 49 81.5 45 76 43 C71 41.2 71.5 37.5 75.5 36"/>
+      <use href="#snake" stroke="#d9dce1" stroke-width="5.4"/>
+      <use href="#snake" stroke="#000" stroke-width="2.4"/>
+    </g>
+    <ellipse cx="78.2" cy="35" rx="3" ry="2.2" fill="#000" transform="rotate(-20 78.2 35)"/>
+    <rect x="72.5" y="71" width="7" height="6.5" rx="1.8" fill="#000"/>
   </g>
 </svg>
