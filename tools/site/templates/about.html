@@ -24,7 +24,10 @@
 <h1 class="visually-hidden" lang="en">About graph.med</h1>
 <section class="about-row about-mission" lang="en">
   <a class="about-home" href="{{ base }}"><img class="about-image" src="{{ base }}assets/logo.svg?v={{ commit }}" alt="graph.med" width="96" height="96"></a>
-  <p>{{ mission | e | replace("graph.med", home) }}</p>
+  <div>
+    <p>{{ mission | e | replace("graph.med", home) }}</p>
+    <p class="about-contact">Contact: <a href="mailto:info@graph.med">info@graph.med</a></p>
+  </div>
 </section>
 {% for r in rows %}
 <section class="about-row" lang="en">
