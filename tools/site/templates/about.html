@@ -23,7 +23,7 @@
 {% set home %}<a href="{{ base }}">graph.med</a>{% endset %}
 <h1 class="visually-hidden" lang="en">About graph.med</h1>
 <section class="about-row about-mission" lang="en">
-  <img class="about-image" src="{{ base }}assets/logo.svg?v={{ commit }}" alt="graph.med" width="96" height="96">
+  <a class="about-home" href="{{ base }}"><img class="about-image" src="{{ base }}assets/logo.svg?v={{ commit }}" alt="graph.med" width="96" height="96"></a>
   <p>{{ mission | e | replace("graph.med", home) }}</p>
 </section>
 {% for r in rows %}

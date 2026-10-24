@@ -54,6 +54,8 @@ main.about { max-width: 44rem; padding-top: 1rem; }
 .about-row + .about-row { border-top: 1px solid var(--line); }
 .about-image { display: block; width: 100%; height: auto; border-radius: 50%; }
 .about-mission .about-image { border-radius: 26%; }   /* the mark's own corners (logo.svg) */
+.about-home { display: block; border-radius: 26%; }   /* the mark links the index, as in the header */
+.about-home:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .about-row h2 { margin: 0 0 .35rem; }
 .about-row p { margin: 0; }
 .about-row .about-role { margin: -.2rem 0 .45rem; color: var(--mute); font-size: .9rem; }
