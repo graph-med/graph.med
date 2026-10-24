@@ -157,13 +157,14 @@ window.
 (the maintainer, 2026-10-24, #433): five rows, each an image with its text beside it,
 on a phone too narrow for both the image above — the mark with a paragraph on the
 mission; Anton Zolkin and Robert Schwarzenberg, co-founders, and Jan Laermann, a
-contributor, each a portrait, the name, the role under it and a paragraph; and the
-project's AI agent, a robot holding the Rod of Asclepius, its head the mark turned a
-quarter to the left (three eyes and a mouth), its name, its role and a paragraph on
-what it does, naming no vendor and no model. Like the index's heading it is English
-and names no guideline; its words live in its template
-(`tools/site/templates/about.html`), and every image is a file of the site. A portrait
-is a silhouette until the maintainer adds a photo; none is committed before that.
+contributor, each a portrait, the name, the role under it and, where one is given, a
+short bio; and the project's AI agent, a robot holding the Rod of Asclepius, its head
+the mark turned a quarter to the left (three eyes and a mouth), its name, its role and
+a paragraph on what it does, naming no vendor and no model. Like the index's heading
+it is English and names no guideline; its words live in its template
+(`tools/site/templates/about.html`), and every image is a file of the site. A photo is
+the maintainer's to add (2026-10-24: Anton's and Robert's), black and white, square
+and without its metadata; a person without one shows a silhouette.
 
 ---
 
