@@ -2,9 +2,11 @@
 # (docs/adr/0008-the-mcp-endpoint-runs-on-cloudflare-workers.md), after each
 # successful Pages deploy from main, so that the Worker and the site it reads
 # change together: the Worker never goes live before the files it reads. Also
-# by hand (workflow_dispatch, from main). Checks the server against the site
-# just published first; deploys with `wrangler deploy` only, never
-# `wrangler preview`, so no Preview URL is ever created.
+# by hand (workflow_dispatch, from main). Checks the server first: on the
+# synthetic fixture, and a short walk of the site just published (--light,
+# #317) — or the full walk, when a run by hand asks for it; deploys with
+# `wrangler deploy` only, never `wrangler preview`, so no Preview URL is ever
+# created.
 name: mcp
 
 on:
@@ -13,6 +15,11 @@ on:
     types: [completed]
     branches: [main]
   workflow_dispatch:
+    inputs:
+      full:
+        description: check every node and entity of the site, not the short walk
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -47,7 +54,12 @@ jobs:
           cache-dependency-path: mcp/package-lock.json
       - run: npm ci
       - name: check the server on the fixture and on the site just published
-        run: npm run check -- --fixture --base https://graph.med/
+        # the short walk, unless a run by hand asks for the full one
+        run: |
+          if [ "$FULL" = true ]; then walk=; else walk=--light; fi
+          npm run check -- --fixture $walk --base https://graph.med/
+        env:
+          FULL: ${{ inputs.full }}
       - name: refuse a configuration with a way around the firewall
         run: |
           grep -Eq '^workers_dev *= *false' wrangler.toml
