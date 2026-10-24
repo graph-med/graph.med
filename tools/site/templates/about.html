@@ -5,12 +5,12 @@
    the page says about graph.med itself is English, and bound to no kind of source; it names no guideline. The people's
    bios are placeholders, and each shows a silhouette where a portrait will go (#433): no photo is committed until the
    maintainer adds one. The agent names no vendor and no model. Every image is a file of the site (assets/). #}
-{% set mission = "graph.med turns medical guidelines into an open knowledge graph. It takes each guideline apart into passages anchored to the wording of their source, links them into recommendations and the concepts they speak about, and draws them as graphs that answer one question: for this patient, in this situation, what does the guideline say, and where does it say it? Every identifier on the site resolves, every quote leads to the page it was taken from, and every change is proposed and reviewed in the open." %}
+{% set mission = "graph.med is building an open medical knowledge base, in which every piece of knowledge is anchored to the wording of the source that states it. It takes medical sources apart into passages, links them into statements and the concepts they speak about, and draws them as graphs a reader can walk, from a question to the sentence that answers it. It begins with clinical guidelines and grows source by source. Every identifier on the site resolves, every quote leads to the page it was taken from, and every change is proposed and reviewed in the open." %}
 {% set lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." %}
 {% set rows = [
   {"name": "Anton Zolkin", "image": "silhouette.svg", "text": lorem},
   {"name": "Robert Schwarzenberg", "image": "silhouette.svg", "text": lorem},
-  {"name": "graph.med agent", "image": "agent.svg", "text": "An AI agent that works on graph.med beside Anton and Robert. It extracts the passages from the guidelines, links them into recommendations and concepts, and writes the code that builds this site. Every change it makes is a pull request, and reaches the site only after a person has reviewed and approved it."},
+  {"name": "graph.med agent", "image": "agent.svg", "text": "An AI agent that works on graph.med beside Anton and Robert. It extracts the passages from the sources, links them into statements and concepts, and writes the code that builds this site. Every change it makes is a pull request, and reaches the site only after a person has reviewed and approved it."},
 ] %}
 {% block title %}About — graph.med{% endblock %}
 {% block description %}{{ mission | truncate(200, True, "…") }}{% endblock %}
