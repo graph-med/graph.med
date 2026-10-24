@@ -37,7 +37,7 @@
     <h2>{{ r.name }}</h2>
     <p class="about-role">{{ r.role }}</p>
     {% if r.text %}<p>{{ r.text | e | replace("graph.med", home) }}</p>{% endif %}
-    {% if r.email %}<p class="about-contact"><a href="mailto:{{ r.email }}">{{ r.email }}</a></p>{% endif %}
+    {% if r.email %}<p class="about-contact">Contact: <a href="mailto:{{ r.email }}">{{ r.email }}</a></p>{% endif %}
   </div>
 </section>
 {% endfor %}
