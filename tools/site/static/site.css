@@ -59,7 +59,6 @@ main.about { max-width: 44rem; padding-top: 1rem; }
 .about-row h2 { margin: 0 0 .35rem; }
 .about-row p { margin: 0; }
 .about-row .about-role { margin: -.2rem 0 .45rem; color: var(--mute); font-size: .9rem; }
-.about-mission p { font-size: 1.05rem; }
 .about-row .about-contact { margin-top: .75rem; font-size: .95rem; color: var(--mute); }
 @media (min-width: 40rem) { .about-row { grid-template-columns: 6rem minmax(0, 1fr); gap: 1.5rem; } }
 @media (max-width: 22rem) { .about-row { grid-template-columns: minmax(0, 1fr); } .about-image { width: 4.5rem; } }
