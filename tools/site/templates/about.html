@@ -1,15 +1,16 @@
 {% extends "base.html" %}
 {# The about page (docs/publication.md §2): what graph.med is for and who makes it, reached from the index's node
    "About" under graph.med and from the link the index's sheet carries for it. Five rows, each an image and its text
-   beside it: the mark with the mission, then the three people, then the agent, each with their role under the name.
+   beside it: the mark with the mission, then the three people, then the agent, each with a name and a role under it.
    Like the index's heading and lead, what the page says about graph.med itself is English, and bound to no kind of
    source; it names no guideline. A bio not yet given is a placeholder or left out, and a person shows a silhouette until the
    maintainer adds a photo (#433): black and white, square, without its metadata. The agent names no vendor and no
-   model. Every image is a file of the site (assets/). #}
+   model. The project's contact address closes the first row, a person's own address at graph.med their row, where
+   one is given. Every image is a file of the site (assets/). #}
 {% set mission = "graph.med is building an open medical knowledge base, in which every piece of knowledge is anchored to the wording of its source. It begins with clinical guidelines: taken apart into passages, linked into statements and concepts, and drawn as graphs a reader can walk from a question to the sentence that answers it." %}
 {% set rows = [
-  {"name": "Anton Zolkin", "role": "Co-founder", "image": "anton.jpg", "text": "Anton Zolkin is a Berlin-based physician who trained at Charité. He battle-tests medical tools in real life, and with graph.med he co-develops one for physicians in everyday practice."},
-  {"name": "Robert Schwarzenberg", "role": "Co-founder", "image": "robert.jpg", "text": "Robert Schwarzenberg is a data scientist by training, with roots in explainability research. Having developed methods to inspect learning machines, he now develops methods to help inspect humans."},
+  {"name": "Anton Zolkin", "role": "Co-founder", "image": "anton.jpg", "email": "anton@graph.med", "text": "Anton Zolkin is a Berlin-based physician who trained at Charité. He battle-tests medical tools in real life, and with graph.med he co-develops one for physicians in everyday practice."},
+  {"name": "Robert Schwarzenberg", "role": "Co-founder", "image": "robert.jpg", "email": "robert@graph.med", "text": "Robert Schwarzenberg is a data scientist by training, with roots in explainability research. Having developed methods to inspect learning machines, he now develops methods to help inspect humans."},
   {"name": "Jan Laermann", "role": "Contributor", "image": "silhouette.svg"},
   {"name": "graph.med agent", "role": "AI agent", "image": "agent.svg", "text": "It does the heavy lifting on graph.med: it extracts the passages from the sources, links them into statements and concepts, and writes the code that builds this site. Every change it makes is a pull request, and reaches the site only after a person has reviewed and approved it."},
 ] %}
@@ -25,6 +26,8 @@
 <section class="about-row about-mission" lang="en">
   <a class="about-home" href="{{ base }}"><img class="about-image" src="{{ base }}assets/logo.svg?v={{ commit }}" alt="graph.med" width="96" height="96"></a>
   <div>
+    <h2>graph.med</h2>
+    <p class="about-role">Project</p>
     <p>{{ mission | e | replace("graph.med", home) }}</p>
     <p class="about-contact">Contact: <a href="mailto:info@graph.med">info@graph.med</a></p>
   </div>
@@ -36,6 +39,7 @@
     <h2>{{ r.name }}</h2>
     <p class="about-role">{{ r.role }}</p>
     {% if r.text %}<p>{{ r.text | e | replace("graph.med", home) }}</p>{% endif %}
+    {% if r.email %}<p class="about-contact">Contact: <a href="mailto:{{ r.email }}">{{ r.email }}</a></p>{% endif %}
   </div>
 </section>
 {% endfor %}
