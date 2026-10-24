@@ -1,17 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200" height="200" role="img" aria-label="robot">
-  <circle cx="50" cy="50" r="50" fill="#d9dce1"/>
-  <g stroke="#6b717b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M50 30 V22" fill="none"/>
-    <rect x="18" y="46" width="8" height="16" rx="3" fill="#9aa0a8"/>
-    <rect x="74" y="46" width="8" height="16" rx="3" fill="#9aa0a8"/>
-    <rect x="25" y="30" width="50" height="44" rx="14" fill="#f6f7f9"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200" height="200" role="img" aria-label="stick figure with the graph.med mark as its head">
+  <defs><clipPath id="disc"><circle cx="50" cy="50" r="50"/></clipPath></defs>
+  <g clip-path="url(#disc)">
+    <rect width="100" height="100" fill="#d9dce1"/>
+    <!-- the body: a stick figure, in the mark's black -->
+    <g fill="none" stroke="#000000" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M50 48 V72"/>
+      <path d="M37 66 L50 56 L63 66"/>
+      <path d="M40 90 L50 72 L60 90"/>
+    </g>
+    <!-- the head: the graph.med mark (logo.svg), at 36 of its 100 -->
+    <g transform="translate(32 12) scale(.36)">
+      <rect width="100" height="100" rx="26" ry="26" fill="#000000"/>
+      <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M62.3 29.7 A23 23 0 1 0 62.3 70.3" stroke-width="10.4"/>
+        <g stroke-width="6.6">
+          <path d="M43.5 50 H60"/>
+          <path d="M60 50 L73 37"/>
+          <path d="M60 50 L73 63"/>
+          <path d="M60 50 H76.4"/>
+        </g>
+      </g>
+      <g fill="#ffffff">
+        <circle cx="73" cy="37" r="4.4"/>
+        <circle cx="76.4" cy="50" r="4.4"/>
+        <circle cx="73" cy="63" r="4.4"/>
+      </g>
+    </g>
   </g>
-  <circle cx="50" cy="18.5" r="4.5" fill="#0b5cad"/>
-  <circle cx="40" cy="48" r="5.5" fill="#2b2f36"/>
-  <circle cx="60" cy="48" r="5.5" fill="#2b2f36"/>
-  <circle cx="41.8" cy="46.2" r="1.6" fill="#fff"/>
-  <circle cx="61.8" cy="46.2" r="1.6" fill="#fff"/>
-  <circle cx="33.5" cy="59" r="3.5" fill="#f2a7a7"/>
-  <circle cx="66.5" cy="59" r="3.5" fill="#f2a7a7"/>
-  <path d="M41 60 Q50 68 59 60" fill="none" stroke="#2b2f36" stroke-width="3" stroke-linecap="round"/>
 </svg>
