@@ -23,8 +23,18 @@
 {# a count and its word, the pair chosen by the count (`one` for 1, else `many`) #}
 {% macro n(key, count) %}<b>{{ count }}</b> {{ W.counts[key].one if count == 1 else W.counts[key].many }}{% endmacro %}
 {% block main %}
+{# for whoever reads the page's text — a screen reader, an assistant — first in <main>, in the page chrome's words: that
+   this page offers no session tools, and that each graph's page does (§8), a fact and no request #}
+{% set llms %}<a href="{{ base }}llms.txt">llms.txt</a>{% endset %}
+<p class="visually-hidden" id="agent-note" lang="{{ page_lang }}">{{ page.agent.home.note | e | replace("{llms}", llms) }}</p>
 <section class="graph-wrap" lang="{{ page_lang }}">
   <div id="graph" role="img" aria-label="graph.med"></div>
+  {# the ready prompt, where a graph's page has it: this one asks the assistant to open a graph and work there #}
+  <div class="controls">
+    <div class="tools right">
+      <button type="button" id="agent-copy" data-copy="{{ page.agent.home.prompt }}" title="{{ page.agent.prompt.label }}" aria-label="{{ page.agent.prompt.label }}" aria-describedby="agent-note"><svg class="idle" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 1.5 8.4 5.6 12.5 7 8.4 8.4 7 12.5 5.6 8.4 1.5 7 5.6 5.6ZM12.5 10.5v4M10.5 12.5h4"/></svg><svg class="copied" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 6.5 12 13 4.5"/></svg></button>
+    </div>
+  </div>
 </section>
 <section class="sheet" id="sheet" aria-live="polite" lang="{{ page_lang }}" data-close="{{ page.sheet.close }}">
 <h1 lang="en">{{ heading }}</h1>
@@ -70,5 +80,7 @@
 <script src="{{ base }}assets/vendor/cytoscape-3.30.2.min.js?v={{ commit }}"></script>
 <script src="{{ base }}assets/vendor/dagre-0.8.5.min.js?v={{ commit }}"></script>
 <script src="{{ base }}assets/vendor/cytoscape-dagre-2.5.0.js?v={{ commit }}"></script>
+{# what the page function gives in place of tools (tools/site/session-tools.json, `index`) #}
+<script type="application/json" id="session-tools">{{ agent_json | safe }}</script>
 <script src="{{ base }}assets/home.js?v={{ commit }}"></script>
 {% endblock %}

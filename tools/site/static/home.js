@@ -48,13 +48,19 @@
   if (scheme) { if (scheme.addEventListener) scheme.addEventListener("change", retheme); else scheme.addListener(retheme); }
 
   /* the whole tree, centred, at the largest size up to ZOOM.max; one too tall even at ZOOM.min starts at the top
-     and runs out below, to be panned */
+     and runs out below, to be panned. It fits below the controls' row where that shows a button (the prompt's;
+     a phone leaves it out), as a view's graph fits in its free row */
   function fit() {
-    var bb = cy.elements().boundingBox({ includeLabels: true }), w = cy.width(), h = cy.height();
+    var bb = cy.elements().boundingBox({ includeLabels: true }), w = cy.width(), top = Math.max(0, controls() - PAD), h = cy.height() - top;
     if (!bb.w || !bb.h) return;
     var zoom = Math.max(ZOOM.min, Math.min((w - 2 * PAD) / bb.w, (h - 2 * PAD) / bb.h, ZOOM.max));
     var tall = bb.h * zoom > h - 2 * PAD;
-    cy.viewport({ zoom: zoom, pan: { x: (w - bb.w * zoom) / 2 - bb.x1 * zoom, y: tall ? PAD - bb.y1 * zoom : (h - bb.h * zoom) / 2 - bb.y1 * zoom } });
+    cy.viewport({ zoom: zoom, pan: { x: (w - bb.w * zoom) / 2 - bb.x1 * zoom, y: top + (tall ? PAD - bb.y1 * zoom : (h - bb.h * zoom) / 2 - bb.y1 * zoom) } });
+  }
+  /* how far the controls' row reaches into the canvas, 0 while it shows nothing */
+  function controls() {
+    var row = main.querySelector(".controls"), shown = row && Array.prototype.some.call(row.querySelectorAll("button"), function (b) { return b.getClientRects().length; });
+    return shown ? row.getBoundingClientRect().bottom - canvas.getBoundingClientRect().top : 0;
   }
   /* left to right where the canvas leaves a box at least its least width beside the widest node of each level and the
      gaps between them; else indented, a box as wide as the canvas leaves it after the deepest step */
@@ -227,7 +233,20 @@
     select(hashRef(), false);
   }
 
+  /* the page function where a graph's page has its session tools (docs/publication.md §8): this page has none, so
+     describe() and every call give in their place the words of session-tools.json's `index` and the graphs, each
+     with the url of its page, read from the entries before the sheet changes — an assistant sent here with a graph
+     page's prompt is led on to a graph instead of failing. It is there whether or not the graph could be drawn */
+  var tools = JSON.parse(document.getElementById("session-tools").textContent), graphs = [];
+  sheet.querySelectorAll("[data-ref]").forEach(function (entry) {
+    var a = entry.querySelector(".entry-title a");
+    if (a) graphs.push({ id: entry.dataset.ref, title: a.textContent.trim(), url: a.href });
+  });
+  function describe() { return { version: tools.version, about: tools.about, tools: [], graphs: graphs }; }
+  function call(name) { return Promise.resolve({ error: "no tool " + name + " on this page", hint: tools.about, graphs: graphs }); }
+  var agent = { version: tools.version, describe: describe, call: call };
+
   /* a graph that cannot be drawn leaves the page as it reads without the script: the sheet alone */
-  try { draw(); } catch (e) { main.classList.add("flat"); throw e; }
-  window.graphmed = { cy: cy, open: select };   /* for the console and tests (tools/screenshot.js: open=<view id>) */
+  try { draw(); } catch (e) { main.classList.add("flat"); window.graphmed = { agent: agent }; throw e; }
+  window.graphmed = { cy: cy, open: select, agent: agent };   /* for the console and tests (tools/screenshot.js: open=<view id>), and the page function */
 })();

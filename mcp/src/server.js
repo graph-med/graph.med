@@ -105,7 +105,7 @@ export async function callTool(reader, name, args) {
 }
 
 export function createServer(reader) {
-  const server = new McpServer({ name: words.server.name, title: words.server.title, version: VERSION }, { instructions: words.disclaimer });
+  const server = new McpServer({ name: words.server.name, title: words.server.title, version: VERSION }, { instructions: words.instructions });
   for (const [name, spec] of Object.entries(words.tools)) {
     server.registerTool(
       name,

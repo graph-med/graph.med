@@ -53,13 +53,16 @@
   <span lang="en">{{ repository_license }}</span>
 </footer>
 <script>
-/* the copy button beside a quote: for viewers that cannot highlight a search from the link
-   (Chrome, Edge, Safari), the quote goes to the clipboard so that Ctrl+F in the document finds it;
-   the button keeps its label — every word of the card comes from the build's table — and shows the
-   state by a class for a moment */
+/* every copy button of the site, by its data-copy: the button beside a quote — for viewers that cannot highlight a
+   search from the link (Chrome, Edge, Safari), the quote goes to the clipboard so that Ctrl+F in the document finds
+   it — and a view page's prompt for an assistant. The button keeps its label — every word comes from the build's
+   table — and shows the state by a class for a moment. Where the clipboard is not offered or refuses, a dialog
+   holds the text marked, to be copied by hand */
 document.addEventListener("click", function (e) {
-  var b = e.target.closest("button.copy"); if (!b || !navigator.clipboard) return;
-  navigator.clipboard.writeText(b.dataset.copy).then(function () { b.classList.add("done"); setTimeout(function () { b.classList.remove("done"); }, 1500); });
+  var b = e.target.closest("button[data-copy]"); if (!b) return;
+  var text = b.dataset.copy, by = function () { window.prompt({{ S.copy_manual | tojson }}, text); };
+  if (!navigator.clipboard || !navigator.clipboard.writeText) return by();
+  navigator.clipboard.writeText(text).then(function () { b.classList.add("done"); setTimeout(function () { b.classList.remove("done"); }, 1500); }, by);
 });
 /* the contested marker in a statement's judgement jumps to its zone 7 within the sheet; the hash stays,
    since on a view page it is the deep link the graph follows */

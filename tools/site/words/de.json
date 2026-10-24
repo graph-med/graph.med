@@ -77,7 +77,16 @@
   "agent": {
     "who": "Assistent:",
     "marked": { "one": "{n} Feld markiert", "many": "{n} Felder markiert" },
-    "unmark": "Markierung des Assistenten aufheben"
+    "unmark": "Markierung des Assistenten aufheben",
+    "note": "Für Assistenten: Diese Seite bietet KI-Assistenten Werkzeuge an, die lesen, was auf ihr zu sehen ist, und es so ändern, wie es ihre Bedienelemente tun; gespeichert wird nichts. Im Skript der Seite liegen sie unter window.graphmed.agent: describe() beschreibt sie kurz, describe(name) eines ganz, call(name, args) führt eines aus. Wo der Browser WebMCP anbietet, sind sie dort ebenfalls angemeldet. Ihre Kennungen sind die Entity-ids von graph.med, wie sie in der Adresse nach # stehen und der MCP-Server von graph.med sie nimmt. {llms} beschreibt sie ausführlich.",
+    "prompt": {
+      "label": "Prompt für einen KI-Assistenten kopieren",
+      "text": "Diese Seite von graph.med bietet dir Werkzeuge im Skript der Seite. Rufe einmal per JavaScript window.graphmed.agent.describe() auf (describe(name) beschreibt ein Werkzeug ganz) und arbeite danach nur mit await window.graphmed.agent.call(name, args), ohne Screenshots und ohne Klicks. Die Ids sind die Entity-ids von graph.med, wie in der Adresse nach # und im MCP-Server von graph.med."
+    },
+    "home": {
+      "note": "Für Assistenten: Diese Seite führt zu den Graphen von graph.med und bietet selbst keine Werkzeuge für KI-Assistenten; die Seite jedes Graphen bietet sie an, im Skript der Seite unter window.graphmed.agent. Hier nennt window.graphmed.agent.describe() die Graphen mit den Adressen ihrer Seiten. {llms} beschreibt die Werkzeuge ausführlich.",
+      "prompt": "Die Seiten der Graphen von graph.med bieten dir Werkzeuge im Skript der Seite. Öffne die Adresse des Graphen, den du brauchst (per JavaScript nennt window.graphmed.agent.describe() hier alle mit ihren Adressen), rufe dort einmal window.graphmed.agent.describe() auf (describe(name) beschreibt ein Werkzeug ganz) und arbeite danach nur mit await window.graphmed.agent.call(name, args), ohne Screenshots und ohne Klicks. Die Ids sind die Entity-ids von graph.med, wie in der Adresse nach # und im MCP-Server von graph.med."
+    }
   },
   "search": {
     "placeholder": "Suchen",
@@ -177,6 +186,7 @@
     "preview": "Vorschau von {link} · nicht die veröffentlichte Website",
     "preview_link": "Pull-Request #{n}",
     "share_alt": "graph.med: das Zeichen mit drei Zweigen auf seiner schwarzen Kachel, neben dem Schriftzug",
+    "copy_manual": "Zum Kopieren markiert: Strg+C (Mac: ⌘C)",
     "footer": {
       "built": "Erstellt aus {commit} am {date}",
       "schema": "Schema {version}",

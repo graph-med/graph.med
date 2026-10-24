@@ -54,6 +54,7 @@ SITE = "https://graph.med"   # the origin of the published site and its previews
 # as `meta.repository_license` (docs/publication.md §4) — the repository's, with no claim about what it covers
 REPOSITORY_LICENSE = "PolyForm Noncommercial 1.0.0"
 CONTRACT = f"{REPO}/blob/main/docs/publication.md#4-entity-pages-and-json"   # where the JSON's keys are described
+MCP = "https://mcp.graph.med/mcp"   # the read-only MCP server (docs/publication.md §8), named in llms.txt beside the session tools
 REGISTER_FIELDS = ("awmf_register",)   # the schema's register fields of a source, carried by index.json as recorded
 
 CLAIM_EDGES = ("supports", "contests")   # how a claim bears on a statement (spec §5)
@@ -151,7 +152,7 @@ CARD_KEYS = ("zone.wording", "zone.evidence", "zone.applies", "zone.body_text", 
              "facet.procedure", "facet.patient_state", "facet.medication", "facet.intervention", "facet.outcome", "facet.finding", "facet.qualifier",
              "kind.recommendation", "kind.criterion", "kind.definition", "kind.fact", "kind.gap_notice",
              "slot.outcome", "concept.uses", "concept.codes", "claim.statements", "edge.supports", "edge.contests",
-             "source.claims.one", "source.claims.many", "page.json",
+             "source.open", "source.claims.one", "source.claims.many", "page.json",
              # what applies generally through a view's scope tree (docs/publication.md §3): on a concept, and on the card
              "concept.general", "scope.general_for.one", "scope.general_for.many", "scope.condition",
              # a derived concept's rule, under its row of zone 5 and on its own page (docs/publication.md §3, §4); its
@@ -213,7 +214,7 @@ CARD_WORDS = {"de": {
     "kind.gap_notice": "Lücke",
     "slot.outcome": "Endpunkt", "concept.uses": "Verwendet in", "concept.codes": "Kodiert als", "claim.statements": "Bezieht sich auf",
     "edge.supports": "stützt", "edge.contests": "widerspricht",
-    "source.claims.one": "{n} Textstelle erfasst", "source.claims.many": "{n} Textstellen erfasst", "page.json": "JSON",
+    "source.open": "Zur Quelle", "source.claims.one": "{n} Textstelle erfasst", "source.claims.many": "{n} Textstellen erfasst", "page.json": "JSON",
     "concept.general": "Allgemein geltende Empfehlungen", "scope.general_for.one": "Gilt allgemein auch für {n} weitere Gruppe",
     "scope.general_for.many": "Gilt allgemein auch für {n} weitere Gruppen", "scope.condition": "Voraussetzung",
     "derivation.rule": "abgeleitet, nach der Regel", "derivation.rules": "abgeleitet; die Leitlinie gibt die Regel an {n} Stellen abweichend an:",
@@ -490,13 +491,17 @@ def session_tools() -> dict:
     tools"): their names, the words a model reads about them, and the shape of their arguments, handed to every
     view page as data; graph.js implements each by name. Read once; a name WebMCP would refuse (letters, digits,
     `_`, `-` and `.`, at most 128), a name twice, a tool without a description or without an object schema stops
-    the build, as a browser's registration would refuse it later."""
+    the build, as a browser's registration would refuse it later; so does one without its `line`, which
+    describe()'s brief form gives in place of the description; and so does a file without `index`, the words the
+    index page's page function gives in their place (it has no tools, and names the graphs)."""
     path = SITE_SRC / "session-tools.json"
     spec = json.loads(path.read_text(encoding="utf-8"))
     names = [t.get("name", "") for t in spec["tools"]]
     for t in spec["tools"]:
-        if not re.fullmatch(r"[A-Za-z0-9_.-]{1,128}", t.get("name", "")) or not t.get("description") or (t.get("inputSchema") or {}).get("type") != "object":
-            raise SystemExit(f"{path.relative_to(ROOT)}: tool {t.get('name')!r} needs a name WebMCP accepts, a description and an object inputSchema")
+        if not re.fullmatch(r"[A-Za-z0-9_.-]{1,128}", t.get("name", "")) or not t.get("description") or not t.get("line") or (t.get("inputSchema") or {}).get("type") != "object":
+            raise SystemExit(f"{path.relative_to(ROOT)}: tool {t.get('name')!r} needs a name WebMCP accepts, a description, a line and an object inputSchema")
+    if not spec.get("index"):
+        raise SystemExit(f"{path.relative_to(ROOT)}: `index` needs the words the index page's page function gives")
     if len(set(names)) != len(names):
         raise SystemExit(f"{path.relative_to(ROOT)}: a tool name twice: {', '.join(sorted({n for n in names if names.count(n) > 1}))}")
     return {k: v for k, v in spec.items() if k != "_"}   # the file's own note stays in the repository
@@ -2077,7 +2082,7 @@ def main(argv=None) -> int:
         (out / vid / "index.html").write_text(
             view_tpl.render(view=view, vid=vid, title=title, sources=sources, counts=counts, legend=data["legend"], facets=facets,
                             graph_json=dumps(data).replace("</", "<\\/"),   # safe inside <script>
-                            tools_json=dumps(session_tools()).replace("</", "<\\/")), encoding="utf-8")
+                            tools_json=dumps({k: v for k, v in session_tools().items() if k != "index"}).replace("</", "<\\/")), encoding="utf-8")
         (out / (vid + ".json")).write_text(dumps(data), encoding="utf-8")
         # the path view (docs/publication.md §3 "The path view"): a page for every statement of the view on a `follows`
         # edge, <view-id>/sequence/<statement>/, drawing the chain it stands in (path_of) entered from it — the same
@@ -2139,7 +2144,10 @@ def main(argv=None) -> int:
 
     # the index: the only page where the views meet — one question, a box and an entry per view, the box drawn by
     # assets/home.js from the entry; its words are the page chrome's (tools/site/words/)
-    (out / "index.html").write_text(env.get_template("index.html").render(views=views), encoding="utf-8")
+    # and, for an assistant beside its reader, what its page function gives in place of tools: the words, the graphs
+    # it reads from the entries (home.js)
+    agent = {"version": session_tools()["version"], "about": session_tools()["index"]}
+    (out / "index.html").write_text(env.get_template("index.html").render(views=views, agent_json=dumps(agent).replace("</", "<\\/")), encoding="utf-8")
     # the index for programs and its description (docs/publication.md §2, §4): every view with its files and groupings,
     # at the root of the site and of every preview; llms.txt describes, in English, and instructs nothing
     index = {"commit": commit, "schema": {"version": schema.get("x-version"), "url": at("schema/schema.yaml")},
@@ -2147,7 +2155,7 @@ def main(argv=None) -> int:
     (out / "index.json").write_text(dumps(index), encoding="utf-8")
     (out / "llms.txt").write_text(env.get_template("llms.txt").render(
         index=index, index_url=at("index.json"), site=at(""), cards=list(CARD_QUESTIONS), directions=list(DIRECTION_GLYPH),
-        plain=PLAIN, chapters=CHAPTERS, lean_node=LEAN_NODE, lean_edge=LEAN_EDGE,
+        plain=PLAIN, chapters=CHAPTERS, lean_node=LEAN_NODE, lean_edge=LEAN_EDGE, tools=session_tools(), mcp=MCP,
         transitions=schema["$defs"]["edge_props"]["properties"]["transition"]["enum"],
         triggers=schema["$defs"]["edge_props"]["properties"]["trigger"]["enum"]), encoding="utf-8")
     print(f"built {len(views)} view(s) and {len(pool.entities) - len(views)} entity pages into {out.relative_to(ROOT) if out.is_relative_to(ROOT) else out} (base {base}{', preview of pull request ' + str(args.preview) if args.preview else ''})")

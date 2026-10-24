@@ -39,12 +39,20 @@ const INDEX = new Set([...ANYWHERE, "open", "sheet", "graph"]);   /* what the in
         throw new Error(`key=${value} followed a link to ${page.url().replace("file:///site/", "")}; a followed link cannot be captured, so stop the keys before it`);
       continue;
     }
-    if (action === "call") {   /* a session tool, called as an assistant calls it (window.graphmed.agent): its answer, and its size, in the report */
+    /* a session tool, called as an assistant calls it (window.graphmed.agent): its answer, its size and what it says, in
+       the report — and, where it was called without a size of its own (limit, part, the boxes of an act), whether it is
+       over the size docs/publication.md §8 states: an act's brief answer 1.5 KB, any other answer 6 KB */
+    if (action === "call") {
       const at = value.indexOf(":"), name = at < 0 ? value : value.slice(0, at), args = at < 0 ? {} : JSON.parse(value.slice(at + 1));
       const r = await page.evaluate((n, a) => window.graphmed.agent.call(n, a), name, args);
-      const bytes = Buffer.byteLength(JSON.stringify(r));
-      calls.push(`call ${name}: ${bytes} bytes, ` + (r.error ? `refused: ${r.error}` : `${r.boxes.length} of ${r.total} boxes, ${r.boxes.filter(b => b.in_view).length} in view`),
-                 "    " + (JSON.stringify(r).length > 1500 ? JSON.stringify(r).slice(0, 1500) + " …" : JSON.stringify(r)));
+      const text = JSON.stringify(r), bytes = Buffer.byteLength(text);
+      const sized = "limit" in args || "part" in args || "view" in args, cap = r.act ? 1536 : 6144;
+      const says = r.error ? `refused: ${r.error}` + (r.hint ? ` (${r.hint})` : "") + (r.near ? `; near: ${r.near.map(n => n.id).join(", ")}` : "")
+        : r.act ? `${r.act}: ` + (r.acted_on ? `${r.acted_on.in_view} of the ${r.acted_on.shown} shown acted on in view` + (r.acted_on.folded ? `, ${r.acted_on.folded} folded away` : "") : "done") + (r.boxes ? `, ${r.boxes.length} of ${r.total} boxes` : "")
+        : r.hits ? `${r.hits.length} of ${r.total} hits` : r.parts ? `${r.parts.length} parts` + (r.parts.some(p => p.cut) ? ", some cut" : "")
+        : r.boxes ? `${r.boxes.length} of ${r.total} boxes, ${r.boxes.filter(b => b.in_view).length} in view` : `the state: ${r.shown} boxes shown`;
+      calls.push(`call ${name}: ${bytes} bytes` + (!sized && bytes > cap ? ` — over ${cap}` : "") + `, ${says}`,
+                 "    " + (text.length > 1500 ? text.slice(0, 1500) + " …" : text));
       await settle(page); continue;
     }
     if (action === "graph" || action === "sheet") {   /* bring the graph or the details into view as a reader does */

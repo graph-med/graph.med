@@ -17,6 +17,14 @@ export const server = {
 export const disclaimer =
   'graph.med is not a medical device under the EU Medical Device Regulation (MDR). Its information was retrieved with the help of AI, and it includes AI-generated content. It is provided without warranty; use it with care.';
 
+// The server's instructions: the disclaimer first, then, as a fact, what a graph's
+// page offers an assistant beside its reader (docs/publication.md §8, "The session
+// tools"; card #410), so that a client which holds this server knows of them
+// before it reads a page. Like every word here, it states and never instructs.
+export const pages =
+  "Each graph's page on graph.med offers an assistant beside its reader session tools: they read what the reader sees and change it as the page's own controls do, and persist nothing. A program running script in the page reaches them as window.graphmed.agent (describe() lists them, call(name, args) runs one); where the browser offers WebMCP, the page registers them there too. They name entities by the ids this server takes, as in the page's URL after #. The site's llms.txt describes them.";
+export const instructions = `${disclaimer}\n\n${pages}`;
+
 // Words that travel with the metadata of every result.
 export const about = {
   license:
