@@ -19,10 +19,12 @@
 {% block crumbs %}<span class="crumb" lang="en">About</span>{% endblock %}
 {% block mainclass %}about{% endblock %}
 {% block main %}
+{# every mention of graph.med in the texts links the index, as the header's mark does #}
+{% set home %}<a href="{{ base }}">graph.med</a>{% endset %}
 <h1 class="visually-hidden" lang="en">About graph.med</h1>
 <section class="about-row about-mission" lang="en">
   <img class="about-image" src="{{ base }}assets/logo.svg?v={{ commit }}" alt="graph.med" width="96" height="96">
-  <p>{{ mission }}</p>
+  <p>{{ mission | e | replace("graph.med", home) }}</p>
 </section>
 {% for r in rows %}
 <section class="about-row" lang="en">
@@ -30,7 +32,7 @@
   <div>
     <h2>{{ r.name }}</h2>
     <p class="about-role">{{ r.role }}</p>
-    {% if r.text %}<p>{{ r.text }}</p>{% endif %}
+    {% if r.text %}<p>{{ r.text | e | replace("graph.med", home) }}</p>{% endif %}
   </div>
 </section>
 {% endfor %}
