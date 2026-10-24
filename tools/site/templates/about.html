@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {# The about page (docs/publication.md §2): what graph.med is for and who makes it, reached from the index's node
-   "About" under graph.med and from the link the index's sheet carries for it. Four rows, each an image and its text
-   beside it: the mark with the mission, then the two people, then the agent. Like the index's heading and lead, what
+   "About" under graph.med and from the link the index's sheet carries for it. Five rows, each an image and its text
+   beside it: the mark with the mission, then the three people, then the agent. Like the index's heading and lead, what
    the page says about graph.med itself is English, and bound to no kind of source; it names no guideline. The people's
    bios are placeholders, and each shows a silhouette where a portrait will go (#433): no photo is committed until the
    maintainer adds one. The agent names no vendor and no model. Every image is a file of the site (assets/). #}
@@ -10,7 +10,8 @@
 {% set rows = [
   {"name": "Anton Zolkin", "image": "silhouette.svg", "text": lorem},
   {"name": "Robert Schwarzenberg", "image": "silhouette.svg", "text": lorem},
-  {"name": "graph.med agent", "image": "agent.svg", "text": "An AI agent that works on graph.med beside Anton and Robert. It extracts the passages from the sources, links them into statements and concepts, and writes the code that builds this site. Every change it makes is a pull request, and reaches the site only after a person has reviewed and approved it."},
+  {"name": "Jan Laermann", "image": "silhouette.svg", "text": lorem},
+  {"name": "graph.med agent", "image": "agent.svg", "text": "An AI agent that works on graph.med beside Anton, Robert and Jan. It extracts the passages from the sources, links them into statements and concepts, and writes the code that builds this site. Every change it makes is a pull request, and reaches the site only after a person has reviewed and approved it."},
 ] %}
 {% block title %}About — graph.med{% endblock %}
 {% block description %}{{ mission | truncate(200, True, "…") }}{% endblock %}

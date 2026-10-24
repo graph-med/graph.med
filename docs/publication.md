@@ -154,14 +154,15 @@ wide screen the banner wraps to the lines it needs and the graph takes the rest 
 window.
 
 **The about page**, `graph.med/about/`, says what graph.med is for and who makes it
-(the maintainer, 2026-10-24, #433): four rows, each an image with its text beside it,
+(the maintainer, 2026-10-24, #433): five rows, each an image with its text beside it,
 on a phone too narrow for both the image above — the mark with a paragraph on the
-mission; Anton Zolkin, then Robert Schwarzenberg, each a portrait, the name and a
-paragraph; and the project's AI agent, a stick figure whose head is the mark, its
-name and a paragraph on what it does, naming no vendor and no model. Like the index's
-heading it is English and names no guideline; its words live in its template (`tools/site/templates/about.html`),
-and every image is a file of the site. A portrait is a silhouette until the maintainer
-adds a photo; none is committed before that.
+mission; Anton Zolkin, Robert Schwarzenberg and Jan Laermann, each a portrait, the
+name and a paragraph; and the project's AI agent, a stick figure whose head is the
+mark, its name and a paragraph on what it does, naming no vendor and no model. Like
+the index's heading it is English and names no guideline; its words live in its
+template (`tools/site/templates/about.html`), and every image is a file of the site. A
+portrait is a silhouette until the maintainer adds a photo; none is committed before
+that.
 
 ---
 
