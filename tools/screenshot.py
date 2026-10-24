@@ -22,7 +22,8 @@ tools/screenshot.js so that the layout can settle before the capture. The site i
 built into a temporary directory with base path /site/ and copied into the container;
 nothing is installed in the sandbox and nothing is mounted. Actions run in order
 before the capture. A view page takes every one; the index takes open=<view id> (select a
-guideline's box), sheet, graph, key=<key> and wait; any other page key=<key> and wait. An action
+guideline's box), a path view (<view-id>/sequence/<statement>) open=<statement id or step:<n>>
+(select a box or a step), and both sheet, graph, key=<key> and wait; any other page key=<key> and wait. An action
 the page does not take fails before anything runs, naming itself and what the page takes.
 The actions: by=<grouping> (choose the grouping: "" for the view's first, section for the
 chapters, or an axis id),

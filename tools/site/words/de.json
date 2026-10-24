@@ -27,12 +27,14 @@
     "states": {
       "contested": "umstritten",
       "related": "verwandt mit der gewählten",
-      "general": "gilt allgemein für die gewählte Gruppe"
+      "general": "gilt allgemein für die gewählte Gruppe",
+      "entered": "von hier geöffnet"
     },
     "edges": {
       "answer": "Antwort",
       "flow": "weiter",
-      "aim": "Ziel"
+      "aim": "Ziel",
+      "step": "Schritt: Übergang, Anlass, Bedingung"
     }
   },
   "sheet": {
@@ -111,11 +113,59 @@
     },
     "empty": "Aus diesem Abschnitt ist keine Empfehlung erfasst"
   },
+  "sequence": {
+    "before": "Davor",
+    "after": "Danach",
+    "transitions": {
+      "before": {
+        "replaces": "anstelle von",
+        "adds": "zusätzlich zu",
+        "follows": "nach",
+        "concurrent": "gleichzeitig mit"
+      },
+      "after": {
+        "replaces": "ersetzt durch",
+        "adds": "erweitert um",
+        "follows": "gefolgt von",
+        "concurrent": "gleichzeitig mit"
+      }
+    },
+    "triggers": {
+      "target_missed": "Anlass: Ziel nicht erreicht",
+      "intolerance": "Anlass: Unverträglichkeit",
+      "contraindication": "Anlass: Kontraindikation",
+      "target_reached": "Anlass: Ziel erreicht",
+      "reevaluation": "Anlass: Neubewertung",
+      "finding": "Anlass: Befund",
+      "other": "sonstiger Anlass"
+    }
+  },
+  "path": {
+    "open": "Pfad anzeigen",
+    "tree": "Im Entscheidungsbaum zeigen",
+    "back": "Entscheidungsbaum",
+    "kind": "Pfad",
+    "graph": "Pfad, geöffnet von {title}",
+    "fit": "Den ganzen Pfad einpassen",
+    "reading": "Jeder Pfeil ist ein Schritt für sich: von einer Empfehlung zu der, die die Leitlinie auf ihr Ergebnis folgen lässt, mit dem Übergang, dem Anlass und der Bedingung der späteren.",
+    "steps": "Die Schritte",
+    "step": "Schritt",
+    "why": "Warum dieser Schritt",
+    "condition": "Bedingung: {condition}"
+  },
   "source": {
     "licence_note": "verlinkt über die öffentliche URL, nie auf graph.med bereitgestellt",
     "version": "Version {version}",
     "date": "Stand {date}",
     "separator": ", ",
+    "printings": {
+      "version": "Version uneinheitlich angegeben: {printings}",
+      "date": "Stand uneinheitlich angegeben: {printings}",
+      "at": "{value} (S.\u00a0{pages})",
+      "pages": ",\u00a0",
+      "list": ", ",
+      "last": " und "
+    },
     "dates": {
       "year": "{year}",
       "month": "{month_name} {year}",

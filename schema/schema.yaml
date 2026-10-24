@@ -49,7 +49,9 @@
 # and a claim's quote lies there once, counted as the link's search counts),
 # and a source's version and date hold together (spec §6.1: a date is a calendar
 # date at the precision recorded, and every word of the version lies in one of
-# its quotes, which are the source's own), and an evidence row's `system` is one its
+# its quotes, which are the source's own; a field printed two ways lists each
+# printing once, with its own quotes, in the order of the pages that first print
+# it), and an evidence row's `system` is one its
 # claim's source declares (spec §3.1: `rating_systems`, a slug declared once
 # per source, every word of its name in its quotes, the quotes the source's own).
 # CI runs it on every pull request and push to main (.github/workflows/validate.yml).
@@ -60,7 +62,7 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 $id: https://graph.med/schema/schema.yaml
 title: graph.med pool
-x-version: 0.24.0
+x-version: 0.25.0
 
 # ── layout: which definition each data file validates against ────────────────
 # (data/README.md). Globs are relative to the repository root. `one_per_file`
@@ -393,6 +395,29 @@ $defs:
       source:    {$ref: '#/$defs/references'}    # the line that prints the name
       rationale: {$ref: '#/$defs/text'}          # in the source's language, where the quotes alone do not carry it
 
+  # one printing of a source's version, where the source prints its version two ways or more (spec §6.1): the label as
+  # those places print it, without the word for it, and their quotes. The source lists every printing, none chosen,
+  # each label once — one label printed in several places is one printing with a quote for each —, in the order of the
+  # pages that first print them; every word of a label lies as a whole word in one of its own quotes, which are the
+  # source's (validator). Where the printings differ is the source's own inconsistency, shown, never resolved
+  version_printing:
+    type: object
+    required: [version, source]
+    additionalProperties: false
+    properties:
+      version: {$ref: '#/$defs/text'}         # as printed there ("1.1", "1")
+      source:  {$ref: '#/$defs/references'}   # where it is printed so
+  # one printing of the date a source gives its version, where it prints that date two ways or more (spec §6.1): read
+  # as ISO 8601 at the precision printed there, and the quotes that print it; listed as a version's printings are, each
+  # date once, a real calendar date at its precision (validator)
+  date_printing:
+    type: object
+    required: [date, source]
+    additionalProperties: false
+    properties:
+      date:   {$ref: '#/$defs/date_at_precision'}
+      source: {$ref: '#/$defs/references'}
+
   # ── provenance (spec §6.2–6.4) ────────────────────────────────────────────
   locator:
     type: string
@@ -433,10 +458,19 @@ $defs:
       content_hash:  {$ref: '#/$defs/sha256', x-provenance: not_applicable}
       license:       {$ref: '#/$defs/text',   x-provenance: not_applicable}
       media_type:    {$ref: '#/$defs/text',   x-provenance: not_applicable}
-      version:       {$ref: '#/$defs/text',   x-provenance: required}   # the version as printed, without the word for it ("1.0", "4.0"); a label, never a number
-      date:          {$ref: '#/$defs/date_at_precision', x-provenance: required}   # the date the source prints for its version (its "Stand"),
-                                     # ISO 8601 at the precision printed ("2023-11", "2025-04-30"): shown, never used to rank (spec §6.1)
-      provenance:    # where the source prints its version and that date: their printed form, which --verify-quotes checks
+      version:       # the version as printed, without the word for it ("1.0", "4.0"); a label, never a number. A source that
+                     # prints it two ways or more lists each printing, none chosen (spec §6.1; `version_printing`)
+        x-provenance: required   # one printing: its quotes under `provenance.version`; several: each printing's own `source`
+        anyOf:
+          - $ref: '#/$defs/text'
+          - {type: array, minItems: 2, items: {$ref: '#/$defs/version_printing'}}
+      date:          # the date the source prints for its version (its "Stand"), ISO 8601 at the precision printed
+                     # ("2023-11", "2025-04-30"): shown, never used to rank (spec §6.1); printed two ways or more, each printing
+        x-provenance: required   # as `version`: `provenance.date`, or each printing's own `source`
+        anyOf:
+          - $ref: '#/$defs/date_at_precision'
+          - {type: array, minItems: 2, items: {$ref: '#/$defs/date_printing'}}
+      provenance:    # where the source prints its version and that date, printed one way: their printed form, which --verify-quotes checks
         type: object
         additionalProperties: false
         properties:
@@ -467,15 +501,16 @@ $defs:
         items: {$ref: '#/$defs/rating_system'}
         x-provenance: optional   # carried by each entry: the line that prints the name, never `modelling`
     allOf:   # a version or a date is quoted where the source prints it, and a quote is of a field the source records;
-             # a source with neither records neither
-      - if: {required: [version]}
+             # a source with neither records neither. Printed one way, the value is quoted under `provenance`; printed two
+             # ways or more, each printing carries its own quotes, and `provenance` holds none for that field
+      - if: {required: [version], properties: {version: {type: string}}}
         then: {required: [provenance], properties: {provenance: {required: [version]}}}
-      - if: {required: [date]}
+      - if: {required: [date], properties: {date: {type: string}}}
         then: {required: [provenance], properties: {provenance: {required: [date]}}}
       - if: {required: [provenance], properties: {provenance: {required: [version]}}}
-        then: {required: [version]}
+        then: {required: [version], properties: {version: {type: string}}}
       - if: {required: [provenance], properties: {provenance: {required: [date]}}}
-        then: {required: [date]}
+        then: {required: [date], properties: {date: {type: string}}}
 
   claim:
     description: >
@@ -505,6 +540,8 @@ $defs:
       verb:      {$ref: '#/$defs/text', x-provenance: required}
              # the wording the sentence uses, in the form a scheme gives it (never inflected, never negated): one
              # some declared `grading_scheme` defines — its own source's, or another's (validator)
+             # absent where the sentence prints none (`verb: null` in the MCP server's results): a fact, a definition, a gap
+             # notice, most criteria, and an instruction in no scheme's wording ("ist … zu beachten"), graded or not
       direction: {enum: [for, against], x-provenance: required}
              # as the sentence reads; the one its grade fixes, where the grade fixes one (validator; spec §3.1)
       basis:     {$ref: '#/$defs/text', x-provenance: required}

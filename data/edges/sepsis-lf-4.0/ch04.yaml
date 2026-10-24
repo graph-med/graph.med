@@ -1,6 +1,7 @@
 # Edges minted with chapter 4 of sources/sepsis-lf-4.0 (card #222): the box claims' supports, the body-text
 # relations of spec §5.1 (the clause that decided each edge and the term as printed, in the rationale), and the
-# relations between the chapter's statements. No defined_by: the chapter prints no rule for a concept it mints.
+# relations between the chapter's statements. No defined_by: the chapter prints no rule for a concept it mints. Card
+# #296 replaced 4.6 → 4.5's `complements` by the sequence edge `follows` (spec §5).
 # evidence — each box sentence of recommendation form supports its own statement; 4.7 and 4.11's second
 # sentence are gap notices and stay unlinked
 - - claims/sepsis-lf-4.0/14c48a65
@@ -203,10 +204,22 @@
     rationale: "Albumin wird „additiv zu balancierten Kristalloiden“ verabreicht (4.2): es tritt zur Flüssigkeitstherapie der ersten Wahl (4.1) hinzu und ersetzt sie nicht; die Population ist dieselbe, der Bedarf großer Flüssigkeitsmengen die Bedingung."
     lang: de
     as_of: "2026-09-25"
+# sequences (spec §5 `follows`; #294, #295; card #296): within chapter 4, each candidate read by the four tests of
+# spec §5. 4.6 follows 4.5, the edge replacing the `complements` the pair carried (#294 Decision 3); 8.1's edges to
+# 4.5 and 4.1 are in cross-chapter.yaml. No edge, each candidate named in the pull request: 4.2 → 4.1 keeps
+# `complements` above (its „wenn große Mengen an Flüssigkeit benötigt werden“ is a state worded without a measure,
+# test 2); 4.6 → 4.1 (p. 64's caution for patients „die nicht euvolämisch sind“: a state, and a limit); 4.9 → 4.1 and
+# 4.9 → 4.5 („trotz angemessenem Flüssigkeitsstatus und arteriellem Blutdruck“: states, test 2); 4.11 → 4.5
+# („therapierefraktären“ names no measure, test 2). The steps only the body text gives stay as §5.1 links them, no
+# node of a chain (#294 Decision 7): higher vasopressin doses where alternative vasopressors failed (p. 64, limits),
+# the arterial catheter and its removal (p. 65, supplements), the β-blocker exception after volume and vasopressors
+# (p. 72, supplements).
 - - statements/vasopressin-ergaenzen-septischer-schock
-  - complements
+  - follows
   - statements/noradrenalin-vasopressor-erster-wahl
   - source: modelling
-    rationale: "Vasopressin wird „ergänzt“, „wenn mit Noradrenalin alleine kein ausreichender Blutdruck erzielt werden kann“ (4.6): es tritt zu Noradrenalin, dem Vasopressor erster Wahl (4.5), hinzu und ersetzt es nicht."
+    transition: adds
+    trigger: target_missed
+    rationale: "Empfehlung 4.6 (S. 63) ergänzt Vasopressin, „wenn mit Noradrenalin alleine kein ausreichender Blutdruck erzielt werden kann“ — wenn unter dem Noradrenalin, das Empfehlung 4.5 (S. 62) als Vasopressor erster Wahl empfiehlt, der Blutdruck nicht ausreicht. Vasopressin tritt hinzu, Noradrenalin bleibt („alleine“, „zu ergänzen“). Ab welcher Laufrate, nennt der Hintergrund: „ab einem Dosisbereich von 0,25-0,5 μg/kg/min für die Noradrenalinlaufrate Vasopressin zu ergänzen“ (S. 64–65); der Bereich steht auf jenem Satz (refines), nicht auf der Bedingung."
     lang: de
-    as_of: "2026-09-25"
+    as_of: "2026-10-22"

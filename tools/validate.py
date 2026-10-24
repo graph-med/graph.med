@@ -98,7 +98,10 @@ rules a document schema cannot state because they span files:
   - a source's version and the date it prints for it hold together (spec §6.1):
     the date is a real calendar date at the precision recorded (a year, a month
     or a day), and every word of the version lies as a whole word in one of the
-    quotes that give it, which are the source's own; reading a printed date as
+    quotes that give it, which are the source's own; where the source prints
+    either two ways, each printing is held so to its own quotes, none is listed
+    twice, and they stand in the order of the pages that first print them, so
+    that none is chosen by its place in the list; reading a printed date as
     ISO 8601 is left to review, so no month name of any language is held here;
   - an evidence row is rated in a system its source declares (spec §3.1): an
     entry's `system` is one its claim's own source lists in `rating_systems`;
@@ -732,33 +735,73 @@ def check_grading(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
 
 def check_version_and_date(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:
     """A source's version and the date it prints for it (spec §6.1). The schema holds the shape — the version is
-    text, the date ISO 8601 at a year's, a month's or a day's precision, each with its quotes — and this checks what it
-    cannot: that the date is one the calendar has at that precision, and that every word of the version lies, as a
-    whole word, in one of the quotes that give it, as a grading scheme's words do (check_grading), quotes from the
-    source itself. The date is not held to its quotes: reading "November 2023" or "30.04.2025" as ISO is a reading
-    for review, and no month name of any language enters this file."""
+    text, the date ISO 8601 at a year's, a month's or a day's precision, each with its quotes, or, where the source
+    prints it two ways or more, a list of its printings, each with its own — and this checks what it cannot: that a
+    date is one the calendar has at that precision, and that every word of a version lies, as a whole word, in one of
+    the quotes that give it, as a grading scheme's words do (check_grading), quotes from the source itself. A printing
+    is held to its own quotes, never to another's, since one label can lie inside another ("1" in "Version 1.1"). A
+    field printed several ways lists each printing once — one value printed in several places is one printing with a
+    quote for each — and in the order of the pages that first print them, so that the first is first by its page, not
+    chosen; within one page, which comes first is the reading's. A date is not held to its quotes: reading "November
+    2023" or "30.04.2025" as ISO is a reading for review, and no month name of any language enters this file."""
     errs: list[str] = []
     for sid, src in sorted(entities.items()):
         if src.get("type") != "source":
             continue
         rel, given = ids[sid], src.get("provenance") or {}
-        date = src.get("date")
-        if isinstance(date, str) and re.fullmatch(r"\d{4}(-\d{2}(-\d{2})?)?", date):
-            year, month, day = (list(map(int, date.split("-"))) + [1, 1])[:3]
-            try:
-                datetime.date(year, month, day)
-            except ValueError:
-                errs.append(f"{rel}: the date {date!r} is no calendar date at the precision it is recorded")
-        quoted = [r for refs in given.values() for r in as_refs(refs)]
+        printings = {field: printings_of(src, field) for field in ("version", "date")}
+        quoted = [r for refs in given.values() for r in as_refs(refs)] + \
+                 [r for field in printings.values() for _, refs in field for r in refs]
         for other in sorted({str(r.get("at", "")).split("#")[0] for r in quoted} - {sid}):
             errs.append(f"{rel}: the version or date of {sid} is quoted from {other}; a source's version and date are read off the source itself")
-        if "version" in src:
-            refs = as_refs(given.get("version"))
-            missing = [w for w in str(src["version"]).split() if not any(printed(w, r.get("quote")) for r in refs)]
+        for date, _ in printings["date"]:
+            if isinstance(date, str) and re.fullmatch(r"\d{4}(-\d{2}(-\d{2})?)?", date):
+                year, month, day = (list(map(int, date.split("-"))) + [1, 1])[:3]
+                try:
+                    datetime.date(year, month, day)
+                except ValueError:
+                    errs.append(f"{rel}: the date {date!r} is no calendar date at the precision it is recorded")
+        for version, refs in printings["version"]:
+            missing = [w for w in str(version).split() if not any(printed(w, r.get("quote")) for r in refs)]
             if refs and missing:
-                errs.append(f"{rel}: the version {src['version']!r} prints {', '.join(map(repr, missing))}, "
+                errs.append(f"{rel}: the version {version!r} prints {', '.join(map(repr, missing))}, "
                             f"which none of its quotes contains as a word")
+        for field, listed in printings.items():
+            if not isinstance(src.get(field), list):
+                continue
+            values = [v for v, _ in listed]
+            for twice in sorted({v for v in values if values.count(v) > 1}, key=str):
+                errs.append(f"{rel}: the {field} {twice!r} is listed as more than one printing; one {field} printed in "
+                            f"several places is one printing with a quote for each (spec §6.1)")
+            firsts = []   # each printing with the first page its quotes name; one quoted on no page is not ordered
+            for value, refs in listed:
+                pages = [n for n in map(page_of, refs) if n]
+                if pages:
+                    firsts.append((value, min(pages)))
+            for (a, pa), (b, pb) in zip(firsts, firsts[1:]):
+                if pb < pa:
+                    errs.append(f"{rel}: the {field} printing {b!r} (first printed on page {pb}) is listed after {a!r} "
+                                f"(page {pa}); the printings stand in the order of the pages that first print them, "
+                                f"none chosen by its place (spec §6.1)")
     return errs
+
+
+def printings_of(src: dict, field: str) -> list[tuple[object, list[dict]]]:
+    """A source's `version` or `date` as its printings, each (value, its quotes): one printing, quoted under
+    `provenance`, where the source prints the field one way; each listed printing with its own `source` where it
+    prints it two ways or more; none where it records none."""
+    value = src.get(field)
+    if isinstance(value, list):
+        return [(p.get(field), as_refs(p.get("source"))) for p in value if isinstance(p, dict)]
+    if value is None:
+        return []
+    return [(value, as_refs((src.get("provenance") or {}).get(field)))]
+
+
+def page_of(ref: dict) -> int | None:
+    """The physical page a reference's locator names (`#page=N`), or None where it names none."""
+    m = re.search(r"#page=(\d+)$", str(ref.get("at", "")))
+    return int(m.group(1)) if m else None
 
 
 def check_evidence(ids: dict[str, str], entities: dict[str, dict]) -> list[str]:

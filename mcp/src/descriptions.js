@@ -31,6 +31,36 @@ export const about = {
   wordingWithheld: 'The wording carries source text word for word; the provenance tool returns source text.',
   verbatimProvenance:
     "Holds verbatim source text: each claim's sentence whole, as graph.med's pages show it, and quotes of at most the stated number of characters; each with its link into the source or its page.",
+  // A recommendation's steps before and after (get_entity's `sequence`; spec §5 `follows`).
+  sequence:
+    "before: the recommendations this one follows, the outcome of whose measure calls for its step; after: those that follow it; chain: every recommendation joined to it by such steps, this one included, each with its distance (how many steps lie between the two, either way along them), each edge from the later to the earlier, and the words of its keys once in terms. Each entry and each edge is one step as the source states it, with its own transition and trigger; several into one recommendation say neither that their outcomes call for it together nor that any one of them does: the source data does not say which. A grade is the box's own, as printed. A step carries no threshold: the circumstance that calls for it is the later recommendation's condition, and a threshold printed for it stands on that concept's rule.",
+  sequenceWording:
+    "Each step's rationale quotes the trigger's wording as printed; it carries source text and is not returned here. It stands under the step on the recommendation's page.",
+  sequenceCut: "The chain holds more recommendations than are returned: those nearest to this one, by steps along it; each node's own result gives its steps.",
+  sequenceOutside: 'Steps to recommendations outside this graph are left out, and counted.',
+};
+
+// The words of a step's transition and trigger, by the schema's keys (spec §5
+// `follows`), stated from the later recommendation to the earlier — "later"
+// and "earlier" being the order of the decision, not of the clock. A key
+// without words here is returned with null words; the check fails on one.
+export const sequence = {
+  transition: {
+    replaces: "the later measure replaces the earlier one (instead of it)",
+    adds: "the later measure is added to the earlier one (in addition to it)",
+    follows: "the later measure comes after the earlier one has ended (after it)",
+    concurrent:
+      "both measures run at the same time: the guideline gives no order between them in time; the later is the one it makes depend on the other's outcome",
+  },
+  trigger: {
+    target_missed: "the earlier measure's target is missed",
+    intolerance: 'the patient does not tolerate the earlier measure',
+    contraindication: 'a contraindication arises under the earlier measure',
+    target_reached: "the earlier measure's target is reached",
+    reevaluation: 'a re-evaluation of the earlier measure',
+    finding: 'a finding under the earlier measure',
+    other: 'another outcome of the earlier measure, of none of the named kinds',
+  },
 };
 
 // The `detail` argument of the tools that answer in two forms (tools.js, FORMS).
@@ -57,12 +87,12 @@ export const tools = {
   get_tree_node: {
     title: 'Get a tree node',
     description:
-      "Returns one node of one grouping of a graph: the question asked there and its answers (each with its label, the concepts it stands for and the node it leads to), its parents, the recommendations under it with direction, grade, verb and URL, the recommendations that apply to it generally with the way they reach it and their condition where the grouping carries them, and their aims. A node naming an entity is addressed by the entity's id or URL, any other node by its id in the grouping's tree; without a node it is the grouping's root, without a grouping the graph's first. An entity standing at several nodes returns each with its node id. A depth returns the nodes below as well. Every node carries the page link that opens it, and its depth: how many answers lie between the root and it. Each answer, each recommendation and each parent link carries a place, counted from 1 among the siblings of its kind (a question's answers, a node's recommendations, a node's questions, a recommendation's aims) in the order the build writes the grouping; the site's drawing orders a few siblings differently, so an item is identified across the two by its entity id, not its place. Compact by default and kept under 24,000 characters by paging; with detail 'full', under 45,000.",
+      "Returns one node of one grouping of a graph: the question asked there and its answers (each with its label, the concepts it stands for and the node it leads to), its parents, the recommendations under it with direction, grade, verb and URL, the recommendations that apply to it generally with the way they reach it and their condition where the grouping carries them, and their aims. A node naming an entity is addressed by the entity's id or URL, any other node by its id in the grouping's tree; without a node it is the grouping's root, without a grouping the graph's first. An entity standing at several nodes returns each with its node id. A depth returns the nodes below as well. Every node carries the page link that opens it, and its depth: how many answers lie between the root and it. Each answer, each recommendation and each parent link carries a place, counted from 1 among the siblings of its kind (a question's answers, a node's recommendations, a node's questions, a recommendation's aims) in the order the build writes the grouping; the site's drawing orders a few siblings differently, so an item is identified across the two by its entity id, not its place. Compact by default and kept under 24,000 characters by paging; with detail 'full', under 45,000. Where the levels a depth asks for do not fit under that cap even at the smallest page, the depth is lowered, and the result gives the depth it returns (depth_reduced_to), the reason (depth_reduced_reason: 'size_cap') and the cap in characters (size_cap).",
     args: {
       graph: 'The graph: its id or its page URL.',
       grouping: "The grouping's id, as the list of groupings gives it; default: the graph's first grouping.",
       node: "A node id from the grouping's tree, or the id or URL of an entity a node names; default: the root.",
-      depth: 'How many levels below the node to include (0 to 3); default 0.',
+      depth: 'How many levels below the node to include (0 to 3); default 0. Lowered where they would not fit under the size cap; the result then says so.',
       offset: 'Where to continue lists that returned a next offset.',
       detail: DETAIL,
     },
@@ -70,7 +100,7 @@ export const tools = {
   get_entity: {
     title: 'Get an entity',
     description:
-      "Returns a recommendation or a concept by its id or URL. A recommendation: its wording (modelling, the project's own), grade, verb, consensus and direction as the guideline prints them, the claims it rests on by URL and page (without their text), and its related recommendations within its graph. A concept: the recommendations that hold it, per graph and slot, and the nodes where it stands in each grouping of each graph, each with its page link; for a concept established by a rule, the claim giving it, or each where the source prints the rule differently. A claim: its kind, page, section, grade, verb and consensus, without its text, and the claims where its source says otherwise, by URL. With a graph, the result keeps to that graph; without one, it is grouped per graph. Compact by default; with detail 'full', the URLs and short labels of the concepts it names, the languages, and a claim's source and section.",
+      "Returns a recommendation, a concept or a claim by its id or URL. A recommendation: its wording (modelling, the project's own), grade, verb, consensus and direction as the guideline prints them, the claims it rests on by URL and page (without their text), each with its evidence rows, its related recommendations within its graph, and its steps: the recommendations before and after it in the order the guideline states, and the whole chain they form (up to 25 recommendations, the nearest), each with direction, grade, verb, recommendation number and pages, and each step's transition and trigger, as keys and in words; no certainty of evidence is composed for the recommendation itself. A concept: the recommendations that hold it, per graph and slot, and the nodes where it stands in each grouping of each graph, each with its page link; for a concept established by a rule, the claim giving it, or each where the source prints the rule differently. A claim: its kind, page, section, grade, verb and consensus, its evidence rows, without its text, and the claims where its source says otherwise, by URL. Evidence rows say how certain the evidence is, as the guideline prints it: one entry per printed row, in its order, each with the outcome it rates (a concept) or the row's key as printed, its value, a note where the row prints words instead of a level, and its rating system, by id and by the name the source declares for it; values are the source's own words, never mapped between systems and never reduced to one; an empty list where none is recorded. With a graph, the result keeps to that graph; without one, it is grouped per graph. Compact by default; with detail 'full', the URLs and short labels of the concepts it names, the languages, and a claim's source and section.",
     args: {
       entity: 'The id or URL of a recommendation (statements/…), a concept (concepts/…) or a claim (claims/…).',
       graph: 'Optional: the graph (id or page URL) to keep to.',

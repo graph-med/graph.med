@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{# The path view (docs/publication.md §3 "The path view"): a page of its own, `<view-id>/sequence/<statement>/`, for
+   every statement of the view on a `follows` edge to another of its statements — the whole chain the statement
+   stands in, the same from whichever member the page is opened, that member marked. A graph and a sheet, like the
+   view page: the chain drawn by assets/path.js from #path-data, a box per statement as the view page draws it, a
+   label per step on its line; the sheet's home says what the page shows and names every step in words, so that the
+   page reads without the script and with a screen reader; a tapped box shows its card, a tapped step the step. Not
+   an entry of the view's grouping switch, and no data of its own: the build reads it off the edges. The page's own
+   chrome is the page chrome's (tools/site/words/); the boxes and the conditions are the data's, in their language. #}
+{% from "step.html" import box, lines with context %}
+{% set P = page.path %}
+{% block title %}{{ P.kind }} · {{ entered.title }} — graph.med{% endblock %}
+{% block description %}{{ P.kind }} · {{ entered.title }} · {{ title }}{% endblock %}
+{% block path %}{{ vid }}/{{ segment }}/{{ slug }}/{% endblock %}
+{% block mainclass %}view path{% endblock %}
+{# a page that can run the script says so before it is painted: without it there is no graph, and the sheet is the page #}
+{% block head %}<script>document.documentElement.classList.add("js");</script>{% endblock %}
+{% block crumbs %}<a class="crumb" href="{{ base }}{{ vid }}/">{{ vid }}</a><span class="crumb" lang="{{ page_lang }}">{{ P.kind }}</span>{% endblock %}
+{% block main %}
+<section class="graph-wrap">
+  <div id="graph" role="img" aria-label="{{ P.graph | replace('{title}', entered.title) }}" lang="{{ lang }}"
+       data-words='{{ {"failed": page.view.failed, "missing": page.view.missing} | tojson }}'></div>
+  <div class="controls">
+    <div class="tools left">
+      {# back to where the path was opened from: the view's tree, at the statement it was opened from #}
+      <a class="tree-link" href="{{ base }}{{ vid }}/#{{ entered.id }}" title="{{ P.tree }}"><span aria-hidden="true">←</span> {{ P.back }}</a>
+    </div>
+    <div class="tools right">
+      <button type="button" id="fit" title="{{ P.fit }}" aria-label="{{ P.fit }}"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2.5h4v4M13.5 2.5 9 7M6.5 13.5h-4v-4M2.5 13.5 7 9"/></svg></button>
+    </div>
+  </div>
+  <div class="free" id="free" aria-hidden="true"></div>
+  {% include "legend.html" %}
+</section>
+<section class="sheet" id="sheet" aria-live="polite" data-close="{{ page.sheet.close }}">
+  <p class="kind">{{ P.kind }}</p>
+  <p class="label" lang="{{ lang }}">{{ title }}</p>
+  {% for s in sources %}{% set ed = edition(s.id) %}{% if ed %}<p class="edition" lang="{{ page_lang }}">{% if sources | length > 1 %}{{ s.id | short }}: {% endif %}{{ ed }}</p>{% endif %}{% endfor %}
+  <p class="hint touch" lang="{{ page_lang }}">{{ page.sheet.hint.touch }}</p>
+  <p class="hint pointer" lang="{{ page_lang }}">{{ page.sheet.hint.pointer }}</p>
+  <p class="cite" lang="{{ page_lang }}">{{ P.reading }}</p>
+  {# every step in words, in the order the page draws them: the earlier statement, what the step's label says, the later #}
+  <h2 class="steps-head" lang="{{ page_lang }}">{{ P.steps }}</h2>
+  <ol class="path-steps">
+  {% for s in steps %}
+    <li><span class="step-box">{{ box(s.earlier) }}</span> <span class="step-label">{{ lines(s) }}</span> <span class="step-box">{{ box(s.later) }}</span></li>
+  {% endfor %}
+  </ol>
+  <p class="cite"><a href="{{ base }}{{ vid }}/#{{ entered.id }}" lang="{{ page_lang }}">{{ P.tree }}</a></p>
+</section>
+<script type="application/json" id="path-data">{{ path_json | safe }}</script>
+{% endblock %}
+{% block scripts %}
+<script src="{{ base }}assets/vendor/cytoscape-3.30.2.min.js?v={{ commit }}"></script>
+<script src="{{ base }}assets/vendor/dagre-0.8.5.min.js?v={{ commit }}"></script>
+<script src="{{ base }}assets/vendor/cytoscape-dagre-2.5.0.js?v={{ commit }}"></script>
+<script src="{{ base }}assets/path.js?v={{ commit }}"></script>
+{% endblock %}

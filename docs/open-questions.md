@@ -264,3 +264,79 @@ and which card is next, is not a question and lives on the board (`uv run tools/
 
 **Leaning:** the second, since neither side can be quoted. (2026-10-12)
 **Settled by:** the maintainer, with #327 question 4.
+
+## follows-several-earlier  (graph-representation.md §5 `follows`; memory `sequences-are-edges`; cards #296, #297, #298)
+**Question:** A statement can follow several earlier ones, and nothing in the pool says whether their outcomes call for it together or each alone. The second source's 8.1 follows 4.5 and 4.1 together: hydrocortisone where the vasopressor need persists under the noradrenaline „trotz ausreichender Volumengabe“, its condition the conjunction [anhaltender-vasopressorbedarf, ausreichende-volumengabe] (#296). The third source's 6.16 follows 6.12, 6.13 and 6.15 each alone („Nach Kardioversion“: after any one of the three, its one condition `kardioversion`), and its 5.3 follows 5.1 and 5.2 together („die ermittelten Risiken aus den beiden o.g. Scores“) with no condition at all. The edges are alike in all three, so a path strip (#297) or a path view (#298) that draws the earlier statements cannot tell "after both" from "after any", and the later statement's condition does not tell it either where it has none.
+
+**Options:**
+- leave it to each edge's rationale, which quotes the wording („beiden“, „Nach Kardioversion“), and draw every earlier statement without saying all or any;
+- read it from the later statement's condition where it has one (an entry per earlier measure: together; one entry naming them all: any), and say nothing where it has none;
+- a property on `follows` naming the edges that call for the step together (a schema change, a closed form like `transition`).
+
+**Leaning:** none. (2026-10-22)
+**Meanwhile:** #297's strip, #298's path view and #299's get entity show each step on its own, with its own transition and trigger, and join none (the first option's drawing, not its answer). The path view writes the later statement's condition on each of its steps, its entries joined by „und“ as the view page joins them: 8.1's two entries name the outcome of each earlier measure, so the two steps can read as "after both", which is the second option's reading.
+**Settled by:** the maintainer, with the review of the stack that carries #296–#299.
+
+## sequence-words-language  (publication.md §3 zone 5 and "Language"; memories `page-chrome-in-the-view-layer`, `sequences-are-edges`; cards #294, #297)
+**Question:** The words of a statement's steps before and after — zone 5's rows `Davor` and `Danach`, the transitions (`anstelle von`, `ersetzt durch`, …) and the triggers (`Anlass: Ziel nicht erreicht`, …) — are the page chrome's, from `tools/site/words/<lang>.json`, as card #294's Decision 3 placed them. Every other word of the card is the card's table (`CARD_WORDS`), in the statement's source language, `Verwandt` and its relation words beside these rows included. For the first views both are German and nothing shows the seam; in a view whose source is English the card would be English and these rows German. It is the seam of `page-hint-language`, inside the card.
+**Options:** harmless, keep them in the view layer's table (Decision 3 as it stands) · the card's table, in the source language, like `Verwandt` · decide with `page-hint-language`, by one rule for every word the sheet shows
+**Leaning:** none. (2026-10-22)
+**Settled by:** the first view whose source language is not the page language, with `page-hint-language`.
+
+## step-wording-gate  (publication.md §8 "Guardrails, carried as data"; memories `quote-gate-follows-the-site`, `sequences-are-edges`; card #299)
+**Question:** A `follows` edge's rationale quotes the trigger's wording as printed, in „…“, as every modelling edge's rationale cites its passage (#294, Decision 4). Does the read-only server return it, and from which tool? The quote gate lets verbatim source text leave the server only through the provenance tool: each claim's sentence whole, quotes capped at 100 characters, and every other tool returning no claim sentence and no quote, a recommendation's wording withheld where it carries one word for word. The rationale is the project's modelling text, shown openly under each step on the site (publication.md §3 zone 5), but it carries source text: on the build of 2026-10-22, 6 of the 18 rationales carry a claim's whole sentence, 10 a claim's quote, and 5 a quoted passage longer than 100 characters. Card #299's own reading is that the trigger's wording "is a modelling rationale, not a source quote"; returning it from get entity would breach the gate as the check enforces it.
+**Options:**
+- get entity returns each step's rationale, read as modelling text (the card's reading); the gate and its check then admit rationales outside provenance;
+- the provenance tool returns it, whole as the site shows it, like a claim's sentence, its quotes uncapped;
+- the provenance tool returns it with its quoted passages capped like other quotes;
+- no tool returns it; the result says where it stands (as built by #299).
+**Leaning:** the second, as the agent reads the memory: what the gate guards is verbatim source text wherever it stands, which these rationales hold, and the maintainer's ground — nothing gated that the site shows openly — places it where provenance returns a claim's sentence, whole. The fourth is built so that nothing the gate decided is widened before the maintainer answers. (2026-10-22)
+**Settled by:** the maintainer, in card #299's pull request.
+
+## label-case-foreign-first-word  (graph-representation.md §3.2, §8.1; memory `label-case`; cards #257, #340)
+**Question:** §3.2 writes a concept's label as its words read inside a sentence of the label's language. It names no case for a first word from another language standing in the label. The judge of #257's relabel (pull request #338) noticed this. The pool has two such labels, and both follow the case the page prints inside its German sentence: the short label „double gram-negative coverage“ (lower case, as p. 42 of the second source prints it) and „Antimicrobial Stewardship (AMS)-Programm“ (upper case, as its claims print it). The judge's eighth question (#340) asks a concept label's case, and no clause decides such a word.
+
+**Options:**
+- the case the page prints for the word inside its sentence;
+- the case the word's own language gives it inside a sentence;
+- the case the label's language gives a foreign word inside a sentence (in German, a foreign noun phrase opens in upper case).
+
+**Leaning:** none recorded. (2026-10-22)
+
+## outline-printed-otherwise  (graph-representation.md §6.7; schema `outline_entry`; cards #363, #366)
+**Question:** A source's outline is its table of contents, each entry `{section, title, page}`, unquoted and checked against the document by review. The third source prints five headings otherwise than its table, and two of the table's entries have no number. Under "the graph reflects the text" (memory `source-disagreements-shown`), is a heading worded otherwise a second printing to record, and where does an unnumbered entry go? Today the outline takes the table's wording and leaves the unnumbered entries out (#363 Decision 7):
+- 5.4.1–5.4.3: the table prints „Indikation“, „Indikationsprüfung in Zentrum“ and „Herzchirurgische Patient*innen mit Vorhofflimmern“ (p. 8); the headings add „Vorhofohrverschluss: “ (pp. 43, 44, 45);
+- 8.5.1–8.5.2: the table prints „Reversierung von Vitamin-K-Antagonisten“ and „Reversierung von DOAK“ (p. 8); the headings print `"Antagonisierung" von …` (pp. 85, 86), 8.5.1's with a full stop;
+- „Vorwort“ (p. 6) and „Einführung“ (p. 10) stand in the table without a number, and `outline_entry` requires a `section`. The Einführung holds Tabelle 1 and the method text (pp. 10–11).
+
+**Options:**
+- a title printed otherwise as a list of printings, like a version printed two ways (#366, spec §6.1), each with its quotes. The outline carries no quotes, though, and two of the headings print ASCII double quotes, which no quote may hold (§6.2);
+- a title printed otherwise as a list of `{title, page}`, the table's and the heading's, unquoted like the rest of the outline;
+- the table's wording only, as now;
+- an unnumbered entry with no `section`, placed by its page, or left out, as now.
+
+**Leaning:** the second for the titles, since it keeps the outline as it is checked today. None for the unnumbered entries. (2026-10-22)
+
+## sentence-order-in-a-box  (publication.md §3 zones 2, 3 and 8; graph-representation.md §3.1; card #384)
+**Question:** The card shows a box's sentences in printed order: recommendation number, then their place on the page. No claim records that place. The build reads it from where the pool lists the claims, which is the order an extraction writes a box's sentences in, since files are read in path order and each file in its own order. Nothing states that order as a rule of extraction, and nothing checks it. Against the pages, it holds today for all six boxes with two supporting sentences (6.14 and 6.16 of the third source; 2.4, 3.1, 3.10 and 8.1 of the second). The ids hash the quote, so their order held in only four of the six.
+
+**Options:**
+- the file order as the record, written into the extraction's rules (a box's claims in printed order);
+- the same, checked by `--verify-quotes` against where each claim's quote lies on its page;
+- a field on the claim recording its place (a line, or an ordinal within its box), checked the same way.
+
+**Leaning:** none. (2026-10-22)
+**Settled by:** the maintainer.
+
+## graph-frame  (publication.md §3 "Folded by default", "The interaction"; card #251)
+**Question:** What does a tap that opens a patient group frame, beyond the group with everything it unfolded and the answer that names it (built, #251)? Card #251 asks for the question that answer belongs to as well. The question stands at the top of its column of answers, so framing it frames every answer above the group too.
+
+**Options:**
+- the group, what it unfolded and its answer (built): every answer and every box the tap shows wholly in view, in all 91 groups of the three views at 1280 and 390 px; at the median the zoom is 0.83 times `main`'s, a box's 12 px text 11.2 px on a desktop and 4.7 px on a phone;
+- the same and the question: wholly in view as well; at the median the zoom is 0.55 (desktop) and 0.61 (phone) times `main`'s, the text 6.8 and 3.2 px;
+- the question with all its answers and the group (#251's first attempt, withdrawn 2026-10-17: on a phone the group's boxes started out of view).
+
+In the first two, the question's other answers and their groups fall where the fit puts them, some under the controls or past the canvas edge, a pan away: opening Asplenie in the Sepsis view leaves the group above it under the search box at 1280 px.
+
+**Leaning:** the first: focus before a readable zoom (the maintainer, 2026-10-18), and the answer alone says which group was opened. (2026-10-22)
+**Settled by:** the maintainer, on the preview.

@@ -1,9 +1,10 @@
 /* Runs inside zenika/alpine-chrome:with-puppeteer (tools/screenshot.py copies it in): open a page
    of the built site at file:///site/<path>, and on a page with a graph wait for it to lay out and run
    the requested actions through window.graphmed (the hooks tools/site/static/graph.js exposes on a
-   view page; home.js on the index exposes `open` alone); capture the viewport, or the whole page with
-   spec.full. A view page takes every action; the index takes open=<view id>, sheet, graph, key=<key>
-   and wait; any other page (an entity page) key= and wait. Any other action fails with its name, and
+   view page; home.js on the index and path.js on a path view expose `open` alone); capture the viewport, or
+   the whole page with spec.full. A view page takes every action; the index takes open=<view id>, a path view
+   open=<statement id or step:<n>>, and both sheet, graph, key=<key> and wait; any other page (an entity page)
+   key= and wait. Any other action fails with its name, and
    what the page takes, before anything runs. Every page reports whether it is wider than the viewport,
    and where the focus is when it is not on the page itself. */
 const puppeteer = require("/usr/src/app/node_modules/puppeteer");
@@ -22,9 +23,11 @@ const INDEX = new Set([...ANYWHERE, "open", "sheet", "graph"]);   /* what the in
   if (spec.dark) await page.emulateMediaFeatures([{ name: "prefers-color-scheme", value: "dark" }]);   /* before the load: the graph reads its colours once, when drawn */
   await page.goto(`file:///site/${spec.file}`, { waitUntil: "load" });
   /* a view page carries its graph's data; the index draws its graph from its own sheet */
-  const kind = await page.evaluate(() => !document.getElementById("graph") ? "other" : document.getElementById("graph-data") ? "view" : "index");
+  const kind = await page.evaluate(() => !document.getElementById("graph") ? "other" : document.getElementById("graph-data") ? "view"
+                                         : document.getElementById("path-data") ? "path" : "index");
   if (kind === "other") return other(browser, page);
   if (kind === "index") refuse(INDEX, "the index", "open=<view id>, sheet, graph, key=<key> and wait");
+  if (kind === "path") refuse(INDEX, "a path view", "open=<statement id or step:<n>>, sheet, graph, key=<key> and wait");
   await page.waitForFunction(() => window.graphmed && window.graphmed.cy.nodes().not(".folded").length > 0, { timeout: 20000 });
   await sleep(900);
   for (const [action, value] of spec.actions) {
@@ -97,8 +100,8 @@ const INDEX = new Set([...ANYWHERE, "open", "sheet", "graph"]);   /* what the in
       const w = Math.min(a.x2, b.x2) - Math.max(a.x1, b.x1), h = Math.min(a.y2, b.y2) - Math.max(a.y1, b.y1);
       if (w > 1 && h > 1) pairs.push(`${a.name} × ${b.name} (${Math.round(w)}×${Math.round(h)})`);
     }
-    /* and every edge drawn across a node it does not touch: a taxi edge as its three runs, any other
-       as the straight line between its endpoints (a bezier bows a little, a segment is the least it covers) */
+    /* and every edge drawn across a node it does not touch: a taxi edge as its three runs, a segments edge as the
+       runs through its bends, any other as the straight line between its endpoints (a bezier bows a little) */
     const nodes = cy.nodes().not(".folded");
     const labels = boxes.filter(b => b.name.startsWith("answer "));
     function cuts(p, q, b) {   /* does segment p–q cross box b, shrunk by a pixel */
@@ -114,6 +117,7 @@ const INDEX = new Set([...ANYWHERE, "open", "sheet", "graph"]);   /* what the in
     cy.edges().not(".folded").forEach(e => {
       const s = e.sourceEndpoint(), t = e.targetEndpoint(), runs = [];
       if (e.style("curve-style") === "taxi") { const turn = Number(e.data("turn")) || 24, x = turn < 0 ? t.x + turn : s.x + turn; runs.push([s, { x, y: s.y }], [{ x, y: s.y }, { x, y: t.y }], [{ x, y: t.y }, t]); }
+      else if (e.style("curve-style") === "segments") { const pts = [s, ...(e.segmentPoints() || []), t]; for (let i = 1; i < pts.length; i++) runs.push([pts[i - 1], pts[i]]); }   /* its runs through its bends (the index's indented tree, a path view) */
       else runs.push([s, t]);
       const name = `edge ${e.source().data("label") || e.source().id()} → ${e.target().data("label") || e.target().id()}`;
       nodes.forEach(n => {

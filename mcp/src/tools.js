@@ -19,6 +19,9 @@ export const QUOTE_CAP = 100;
 export const MAX_DEPTH = 3;
 export const MAX_CHARS = 45000;
 export const COMPACT_MAX_CHARS = 24000;
+// The most recommendations of a chain (get_entity's `sequence.chain`) one
+// result returns: those nearest to the recommendation asked for, by steps.
+export const MAX_CHAIN = 25;
 
 // A result's form, the `detail` argument: `compact` by default, or `full`.
 // The compact form keeps every id, label, entity URL and deep link of an
@@ -470,10 +473,13 @@ export async function getTreeNode(L, { graph, grouping, node, depth = 0, offset 
 
 // The deepest subtree, and the largest page size, that keep the result under
 // MAX_CHARS — the first that fits, trying depth d down to 0 and at each depth
-// the sizes of PAGE_SIZES in turn, with `depth_reduced_to` when the depth was
-// lowered. Each node's detail is built and serialised once, and each
-// candidate's length is added up from those, not by building and
-// serialising the candidate: a Worker request has 10 ms of CPU (#279).
+// the sizes of PAGE_SIZES in turn. When the depth was lowered, the result says
+// to what (`depth_reduced_to`), why (`depth_reduced_reason`: 'size_cap', the
+// one reason: the depth asked for does not fit even at the smallest page
+// size) and the cap (`size_cap`, in characters, the form's) (#317). Each
+// node's detail is built and serialised once, and each candidate's length is
+// added up from those, not by building and serialising the candidate: a
+// Worker request has 10 ms of CPU (#279).
 // A grouping's node details at PAGE from offset 0, and their subtrees'
 // JSON lengths, kept with its parsed tree file and search file: they depend
 // on nothing else, and are the same for every call on them.
@@ -521,7 +527,9 @@ function fittedTree(L, ctx, base, meta, n, d, offset) {
     return k === 0 ? len : withBelow(len, belowIds(T, n, offset, size).map((c) => subLength(c, k - 1)));
   };
   const frame = JSON.stringify({ ...base, node: 0, about: meta }).length - 1;
-  const reduced = (k) => (k < d ? ',"depth_reduced_to":'.length + String(k).length : 0);
+  const reducedKeys = (k) => ({ depth_reduced_to: k, depth_reduced_reason: 'size_cap', size_cap: MAX_CHARS });
+  // The keys appended to the result: their JSON without its braces, after a comma.
+  const reduced = (k) => (k < d ? JSON.stringify(reducedKeys(k)).length - 1 : 0);
 
   let size;
   let k;
@@ -533,7 +541,7 @@ function fittedTree(L, ctx, base, meta, n, d, offset) {
   const [x] = tops.get(size);
   const node = k === 0 ? x : { ...x, below: belowIds(T, n, offset, size).map((c) => subtree(c, k - 1)) };
   const result = { ...base, node, about: meta };
-  if (k < d) result.depth_reduced_to = k;
+  if (k < d) Object.assign(result, reducedKeys(k));
   return result;
 }
 
@@ -622,18 +630,24 @@ export async function getEntity(L, { entity, graph, offset = 0, detail }) {
   const graphView = graph ? await L.view(graph) : null;
   const e = await L.entity(id);
   const views = viewsFor(index, e.meta, graphView);
+  // A claim's evidence words are read beside the search files, from the cards
+  // of the recommendations it supports (evidenceWords).
+  const claimWords = e.type === 'claim' ? evidenceWords(L, [e], supportedCards(L, e)) : null;
   const searches = await Promise.all(views.map((v) => L.get(v.search)));
   const meta = about({ meta: e.meta, repositoryLicense: index.repository_license });
 
   if (e.type === 'statement') {
-    // The claims behind it, read for the quote gate only (statementEntity).
+    // The claims behind it, read for the quote gate (statementEntity), and
+    // those it lists for their evidence rows.
     const claimIds = (e.edges?.in || []).filter((x) => x.kind === 'supports' || x.kind === 'contests').map((x) => x.from);
-    const claims = await Promise.all(claimIds.map((c) => L.entity(c).catch(() => null)));
-    return statementEntity(L, e, views, searches, meta, claims.filter(Boolean), form);
+    const claims = (await Promise.all(claimIds.map((c) => L.entity(c).catch(() => null)))).filter(Boolean);
+    const listed = new Set((e.card?.beleg?.sources || []).flatMap((s) => (s.claims || []).map((c) => c.id)));
+    const ev = await evidenceWords(L, claims.filter((c) => listed.has(c.id)), [e.card]);
+    return statementEntity(L, e, views, searches, meta, claims, ev, form);
   }
   if (e.type === 'concept')
     return fitted(conceptEntity(L, e, views, searches, meta, offset, PAGE, form), (x, size) => cutConcept(x, offset, size), limitOf(form));
-  if (e.type === 'claim') return claimEntity(L, e, views, searches, meta, form);
+  if (e.type === 'claim') return claimEntity(L, e, views, searches, meta, await claimWords, form);
   throw new InputError(`${id} is a ${e.type}; this tool reads a recommendation, a concept or a claim`);
 }
 
@@ -649,20 +663,106 @@ function quotedStrings(o, out = []) {
   return out;
 }
 
-function statementEntity(L, e, views, searches, meta, claimDocs, form = 'full') {
+// --- evidence rows -------------------------------------------------------------
+
+// The source a claim is anchored in: the entity its anchor names.
+const sourceOf = (d) => (typeof d?.source?.at === 'string' ? d.source.at.split('#')[0] : '') || null;
+const evidenceList = (d) => (Array.isArray(d?.evidence) ? d.evidence : []);
+
+// One entity read for its words, or null: never rejects.
+function readOrNull(L, id) {
+  try {
+    return L.entity(L.entityId(id)).catch(() => null);
+  } catch {
+    return Promise.resolve(null);
+  }
+}
+
+// The cards of the recommendations a claim supports, read only where the
+// claim has a row naming an outcome: each names the outcomes of the rows of
+// the claims behind it (zone 4, docs/publication.md §3).
+async function supportedCards(L, d) {
+  if (!evidenceList(d).some((x) => x?.outcome)) return [];
+  const ids = (d.edges?.out || []).filter((x) => x.kind === 'supports').map((x) => x.to);
+  return (await Promise.all(ids.map((id) => readOrNull(L, id)))).map((s) => s?.card);
+}
+
+// The words an evidence row is named by, each read from the file that gives
+// it: an outcome's label from the card of a recommendation the claim
+// supports, as a slot's label is read, else from the concept's own JSON; a
+// rating system's name as the claim's source declares it (`rating_systems`),
+// never made from its slug. `cards` (a list, or the promise of one) are read
+// beside the sources; the concepts only for outcomes no card names. Read only
+// for claims with rows. Never rejects: a file that cannot be read leaves its
+// words null.
+async function evidenceWords(L, docs, cards = []) {
+  const entries = docs.flatMap((d) => evidenceList(d).map((x) => [d, x]));
+  const sources = [...new Set(entries.filter(([, x]) => x?.system).map(([d]) => sourceOf(d)).filter(Boolean))];
+  const declared = Promise.all(sources.map((s) => readOrNull(L, s)));
+  const labels = new Map();
+  for (const card of await cards)
+    for (const g of card?.evidenz?.groups || [])
+      for (const r of [...(g.rows || []), ...(g.box || [])]) if (r?.outcome?.id && r.outcome.label) labels.set(r.outcome.id, r.outcome.label);
+  const outcomes = [...new Set(entries.map(([, x]) => x?.outcome).filter((o) => typeof o === 'string' && !labels.has(o)))];
+  const concepts = await Promise.all(outcomes.map((o) => readOrNull(L, o)));
+  outcomes.forEach((o, i) => labels.set(o, concepts[i]?.label ?? null));
+  const names = new Map();
+  (await declared).forEach((src, i) => {
+    for (const r of src?.rating_systems || []) if (r?.system) names.set(`${sources[i]}|${r.system}`, r.name ?? null);
+  });
+  return { labels, names };
+}
+
+// A claim's evidence, row by row as its entity JSON gives it (memory
+// claim-evidence-per-outcome): one entry per printed row, in the claim's
+// order — its outcome (the concept's id and label, read as a slot's: compact,
+// the short label where the graph's search file has one; full, also its URL),
+// or its key, as printed; its value (null where the row prints none) and its
+// note where it has one, in the source's words; its system by slug and by the
+// name its source declares (null where the entry names none). Rating words
+// only, no quote. Nothing is composed, mapped between systems or ranked.
+function evidenceOf(L, d, searches, words, form) {
+  const src = sourceOf(d);
+  return evidenceList(d).map((x) => {
+    const row = {};
+    if (x?.outcome) {
+      const found = searches.map((s) => searchIndex(s).get(x.outcome)).find(Boolean);
+      const label = words.labels.get(x.outcome) ?? null;
+      row.outcome =
+        form === 'compact'
+          ? { id: x.outcome, label: found?.short_label ?? label ?? found?.label ?? null }
+          : { id: x.outcome, label: label ?? found?.label ?? null, url: L.entityUrl(x.outcome) };
+    }
+    if (x?.key) row.key = x.key;
+    row.value = x?.value ?? null;
+    if (x?.note) row.note = x.note;
+    row.system = x?.system ?? null;
+    row.system_name = x?.system ? (words.names.get(`${src}|${x.system}`) ?? null) : null;
+    return row;
+  });
+}
+
+function statementEntity(L, e, views, searches, meta, claimDocs, ev, form = 'full') {
   const card = e.card || {};
-  // The wording is withheld where it carries source text: a claim sentence,
-  // or a quote of the claims behind it, word for word.
+  // The wording is withheld where it carries source text word for word: a
+  // sentence or a quote that provenance returns for it — of every claim it
+  // names, the rules of the concepts it applies to among them (#355) — or a
+  // quote of a claim behind it. A text that a name in the graph's search file
+  // carries too (a concept named in the source's words) is that name, not
+  // source text, as the check counts it (memory quote-gate-follows-the-site).
   const claimLabels = (card.wortlaut || []).map((w) => w.label);
   const values = (c) => new Set([c.grade, c.verb, c.consensus].filter(Boolean).map((x) => x.toLowerCase()));
   const cardQuotes = [
-    ...(card.beleg?.sources || []).flatMap((s) => (s.claims || []).map((c) => c.quote)),
+    ...quotesIn(e).map((x) => x.o.quote),
+    ...claimSentences(e).map(([, f]) => f.sentence),
     ...claimDocs.flatMap((c) => [c.label, ...quotedStrings(c).filter((q) => !values(c).has(q.toLowerCase()))]),
   ].filter(Boolean);
   const norm = (x) => (x || '').replace(/\s+/g, ' ').trim();
+  const wording = norm(e.label);
+  const named = (q) => searches.some((s) => s.entries.some((x) => [x.label, x.short_label].some((n) => n && norm(n).includes(norm(q)))));
   const withheld =
-    claimLabels.some((l) => sameText(l, e.label) || norm(e.label).includes(norm(l))) ||
-    cardQuotes.some((q) => norm(e.label).includes(norm(q)));
+    claimLabels.some((l) => sameText(l, e.label) || wording.includes(norm(l))) ||
+    cardQuotes.some((q) => wording.includes(norm(q)) && !named(q));
   const u = card.urteil || {};
   const slotLabels = card.mehr?.slots || {};
   const slots = {};
@@ -689,6 +789,12 @@ function statementEntity(L, e, views, searches, meta, claimDocs, form = 'full') 
   const edgesOut = e.edges?.out || [];
   const kindOf = new Map(edgesIn.filter((x) => x.kind === 'supports' || x.kind === 'contests').map((x) => [x.from, x.kind]));
   for (const c of claims) c.edge = kindOf.get(c.id) ?? null;
+  // Each claim's evidence rows, its own (#330): none is composed for the
+  // recommendation, and nothing is added at its top level (docs/publication.md
+  // §3, "Grades are shown, never composed"). Null where the claim could not
+  // be read.
+  const docOf = new Map(claimDocs.map((d) => [d.id, d]));
+  for (const c of claims) c.evidence = docOf.has(c.id) ? evidenceOf(L, docOf.get(c.id), searches, ev, form) : null;
 
   const perView = views.map((v, i) => {
     const S = searchIndex(searches[i]);
@@ -699,7 +805,7 @@ function statementEntity(L, e, views, searches, meta, claimDocs, form = 'full') 
     ]
       .filter((r) => S.has(r.id))
       .map((r) => ({ relation: r.relation, direction: r.direction, edge_source: r.source, other: statementSummary(L, S, v, first, r.id, form) }));
-    return { graph: graphRef(v), link: deepLink(v, first, [e.id]), related };
+    return { graph: graphRef(v), link: deepLink(v, first, [e.id]), related, ...sequenceField(L, e, v, S, first, form) };
   });
 
   return {
@@ -723,6 +829,110 @@ function statementEntity(L, e, views, searches, meta, claimDocs, form = 'full') 
     graphs: perView,
     about: meta,
   };
+}
+
+// --- a recommendation's steps (spec §5 `follows`) ------------------------------
+
+// A step's transition and trigger as the edge stores them, with their words
+// (descriptions.js) where `worded`; its discriminator where it has one.
+function stepKeys(x, worded = true) {
+  return {
+    transition: x.transition ?? null,
+    ...(worded ? { transition_words: words.sequence.transition[x.transition] ?? null } : {}),
+    trigger: x.trigger ?? null,
+    ...(worded ? { trigger_words: words.sequence.trigger[x.trigger] ?? null } : {}),
+    ...(x.discriminator ? { discriminator: x.discriminator } : {}),
+  };
+}
+
+// The words of the keys a chain's edges use, once each (descriptions.js).
+function stepTerms(edges) {
+  const terms = { transition: {}, trigger: {} };
+  for (const x of edges) {
+    terms.transition[x.transition] = words.sequence.transition[x.transition] ?? null;
+    terms.trigger[x.trigger] = words.sequence.trigger[x.trigger] ?? null;
+  }
+  return terms;
+}
+
+// A recommendation named by a step: as tree nodes summarise it (label,
+// direction, grade and verb from the search file, its URL and deep link),
+// with its recommendation number and pages as the statement JSON gives them.
+function stepNode(L, S, v, axis, x, form) {
+  return { ...statementSummary(L, S, v, axis, x.id, form), no: x.no ?? null, pages: x.pages ?? [] };
+}
+
+// A recommendation's steps, from its JSON's `sequence` (docs/publication.md
+// §4), read from that one file — no other recommendation's is fetched:
+// - before / after: its direct neighbours, one entry per edge, in the JSON's
+//   order (the guideline's);
+// - chain: the whole component the steps join it to, its nodes and edges in
+//   the JSON's order, cut to the MAX_CHAIN nodes nearest to it — by steps,
+//   either way along an edge; ties in the JSON's order — with the edges
+//   between the nodes kept, and the count it was cut from; its edges carry
+//   their keys, and `terms` the words of each key once (a chain of MAX_CHAIN
+//   with every edge worded would cross the compact form's size).
+// Each kept to the graph's members; what is left out is counted. Nothing is
+// composed: no step is inferred, no condition or threshold read. Compact:
+// none where it has no step; full: two empty lists.
+function sequenceField(L, e, v, S, axis, form) {
+  const seq = e.sequence;
+  if (!seq) return {};
+  const outside = new Set();
+  const member = (id) => {
+    if (S.has(id)) return true;
+    outside.add(id);
+    return false;
+  };
+  const side = (list) => (list || []).filter((x) => member(x.id)).map((x) => ({ ...stepNode(L, S, v, axis, x, form), ...stepKeys(x) }));
+  const before = side(seq.before);
+  const after = side(seq.after);
+  if (!before.length && !after.length) return form === 'compact' ? {} : { sequence: { before, after } };
+
+  const out = { before, after };
+  const chain = seq.chain;
+  if (chain && Array.isArray(chain.nodes)) {
+    // Steps away from this recommendation, over every edge of the component.
+    const next = new Map();
+    for (const x of chain.edges || []) {
+      for (const [a, b] of [[x.from, x.to], [x.to, x.from]]) {
+        if (!next.has(a)) next.set(a, []);
+        next.get(a).push(b);
+      }
+    }
+    const distance = new Map([[e.id, 0]]);
+    const queue = [e.id];
+    while (queue.length) {
+      const id = queue.shift();
+      for (const b of next.get(id) || [])
+        if (!distance.has(b)) {
+          distance.set(b, distance.get(id) + 1);
+          queue.push(b);
+        }
+    }
+    const nodes = chain.nodes.filter((x) => member(x.id));
+    const order = new Map(nodes.map((x, i) => [x.id, i]));
+    const kept = new Set(
+      [...nodes]
+        .sort((a, b) => (distance.get(a.id) ?? Infinity) - (distance.get(b.id) ?? Infinity) || order.get(a.id) - order.get(b.id))
+        .slice(0, MAX_CHAIN)
+        .map((x) => x.id),
+    );
+    const shown = nodes.filter((x) => kept.has(x.id));
+    const edges = (chain.edges || []).filter((x) => kept.has(x.from) && kept.has(x.to));
+    out.chain = {
+      nodes: shown.map((x) => ({ ...stepNode(L, S, v, axis, x, form), distance: distance.get(x.id) ?? null })),
+      edges: edges.map((x) => ({ from: x.from, to: x.to, ...stepKeys(x, false) })),
+      terms: stepTerms(edges),
+      nodes_total: nodes.length,
+      ...(shown.length < nodes.length ? { cut_to: MAX_CHAIN, cut_note: words.about.sequenceCut } : {}),
+      link: deepLink(v, axis, shown.map((x) => x.id)),
+    };
+  }
+  if (outside.size) Object.assign(out, { outside_graph: outside.size, outside_note: words.about.sequenceOutside });
+  out.note = words.about.sequence;
+  out.wording = words.about.sequenceWording;
+  return { sequence: out };
 }
 
 function conceptEntity(L, e, views, searches, meta, offset, size, form = 'full') {
@@ -826,7 +1036,7 @@ function sourceRefs(src) {
   };
 }
 
-function claimEntity(L, e, views, searches, meta, form = 'full') {
+function claimEntity(L, e, views, searches, meta, ev, form = 'full') {
   const supports = (e.edges?.out || []).filter((x) => x.kind === 'supports' || x.kind === 'contests');
   // where the same source says otherwise (spec §5 `disagrees_with`): symmetric,
   // so both directions, each other claim once, by URL — its text is provenance's
@@ -849,6 +1059,7 @@ function claimEntity(L, e, views, searches, meta, form = 'full') {
       verb: e.verb ?? null,
       consensus: e.consensus ?? null,
       direction: e.direction ?? null,
+      evidence: evidenceOf(L, e, searches, ev, form),
       text: null,
       text_note: words.about.verbatim,
       ...(others.length ? { disagrees_with: others.map((id) => ({ claim: id, url: L.entityUrl(id) })) } : {}),

@@ -1566,6 +1566,21 @@ overrule (§3.4, §11 rule 4); a version is no view's cut (§4) and pins no edge
 neither, and nothing is parsed out of a title. The period a document declares
 itself valid for is not recorded yet.
 
+**A version or a date printed two ways.** Where the document prints its
+version, or the date it gives it, differently in two places — "Version 1.1" on
+its cover, "Version 1" in its citation line —, the source records each
+printing and chooses none: the graph reflects the text (§5 `disagrees_with`),
+and a source's own version is no claim, so the field itself holds the
+printings. It is then a list of at least two, each the value as those places
+print it with its own quotes (`{version, source}`, `{date, source}`), in place
+of `provenance.version` or `provenance.date`. Each value is listed once — one
+value printed in several places is one printing with a quote for each — and
+the printings stand in the order of the pages that first print them, so that
+the first is first by its page, not because it is the cover's. The validator
+holds each printing to its own quotes, never to another's ("1" lies inside
+"Version 1.1"), and the site names every printing with its pages, none set
+below another. A field printed one way keeps its one value.
+
 ### 6.2 A reference is a locator plus a verbatim quote
 
 ```yaml
@@ -1827,15 +1842,17 @@ with a recorded identity, not a writer: everything it finds lands as
 attestations by it, never as an edit, and everything else about it follows
 from the rules of §8 above.
 
-**What it checks.** Seven questions. Six are asked of one subject the pull
-request adds — a claim, a statement, an edge, a placement of an axis — against
-the ground the pool already holds for it, and catch what was invented or
-misread. The fourth is asked of the ground itself — the page — against the
-pool, and catches what was left out:
+**What it checks.** Eight questions. Seven are asked of one subject the pull
+request adds — a claim or what a source records of itself, a statement, an
+edge, a placement of an axis, a concept's label — against the ground the pool
+already holds for it, and catch what was invented or misread. The fourth is
+asked of the ground itself — the page — against the pool, and catches what
+was left out:
 
-- **A claim against its page.** The judge reads the physical page the claim's
-  locator names — the same extracted text the validator's quote check reads
-  (`--verify-quotes`; §14) — and asks whether the claim says what is printed
+- **A claim, and what a source records of itself, against its page.** The
+  judge reads the physical page the claim's locator names — the same
+  extracted text the validator's quote check reads (`--verify-quotes`; §14)
+  — and asks whether the claim says what is printed
   there: the `label` is the sentence at the quote, one sentence and not the
   whole recommendation the source marks (§3.1) — for a table, the row or group
   §5.1 K names; `kind` follows the sentence's form; `grade`, `verb`, `direction`,
@@ -1848,8 +1865,8 @@ pool, and catches what was left out:
   and none is supplied where the page prints none (§11, rule 6; a body-text
   claim carries no grade, §5); a number in the label — a day, a dose, a value,
   a threshold — is the number on the page, and a reference mark the page
-  prints is left out of it (§3.1) — which number is a mark is the judge's
-  reading. A `threshold` is what the page
+  prints is left out of it, and out of an evidence `key` (§3.1) — which
+  number is a mark is the judge's reading. A `threshold` is what the page
   prints, one per claim; a `combination` (§3.1) joins every member the passage
   joins and no other, its connective is what the page prints between them,
   and its operator is the reading the connective bears in its sentence, never
@@ -1865,7 +1882,25 @@ pool, and catches what was left out:
   where the table makes the grade an open recommendation, `direction` only
   where it makes the grade one for or one against, a basis as the
   recommendations print it and what the source says it means, and `modelling`
-  only for a form the source prints nowhere. Whether the quote is on the page,
+  only for a form the source prints nowhere. An entry of its `rating_systems`
+  (§3.1) is read against the line it quotes: the `name` as that line prints
+  it, and the line one that says the source rates the certainty of its
+  evidence in that system — its method line, or where the source leaves its
+  method to a separate report, a body-text line naming the system beside a
+  rating the source gives, with a rationale saying where the method is. Its
+  `title`, `version` and `date` (§6.1) are read against the pages that print
+  them: the title proper, without what the document prints apart from it and
+  with nothing of it left out; each version the label its quote prints; each
+  date the one the document gives that version, at the precision printed —
+  that "November 2023" is `2023-11` is this reading, and no check makes it.
+  Its `license` holds the source's own terms only — its attribution, its
+  notice on use, or that it prints none —, nothing the document does not
+  print, and nothing of the project's own: that the source is linked and
+  never rehosted the site says beside every licence line
+  (`docs/publication.md` §5). Title and licence line carry no quote, so the
+  judge finds the title page and the notice in the document and names the
+  pages it read; what the terms permit is a person's reading, never the
+  judge's. Whether the quote is on the page,
   whether the id hashes from the anchor, whether the file fits the schema, it
   does not ask: the validator has, and the judge runs after it and repeats
   none of it — the definition lists what the validator covers so that the
@@ -1965,6 +2000,17 @@ pool, and catches what was left out:
   claims of one source, that the later population is not wider, that the
   chain closes no cycle but as §5 allows, and that the two properties are
   present and from their lists, the validator has checked.
+- **A concept's label against §3.2.** For each concept `label` and
+  `short_label` the branch adds or changes, the judge asks its case and
+  nothing else: is it in running-text case, its words as they read inside a
+  sentence of the label's language, the first word included — a first word
+  that language writes in lower case inside a sentence opening in lower case,
+  a noun, a name or a token whose case is fixed keeping its own? The first
+  word is read in its label, by the part it plays there, never from a list.
+  The ground is the label, its `lang` and the rule; the validator cannot ask
+  this, since it cannot tell a noun (§3.2). The words a page prints, and the
+  labels of every entity but a concept, are not under the rule and not
+  asked.
 
 The subjects of a run are the entities and edges the branch adds or changes
 against `main`, plus every statement whose evidence the branch changes — a new
@@ -1975,15 +2021,17 @@ no other guideline, no textbook, no medical judgement. It judges the
 extraction against the page, never the guideline against medicine; a claim
 that faithfully carries a recommendation the judge would disagree with is
 consistent. Nothing in it names a guideline, a grading scheme or a concept —
-the seven questions are stated over the schema's properties and this
-document's rules, and the same seven are asked of every source (memory
+the eight questions are stated over the schema's properties and this
+document's rules, and the same eight are asked of every source (memory
 `generic-over-guidelines`).
 
 **What it writes.** One attestation per subject read, by the judge, shaped as
-§8 says: `subject` the claim, the statement, the edge or the placement (a
-property of the axis, addressed as §2 addresses one); `subject_hash` its
+§8 says: `subject` the claim, the statement, the edge, the placement (a
+property of the axis, addressed as §2 addresses one), or the property of a
+source or a concept it read (addressed the same way); `subject_hash` its
 canonical hash at the head the judge read, so that a changed subject stales
-the finding; `scope` `content` for a claim, an edge and a placement, `with_evidence` for a
+the finding; `scope` `content` for a claim, an edge, a placement and such a
+property, `with_evidence` for a
 statement, so that a further supporting claim re-opens the question; `date`;
 and `claim` one of two. The fourth question has no subject of its own — what
 is missing does not exist to be pointed at — so its finding lands on the
@@ -2091,7 +2139,7 @@ part, *undecidable*, with the sentence, the page and the two readings, for the
 package that owns the rule to settle. Nothing under it becomes an attestation:
 an undecided subject is unjudged, not consistent, and its row in the report
 says so in that one word. The third part is *noticed*:
-what the judge saw on the page or in the pool outside its seven questions — a
+what the judge saw on the page or in the pool outside its eight questions — a
 property the schema carries and the claim lacks, a requirement this document
 states and the schema cannot express. It is written down because a reader was
 there, and it is never a finding, because the judge judges only what it was

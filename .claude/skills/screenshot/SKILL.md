@@ -57,8 +57,10 @@ and removes the container. Actions run in order before the capture and map onto
 the hooks `tools/site/static/graph.js` exposes as `window.graphmed`:
 a view page takes every one. The index draws a graph too
 (`tools/site/static/home.js`) and takes `open=<view id>` (a guideline's box
-tapped, its entry in the sheet), `sheet`, `graph`, `key=<key>` and `wait`; any
-other page `key=<key>` and `wait`. An action the page does not take fails before
+tapped, its entry in the sheet), `sheet`, `graph`, `key=<key>` and `wait`; a
+path view (`<view-id>/sequence/<statement>`, `tools/site/static/path.js`) takes
+the same with `open=<statement id>` or `open=step:<n>` (a box or a step selected,
+its card or its step in the sheet); any other page `key=<key>` and `wait`. An action the page does not take fails before
 anything runs, naming itself and what the page takes.
 `toggle=<concept id>` folds or unfolds a patient group, `open=<entity id>` is a
 deep link (unfold and select), `section=<number>` sets the chapter filter,

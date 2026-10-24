@@ -14,13 +14,23 @@
 //                                                 --origin http://localhost:<port> first
 //   node test/check.js --base https://graph.med/preview/pr<N>/   a published site
 //   node test/check.js --worker …                 the same, through `wrangler dev`
+//   node test/check.js --light …                  a short walk of each site given,
+//                                                 the fixture still walked in full
 //
 // Several targets may be given; it exits non-zero on any failure. Besides the
 // walk it checks the transport (405 for GET and DELETE on /mcp, 404 elsewhere,
-// ping, the initialize handshake of the 1.x SDK's client); with --worker it
-// also counts each request's subrequests from the runtime's trace, against
-// Workers' 50, and its CPU time from a profile of the isolate, against the
-// 10 ms of Workers Free.
+// ping, the initialize handshake of the 1.x SDK's client) and the reader's
+// retries (a 503 or a network error once, the call still answered); with
+// --worker it also counts each request's subrequests from the runtime's
+// trace, against Workers' 50, and its CPU time from a profile of the isolate,
+// against the 10 ms of Workers Free.
+//
+// The short walk (--light, before each deploy: .github/workflows/mcp.yml) is
+// the same checks on less of each site: per graph its groupings, the first
+// LIGHT_NODES nodes of each grouping's walk from the root, LIGHT_ENTITIES
+// recommendations and as many concepts spread over the search file, with the
+// claims behind those recommendations, search and its filters. It reads a
+// small part of the site's files; the full walk reads every entity once.
 
 import http from 'node:http';
 import fs from 'node:fs/promises';
@@ -31,23 +41,27 @@ import { Client as Client1 } from '@modelcontextprotocol/sdk/client/index.js';
 import { StreamableHTTPClientTransport as Transport1 } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 import { createServerFactory, callTool } from '../src/server.js';
 import { createHandler } from '../src/worker.js';
-import { Layer0 } from '../src/layer0.js';
+import { Layer0, RETRY_DELAYS_MS, RETRY_WITHIN, SUBREQUESTS } from '../src/layer0.js';
 import * as words from '../src/descriptions.js';
-import { QUOTE_CAP, MAX_DEPTH, MAX_CHARS, COMPACT_MAX_CHARS } from '../src/tools.js';
+import { QUOTE_CAP, MAX_DEPTH, MAX_CHARS, COMPACT_MAX_CHARS, MAX_CHAIN } from '../src/tools.js';
 import * as fixture from './fixture.js';
 
 const LIMIT_CHARS = 50000;
 const CPU_MS = 10; // Workers Free, per request
-const SUBREQUESTS = 50; // Workers, per request
+// The short walk (--light): nodes per grouping, and entities of each kind per graph.
+const LIGHT_NODES = 4;
+const LIGHT_ENTITIES = 4;
 const TOOLS = ['list_graphs', 'list_groupings', 'get_tree_node', 'get_entity', 'search', 'get_provenance'];
 
 // --- targets -------------------------------------------------------------------
 
 let WORKER = false;
+let LIGHT = false;
 function parseArgs(argv) {
   const targets = [];
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--worker') WORKER = true;
+    else if (argv[i] === '--light') LIGHT = true;
     else if (argv[i] === '--fixture') targets.push({ kind: 'fixture' });
     else if (argv[i] === '--site') targets.push({ kind: 'site', dir: argv[++i] });
     else if (argv[i] === '--base') targets.push({ kind: 'base', base: argv[++i] });
@@ -64,6 +78,9 @@ function listen(server, port = 0) {
 // Every URL the static server is asked for, for the request log of a Worker
 // run (in-process, the reader's onFetch records the same).
 const served = [];
+// Paths under the base the static server answers once with a 503 (the
+// retry through the transport, checkRetryServed).
+const failOnce = new Set();
 
 async function serveStatic(target) {
   if (target.kind === 'fixture') {
@@ -74,6 +91,7 @@ async function serveStatic(target) {
     srv.on('request', (req, res) => {
       served.push(base + req.url.replace(/^\//, ''));
       const p = decodeURIComponent(req.url.split('?')[0]).replace(/^\//, '');
+      if (failOnce.delete(p)) return res.writeHead(503).end();
       if (!(p in files)) return res.writeHead(404).end();
       res.writeHead(200, { 'content-type': 'application/json' }).end(JSON.stringify(files[p]));
     });
@@ -87,13 +105,13 @@ async function serveStatic(target) {
   const srv = http.createServer(async (req, res) => {
     served.push(u.origin + req.url);
     const rel = decodeURIComponent(req.url.split('?')[0]).slice(u.pathname.length);
+    if (failOnce.delete(rel)) return res.writeHead(503).end();
     const p = path.resolve(root, rel);
     if (!p.startsWith(root)) return res.writeHead(403).end();
-    try {
-      res.writeHead(200, { 'content-type': 'application/json' }).end(await fs.readFile(p));
-    } catch {
-      res.writeHead(404).end();
-    }
+    // Read before answering: a missing file is a 404, its head not yet sent.
+    const body = await fs.readFile(p).catch(() => null);
+    if (body === null) return res.writeHead(404).end();
+    res.writeHead(200, { 'content-type': 'application/json' }).end(body);
   });
   await listen(srv, Number(u.port));
   return { base, close: () => srv.close() };
@@ -319,16 +337,32 @@ async function workerCpu(base, calls) {
 
 // --- helpers -------------------------------------------------------------------
 
+// The requests this run makes to the site: the check's own reads (raw), and
+// the server's — every in-process reader's, and through the Worker the
+// fetches of the runtime's trace — with the retries among them.
+const site = { check: 0, server: 0, retries: [] };
+const onRetry = (url, failure) => site.retries.push(`${url}: ${failure}`);
+
+// The check's own reads of the site's files, with the reader's tolerance: a
+// 5xx or a network error is tried again after each wait of RETRY_DELAYS_MS.
 const rawCache = new Map();
+async function rawFetch(url) {
+  for (let retry = 0; ; retry++) {
+    site.check++;
+    let failure;
+    const r = await fetch(url).catch((e) => void (failure = `network error: ${e.message}`));
+    if (r && r.status < 500) {
+      if (!r.ok) throw new Error(`GET ${url}: ${r.status}`);
+      return r.json();
+    }
+    if (r) failure = `HTTP ${r.status}`;
+    if (retry === RETRY_DELAYS_MS.length) throw new Error(`GET ${url}: ${failure} (${retry + 1} attempts)`);
+    onRetry(url, failure);
+    await new Promise((r) => setTimeout(r, RETRY_DELAYS_MS[retry]));
+  }
+}
 async function raw(url) {
-  if (!rawCache.has(url))
-    rawCache.set(
-      url,
-      fetch(url).then((r) => {
-        if (!r.ok) throw new Error(`GET ${url}: ${r.status}`);
-        return r.json();
-      }),
-    );
+  if (!rawCache.has(url)) rawCache.set(url, rawFetch(url));
   return rawCache.get(url);
 }
 
@@ -369,17 +403,25 @@ class Check {
 async function runTarget(target) {
   const stat = target.kind === 'base' ? { base: target.base, close() {} } : await serveStatic(target);
   const base = stat.base;
+  // The short walk: of a site, never of the fixture, which is walked in full.
+  const light = LIGHT && target.kind !== 'fixture';
   const C = new Check(target.kind === 'site' ? `local build (${base})` : target.kind === 'fixture' ? `synthetic fixture (${base})` : base);
   // The request log: the reader's own in-process; through the Worker, what
   // the static server was asked for (none for a published base).
   const readerLog = [];
-  const factory = createServerFactory({ base, onFetch: (u) => readerLog.push(u) });
+  const factory = createServerFactory({ base, onFetch: (u) => (readerLog.push(u), site.server++), onRetry });
   const mcp = WORKER ? await serveWorker(base) : await serveMcp(factory);
   const log = WORKER ? served : readerLog;
   const observable = !WORKER || target.kind !== 'base';
   if (WORKER) C.name += ' through wrangler dev';
+  if (light) C.name += ', short walk';
   const client = new Client({ name: 'graph-med-check', version: '0' });
   await client.connect(new StreamableHTTPClientTransport(new URL(mcp.url)));
+  // The retries: through the transport on a site served here (the first
+  // request of the server's reader), and the reader's own on every target.
+  if (target.kind !== 'base') await checkRetryServed(C, client, base);
+  site.retries = [];
+  await checkRetry(C, base);
 
   const index = await raw(base + 'index.json');
   // The disclaimer (card #291): the server's copy is the site's, as index.json
@@ -430,6 +472,24 @@ async function runTarget(target) {
   }
   const toolText = JSON.stringify(tools.map((t) => [t.name, t.title, t.description, t.inputSchema])).toLowerCase();
   for (const b of banned) C.ok(!toolText.includes(b), `tools/list names ${JSON.stringify(b)}`);
+  C.ok(tools.find((t) => t.name === 'get_entity')?.description.includes(`up to ${MAX_CHAIN} `), `get_entity: its description does not state the chain's cap, ${MAX_CHAIN}`);
+
+  // The words of a step's keys (card #299): one for each key the site's
+  // llms.txt lists from the schema (a site that lists none is counted).
+  if (target.kind !== 'fixture') {
+    const llms = await (await fetch(index.llms_txt)).text();
+    const m = /`transition` is one of ((?:`[a-z_]+`(?:, )?)+); `trigger` one of ((?:`[a-z_]+`(?:, )?)+)/.exec(llms);
+    const keys = (x) => [...x.matchAll(/`([a-z_]+)`/g)].map((y) => y[1]);
+    if (m) {
+      C.ok(sameSet(keys(m[1]), Object.keys(words.sequence.transition)), `words: the transitions llms.txt lists, ${keys(m[1]).join(', ')}, ≠ the server's`);
+      C.ok(sameSet(keys(m[2]), Object.keys(words.sequence.trigger)), `words: the triggers llms.txt lists, ${keys(m[2]).join(', ')}, ≠ the server's`);
+      C.counts['step keys with words (llms.txt)'] = `${keys(m[1]).length} transitions, ${keys(m[2]).length} triggers`;
+    } else C.counts['step keys with words (llms.txt)'] = 'llms.txt lists none';
+  }
+
+  // Get tree node's description names the caps a lowered depth gives as its reason (#317).
+  const tn = tools.find((t) => t.name === 'get_tree_node')?.description || '';
+  C.ok([COMPACT_MAX_CHARS, MAX_CHARS].every((n) => tn.includes(n.toLocaleString('en-US'))) && tn.includes('size_cap'), 'get_tree_node: its description names not both caps, or not the reason for a lowered depth');
 
   // 8. Requests: cold, one call per tool on a fresh reader; warm, a repeat.
   //    Transport-agnostic: the direct call returns the transport's text.
@@ -446,13 +506,14 @@ async function runTarget(target) {
   };
   for (const name of TOOLS) {
     const gets = [];
-    const reader = new Layer0({ base, onFetch: (u) => gets.push(u) });
+    const reader = new Layer0({ base, onFetch: (u) => (gets.push(u), site.server++), onRetry });
     const direct = await callTool(reader, name, sample[name]);
     const cold = gets.length;
     gets.length = 0;
     await callTool(reader, name, sample[name]);
     C.gets[name] = { cold, warm: gets.length };
     C.ok(gets.length === 0, `${name}: a repeated call fetched ${gets.length}`);
+    C.ok(cold <= RETRY_WITHIN, `${name}: ${cold} GETs cold, more than the ${RETRY_WITHIN} within which a call retries`);
     const viaHttp = await client.callTool({ name, arguments: sample[name] });
     C.ok(viaHttp.content[0].text === direct.content[0].text, `${name}: the transport's result ≠ the direct call's: ${direct.content[0].text.slice(0, 200)}`);
   }
@@ -470,6 +531,7 @@ async function runTarget(target) {
   C.ok(eq(lg.map((g) => g.id), views.map((v) => v.id)), 'list_graphs: not every view of the index');
 
   const quotes = new Set(); // the pool's quoted strings, collected below
+  const claimsRead = new Set(); // `<view> <claim>`, each claim read once per graph
   const leanStrings = new Set(strings(index).map((x) => x.s));
 
   for (const v of views) {
@@ -514,7 +576,7 @@ async function runTarget(target) {
       const seen = new Set();
       const queue = [T.root.id];
       const recsReached = new Set();
-      while (queue.length) {
+      while (queue.length && !(light && seen.size >= LIGHT_NODES)) {
         const id = queue.shift();
         if (seen.has(id)) continue;
         seen.add(id);
@@ -556,32 +618,46 @@ async function runTarget(target) {
         if (n.type !== 'statement' && n.type !== 'aim') {
           for (const detail of ['compact', 'full']) {
             const d1 = await call('get_tree_node', { graph: v.id, grouping: g.axis, node: id, depth: 1, detail });
-            if (d1.depth_reduced_to !== undefined) continue;
+            if (checkReduced(C, `${G} ${id} depth 1 (${detail})`, d1, 1, detail)) continue;
             for (const b of d1.node.below || []) {
               const one = await call('get_tree_node', { graph: v.id, grouping: g.axis, node: b.id, detail });
               C.ok(eq(b, one.node), `${G} ${id}: depth 1 ≠ the call for ${b.id} (${detail})`);
             }
           }
-          await call('get_tree_node', { graph: v.id, grouping: g.axis, node: id, depth: MAX_DEPTH });
+          const deep = await call('get_tree_node', { graph: v.id, grouping: g.axis, node: id, depth: MAX_DEPTH });
+          checkReduced(C, `${G} ${id} depth ${MAX_DEPTH}`, deep, MAX_DEPTH, 'compact');
         }
       }
       const expected = [...T.nodes.keys()];
       const statementsInTree = tree.nodes.filter((n) => n.type === 'statement').map((n) => n.id);
+      if (light) {
+        C.counts[`${G}: nodes walked (short walk) / in tree file`] = `${seen.size} / ${expected.length}`;
+        continue;
+      }
       C.ok(expected.every((x) => seen.has(x)), `${G}: nodes not reached: ${expected.filter((x) => !seen.has(x)).slice(0, 5).join(', ')}`);
       C.counts[`${G}: nodes reached / in tree file`] = `${expected.filter((x) => seen.has(x)).length} / ${expected.length}`;
       C.counts[`${G}: recommendations reached / in tree file`] = `${statementsInTree.filter((x) => recsReached.has(x)).length} / ${statementsInTree.length}`;
     }
 
-    // 4. get_entity: every concept and every recommendation of the search file.
-    for (const e of search.entries) {
+    // 4. get_entity: every concept and every recommendation of the search file
+    //    (the short walk: a sample of each), and every claim a recommendation
+    //    rests on.
+    const entities = light ? sampleOf(search.entries) : search.entries;
+    if (light) C.counts[`${v.id}: entities read (short walk) / in search file`] = `${entities.length} / ${search.entries.length}`;
+    for (const e of entities) {
       const r = await fullEntity(call, { entity: e.id, graph: v.id, detail: 'full' });
       if (r.error) {
         C.fail(`get_entity ${e.id}: ${r.error}`);
         continue;
       }
-      compareCompactEntity(C, `get_entity ${e.id}`, await fullEntity(call, { entity: e.id, graph: v.id }), r);
+      const rc = await fullEntity(call, { entity: e.id, graph: v.id });
+      compareCompactEntity(C, `get_entity ${e.id}`, rc, r);
       checkAbout(C, 'get_entity', r.about);
-      checkIds(C, `get_entity ${e.id}`, r, isMember);
+      // An evidence row names its outcome, a concept the claim's JSON names,
+      // which may stand in no graph's filter (#330).
+      const claimJsons = e.kind === 'statement' ? await Promise.all((r.entity.claims || []).map((c) => raw(base + c.id + '.json'))) : [];
+      const rowOutcomes = new Set(claimJsons.flatMap(outcomesOf));
+      checkIds(C, `get_entity ${e.id}`, r, (id) => isMember(id) || rowOutcomes.has(id));
       const j = await raw(base + e.id + '.json');
       collectQuotes(j, quotes);
       if (j.type === 'concept') [j.label, j.short_label].filter(Boolean).forEach((x) => leanStrings.add(x));
@@ -607,10 +683,35 @@ async function runTarget(target) {
           ...(j.edges.in || []).filter((x) => ['specializes', 'complements'].includes(x.kind)).map((x) => `${x.kind}<${x.from}`),
         ].filter((x) => S.has(x.split(/[<>]/)[1]));
         C.ok(sameSet(pv.related.map((x) => `${x.relation}${x.direction === 'out' ? '>' : '<'}${x.other.id}`), rel), `get_entity ${e.id}: related`);
-        for (const c of r.entity.claims) {
-          const cj = await raw(base + c.id + '.json');
+        // Its steps (card #299): what its statement JSON's `sequence` gives, read from that file alone.
+        compareSequence(C, `get_entity ${e.id}`, j, pv, rc.graphs?.[0], v, S, isMember);
+        if (j.sequence?.before?.length || j.sequence?.after?.length)
+          C.ok(r._gets.every((u) => !/\/statements\//.test(u) || u === base + e.id + '.json'), `get_entity ${e.id}: fetched another recommendation: ${r._gets.join(' ')}`);
+        C.ok(!/"rationale"/.test(r._text), `get_entity ${e.id}: carries a rationale`);
+        // Evidence stays per claim: no certainty at the recommendation's top
+        // level (docs/publication.md §3, "Grades are shown, never composed").
+        C.ok(!('evidence' in r.entity) && !('evidence' in rc.entity), `get_entity ${e.id}: evidence at the recommendation's top level`);
+        for (const [i, c] of r.entity.claims.entries()) {
+          const cj = claimJsons[i];
           collectQuotes(cj, quotes);
           C.ok(c.url === cj.meta.url, `get_entity ${e.id}: claim URL ${c.url} ≠ ${cj.meta.url}`);
+          await checkEvidence(C, `get_entity ${e.id}: ${c.id}`, c.evidence, cj, 'full', S, base, leanStrings);
+          await checkEvidence(C, `get_entity ${e.id}: ${c.id} (compact)`, rc.entity.claims[i]?.evidence, cj, 'compact', S, base, leanStrings);
+          // The claim itself, in both forms, once per graph.
+          if (claimsRead.has(`${v.id} ${c.id}`)) continue;
+          claimsRead.add(`${v.id} ${c.id}`);
+          const cf = await call('get_entity', { entity: c.id, graph: v.id, detail: 'full' });
+          if (!C.ok(!cf.error, `get_entity ${c.id}: ${cf.error}`)) continue;
+          const cc = await call('get_entity', { entity: c.id, graph: v.id });
+          compareCompactEntity(C, `get_entity ${c.id}`, cc, cf);
+          checkAbout(C, 'get_entity', cf.about);
+          const own = new Set(outcomesOf(cj));
+          checkIds(C, `get_entity ${c.id}`, cf, (id) => isMember(id) || own.has(id));
+          C.ok(cf.graphs.length === 1 && cf.graphs[0].graph.id === v.id, `get_entity ${c.id}: not kept to ${v.id}`);
+          for (const x of strings(cf.graphs[0]).filter((x) => x.key === 'link')) checkLink(C, v, null, x.s, isMember, true);
+          await checkEvidence(C, `get_entity ${c.id}`, cf.entity.evidence, cj, 'full', S, base, leanStrings);
+          await checkEvidence(C, `get_entity ${c.id} (compact)`, cc.entity?.evidence, cj, 'compact', S, base, leanStrings);
+          C.count(`claims read, ${(cj.evidence || []).length ? 'with' : 'without'} evidence rows`);
         }
         // Provenance: the only verbatim text — each quote capped, each claim's
         // sentence whole as the site shows it — each with its link or page.
@@ -653,7 +754,7 @@ async function runTarget(target) {
       }
       const x = await call('search', { query: word });
       C.ok(eq(x.groups.map((g) => g.graph.id), views.map((w) => w.id)), 'search without a graph: not grouped per graph');
-      await checkFilters(C, call, v, search);
+      await checkFilters(C, call, v, search, light);
       for (const grp of x.groups) {
         const w = views.find((w) => w.id === grp.graph.id);
         const s2 = await raw(w.search);
@@ -700,7 +801,11 @@ async function runTarget(target) {
   // Provenance is scanned too, without the places verbatim text may stand
   // there: `quotes` (capped, checked above) and `sentences` (claim sentences,
   // whole, checked above), each with the link that searches its quote, and a
-  // claim's anchor link in its metadata.
+  // claim's anchor link in its metadata. An evidence row's key, value or note
+  // equal to its claim's entry (checkEvidence) is that entry's datum, as
+  // printed and as the site shows it, carried as data like a grade (#330): its
+  // quote stays gated everywhere else. Tree nodes and search hits carry no
+  // evidence: a summary of a recommendation's would compose one.
   let scanned = 0;
   for (const [key, text] of resultTexts) {
     let result = JSON.parse(text);
@@ -708,10 +813,24 @@ async function runTarget(target) {
       const bare = (list) => (list || []).map(({ quote, sentence, link, ...rest }) => rest);
       const { link, ...provenance } = result.about?.provenance || {};
       result = { ...result, quotes: bare(result.quotes), sentences: bare(result.sentences), about: { ...result.about, provenance } };
-    } else C.ok(!text.includes('"sentences"'), `quote gate: ${key} carries claim sentences`);
+    } else {
+      C.ok(!text.includes('"sentences"'), `quote gate: ${key} carries claim sentences`);
+      // A claim's own result carries its anchor link in its metadata, as
+      // provenance's does (the link its page shows, searching its quote): not
+      // scanned here, as there. Unexamined before #330, which first reads a
+      // claim through get_entity in this walk; reported, not changed (#330
+      // changes no text the server withholds).
+      if (/^get_entity \{"entity":"claims\//.test(key) && result.about?.provenance?.link) {
+        const { link, ...provenance } = result.about.provenance;
+        result = { ...result, about: { ...result.about, provenance } };
+        C.count('claim results whose anchor link was not scanned');
+      }
+    }
+    if (/^(get_tree_node|search) /.test(key)) C.ok(!text.includes('"evidence":'), `${key}: carries evidence`);
     scanned++;
-    for (const { s } of strings(result)) {
+    for (const { key: k, s } of strings(result)) {
       if (leanStrings.has(s)) continue;
+      if (EVIDENCE_DATA.includes(k) && evidenceData.has(s)) continue;
       for (const q of gated)
         if (s.includes(q) || s.includes(encodeURIComponent(q))) C.fail(`quote gate: ${key} carries ${JSON.stringify(q.slice(0, 40))} in ${JSON.stringify(s.slice(0, 60))}`);
     }
@@ -721,16 +840,23 @@ async function runTarget(target) {
 
   await client.close();
   if (!observable) C.counts['request log'] = 'not observable for a published base through the Worker; the subrequests below count every fetch';
-  else C.counts['most Layer 0 GETs in one call'] = C.maxGets;
+  else {
+    C.counts['most Layer 0 GETs in one call'] = C.maxGets;
+    C.ok(C.maxGets <= RETRY_WITHIN, `a call made ${C.maxGets} GETs, more than the ${RETRY_WITHIN} within which a call retries`);
+  }
   if (WORKER) {
     const [[requests]] = await mcp.spans('SELECT count(*) FROM spans WHERE parent_id IS NULL');
     const [[most]] = await mcp.spans(
       "SELECT coalesce(max(n), 0) FROM (SELECT count(*) AS n FROM spans WHERE kind = 'fetch' GROUP BY parent_id)",
     );
+    const [[fetches]] = await mcp.spans("SELECT count(*) FROM spans WHERE kind = 'fetch'");
+    site.server += fetches;
     C.counts['requests the Worker served (runtime trace)'] = requests;
     C.counts['most subrequests in one request (runtime trace)'] = most;
     C.ok(most <= SUBREQUESTS, `a request made ${most} subrequests, over ${SUBREQUESTS}`);
   }
+  C.counts['requests to the site'] = `${site.server + site.check}: the server's ${site.server}, the check's own ${site.check}`;
+  C.counts['requests retried (the check\'s, and the server\'s in-process)'] = site.retries.length ? `${site.retries.length}: ${site.retries.join('; ')}` : 0;
   await mcp.close();
   const calls = resultTexts.map(([k]) => {
     const i = k.indexOf(' ');
@@ -866,6 +992,121 @@ function compareCompactEntity(C, where, c, f) {
   C.ok(cu.every((u) => fu.includes(u)) && fu.filter((u) => !cu.includes(u)).every((u) => /\/concepts\//.test(u)), `${where}: compact leaves out a URL that is not a named concept's`);
 }
 
+// A recommendation's steps (card #299) against its statement JSON's `sequence`
+// (docs/publication.md §4): before and after, entry by entry in the JSON's
+// order, kept to the graph's members; each neighbour's label, direction, grade
+// and verb as the search file gives them, its number and pages as the JSON
+// gives them; each step's keys with their words; the chain — its nodes the
+// MAX_CHAIN nearest by steps (ties in the JSON's order) with their distances,
+// its edges those between them, the count it was cut from, its deep link — and
+// that the JSON's chain holds the direct steps; the compact form the same, less
+// the languages; no step where the JSON has none.
+function compareSequence(C, where, j, f, c, v, S, isMember) {
+  const seq = j.sequence;
+  if (!seq) return C.ok(f.sequence === undefined && c?.sequence === undefined, `${where}: a sequence the JSON lacks`);
+  const keep = (list) => (list || []).filter((x) => S.has(x.id));
+  const before = keep(seq.before);
+  const after = keep(seq.after);
+  if (!before.length && !after.length) {
+    C.ok(eq(f.sequence, { before: [], after: [] }), `${where}: full form: steps where the JSON has none`);
+    C.ok(c?.sequence === undefined, `${where}: compact form: steps where the JSON has none`);
+    return;
+  }
+  C.count('recommendations with steps compared');
+  const s = f.sequence;
+  if (!C.ok(!!s, `${where}: no sequence`)) return;
+  const summary = (x) => {
+    const e = S.get(x.id);
+    return [e?.short_label ?? e?.label ?? null, e?.direction ?? null, e?.grade ?? null, e?.verb ?? null];
+  };
+  const worded = (x) => {
+    C.ok(typeof x.transition_words === 'string' && x.transition_words === words.sequence.transition[x.transition], `${where}: transition ${x.transition}: no words, or not the server's`);
+    C.ok(typeof x.trigger_words === 'string' && x.trigger_words === words.sequence.trigger[x.trigger], `${where}: trigger ${x.trigger}: no words, or not the server's`);
+  };
+  for (const [name, want] of [['before', before], ['after', after]]) {
+    const got = s[name] || [];
+    const key = (x) => [x.id, x.url, x.no ?? null, x.pages ?? [], x.transition, x.trigger, x.discriminator ?? null];
+    C.ok(eq(got.map(key), want.map(key)), `${where}: ${name} ≠ the JSON's`);
+    C.ok(eq(got.map((x) => [x.label, x.direction, x.grade, x.verb]), want.map(summary)), `${where}: ${name}: a label, direction, grade or verb ≠ the search file's`);
+    for (const x of got) {
+      worded(x);
+      checkLink(C, v, v.groupings[0].axis, x.link, isMember);
+    }
+    C.count('steps compared', got.length);
+  }
+  if (!C.ok(!!seq.chain, `${where}: Layer 0: steps but no chain in the statement JSON`)) return;
+  const nodes = keep(seq.chain.nodes);
+  const ids = nodes.map((x) => x.id);
+  // The JSON's chain holds this recommendation, its direct neighbours and their edges.
+  C.ok([j.id, ...before.map((x) => x.id), ...after.map((x) => x.id)].every((id) => ids.includes(id)), `${where}: Layer 0: the chain lacks this recommendation or a direct neighbour`);
+  const edgeKey = (x) => `${x.from}>${x.to}|${x.transition}|${x.trigger}|${x.discriminator ?? ''}`;
+  const chainEdges = new Set((seq.chain.edges || []).map(edgeKey));
+  C.ok([...before.map((x) => ({ from: j.id, to: x.id, ...x })), ...after.map((x) => ({ ...x, from: x.id, to: j.id }))].every((x) => chainEdges.has(edgeKey(x))), `${where}: Layer 0: a direct step missing from the chain's edges`);
+  const next = new Map();
+  for (const x of seq.chain.edges || [])
+    for (const [a, b] of [[x.from, x.to], [x.to, x.from]]) (next.get(a) || next.set(a, []).get(a)).push(b);
+  const dist = new Map([[j.id, 0]]);
+  for (const q = [j.id]; q.length; ) {
+    const id = q.shift();
+    for (const b of next.get(id) || []) if (!dist.has(b)) dist.set(b, dist.get(id) + 1), q.push(b);
+  }
+  const nearest = new Set([...nodes.keys()].sort((a, b) => (dist.get(ids[a]) ?? Infinity) - (dist.get(ids[b]) ?? Infinity) || a - b).slice(0, MAX_CHAIN).map((i) => ids[i]));
+  const want = nodes.filter((x) => nearest.has(x.id));
+  const ch = s.chain;
+  if (!C.ok(!!ch, `${where}: no chain`)) return;
+  C.ok(eq(ch.nodes.map((x) => [x.id, x.no ?? null, x.pages ?? [], x.distance]), want.map((x) => [x.id, x.no ?? null, x.pages ?? [], dist.get(x.id) ?? null])), `${where}: chain nodes ≠ the JSON's nearest ${MAX_CHAIN}`);
+  C.ok(ch.nodes.every((x) => typeof x.url === 'string' && x.url.endsWith('/' + x.id + '/')), `${where}: a chain node without its URL`);
+  C.ok(eq(ch.nodes.map((x) => [x.label, x.direction, x.grade, x.verb]), want.map(summary)), `${where}: chain: a label, direction, grade or verb ≠ the search file's`);
+  const kept = new Set(want.map((x) => x.id));
+  const wantEdges = (seq.chain.edges || []).filter((x) => kept.has(x.from) && kept.has(x.to));
+  C.ok(eq(ch.edges.map((x) => [x.from, x.to, x.transition, x.trigger, x.discriminator ?? null]), wantEdges.map((x) => [x.from, x.to, x.transition, x.trigger, x.discriminator ?? null])), `${where}: chain edges ≠ the JSON's between the nodes kept`);
+  C.ok(eq(ch.terms, { transition: Object.fromEntries(wantEdges.map((x) => [x.transition, words.sequence.transition[x.transition]])), trigger: Object.fromEntries(wantEdges.map((x) => [x.trigger, words.sequence.trigger[x.trigger]])) }) && Object.values(ch.terms.transition).concat(Object.values(ch.terms.trigger)).every((w) => typeof w === 'string'), `${where}: chain terms: a key without words, or not the server's`);
+  C.ok(ch.nodes_total === nodes.length && (ch.cut_to !== undefined) === (nodes.length > MAX_CHAIN), `${where}: chain: nodes_total or cut_to`);
+  checkLink(C, v, v.groupings[0].axis, ch.link, isMember);
+  C.ok(eq((ch.link.split('#')[1] || '').split(','), want.map((x) => x.id)), `${where}: chain link ≠ its nodes`);
+  for (const x of ch.nodes) checkLink(C, v, v.groupings[0].axis, x.link, isMember);
+  C.count('chain nodes compared', ch.nodes.length);
+  C.counts['largest chain (recommendations)'] = Math.max(C.counts['largest chain (recommendations)'] || 0, nodes.length);
+  // The compact form: the same, less the languages it shares with the graph.
+  const noLang = (o) => JSON.parse(JSON.stringify(o, (k, x) => (k === 'lang' ? undefined : x)));
+  C.ok(eq(noLang(c?.sequence), noLang(s)), `${where}: compact steps ≠ full`);
+}
+
+// The chain's cap (tools.js, MAX_CHAIN), on a synthetic graph longer than it
+// (fixture.chainFiles), read through a reader over that file set: from inside
+// the chain and from its end, the nearest MAX_CHAIN recommendations by steps,
+// ties in the chain's order, the edges between them, the count it was cut
+// from; one GET for the statement JSON and none for any other recommendation.
+async function checkChainCap() {
+  const base = 'http://chain.invalid/';
+  const files = fixture.chainFiles(base);
+  const fetchImpl = async (url) => {
+    const p = url.slice(base.length);
+    return p in files ? new Response(JSON.stringify(files[p]), { status: 200, headers: { 'content-type': 'application/json' } }) : new Response('', { status: 404 });
+  };
+  const gets = [];
+  const reader = new Layer0({ base, fetch: fetchImpl, onFetch: (u) => gets.push(u) });
+  const ids = files['fx-chain/search.json'].entries.map((e) => e.id);
+  const bad = [];
+  for (const at of [Math.floor(ids.length / 2), 0])
+    for (const detail of ['compact', 'full']) {
+      gets.length = 0;
+      const r = JSON.parse((await callTool(reader, 'get_entity', { entity: ids[at], detail })).content[0].text);
+      const ch = r.graphs?.[0]?.sequence?.chain;
+      if (!ch) {
+        bad.push(`${ids[at]} (${detail}): no chain`);
+        continue;
+      }
+      const want = [...ids.keys()].sort((a, b) => Math.abs(a - at) - Math.abs(b - at) || a - b).slice(0, MAX_CHAIN).sort((a, b) => a - b);
+      if (!eq(ch.nodes.map((n) => [n.id, n.distance]), want.map((i) => [ids[i], Math.abs(i - at)]))) bad.push(`${ids[at]} (${detail}): not the nearest ${MAX_CHAIN}`);
+      if (!eq(ch.edges.map((x) => [x.from, x.to]), want.slice(1).filter((i) => want.includes(i - 1)).map((i) => [ids[i], ids[i - 1]]))) bad.push(`${ids[at]} (${detail}): edges ≠ those between the nodes kept`);
+      if (ch.nodes_total !== ids.length || ch.cut_to !== MAX_CHAIN || !ch.cut_note) bad.push(`${ids[at]} (${detail}): the cut is not stated`);
+      const others = gets.filter((u) => /\/statements\//.test(u) && u !== base + ids[at] + '.json');
+      if (others.length) bad.push(`${ids[at]} (${detail}): fetched ${others.length} other recommendation(s)`);
+    }
+  return { bad, length: ids.length };
+}
+
 // Depth: how many answers lie between the root and a node, on its shortest path.
 function depths(T) {
   const d = new Map([[T.root.id, 0]]);
@@ -882,7 +1123,7 @@ function depths(T) {
 }
 
 // The search filters (card #409), each against the search file and the trees.
-async function checkFilters(C, call, v, search) {
+async function checkFilters(C, call, v, search, light = false) {
   const fold = (x) => (x || '').normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().trim();
   const all = async (args) => {
     const hits = [];
@@ -915,7 +1156,7 @@ async function checkFilters(C, call, v, search) {
   const g = v.groupings[0];
   const T = indexTree(await raw(g.tree));
   const D = depths(T);
-  const tops = [T.root, ...(T.out.get(T.root.id) || []).flatMap((e) => (T.out.get(e.to) || []).filter((x) => x.kind === 'answer').map((x) => T.nodes.get(x.to)))];
+  const tops = [T.root, ...(T.out.get(T.root.id) || []).flatMap((e) => (T.out.get(e.to) || []).filter((x) => x.kind === 'answer').map((x) => T.nodes.get(x.to)))].slice(0, light ? 3 : undefined);
   for (const top of tops) {
     const expect = [];
     const seen = new Set();
@@ -944,6 +1185,90 @@ async function checkFilters(C, call, v, search) {
   C.ok(!!(await call('search', {})).error, 'search without query or filter: no error');
   C.ok(!!(await call('search', { graph: v.id, query: 'a', grouping: g.axis })).error, 'search with a grouping but no under: no error');
   C.ok(!!(await call('search', { under: T.root.id })).error, 'search under without a graph: no error');
+}
+
+// A lowered depth says to what, why and under which cap (#317): `size_cap`,
+// the form's limit in characters; a result that kept its depth says none of
+// it. True where the depth was lowered.
+function checkReduced(C, where, r, asked, detail) {
+  if (r.error) return C.fail(`${where}: ${r.error}`), true;
+  if (r.depth_reduced_to === undefined) {
+    C.ok(!('depth_reduced_reason' in r) && !('size_cap' in r), `${where}: a reason or a cap where the depth was kept`);
+    return false;
+  }
+  const cap = detail === 'full' ? MAX_CHARS : COMPACT_MAX_CHARS;
+  C.ok(Number.isInteger(r.depth_reduced_to) && r.depth_reduced_to >= 0 && r.depth_reduced_to < asked && r.depth_reduced_reason === 'size_cap' && r.size_cap === cap,
+    `${where}: depth lowered to ${r.depth_reduced_to}, reason ${r.depth_reduced_reason}, cap ${r.size_cap} (asked ${asked}; the cap is ${cap})`);
+  C.count('depths lowered, each with its reason and cap');
+  return true;
+}
+
+// The retry through the transport: the static server answers the server's
+// first request, for index.json, with a 503; list graphs still answers, from
+// the second — in-process and through the Worker alike.
+async function checkRetryServed(C, client, base) {
+  const from = served.length;
+  failOnce.add('index.json');
+  const r = await client.callTool({ name: 'list_graphs', arguments: {} });
+  const asked = served.slice(from).filter((u) => u === base + 'index.json').length;
+  C.ok(!r.isError && asked === 2 && !failOnce.size, `retry through the transport: ${r.isError ? r.content[0].text.slice(0, 160) : 'answered'}, index.json asked ${asked} times`);
+  C.counts['retry through the transport'] = `index.json answered 503 once and asked ${asked} times; list graphs ${r.isError ? 'failed' : 'answered'}`;
+}
+
+// The reader's retries (layer0.js), with a fetch that fails as told: a 503
+// once, or a network error once, and the call answers from the second
+// request; a 503 every time, and the call reports it after 1 +
+// RETRY_DELAYS_MS.length requests; a 404, reported after one; and a call
+// that has made RETRY_WITHIN requests retries none.
+async function checkRetry(C, base) {
+  const run = async ({ url, failures = 0, how = '503', name = 'list_graphs', args = {}, spent = null }) => {
+    const retried = [];
+    let left = failures;
+    let times = 0;
+    const fetchImpl = (u, init) => {
+      if (u === url) times++;
+      if (u === url && left > 0) {
+        left--;
+        return how === 'network' ? Promise.reject(new TypeError('fetch failed')) : Promise.resolve(new Response('busy', { status: 503 }));
+      }
+      return fetch(u, init);
+    };
+    const reader = new Layer0({ base, fetch: fetchImpl, onFetch: () => site.server++, onRetry: (u, f) => retried.push(f) });
+    if (spent !== null) {
+      // One request of a call that has already made `spent`.
+      const call = reader.forCall();
+      call.requests = spent;
+      const error = await call.get(url).then(() => null, (e) => e.message);
+      return { error, times, retried };
+    }
+    const r = await callTool(reader, name, args);
+    return { error: r.isError ? JSON.parse(r.content[0].text).error : null, times, retried };
+  };
+  const index = base + 'index.json';
+  const attempts = RETRY_DELAYS_MS.length + 1;
+  const show = (x) => `${x.error ? 'error ' + JSON.stringify(x.error.slice(0, 120)) : 'answered'}, asked ${x.times} times, retried ${JSON.stringify(x.retried)}`;
+  const once = await run({ url: index, failures: 1 });
+  C.ok(!once.error && once.times === 2 && eq(once.retried, ['HTTP 503']), `retry: a 503 once: ${show(once)}`);
+  const net = await run({ url: index, failures: 1, how: 'network' });
+  C.ok(!net.error && net.times === 2 && net.retried.length === 1 && net.retried[0].startsWith('network error'), `retry: a network error once: ${show(net)}`);
+  const always = await run({ url: index, failures: Infinity });
+  C.ok(!!always.error && always.times === attempts && always.error.includes(`HTTP 503 (${attempts} attempts)`), `retry: a 503 every time: ${show(always)}`);
+  const missing = base + 'concepts/no-such-concept-317.json';
+  const gone = await run({ url: missing, name: 'get_entity', args: { entity: 'concepts/no-such-concept-317' } });
+  C.ok(!!gone.error && gone.error.startsWith('not found') && gone.times === 1, `retry: a 404: ${show(gone)}`);
+  const spent = await run({ url: index, failures: 1, spent: RETRY_WITHIN });
+  C.ok(!!spent.error && spent.error.includes('HTTP 503 (1 attempt)') && spent.times === 1, `retry: a call past ${RETRY_WITHIN} requests: ${show(spent)}`);
+  C.counts['retries of the reader'] =
+    `a 503 once: ${once.error ? 'failed' : 'answered'}, after ${once.times} requests; a network error once: ${net.error ? 'failed' : 'answered'}, after ${net.times}; ` +
+    `a 503 every time: reported after ${always.times}; a 404: reported after ${gone.times}; past ${RETRY_WITHIN} requests in a call: reported after ${spent.times}`;
+}
+
+// The short walk's entities: LIGHT_ENTITIES recommendations and as many
+// concepts, each spread evenly over the search file's order, the first and
+// the last included.
+function sampleOf(entries) {
+  const pick = (xs) => (xs.length <= LIGHT_ENTITIES ? xs : Array.from({ length: LIGHT_ENTITIES }, (_, i) => xs[Math.round((i * (xs.length - 1)) / (LIGHT_ENTITIES - 1))]));
+  return ['statement', 'concept'].flatMap((k) => pick(entries.filter((e) => e.kind === k)));
 }
 
 function checkAbout(C, name, about, verbatim = false) {
@@ -992,23 +1317,65 @@ async function checkSentences(C, name, p, raw, base) {
   }
 }
 
+// A claim's evidence rows (#330) against its entity JSON (memory
+// claim-evidence-per-outcome): one row per entry, in its order, nothing
+// composed; each the entry's key, value and note as it gives them, its system
+// by slug and by the name the claim's source declares (`rating_systems`), and
+// its outcome by id and label, read as a slot's — compact, the graph's search
+// file's short label where it has one, else the concept's label; full, the
+// concept's label and its URL. No other key, and so no quote. The outcome's
+// label and the system's name are words of Layer 0 (leanStrings); the key,
+// value and note the entry's data (evidenceData).
+const EVIDENCE_DATA = ['key', 'value', 'note'];
+const ROW_KEYS = ['outcome', ...EVIDENCE_DATA, 'system', 'system_name'];
+const evidenceData = new Set();
+const outcomesOf = (cj) => (Array.isArray(cj?.evidence) ? cj.evidence : []).map((x) => x.outcome).filter(Boolean);
+async function checkEvidence(C, where, rows, cj, form, S, base, leanStrings) {
+  const want = Array.isArray(cj.evidence) ? cj.evidence : [];
+  if (!C.ok(Array.isArray(rows) && rows.length === want.length, `${where}: ${Array.isArray(rows) ? rows.length : rows} evidence rows, ${want.length} in the claim's JSON`)) return;
+  const src = (cj.source?.at || '').split('#')[0];
+  const declared = want.some((x) => x.system) ? (await raw(base + src + '.json')).rating_systems || [] : [];
+  for (const [i, x] of want.entries()) {
+    const row = rows[i];
+    C.count(`evidence rows compared (${form})`);
+    C.ok(Object.keys(row).every((k) => ROW_KEYS.includes(k)), `${where}: row ${i} carries ${Object.keys(row).join(', ')}`);
+    C.ok((row.key ?? null) === (x.key ?? null) && row.value === (x.value ?? null) && (row.note ?? null) === (x.note ?? null), `${where}: row ${i}'s key, value or note ≠ the claim's entry`);
+    EVIDENCE_DATA.forEach((k) => x[k] && evidenceData.add(x[k]));
+    const name = x.system ? (declared.find((d) => d.system === x.system)?.name ?? null) : null;
+    C.ok(row.system === (x.system ?? null) && row.system_name === name, `${where}: row ${i}'s system ${row.system} / ${row.system_name} ≠ ${x.system} / ${name}`);
+    if (name) leanStrings.add(name);
+    if (!x.outcome) {
+      C.ok(row.outcome === undefined, `${where}: row ${i} has an outcome the entry lacks`);
+      continue;
+    }
+    const cpt = await raw(base + x.outcome + '.json');
+    leanStrings.add(cpt.label);
+    const label = form === 'compact' ? (S.get(x.outcome)?.short_label ?? cpt.label) : cpt.label;
+    C.ok(row.outcome?.id === x.outcome && row.outcome.label === label, `${where}: row ${i}'s outcome ${JSON.stringify(row.outcome)} ≠ ${x.outcome} ${JSON.stringify(label)}`);
+    C.ok(form === 'full' ? row.outcome?.url === cpt.meta.url : row.outcome?.url === undefined, `${where}: row ${i}'s outcome URL`);
+  }
+}
+
 // The pool's quoted strings: every `quote`, and every claim sentence (the
 // gate counts `claim.label`: only provenance returns it, whole — card #272,
-// option 2, the maintainer's answer of 2026-09-28). A per-property quote equal
-// to the value it backs (a grade as printed) is that value, carried as data.
+// option 2, the maintainer's answer of 2026-09-28) wherever an entity names a
+// claim with its sentence: the claim itself, the claims behind a
+// recommendation, the rules of a concept and their parts (#355, card #415). A
+// per-property quote equal to the value it backs (a grade as printed) is that
+// value, carried as data.
 function collectQuotes(j, quotes) {
   const values = new Set(strings({ grade: j.grade, verb: j.verb, consensus: j.consensus, evidence: j.evidence }).map((x) => x.s.toLowerCase()));
-  (function walk(o, k) {
-    if (Array.isArray(o)) o.forEach((x) => walk(x, k));
-    else if (o && typeof o === 'object')
+  (function walk(o) {
+    if (Array.isArray(o)) o.forEach(walk);
+    else if (o && typeof o === 'object') {
+      if (typeof o.id === 'string' && o.id.startsWith('claims/') && typeof o.label === 'string' && o.label) quotes.add(o.label);
       for (const [key, v] of Object.entries(o)) {
         if (key === 'meta') continue;
         if (key === 'quote' && typeof v === 'string' && !values.has(v.toLowerCase())) quotes.add(v);
-        else walk(v, key);
+        else walk(v);
       }
+    }
   })(j);
-  if (j.type === 'claim' && j.label) quotes.add(j.label);
-  for (const w of j.card?.wortlaut || []) if (w.label) quotes.add(w.label);
 }
 
 // No tool module imports a transport or a Node module (ADR-0007): the tool
@@ -1039,10 +1406,14 @@ let failed = 0;
 const bad = await checkImports();
 console.log(`imports of src/: ${bad.length ? 'FAILED: ' + bad.join('; ') : 'no Node module; the transport only in the Worker entry point'}`);
 if (bad.length) failed++;
+const cap = await checkChainCap();
+console.log(`chain cap, on a synthetic chain of ${cap.length}: ${cap.bad.length ? 'FAILED: ' + cap.bad.join('; ') : `the nearest ${MAX_CHAIN}, the cut stated, no other recommendation fetched`}`);
+if (cap.bad.length) failed++;
 for (const t of targets) {
   resultTexts.length = 0;
   served.length = 0;
   rawCache.clear();
+  Object.assign(site, { check: 0, server: 0, retries: [] });
   const C = await runTarget(t);
   console.log(`\n== ${C.name}`);
   for (const [k, v] of Object.entries(C.counts)) console.log(`  ${k}: ${v}`);

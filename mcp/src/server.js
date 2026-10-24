@@ -87,10 +87,12 @@ function scrub(o) {
   return o;
 }
 
-// Runs one tool and renders its result as the text a model reads.
+// Runs one tool and renders its result as the text a model reads. The tool
+// reads through a reader of its own call, which bounds its retries
+// (layer0.js, RETRY_WITHIN).
 export async function callTool(reader, name, args) {
   try {
-    let result = await handlers[name](reader, args || {});
+    let result = await handlers[name](reader.forCall(), args || {});
     if (name !== 'get_provenance') result = scrub(result);
     return { content: [{ type: 'text', text: JSON.stringify(result) }] };
   } catch (err) {
@@ -121,8 +123,8 @@ export function createServer(reader) {
 
 // base: the site's root — https://graph.med/, a preview
 // https://graph.med/preview/pr<N>/, or a local build served over HTTP.
-export function createServerFactory({ base, fetch, onFetch } = {}) {
-  const reader = new Layer0({ base, fetch, onFetch });
+export function createServerFactory({ base, fetch, onFetch, onRetry } = {}) {
+  const reader = new Layer0({ base, fetch, onFetch, onRetry });
   const factory = () => createServer(reader);
   factory.reader = reader;
   return factory;

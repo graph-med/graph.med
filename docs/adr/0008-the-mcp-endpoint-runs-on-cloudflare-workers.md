@@ -8,6 +8,11 @@ rest was agreed on 2026-09-27 (#267, agreed decision 4; #279, Decisions). The
 allowlist of #267's agreed decisions 3 and 9 (only Anthropic's range let
 through, other vendors' hosted assistants not) is overturned.
 
+Deployed: `https://mcp.graph.med/mcp` answers since 2026-10-06 (#279). Amended
+on 2026-10-22 (#317): the reader retries a transient error from Pages, and
+the check before a deploy is the fixture and a short walk of the site
+(decision 5).
+
 ## Context
 
 The read-only MCP server (ADR-0007; `docs/publication.md` §8) is tool code
@@ -116,7 +121,8 @@ the figures are upper bounds:
    `pages` workflow that completed successfully for a push to `main` (or a
    `workflow_dispatch` of it), and on its own `workflow_dispatch`. It checks out
    the commit Pages just published, runs `npm ci` and the server's check against
-   the fixture and `https://graph.med/`, and then runs `npm run deploy`
+   the fixture and a short walk of `https://graph.med/` (`--light`; a run by hand
+   may ask for the full walk), and then runs `npm run deploy`
    (`wrangler deploy`). The token is the repository secret
    `CLOUDFLARE_API_TOKEN` and the account id the repository secret
    `CLOUDFLARE_ACCOUNT_ID`. Its default token is `contents: read`.
@@ -132,6 +138,17 @@ the figures are upper bounds:
      new files: its cache drops everything when `index.json` names the new
      commit. A change that the old server cannot read is therefore made in two
      steps: first a server that reads both shapes, then the files.
+   - **The check before a deploy is a short walk** (#317). The full walk
+     then made about 3,170 calls; the first automatic deploy, on 2026-10-06,
+     failed on one HTTP 503 from Pages after 3,169 of them had passed. The
+     short walk keeps every kind of check on every graph — the transport, each
+     grouping's root and the first nodes below it, a sample of
+     recommendations, concepts and claims, provenance, search and its filters
+     — on under 200 requests to the site, where the full walk makes about
+     2,500 (2026-10-22), enough to catch a broken contract; the full
+     walk runs before a pull request that changes the server or the files for
+     programs (`CLAUDE.md`, "Checks"). The check reads the site with the
+     reader's tolerance: a 5xx or a network error is retried twice.
 
 ## Consequences
 
@@ -175,3 +192,9 @@ the figures are upper bounds:
 
 - A new deploy starts new isolates, so the first requests after each deploy are
   cold ones.
+- A GET that fails with a 5xx or a network error is retried twice, after 200
+  and 600 ms (`mcp/src/layer0.js`), and only while the call has made fewer
+  than 25 requests, half the 50 subrequests a request may make, so a call of
+  at most 25 requests stays within the limit however many fail. The waits cost
+  no CPU time; they lengthen a call that meets a transient error by under a
+  second.

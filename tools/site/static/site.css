@@ -148,11 +148,13 @@ ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1re
 .sw.contested { border-radius: 2px; border: 2px dashed var(--contested); background: var(--bg); }
 .sw.related { border-radius: 2px; background: var(--mute); outline: 2px dotted var(--fg); outline-offset: 2px; }   /* the dotted outline a box related to the selected one wears */
 .sw.general { border-radius: 2px; background: var(--mute); outline: 3px double var(--fg); outline-offset: 2px; }   /* the double outline a box applying generally wears in the graph */
-.legend .key .sw.related, .legend .key .sw.general { margin-left: .2em; margin-right: .55em; }   /* room for the outline */
+.legend .key .sw.related, .legend .key .sw.general, .legend .key .sw.entered { margin-left: .2em; margin-right: .55em; }   /* room for the outline */
+.sw.entered { border-radius: 2px; background: var(--mute); outline: 2px solid var(--fg); outline-offset: 2px; }   /* the outline the box a path view was opened from wears */
 /* an edge's key: a short run of its line */
 .ln { display: inline-block; width: 1.6em; height: 0; vertical-align: middle; margin-right: .35em; border-top: 1.5px solid var(--edge); }
 .ln.answer { border-top-color: var(--fg); }
 .ln.aim { border-top-style: dashed; }
+.ln.step { border-top-color: var(--fg); }   /* a step of the path view: the line from the earlier box, through its label, to the later */
 .controls { grid-area: 1 / 1 / 2 / 2; position: relative; z-index: 2; display: flex; gap: .4rem; align-items: flex-start; justify-content: space-between; padding: .6rem; pointer-events: none; }
 .controls > * { pointer-events: auto; }   /* the row spans the width so that left and right keep their ends; only the controls themselves take the tap */
 .tools { display: flex; gap: .4rem; }
@@ -253,6 +255,41 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
     border-radius: 22px; background: var(--accent); color: var(--bg); font-size: .9rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
   .peek-open:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
   .sheet.raised .peek-open { display: none; }
+}
+
+/* the path view (docs/publication.md §3 "The path view"): a view page's graph and sheet for one chain. Over the graph,
+   at the top left, the way back to the view's tree; in the header, the view's id links its page. The sheet's home
+   names every step in words — the earlier statement as its box names it, what the step's label says, the later
+   statement —, so that the page reads without the script; a step's own section says the same, one part to a line,
+   then why. Without the graph (no script, or a chain that could not be drawn) the sheet is the page */
+a.crumb { color: var(--accent); }
+a.crumb + .crumb::before { content: "› "; color: var(--mute); }
+.tools a.tree-link { display: inline-flex; align-items: center; gap: .35rem; min-height: 44px; padding: 0 1rem; border: 1px solid var(--line); border-radius: 22px;
+  background: var(--bg); color: var(--fg); font-size: .9rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
+.tools a.tree-link:hover, .tools a.tree-link:focus-visible { border-color: var(--fg); }
+.sheet .steps-head { font-size: .95rem; margin: 1rem 0 .3rem; }
+ol.path-steps { list-style: none; margin: 0 0 .8rem; padding: 0; }
+ol.path-steps > li { padding: .4rem 0; border-top: 1px solid var(--line); }
+ol.path-steps .step-box, .card ol.step-run .step-box { display: block; }
+ol.path-steps .step-label, .card ol.step-run .step-label { display: block; margin: .1rem 0 .1rem .7rem; padding-left: .6rem; border-left: 2px solid var(--fg); color: var(--mute); font-size: .85rem; }
+ol.path-steps .step-label > span, .card ol.step-run .step-label > span { display: block; }   /* a part to a line, as on the step's label in the graph */
+ol.path-steps .node-link, .card ol.step-run .node-link { display: inline; min-height: 0; line-height: 1.5; padding: .55rem 0; }   /* the touch target reaches past the line, which it does not take */
+ol.path-steps .chip, .card ol.step-run .chip { font-size: .85em; margin-right: .3em; vertical-align: -.1em; }
+.card ol.step-run { list-style: none; margin: 0; padding: 0; }
+.card.step-card .kind { margin: 0; }
+.card .step-why p { margin: .2rem 0; max-width: 70ch; }
+.card .step-why .as-of { color: var(--mute); font-weight: 400; white-space: nowrap; }
+/* under the card's steps, the link to the path view (or, in the path view, back to the tree): a pill, its own line */
+.card .path-open { flex-basis: 100%; display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .45rem; }
+.card .path-open .path-link { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1rem; border: 1px solid var(--accent); border-radius: 22px;
+  color: var(--accent); font-size: .9rem; font-weight: 600; text-decoration: none; }
+.card .path-open .path-link:hover, .card .path-open .path-link:focus-visible { background: var(--accent); color: var(--bg); }
+.card .path-open .path-view { font-weight: 400; margin-left: .3rem; }
+:root:not(.js) main.view.path, main.view.path.flat { display: block; height: auto; max-width: 52rem; margin: 0 auto; padding: 0 1rem 2rem; }
+:root:not(.js) main.path .graph-wrap, main.path.flat .graph-wrap { display: none; }
+:root:not(.js) main.path .sheet, main.path.flat .sheet { border: 0; padding: .6rem 0 0; }
+@media (min-width: 900px) {
+  :root:not(.js) body:has(> main.path), body:has(> main.path.flat) { display: block; height: auto; }
 }
 
 /* chapters and search (docs/publication.md §3 "Chapters and search"): a hard filter and a soft highlight */
@@ -408,11 +445,22 @@ button.copy:hover, button.copy:focus-visible { color: var(--fg); border-color: v
 .card dl.slots dd.related details.related-more { flex-basis: 100%; }   /* past the second, folded under them */
 .card dl.slots dd.related details.related-more > summary { cursor: pointer; min-height: 32px; padding: .2rem 0; color: var(--mute); font-size: .85rem; }
 .card dl.slots dd.related details.related-more > .related-entry { display: block; }
-/* under each related statement, closed: why the two are related — the edge's rationale, tagged generated, its date beside */
-.card dl.slots dd.related details.why { margin: 0 0 .15rem; font-size: .85rem; }
-.card dl.slots dd.related details.why > summary { cursor: pointer; color: var(--mute); min-height: 32px; display: list-item; }
-.card dl.slots dd.related details.why > p { margin: .2rem 0 .4rem; max-width: 70ch; }
-.card dl.slots dd.related details.why .as-of { white-space: nowrap; }   /* "Stand" and its date on one line */
+/* zone 5's steps before and after (spec §5 `follows`): one neighbour to a line — the transition as a quiet word, then
+   the neighbour as its box names it, led by its direction's chip (the box's fill with the glyph inside, as the legend
+   keys it) — and under it, closed, the trigger in words with the edge's rationale */
+.card dl.slots dd.steps > .step-entry { flex-basis: 100%; }
+.card dl.slots dd.steps > .step-entry + .step-entry { margin-top: .35rem; }   /* one neighbour apart from the next, its fold between them */
+.card dl.slots dd.steps .step { color: var(--mute); font-size: .85rem; margin-right: .15rem; }
+/* the neighbour's link runs as text — chip, stamp, " · ", short label —, wrapping as a sentence does, and reaches its
+   touch target by padding past its line into the row's spacing, which it does not take (inline padding moves no line) */
+.card dl.slots dd.steps .node-link { display: inline; min-height: 0; padding: var(--half) 0; }
+.card dl.slots dd.steps .chip { font-size: .85em; margin-right: .3em; vertical-align: -.1em; }
+/* under each related statement and each step, closed: why — the edge's rationale, tagged generated, its date beside */
+.card dl.slots dd.related details.why, .card dl.slots dd.steps details.why { margin: 0 0 .15rem; font-size: .85rem; }
+.card dl.slots dd.related details.why > summary, .card dl.slots dd.steps details.why > summary { cursor: pointer; color: var(--mute); min-height: 32px; display: list-item; }
+.card dl.slots dd.related details.why > p, .card dl.slots dd.steps details.why > p { margin: .2rem 0 .4rem; max-width: 70ch; }
+.card dl.slots dd.related details.why .as-of, .card dl.slots dd.steps details.why .as-of { white-space: nowrap; }   /* "Stand" and its date on one line */
+.card dl.slots dd.steps > .step-entry > small { display: block; color: var(--mute); font-size: .85rem; }   /* a trigger without a rationale: its word alone */
 .card dl.slots dd.general-for { grid-column: 2; display: block; margin-top: -.1rem; }   /* under the anchor's value, its second description */
 /* closed by default, so the slots read on from the anchor to the condition; opened, a table like zone 4's */
 .card .general-for summary { cursor: pointer; padding: .2rem 0; min-height: 32px; color: var(--mute); font-size: .85rem; }

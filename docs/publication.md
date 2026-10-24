@@ -4,17 +4,19 @@
 > "Build") renders §2–§5 for `selection` views over sources: the URL layout, the
 > graph-and-sheet page with patient groups folded by family, the chapter tree and
 > the search with facet filters, short labels, direction glyphs, legend and judgement,
-> the order of the detail section (§3), entity pages and JSON — with `meta`, and a
-> concept's `statements` and `appears_in` (§4) —, source links
+> the order of the detail section (§3) — with a statement's steps before and after
+> along `follows` (zone 5) and its path view, the whole chain on a page of its own
+> (§3, "The path view") —, entity pages and JSON — with `meta`, a statement's
+> `sequence`, and a concept's `statements` and `appears_in` (§4) —, source links
 > (§5), the grouping switch — the view's tree of patient groups · Kapitel · each
 > other axis the view declares (§3, "The axis is the reader's choice") —, the scope tree and what applies
 > generally, for a view that declares one (§3), and the deploy workflow with one
 > preview per open pull request (§6), and the machine-readable site of §8 (Layer 0:
 > `index.json`, `llms.txt`, a tree file per grouping, a per-view file and a search
-> file per view, §2 and §4), and the read-only server's tools (§8, Layer 1: `mcp/`).
-> Designed, not built: the rest of the pool in programs and assistants — the
-> server's hosted endpoint and a view inside a conversation (§8, which carries each
-> layer's status). Not built and not
+> file per view, §2 and §4), and the read-only server's tools (§8, Layer 1: `mcp/`)
+> with its hosted endpoint, deployed at `https://mcp.graph.med/mcp` since 2026-10-06.
+> Designed, not built: the rest of the pool in programs and assistants — a view
+> inside a conversation (§8, which carries each layer's status). Not built and not
 > registered: cuts (§7), pathway views, and everything under §9. The
 > domain `graph.med` points at GitHub Pages. This document fixes what the site is *meant*
 > to be so that the build is written to it, not the other way round. It is the
@@ -51,6 +53,7 @@ graph.med/<view-id>.json            the view as data: what its page draws, card 
 graph.med/<view-id>/trees/<axis>.json    one grouping's tree file, without content (§4)
 graph.med/<view-id>/view.json       the view without content: its groupings by their tree files (§4)
 graph.med/<view-id>/search.json     the view's search file (§4)
+graph.med/<view-id>/sequence/<statement>/   the path view: the chain a statement stands in (§3)
 graph.med/index.json                every view, its groupings and its files, for programs (§4)
 graph.med/llms.txt                  what the files for programs hold, in English (§4)
 graph.med/schema/schema.yaml        the schema, at its $id
@@ -90,7 +93,11 @@ prints it, in the source's language (`lang`); on a line of their own under it, i
 version and the date it prints for that version where the source records them
 (`version`, `date`; `graph-representation.md` §6.1), in the page chrome's words and
 the date at the precision recorded — *Version 1.0, Stand November 2023*,
-*Version 4.0, Stand 30.04.2025* —, and no line where it records neither; its
+*Version 4.0, Stand 30.04.2025* —, and no line where it records neither; a half the
+source prints two ways names every printing, in the order recorded, each with the pages
+its quotes name, under words that say the source gives it inconsistently — *Version
+uneinheitlich angegeben: 1.1 (S. 1, 93) und 1 (S. 4, 11), Stand 14.04.2025* —, none
+chosen and none set below another; its
 register number where the source records one (`awmf_register`); and what the graph holds: its recommendations (the
 statements), the patient groups a reader meets in its tree (the junctions of its first
 grouping, each concept once) and the claims they rest on, or, while it holds no claim,
@@ -226,6 +233,9 @@ decision-graph-derivation):
   unfolding a group never follows it. While a box is selected, the boxes
   related to it that are shown keep their colour and wear a dotted outline; no
   line is drawn across the tree, and the card names each relation (zone 9).
+  A sequence (`follows`, `graph-representation.md` §5) is no edge of the tree
+  either: the card names a statement's steps before and after (zone 5) and
+  opens the whole chain on a page of its own ("The path view", below).
   A box takes the colour of its direction — the four colours of the judgement band
   in the details, so that box and section agree — and its label begins with a
   stamp, in text, before the short form: `✗ EK soll nicht · Keine präoperative
@@ -321,7 +331,8 @@ the tree readable at ninety recommendations:
 - **Folded by default.** The page opens with the root, the first question and its
   answers, one junction per patient group carrying the number of recommendations
   behind it. Tapping an answer or its junction unfolds that group's conditions and
-  recommendations, and the graph fits the group with everything it unfolded, whole,
+  recommendations, and the graph fits the group with everything it unfolded and the
+  answer that names it, so that the reader sees which group they opened, whole,
   zoomed out as far as that takes; tapping again folds it. Only what the reader
   opened takes space.
   A deep link unfolds the group its target is in. Every question folds too:
@@ -572,18 +583,21 @@ glyph. Timing
   | 2 | Judgement | none | supporting claims; whether a contesting claim exists | never |
   | 3 | Wording | `Wortlaut der Empfehlung` | `claim.label` per supporting claim | never |
   | 4 | Evidence | `Evidenz` | the supporting claims' `evidence`, per row; else `nicht erfasst` | never |
-  | 5 | Applies to | `Gilt für` | the `population`, `condition`, `action` slots, then the value of every dimension axis that places the statement, named by that axis's `short_label` (else `label`) | no slot filled |
+  | 5 | Applies to | `Gilt für` | the `population`, `condition`, `action` slots, then the value of every dimension axis that places the statement, named by that axis's `short_label` (else `label`); then the steps before and after it, `follows` (`Davor`, `Danach`), and the statements related to it, `specializes`, `complements`, `conflicts` (`Verwandt`), each row absent without an edge | no slot filled, no step and no related statement |
   | 6 | Body text | `Hinweise aus dem Begleittext` | `limits`, `refines`, `supplements` | never (empty state) |
   | 7 | Contradiction | `Widersprechende Empfehlung(en)` | `contests` | no contesting claim |
   | 8 | Citation | `Beleg` | the supporting claims' `source`, the source's title, `version` and `date` | never |
-  | 9 | More | `Mehr zu dieser Aussage` | `specializes`, `complements`, `conflicts`, the ids, the slots as stored | never (closed) |
+  | 9 | More | `Mehr zu dieser Aussage` | `specializes`, `complements`, `conflicts`, `follows` with its `transition` and `trigger`, the ids, the slots as stored | never (closed) |
 
   1. **Title.** The short label, exactly once on the card. Under it one muted
      line names where the recommendation comes from — each source by its
      `short_label` (else its title) and the recommendation numbers of its
      supporting claims, `S3 Sepsis 2025 · Empf. 8.15` —, so that the guideline
      is known before the band and never only at the end of the card; zone 8
-     keeps the full title.
+     keeps the full title. Each number stands once: where a box's
+     recommendation sentence and the fact it prints beside it both support the
+     statement, the line names the box once, `S3 Vorhofflimmern 2025 ·
+     Empf. 6.14`, and zone 8 keeps an entry per sentence.
   2. **Judgement.** One band, a block filled with the direction colour, no
      heading; its lines share the left edge. Line 1, in the card's largest
      type: the glyph, the direction word and the verb as the claims say it —
@@ -592,7 +606,12 @@ glyph. Timing
      supporting claim in claim order, its grade as text on the chip's own light
      fill — the grade as printed in the card's frame (`Grad A`, `Grad Stark`),
      and a grade that fixes no wording, an expert consensus, by its scheme's
-     description of it (`Expertenkonsens`) —, a basis the claim prints beside
+     description of it (`Expertenkonsens`) —, a claim that recommends nothing —
+     a fact, a criterion, a definition, which carry no grade
+     (`graph-representation.md` §3.1) — by its kind where the grade would
+     stand, in plain type, since the bold is the grade (`Feststellung ·
+     Expertenkonsens · Konsensstärke 92%`), so that its chip never reads as a
+     grade left empty; a basis the claim prints beside
      its grade by its scheme's description of it, after the grade (`Grad ⇑ ·
      Expertenkonsens`; the token stays on the box), and its consensus beside
      them: the class as the scheme names it (`Starker Konsens`) and, where the
@@ -601,8 +620,9 @@ glyph. Timing
      bare — `Grad ⇑ · Expertenkonsens · Konsensstärke 100%` —, since a bare number
      does not say what it counts and `Konsens` alone is a class of other schemes.
      Identical chips collapse to one with a count, `Grad A (2)`, a chip with a
-     basis never into one without; the statement JSON's badge carries `basis`
-     only where its claim prints one. A chip is
+     basis never into one without, a fact's never into a criterion's; the
+     statement JSON's badge carries `basis` only where its claim prints one,
+     and `kind` only for a claim that recommends nothing. A chip is
      read in its claim's own scheme: the same token from two schemes is two
      chips.
      The chips wrap under line 1 and never squeeze it. **Their order is the
@@ -653,19 +673,29 @@ glyph. Timing
      |---|---|
      | One value | one line, no disclosure: `moderat nach GRADE`, `1 nach Oxford 2011` — the value as the claim stores it, then the system's name; one entry with neither an outcome nor a key |
      | One row | one line, no disclosure: the value and the system's name, then what the value rates — `Moderat nach GRADE · Endpunkt: Klinisch relevante obere GI-Blutungen`, a keyed row `… · Bezug: <key>`, a row naming both `… · Bezug: <key> · Endpunkt: <endpoint>`; a row the source lists unrated reads `nicht erfasst nach GRADE · Endpunkt: …` — a table of one row is no table |
-     | Per row | a native `<details>`, closed — its summary already says what was rated and how certain, the table is for whoever asks which endpoint —: its `<summary>` reads `für 4 Endpunkte bewertet, hoch bis sehr niedrig`, under it a table `Endpunkt \| Sicherheit` in the guideline's order, never sorted, the system named once as the table's caption; a table with keyed rows reads by its keys (below) |
+     | Per row | a native `<details>`, closed — its summary already says what was rated and how certain, the table is for whoever asks which endpoint —: its `<summary>` reads `für 4 Endpunkte bewertet, hoch bis sehr niedrig`, or `für 2 Endpunkte bewertet, hoch` where every row carries one level, under it a table `Endpunkt \| Sicherheit` in the guideline's order, never sorted, the system named once as the table's caption; a table with keyed rows reads by its keys (below) |
      | Expert consensus only | one line: `Expertenkonsens, keine Evidenzbewertung` — no supporting claim carrying an entry, and each either graded by a grade that fixes no wording in its scheme (`EK`, an expert consensus, `graph-representation.md` §3.1) or printing a basis beside its grade (`⇑⇑ EK`); the first words are the scheme's description of that grade or basis, one line per description where the claims rest on different ones |
      | Nothing recorded | one line: `nicht erfasst` — what is not recorded, never that the guideline says nothing |
 
      The summary line says what the source rated and how many, and the range
      follows it after a comma, as what it is — a description of a set, no value
-     of the recommendation. A table counts two rows or more, so the line has
+     of the recommendation. Where every row carries one value instead, matched
+     without regard to case, that value follows in the range's place (`für 2
+     Endpunkte bewertet, hoch`), so that a closed table still shows its rating:
+     it is the value each row prints, named once, for any system, since naming
+     it needs no order, and nothing is composed — rows that differ keep their
+     range, or lose it as below, and are never named by one of their levels. It
+     is named in the form the display order holds where the system has one and
+     the value is on it, as the range is, else as its first row prints it
+     (`für 3 Endpunkte bewertet, sehr gering`); the statement JSON carries it
+     as the group's `level`, beside `range`. A table counts two rows or more, so the line has
      no singular: one row is the one-row line, which names the endpoint or the
      key its value belongs to, so that the certainty stays with what it rates
      and no line claims that a single value depends on anything. The
      range is the highest and the lowest value present by the system's display
      order (`EVIDENCE_SCALES` in `tools/build.py`, keyed by system, read for
-     this and nothing else), matched without regard to case — a value is
+     this and for the form of the one level, and nothing else), matched
+     without regard to case — a value is
      stored as printed, and a box's `Moderat` and a method section's `moderat`
      are one level — and named in the form that order holds (`moderat bis
      sehr niedrig`), while each row shows its value as the claim stores it; a
@@ -688,6 +718,7 @@ glyph. Timing
      follows only where some row names an endpoint, and the summary line
      counts rows, not endpoints, with the same range rule:
      `in 2 Zeilen aufgeschlüsselt, moderat bis sehr niedrig`,
+     `in 3 Zeilen aufgeschlüsselt, moderat`,
      `in 5 Zeilen aufgeschlüsselt`, `in 5 Zeilen aufgeschlüsselt, 3 davon
      erfasst`. `Sepsis-Screening | Moderat`,
      `Dopamin | Hoch`, `oXiris® | Mortalität | Sehr niedrig`: the key is never
@@ -767,6 +798,62 @@ glyph. Timing
      the reason. In the statement JSON each entry of `mehr.related` carries
      `rationale`, `rationale_lang` and `as_of`, so that a program reads the
      same reason.
+
+     **The steps before and after.** Where the statement stands in a
+     sequence (`graph-representation.md` §5 `follows`), two rows come
+     between the slots and `Verwandt`: `Davor`, the statements it follows,
+     and `Danach`, those that follow it. Each is absent without such an
+     edge, as `Verwandt` is: a card without a sequence shows neither row and
+     no empty state, since no pass has read every source for the order it
+     states, and an empty row would claim what nobody checked. A row names
+     every one of its neighbours, one to a line, in the guideline's order:
+     the transition as a word read from this card's side — on the later
+     statement's card `anstelle von`, `zusätzlich zu`, `nach`,
+     `gleichzeitig mit` the earlier one, on the earlier's `ersetzt durch`,
+     `erweitert um`, `gefolgt von`, `gleichzeitig mit` the later one —,
+     then the neighbour as its box names it: the chip of its direction (the
+     box's fill with the glyph inside, as the legend keys it, its direction
+     word for a screen reader), its grade and basis as printed and its verb
+     where the grade does not carry it, its short label — `anstelle von
+     ✓ ⇑ sollte · Initial: Ruheherzfrequenz unter 110/min mit
+     Symptomfreiheit` —, linked so that the graph moves to it. Every
+     neighbour shows its grade, so that a chain of open recommendations
+     reads as what the guideline says, never as a protocol. Under it,
+     closed, the trigger in words — `Anlass: Ziel nicht erreicht`,
+     `Anlass: Befund`, `sonstiger Anlass` — and, opened, the edge's
+     `rationale`, which quotes the trigger's wording as printed, tagged
+     *KI-erzeugt* with the date of the reading beside the tag, as `Warum
+     verwandt` is: both are the project's reading, and the condition row
+     above says *what* the circumstance is, the step *after which measure*.
+     Nothing is computed beyond the edge: no step further along the chain,
+     no threshold (that is the condition's rule, above), nothing inherited.
+     Several neighbours in a row stand one under the other, each with its
+     own edge's transition and trigger, never joined by a conjunction, an
+     alternative or a count: the pool does not say whether a statement that
+     follows several follows all of them together or any one of them, and
+     the row says neither. Two edges between one pair — the source stating
+     their order twice (§5) — are two entries. The rows' words, the
+     transitions' and the triggers' are the page chrome's ("Language"
+     below), not the card's table (card #294, Decision 3). The steps are
+     rows of this zone and not a zone of their own: a `follows` edge is a
+     statement → statement relation beside `specializes`, `complements` and
+     `conflicts`, whose reader's place is this zone's `Verwandt` row since
+     the related statements' zone of their own was removed (below); the
+     edge says to which measure the condition refers, so it reads beside
+     the condition; and a row absent without an edge needs no exception to
+     the rule that every zone keeps its heading, nor renumbers the zones
+     after it. In the statement JSON the card keeps them under
+     `mehr.follows`, each with `to` (a statement this one follows) or
+     `from` (one that follows it), `label`, `title`, `lang`, `direction`,
+     `glyph`, `stamp` (what the box writes between its glyph and its short
+     label), `transition`, `trigger`, `discriminator` where the edge has
+     one, `rationale`, `rationale_lang` and `as_of`; a program reads the
+     chain from `sequence` (§4). Under the last of the two rows, on a line
+     of its own, `Pfad anzeigen` opens the statement's path view ("The path
+     view", below) — on the statement's own page one link per view it
+     belongs to, each named by its view where there are several; in the
+     path view itself the same place leads back to the view's tree at the
+     statement, `Im Entscheidungsbaum zeigen`.
 
      **The row's word is the slot's, never a graph's.** `Patientengruppe` is
      the word the page already uses for what the population slot holds — the
@@ -900,7 +987,10 @@ glyph. Timing
      first supporting claim; under it one entry per supporting claim from that
      source, in the guideline's order — by recommendation number, and a
      recommendation number that is not a number ("Definition 1") by the page it
-     is printed on, after the numbered ones printed before it: recommendation
+     is printed on, after the numbered ones printed before it; the sentences of
+     one box in the order the box prints them, by page and then by where the
+     pool lists them, which is the order an extraction writes a box's
+     sentences in (no claim records its line), never by id: recommendation
      number (`Empf. 2.1`; one that is not a number as printed, `Definition 1`),
      page, section, the verbatim quote as an excerpt — the quote is the search
      text that finds the passage, often a sentence's head cut where a line
@@ -915,8 +1005,9 @@ glyph. Timing
      ausstehend` (the pool has no attestation yet). Where a recommendation
      comes from is as much part of the answer as whom it is for.
   9. **More.** A `<details>`, closed: the related statements over
-     `specializes`, `complements`, `conflicts` by their edge names (zone 5
-     names them for the reader), the statement's and its claims'
+     `specializes`, `complements`, `conflicts` and the steps over `follows`,
+     each with its `transition` and `trigger` as stored, by their edge names
+     (zone 5 names them for the reader), the statement's and its claims'
      ids, every slot as stored, the modelling source. The only zone where
      developer vocabulary — edge names, raw values, ids — is allowed.
 
@@ -982,7 +1073,13 @@ counter and the chapter panel, which the script reads from the page; the sheet's
 home — its kind line, its counts (a pair per count, as the index's), its links and
 its hint; the index's words (§2); the line that says a source's version and date
 wherever a page names the source (its words, and the month names that write its
-date); the note beside every licence line that the
+date); the words of a statement's steps before and after on its card — zone 5's
+rows `Davor` and `Danach`, the transitions and the triggers (card #294, Decision 3)
+—, which stand among the card's source-language words as the version line stands
+in its citation, each carrying the page language, and the link to its path view;
+the path view's own — its kind line, the way back to the tree, the step's frame
+(`Bedingung: …`) and heading, the transitions and triggers on its labels ("The path
+view", below); the note beside every licence line that the
 document is linked at its public URL and never served here (§5), the project's rule
 said once and not part of the source's line; the preview strip, the footer, the
 share image's description, and an entity page's description by its type. The
@@ -1011,11 +1108,94 @@ project generated (`modelling`; *KI-erzeugt, mit Fundstelle* for `sourced`), *Zi
 aus der Quelle* for a claim's sentence, quoted from its source (`anchored`): the
 statement's title and zone 5 (generated), zones 3, 6, 7 and 8 (quoted),
 what two printings differ in under a disagreement (generated), and why two
-statements are related, under each entry of zone 5's `Verwandt` row (generated,
-with the date of the reading); a concept's
+statements are related, under each entry of zone 5's `Verwandt` row, and what
+triggers a step, under each entry of its rows `Davor` and `Danach` and in a step's
+section of the path view (generated, with the date of the reading); a concept's
 label, and its list of statements where they all share one kind. The words are the
 card's table (`origin.*`, §3 "Language"). A tag says where a part comes from, never
 that it was checked.
+
+### The path view
+
+A statement that stands in a sequence (`graph-representation.md` §5 `follows`) has a
+page of its own that draws the whole chain it stands in,
+`graph.med/<view-id>/sequence/<statement>/` — `<statement>` its id without
+`statements/` —, under each view it belongs to, for every statement of the view on a
+`follows` edge. Its card opens it (zone 5, `Pfad anzeigen`). It is **not an entry of
+the grouping switch**, whose rule above stays as it is: a chain groups nothing of a
+view — most statements stand in none — but is what one recommendation reaches by its
+steps, so it is opened from a statement and from nowhere else (card #298, the
+discussion's Option B).
+
+**A page, not an overlay of the view page.** The view page is one decision tree, and
+everything around its canvas is fitted to that tree — the switch, the chapters, the
+search and its steps, the back button, the session tools (§8); a second graph in the
+same canvas would need a meaning in each of them or would have to switch them off. A
+page of its own leaves the view page as it is, loads the chain alone, and is a link a
+reader shares and a program gives. The chain has no id in the pool — it is read off
+the edges and owns no data —, so the page is addressed by the statement it is opened
+from, whose id stays while the chain grows or splits; every member's page draws the
+same chain. One code path reads it, `Pool.chain_of`, the walk the statement JSON's
+`sequence.chain` gives (§4), and nothing in it is named after a guideline.
+
+**What it draws.** The chain whole and uncut: every statement the opened one reaches
+along `follows` edges, either way and through any number of them, and every such
+edge among them — a line, a branch, a join, a star (the sepsis guideline's 4.6 and
+8.1 around 4.5), a cycle —, top to bottom by the view page's renderer (Cytoscape.js
+with dagre), the earlier statement above the later. Each statement is a **box** as
+its box in the view's tree reads: coloured by its direction, its label the glyph,
+the grade as printed, a basis beside it, the verb where the grade does not carry it
+and the short label — one rule for both (`box_label` in the build) —, a dashed red
+border where it is contested; so every step shows how binding it is, and a chain of
+open recommendations reads as what the guideline says, never as a protocol. Each
+`follows` edge is a **step**: a line from the earlier box to the step's label, an
+arrow from the label to the later box. The label says, one to a line, the transition
+read from the earlier statement (`ersetzt durch`, `erweitert um`, `gefolgt von`,
+`gleichzeitig mit`, the words of zone 5's `Danach` row), the trigger (`Anlass: Ziel
+nicht erreicht`, …) and the later statement's condition, `Bedingung: …`, each further
+condition on a line of its own opened by the conjunction, as the view page's
+condition answer writes it — on the step, never a node of its own. The trigger's
+wording as printed is quoted by the edge's rationale: a tap on a step opens its
+section in the sheet — the earlier box, the label's lines, the later box, and under
+`Warum dieser Schritt` the rationale, tagged *KI-erzeugt* with the date of the
+reading. Nothing is computed beyond the edges and the slots: no threshold (the
+condition's rule is on its card), nothing inherited along the chain. The label is a
+node of the layout, so that no label runs into a box or another label; the lines run
+orthogonally — down from their upper end, across in the gap between two ranks, down
+into their lower end —, so that none crosses a box or a label, and the lines of one
+gap run across at heights of their own. **A cycle keeps its back edge**: a step whose
+trigger is a re-evaluation or a target reached — the triggers a cycle may run
+through (`graph-representation.md` §5) — and which closes a cycle is laid out upward, its arrow at its upper
+end; a cycle without such a step (the source giving an order both ways, the same §5) is
+broken by the layout itself, and the edge it turns bows beside the column.
+
+**Several steps into one box** — a statement that follows several, as the sepsis
+guideline's 8.1 follows 4.5 and 4.1 — are several labels and several arrows, each
+reaching the box at a point of its own with an arrowhead of its own. Nothing joins
+them: no node stands between them and no word is written across them, so the drawing
+says neither that the earlier statements' outcomes call for the step together nor
+that any one of them does, which the pool does not say (`open-questions.md` →
+follows-several-earlier). The later statement's condition stands whole on each of its
+steps; its conjunction joins that statement's conditions, which hold at once
+(`graph-representation.md` §3.2), never two steps.
+
+**Opened from a statement, read on a phone.** The statement it was opened from wears
+an outline the whole time and is selected at load, its card in the sheet; the same
+chain opened from another member outlines that one. A tap on a box opens its card, as
+on the view page; a tap on a step its section; a tap on the canvas the sheet's home; a
+link in a card to another member of the chain selects it in place. The hash is the
+selected statement's id. The page is a view page's graph and sheet, read on a phone
+first: the fit never zooms the chain out below a size a phone reads — a chain wider
+than that is shown around the selected box and panned, the fit button showing it
+whole —, and the card waits in the peek strip at the bottom edge. Over the graph a
+link leads back to the view's tree at the statement it was opened from
+(`Entscheidungsbaum`). The legend keys what the page draws: its directions and grades,
+a contested border, the step, and the box it was opened from. The sheet's home says
+what the page shows and names every step in words — the earlier box, the label's
+lines, the later box —, so that the page reads without the script and to a screen
+reader; without the script it is the page. Its words are the page chrome's (`path`,
+"Language" above); the boxes', the conditions' and the rationales' are the data's, in
+their language.
 
 ---
 
@@ -1041,8 +1221,8 @@ rationale where it has one. The words come from the build's per-language table.
 
 **What a program walks and cites by.** Beside what the entity stores and its
 `edges` (and a statement's `card`, a derived concept's `derivation` and `rules`),
-every entity JSON carries one key more, `meta`, and a concept two more,
-`statements` and `appears_in`. They are added, never in place of a stored key: a
+every entity JSON carries one key more, `meta`, a statement one more, `sequence`,
+and a concept two more, `statements` and `appears_in`. They are added, never in place of a stored key: a
 stored `url`, `license`, `provenance`, `rule` or `views` keeps its meaning, which
 is why the metadata sits under a key of its own. This section is their contract.
 
@@ -1073,6 +1253,39 @@ is why the metadata sits under a key of its own. This section is their contract.
 - `meta.commit`, `meta.schema_version` — the build's commit and the schema's
   version. Nothing in the JSON carries a build date, so one commit and one set of
   flags give the same bytes.
+- `sequence` (a statement) — where it stands along `follows`
+  (`graph-representation.md` §5), so that a program reads the chain without the
+  page, from this one file:
+  - `before`, the statements it follows (the edges that run from it), and `after`,
+    those that follow it (the edges that run to it) — its direct neighbours. Each is
+    a list in the guideline's order — by the neighbour's first recommendation
+    number, then its id —, one entry per edge: `id`; `url` and `json`, the
+    neighbour's page and JSON as absolute URLs, as `meta.url` and `meta.json` give
+    them; `no`, its first recommendation number as printed, the number its box
+    carries in the tree (null where no claim carries one); `pages`, the distinct
+    pages of its supporting claims, as printed and in its card's citation order
+    (zone 8); `transition` and `trigger`, as the edge stores them (the schema's
+    English keys, never the page's words); and `discriminator`, only where the edge
+    has one.
+  - `chain`, the whole sequence it belongs to: every statement connected to it by
+    `follows` edges, in either direction and through any number of them, and every
+    `follows` edge among them — branches, joins and a cycle through a re-evaluation
+    included, never cut by the build (a reader caps what it shows). `nodes`, each
+    `{id, no, pages}` as above, by first recommendation number, then id, the
+    statement itself among them; `edges`, each `{from, to, transition, trigger}`,
+    `from` the later statement and `to` the earlier as the edge runs, with
+    `discriminator` where the edge has one, ordered by the nodes' order of their
+    `from`, then their `to`. Ids and keys only: a label, a direction or a grade is
+    the node's own JSON's, or the search file's.
+
+  The key is on every statement; for one on no such edge both lists and the
+  chain's `nodes` and `edges` are empty — it stands in no chain. It carries nothing
+  the edges do not hold: no label, no rationale (both are in `edges` and in the
+  card's `mehr.follows`, §3 zone 5), no threshold, nothing inherited. Several
+  entries of one list, or several edges into one node of the chain, say neither
+  that they hold together nor that any one of them suffices: the pool does not say
+  which. The chain is the build's one walk of it (`Pool.chain_of` in
+  `tools/build.py`).
 - `statements` (a concept) — keyed by each view it belongs to: `held_by`, the
   view's statements that hold the concept, each `{id, slot}`; and, in a view with
   a scope tree, `own` and `general` as that view JSON's `scope.concepts` gives
@@ -1199,7 +1412,12 @@ validator. It reads `data/` and `schema/schema.yaml`, writes a `site/` directory
 (gitignored), and takes the base path and output directory as parameters. It runs
 offline, needs nothing beyond the dependencies in `pyproject.toml`, and is
 deterministic. A contributor runs it locally and opens `site/index.html` to see a
-change before proposing it — the same habit as the validator.
+change before proposing it — the same habit as the validator. Beside what it
+writes, it prints one line per view: the `follows` edges between two of the view's
+statements and how many of them have `trigger: other`
+(`views/<id>: 15 follows edge(s), 4 with trigger: other`), the count each linking
+pass reports its measure by (card #294, Decision 10 (d)) — a count, never a
+failure.
 
 Publication is a workflow (`.github/workflows/pages.yml`): on every push to `main`,
 validate, build, deploy to GitHub Pages. The deploy step never runs on a pool that
@@ -1247,14 +1465,15 @@ cut-publication).
 ## 8. The pool in programs and assistants
 
 > **Status: Layer 0 built; Layer 1's tools and its hosted endpoint built, the
-> endpoint not deployed; Layer 2 designed, not built.** Each layer's status changes here when the card
+> endpoint deployed at `https://mcp.graph.med/mcp` since 2026-10-06; Layer 2
+> designed, not built.** Each layer's status changes here when the card
 > that builds it lands.
 >
 > | Layer | Status | Built by |
 > |---|---|---|
 > | 0 — the machine-readable site | built: index, `llms.txt`, tree files, per-view file, search file (§2, §4); entity JSON with `meta`, a concept's `statements` and `appears_in` (§4) | #270 (with #269) |
-> | 1 — the read-only server: its six tools, a server factory in `mcp/` | built: tools, description file (`mcp/src/descriptions.js`), quote gate, paging, the check (`CLAUDE.md` "Checks") | #272 |
-> | 1 — the read-only server, hosted | built, not deployed: the Worker (`mcp/src/worker.js`, `mcp/wrangler.toml`), checked through Workers' local runtime (`CLAUDE.md` "Checks"); the one way the server is reached (2026-09-28); the deploy is a person's (ADR-0008) | #279 |
+> | 1 — the read-only server: its six tools, a server factory in `mcp/` | built: tools, description file (`mcp/src/descriptions.js`), quote gate, paging, the check (`CLAUDE.md` "Checks"); a recommendation's steps in get entity | #272; #299 |
+> | 1 — the read-only server, hosted | deployed at `https://mcp.graph.med/mcp` since 2026-10-06: the Worker (`mcp/src/worker.js`, `mcp/wrangler.toml`), checked through Workers' local runtime (`CLAUDE.md` "Checks"); the one way the server is reached (2026-09-28). `.github/workflows/mcp.yml` deploys it after each Pages deploy from `main` once the server's check passes against the site just published (ADR-0008); every run from 2026-10-12 to 2026-10-22 stopped at that check, the first two on the quote gate #415 fixes, so until a run passes the endpoint serves the server deployed on 2026-10-06. Transient errors from Pages are retried, and the check before a deploy is the fixture and a short walk of the site (#317) | #279, #317 |
 > | 2 — the inline view | designed, not built | #278 (with #276, #277) |
 > | the session tools in the view page (below) | built: the page function and WebMCP registration; the relay that would take them outside the browser is not (#412, after #411) | #408 (initiative `co-navigation`, #407) |
 >
@@ -1488,10 +1707,47 @@ axis, a slot or a grouping:
   page's to give, counted as drawn (#408).
 - **Get entity**: a recommendation — its wording, marked `modelling`; grade, verb,
   consensus and direction; the claims behind it by URL and page, with no verbatim
-  text (no claim sentence, no quote); its `specializes` and `complements` relations — or a concept — the
+  text (no claim sentence, no quote), each with its evidence rows; its `specializes`
+  and `complements` relations; and its **steps** (#299), read from its JSON's
+  `sequence` (§4) — or a concept — the
   recommendations that hold it, per graph and slot, and where it appears in each
-  grouping of each graph. A condition is a concept seen from its slot, so no tool of
-  its own returns it.
+  grouping of each graph — or a claim — its kind, page, section, grade, verb,
+  consensus and direction, its evidence rows, and the claims where its source says
+  otherwise, by URL. A condition is a concept seen from its slot, so no tool of
+  its own returns it. **Evidence rows** (#330): how certain the evidence is, as the
+  claim's entity JSON gives it (`evidence`, memory `claim-evidence-per-outcome`) — one
+  entry per printed row, in its order, with the outcome it rates (the concept's id and
+  label, read as a slot's label is read, in the full form also its URL) or the row's
+  `key` as printed, its `value` (null where the row prints none), its `note` where it
+  has one, and its `system` by slug and by `system_name`, the name the claim's source
+  declares for it (`rating_systems`), never made from the slug; an empty list where
+  the claim records none. A row carries rating words, as a grade does, and no quote.
+  The values are the source's own, never mapped between systems and never reduced to
+  one: a recommendation's rows stay per claim, in `claims`, and nothing is added at
+  its top level (§3, "Grades are shown, never composed"). Tree nodes and search hits
+  carry none, since a summary of a recommendation's evidence would compose one.
+
+  The steps are the recommendations before and after it along `follows`
+  (`graph-representation.md` §5), one entry per edge in the guideline's order, and
+  the whole chain they form. Each recommendation is named as tree nodes name it —
+  label, direction, grade and verb as its box shows them, URL, deep link — with its
+  recommendation number and pages; each step carries its `transition` and `trigger`
+  as stored and in the server's words (`mcp/src/descriptions.js`), `concurrent`
+  worded as running at the same time with no order in time given. The chain is its
+  nodes, each with its distance from this recommendation in steps, and its edges,
+  later → earlier, with the words of their keys once; it is cut to the 25 nodes
+  nearest to this one, the count it was cut from and the cut stated, and carries a
+  deep link selecting it. The words are data, as the guardrails below say: they
+  state what a key means, a grade on every node, and that several steps into one
+  recommendation mean neither that their outcomes call for it together nor that any
+  one does (open question `follows-several-earlier`). A step carries no threshold —
+  one the trigger prints stands on the rule of the later recommendation's condition
+  — and nothing compares a value with one. It carries no rationale either: the
+  rationale quotes the trigger's wording and carries source text, so it stays on the
+  page until the maintainer decides where the server may return it (open question
+  `step-wording-gate`). Every node is a recommendation, never a step of the body
+  text (`graph-representation.md` §5), so none is marked as having no
+  recommendation of its own; one without a recommendation number shows `no: null`.
 - **Search**, over a graph's search file, within one graph, or across graphs with
   the hits grouped per graph, each group ranked on its own and never merged; it
   returns ids, labels, URLs and the metadata, never a quote. Beside the words, or
@@ -1510,6 +1766,11 @@ concept named inside another item gives only its id and short label, a language
 equal to the graph's, empty lists of aims and conditions, an answer's concepts where
 they are the node it leads to, a claim's section, a search hit's slots. A compact
 result is kept under 24,000 characters, a full one under 45,000, each by paging.
+Where the levels a get tree node depth asks for do not fit under the cap even at the
+smallest page (eight items a list), the depth is lowered, and the result says so:
+`depth_reduced_to`, `depth_reduced_reason` (`size_cap`, the one reason) and
+`size_cap`, the form's cap in characters (#317) — on the site of 2026-10-22, depth 1
+at the sepsis root returns depth 0 for that reason, in either form.
 Measured on the build of 2026-10-18 (characters, full → compact): the sepsis root
 8,887 → 6,549; *septischer Schock* 24,244 → 18,315; a concept's card 26,211 →
 21,175; a recommendation 3,643 → 3,275; a search 5,854 → 4,744. Most of what remains
@@ -1526,8 +1787,21 @@ population of one recommendation, the condition of another — and the URL is th
 identity (`.claude/memory/design/pool-and-views.md`). **Cost:** get tree node reads
 the grouping's tree file and the graph's search file — one or two static GET requests
 whatever the depth —, a search over a subtree also the grouping's tree file, and get
-entity reads the entity's JSON; parsed files stay in
-memory between calls. On today's build, `JSON.parse` of a whole lean view JSON takes
+entity reads the entity's JSON, the graph's search file and, for a recommendation, the
+JSONs of its claims — its steps and its whole chain come from its own JSON and the
+search file, no other recommendation's JSON —; where a claim has evidence rows, also
+its source's JSON, which declares each system's name, and, for a claim read on its
+own, the JSON of each recommendation it supports, whose card names its rows'
+outcomes (an outcome no card names is read from the concept's JSON); parsed files stay in
+memory between calls. **A transient error is retried** (#317): a GET that fails with
+a 5xx or a network error — GitHub Pages answers a 503 now and then, and one failed
+the first automatic deploy on 2026-10-06 after 3,169 of its check's 3,170 calls had
+passed — is made again after 200 ms and after another 600 ms, then reported; a 404
+or any other answer is reported at once. A call retries only while it has made fewer
+than 25 requests, half the 50 subrequests a Worker's request may make, so a call of at
+most 25 requests stays within the limit however many of them fail; on the build of
+2026-10-22 the most a call makes with nothing in memory is 7 (a search across the
+three graphs). On today's build, `JSON.parse` of a whole lean view JSON takes
 about 2.2–2.5 ms in Node 22.
 
 **Layer 2: the inline view.** The plan: "One tool is bound to a UI resource, which
@@ -1772,8 +2046,10 @@ The design:
   "Agent" behaviour is not blocked: on the Free plan Bot Fight Mode cannot be
   skipped per path, and AI platforms' servers cannot solve a challenge.
 - The Worker keeps parsed files in memory between requests; a call with a cold cache
-  costs one or two GETs (Layer 1, "Cost"), within the 50 subrequests and 10 ms of CPU
-  a request has.
+  costs a few GETs, at most 7 on the build of 2026-10-22, and a transient error adds
+  at most two retries to a GET and none once the call has made 25 requests (Layer 1,
+  "Cost"), within the 50 subrequests and 10 ms of CPU a request has: the wait before
+  a retry costs no CPU time.
 
 The facts, as read on 2026-09-27 (developers.cloudflare.com/workers/platform/limits/,
 /workers/platform/pricing/, /agents/model-context-protocol/protocol/transport/,
@@ -1828,6 +2104,17 @@ The Worker's configuration (`mcp/wrangler.toml`), the rate-limiting rule and the
 deploy trigger are ADR-0008's; the account, the DNS, the rule as entered, the API
 token and the deploy workflow (`.github/workflows/mcp.yml`) are a person's steps
 (#279), all taken on 2026-10-06. This section states the design only.
+
+**The check before a deploy** (#317) is the server's check on the synthetic fixture
+and a short walk of the site just published (`--light`, `CLAUDE.md` "Checks"): per
+graph its groupings, the first four nodes of each grouping's walk from its root, four
+recommendations and four concepts spread over its search file with the claims behind
+those recommendations, and search with its filters. Measured against a local build of
+2026-10-22, it makes 512 tool calls and 188 requests to the site in 8 seconds, where
+the full walk makes 7,716 calls and 2,463 requests in 5 minutes; against
+`https://graph.med/` the same day it passed in under half a minute. The full walk
+stays the check of a change to `mcp/` or to the files for programs, run before its
+pull request (`CLAUDE.md` "Checks"), and a deploy started by hand can ask for it.
 
 ### What this section leaves open
 

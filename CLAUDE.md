@@ -60,7 +60,8 @@ one file, `mcp/src/descriptions.js`. Its check drives the Worker's handler over
 Streamable HTTP with scripted MCP clients (the 2.x SDK's for the walk, the 1.x SDK's
 `initialize` handshake beside it), walks every view the index lists and every
 grouping of each, and compares each result with the files it was read from — the
-quote gate, graph separation, deep links, paging, sizes, the requests per call, and
+quote gate, graph separation, deep links, paging, sizes, the requests per call, the
+reader's retries (a 503 or a network error once, the call still answered), and
 the transport (405 for GET and DELETE on `/mcp`, 404 elsewhere, ping). With
 `--worker` it runs the same through the Worker in Workers' local runtime
 (`wrangler dev`, workerd, local mode; no Cloudflare account or login), counts
@@ -73,12 +74,17 @@ npm --prefix mcp run check                            # the synthetic Layer 0 (m
 uv run tools/build.py --origin http://localhost:8272 && npm --prefix mcp run check -- --site ../site
 npm --prefix mcp run check -- --base https://graph.med/preview/pr<N>/   # a published site
 npm --prefix mcp run check -- --worker --fixture --site ../site         # the same, through wrangler dev
+npm --prefix mcp run check -- --fixture --light --base https://graph.med/   # the fixture, and a short walk of a site
 ```
 
 The third form serves the build at the origin it was built for (rebuild without
 `--origin` for anything else). Run the first form, and the third after a change to
 `mcp/` or to the files for programs; add `--worker` after a change to the Worker,
-its configuration or its dependencies.
+its configuration or its dependencies. `--light` walks each site given in part —
+per graph its groupings, the first nodes of each grouping's walk, a sample of its
+recommendations and concepts with their claims — and the fixture still in full: the
+check `.github/workflows/mcp.yml` runs before each deploy, under 200 requests to the
+site where the full walk makes about 2,500.
 
 `tools/axes.py` is the feasibility test of a grouping axis (`docs/graph-representation.md`
 §4.1): it applies one axis definition to one view and prints the report — coverage,

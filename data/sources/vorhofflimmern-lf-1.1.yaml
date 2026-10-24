@@ -5,14 +5,22 @@ kind: leitlinie
 title: S3-Leitlinie Vorhofflimmern   # the title proper: the cover prints "S3-Leitlinie" (p. 1, l. 8) and "Vorhofflimmern" (l. 12),
                                      # the citation line (p. 4, l. 15) joins them; the running header's "S3-LL" is an abbreviation
 short_label: S3 Vorhofflimmern 2025
-version: "1.1"   # as the cover (p. 1, l. 14) and the register sheet (p. 93, l. 1) print it. The source prints its version a
-                 # second way: the citation line „S3-Leitlinie Vorhofflimmern – Version 1.“ (p. 4, l. 15) and „Leitlinienreport
-                 # zur Version 1“ (p. 11, l. 27–28), and nothing on what changed from 1 to 1.1. `version` holds one label;
-                 # the other printing is named here and in the pull request, not resolved (#363 Decision 1)
+version:   # spec §6.1: the source prints its version two ways, and nothing on what changed from 1 to 1.1; each printing is
+           # recorded with its own quotes, in the order of the pages that first print it, none chosen (#366)
+  - version: "1.1"   # the cover (p. 1, l. 14) and the register sheet (p. 93, l. 1), whose „1.1“ stands in a column of its own
+                     # beside „Versionsnummer:“, so its quote is the label alone
+    source:
+      - {at: sources/vorhofflimmern-lf-1.1#page=1, quote: "Version 1.1"}
+      - {at: sources/vorhofflimmern-lf-1.1#page=93, quote: "1.1"}
+  - version: "1"     # the citation line (p. 4, l. 15–16), which ends each of its parts in a full stop („Deutsche Gesellschaft für
+                     # Kardiologie. S3-Leitlinie Vorhofflimmern – Version 1. Internet: www.awmf.org.“), and the methods
+                     # paragraph's „Leitlinienreport zur Version 1“ (p. 11, l. 27–28), which prints the label without one
+    source:
+      - {at: sources/vorhofflimmern-lf-1.1#page=4, quote: "S3-Leitlinie Vorhofflimmern – Version 1."}
+      - {at: sources/vorhofflimmern-lf-1.1#page=11, quote: "Leitlinienreport zur Version 1 der S3-Leitlinie Vorhofflimmern"}
 date: "2025-04-14"   # the running header's "Stand 14.04.2025"; p. 4 dates the adoption (11.02.2025) and p. 93 the first
                      # publication (02/2025), neither the date the source gives its version (spec §6.1)
-provenance:   # spec §6.1: the cover's version line and its running header
-  version: {at: sources/vorhofflimmern-lf-1.1#page=1, quote: "Version 1.1"}
+provenance:   # spec §6.1: the running header
   date: {at: sources/vorhofflimmern-lf-1.1#page=1, quote: "Stand 14.04.2025"}
 awmf_register: "019-014"
 url: https://register.awmf.org/assets/guidelines/019-014l_S3_Vorhofflimmern_2025-07.pdf
