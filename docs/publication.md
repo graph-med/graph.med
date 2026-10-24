@@ -156,9 +156,10 @@ window.
 **The about page**, `graph.med/about/`, says what graph.med is for and who makes it
 (the maintainer, 2026-10-24, #433): five rows, each an image with its text beside it,
 on a phone too narrow for both the image above — the mark with a paragraph on the
-mission; Anton Zolkin and Robert Schwarzenberg, co-founders, and Jan Laermann, a
-contributor, each a portrait, the name, the role under it and, where one is given, a
-short bio; and the project's AI agent, a robot holding the Rod of Asclepius, its head
+mission and the project's contact address (info@graph.med); Anton Zolkin and Robert
+Schwarzenberg, co-founders, and Jan Laermann, a contributor, each a portrait, the
+name, the role under it and, where they are given, a short bio and an address at
+graph.med; and the project's AI agent, a robot holding the Rod of Asclepius, its head
 the mark turned a quarter to the left (three eyes and a mouth), its name, its role and
 a paragraph on what it does, naming no vendor and no model. Like the index's heading
 it is English and names no guideline; its words live in its template
