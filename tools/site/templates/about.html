@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{# The about page (docs/publication.md §2): what graph.med is for and who makes it, reached from the index's node
+   "About" under graph.med and from the link the index's sheet carries for it. Four rows, each an image and its text
+   beside it: the mark with the mission, then the two people, then the agent. Like the index's heading and lead, what
+   the page says about graph.med itself is English, and bound to no kind of source; it names no guideline. The people's
+   bios are placeholders, and each shows a silhouette where a portrait will go (#433): no photo is committed until the
+   maintainer adds one. The agent names no vendor and no model. Every image is a file of the site (assets/). #}
+{% set mission = "graph.med turns medical guidelines into an open knowledge graph. It takes each guideline apart into passages anchored to the wording of their source, links them into recommendations and the concepts they speak about, and draws them as graphs that answer one question: for this patient, in this situation, what does the guideline say, and where does it say it? Every identifier on the site resolves, every quote leads to the page it was taken from, and every change is proposed and reviewed in the open." %}
+{% set lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." %}
+{% set rows = [
+  {"name": "Anton Zolkin", "image": "silhouette.svg", "text": lorem},
+  {"name": "Robert Schwarzenberg", "image": "silhouette.svg", "text": lorem},
+  {"name": "graph.med agent", "image": "agent.svg", "text": "An AI agent that works on graph.med beside Anton and Robert. It extracts the passages from the guidelines, links them into recommendations and concepts, and writes the code that builds this site. Every change it makes is a pull request, and reaches the site only after a person has reviewed and approved it."},
+] %}
+{% block title %}About — graph.med{% endblock %}
+{% block description %}{{ mission | truncate(200, True, "…") }}{% endblock %}
+{% block path %}about/{% endblock %}
+{% block crumbs %}<span class="crumb" lang="en">About</span>{% endblock %}
+{% block mainclass %}about{% endblock %}
+{% block main %}
+<h1 class="visually-hidden" lang="en">About graph.med</h1>
+<section class="about-row about-mission" lang="en">
+  <img class="about-image" src="{{ base }}assets/logo.svg?v={{ commit }}" alt="graph.med" width="96" height="96">
+  <p>{{ mission }}</p>
+</section>
+{% for r in rows %}
+<section class="about-row" lang="en">
+  <img class="about-image" src="{{ base }}assets/{{ r.image }}?v={{ commit }}" alt="" width="96" height="96">
+  <div>
+    <h2>{{ r.name }}</h2>
+    <p>{{ r.text }}</p>
+  </div>
+</section>
+{% endfor %}
+{% endblock %}

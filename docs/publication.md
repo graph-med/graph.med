@@ -45,6 +45,7 @@ the pool resolves.
 
 ```
 graph.med/                          index: a graph with one answer per view — the only page where the views meet
+graph.med/about/                    the about page: what graph.med is for, and who makes it
 graph.med/<view-id>                 a view, floating — the filter as of the last build
 graph.med/<view-id>@<n>             a cut of that view (deferred, §7)
 graph.med/<namespace>/<entity-id>   any entity: statements/…, concepts/…, claims/<source>/<hash>, sources/…
@@ -63,8 +64,8 @@ Views live at the root because they are the citable things and the pages people
 share. Entities live under their namespace exactly as in the pool. The one rule
 this adds to the data model: **a view id must not equal a namespace name**
 (`sources`, `claims`, `concepts`, `statements`, `pathways`, `views`, `agents`,
-`attestations`, `schema`, or a terminology namespace), nor `index`, which would
-shadow `index.json`. The validator enforces it.
+`attestations`, `schema`, or a terminology namespace), nor `index` or `about`, which
+would shadow `index.json` and the about page. The validator enforces it.
 
 **Base path.** The site can also be served without the domain, at
 `graph-med.github.io/graph.med/`. The build takes the base path as a parameter and
@@ -108,7 +109,10 @@ that would repeat the views outside them and begin a view combining two sources.
 tree is small, so it is drawn at a size a phone reads, and always whole: left to right
 where the canvas leaves a box its least width beside the levels, else — on a phone —
 as an indented tree, each node under its parent and set in by a step, a box taking the
-width left.
+width left. Beside the levels, *graph.med* has one more child, *About*, a node of its
+label's width that opens the about page (below) at once: it is no view and nothing
+selects it, and the sheet's home carries its link, out of sight where the node is drawn
+as the entries are, the page's own without the script.
 
 Tapping a box, or the line leading to it, **opens its graph at once**: one tap, no
 selection in between. A box is selected only by its deep link or from the keyboard:
@@ -148,6 +152,16 @@ same string as `disclaimer` into `index.json`, `llms.txt` and every entity JSON'
 `meta` (§4), and the tool carries it in every result (§8). It claims no check. On a
 wide screen the banner wraps to the lines it needs and the graph takes the rest of the
 window.
+
+**The about page**, `graph.med/about/`, says what graph.med is for and who makes it
+(the maintainer, 2026-10-24, #433): four rows, each an image with its text beside it,
+on a phone too narrow for both the image above — the mark with a paragraph on the
+mission; Anton Zolkin, then Robert Schwarzenberg, each a portrait, the name and a
+paragraph; and the project's AI agent, a robot face, its name and a paragraph on what
+it does, naming no vendor and no model. Like the index's heading it is English and
+names no guideline; its words live in its template (`tools/site/templates/about.html`),
+and every image is a file of the site. A portrait is a silhouette until the maintainer
+adds a photo; none is committed before that.
 
 ---
 

@@ -47,6 +47,19 @@ h3 { font-size: .95rem; margin: 1rem 0 .4rem; color: var(--mute); text-transform
 ol.claims { list-style: none; padding: 0; margin: 0; }
 .foot { padding: 1rem; color: var(--mute); font-size: .8rem; border-top: 1px solid var(--line); }
 
+/* the about page (docs/publication.md §2): four rows, each an image with its text beside it, a hairline between them;
+   on a screen too narrow to leave the text its measure beside the image, the image stands above it */
+main.about { max-width: 44rem; padding-top: 1rem; }
+.about-row { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: 1rem; align-items: start; padding: 1.5rem 0; }
+.about-row + .about-row { border-top: 1px solid var(--line); }
+.about-image { display: block; width: 100%; height: auto; border-radius: 50%; }
+.about-mission .about-image { border-radius: 26%; }   /* the mark's own corners (logo.svg) */
+.about-row h2 { margin: 0 0 .35rem; }
+.about-row p { margin: 0; }
+.about-mission p { font-size: 1.05rem; }
+@media (min-width: 40rem) { .about-row { grid-template-columns: 6rem minmax(0, 1fr); gap: 1.5rem; } }
+@media (max-width: 22rem) { .about-row { grid-template-columns: minmax(0, 1fr); } .about-image { width: 4.5rem; } }
+
 /* the index (docs/publication.md §2): the only place the graphs meet, a view page's graph and sheet — the graph a
    question and a box per graph (home.js), a tapped box its graph, the sheet's home the page's text and one entry per
    graph, a selected box its entry alone. The title is the entry's one link, stretched over the entry; the pill below it only shows the action
@@ -63,8 +76,10 @@ main.home .sheet h1 { margin-top: .4rem; }
 :root:not(.js) main.home .sheet, main.home.flat .sheet { border: 0; padding: .6rem 0 0; }
 .home .lead { max-width: 42rem; }
 /* the entries' section where the graph is drawn: its boxes say it, so it is out of sight, still read by a screen
-   reader, and shown while the keyboard is in it; a box selected puts its entry alone in the sheet, outside it */
-:root.js main.home:not(.flat) .graphs:not(:focus-within) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+   reader, and shown while the keyboard is in it; a box selected puts its entry alone in the sheet, outside it. The
+   link to the about page likewise, its node saying it */
+:root.js main.home:not(.flat) .graphs:not(:focus-within),
+:root.js main.home:not(.flat) .about-entry:not(:focus-within) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 ul.graph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
 .graph-entry { position: relative; display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: .6rem; background: var(--bg); overflow: hidden; }
 .entry-title { margin: 0; padding: 1rem 1rem .5rem; font-size: 1.1rem; line-height: 1.35; font-weight: 600; color: var(--fg); text-transform: none; letter-spacing: 0; overflow-wrap: anywhere; hyphens: auto; }
