@@ -40,7 +40,7 @@ the pages that print them); every concept `label` and `short_label` the diff
 adds or changes (asked question 8, against the rule of spec §3.2);
 every statement whose `supports`/`contests` edges the diff changes;
 every placement the diff adds or changes under `placements` in
-`data/axes/<id>.yaml` (an axis is an overlay: its placements are the
+`data/axes/<id>.md` (an axis is an overlay: its placements are the
 grouping, spec §4.1); and every page a claim of the diff cites
 (`source.at: sources/<id>#page=N`).
 
@@ -68,7 +68,8 @@ sentences are the claims.
 ## The ground
 
 - **The pool:** `data/claims/<source-id>/`, `data/statements/`,
-  `data/concepts/`, `data/edges/<source-id>/`, `data/sources/`, and the axes
+  `data/concepts/`, `data/edges/` (one file per edge, `from`, `kind`, `to`
+  in its frontmatter), `data/sources/`, and the axes
   under `data/axes/` with their `rule` and `placements`. Read a statement with
   all of its evidence edges and the concepts its slots name.
 - **The page:** the source entity under `data/sources/` carries the URL and

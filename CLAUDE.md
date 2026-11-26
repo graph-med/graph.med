@@ -12,7 +12,9 @@ file, the design documentation under `docs/`, the one schema for the data pool
 (`schema/schema.yaml`), the validator that enforces it (`tools/validate.py`) with the
 CI workflow that runs it (`.github/workflows/validate.yml`), the pool itself under
 `data/` (layout in `data/README.md`), the site build (`tools/build.py`, see "Build"),
-the feasibility test of a grouping axis (`tools/axes.py`, see "Checks"), the
+the feasibility test of a grouping axis (`tools/axes.py`, see "Checks"), the reader of the
+pool's files (`tools/bundle.py`, see "Checks"), the installer of the OKF tool
+(`tools/install-okf.sh`, its version pinned in `tools/okf-version`), the
 screenshot runner (`tools/screenshot.py` with its driver `tools/screenshot.js`, see
 "Build") and the Pages workflow (`.github/workflows/pages.yml`), the MCP deploy workflow
 (`.github/workflows/mcp.yml`, see "Build"), the work-board tool
@@ -27,7 +29,13 @@ not exist.
 
 Python tooling is managed with `uv` (`pyproject.toml`, `uv.lock`); never pip. The
 check of the pool is the validator; the MCP server has a check of its own (below).
-`schema/schema.yaml` is a JSON Schema (draft 2020-12); the validator applies it to every file under `data/` with the `jsonschema` library, then
+`data/` is an Open Knowledge Format v0.3 bundle (ADR-0011): one Markdown file per entity,
+every claim and edge included, its YAML frontmatter the entity; `tools/bundle.py` is the one
+reader of those files for the validator, the build and the axes tool, and refuses a key twice
+in a mapping and an unquoted YAML 1.1 boolean. `schema/schema.yaml` is a JSON Schema (draft 2020-12); the validator applies it to every file's frontmatter under `data/` with the `jsonschema` library, runs the OKF tool's
+`okf validate data/` where it is installed (`tools/install-okf.sh` puts the pinned version under
+`.tools/`; until then it notes that OKF conformance was not checked, and `--require-okf` makes
+that an error), then
 checks what a document schema cannot say — references resolve, claim ids hash
 correctly, edges are unique, the grouping axes and a view's scope tree hold together,
 a derived concept's rules reach the passages that give them (the full list heads the

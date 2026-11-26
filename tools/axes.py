@@ -3,7 +3,7 @@
 
     uv run tools/axes.py <axis> <view>
     uv run tools/axes.py axes/region pomgat-lv-1.0                   # an axis in the pool
-    uv run tools/axes.py /tmp/graph.med/region.yaml pomgat-lv-1.0    # a definition not yet committed
+    uv run tools/axes.py /tmp/graph.med/region.md pomgat-lv-1.0      # a definition not yet committed (.md or .yaml)
 
 <axis> is an axis id (the `axes/` prefix optional) or the path of a YAML file holding
 one axis definition, so a proposal is measured before anything is committed; the
@@ -32,6 +32,7 @@ from jsonschema import Draft202012Validator
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from build import SCHEMA, Pool, fillers, load, members_of, places as placed   # noqa: E402 — one membership computation for the tool and the site
+from bundle import read   # noqa: E402 — the one reader of the pool's files (ADR-0011)
 
 
 def main(argv=None) -> int:
@@ -61,8 +62,8 @@ def main(argv=None) -> int:
 
 def axis_of(arg: str, pool: Pool) -> dict:
     path = Path(arg)
-    if path.is_file():
-        return load(path)
+    if path.is_file():   # a definition not yet committed: a bundle file (.md, frontmatter) or plain YAML
+        return read(path)
     aid = arg if arg.startswith("axes/") else f"axes/{arg}"
     axis = pool.entities.get(aid)
     if not axis or axis.get("type") != "axis":

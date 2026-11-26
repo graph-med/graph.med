@@ -75,7 +75,7 @@ never a content change.
 A **graph id**, as the maintainer calls it, is therefore a view id. The first views
 are one per source document, e.g. `graph.med/pomgat-lv-1.0` for the POMGAT guideline:
 a `selection` view whose filter is that one source. A view is a data entity
-(`data/views/<view-id>.yaml`, schema `view`); adding a graph to the site is a reviewed
+(`data/views/<view-id>.md`, schema `view`); adding a graph to the site is a reviewed
 data change, and a change to the build only where its source brings something the
 build does not yet read from data — a language without a words table, a scope tree
 over a slot other than `population`. A source's grading scheme is data: its grades,

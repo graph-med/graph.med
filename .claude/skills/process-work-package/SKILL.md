@@ -177,11 +177,17 @@ place — a sentence, a footnote, a table or figure read in rows — that passes
 the body-text rule (spec §5.1, which also says its section, its `kind`, that
 it is never graded, which declines are gap notices, and which recommendations
 outside the marked ones and which definitions are claims without an edge), a
-claim in
-`data/claims/<source-id>/<slug>.yaml`:
+claim, one file each, `data/claims/<source-id>/<hash8>.md`, the claim its
+YAML frontmatter between two lines `---` (an Open Knowledge Format concept,
+ADR-0011; the notes that explain it as YAML comments at the head of the
+frontmatter):
 
 - id `claims/<source-id>/<hash8>` where `hash8` = first 8 hex of
-  sha256(`<locator>|<quote>`) — script it, never hand-compute;
+  sha256(`<locator>|<quote>`) — script it, never hand-compute; the file's path
+  below `data/` is the id;
+- `order`: the claim's place among the claims of its page, top to bottom (1,
+  2, …), so that a box's sentences keep the order the box prints them; a claim
+  inserted between two others of a page renumbers those after it;
 - `label`: the full sentence, source language, `lang` tagged, in the case
   the page prints (running-text case is the concepts' rule, below, never a
   claim's); one claim per sentence of a box, never one per box (memory
@@ -267,8 +273,10 @@ reaches it), and the rule's N clauses say what gets none. Where the source answe
 question differently in two places, each printing is a claim and
 `disagrees_with` joins every pair (spec §5, §5.1 D; memory
 `source-disagreements-shown`): never pick the one that fits, and never leave
-the pull request the only place it is named. Edges go to
-`data/edges/<source-id>/<slug>.yaml`.
+the pull request the only place it is named. Edges go one per
+file to `data/edges/<hash8>.md`: frontmatter `id`, `type: edge`, `from`,
+`kind`, `to`, then the properties; the id is `bundle.edge_id(from, kind, to,
+discriminator)` (`tools/bundle.py`) — script it, never hand-compute.
 
 **linking** — edits existing entities or adds edges under spec §11: every change
 `modelling` or sourced, search before minting, nothing inherited, no review

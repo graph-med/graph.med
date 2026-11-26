@@ -4,3 +4,4 @@ __pycache__/
 .claude/worktrees/
 /mcp/node_modules/
 /mcp/.wrangler/
+/.tools/

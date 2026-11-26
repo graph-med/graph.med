@@ -46,6 +46,9 @@ from urllib.parse import quote as urlquote
 import yaml
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from bundle import as_tuple, read   # noqa: E402 — the one reader of the pool's files (ADR-0011)
+
 ROOT = Path(__file__).resolve().parent.parent
 SCHEMA = ROOT / "schema" / "schema.yaml"
 SITE_SRC = Path(__file__).resolve().parent / "site"
@@ -662,8 +665,15 @@ def legend_of(statements: list[dict], groupings: list[dict], pool, sources: list
 # ── the pool ────────────────────────────────────────────────────────────────
 
 def load(path: Path):
+    """A YAML document — the schema, an axis definition not yet committed. The pool's files are read by bundle.read."""
     with path.open(encoding="utf-8") as fh:
         return yaml.safe_load(fh)
+
+
+def page_number(claim: dict) -> int:
+    """The physical page a claim's locator names (`#page=N`), 0 where it names none."""
+    m = re.search(r"#page=(\d+)", str((claim.get("source") or {}).get("at", "")))
+    return int(m.group(1)) if m else 0
 
 
 def fillers(st: dict, slot: str, slots: dict | None = None) -> list[str]:
@@ -716,19 +726,33 @@ class Pool:
     def __init__(self, schema: dict):
         self.entities: dict[str, dict] = {}
         self.edges: list[tuple[str, str, str, dict]] = []
-        for glob in schema["x-layout"]:
+        claims: list[dict] = []
+        for glob in schema["x-layout"]:   # one file per entity, every claim and edge included (ADR-0011; tools/bundle.py)
             for path in sorted(ROOT.glob(glob)):
-                doc = load(path)
-                if str(path.relative_to(ROOT)).startswith("data/edges/"):
-                    for e in doc or []:
-                        self.edges.append((e[0], e[1], e[2], e[3] if len(e) > 3 else {}))
+                if path.name in ("README.md", "index.md", "log.md"):
+                    continue
+                ent = read(path)
+                if ent.get("type") == "edge":
+                    self.edges.append(as_tuple(ent))
+                elif ent.get("type") == "claim":
+                    claims.append(ent)
                 else:
-                    for ent in (doc if isinstance(doc, list) else [doc]):
-                        self.entities[ent["id"]] = ent
-        # where each entity stands in the pool as read — files in path order, each file's entities in its order: for
-        # claims, the order an extraction writes a box's sentences in, which is the order the box prints them (#384).
-        # No claim records its line on the page, so this is the only place the build can read it from (printed_key)
-        self.place = {eid: i for i, eid in enumerate(self.entities)}
+                    self.entities[ent["id"]] = ent
+        # claims in the order their sources print them: per source, by page, then by `order`, the claim's place among
+        # the claims of its page (#384, ADR-0011), so that whatever lists claims as the pool holds them lists a box's
+        # sentences as the box prints them
+        for ent in sorted(claims, key=lambda c: (c["id"].rsplit("/", 1)[0], page_number(c), c["order"], c["id"])):
+            self.entities[ent["id"]] = ent
+        # edges in the order the sources print their ends (ADR-0011): an edge file carries no order, so the edges are
+        # sorted, never read in the order of their files: a claim by its place in the pool's printed order, a statement
+        # by the first of the claims that bear on it, anything else after them by id; then the other end, the kind
+        rank = {eid: i for i, eid in enumerate(self.entities) if eid.startswith("claims/")}
+        for frm, kind, to, _ in self.edges:
+            if kind in CLAIM_EDGES and frm in rank:
+                rank[to] = min(rank.get(to, len(rank) + len(self.entities)), rank[frm])
+        def at(eid: str) -> tuple:
+            return (0, rank[eid], "") if eid in rank else (1, 0, eid)
+        self.edges.sort(key=lambda e: (at(e[0]), at(e[2]), e[1], e[3].get("discriminator") or ""))
         self.out: dict[str, list] = defaultdict(list)
         self.inc: dict[str, list] = defaultdict(list)
         for frm, kind, to, props in self.edges:
@@ -854,7 +878,7 @@ class Pool:
         (`place`) —, so that the sentences of one box stand in the order the box prints them (#384), never in the
         order of their ids, which hash the quote."""
         page = int(c["page"]) if str(c.get("page") or "").isdigit() else 0
-        return (self.no_key(c), page, self.place.get(c["id"], len(self.place)), c["id"])
+        return (self.no_key(c), page, self.entities.get(c["id"], {}).get("order", 0), c["id"])
 
     def first_no(self, st: dict) -> tuple:
         """A statement's place in its guideline: the first recommendation number among its claims (no_key), for sorting."""

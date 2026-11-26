@@ -62,22 +62,24 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 $id: https://graph.med/schema/schema.yaml
 title: graph.med pool
-x-version: 0.25.0
+x-version: 0.26.0
 
 # ── layout: which definition each data file validates against ────────────────
-# (data/README.md). Globs are relative to the repository root. `one_per_file`
-# means the entity's id must equal <namespace>/<file stem>.
+# (data/README.md). Globs are relative to the repository root. The pool is an
+# Open Knowledge Format v0.3 bundle (ADR-0011): every file is one entity, its
+# frontmatter, and its id equals its path below data/ without `.md` (validator).
+# README.md, index.md and log.md are no entities (OKF §3.1, §3.2).
 x-layout:
-  data/sources/*.yaml:      {schema: {$ref: '#/$defs/source'},    one_per_file: true}
-  data/concepts/*.yaml:     {schema: {$ref: '#/$defs/concept'},   one_per_file: true}
-  data/statements/*.yaml:   {schema: {$ref: '#/$defs/statement'}, one_per_file: true}
-  data/views/*.yaml:        {schema: {$ref: '#/$defs/view'},      one_per_file: true}
-  data/axes/*.yaml:         {schema: {$ref: '#/$defs/axis'},      one_per_file: true}
-  data/agents/*.yaml:       {schema: {$ref: '#/$defs/agent'},     one_per_file: true}
-  data/attestations/*.yaml: {schema: {$ref: '#/$defs/attestation'}, one_per_file: true}
-  data/pathways/*/*.yaml:   {schema: {$ref: '#/$defs/structural_node'}}
-  data/claims/*/*.yaml:     {schema: {type: array, items: {$ref: '#/$defs/claim'}}}
-  data/edges/*/*.yaml:      {schema: {type: array, items: {$ref: '#/$defs/edge'}}}
+  data/sources/*.md:        {schema: {$ref: '#/$defs/source'}}
+  data/concepts/*.md:       {schema: {$ref: '#/$defs/concept'}}
+  data/statements/*.md:     {schema: {$ref: '#/$defs/statement'}}
+  data/views/*.md:          {schema: {$ref: '#/$defs/view'}}
+  data/axes/*.md:           {schema: {$ref: '#/$defs/axis'}}
+  data/agents/*.md:         {schema: {$ref: '#/$defs/agent'}}
+  data/attestations/*.md:   {schema: {$ref: '#/$defs/attestation'}}
+  data/pathways/*/*.md:     {schema: {$ref: '#/$defs/structural_node'}}
+  data/claims/*/*.md:       {schema: {$ref: '#/$defs/claim'}}
+  data/edges/*.md:          {schema: {$ref: '#/$defs/edge'}}
 
 # ── namespaces ───────────────────────────────────────────────────────────────
 # Namespaces mint identity; they do not own content (spec §2). Any string in the
@@ -86,6 +88,7 @@ x-layout:
 x-namespaces:
   sources:      slug-with-version          # e.g. pomgat-lv-1.0
   claims:       derived                    # claims/<source-id>/<hash8>, hash8 = sha256("<at>|<quote>")[:8]
+  edges:        derived                    # edges/<hash8>, hash8 = sha256("<from>|<kind>|<to>|<discriminator>")[:8] (ADR-0011)
   concepts:     minted                     # search before minting; code if possible
   statements:   minted
   pathways:     minted-within-pathway      # pathways/<pathway-id>/<entity-id>
@@ -152,6 +155,7 @@ $defs:
   # entity references, by namespace (spec §2)
   source_ref:     {type: string, pattern: '^sources/[A-Za-z0-9._-]+$'}
   claim_ref:      {type: string, pattern: '^claims/[A-Za-z0-9._-]+/[0-9a-f]{8}$'}
+  edge_ref:       {type: string, pattern: '^edges/[0-9a-f]{8}$'}
   concept_ref:    {type: string, pattern: '^(concepts|icd10gm-2026|ops-2026)/[A-Za-z0-9._-]+$'}  # uncoded or terminology
   uncoded_concept_ref: {type: string, pattern: '^concepts/[A-Za-z0-9._-]+$'}
   terminology_ref: {type: string, pattern: '^(icd10gm-2026|ops-2026)/[A-Za-z0-9._-]+$'}
@@ -519,12 +523,14 @@ $defs:
       it: claims/<source-id>/<hash8>, hash8 = first 8 hex of
       sha256("<at>|<quote>"), computed by tooling, checked by the validator.
     type: object
-    required: [id, type, lang, label, kind, source]
+    required: [id, type, order, lang, label, kind, source]
     additionalProperties: false
     x-identity: derived
     properties:
       id:    {$ref: '#/$defs/claim_ref'}
       type:  {const: claim}
+      order: {type: integer, minimum: 1, x-provenance: not_applicable}
+             # its place among the claims of its page, top to bottom: the order a box prints its sentences in (ADR-0011, #384)
       lang:  {$ref: '#/$defs/lang', x-provenance: not_applicable}   # language of quote and label
       label: {$ref: '#/$defs/text', x-provenance: optional}
              # the full extracted text (a recommendation sentence), source language, never translated
@@ -869,8 +875,6 @@ $defs:
   # properties (rationale, guard) declares `lang` for them.
   edge_props:
     type: object
-    required: [source]
-    additionalProperties: false
     properties:
       source:        {$ref: '#/$defs/provenance_value'}
       lang:          {$ref: '#/$defs/lang'}
@@ -892,51 +896,55 @@ $defs:
         properties: {source: {const: modelling}}
 
   edge:
-    type: array
-    minItems: 4
-    maxItems: 4
-    prefixItems:
-      - $ref: '#/$defs/entity_ref'
-      - enum: [supports, contests, refines, supplements, limits, disagrees_with, codes_as, broader, in_scope_of,
+    description: >
+      An edge (spec §5): an entity of its own, one file of the bundle (ADR-0011). Its frontmatter is
+      the tuple (from, kind, to) and its properties, its id derived from the tuple (validator).
+    type: object
+    required: [id, type, from, kind, to, source]
+    unevaluatedProperties: false
+    x-identity: derived
+    properties:
+      id:   {$ref: '#/$defs/edge_ref'}
+      type: {const: edge}
+      from: {$ref: '#/$defs/entity_ref'}
+      kind:
+        enum: [supports, contests, refines, supplements, limits, disagrees_with, codes_as, broader, in_scope_of,
                defined_by, sequence, branch, about, specializes, complements, conflicts, follows]
-      - $ref: '#/$defs/entity_ref'
-      - $ref: '#/$defs/edge_props'
+      to:   {$ref: '#/$defs/entity_ref'}
     allOf:
+      - $ref: '#/$defs/edge_props'
       # evidence — the only edges that carry evidential weight
-      - if: {prefixItems: [true, {enum: [supports, contests]}]}
-        then: {prefixItems: [{$ref: '#/$defs/claim_ref'}, true, {$ref: '#/$defs/statement_ref'}]}
+      - if: {properties: {kind: {enum: [supports, contests]}}}
+        then: {properties: {from: {$ref: '#/$defs/claim_ref'}, to: {$ref: '#/$defs/statement_ref'}}}
       # body-text relations — never inherit a recommendation's grade
-      - if: {prefixItems: [true, {enum: [refines, supplements, limits]}]}
-        then: {prefixItems: [{$ref: '#/$defs/claim_ref'}, true, {$ref: '#/$defs/claim_ref'}]}
+      - if: {properties: {kind: {enum: [refines, supplements, limits]}}}
+        then: {properties: {from: {$ref: '#/$defs/claim_ref'}, to: {$ref: '#/$defs/claim_ref'}}}
       # disagreement — "this source says otherwise at that place": two claims of one source that answer one
       # question differently (another value, time, group or rating), each kept as printed and neither chosen
       # (spec §5, §5.1 D). Symmetric: one edge per pair, either direction, never a claim to itself; between
       # two sources it is `contests` (validator). Modelling, with a rationale quoting both sides and saying
       # what they differ in. It carries no evidence and decides nothing
-      - if: {prefixItems: [true, {const: disagrees_with}]}
+      - if: {properties: {kind: {const: disagrees_with}}}
         then:
-          prefixItems: [{$ref: '#/$defs/claim_ref'}, true, {$ref: '#/$defs/claim_ref'},
-                        {$ref: '#/$defs/modelling_edge_props'}]
+          allOf: [{properties: {from: {$ref: '#/$defs/claim_ref'}, to: {$ref: '#/$defs/claim_ref'}}}, {$ref: '#/$defs/modelling_edge_props'}]
       # coding — a code is a node, coding is an edge
-      - if: {prefixItems: [true, {const: codes_as}]}
-        then: {prefixItems: [{$ref: '#/$defs/concept_ref'}, true, {$ref: '#/$defs/terminology_ref'}]}
+      - if: {properties: {kind: {const: codes_as}}}
+        then: {properties: {from: {$ref: '#/$defs/concept_ref'}, to: {$ref: '#/$defs/terminology_ref'}}}
       # subsumption — "is a special case of", between uncoded concepts, modelling with a
       # rationale; carries no evidence and nothing is inherited along it (spec §5); acyclic (validator)
-      - if: {prefixItems: [true, {const: broader}]}
+      - if: {properties: {kind: {const: broader}}}
         then:
-          prefixItems: [{$ref: '#/$defs/uncoded_concept_ref'}, true, {$ref: '#/$defs/uncoded_concept_ref'},
-                        {$ref: '#/$defs/modelling_edge_props'}]
+          allOf: [{properties: {from: {$ref: '#/$defs/uncoded_concept_ref'}, to: {$ref: '#/$defs/uncoded_concept_ref'}}}, {$ref: '#/$defs/modelling_edge_props'}]
       # scope — "counts, within the scope of the view whose `scope_root` it leads to, as a case of":
       # a membership one guideline stipulates for its own scope, which `broader` (true whatever
       # guideline you read) cannot hold (spec §5). Between uncoded concepts, modelling with a
       # rationale; an optional `condition` says under which circumstance, absent = unconditional.
       # The validator checks that it forms no cycle, alone or with `broader`, and doubles no `broader`
-      - if: {prefixItems: [true, {const: in_scope_of}]}
+      - if: {properties: {kind: {const: in_scope_of}}}
         then:
-          prefixItems: [{$ref: '#/$defs/uncoded_concept_ref'}, true, {$ref: '#/$defs/uncoded_concept_ref'},
-                        {$ref: '#/$defs/modelling_edge_props'}]
-      - if: {prefixItems: [true, true, true, {required: [condition]}]}
-        then: {prefixItems: [true, {const: in_scope_of}]}
+          allOf: [{properties: {from: {$ref: '#/$defs/uncoded_concept_ref'}, to: {$ref: '#/$defs/uncoded_concept_ref'}}}, {$ref: '#/$defs/modelling_edge_props'}]
+      - if: {required: [condition]}
+        then: {properties: {kind: {const: in_scope_of}}}
       # definition — "is established by the rule this claim gives": a concept the clinician cannot
       # observe but establishes by a threshold, a score or a definition (spec §3.2, §5). Concept →
       # claim, modelling with a rationale. One edge per concept: several rules reach it through the
@@ -945,24 +953,21 @@ $defs:
       # printing, each claim as printed, and nothing computes a "true" rule. The validator checks that
       # the claim is of kind criterion or definition, and that a concept with several edges has every
       # pair of their claims joined by `disagrees_with`
-      - if: {prefixItems: [true, {const: defined_by}]}
+      - if: {properties: {kind: {const: defined_by}}}
         then:
-          prefixItems: [{$ref: '#/$defs/concept_ref'}, true, {$ref: '#/$defs/claim_ref'},
-                        {$ref: '#/$defs/modelling_edge_props'}]
+          allOf: [{properties: {from: {$ref: '#/$defs/concept_ref'}, to: {$ref: '#/$defs/claim_ref'}}}, {$ref: '#/$defs/modelling_edge_props'}]
       # structure — among structural nodes, and from them to statements
-      - if: {prefixItems: [true, {const: sequence}]}
-        then: {prefixItems: [{$ref: '#/$defs/structural_ref'}, true, {$ref: '#/$defs/structural_ref'}]}
-      - if: {prefixItems: [true, {const: branch}]}
+      - if: {properties: {kind: {const: sequence}}}
+        then: {properties: {from: {$ref: '#/$defs/structural_ref'}, to: {$ref: '#/$defs/structural_ref'}}}
+      - if: {properties: {kind: {const: branch}}}
         then:
-          prefixItems: [{$ref: '#/$defs/structural_ref'}, true, {$ref: '#/$defs/structural_ref'},
-                        {required: [source, guard]}]
-      - if: {prefixItems: [true, {const: about}]}
-        then: {prefixItems: [{$ref: '#/$defs/structural_ref'}, true, {$ref: '#/$defs/statement_ref'}]}
+          allOf: [{properties: {from: {$ref: '#/$defs/structural_ref'}, to: {$ref: '#/$defs/structural_ref'}}}, {required: [source, guard]}]
+      - if: {properties: {kind: {const: about}}}
+        then: {properties: {from: {$ref: '#/$defs/structural_ref'}, to: {$ref: '#/$defs/statement_ref'}}}
       # cross-source semantics — statement → statement, modelling-only
-      - if: {prefixItems: [true, {enum: [specializes, complements, conflicts]}]}
+      - if: {properties: {kind: {enum: [specializes, complements, conflicts]}}}
         then:
-          prefixItems: [{$ref: '#/$defs/statement_ref'}, true, {$ref: '#/$defs/statement_ref'},
-                        {$ref: '#/$defs/modelling_edge_props'}]
+          allOf: [{properties: {from: {$ref: '#/$defs/statement_ref'}, to: {$ref: '#/$defs/statement_ref'}}}, {$ref: '#/$defs/modelling_edge_props'}]
       # sequence — "is triggered by the outcome of": [later, follows, earlier], the later recommendation's step
       # taken because of how the earlier one's measure went, where the text states the order (spec §5). Not the
       # structure edge `sequence`, which arranges an authored pathway. Statement → statement, modelling, with a
@@ -972,9 +977,8 @@ $defs:
       # statements, that the later's population lies not strictly above the earlier's, and that the edges whose
       # trigger is neither `reevaluation` nor `target_reached` form no cycle — unless the source states the order
       # both ways, the two statements' claims joined by `disagrees_with`: shown, never resolved
-      - if: {prefixItems: [true, {const: follows}]}
+      - if: {properties: {kind: {const: follows}}}
         then:
-          prefixItems: [{$ref: '#/$defs/statement_ref'}, true, {$ref: '#/$defs/statement_ref'},
-                        {allOf: [{$ref: '#/$defs/modelling_edge_props'}, {required: [transition, trigger]}]}]
-      - if: {prefixItems: [true, true, true, {anyOf: [{required: [transition]}, {required: [trigger]}]}]}
-        then: {prefixItems: [true, {const: follows}]}
+          allOf: [{properties: {from: {$ref: '#/$defs/statement_ref'}, to: {$ref: '#/$defs/statement_ref'}}}, {allOf: [{$ref: '#/$defs/modelling_edge_props'}, {required: [transition, trigger]}]}]
+      - if: {anyOf: [{required: [transition]}, {required: [trigger]}]}
+        then: {properties: {kind: {const: follows}}}
