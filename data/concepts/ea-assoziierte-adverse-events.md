@@ -1,0 +1,8 @@
+---
+id: concepts/ea-assoziierte-adverse-events
+type: concept
+lang: de
+label: EA-assoziierte Adverse Events
+facet: outcome
+source: modelling
+---

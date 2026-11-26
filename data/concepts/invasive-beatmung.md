@@ -1,0 +1,11 @@
+---
+# A treatment the patient receives (card #223; #217's convention row 7): the condition of 5.3 and 5.4 („bei der
+# invasiven Beatmung von Patienten“), 5.8 and 5.14 („invasiv beatmeten Patienten“). Its nature is the measure,
+# its role there a condition.
+id: concepts/invasive-beatmung
+type: concept
+lang: de
+label: "invasive Beatmung"
+facet: intervention
+source: modelling
+---

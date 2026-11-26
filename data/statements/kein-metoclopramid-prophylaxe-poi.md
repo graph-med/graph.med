@@ -1,0 +1,13 @@
+---
+id: statements/kein-metoclopramid-prophylaxe-poi
+type: statement
+lang: de
+label: Nach gastrointestinalen Tumorresektionen soll Metoclopramid nicht zur Prophylaxe des postoperativen (paralytischen)
+  Ileus eingesetzt werden.
+short_label: "Kein Metoclopramid zur POI-Prophylaxe"
+slots:
+  population: concepts/gastrointestinale-tumoroperation
+  action: concepts/metoclopramid
+  outcome: concepts/postoperativer-paralytischer-ileus
+source: modelling
+---

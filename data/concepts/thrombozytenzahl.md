@@ -1,0 +1,9 @@
+---
+# A measured quantity, named by p. 122's threshold „Thrombozytenzahl < 50 000/mm3“.
+id: concepts/thrombozytenzahl
+type: concept
+lang: de
+label: "Thrombozytenzahl"
+facet: finding
+source: modelling
+---

@@ -1,0 +1,8 @@
+---
+id: concepts/gesamtmorbiditaet
+type: concept
+lang: de
+label: Gesamtmorbidität
+facet: outcome
+source: modelling
+---

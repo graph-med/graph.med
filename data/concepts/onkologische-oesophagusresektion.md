@@ -1,0 +1,8 @@
+---
+id: concepts/onkologische-oesophagusresektion
+type: concept
+lang: de
+label: onkologische Ösophagusresektion
+facet: procedure
+source: modelling
+---

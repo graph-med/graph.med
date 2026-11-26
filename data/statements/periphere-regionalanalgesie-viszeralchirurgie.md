@@ -1,0 +1,12 @@
+---
+id: statements/periphere-regionalanalgesie-viszeralchirurgie
+type: statement
+lang: de
+label: Bei onkologisch-viszeralchirurgischen Eingriffen kann ein peripheres Regionalanalgesieverfahren zur perioperativen
+  Analgesie eingesetzt werden.
+short_label: "Periphere Regionalanalgesie möglich"
+slots:
+  population: concepts/gastrointestinale-tumoroperation
+  action: concepts/peripheres-regionalanalgesieverfahren
+source: modelling
+---

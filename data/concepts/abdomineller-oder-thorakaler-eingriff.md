@@ -1,0 +1,8 @@
+---
+id: concepts/abdomineller-oder-thorakaler-eingriff
+type: concept
+lang: de
+label: abdomineller oder thorakaler Eingriff
+facet: procedure
+source: modelling
+---

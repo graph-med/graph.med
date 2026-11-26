@@ -1,0 +1,13 @@
+---
+id: statements/kein-daikenchuto-prophylaxe-poi
+type: statement
+lang: de
+label: Nach gastrointestinalen Tumorresektionen sollte Daikenchuto nicht zur Prophylaxe des postoperativen (paralytischen)
+  Ileus eingesetzt werden.
+short_label: "Kein Daikenchuto zur POI-Prophylaxe"
+slots:
+  population: concepts/gastrointestinale-tumoroperation
+  action: concepts/daikenchuto
+  outcome: concepts/postoperativer-paralytischer-ileus
+source: modelling
+---

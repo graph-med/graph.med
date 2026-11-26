@@ -1,0 +1,13 @@
+---
+id: statements/statin-neubeginn-hochrisiko
+type: statement
+lang: de
+label: Bei Patienten mit hohem kardiovaskulärem Risiko vor einem elektiven abdominalchirurgischen Tumoreingriff kann eine
+  Statintherapie zwei Wochen präoperativ begonnen werden.
+short_label: "Statinbeginn 2 Wochen präoperativ erwägbar"
+slots:
+  population: concepts/kardiovaskulaerer-hochrisikopatient
+  action: concepts/praeoperativer-statinbeginn
+  condition: [concepts/elektiver-abdominalchirurgischer-tumoreingriff]
+source: modelling
+---

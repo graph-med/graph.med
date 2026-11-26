@@ -1,0 +1,8 @@
+---
+id: concepts/mortalitaet-30-tage
+type: concept
+lang: de
+label: postoperative 30-Tage-Mortalität
+facet: outcome
+source: modelling
+---

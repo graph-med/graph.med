@@ -1,0 +1,8 @@
+---
+id: concepts/empfindungsstoerungen
+type: concept
+lang: de
+label: Empfindungsstörungen
+facet: outcome
+source: modelling
+---

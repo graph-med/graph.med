@@ -1,0 +1,8 @@
+---
+id: concepts/anastomoseninsuffizienz
+type: concept
+lang: de
+label: Anastomoseninsuffizienz
+facet: outcome
+source: modelling
+---

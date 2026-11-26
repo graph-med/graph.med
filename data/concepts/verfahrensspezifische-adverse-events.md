@@ -1,0 +1,8 @@
+---
+id: concepts/verfahrensspezifische-adverse-events
+type: concept
+lang: de
+label: verfahrensspezifische Adverse Events
+facet: outcome
+source: modelling
+---

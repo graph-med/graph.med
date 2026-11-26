@@ -1,0 +1,11 @@
+---
+id: statements/keine-drainage-kolorektale-resektion
+type: statement
+lang: de
+label: Bei elektiven kolorektalen Resektionen wird keine intraabdominelle Drainage eingelegt.
+short_label: "Keine intraabdominelle Drainage (kolorektal)"
+slots:
+  population: concepts/kolorektale-resektion
+  action: concepts/abdominelle-drainage
+source: modelling
+---

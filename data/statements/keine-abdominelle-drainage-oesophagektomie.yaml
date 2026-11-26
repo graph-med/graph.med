@@ -1,9 +1,0 @@
-id: statements/keine-abdominelle-drainage-oesophagektomie
-type: statement
-lang: de
-label: Bei transthorakaler Ösophagektomie mit gastraler Rekonstruktion wird keine abdominelle Drainage eingelegt.
-short_label: "Keine abdominelle Drainage (Ösophagektomie)"
-slots:
-  population: concepts/transthorakale-oesophagektomie
-  action: concepts/abdominelle-drainage
-source: modelling

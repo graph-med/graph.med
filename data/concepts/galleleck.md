@@ -1,0 +1,8 @@
+---
+id: concepts/galleleck
+type: concept
+lang: de
+label: postoperatives Galleleck
+facet: outcome
+source: modelling
+---

@@ -1,0 +1,10 @@
+---
+# An evidence endpoint of 6.7 (p. 95), "Hämodynamische Instabilität:". Not 6.7's condition "hämodynamisch
+# instabil", a patient state.
+id: concepts/haemodynamische-instabilitaet
+type: concept
+lang: de
+label: "hämodynamische Instabilität"
+facet: outcome
+source: modelling
+---

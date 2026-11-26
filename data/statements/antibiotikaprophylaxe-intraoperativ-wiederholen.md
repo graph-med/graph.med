@@ -1,0 +1,12 @@
+---
+id: statements/antibiotikaprophylaxe-intraoperativ-wiederholen
+type: statement
+lang: de
+label: Die intravenöse Antibiotikaprophylaxe soll entsprechend der Halbwertzeit der Substanzen oder bei starkem Blutverlust
+  ggf. intraoperativ wiederholt werden.
+short_label: "Antibiotikaprophylaxe intraoperativ wiederholen"
+slots:
+  population: concepts/gastrointestinale-tumoroperation
+  action: concepts/intraoperative-wiederholung-antibiotikaprophylaxe
+source: modelling
+---

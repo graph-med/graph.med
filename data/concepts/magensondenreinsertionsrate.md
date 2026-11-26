@@ -1,0 +1,8 @@
+---
+id: concepts/magensondenreinsertionsrate
+type: concept
+lang: de
+label: "Magensondenreinsertionsrate"
+facet: outcome
+source: modelling
+---

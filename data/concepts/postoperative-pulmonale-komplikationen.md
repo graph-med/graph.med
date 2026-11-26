@@ -1,0 +1,8 @@
+---
+id: concepts/postoperative-pulmonale-komplikationen
+type: concept
+lang: de
+label: postoperative pulmonale Komplikationen
+facet: outcome
+source: modelling
+---

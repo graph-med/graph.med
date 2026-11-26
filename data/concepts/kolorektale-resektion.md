@@ -1,0 +1,8 @@
+---
+id: concepts/kolorektale-resektion
+type: concept
+lang: de
+label: elektive kolorektale Resektion
+facet: procedure
+source: modelling
+---

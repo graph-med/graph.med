@@ -1,0 +1,10 @@
+---
+# A condition of 6.9 (p. 100), "für ein kontinuierliches Nierenersatzverfahren": a treatment the patient receives
+# (row 7 of card #217's convention).
+id: concepts/kontinuierliches-nierenersatzverfahren
+type: concept
+lang: de
+label: "kontinuierliches Nierenersatzverfahren"
+facet: intervention
+source: modelling
+---

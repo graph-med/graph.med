@@ -1,0 +1,9 @@
+---
+id: concepts/elektiver-abdominalchirurgischer-tumoreingriff
+type: concept
+lang: de
+label: elektiver abdominalchirurgischer Tumoreingriff
+short_label: "elektiver abdominaler Tumoreingriff"
+facet: procedure
+source: modelling
+---

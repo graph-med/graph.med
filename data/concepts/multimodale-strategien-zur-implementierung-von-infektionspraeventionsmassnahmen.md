@@ -1,0 +1,10 @@
+---
+# The action of 10.2 (p. 136); its example („z. B. bei intravasalen Kathetern“) stays in the statement's label. Card #226.
+id: concepts/multimodale-strategien-zur-implementierung-von-infektionspraeventionsmassnahmen
+type: concept
+lang: de
+label: "multimodale Strategien zur Implementierung von Infektionspräventionsmaßnahmen"
+short_label: "multimodale Strategien zur Infektionsprävention"
+facet: intervention
+source: modelling
+---

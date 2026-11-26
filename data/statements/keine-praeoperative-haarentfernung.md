@@ -1,0 +1,11 @@
+---
+id: statements/keine-praeoperative-haarentfernung
+type: statement
+lang: de
+label: Auf eine präoperative Haarentfernung soll verzichtet werden.
+short_label: "Keine präoperative Haarentfernung"
+slots:
+  population: concepts/gastrointestinale-tumoroperation
+  action: concepts/praeoperative-haarentfernung
+source: modelling
+---

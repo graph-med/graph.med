@@ -1,0 +1,8 @@
+---
+id: concepts/perioperative-glukokortikoidgabe
+type: concept
+lang: de
+label: perioperative Glukokortikoidgabe
+facet: medication
+source: modelling
+---

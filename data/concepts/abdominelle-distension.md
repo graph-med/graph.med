@@ -1,0 +1,8 @@
+---
+id: concepts/abdominelle-distension
+type: concept
+lang: de
+label: abdominelle Distension
+facet: outcome
+source: modelling
+---

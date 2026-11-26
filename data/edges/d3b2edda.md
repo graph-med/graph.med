@@ -1,0 +1,12 @@
+---
+id: edges/d3b2edda
+type: edge
+from: claims/vorhofflimmern-lf-1.1/25186e5d
+kind: refines
+to: claims/vorhofflimmern-lf-1.1/6ff40fc9
+source: modelling
+as_of: '2026-10-11'
+lang: de
+rationale: 'R: Klasse IC-Antiarrhythmikum (Flecainid, Propafenon) — Tabelle 13 (S. 60), eingeführt im Abschnitt 6.5.1 (S.
+  58), nennt für Flecainid Administration, Dosis, Kontraindikationen und Kommentare.'
+---

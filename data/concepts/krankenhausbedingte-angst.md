@@ -1,0 +1,8 @@
+---
+id: concepts/krankenhausbedingte-angst
+type: concept
+lang: de
+label: krankenhausbedingte Angst
+facet: outcome
+source: modelling
+---

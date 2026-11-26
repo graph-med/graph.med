@@ -1,0 +1,12 @@
+---
+id: statements/intravenoese-antibiotikaprophylaxe-praeoperativ
+type: statement
+lang: de
+label: Bei der Resektion gastrointestinaler Tumoren soll präoperativ (60 Minuten bis kurz vor der Inzision) eine intravenöse
+  perioperative Antibiotikaprophylaxe durchgeführt werden.
+short_label: "i.v. Antibiotikaprophylaxe 60 min vor Inzision"
+slots:
+  population: concepts/gastrointestinale-tumoroperation
+  action: concepts/intravenoese-perioperative-antibiotikaprophylaxe
+source: modelling
+---

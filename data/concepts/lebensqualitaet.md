@@ -1,0 +1,8 @@
+---
+id: concepts/lebensqualitaet
+type: concept
+lang: de
+label: Lebensqualität
+facet: outcome
+source: modelling
+---

@@ -1,0 +1,8 @@
+---
+id: concepts/perioperatives-risikoprofil
+type: concept
+lang: de
+label: perioperatives Risikoprofil
+facet: patient_state
+source: modelling   # a family minted to group the guideline's populations (spec §5 broader)
+---

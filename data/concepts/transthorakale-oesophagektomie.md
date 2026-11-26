@@ -1,0 +1,8 @@
+---
+id: concepts/transthorakale-oesophagektomie
+type: concept
+lang: de
+label: transthorakale Ösophagektomie
+facet: procedure
+source: modelling
+---

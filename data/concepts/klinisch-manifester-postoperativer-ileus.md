@@ -1,0 +1,9 @@
+---
+id: concepts/klinisch-manifester-postoperativer-ileus
+type: concept
+lang: de
+label: klinisch manifester postoperativer (paralytischer) Ileus
+short_label: "klinisch manifester POI"
+facet: patient_state
+source: modelling
+---

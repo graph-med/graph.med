@@ -1,0 +1,8 @@
+---
+id: concepts/intraoperative-hypotension
+type: concept
+lang: de
+label: intraoperativer Blutdruckabfall
+facet: outcome
+source: modelling
+---

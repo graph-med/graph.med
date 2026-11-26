@@ -1,0 +1,12 @@
+---
+id: statements/op-verschiebung-eindosierung-ace-hemmer-sartane
+type: statement
+lang: de
+label: Bei kardial stabilen Patienten mit frisch diagnostizierter linksventrikulärer Herzinsuffizienz kann erwogen werden,
+  die Operation zur Eindosierung von ACE-Hemmern/Sartanen um mindestens eine Woche zu verschieben.
+short_label: "OP ≥1 Woche verschieben: ACE-Hemmer/Sartane eindosieren"
+slots:
+  population: concepts/neu-diagnostizierte-linksventrikulaere-herzinsuffizienz
+  action: concepts/op-verschiebung-eindosierung-ace-hemmer-sartane
+source: modelling
+---

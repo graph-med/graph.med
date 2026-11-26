@@ -1,0 +1,9 @@
+---
+id: concepts/praeoperative-lebensstilmassnahmen
+type: concept
+lang: de
+label: Erhaltung und Verbesserung körperlicher Aktivität, ausgewogene Ernährung und Nikotin-/Alkoholverzicht vor der Operation
+short_label: "präoperative Lebensstilmaßnahmen"
+facet: intervention
+source: modelling
+---

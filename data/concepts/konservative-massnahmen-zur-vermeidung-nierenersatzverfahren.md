@@ -1,0 +1,10 @@
+---
+# The action of 6.4 (p. 90).
+id: concepts/konservative-massnahmen-zur-vermeidung-nierenersatzverfahren
+type: concept
+lang: de
+label: "konservative Maßnahmen zur Vermeidung eines Nierenersatzverfahrens unter regelmäßiger Reevaluation"
+short_label: "konservative Maßnahmen, regelmäßige Reevaluation"
+facet: intervention
+source: modelling
+---

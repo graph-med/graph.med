@@ -1,0 +1,13 @@
+---
+id: statements/kaugummi-kolorektal
+type: statement
+lang: de
+label: Nach kolorektalen Resektionen sollten die Patienten in den ersten fünf postoperativen Tagen 3–4 × täglich für 10–15
+  min Kaugummi kauen.
+short_label: "Kaugummi 3–4 × täglich, 5 Tage (kolorektal)"
+slots:
+  population: concepts/kolorektale-resektion
+  action: concepts/kaugummikauen-postoperativ
+  outcome: concepts/postoperativer-paralytischer-ileus
+source: modelling
+---

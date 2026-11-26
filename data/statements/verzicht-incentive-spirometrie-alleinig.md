@@ -1,0 +1,13 @@
+---
+id: statements/verzicht-incentive-spirometrie-alleinig
+type: statement
+lang: de
+label: Nach abdominellen und thorakalen Eingriffen kann auf eine Atemtherapie mittels Incentive-Spirometrie als alleinige
+  Maßnahme zur Vermeidung postoperativer pulmonaler Komplikationen verzichtet werden.
+short_label: "Incentive-Spirometrie allein verzichtbar"
+slots:
+  population: concepts/abdomineller-oder-thorakaler-eingriff
+  action: concepts/incentive-spirometrie-alleinig
+  outcome: concepts/postoperative-pulmonale-komplikationen
+source: modelling
+---

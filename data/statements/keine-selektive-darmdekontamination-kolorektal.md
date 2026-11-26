@@ -1,0 +1,11 @@
+---
+id: statements/keine-selektive-darmdekontamination-kolorektal
+type: statement
+lang: de
+label: Vor kolorektalen Operationen sollte keine präoperative selektive Darmdekontamination durchgeführt werden.
+short_label: "Keine selektive Darmdekontamination (kolorektal)"
+slots:
+  population: concepts/kolorektale-resektion
+  action: concepts/selektive-darmdekontamination
+source: modelling
+---

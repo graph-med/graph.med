@@ -1,0 +1,10 @@
+---
+# The action of box 4.1 (p. 57): "balancierte Kristalloide als Flüssigkeitstherapie der ersten Wahl"; albumin is
+# given "additiv zu balancierten Kristalloiden" (4.2, p. 58).
+id: concepts/balancierte-kristalloide
+type: concept
+lang: de
+label: balancierte Kristalloide
+facet: medication
+source: modelling
+---

@@ -1,0 +1,8 @@
+---
+id: concepts/postoperative-hypotonie-48h
+type: concept
+lang: de
+label: postoperative Hypotonie nach 48 Stunden
+facet: outcome
+source: modelling
+---

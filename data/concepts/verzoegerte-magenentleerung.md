@@ -1,0 +1,8 @@
+---
+id: concepts/verzoegerte-magenentleerung
+type: concept
+lang: de
+label: verzögerte Magenentleerung
+facet: outcome
+source: modelling
+---

@@ -1,0 +1,9 @@
+---
+id: concepts/bestehende-statintherapie
+type: concept
+lang: de
+label: bereits präoperativ indizierte und begonnene Statin-Therapie
+short_label: "bestehende Statintherapie"
+facet: medication
+source: modelling
+---

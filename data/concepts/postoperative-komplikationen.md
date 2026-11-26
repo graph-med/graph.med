@@ -1,0 +1,8 @@
+---
+id: concepts/postoperative-komplikationen
+type: concept
+lang: de
+label: postoperative Komplikationen
+facet: outcome
+source: modelling
+---

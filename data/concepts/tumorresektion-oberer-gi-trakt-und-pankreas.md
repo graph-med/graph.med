@@ -1,0 +1,9 @@
+---
+id: concepts/tumorresektion-oberer-gi-trakt-und-pankreas
+type: concept
+lang: de
+label: operative Tumorresektion des oberen Gastrointestinaltraktes und des Pankreas
+short_label: "Tumorresektion oberer GI-Trakt/Pankreas"
+facet: procedure
+source: modelling
+---

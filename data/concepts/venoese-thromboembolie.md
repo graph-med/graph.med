@@ -1,0 +1,9 @@
+---
+# An evidence outcome of 8.11 (p. 117), printed „Inzidenz venöser Thromboembolien“.
+id: concepts/venoese-thromboembolie
+type: concept
+lang: de
+label: "venöse Thromboembolie (VTE)"
+facet: outcome
+source: modelling
+---

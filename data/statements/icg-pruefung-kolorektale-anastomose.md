@@ -1,0 +1,12 @@
+---
+id: statements/icg-pruefung-kolorektale-anastomose
+type: statement
+lang: de
+label: Die Vaskularisation kolorektaler Anastomosen kann intraoperativ per Fluoreszenzangiographie mit Indocyaningrün
+  überprüft werden.
+short_label: "ICG-Angiographie der Anastomose erwägbar"
+slots:
+  population: concepts/kolorektale-anastomose
+  action: concepts/fluoreszenzangiographie-icg
+source: modelling
+---

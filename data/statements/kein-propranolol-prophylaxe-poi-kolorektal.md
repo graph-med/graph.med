@@ -1,0 +1,13 @@
+---
+id: statements/kein-propranolol-prophylaxe-poi-kolorektal
+type: statement
+lang: de
+label: Nach onkologischen kolorektalen Resektionen soll Propranolol nicht zur Prophylaxe des postoperativen (paralytischen)
+  Ileus angewendet werden.
+short_label: "Kein Propranolol zur POI-Prophylaxe (kolorektal)"
+slots:
+  population: concepts/kolorektale-resektion
+  action: concepts/propranolol
+  outcome: concepts/postoperativer-paralytischer-ileus
+source: modelling
+---

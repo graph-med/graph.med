@@ -1,0 +1,11 @@
+---
+# The condition of box 4.2 (p. 58): "wenn große Mengen an Flüssigkeit benötigt werden, um eine hämodynamische
+# Stabilität zu erreichen". Stated: p. 59 says that no threshold can be set (a gap notice of the chapter).
+id: concepts/grosse-mengen-an-fluessigkeit-benoetigt
+type: concept
+lang: de
+label: große Mengen an Flüssigkeit benötigt, um eine hämodynamische Stabilität zu erreichen
+short_label: "große Flüssigkeitsmengen für hämodynamische Stabilität"
+facet: patient_state
+source: modelling
+---

@@ -1,0 +1,10 @@
+---
+# An evidence outcome of 8.11 (p. 117), printed „Inzidenz tiefer Venenthrombosen“. See
+# concepts/tiefe-beinvenenthrombose.
+id: concepts/tiefe-venenthrombose
+type: concept
+lang: de
+label: "tiefe Venenthrombose (TVT)"
+facet: outcome
+source: modelling
+---

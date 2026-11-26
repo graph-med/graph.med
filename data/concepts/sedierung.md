@@ -1,0 +1,8 @@
+---
+id: concepts/sedierung
+type: concept
+lang: de
+label: Sedierung
+facet: outcome
+source: modelling
+---

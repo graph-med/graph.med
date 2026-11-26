@@ -1,0 +1,14 @@
+---
+id: statements/propofol-tiva-statt-volatiler-anaesthesie
+type: statement
+lang: de
+label: Bei abdominalchirurgischen Tumoroperationen sollte eine Propofol-basierte TIVA anstelle einer volatilen Anästhesie
+  durchgeführt werden, sofern keine zusätzlichen Antiemetika verabreicht werden.
+short_label: "Propofol-TIVA statt volatil, wenn keine Antiemetika"
+slots:
+  population: concepts/elektiver-abdominalchirurgischer-tumoreingriff
+  action: concepts/propofol-tiva
+  condition: [concepts/keine-zusaetzlichen-antiemetika]
+  outcome: concepts/ponv-risiko
+source: modelling
+---

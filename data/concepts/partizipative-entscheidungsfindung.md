@@ -1,0 +1,8 @@
+---
+id: concepts/partizipative-entscheidungsfindung
+type: concept
+lang: de
+label: partizipative Entscheidungsfindung
+facet: outcome
+source: modelling
+---

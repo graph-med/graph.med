@@ -1,9 +1,0 @@
-id: statements/keine-abdominelle-drainage-gastrektomie
-type: statement
-lang: de
-label: Nach Gastrektomie wird keine abdominelle Drainage angelegt.
-short_label: "Keine abdominelle Drainage (Gastrektomie)"
-slots:
-  population: concepts/gastrektomie
-  action: concepts/abdominelle-drainage
-source: modelling

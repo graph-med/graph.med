@@ -1,0 +1,12 @@
+---
+id: statements/mpom-oesophagusresektion
+type: statement
+lang: de
+label: Eine onkologische Ösophagusresektion sollte im Kontext eines multimodalen perioperativen Managementkonzepts (mPOM)
+  stattfinden.
+short_label: "Ösophagusresektion im mPOM"
+slots:
+  population: concepts/onkologische-oesophagusresektion
+  action: concepts/mpom
+source: modelling
+---

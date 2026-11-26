@@ -1,0 +1,12 @@
+---
+id: statements/akupunktur-nach-abdominalchirurgie
+type: statement
+lang: de
+label: Nach abdominalchirurgischen Eingriffen kann Akupunktur angewendet werden.
+short_label: "Akupunktur postoperativ möglich"
+slots:
+  population: concepts/elektiver-abdominalchirurgischer-tumoreingriff
+  action: concepts/akupunktur-postoperativ
+  outcome: concepts/postoperativer-paralytischer-ileus
+source: modelling
+---

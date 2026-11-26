@@ -1,0 +1,12 @@
+---
+id: statements/betablocker-neuansetzen-hochrisiko
+type: statement
+lang: de
+label: Ein präoperatives Neuansetzen einer Betablockade kann aus kardiologischer Indikation bei kardiovaskulären Hochrisikopatienten
+  erwogen werden.
+short_label: "Betablocker-Neuansetzen bei Hochrisiko erwägbar"
+slots:
+  population: concepts/kardiovaskulaerer-hochrisikopatient
+  action: concepts/praeoperatives-neuansetzen-betablocker
+source: modelling
+---

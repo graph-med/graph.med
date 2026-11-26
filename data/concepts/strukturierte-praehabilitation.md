@@ -1,0 +1,9 @@
+---
+id: concepts/strukturierte-praehabilitation
+type: concept
+lang: de
+label: intensivierte, ressourcenaufwändige Prähabilitation mit strukturierten Programmen
+short_label: "strukturierte Prähabilitation"
+facet: intervention
+source: modelling
+---

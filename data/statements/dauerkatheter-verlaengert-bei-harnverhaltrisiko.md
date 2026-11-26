@@ -1,0 +1,13 @@
+---
+id: statements/dauerkatheter-verlaengert-bei-harnverhaltrisiko
+type: statement
+lang: de
+label: Bei kolorektalen Resektionen mit Risikofaktoren für einen Harnverhalt (männliches Geschlecht, tiefe anteriore Rektumresektion,
+  Rektumexstirpation) kann die transurethrale Ableitung bis zum 3. postoperativen Tag verlängert werden.
+short_label: "Bei Harnverhaltrisiko: Katheter bis Tag 3 möglich"
+slots:
+  population: concepts/kolorektale-resektion
+  action: concepts/verlaengerte-harnableitung-bis-pod3
+  condition: [concepts/risikofaktoren-harnverhalt]
+source: modelling
+---

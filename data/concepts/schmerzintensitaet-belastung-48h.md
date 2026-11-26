@@ -1,0 +1,9 @@
+---
+id: concepts/schmerzintensitaet-belastung-48h
+type: concept
+lang: de
+label: Schmerzintensität bei Belastung (Bewegung) 48 Stunden postoperativ
+short_label: Belastungsschmerz 48 h postoperativ
+facet: outcome
+source: modelling
+---

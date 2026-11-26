@@ -1,0 +1,8 @@
+---
+id: concepts/abdominelle-drainage
+type: concept
+lang: de
+label: intraabdominelle Drainage
+facet: intervention
+source: modelling
+---

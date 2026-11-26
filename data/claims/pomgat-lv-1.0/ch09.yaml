@@ -1,9 +1,0 @@
-- id: claims/pomgat-lv-1.0/eafa4550
-  type: claim
-  lang: de
-  kind: definition
-  section: "9"
-  label: Unkomplizierte Leberresektion = Leberresektion ohne biliäre oder vaskuläre Rekonstruktion
-  source:
-    at: sources/pomgat-lv-1.0#page=123
-    quote: ohne biliäre

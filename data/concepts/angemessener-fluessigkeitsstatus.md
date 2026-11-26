@@ -1,0 +1,9 @@
+---
+# A condition of box 4.9 (p. 68): "trotz angemessenem Flüssigkeitsstatus", one of its four conditions.
+id: concepts/angemessener-fluessigkeitsstatus
+type: concept
+lang: de
+label: angemessener Flüssigkeitsstatus
+facet: patient_state
+source: modelling
+---

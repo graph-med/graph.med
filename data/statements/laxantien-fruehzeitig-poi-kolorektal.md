@@ -1,0 +1,13 @@
+---
+id: statements/laxantien-fruehzeitig-poi-kolorektal
+type: statement
+lang: de
+label: Nach onkologischen kolorektalen Resektionen sollten Laxantien frühzeitig in eine multimodale Prophylaxe und/oder Therapie
+  des postoperativen (paralytischen) Ileus implementiert werden.
+short_label: "Laxantien frühzeitig gegen POI (kolorektal)"
+slots:
+  population: concepts/kolorektale-resektion
+  action: concepts/laxantien-fruehzeitig-multimodal
+  outcome: concepts/postoperativer-paralytischer-ileus
+source: modelling
+---

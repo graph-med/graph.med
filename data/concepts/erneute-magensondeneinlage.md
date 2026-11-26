@@ -1,0 +1,8 @@
+---
+id: concepts/erneute-magensondeneinlage
+type: concept
+lang: de
+label: erneute Magensondeneinlage
+facet: outcome
+source: modelling
+---

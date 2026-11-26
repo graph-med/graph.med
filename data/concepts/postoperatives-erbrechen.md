@@ -1,0 +1,8 @@
+---
+id: concepts/postoperatives-erbrechen
+type: concept
+lang: de
+label: postoperatives Erbrechen
+facet: outcome
+source: modelling
+---

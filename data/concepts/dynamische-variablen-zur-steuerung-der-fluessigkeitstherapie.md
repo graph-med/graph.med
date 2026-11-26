@@ -1,0 +1,10 @@
+---
+# The action of 2.11 (p. 35). Card #218.
+id: concepts/dynamische-variablen-zur-steuerung-der-fluessigkeitstherapie
+type: concept
+lang: de
+label: "bevorzugt dynamische gegenüber statischen Variablen zur Steuerung der Flüssigkeitstherapie"
+short_label: "dynamische Variablen zur Flüssigkeitssteuerung"
+facet: intervention
+source: modelling
+---

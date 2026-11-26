@@ -1,0 +1,8 @@
+---
+id: concepts/postoperativer-schmerz
+type: concept
+lang: de
+label: postoperativer (abdomineller) Schmerz
+facet: outcome
+source: modelling
+---

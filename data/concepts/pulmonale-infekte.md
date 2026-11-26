@@ -1,0 +1,8 @@
+---
+id: concepts/pulmonale-infekte
+type: concept
+lang: de
+label: pulmonale Infekte
+facet: outcome
+source: modelling
+---

@@ -1,0 +1,9 @@
+---
+id: concepts/laxantien-fruehzeitig-multimodal
+type: concept
+lang: de
+label: frühzeitige Laxantiengabe im Rahmen einer multimodalen Prophylaxe und/oder Therapie
+short_label: "frühzeitige Laxantiengabe (multimodal)"
+facet: medication
+source: modelling
+---

@@ -1,0 +1,11 @@
+---
+# The action of 6.5 (p. 93): one concept naming the alternatives the box sets as equal ("gleichwertig"), card #224
+# hard case 3, flagged for the physician.
+id: concepts/diffusive-oder-konvektive-verfahren
+type: concept
+lang: de
+label: "diffusive Nierenersatzverfahren oder konvektive Verfahren bzw. eine Kombination aus diffusiven und konvektiven Verfahren"
+short_label: "diffusive, konvektive oder kombinierte Verfahren"
+facet: intervention
+source: modelling
+---

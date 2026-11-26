@@ -1,0 +1,11 @@
+---
+id: statements/selektive-darmdekontamination-oberer-gi-trakt-optional
+type: statement
+lang: de
+label: Vor Operationen am oberen Gastrointestinaltrakt kann eine perioperative selektive Darmdekontamination erwogen werden.
+short_label: "Selektive Darmdekontamination erwägbar (oberer GI)"
+slots:
+  population: concepts/operation-oberer-gastrointestinaltrakt
+  action: concepts/selektive-darmdekontamination
+source: modelling
+---

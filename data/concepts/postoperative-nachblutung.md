@@ -1,0 +1,8 @@
+---
+id: concepts/postoperative-nachblutung
+type: concept
+lang: de
+label: postoperative Nachblutung
+facet: outcome
+source: modelling
+---

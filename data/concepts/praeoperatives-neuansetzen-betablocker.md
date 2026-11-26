@@ -1,0 +1,9 @@
+---
+id: concepts/praeoperatives-neuansetzen-betablocker
+type: concept
+lang: de
+label: präoperatives Neuansetzen einer Betablockertherapie
+short_label: "Betablocker-Neuansetzen"
+facet: medication
+source: modelling
+---

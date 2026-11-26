@@ -1,0 +1,9 @@
+---
+id: concepts/volatile-anaesthesie-mit-antiemetikum
+type: concept
+lang: de
+label: volatile Anästhesie, ergänzt durch ein Antiemetikum
+short_label: "volatile Anästhesie + Antiemetikum"
+facet: intervention
+source: modelling
+---

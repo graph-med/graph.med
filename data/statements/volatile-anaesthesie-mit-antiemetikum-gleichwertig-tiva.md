@@ -1,0 +1,12 @@
+---
+id: statements/volatile-anaesthesie-mit-antiemetikum-gleichwertig-tiva
+type: statement
+lang: de
+label: Eine durch ein Antiemetikum ergänzte volatile Anästhesie ist in Bezug auf das PONV-Risiko einer TIVA gleichzusetzen.
+short_label: "Volatil + Antiemetikum gleichwertig zu TIVA (PONV)"
+slots:
+  population: concepts/elektiver-abdominalchirurgischer-tumoreingriff
+  action: concepts/volatile-anaesthesie-mit-antiemetikum
+  outcome: concepts/ponv-risiko
+source: modelling
+---

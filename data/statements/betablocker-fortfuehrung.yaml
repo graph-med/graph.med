@@ -1,9 +1,0 @@
-id: statements/betablocker-fortfuehrung
-type: statement
-lang: de
-label: Eine bestehende Betablockertherapie soll prä-, peri- und postoperativ weitergeführt werden.
-short_label: "Betablocker perioperativ weiterführen"
-slots:
-  population: concepts/bestehende-betablockertherapie
-  action: concepts/perioperative-fortfuehrung-dauertherapie
-source: modelling

@@ -1,0 +1,9 @@
+---
+id: concepts/begleitung-spezialisierte-fachkraft
+type: concept
+lang: de
+label: perioperative Begleitung durch eine auf perioperative Interventionen spezialisierte Fachkraft
+short_label: "Begleitung durch spezialisierte Fachkraft"
+facet: intervention
+source: modelling
+---

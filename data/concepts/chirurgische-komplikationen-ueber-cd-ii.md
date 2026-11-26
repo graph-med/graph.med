@@ -1,0 +1,8 @@
+---
+id: concepts/chirurgische-komplikationen-ueber-cd-ii
+type: concept
+lang: de
+label: "chirurgische Komplikationen > CD II°"
+facet: outcome
+source: modelling
+---

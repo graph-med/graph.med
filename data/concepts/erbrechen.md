@@ -1,0 +1,8 @@
+---
+id: concepts/erbrechen
+type: concept
+lang: de
+label: Erbrechen
+facet: outcome
+source: modelling
+---

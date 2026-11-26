@@ -1,0 +1,10 @@
+---
+# A condition of 5.16 (p. 87), „fortbestehender schwerer Gasaustauschstörung“ (card #223; #217's convention row 8),
+# joined to the other by „und“. The guideline prints no bound for it.
+id: concepts/fortbestehende-schwere-gasaustauschstoerung
+type: concept
+lang: de
+label: "fortbestehende schwere Gasaustauschstörung"
+facet: patient_state
+source: modelling
+---

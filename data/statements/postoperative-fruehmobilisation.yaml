@@ -1,9 +1,0 @@
-id: statements/postoperative-fruehmobilisation
-type: statement
-lang: de
-label: Patienten sollen postoperativ frühmobilisiert werden.
-short_label: "Postoperative Frühmobilisation"
-slots:
-  population: concepts/gastrointestinale-tumoroperation
-  action: concepts/fruehmobilisation
-source: modelling

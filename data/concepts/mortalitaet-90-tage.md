@@ -1,0 +1,8 @@
+---
+id: concepts/mortalitaet-90-tage
+type: concept
+lang: de
+label: postoperative 90-Tage-Mortalität
+facet: outcome
+source: modelling
+---

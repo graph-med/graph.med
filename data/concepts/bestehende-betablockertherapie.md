@@ -1,0 +1,8 @@
+---
+id: concepts/bestehende-betablockertherapie
+type: concept
+lang: de
+label: bestehende Betablockertherapie
+facet: medication
+source: modelling
+---

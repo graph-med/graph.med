@@ -1,0 +1,8 @@
+---
+id: concepts/komplikationen-clavien-dindo-ueber-2
+type: concept
+lang: de
+label: "Komplikationen (Clavien-Dindo > 2)"
+facet: outcome
+source: modelling
+---

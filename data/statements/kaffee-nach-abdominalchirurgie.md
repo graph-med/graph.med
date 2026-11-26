@@ -1,0 +1,12 @@
+---
+id: statements/kaffee-nach-abdominalchirurgie
+type: statement
+lang: de
+label: Nach abdominalchirurgischen Operationen kann den Patienten koffeinierter Kaffee (bis zu 3 × 150 ml) angeboten werden.
+short_label: "Kaffee anbieten (bis 3 × 150 ml)"
+slots:
+  population: concepts/elektiver-abdominalchirurgischer-tumoreingriff
+  action: concepts/koffeinierter-kaffee-postoperativ
+  outcome: concepts/postoperativer-paralytischer-ileus
+source: modelling
+---

@@ -1,0 +1,9 @@
+---
+# The aim of 10.1 (p. 136), „zur Sicherung einer rationalen Antiinfektiva-Anwendung“. Card #226.
+id: concepts/rationale-antiinfektiva-anwendung
+type: concept
+lang: de
+label: "rationale Antiinfektiva-Anwendung"
+facet: outcome
+source: modelling
+---

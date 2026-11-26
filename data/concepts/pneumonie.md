@@ -1,0 +1,8 @@
+---
+id: concepts/pneumonie
+type: concept
+lang: de
+label: Pneumonie
+facet: outcome
+source: modelling
+---

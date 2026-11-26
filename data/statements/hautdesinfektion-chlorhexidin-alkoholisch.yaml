@@ -1,9 +1,0 @@
-id: statements/hautdesinfektion-chlorhexidin-alkoholisch
-type: statement
-lang: de
-label: Vor dem Hautschnitt sollte eine Desinfektion mit Chlorhexidin-haltigen alkoholischen Lösungen vorgenommen werden.
-short_label: "Hautdesinfektion: Chlorhexidin, alkoholisch"
-slots:
-  population: concepts/gastrointestinale-tumoroperation
-  action: concepts/hautdesinfektion-chlorhexidin-alkoholisch
-source: modelling

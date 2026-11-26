@@ -1,0 +1,8 @@
+---
+id: concepts/zeit-bis-zum-kostaufbau
+type: concept
+lang: de
+label: Zeit bis zum Kostaufbau
+facet: outcome
+source: modelling
+---

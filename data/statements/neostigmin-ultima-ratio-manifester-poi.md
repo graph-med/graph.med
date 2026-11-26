@@ -1,0 +1,13 @@
+---
+id: statements/neostigmin-ultima-ratio-manifester-poi
+type: statement
+lang: de
+label: Neostigmin kann als Ultima ratio zur Therapie des klinisch manifesten postoperativen (paralytischen) Ileus angewendet
+  werden.
+short_label: "Neostigmin als Ultima ratio bei manifestem POI"
+slots:
+  population: concepts/gastrointestinale-tumoroperation
+  action: concepts/neostigmin
+  condition: [concepts/klinisch-manifester-postoperativer-ileus]
+source: modelling
+---

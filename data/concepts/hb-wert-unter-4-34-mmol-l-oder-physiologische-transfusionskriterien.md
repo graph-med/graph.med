@@ -1,0 +1,14 @@
+---
+# The condition of 8.2 (p. 107), one concept for the source's „oder“ (spec §3.2). Derived: its one defined_by edge
+# reaches the narrower criterion claim of the rule printed inside the box sentence, any_of over the Hb value (printed in
+# two units) and „Vorliegen physiologischer Transfusionskriterien“ (spec §3.1, #328; #355). The label keeps the values
+# and the „oder“ as printed, without the box's „bei einem“ and „beim“. „physiologischer Transfusionskriterien“ is not
+# defined by the guideline, so its part has no threshold.
+id: concepts/hb-wert-unter-4-34-mmol-l-oder-physiologische-transfusionskriterien
+type: concept
+lang: de
+label: "Hb-Wert von < 4,34 mmol/L (< 7.0 g/dl) oder Vorliegen physiologischer Transfusionskriterien"
+short_label: "Hb < 4,34 mmol/L (< 7.0 g/dl) oder physiologische Kriterien"
+facet: finding
+source: modelling
+---

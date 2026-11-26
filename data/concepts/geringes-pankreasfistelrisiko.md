@@ -1,0 +1,9 @@
+---
+id: concepts/geringes-pankreasfistelrisiko
+type: concept
+lang: de
+label: geringes Risiko einer postoperativen Pankreasfistel (nach initialem Drainagesekret)
+short_label: "geringes Pankreasfistelrisiko"
+facet: patient_state
+source: modelling
+---

@@ -1,0 +1,9 @@
+---
+id: concepts/koffeinierter-kaffee-postoperativ
+type: concept
+lang: de
+label: postoperatives Angebot von koffeiniertem Kaffee (bis zu 3 × 150 ml)
+short_label: "koffeinierter Kaffee (bis 3 × 150 ml)"
+facet: intervention
+source: modelling
+---

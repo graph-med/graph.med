@@ -1,0 +1,8 @@
+---
+id: concepts/tiefe-anteriore-rektumresektion
+type: concept
+lang: de
+label: tiefe anteriore Rektumresektion
+facet: procedure
+source: modelling
+---

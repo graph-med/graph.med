@@ -1,0 +1,9 @@
+---
+id: concepts/klassische-whipple-operation
+type: concept
+lang: de
+label: Pankreaskopfresektion als klassische Whipple-Operation (Pankreatikoduodenektomie)
+short_label: "klassische Whipple-Operation"
+facet: procedure
+source: modelling
+---

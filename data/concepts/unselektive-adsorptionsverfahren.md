@@ -1,0 +1,9 @@
+---
+# The action of 8.6 (p. 111); pp. 111–112 say which procedures it covers.
+id: concepts/unselektive-adsorptionsverfahren
+type: concept
+lang: de
+label: "unselektive Adsorptionsverfahren"
+facet: intervention
+source: modelling
+---

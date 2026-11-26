@@ -1,0 +1,8 @@
+---
+id: concepts/kardiale-komplikationen
+type: concept
+lang: de
+label: kardiale Komplikationen
+facet: outcome
+source: modelling
+---

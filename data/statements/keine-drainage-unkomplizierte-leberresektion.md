@@ -1,0 +1,11 @@
+---
+id: statements/keine-drainage-unkomplizierte-leberresektion
+type: statement
+lang: de
+label: Bei unkomplizierten Leberresektionen wird keine prophylaktische Drainage eingelegt.
+short_label: "Keine prophylaktische Drainage (Leber, unkompliziert)"
+slots:
+  population: concepts/leberresektion-unkompliziert
+  action: concepts/abdominelle-drainage
+source: modelling
+---

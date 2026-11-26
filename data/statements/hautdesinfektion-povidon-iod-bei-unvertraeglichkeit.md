@@ -1,0 +1,13 @@
+---
+id: statements/hautdesinfektion-povidon-iod-bei-unvertraeglichkeit
+type: statement
+lang: de
+label: Bei Unverträglichkeit oder Kontraindikationen gegenüber Chlorhexidin kann die Hautdesinfektion mit Povidon-Iod-haltigen
+  Lösungen erwogen werden.
+short_label: "Povidon-Iod bei Chlorhexidin-Unverträglichkeit"
+slots:
+  population: concepts/gastrointestinale-tumoroperation
+  action: concepts/hautdesinfektion-povidon-iod
+  condition: [concepts/unvertraeglichkeit-kontraindikation-chlorhexidin]
+source: modelling
+---

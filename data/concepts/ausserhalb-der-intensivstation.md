@@ -1,0 +1,10 @@
+---
+# The setting of 2.2 (p. 25), a condition of its statement (convention row 16): one concept per setting as
+# printed, no shared „Intensivstation“. Card #218.
+id: concepts/ausserhalb-der-intensivstation
+type: concept
+lang: de
+label: "außerhalb der Intensivstation"
+facet: qualifier
+source: modelling
+---

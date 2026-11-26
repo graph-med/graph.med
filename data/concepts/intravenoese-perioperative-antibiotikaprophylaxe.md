@@ -1,0 +1,9 @@
+---
+id: concepts/intravenoese-perioperative-antibiotikaprophylaxe
+type: concept
+lang: de
+label: intravenöse perioperative Antibiotikaprophylaxe (iv PAP), 60 Minuten bis kurz vor der Inzision
+short_label: "i.v. Antibiotikaprophylaxe vor Inzision"
+facet: intervention
+source: modelling
+---

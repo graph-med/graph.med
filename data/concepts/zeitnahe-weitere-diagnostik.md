@@ -1,0 +1,10 @@
+---
+# The action of box 3.3, first sentence (p. 39: "zunächst eine zeitnahe weitere Diagnostik"). Minted by card
+# #219 for views/sepsis-lf-4.0.
+id: concepts/zeitnahe-weitere-diagnostik
+type: concept
+lang: de
+label: "zeitnahe weitere Diagnostik"
+facet: intervention
+source: modelling
+---

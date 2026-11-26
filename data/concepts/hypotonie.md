@@ -1,0 +1,9 @@
+---
+# An evidence endpoint of 6.7 (p. 95), "Hypotonie:".
+id: concepts/hypotonie
+type: concept
+lang: de
+label: "Hypotonie"
+facet: outcome
+source: modelling
+---

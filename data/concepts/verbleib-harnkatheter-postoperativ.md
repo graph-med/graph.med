@@ -1,0 +1,8 @@
+---
+id: concepts/verbleib-harnkatheter-postoperativ
+type: concept
+lang: de
+label: postoperativer Verbleib des Harnkatheters
+facet: outcome
+source: modelling
+---

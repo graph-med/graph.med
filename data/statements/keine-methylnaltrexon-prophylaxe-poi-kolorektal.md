@@ -1,0 +1,14 @@
+---
+id: statements/keine-methylnaltrexon-prophylaxe-poi-kolorektal
+type: statement
+lang: de
+label: Nach onkologischen kolorektalen Resektionen soll bei systemischer opioidbasierter Schmerztherapie keine unmittelbar
+  postoperative s.c. Gabe von Methylnaltrexon zur Prophylaxe des postoperativen (paralytischen) Ileus erfolgen.
+short_label: "Kein Methylnaltrexon zur POI-Prophylaxe (kolorektal)"
+slots:
+  population: concepts/kolorektale-resektion
+  action: concepts/methylnaltrexon-postoperativ-subkutan
+  condition: [concepts/systemische-opioidbasierte-schmerztherapie]
+  outcome: concepts/postoperativer-paralytischer-ileus
+source: modelling
+---
