@@ -127,7 +127,10 @@ impossible by construction, while minted identity requires judgment and review:
    by hand) over the locator and the verbatim quote. Two agents extracting the
    same passage produce the same claim.
 3. **Edges** derive their id from `(from, kind, to)` plus an explicit
-   discriminator only when parallel edges of the same kind exist.
+   discriminator only when parallel edges of the same kind exist:
+   `edges/<hash>`, the first 8 hex of the sha256 of
+   `"<from>|<kind>|<to>|<discriminator>"` (the discriminator empty when there is
+   none), computed by the validator, never by hand (ADR-0011).
 4. **Uncoded concepts and statements** are minted — opaque, stable, ASCII slugs
    that never encode meaning that might change. Minting is preceded by search:
    an agent must look for an existing entity, and for a codable one, before
@@ -151,7 +154,13 @@ stored under a property address; it is an address the resolution rules in §6
 answer for.
 
 Identity is the URL, never the file. How entities are distributed over files is
-a storage and diff-ergonomics decision that the model does not depend on. Once
+a storage and diff-ergonomics decision that the model does not depend on. The
+pool is stored as an [Open Knowledge Format](https://github.com/open-knowledge-format/open-knowledge-format)
+v0.3 bundle (ADR-0011): `data/` is the bundle root, and each entity, every claim
+and every edge included, is one Markdown file `data/<namespace>/<entity-id>.md`
+whose YAML frontmatter is the entity. The file's body is generated from the
+frontmatter (links to the entities it refers to) and is never part of the
+entity. Once
 published, every identifier resolves at `https://graph.med/<namespace>/<entity-id>`
 and every view at `https://graph.med/<view-id>` — `docs/publication.md`.
 
@@ -167,7 +176,8 @@ concern.
 
 **Canonical form.** Every entity has exactly one canonical serialisation
 (deterministic key order and encoding, fixed by the validator and never changed
-without a migration). The hash of that form identifies the entity's content at a
+without a migration), of the entity as its file's frontmatter holds it; the
+file's body is never part of it. The hash of that form identifies the entity's content at a
 point in time and is what signatures cover (§8) and what staleness detection
 compares (§5, §8). Authors never compute it; the validator does.
 
@@ -213,7 +223,9 @@ the way back to the reference, which the pool does not hold.
 Within a **marked recommendation** (§5.1) the unit is the **sentence**, not the
 box: every sentence of the box is a claim, whatever its form, sharing the box's
 `recommendation_no` and its `section` — the section the box lies in, never its
-number (memory `box-granularity-per-sentence`). Beside its own claim, a
+number (memory `box-granularity-per-sentence`). Every claim records its
+`order`, its place among the claims of its page, top to bottom, so that a box's
+sentences stand in the order the box prints them (ADR-0011). Beside its own claim, a
 sentence yields a narrower one for a rule printed inside it, for each member
 a rule's connective joins and for a half a „sondern“ joins, and for nothing
 else (below). A lead-in that introduces items
@@ -1183,7 +1195,10 @@ An edge is
 (from-URL, kind, to-URL, properties?)
 ```
 
-with a derived id (§2). `kind` comes from the schema's vocabulary, which keeps
+with a derived id (§2). It is stored as an entity of its own, a file of
+`type: edge` whose frontmatter holds `id`, `from`, `kind`, `to` and the
+properties (ADR-0011): never a field of either end, never a list in a file of
+another entity. `kind` comes from the schema's vocabulary, which keeps
 the different jobs of edges apart:
 
 - **evidence** — `supports`, `contests`: claim → statement. The only edges that
@@ -2226,6 +2241,9 @@ so there is nothing for a per-view schema to govern. Instead:
   **structural validations** a view kind must pass at cut time (§4);
 - schema changes land **before** the data that uses them (§7);
 - the schema is versioned by its own history like everything else;
+- the schema checks each file's frontmatter, the entity; that the files form a
+  conformant Open Knowledge Format bundle is checked beside it by the OKF tool
+  (ADR-0011);
 - the schema is a **JSON Schema** (draft 2020-12, written in YAML), so a standard
   validator library checks every data file against it and editors can validate on
   save. What JSON Schema has no keyword for — provenance requirement levels, identity
@@ -2455,6 +2473,7 @@ W3C-style provenance. The mapping:
 | `section` on the claim, `outline` on the source | W3C Web Annotation selectors on the source; document structure kept in provenance, never as resources |
 | agents, attestations, proofs | PROV-O agents; W3C Data Integrity proofs |
 | one schema | SHACL/ShEx shapes plus application-level checks |
+| the pool's files | an Open Knowledge Format v0.3 bundle: one concept per entity, `type` its type, references as Markdown links (ADR-0011) |
 
 No inference semantics are assumed: relations are asserted, not entailed.
 
