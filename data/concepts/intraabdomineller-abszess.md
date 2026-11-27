@@ -1,0 +1,8 @@
+---
+id: concepts/intraabdomineller-abszess
+type: concept
+lang: de
+label: intraabdomineller Abszess
+facet: outcome
+source: modelling
+---

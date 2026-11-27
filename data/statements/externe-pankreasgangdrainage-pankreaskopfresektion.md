@@ -1,0 +1,13 @@
+---
+id: statements/externe-pankreasgangdrainage-pankreaskopfresektion
+type: statement
+lang: de
+label: Nach Pankreaskopfresektion kann eine Pankreasgangdrainage mit externer Ableitung zur Vermeidung einer postoperativen
+  Pankreasfistel eingelegt werden.
+short_label: "Externe Pankreasgangdrainage erwägbar"
+slots:
+  population: concepts/pankreaskopfresektion
+  action: concepts/pankreasgangdrainage-extern
+  outcome: concepts/postoperative-pankreasfistel
+source: modelling
+---

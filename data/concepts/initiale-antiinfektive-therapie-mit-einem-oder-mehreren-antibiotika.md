@@ -1,0 +1,10 @@
+---
+# The action of box 3.4 (p. 42). Minted by card #219 for views/sepsis-lf-4.0.
+id: concepts/initiale-antiinfektive-therapie-mit-einem-oder-mehreren-antibiotika
+type: concept
+lang: de
+label: "initiale antiinfektive Therapie mit einem Antibiotikum oder mehreren Antibiotika, um alle wesentlichen Bakterien zu erfassen"
+short_label: "initiale Therapie mit einem oder mehreren Antibiotika"
+facet: intervention
+source: modelling
+---

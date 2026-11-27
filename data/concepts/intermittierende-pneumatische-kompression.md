@@ -1,0 +1,10 @@
+---
+# The action of 8.11 (p. 117).
+id: concepts/intermittierende-pneumatische-kompression
+type: concept
+lang: de
+label: "intermittierende pneumatische Kompression als VTE-Prophylaxe"
+short_label: "IPC als VTE-Prophylaxe"
+facet: intervention
+source: modelling
+---

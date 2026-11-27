@@ -1,9 +1,0 @@
-id: statements/keine-praeoperative-rasur
-type: statement
-lang: de
-label: Die präoperative Rasur soll vermieden werden.
-short_label: "Keine präoperative Rasur"
-slots:
-  population: concepts/gastrointestinale-tumoroperation
-  action: concepts/praeoperative-rasur
-source: modelling

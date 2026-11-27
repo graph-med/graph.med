@@ -1,0 +1,8 @@
+---
+id: concepts/postoperativer-paralytischer-ileus
+type: concept
+lang: de
+label: postoperativer (paralytischer) Ileus (POI)
+facet: outcome
+source: modelling
+---

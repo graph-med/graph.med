@@ -1,8 +1,0 @@
-# The action of 5.12 (p. 84), as printed (card #223); „primär“ stays in the statement.
-id: concepts/nichtinvasive-atmungsunterstuetzung
-type: concept
-lang: de
-label: "nichtinvasive Atmungsunterstützung (NIV, CPAP oder HFNO)"
-short_label: "nichtinvasive Atmungsunterstützung"
-facet: intervention
-source: modelling

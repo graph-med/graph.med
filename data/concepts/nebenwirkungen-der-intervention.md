@@ -1,0 +1,8 @@
+---
+id: concepts/nebenwirkungen-der-intervention
+type: concept
+lang: de
+label: Nebenwirkungen der Intervention
+facet: outcome
+source: modelling
+---

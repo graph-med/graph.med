@@ -1,0 +1,9 @@
+---
+id: concepts/mechanische-darmvorbereitung
+type: concept
+lang: de
+label: rein mechanische präoperative Darmvorbereitung
+short_label: "rein mechanische Darmvorbereitung"
+facet: intervention
+source: modelling
+---

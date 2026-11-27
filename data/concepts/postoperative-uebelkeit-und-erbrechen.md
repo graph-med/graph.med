@@ -1,0 +1,8 @@
+---
+id: concepts/postoperative-uebelkeit-und-erbrechen
+type: concept
+lang: de
+label: postoperative Übelkeit und Erbrechen (PONV)
+facet: outcome
+source: modelling
+---

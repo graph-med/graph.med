@@ -1,0 +1,8 @@
+---
+id: concepts/intraabdominelle-infektion
+type: concept
+lang: de
+label: postoperative intraabdominelle Infektion
+facet: outcome
+source: modelling
+---

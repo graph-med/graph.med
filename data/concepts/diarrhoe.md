@@ -1,0 +1,8 @@
+---
+id: concepts/diarrhoe
+type: concept
+lang: de
+label: Diarrhoe
+facet: outcome
+source: modelling
+---

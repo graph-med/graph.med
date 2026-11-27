@@ -1,0 +1,13 @@
+---
+id: statements/nsar-perioperativ-prophylaxe-poi-kolorektal
+type: statement
+lang: de
+label: Nach onkologischen kolorektalen Resektionen kann eine präoperativ begonnene und postoperativ fortgesetzte Gabe von
+  NSAR zur Prophylaxe des postoperativen (paralytischen) Ileus durchgeführt werden.
+short_label: "NSAR perioperativ gegen POI möglich (kolorektal)"
+slots:
+  population: concepts/kolorektale-resektion
+  action: concepts/nsar-perioperativ
+  outcome: concepts/postoperativer-paralytischer-ileus
+source: modelling
+---

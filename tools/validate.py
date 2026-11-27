@@ -6,7 +6,11 @@ script only (1) validates each data file against the definition the schema's
 `x-layout` assigns to it, using the jsonschema library, and (2) checks the few
 rules a document schema cannot state because they span files:
 
-  - every id is unique, and in one-per-file namespaces equals <ns>/<file stem>;
+  - every file under data/ is an Open Knowledge Format v0.3 concept whose frontmatter is one
+    entity (ADR-0011; tools/bundle.py reads it): no key twice, no unquoted YAML 1.1 boolean;
+    the bundle is conformant by the OKF tool `okf validate`, where it is installed (#440);
+  - every id is unique and equals the file's path below data/ without `.md`;
+  - an edge's id is edges/<first 8 hex of sha256("<from>|<kind>|<to>|<discriminator>")>;
   - every entity reference in the data resolves (terminology codes excepted), each entry
     of a list on its own — a statement's conditions, say;
   - a claim's id is claims/<source-id>/<first 8 hex of sha256("<at>|<quote>")>;
@@ -140,8 +144,34 @@ from pathlib import Path
 import yaml
 from jsonschema import Draft202012Validator
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from bundle import FrontmatterError, as_tuple, edge_id, entity_id, read   # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent
 SCHEMA = ROOT / "schema" / "schema.yaml"
+
+
+NOT_ENTITIES = {"README.md", "index.md", "log.md"}   # in the bundle, but no entity (OKF §3.1, §3.2; ADR-0011)
+
+
+def check_okf(require: bool) -> tuple[list[str], str]:
+    """OKF v0.3 conformance of data/, by the OKF tool `okf` (ADR-0011; pinned in tools/okf-version, installed by
+    tools/install-okf.sh). Its errors are errors here; its warnings and notes are counted. Where it is not installed,
+    a note — or an error with --require-okf."""
+    import shutil
+    local = ROOT / ".tools" / "bin" / "okf"   # where tools/install-okf.sh puts the pinned version
+    exe = str(local) if local.exists() else shutil.which("okf")
+    if exe is None:
+        msg = "the OKF tool `okf` is not installed (tools/install-okf.sh): OKF conformance not checked"
+        return ([msg] if require else []), ("" if require else "note: " + msg)
+    run = subprocess.run([exe, "validate", str(ROOT / "data")], capture_output=True, text=True)
+    lines = (run.stdout + run.stderr).strip().splitlines()
+    # Its warnings and notes (recommended OKF fields, un-prefixed keys) are many and expected until #439: only the
+    # errors and the summary are shown; `.tools/bin/okf validate data` prints them all.
+    shown = "\n".join(l for l in lines if not l.startswith(("[warning]", "[info]")) and l.strip())
+    if run.returncode != 0:
+        return [f"okf validate data/ failed (exit {run.returncode}):\n{shown}"], ""
+    return [], f"okf validate data/: {shown}" if shown else "okf validate data/: conformant"
 
 
 def load(path: Path):
@@ -178,6 +208,8 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--verify-quotes", action="store_true", help="download sources and verify every quote")
     ap.add_argument("--cache", type=Path, default=Path.home() / ".cache" / "graph.med" / "sources")
+    ap.add_argument("--require-okf", action="store_true",
+                    help="fail when the OKF tool `okf` is not installed, instead of noting it (CI, once #440 is done)")
     args = ap.parse_args(argv)
     errors: list[str] = []
 
@@ -192,16 +224,18 @@ def main(argv=None) -> int:
     for glob, entry in schema["x-layout"].items():
         validator = Draft202012Validator({"$defs": schema["$defs"], **entry["schema"]})
         for path in sorted(ROOT.glob(glob)):
+            if path.name in NOT_ENTITIES:
+                continue
             rel = str(path.relative_to(ROOT))
             try:
-                doc = load(path)
-            except yaml.YAMLError as exc:
-                errors.append(f"{rel}: YAML error: {exc}")
+                doc = read(path)
+            except (yaml.YAMLError, FrontmatterError) as exc:
+                errors.append(f"{rel}: frontmatter error: {exc}")
                 continue
             for err in sorted(validator.iter_errors(doc), key=lambda e: list(e.absolute_path)):
                 where = "/".join(str(p) for p in err.absolute_path) or "."
                 errors.append(f"{rel} at {where}: {err.message}")
-            docs.append((rel, doc, entry.get("one_per_file", False)))
+            docs.append((rel, doc, True))
 
     # 2. cross-file rules -------------------------------------------------------
     ids: dict[str, str] = {}
@@ -215,8 +249,8 @@ def main(argv=None) -> int:
                 errors.append(f"{rel}: duplicate id {eid} (also in {ids[eid]})")
             ids[eid] = rel
             entities[eid] = ent
-            if one_per_file and eid != f"{Path(rel).parent.name}/{Path(rel).stem}":
-                errors.append(f"{rel}: id {eid} does not match the file name")
+            if one_per_file and eid != entity_id(ROOT / rel):
+                errors.append(f"{rel}: id {eid} does not match the file's path")
             if ent.get("type") == "view" and eid.split("/", 1)[-1] in reserved:
                 errors.append(f"{rel}: view id {eid} collides with a reserved name (a namespace, schema, index or about); it would shadow that path on the site")
             if ent.get("type") == "claim" and isinstance(ent.get("source"), dict):
@@ -252,9 +286,12 @@ def main(argv=None) -> int:
         for path, value in walk(doc):
             if isinstance(value, str) and ref_pattern.match(value) and value.split("#")[0] not in ids:
                 errors.append(f"{rel} at {'/'.join(map(str, path))}: {value} does not resolve")
-        if rel.startswith("data/edges/") and isinstance(doc, list):
-            for i, edge in enumerate(doc):
-                if isinstance(edge, list) and len(edge) == 4 and isinstance(edge[3], dict):
+        if isinstance(doc, dict) and doc.get("type") == "edge" and all(isinstance(doc.get(k), str) for k in ("from", "kind", "to")):
+            for i, edge in enumerate([as_tuple(doc)]):
+                expected = edge_id(edge[0], edge[1], edge[2], edge[3].get("discriminator"))
+                if doc.get("id") != expected:
+                    errors.append(f"{rel}: edge {doc.get('id')} should be {expected} (sha256 of from|kind|to|discriminator)")
+                if True:
                     key = (edge[0], edge[1], edge[2], edge[3].get("discriminator"))
                     if key in seen_edges:
                         errors.append(f"{rel} at {i}: duplicate edge; parallel edges need a discriminator")
@@ -272,6 +309,10 @@ def main(argv=None) -> int:
                     elif edge[1] == "supports":
                         supports.append((rel, i, edge[0], edge[2], edge[3]))
 
+    okf_errors, okf_note = check_okf(args.require_okf)
+    errors += okf_errors
+    if okf_note:
+        print(okf_note)
     errors += check_axes(schema, ids, entities, broader, scope)
     errors += check_scope_edges(broader, scope)
     errors += check_definitions(ids, entities, defined_by, disagree)
@@ -288,7 +329,7 @@ def main(argv=None) -> int:
         else:
             errors += check_scope_views(schema, ids, entities)
 
-    n_entities, n_edges = len(ids), len(seen_edges)
+    n_entities, n_edges = sum(1 for i in ids if not i.startswith("edges/")), len(seen_edges)
     print(f"checked {n_entities} entities and {n_edges} edges against schema {schema.get('x-version')}")
 
     # 3. quotes against the source text (optional) ------------------------------

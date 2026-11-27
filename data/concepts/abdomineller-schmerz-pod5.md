@@ -1,0 +1,8 @@
+---
+id: concepts/abdomineller-schmerz-pod5
+type: concept
+lang: de
+label: abdomineller Schmerz am 5. postoperativen Tag
+facet: outcome
+source: modelling
+---

@@ -1,0 +1,8 @@
+---
+id: concepts/interkostale-drainage
+type: concept
+lang: de
+label: interkostale Drainage
+facet: intervention
+source: modelling
+---

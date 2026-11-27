@@ -1,0 +1,11 @@
+---
+id: statements/keine-zervikale-drainage-oesophagektomie
+type: statement
+lang: de
+label: Nach Ösophagektomie mit zervikaler gastraler Rekonstruktion wird keine zervikale Drainage angelegt.
+short_label: "Keine zervikale Drainage (zervikale Rekonstruktion)"
+slots:
+  population: concepts/oesophagektomie-zervikale-rekonstruktion
+  action: concepts/zervikale-drainage
+source: modelling
+---

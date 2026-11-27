@@ -1,0 +1,11 @@
+---
+id: statements/drainage-komplexe-leberresektion-optional
+type: statement
+lang: de
+label: Bei komplexen Leberresektionen kann eine Drainage eingelegt werden.
+short_label: "Drainage bei komplexer Leberresektion möglich"
+slots:
+  population: concepts/leberresektion-komplex
+  action: concepts/abdominelle-drainage
+source: modelling
+---

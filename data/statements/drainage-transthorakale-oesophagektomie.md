@@ -1,0 +1,11 @@
+---
+id: statements/drainage-transthorakale-oesophagektomie
+type: statement
+lang: de
+label: Nach transthorakaler Ösophagektomie wird eine einzelne interkostale Drainage angelegt (mit oder ohne Sog).
+short_label: "Eine interkostale Drainage (mit/ohne Sog)"
+slots:
+  population: concepts/transthorakale-oesophagektomie
+  action: concepts/interkostale-drainage
+source: modelling
+---

@@ -1,0 +1,12 @@
+---
+id: statements/dichtigkeitspruefung-rektumanastomose
+type: statement
+lang: de
+label: Eine Anastomose zum Rektum wird intraoperativ auf Dichtigkeit überprüft (AirLeak-Test, Methylenblau-Test
+  oder Endoskopie).
+short_label: "Dichtigkeitsprüfung der Rektumanastomose"
+slots:
+  population: concepts/rektumanastomose
+  action: concepts/dichtigkeitspruefung-anastomose
+source: modelling
+---

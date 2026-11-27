@@ -1,0 +1,8 @@
+---
+id: concepts/wundinfektion
+type: concept
+lang: de
+label: Wundinfektion
+facet: outcome
+source: modelling
+---

@@ -1,0 +1,11 @@
+---
+# The action of 6.8 (p. 97): one concept naming the alternatives the box sets as equal ("gleichwertig"), card
+# #224 hard case 3, flagged for the physician.
+id: concepts/citrat-oder-heparin-antikoagulation
+type: concept
+lang: de
+label: "regionale Citrat-Antikoagulation oder systemische Heparin-Antikoagulation des extrakorporalen Blutkreislaufs"
+short_label: "regionale Citrat- oder systemische Heparin-Antikoagulation"
+facet: intervention
+source: modelling
+---

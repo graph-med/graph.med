@@ -1,0 +1,57 @@
+---
+# The anatomical region as a hierarchy respect over the population slot (spec §4.1), proposed by
+# the physician for views/pomgat-lv-1.0 and applied by WP-0009, withdrawn for it by WP-0031. One parent per concept.
+id: axes/region
+type: axis
+lang: de
+label: Anatomische Region
+short_label: Region
+carrier: hierarchy
+slot: population
+several: false
+rule: >-
+  Ein Populationskonzept steht unter dem Organ, das sein Eingriff reseziert oder anastomosiert:
+  Ösophagus, Magen, Pankreas, Leber, Kolorektum. Die Familie einer Region ist das vorhandene
+  Eingriffskonzept, dessen Spezialfälle die Eingriffe an diesem Organ sind (Ösophagusresektion,
+  Gastrektomie oder Magenteilresektion, Pankreasresektion, Leberresektion, kolorektale
+  Chirurgie); Zwischenstufen (Pankreaskopfresektion, kolorektale Resektion, kolorektale
+  Anastomose) bleiben Zwischenstufen. Die Situation nach dem Eingriff — die Rekonstruktion, die
+  Anastomose — steht unter dem Organ des Eingriffs. Eine Population, die kein Eingriff ist (eine
+  Dauermedikation, ein Risikoprofil), hat keine Region; ein Eingriff, der kein Organ nennt (die
+  gastrointestinale Tumoroperation, der abdominalchirurgische Eingriff, die mediane Laparotomie,
+  der abdominelle oder thorakale Eingriff), auch nicht. Ein Eingriff, der mehrere Organe nennt
+  oder durch Ausschluss definiert ist, wird in den Platzierungen unter jedem genannten Organ
+  geführt und ist, solange die Achse nur einen Elternknoten erlaubt, nicht platziert.
+proposed_by: physician
+views:
+  # withdrawn by WP-0031 (card #190): the view folds its patient groups by its scope tree, which places the
+  # organ families and the generic groups the region left unplaced in one tree; the report is in that pull request
+  - {view: views/pomgat-lv-1.0, status: withdrawn, since: "2026-09-24"}
+placements:
+  # Ösophagus
+  concepts/onkologische-oesophagusresektion: concepts/oesophagusresektion
+  concepts/transthorakale-oesophagektomie: concepts/oesophagusresektion
+  concepts/oesophagektomie-zervikale-rekonstruktion: concepts/oesophagusresektion
+  concepts/magenschlauch-rekonstruktion: concepts/oesophagusresektion
+  # Magen
+  concepts/gastrektomie: concepts/gastrektomie-oder-magenteilresektion
+  # Pankreas
+  concepts/pankreaskopfresektion: concepts/pankreasresektion
+  concepts/klassische-whipple-operation: concepts/pankreaskopfresektion
+  # Leber
+  concepts/elektive-leberresektion: concepts/leberresektion
+  concepts/leberresektion-hcc: concepts/leberresektion
+  concepts/leberresektion-komplex: concepts/leberresektion
+  concepts/leberresektion-unkompliziert: concepts/leberresektion
+  # Kolorektum
+  concepts/kolorektale-resektion: concepts/kolorektale-chirurgie
+  concepts/kolorektale-anastomose: concepts/kolorektale-chirurgie
+  concepts/kolonresektion-oder-anteriore-rektumresektion: concepts/kolorektale-resektion
+  concepts/tiefe-anteriore-rektumresektion: concepts/kolorektale-resektion
+  concepts/rektumanastomose: concepts/kolorektale-anastomose
+  # several organs named, or defined by exclusion — listed under each, placed under none (several: false)
+  concepts/pankreas-und-leberchirurgie: [concepts/pankreasresektion, concepts/leberresektion]
+  concepts/operation-oberer-gastrointestinaltrakt: [concepts/oesophagusresektion, concepts/gastrektomie-oder-magenteilresektion]
+  concepts/tumorresektion-oberer-gi-trakt-und-pankreas: [concepts/oesophagusresektion, concepts/gastrektomie-oder-magenteilresektion, concepts/pankreasresektion]
+  concepts/nicht-kolorektale-viszeralonkologische-resektion: [concepts/oesophagusresektion, concepts/gastrektomie-oder-magenteilresektion, concepts/pankreasresektion, concepts/leberresektion]
+---

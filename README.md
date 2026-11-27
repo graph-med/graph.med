@@ -357,7 +357,9 @@ project itself.
 
 One check exists: the validator, `tools/validate.py`. `schema/schema.yaml` is a JSON
 Schema (draft 2020-12, written in YAML) and the single point of truth; the validator
-applies it to every file under `data/` with the standard `jsonschema` library, then
+applies it to every file under `data/` — an Open Knowledge Format v0.3 bundle, one
+Markdown file per entity whose frontmatter is the entity (ADR-0011) — with the standard
+`jsonschema` library, has the OKF tool `okf` check the bundle's conformance, then
 checks the few cross-file rules a document schema cannot state — references resolve,
 claim ids are the hash of their anchor, edges are unique, the grouping axes and a
 view's scope tree hold together, a derived concept's rules point at the passages that

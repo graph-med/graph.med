@@ -1,0 +1,10 @@
+---
+# A condition of 8.1 (p. 105), „trotz ausreichender Volumengabe“: a treatment the patient has received (#217 row 7).
+# Stated: the guideline gives no rule for „ausreichend“ (hard case 12).
+id: concepts/ausreichende-volumengabe
+type: concept
+lang: de
+label: "ausreichende Volumengabe"
+facet: intervention
+source: modelling
+---

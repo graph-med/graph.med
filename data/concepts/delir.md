@@ -1,0 +1,8 @@
+---
+id: concepts/delir
+type: concept
+lang: de
+label: Delir
+facet: outcome
+source: modelling
+---

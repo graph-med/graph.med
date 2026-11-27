@@ -1,0 +1,13 @@
+---
+id: statements/spezialisierte-fachkraft-nicht-kolorektal-mpom
+type: statement
+lang: de
+label: Für Patienten, die sich einer nicht-kolorektalen viszeralonkologischen Resektion im Kontext eines mPOM unterziehen,
+  kann die Betreuung durch eine auf perioperative Interventionen spezialisierte Fachkraft erwogen werden.
+short_label: "Spezialisierte Fachkraft erwägbar (nicht kolorektal, mPOM)"
+slots:
+  population: concepts/nicht-kolorektale-viszeralonkologische-resektion
+  action: concepts/begleitung-spezialisierte-fachkraft
+  condition: [concepts/mpom]
+source: modelling
+---

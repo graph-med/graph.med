@@ -1,0 +1,11 @@
+---
+id: statements/mpom-magenresektion
+type: statement
+lang: de
+label: Eine onkologische Magenresektion sollte eingebettet in ein multimodales perioperatives Managementkonzept (mPOM) stattfinden.
+short_label: "Magenresektion im mPOM"
+slots:
+  population: concepts/gastrektomie-oder-magenteilresektion
+  action: concepts/mpom
+source: modelling
+---

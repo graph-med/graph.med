@@ -1,0 +1,8 @@
+---
+id: concepts/keine-zusaetzlichen-antiemetika
+type: concept
+lang: de
+label: keine zusätzliche Gabe von Antiemetika
+facet: medication
+source: modelling
+---

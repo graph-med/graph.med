@@ -1,9 +1,0 @@
-id: statements/kaffeekonsum-ab-aufwachraum
-type: statement
-lang: de
-label: Der postoperative Kaffee-Konsum kann bereits im Aufwachraum begonnen werden.
-short_label: "Kaffee schon im Aufwachraum möglich"
-slots:
-  population: concepts/elektiver-abdominalchirurgischer-tumoreingriff
-  action: concepts/kaffeekonsum-ab-aufwachraum
-source: modelling

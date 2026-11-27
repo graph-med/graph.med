@@ -1,0 +1,10 @@
+---
+# The action of box 4.11 (p. 70): "Der Einsatz einer veno-arteriellen ECMO". Not the veno-venous ECMO of
+# chapter 5; whether the two form a family is card #227's.
+id: concepts/veno-arterielle-ecmo
+type: concept
+lang: de
+label: veno-arterielle ECMO
+facet: intervention
+source: modelling
+---

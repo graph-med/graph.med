@@ -1,0 +1,9 @@
+---
+id: concepts/neu-diagnostizierte-linksventrikulaere-herzinsuffizienz
+type: concept
+lang: de
+label: frisch diagnostizierte linksventrikuläre Herzinsuffizienz bei kardial stabilen Patienten ohne vorbestehende ACE-Hemmer-/Sartan-Therapie
+short_label: "frisch diagnostizierte LV-Herzinsuffizienz"
+facet: patient_state
+source: modelling
+---

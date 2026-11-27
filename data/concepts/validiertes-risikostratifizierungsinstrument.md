@@ -1,0 +1,8 @@
+---
+id: concepts/validiertes-risikostratifizierungsinstrument
+type: concept
+lang: de
+label: validiertes Risikostratifizierungsinstrument
+facet: intervention
+source: modelling
+---

@@ -1,0 +1,8 @@
+---
+id: concepts/sekundaere-perkutane-drainageeinlage
+type: concept
+lang: de
+label: sekundär postoperativ notwendige perkutane Drainageeinlage
+facet: outcome
+source: modelling
+---

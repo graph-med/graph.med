@@ -1,0 +1,8 @@
+---
+id: concepts/zervikale-drainage
+type: concept
+lang: de
+label: zervikale Drainage
+facet: intervention
+source: modelling
+---

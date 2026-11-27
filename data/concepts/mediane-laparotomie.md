@@ -1,0 +1,8 @@
+---
+id: concepts/mediane-laparotomie
+type: concept
+lang: de
+label: mediane Laparotomie
+facet: procedure
+source: modelling
+---

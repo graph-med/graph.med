@@ -1,0 +1,8 @@
+---
+id: concepts/praeoperative-haarentfernung
+type: concept
+lang: de
+label: präoperative Haarentfernung
+facet: intervention
+source: modelling
+---

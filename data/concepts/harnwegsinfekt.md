@@ -1,0 +1,8 @@
+---
+id: concepts/harnwegsinfekt
+type: concept
+lang: de
+label: Harnwegsinfekt
+facet: outcome
+source: modelling
+---

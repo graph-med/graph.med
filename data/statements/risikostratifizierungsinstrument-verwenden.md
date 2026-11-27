@@ -1,0 +1,11 @@
+---
+id: statements/risikostratifizierungsinstrument-verwenden
+type: statement
+lang: de
+label: Ein validiertes Risikostratifizierungsinstrument sollte die klinische Untersuchung zur Planung der Operation ergänzen.
+short_label: "Validiertes Risikoinstrument ergänzend nutzen"
+slots:
+  population: concepts/gastrointestinale-tumoroperation
+  action: concepts/validiertes-risikostratifizierungsinstrument
+source: modelling
+---

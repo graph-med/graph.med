@@ -1,0 +1,8 @@
+---
+id: concepts/kosten
+type: concept
+lang: de
+label: Kosten
+facet: outcome
+source: modelling
+---

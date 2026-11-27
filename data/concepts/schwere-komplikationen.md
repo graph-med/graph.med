@@ -1,0 +1,8 @@
+---
+id: concepts/schwere-komplikationen
+type: concept
+lang: de
+label: schwere Komplikationen
+facet: outcome
+source: modelling
+---

@@ -1,0 +1,10 @@
+---
+# A condition of 8.1 (p. 105), card #225's own (#210 Decision 6: not Vasopressorbedarf, not hoher Vasopressorbedarf).
+# Derived: its one defined_by edge reaches 8.1's Bemerkung 2, „Als „anhaltender Vasopressorbedarf“ wird … bezeichnet“.
+id: concepts/anhaltender-vasopressorbedarf
+type: concept
+lang: de
+label: "anhaltender Vasopressorbedarf"
+facet: patient_state
+source: modelling
+---

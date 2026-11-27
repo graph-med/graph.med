@@ -1,0 +1,11 @@
+---
+id: statements/ace-hemmer-sartane-fortfuehrung
+type: statement
+lang: de
+label: Eine Dauertherapie mit ACE-Hemmern oder Sartanen sollte perioperativ fortgesetzt werden.
+short_label: "ACE-Hemmer/Sartane perioperativ fortführen"
+slots:
+  population: concepts/dauertherapie-ace-hemmer-sartane
+  action: concepts/perioperative-fortfuehrung-dauertherapie
+source: modelling
+---

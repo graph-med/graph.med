@@ -1,0 +1,13 @@
+---
+id: statements/kein-prucaloprid-prophylaxe-poi
+type: statement
+lang: de
+label: Nach gastrointestinalen Tumorresektionen sollte Prucaloprid nicht zur Prophylaxe des postoperativen (paralytischen)
+  Ileus eingesetzt werden.
+short_label: "Kein Prucaloprid zur POI-Prophylaxe"
+slots:
+  population: concepts/gastrointestinale-tumoroperation
+  action: concepts/prucaloprid
+  outcome: concepts/postoperativer-paralytischer-ileus
+source: modelling
+---

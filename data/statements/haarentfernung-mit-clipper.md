@@ -1,0 +1,13 @@
+---
+id: statements/haarentfernung-mit-clipper
+type: statement
+lang: de
+label: Bei operationsbedingter Notwendigkeit zur (Teil-)Haarentfernung sollten elektrische Haarschneidemaschinen (Clipper)
+  mit Einwegköpfen genutzt werden.
+short_label: "Haarentfernung nur mit Clipper (Einwegkopf)"
+slots:
+  population: concepts/gastrointestinale-tumoroperation
+  action: concepts/haarentfernung-clipper-einwegkopf
+  condition: [concepts/operationsbedingte-notwendigkeit-haarentfernung]
+source: modelling
+---

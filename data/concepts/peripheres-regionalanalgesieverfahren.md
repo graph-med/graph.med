@@ -1,0 +1,8 @@
+---
+id: concepts/peripheres-regionalanalgesieverfahren
+type: concept
+lang: de
+label: peripheres Regionalanalgesieverfahren (PRA)
+facet: intervention
+source: modelling
+---

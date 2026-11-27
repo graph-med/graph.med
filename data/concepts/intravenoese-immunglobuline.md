@@ -1,0 +1,9 @@
+---
+# The action of 8.5 (p. 110).
+id: concepts/intravenoese-immunglobuline
+type: concept
+lang: de
+label: "intravenöse Immunglobuline"
+facet: medication
+source: modelling
+---

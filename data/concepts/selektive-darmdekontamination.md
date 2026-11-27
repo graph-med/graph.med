@@ -1,0 +1,9 @@
+---
+id: concepts/selektive-darmdekontamination
+type: concept
+lang: de
+label: perioperative selektive Darmdekontamination (SDD)
+short_label: "selektive Darmdekontamination (SDD)"
+facet: intervention
+source: modelling
+---

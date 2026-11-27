@@ -1,0 +1,8 @@
+---
+id: concepts/postoperatives-leberversagen
+type: concept
+lang: de
+label: postoperatives Leberversagen
+facet: outcome
+source: modelling
+---

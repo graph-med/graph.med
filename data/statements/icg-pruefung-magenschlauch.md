@@ -1,0 +1,12 @@
+---
+id: statements/icg-pruefung-magenschlauch
+type: statement
+lang: de
+label: Die Vaskularisation des Magenschlauches kann intraoperativ per Fluoreszenzangiographie mit Indocyaningrün
+  überprüft werden.
+short_label: "ICG-Angiographie des Magenschlauchs erwägbar"
+slots:
+  population: concepts/magenschlauch-rekonstruktion
+  action: concepts/fluoreszenzangiographie-icg
+source: modelling
+---

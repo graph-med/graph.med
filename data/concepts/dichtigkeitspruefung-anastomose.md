@@ -1,0 +1,9 @@
+---
+id: concepts/dichtigkeitspruefung-anastomose
+type: concept
+lang: de
+label: intraoperative Dichtigkeitsprüfung der Anastomose (AirLeak-Test, Methylenblau-Test, Endoskopie)
+short_label: "Dichtigkeitsprüfung der Anastomose"
+facet: intervention
+source: modelling
+---

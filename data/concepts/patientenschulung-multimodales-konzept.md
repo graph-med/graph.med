@@ -1,0 +1,9 @@
+---
+id: concepts/patientenschulung-multimodales-konzept
+type: concept
+lang: de
+label: spezifische präoperative Unterweisung hinsichtlich eines multimodalen perioperativen Behandlungskonzeptes
+short_label: "Schulung zum multimodalen Konzept"
+facet: intervention
+source: modelling
+---

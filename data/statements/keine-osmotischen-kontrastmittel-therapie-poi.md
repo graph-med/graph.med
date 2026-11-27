@@ -1,0 +1,13 @@
+---
+id: statements/keine-osmotischen-kontrastmittel-therapie-poi
+type: statement
+lang: de
+label: Nach gastrointestinalen Tumorresektionen sollen osmotisch wirksame Röntgenkontrastmittel (z. B. Gastrografin) nicht
+  zur Therapie des postoperativen (paralytischen) Ileus eingesetzt werden.
+short_label: "Keine osmotischen Kontrastmittel zur POI-Therapie"
+slots:
+  population: concepts/gastrointestinale-tumoroperation
+  action: concepts/osmotische-roentgenkontrastmittel
+  condition: [concepts/klinisch-manifester-postoperativer-ileus]
+source: modelling
+---

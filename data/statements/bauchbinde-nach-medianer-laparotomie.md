@@ -1,0 +1,12 @@
+---
+id: statements/bauchbinde-nach-medianer-laparotomie
+type: statement
+lang: de
+label: Nach medianer Laparotomie kann eine Bauchbinde zur Schmerzreduktion angelegt werden.
+short_label: "Bauchbinde zur Schmerzreduktion möglich"
+slots:
+  population: concepts/mediane-laparotomie
+  action: concepts/bauchbinde
+  outcome: concepts/postoperativer-schmerz
+source: modelling
+---

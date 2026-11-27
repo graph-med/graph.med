@@ -1,0 +1,11 @@
+---
+id: statements/oral-antibiotische-darmvorbereitung-kolorektal-optional
+type: statement
+lang: de
+label: Vor kolorektalen Operationen kann alternativ eine rein oral-antibiotische Darmvorbereitung erwogen werden.
+short_label: "Rein oral-antibiotische Darmvorbereitung möglich"
+slots:
+  population: concepts/kolorektale-resektion
+  action: concepts/oral-antibiotische-darmvorbereitung
+source: modelling
+---

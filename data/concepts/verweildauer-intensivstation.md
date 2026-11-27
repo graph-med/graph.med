@@ -1,0 +1,8 @@
+---
+id: concepts/verweildauer-intensivstation
+type: concept
+lang: de
+label: Verweildauer auf Intensivstation
+facet: outcome
+source: modelling
+---

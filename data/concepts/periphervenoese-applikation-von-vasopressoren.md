@@ -1,0 +1,9 @@
+---
+# The action of 2.7 (p. 31). Card #218.
+id: concepts/periphervenoese-applikation-von-vasopressoren
+type: concept
+lang: de
+label: "periphervenöse Applikation von Vasopressoren"
+facet: intervention
+source: modelling
+---

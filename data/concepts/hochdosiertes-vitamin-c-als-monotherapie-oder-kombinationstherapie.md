@@ -1,0 +1,12 @@
+---
+# The action of 8.16 (p. 124), one concept for the two regimens its „weder … noch“ names (hard case 6). p. 125 says
+# the recommendation concerns the high-dose intravenous therapy; the guideline gives no value for „hochdosiert“ (the
+# studies of p. 124 use three dosing strategies).
+id: concepts/hochdosiertes-vitamin-c-als-monotherapie-oder-kombinationstherapie
+type: concept
+lang: de
+label: "hochdosiertes Vitamin C als Monotherapie oder als Kombinationstherapie mit Hydrocortison und hochdosiertem Vitamin B1 (Thiamin)"
+short_label: "hochdosiertes Vitamin C, mono oder mit HC und B1"
+facet: medication
+source: modelling
+---

@@ -1,0 +1,8 @@
+---
+id: concepts/kaugummikauen-postoperativ
+type: concept
+lang: de
+label: postoperatives Kaugummikauen
+facet: intervention
+source: modelling
+---

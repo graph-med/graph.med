@@ -1,0 +1,12 @@
+---
+id: statements/magensonde-entfernung-op-ende-whipple
+type: statement
+lang: de
+label: Nach Pankreaskopfresektion als klassische Whipple-Operation kann die nasogastrale Sonde am Ende der Operation gezogen
+  werden.
+short_label: "Magensonde am OP-Ende entfernbar (Whipple)"
+slots:
+  population: concepts/klassische-whipple-operation
+  action: concepts/magensondenentfernung-vor-narkoseausleitung
+source: modelling
+---

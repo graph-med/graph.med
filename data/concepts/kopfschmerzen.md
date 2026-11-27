@@ -1,0 +1,8 @@
+---
+id: concepts/kopfschmerzen
+type: concept
+lang: de
+label: Kopfschmerzen
+facet: outcome
+source: modelling
+---

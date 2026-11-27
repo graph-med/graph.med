@@ -1,0 +1,8 @@
+---
+id: concepts/zeit-bis-zum-ersten-stuhlgang
+type: concept
+lang: de
+label: Zeit bis zum ersten Stuhlgang
+facet: outcome
+source: modelling
+---

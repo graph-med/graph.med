@@ -1,0 +1,13 @@
+---
+id: statements/risikostratifizierung-mit-patient-besprechen
+type: statement
+lang: de
+label: Die Ergebnisse der Risikostratifizierung sollten mit dem Patienten besprochen werden, um eine partizipative Entscheidungsfindung
+  zu ermöglichen.
+short_label: "Risikostratifizierung mit Patienten besprechen"
+slots:
+  population: concepts/gastrointestinale-tumoroperation
+  action: concepts/besprechung-risikostratifizierung
+  outcome: concepts/partizipative-entscheidungsfindung
+source: modelling
+---

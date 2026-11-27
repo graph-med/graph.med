@@ -1,0 +1,8 @@
+---
+id: concepts/unerwuenschte-ereignisse
+type: concept
+lang: de
+label: unerwünschte Ereignisse (AEs)
+facet: outcome
+source: modelling
+---

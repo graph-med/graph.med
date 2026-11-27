@@ -1,0 +1,8 @@
+---
+id: concepts/radiologische-anastomoseninsuffizienz
+type: concept
+lang: de
+label: radiologische Anastomoseninsuffizienz
+facet: outcome
+source: modelling
+---

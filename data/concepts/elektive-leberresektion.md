@@ -1,0 +1,8 @@
+---
+id: concepts/elektive-leberresektion
+type: concept
+lang: de
+label: elektive Leberresektion
+facet: procedure
+source: modelling
+---

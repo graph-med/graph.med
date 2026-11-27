@@ -1,0 +1,9 @@
+---
+id: concepts/osmotische-roentgenkontrastmittel
+type: concept
+lang: de
+label: osmotisch wirksame Röntgenkontrastmittel (z. B. Gastrografin)
+short_label: "osmotische Röntgenkontrastmittel"
+facet: medication
+source: modelling
+---

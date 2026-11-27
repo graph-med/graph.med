@@ -1,0 +1,8 @@
+---
+id: concepts/gangausdauer
+type: concept
+lang: de
+label: Gangausdauer
+facet: outcome
+source: modelling
+---

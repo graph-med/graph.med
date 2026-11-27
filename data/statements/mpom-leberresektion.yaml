@@ -1,9 +1,0 @@
-id: statements/mpom-leberresektion
-type: statement
-lang: de
-label: Eine onkologische Leberresektion sollte eingebettet in ein multimodales perioperatives Managementkonzept (mPOM) stattfinden.
-short_label: "Leberresektion im mPOM"
-slots:
-  population: concepts/elektive-leberresektion
-  action: concepts/mpom
-source: modelling

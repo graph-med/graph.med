@@ -1,0 +1,8 @@
+---
+id: concepts/oral-antibiotische-darmvorbereitung
+type: concept
+lang: de
+label: rein oral-antibiotische Darmvorbereitung
+facet: intervention
+source: modelling
+---

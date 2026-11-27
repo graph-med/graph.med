@@ -1,0 +1,11 @@
+---
+id: statements/kein-generelles-betablocker-neuansetzen
+type: statement
+lang: de
+label: Ein grundsätzliches Neuansetzen einer präoperativen Betablockertherapie sollte nicht erfolgen.
+short_label: "Kein generelles Betablocker-Neuansetzen"
+slots:
+  population: concepts/gastrointestinale-tumoroperation
+  action: concepts/praeoperatives-neuansetzen-betablocker
+source: modelling
+---

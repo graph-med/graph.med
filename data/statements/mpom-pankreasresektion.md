@@ -1,0 +1,11 @@
+---
+id: statements/mpom-pankreasresektion
+type: statement
+lang: de
+label: Eine onkologische Pankreasresektion sollte im Rahmen eines multimodalen perioperativen Managementkonzepts (mPOM) erfolgen.
+short_label: "Pankreasresektion im mPOM"
+slots:
+  population: concepts/pankreasresektion
+  action: concepts/mpom
+source: modelling
+---

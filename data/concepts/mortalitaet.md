@@ -1,0 +1,8 @@
+---
+id: concepts/mortalitaet
+type: concept
+lang: de
+label: Mortalität
+facet: outcome
+source: modelling
+---

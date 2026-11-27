@@ -95,6 +95,7 @@ and which card is next, is not a question and lives on the board (`uv run tools/
 **Options:** `edges/<source-id>/<hash8>` over the tuple, mirroring a claim's id, with a page on the site · the attestation names the from-claim and the proof names the edge · the tuple itself as the subject, a list where every other subject is a reference
 **Leaning:** the first — a page per edge is what the property-level address of §2 already promises for provenance and feedback, and the site links what an edge relates; the hash makes two agents' addresses of one edge the same. (2026-09-14)
 **Settled by:** the schema follow-up of the automated review, together with `docs/publication.md` §2.
+**Partly settled (2026-11-26, ADR-0011, #437):** every edge is an entity with a stored id, `edges/<hash8>` over `(from, kind, to, discriminator)`, one file `data/edges/<hash8>.md` — flat, without the source id, since the tuple names none. Open still: a page per edge on the site, and attestations naming an edge as their subject.
 
 ## judge-rerun  (graph-representation.md §8.1)
 **Question:** When is what already lies on `main` judged again — after a change of the judge's definition or its model, a re-fetched source, or a change to a rule the judge applies (the body-text rule of §5)?

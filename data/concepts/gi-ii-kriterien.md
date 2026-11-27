@@ -1,0 +1,8 @@
+---
+id: concepts/gi-ii-kriterien
+type: concept
+lang: de
+label: GI-II Kriterien
+facet: outcome
+source: modelling
+---

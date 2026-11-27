@@ -1,0 +1,10 @@
+---
+# A condition of box 4.9 (p. 68): "trotz angemessenem Flüssigkeitsstatus und arteriellem Blutdruck" (the
+# adjective governs both), one of its four conditions.
+id: concepts/angemessener-arterieller-blutdruck
+type: concept
+lang: de
+label: angemessener arterieller Blutdruck
+facet: finding
+source: modelling
+---

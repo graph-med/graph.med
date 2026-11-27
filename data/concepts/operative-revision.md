@@ -1,0 +1,8 @@
+---
+id: concepts/operative-revision
+type: concept
+lang: de
+label: operative Revision
+facet: outcome
+source: modelling
+---

@@ -1,0 +1,8 @@
+---
+id: concepts/antianginoese-nitrattherapie
+type: concept
+lang: de
+label: antianginöse Therapie mit Nitraten
+facet: medication
+source: modelling
+---

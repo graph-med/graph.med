@@ -1,0 +1,9 @@
+---
+id: concepts/methylnaltrexon-postoperativ-subkutan
+type: concept
+lang: de
+label: unmittelbar postoperative subkutane Gabe von Methylnaltrexon
+short_label: "Methylnaltrexon s.c. postoperativ"
+facet: medication
+source: modelling
+---

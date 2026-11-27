@@ -1,0 +1,9 @@
+---
+id: concepts/doppellumige-magensonde-intraoperativ
+type: concept
+lang: de
+label: intraoperative Einlage einer doppellumigen Magensonde zur Dekompression des hochgezogenen Magens
+short_label: "doppellumige Magensonde intraoperativ"
+facet: intervention
+source: modelling
+---

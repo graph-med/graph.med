@@ -1,0 +1,11 @@
+---
+id: statements/statin-fortfuehrung
+type: statement
+lang: de
+label: Eine bereits präoperativ indizierte und begonnene Statin-Therapie soll peri- und postoperativ fortgeführt werden.
+short_label: "Bestehende Statintherapie fortführen"
+slots:
+  population: concepts/bestehende-statintherapie
+  action: concepts/perioperative-fortfuehrung-dauertherapie
+source: modelling
+---

@@ -1,0 +1,9 @@
+---
+id: concepts/perfusionspruefung-anastomose
+type: concept
+lang: de
+label: intraoperative Prüfung der Anastomosenperfusion
+short_label: "Perfusionsprüfung der Anastomose"
+facet: intervention
+source: modelling
+---

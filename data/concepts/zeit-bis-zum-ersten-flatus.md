@@ -1,0 +1,8 @@
+---
+id: concepts/zeit-bis-zum-ersten-flatus
+type: concept
+lang: de
+label: Zeit bis zum ersten Flatus
+facet: outcome
+source: modelling
+---

@@ -1,0 +1,8 @@
+---
+id: concepts/akupunktur-postoperativ
+type: concept
+lang: de
+label: postoperative Akupunktur
+facet: intervention
+source: modelling
+---

@@ -1,0 +1,13 @@
+---
+id: statements/fruehe-drainageentfernung-pankreasresektion
+type: statement
+lang: de
+label: Nach Pankreasresektion kann die abdominelle Drainage früh (bis 4. postoperativer Tag) entfernt werden, wenn
+  das Drainagesekret ein geringes Pankreasfistelrisiko anzeigt.
+short_label: "Frühe Drainageentfernung bei geringem Fistelrisiko"
+slots:
+  population: concepts/pankreasresektion
+  action: concepts/fruehe-drainageentfernung
+  condition: [concepts/geringes-pankreasfistelrisiko]
+source: modelling
+---

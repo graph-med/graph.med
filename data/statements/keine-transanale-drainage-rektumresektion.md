@@ -1,0 +1,11 @@
+---
+id: statements/keine-transanale-drainage-rektumresektion
+type: statement
+lang: de
+label: Bei tiefen anterioren Rektumresektionen wird keine endoluminale (transanale) Drainage platziert.
+short_label: "Keine transanale Drainage (tiefe Rektumresektion)"
+slots:
+  population: concepts/tiefe-anteriore-rektumresektion
+  action: concepts/transanale-drainage
+source: modelling
+---

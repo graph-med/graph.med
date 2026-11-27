@@ -1,0 +1,11 @@
+---
+id: statements/keine-postoperative-antibiotikaprophylaxe
+type: statement
+lang: de
+label: Die intravenöse Antibiotikaprophylaxe soll postoperativ nicht fortgeführt werden.
+short_label: "Keine postoperative Antibiotikaprophylaxe"
+slots:
+  population: concepts/gastrointestinale-tumoroperation
+  action: concepts/postoperative-fortfuehrung-antibiotikaprophylaxe
+source: modelling
+---

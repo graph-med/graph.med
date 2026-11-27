@@ -1,0 +1,9 @@
+---
+# The first action of box 3.8 (p. 51): "die antiinfektive Therapie täglich zu evaluieren" (card #221).
+id: concepts/taegliche-evaluation-der-antiinfektiven-therapie
+type: concept
+lang: de
+label: tägliche Evaluation der antiinfektiven Therapie
+facet: intervention
+source: modelling
+---

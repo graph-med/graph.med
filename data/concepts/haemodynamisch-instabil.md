@@ -1,0 +1,10 @@
+---
+# A condition of 6.7 (p. 95), "bei hämodynamisch instabilen Patienten" (row 8 of card #217's convention, an
+# adjective). Not the evidence endpoint "Hämodynamische Instabilität" of the same box, an outcome.
+id: concepts/haemodynamisch-instabil
+type: concept
+lang: de
+label: "hämodynamisch instabil"
+facet: patient_state
+source: modelling
+---

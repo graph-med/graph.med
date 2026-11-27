@@ -1,0 +1,10 @@
+---
+# The action of 6.9 (p. 100): a dose the action prescribes, so no threshold (spec §3.1).
+id: concepts/mittlere-dosis-20-25-ml-kg-h
+type: concept
+lang: de
+label: "mittlere Dosis von 20-25 ml/kg/h über die geplante Behandlungsdauer"
+short_label: "mittlere Dosis von 20-25 ml/kg/h"
+facet: intervention
+source: modelling
+---

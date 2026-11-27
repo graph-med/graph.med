@@ -1,0 +1,8 @@
+---
+id: concepts/praeoperative-darmvorbereitung
+type: concept
+lang: de
+label: präoperative Darmvorbereitung
+facet: intervention
+source: modelling
+---

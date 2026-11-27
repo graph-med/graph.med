@@ -1,0 +1,11 @@
+---
+id: statements/dauerkatheter-entfernung-24h-kolorektal
+type: statement
+lang: de
+label: Bei kolorektalen Resektionen soll der transurethrale Dauerkatheter innerhalb der ersten 24 Stunden entfernt werden.
+short_label: "Dauerkatheter binnen 24 h entfernen (kolorektal)"
+slots:
+  population: concepts/kolorektale-resektion
+  action: concepts/dauerkatheterentfernung-24h
+source: modelling
+---

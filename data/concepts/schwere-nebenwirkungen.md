@@ -1,0 +1,8 @@
+---
+id: concepts/schwere-nebenwirkungen
+type: concept
+lang: de
+label: schwere Nebenwirkungen (CDC 3-4)
+facet: outcome
+source: modelling
+---

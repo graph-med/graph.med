@@ -1,0 +1,10 @@
+---
+# The action of 2.4 (p. 28). Card #218.
+id: concepts/unverzueglicher-beginn-der-behandlung-und-haemodynamischen-stabilisierung
+type: concept
+lang: de
+label: "unverzüglicher Beginn der Behandlung und der hämodynamischen Stabilisierung"
+short_label: "unverzüglicher Beginn von Behandlung und Stabilisierung"
+facet: intervention
+source: modelling
+---

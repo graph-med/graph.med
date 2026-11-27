@@ -1,0 +1,8 @@
+---
+id: concepts/schwerwiegende-unerwuenschte-ereignisse
+type: concept
+lang: de
+label: schwerwiegende unerwünschte Ereignisse (SAEs)
+facet: outcome
+source: modelling
+---

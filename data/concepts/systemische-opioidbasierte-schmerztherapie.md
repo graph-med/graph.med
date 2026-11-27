@@ -1,0 +1,8 @@
+---
+id: concepts/systemische-opioidbasierte-schmerztherapie
+type: concept
+lang: de
+label: systemische opioidbasierte Schmerztherapie
+facet: medication
+source: modelling
+---

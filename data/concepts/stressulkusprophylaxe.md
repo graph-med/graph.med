@@ -1,0 +1,9 @@
+---
+# The action of 8.14 (p. 121).
+id: concepts/stressulkusprophylaxe
+type: concept
+lang: de
+label: "Stressulkusprophylaxe"
+facet: intervention
+source: modelling
+---

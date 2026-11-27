@@ -1,0 +1,8 @@
+---
+id: concepts/depression
+type: concept
+lang: de
+label: Depression
+facet: outcome
+source: modelling
+---

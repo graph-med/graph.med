@@ -1,0 +1,8 @@
+---
+id: concepts/fruehmobilisation
+type: concept
+lang: de
+label: postoperative Frühmobilisation
+facet: intervention
+source: modelling
+---

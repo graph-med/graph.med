@@ -1,0 +1,8 @@
+---
+id: concepts/transanale-drainage
+type: concept
+lang: de
+label: endoluminale (transanale) Drainage
+facet: intervention
+source: modelling
+---

@@ -1,0 +1,13 @@
+---
+id: statements/nitrate-fortfuehrung
+type: statement
+lang: de
+label: Eine antianginöse Therapie mit Nitraten sollte perioperativ fortgeführt werden, um eine Myokardischämie durch Absetzen
+  zu vermeiden.
+short_label: "Nitrate perioperativ fortführen"
+slots:
+  population: concepts/antianginoese-nitrattherapie
+  action: concepts/perioperative-fortfuehrung-dauertherapie
+  outcome: concepts/myokardischaemie
+source: modelling
+---

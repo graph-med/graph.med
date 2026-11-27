@@ -1,0 +1,8 @@
+---
+id: concepts/abdomineller-schmerz-pod1
+type: concept
+lang: de
+label: abdomineller Schmerz am 1. postoperativen Tag
+facet: outcome
+source: modelling
+---

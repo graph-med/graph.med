@@ -1,0 +1,9 @@
+---
+id: concepts/opiatkonsum-48h
+type: concept
+lang: de
+label: Opiatkonsum innerhalb von 48 Stunden postoperativ
+short_label: Opiatkonsum 48 h postoperativ
+facet: outcome
+source: modelling
+---

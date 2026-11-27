@@ -1,0 +1,9 @@
+---
+id: concepts/fruehe-drainageentfernung
+type: concept
+lang: de
+label: frühe Entfernung der abdominellen Drainage (bis 4. postoperativer Tag)
+short_label: "frühe Drainageentfernung (bis Tag 4)"
+facet: intervention
+source: modelling
+---

@@ -1,0 +1,9 @@
+---
+# The action of 5.9 (p. 81), as printed (card #223). The duration names which manoeuvre, not for whom: no threshold.
+id: concepts/prolongierte-rekrutierungsmanoever
+type: concept
+lang: de
+label: "prolongierte (> 60 s) Rekrutierungsmanöver"
+facet: intervention
+source: modelling
+---

@@ -1,0 +1,13 @@
+---
+id: statements/spezialisierte-fachkraft-kolorektal-mpom
+type: statement
+lang: de
+label: Patienten, die sich einer kolorektalen Resektion im Kontext eines mPOM unterziehen, können perioperativ durch eine
+  auf perioperative Interventionen spezialisierte Fachkraft begleitet werden.
+short_label: "Spezialisierte Fachkraft im mPOM möglich (kolorektal)"
+slots:
+  population: concepts/kolorektale-resektion
+  action: concepts/begleitung-spezialisierte-fachkraft
+  condition: [concepts/mpom]
+source: modelling
+---

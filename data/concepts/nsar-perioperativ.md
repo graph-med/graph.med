@@ -1,0 +1,9 @@
+---
+id: concepts/nsar-perioperativ
+type: concept
+lang: de
+label: präoperativ begonnene und postoperativ fortgesetzte Gabe von NSAR
+short_label: "NSAR prä- und postoperativ"
+facet: medication
+source: modelling
+---

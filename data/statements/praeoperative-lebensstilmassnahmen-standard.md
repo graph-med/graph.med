@@ -1,0 +1,12 @@
+---
+id: statements/praeoperative-lebensstilmassnahmen-standard
+type: statement
+lang: de
+label: Erhaltung und Verbesserung körperlicher Aktivität, ausgewogene Ernährung und Nikotin-/Alkoholverzicht vor einer Tumoroperation
+  sind als internationaler Standard anzusehen.
+short_label: "Aktivität, Ernährung, kein Nikotin/Alkohol: Standard"
+slots:
+  population: concepts/gastrointestinale-tumoroperation
+  action: concepts/praeoperative-lebensstilmassnahmen
+source: modelling
+---

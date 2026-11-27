@@ -1,0 +1,8 @@
+---
+id: concepts/patientenzufriedenheit
+type: concept
+lang: de
+label: Patientenzufriedenheit
+facet: outcome
+source: modelling
+---

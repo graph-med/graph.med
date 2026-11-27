@@ -1,0 +1,8 @@
+---
+id: concepts/anastomosenblutung
+type: concept
+lang: de
+label: Anastomosenblutung
+facet: outcome
+source: modelling
+---

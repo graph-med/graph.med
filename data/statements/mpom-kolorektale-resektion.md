@@ -1,0 +1,11 @@
+---
+id: statements/mpom-kolorektale-resektion
+type: statement
+lang: de
+label: Eine kolorektale Resektion soll eingebettet in ein multimodales perioperatives Managementkonzept (mPOM) stattfinden.
+short_label: "Kolorektale Resektion im mPOM"
+slots:
+  population: concepts/kolorektale-resektion
+  action: concepts/mpom
+source: modelling
+---

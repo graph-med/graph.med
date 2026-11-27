@@ -1,0 +1,8 @@
+---
+id: concepts/kardiovaskulaerer-hochrisikopatient
+type: concept
+lang: de
+label: kardiovaskulärer Hochrisikopatient
+facet: patient_state
+source: modelling
+---

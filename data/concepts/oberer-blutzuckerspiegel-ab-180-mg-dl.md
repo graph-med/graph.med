@@ -1,0 +1,12 @@
+---
+# The condition of 8.13 (p. 120). Derived: its one defined_by edge reaches the narrower criterion claim of the rule
+# printed inside the box sentence, the value in mg/dl and in mmol/l as two parts (spec §3.1, #328; #355). The label
+# keeps both values as printed; the box inflects its first word („oberen“).
+id: concepts/oberer-blutzuckerspiegel-ab-180-mg-dl
+type: concept
+lang: de
+label: "oberer Blutzuckerspiegel von ≥ 180 mg/dl (≥ 10 mmol/l)"
+short_label: "Blutzucker ≥ 180 mg/dl (≥ 10 mmol/l)"
+facet: finding
+source: modelling
+---

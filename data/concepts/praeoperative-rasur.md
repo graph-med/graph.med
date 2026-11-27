@@ -1,0 +1,8 @@
+---
+id: concepts/praeoperative-rasur
+type: concept
+lang: de
+label: präoperative Rasur
+facet: intervention
+source: modelling
+---

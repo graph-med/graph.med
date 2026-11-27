@@ -1,0 +1,8 @@
+---
+id: concepts/postoperative-uebelkeit
+type: concept
+lang: de
+label: postoperative Übelkeit
+facet: outcome
+source: modelling
+---

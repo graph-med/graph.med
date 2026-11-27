@@ -1,0 +1,9 @@
+---
+id: concepts/perioperative-fortfuehrung-dauertherapie
+type: concept
+lang: de
+label: perioperative Fortführung einer bestehenden Dauertherapie
+short_label: "perioperative Fortführung"
+facet: intervention
+source: modelling
+---

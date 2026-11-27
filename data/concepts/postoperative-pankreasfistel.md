@@ -1,0 +1,8 @@
+---
+id: concepts/postoperative-pankreasfistel
+type: concept
+lang: de
+label: postoperative Pankreasfistel
+facet: outcome
+source: modelling
+---

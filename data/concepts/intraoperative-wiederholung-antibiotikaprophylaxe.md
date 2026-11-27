@@ -1,0 +1,9 @@
+---
+id: concepts/intraoperative-wiederholung-antibiotikaprophylaxe
+type: concept
+lang: de
+label: intraoperative Wiederholung der Antibiotikaprophylaxe (nach Halbwertzeit oder bei starkem Blutverlust)
+short_label: "intraoperative Wiederholung (Antibiotikum)"
+facet: intervention
+source: modelling
+---

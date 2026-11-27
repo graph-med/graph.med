@@ -1,0 +1,11 @@
+---
+id: statements/kein-natriumbicarbonat-zur-verbesserung-der-haemodynamik
+type: statement
+lang: de
+label: "Bei Patienten mit septischem Schock kein Natriumbicarbonat alleinig zum Zwecke einer Verbesserung der Hämodynamik."
+short_label: "Kein Natriumbicarbonat allein zur Hämodynamik"
+slots:
+  population: concepts/septischer-schock
+  action: concepts/natriumbicarbonat-zur-verbesserung-der-haemodynamik
+source: modelling
+---

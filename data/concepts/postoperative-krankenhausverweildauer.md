@@ -1,0 +1,8 @@
+---
+id: concepts/postoperative-krankenhausverweildauer
+type: concept
+lang: de
+label: postoperative Krankenhausverweildauer
+facet: outcome
+source: modelling
+---

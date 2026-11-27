@@ -1,0 +1,12 @@
+---
+id: statements/doppellumige-magensonde-oesophagektomie
+type: statement
+lang: de
+label: Nach transthorakaler Ösophagektomie mit gastraler Rekonstruktion sollte intraoperativ eine doppellumige Magensonde
+  zur Dekompression des hochgezogenen Magens eingelegt werden.
+short_label: "Doppellumige Magensonde intraoperativ (Ösophagektomie)"
+slots:
+  population: concepts/transthorakale-oesophagektomie
+  action: concepts/doppellumige-magensonde-intraoperativ
+source: modelling
+---
