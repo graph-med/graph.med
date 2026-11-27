@@ -156,7 +156,7 @@ NOT_ENTITIES = {"README.md", "index.md", "log.md"}   # in the bundle, but no ent
 
 def check_okf(require: bool) -> tuple[list[str], str]:
     """OKF v0.3 conformance of data/, by the OKF tool `okf` (ADR-0011; pinned in tools/okf-version, installed by
-    tools/install-okf.sh). Its errors are errors here; its warnings and notes are printed. Where it is not installed,
+    tools/install-okf.sh). Its errors are errors here; its warnings and notes are counted. Where it is not installed,
     a note — or an error with --require-okf."""
     import shutil
     local = ROOT / ".tools" / "bin" / "okf"   # where tools/install-okf.sh puts the pinned version
@@ -165,10 +165,13 @@ def check_okf(require: bool) -> tuple[list[str], str]:
         msg = "the OKF tool `okf` is not installed (tools/install-okf.sh): OKF conformance not checked"
         return ([msg] if require else []), ("" if require else "note: " + msg)
     run = subprocess.run([exe, "validate", str(ROOT / "data")], capture_output=True, text=True)
-    out = (run.stdout + run.stderr).strip()
+    lines = (run.stdout + run.stderr).strip().splitlines()
+    # Its warnings and notes (recommended OKF fields, un-prefixed keys) are many and expected until #439: only the
+    # errors and the summary are shown; `.tools/bin/okf validate data` prints them all.
+    shown = "\n".join(l for l in lines if not l.startswith(("[warning]", "[info]")) and l.strip())
     if run.returncode != 0:
-        return [f"okf validate data/ failed (exit {run.returncode}):\n{out}"], ""
-    return [], f"okf validate data/: conformant\n{out}" if out else "okf validate data/: conformant"
+        return [f"okf validate data/ failed (exit {run.returncode}):\n{shown}"], ""
+    return [], f"okf validate data/: {shown}" if shown else "okf validate data/: conformant"
 
 
 def load(path: Path):

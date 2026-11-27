@@ -6,5 +6,6 @@
 set -eu
 cd "$(dirname "$0")/.."
 version="$(tr -d '[:space:]' < tools/okf-version)"
-cargo install okf --version "=$version" --locked --root .tools
+# The build goes under .tools/ too: in the sandbox /tmp is mounted noexec, where build scripts cannot run.
+CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-.tools/target}" cargo install okf --version "=$version" --locked --root .tools
 .tools/bin/okf --version
